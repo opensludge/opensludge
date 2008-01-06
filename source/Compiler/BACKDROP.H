@@ -1,0 +1,2 @@
+BOOL convertTGA (char * filename);
+

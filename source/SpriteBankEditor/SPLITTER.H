@@ -1,0 +1,22 @@
+struct stringArray {
+	char * string;
+	stringArray * next;
+};
+
+//extern stringArray * nullArray;
+
+enum splitMode {ONCE, REPEAT};
+
+//int stringToInt (const char * textNumber);
+stringArray * splitString (const char *, const char = ';', const splitMode = REPEAT);
+//void addToStringArray (stringArray * &, const char *, int = 0, int = -1, BOOL = TRUE);
+BOOL destroyFirst (stringArray * &);
+//void displayAllInArray (stringArray *);
+//int findElement (stringArray * sA, const char * findString);
+//int findOrAdd (stringArray * & sA, const char * addString, BOOL = TRUE);
+//void trimEdgeSpace (char * & thisString);
+//int countElements (stringArray * sA);
+//BOOL trimStart (char * & thisString, char trimChar);
+//BOOL trimEnd (char * & thisString, char trimChar);
+char * joinStrings (char * a, char * b);
+

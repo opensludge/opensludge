@@ -1,0 +1,11 @@
+#define ID_OPEN_ZBUFFER		1002
+#define ID_SAVE				1003
+#define ID_SAVE_AS			1004
+#define ID_EXIT				1005
+
+#define LAYERSETTINGS		100
+#define ID_LAYERTOTAL		2000
+#define ID_LAYERNUM			2001
+#define ID_LAYERCUTOFF		2002
+
+#define ID_VIEW_SPEEDSCROLL	2003
