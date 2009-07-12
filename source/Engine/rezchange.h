@@ -1,1 +1,0 @@
-bool setMyResolution (int width, int height, int colours);

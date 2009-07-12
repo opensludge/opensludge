@@ -1,2 +1,0 @@
-BOOL winVersionInit ();
-BOOL winVersionNeedDumbMidiFix();
