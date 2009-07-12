@@ -1,4 +1,7 @@
-#include <windows.h>
+#if 0
+TODO
+
+//#include <windows.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -19,7 +22,7 @@
 
 stringArray * objectTypeNames = NULL;
 extern stringArray * functionNames;
-extern HWND compWin;
+//extern HWND compWin;
 extern char * inThisClass;
 extern char * emptyString;
 
@@ -52,7 +55,7 @@ unsigned short handleFlags (char * instring) {
 	return f;
 }
 
-BOOL createObjectType (char * code, const char * fName, stringArray * & globalVars, compilationSpace & globalSpace, char * originalName) {
+bool createObjectType (char * code, const char * fName, stringArray * & globalVars, compilationSpace & globalSpace, char * originalName) {
 	stringArray * getContents = splitString (code, '{', ONCE);
 	stringArray * getBits, * getBitType, * getBitInsides;
 	char * objNam;
@@ -73,7 +76,7 @@ BOOL createObjectType (char * code, const char * fName, stringArray * & globalVa
 	setWindowText (COM_ITEMTEXT, displayName);
 	objNam = joinStrings (getBits -> string, ".");
 
-	if (! checkNotKnown (getBits -> string, fName)) return FALSE;
+	if (! checkNotKnown (getBits -> string, fName)) return false;
 	keepName = joinStrings ("", getBits -> string);
 	addToStringArray (objectTypeNames, getBits -> string);
 	i = findElement (objectTypeNames, getBits -> string);
@@ -96,7 +99,7 @@ BOOL createObjectType (char * code, const char * fName, stringArray * & globalVa
 	int stringValue = stringToInt (getBits -> string, ERRORTYPE_PROJECTERROR);
 //	printf ("Shown on-screen as string: [%i]\n", stringValue);
 
-	if (! gotoTempDirectory ()) return FALSE;
+	if (! gotoTempDirectory ()) return false;
 	FILE * objFile = fopen (fbuff, "wb");
 	if (! objFile) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't write object type file", fbuff, NULL);
 	writeString (keepName, objFile);
@@ -126,7 +129,7 @@ BOOL createObjectType (char * code, const char * fName, stringArray * & globalVa
 
 					defineFunction (newFuncName,					// Name of function
 						 "",										// Args without ()
-						 getBitInsides -> string, FALSE, FALSE, fName);	// Code without {}
+						 getBitInsides -> string, false, false, fName);	// Code without {}
 
 					setWindowText (COM_ITEMTEXT, displayName);
 					destroyAll (getBitInsides);
@@ -150,7 +153,7 @@ BOOL createObjectType (char * code, const char * fName, stringArray * & globalVa
 					return errorBox (ERRORTYPE_PROJECTERROR, "Bad member sub declaration", getBits -> string, fName);
 				}
 				if (! outdoorSub (getBitType -> string, originalName)) {
-					return FALSE;
+					return false;
 				}
 				destroyFirst (getBitType);
 
@@ -177,11 +180,11 @@ BOOL createObjectType (char * code, const char * fName, stringArray * & globalVa
 				if (! destroyFirst (getBitType)) return errorBox (ERRORTYPE_PROJECTERROR, "Syntax error in antiAlias element of objectType", getBits -> string, fName);
 				getBitInsides = splitString (getBitType -> string, ',');
 				if (countElements (getBitInsides) != 3) return errorBox (ERRORTYPE_PROJECTERROR, "antiAlias syntax is \"onOff, blurX, blurY\"", getBitType -> string, fName);
-				if (strcmp (getBitInsides -> string, "TRUE") == 0)
+				if (strcmp (getBitInsides -> string, "true") == 0)
 				{
 					aaOnOff = 1;
 				}
-				else if (strcmp (getBitInsides->string, "FALSE") == 0)
+				else if (strcmp (getBitInsides->string, "false") == 0)
 				{
 					aaOnOff = 0;
 				}
@@ -195,7 +198,7 @@ BOOL createObjectType (char * code, const char * fName, stringArray * & globalVa
 				aaBlurY = stringToInt (getBitInsides -> string, ERRORTYPE_PROJECTERROR);
 				destroyFirst (getBitInsides);
 				if (aaOnOff < 0 || aaOnOff > 1)
-					return errorBox (ERRORTYPE_PROJECTERROR, "Anti-aliasing settings: First parameter (on/off value) should either be TRUE or FALSE", getBits->string, fName);
+					return errorBox (ERRORTYPE_PROJECTERROR, "Anti-aliasing settings: First parameter (on/off value) should either be true or false", getBits->string, fName);
 				if (aaBlurX < 0 || aaBlurY < 0)
 					return errorBox (ERRORTYPE_PROJECTERROR, "Anti-aliasing settings: X and Y blur values should be positive integers", getBits->string, fName);
 
@@ -268,10 +271,10 @@ BOOL createObjectType (char * code, const char * fName, stringArray * & globalVa
 
 	fclose (objFile);
 	
-	return TRUE;
+	return true;
 }
 
-BOOL linkObjectFile (FILE * mainFile, FILE * indexFile, int i, unsigned long calcIndexSize) {
+bool linkObjectFile (FILE * mainFile, FILE * indexFile, int i, unsigned long calcIndexSize) {
 	char fbuff[15];
 	FILE * fileIn, * theNumFile;
 	int a, f;
@@ -279,7 +282,7 @@ BOOL linkObjectFile (FILE * mainFile, FILE * indexFile, int i, unsigned long cal
 
 	put4bytes (ftell (mainFile) + calcIndexSize, indexFile);
 
-	if (! gotoTempDirectory ()) return FALSE;
+	if (! gotoTempDirectory ()) return false;
 	sprintf (fbuff, "obj%05i.nu~", i);
 	theNumFile = fopen (fbuff, "rb");
 	if (! theNumFile) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't read object num file", fbuff, NULL);
@@ -292,7 +295,7 @@ BOOL linkObjectFile (FILE * mainFile, FILE * indexFile, int i, unsigned long cal
 	char * fileNam = readString (fileIn);
 	setWindowText (COM_FILENAME, fileNam);
 
-//	if (! gotoOutputDirectory ()) return FALSE;
+//	if (! gotoOutputDirectory ()) return false;
 //	sprintf (fbuff, "obj%05i.obd", i);
 //	fileOut = fopen (fbuff, "wb");
 //	if (! fileOut) return errorBox ("Can't write final object file", fbuff);
@@ -350,10 +353,12 @@ BOOL linkObjectFile (FILE * mainFile, FILE * indexFile, int i, unsigned long cal
 		delete objNam, funcToCall;
 	}
 	fclose (fileIn);
-//	if (! gotoTempDirectory ()) return FALSE;
+//	if (! gotoTempDirectory ()) return false;
 	sprintf (fbuff, "obj%05i.nu~", i);
 	unlink (fbuff);
 	sprintf (fbuff, "obj%05i.ob~", i);
 	unlink (fbuff);
-	return TRUE;
+	return true;
 }
+
+#endif

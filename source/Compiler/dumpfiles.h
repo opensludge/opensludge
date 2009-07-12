@@ -1,6 +1,6 @@
-BOOL dumpFiles (FILE *, stringArray * & theSA);
-BOOL saveStrings (FILE *, FILE *, stringArray *);
-BOOL dumpFileInto (FILE * writer, char * thisFile);
+bool dumpFiles (FILE *, stringArray * & theSA);
+bool saveStrings (FILE *, FILE *, stringArray *);
+bool dumpFileInto (FILE * writer, char * thisFile);
 int getFileType (char * filename);
 
 enum {FILETYPE_UNKNOWN,

@@ -44,8 +44,8 @@ struct variableStack {
 // Setting variables
 
 void setVariable (variable & thisVar, variableType vT, int value);
-BOOL copyVariable (const variable & from, variable & to);
-BOOL loadStringToVar (variable & thisVar, int value);
+bool copyVariable (const variable & from, variable & to);
+bool loadStringToVar (variable & thisVar, int value);
 void newAnimationVariable (variable & thisVar, struct personaAnimation * i);
 void newCostumeVariable (variable & thisVar, struct persona * i);
 void makeTextVar (variable & thisVar, char * txt);
@@ -59,24 +59,24 @@ char * getNumberedString (int value);
 char * getTextFromAnyVar (const variable & from);
 struct persona * getCostumeFromVar (variable & thisVar);
 struct personaAnimation * getAnimationFromVar (variable & thisVar);
-BOOL getBoolean (const variable & from);
-BOOL getValueType (int & toHere, variableType vT, const variable & v);
+bool getBoolean (const variable & from);
+bool getValueType (int & toHere, variableType vT, const variable & v);
 
 // Stacky stuff
 
-BOOL addVarToStack (const variable & va, variableStack * & thisStack);
-BOOL addVarToStackQuick (variable & va, variableStack * & thisStack);
+bool addVarToStack (const variable & va, variableStack * & thisStack);
+bool addVarToStackQuick (variable & va, variableStack * & thisStack);
 void trimStack (variableStack * & stack);
-int deleteVarFromStack (const variable & va, variableStack * & thisStack, BOOL allOfEm = FALSE);
+int deleteVarFromStack (const variable & va, variableStack * & thisStack, bool allOfEm = false);
 variableStack * stackFindLast (variableStack * hunt);
-BOOL copyStack (const variable & from, variable & to);
+bool copyStack (const variable & from, variable & to);
 int stackSize (const stackHandler * me);
-BOOL stackSetByIndex (variableStack *, unsigned int, const variable &);
+bool stackSetByIndex (variableStack *, unsigned int, const variable &);
 variable * stackGetByIndex (variableStack *, unsigned int);
-BOOL getSavedGamesStack (stackHandler * sH, char * ext);
+bool getSavedGamesStack (stackHandler * sH, char * ext);
 
-BOOL makeFastArrayFromStack (variable & to, const stackHandler * stacky);
-BOOL makeFastArraySize (variable & to, int size);
+bool makeFastArrayFromStack (variable & to, const stackHandler * stacky);
+bool makeFastArraySize (variable & to, int size);
 variable * fastArrayGetByIndex (fastArrayHandler * vS, unsigned int theIndex);
 
 

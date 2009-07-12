@@ -1,0 +1,45 @@
+<html>
+<head>
+<TITLE>setScale</TITLE>
+</head>
+<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
+<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>setScale</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=20><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Syntax:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<font color=#BB4444 SIZE=+2><TT><B>setScale (<i>horizon, divide</i>);</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Purpose:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+Changes the scaling for characters. The <i>horizon</i> value represents the level (y co-ordinate) of the horizon on the screen. The <i>divide</i> parameter is how quickly characters grow and shrink as they move towards or away from the horizon. The scale at which a character is drawn is calculated using the algorithm scale = (y position - horizon) / divide.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+If the divide value is 0, no scaling will be applied to characters when they move; each character will continue to be drawn at the size in which it was previously drawn. In this situation, new characters added using <b><a href="addCharacter.html">addCharacter</a></b> will be created with a scale value of 1.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+Changing the scale does not affect characters which aren't currently moving. Adding a character and then changing the scale will not resize the character, until the character is told to move.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Return value:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+No return value.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>See also:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<b><a href="Object_Types_as_Characters.html">Object Types as Characters</a></b><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<b><a href="forceCharacter.html">forceCharacter</a></b><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<b><a href="getCharacterScale.html">getCharacterScale</a></b><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<b><a href="jumpCharacter.html">jumpCharacter</a></b><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<b><a href="moveCharacter.html">moveCharacter</a></b><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</BODY>
+</html>

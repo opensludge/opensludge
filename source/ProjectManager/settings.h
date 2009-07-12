@@ -7,7 +7,7 @@ struct chrRenderingSettingsStruct
 	int maxSoftnessX, maxSoftnessY;
 };
 
-BOOL readSettings (FILE * fp);
+bool readSettings (FILE * fp);
 void writeSettings (FILE * fp);
 void noSettings ();
 void blankSettings ();

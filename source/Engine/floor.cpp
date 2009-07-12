@@ -7,7 +7,7 @@
 
 flor * currentFloor = NULL;
 
-BOOL pointInFloorPolygon (floorPolygon & floorPoly, int x, int y) {
+bool pointInFloorPolygon (floorPolygon & floorPoly, int x, int y) {
 	int i = 0, j, c = 0;
 	float xp_i, yp_i;
 	float xp_j, yp_j;
@@ -30,7 +30,7 @@ BOOL pointInFloorPolygon (floorPolygon & floorPoly, int x, int y) {
 	return c;
 }
 
-BOOL getMatchingCorners (floorPolygon & a, floorPolygon & b, int & cornerA, int & cornerB) {
+bool getMatchingCorners (floorPolygon & a, floorPolygon & b, int & cornerA, int & cornerB) {
 	int sharedVertices = 0;
 	int i, j;
 
@@ -39,7 +39,7 @@ BOOL getMatchingCorners (floorPolygon & a, floorPolygon & b, int & cornerA, int 
 			if (a.vertexID[i] == b.vertexID[j]) {
 				if (sharedVertices ++) {
 					cornerB = a.vertexID[i];
-					return TRUE;
+					return true;
 				} else {
 					cornerA = a.vertexID[i];
 				}
@@ -47,22 +47,22 @@ BOOL getMatchingCorners (floorPolygon & a, floorPolygon & b, int & cornerA, int 
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
-BOOL polysShareSide (floorPolygon & a, floorPolygon & b) {
+bool polysShareSide (floorPolygon & a, floorPolygon & b) {
 	int sharedVertices = 0;
 	int i, j;
 
 	for (i = 0; i < a.numVertices; i ++) {
 		for (j = 0; j < b.numVertices; j ++) {
 			if (a.vertexID[i] == b.vertexID[j]) {
-				if (sharedVertices ++) return TRUE;
+				if (sharedVertices ++) return true;
 			}
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 void noFloor () {
@@ -72,11 +72,11 @@ void noFloor () {
 	currentFloor -> matrix = NULL;
 }
 
-BOOL initFloor () {
+bool initFloor () {
 	currentFloor = new flor;
-	if (! checkNew (currentFloor)) return FALSE;
+	if (! checkNew (currentFloor)) return false;
 	noFloor ();
-	return TRUE;
+	return true;
 }
 
 void killFloor () {
@@ -94,21 +94,21 @@ void setFloorNull () {
 	noFloor ();
 }
 
-BOOL setFloor (int fileNum) {
+bool setFloor (int fileNum) {
 	int i, j;
 
 	killFloor ();
 	
 	setResourceForFatal (fileNum);
 	
-	if (! openFileFromNum (fileNum)) return FALSE;
+	if (! openFileFromNum (fileNum)) return false;
 	
 	// Find out how many polygons there are and reserve memory
 
 	currentFloor -> originalNum = fileNum;
 	currentFloor -> numPolygons = fgetc (bigDataFile);
 	currentFloor -> polygon = new floorPolygon[currentFloor -> numPolygons];
-	if (! checkNew (currentFloor -> polygon)) return FALSE;
+	if (! checkNew (currentFloor -> polygon)) return false;
 	
 	// Read in each polygon
 	
@@ -118,7 +118,7 @@ BOOL setFloor (int fileNum) {
 		
 		currentFloor -> polygon[i].numVertices = fgetc (bigDataFile);
 		currentFloor -> polygon[i].vertexID = new int[currentFloor -> polygon[i].numVertices];
-		if (! checkNew (currentFloor -> polygon[i].vertexID)) return FALSE;
+		if (! checkNew (currentFloor -> polygon[i].vertexID)) return false;
 
 		// Read in each vertex ID
 
@@ -131,7 +131,7 @@ BOOL setFloor (int fileNum) {
 
 	i = get2bytes (bigDataFile);
 	currentFloor -> vertex = new POINT[i];
-	if (! checkNew (currentFloor -> vertex)) return FALSE;
+	if (! checkNew (currentFloor -> vertex)) return false;
 	
 	for (j = 0; j < i; j ++) {
 		currentFloor -> vertex[j].x = get2bytes (bigDataFile);
@@ -145,12 +145,12 @@ BOOL setFloor (int fileNum) {
 	currentFloor -> matrix = new int * [currentFloor -> numPolygons];
 	int * * distanceMatrix = new int * [currentFloor -> numPolygons];
 
-	if (! checkNew (currentFloor -> matrix)) return FALSE;
+	if (! checkNew (currentFloor -> matrix)) return false;
 	
 	for (i = 0; i < currentFloor -> numPolygons; i ++) {
 		currentFloor -> matrix[i] = new int [currentFloor -> numPolygons];
 		distanceMatrix        [i] = new int [currentFloor -> numPolygons];
-		if (! checkNew (currentFloor -> matrix[i])) return FALSE;
+		if (! checkNew (currentFloor -> matrix[i])) return false;
 		for (j = 0; j < currentFloor -> numPolygons; j ++) {
 			currentFloor -> matrix[i][j] = -1;
 			distanceMatrix        [i][j] = 10000;
@@ -171,13 +171,13 @@ BOOL setFloor (int fileNum) {
 		}
 	}
 
-	BOOL madeChange;
+	bool madeChange;
 	int lookForDistance = 0;
 
 	do {
 		lookForDistance ++;
 //		debugMatrix ();
-		madeChange = FALSE;
+		madeChange = false;
 		for (i = 0; i < currentFloor -> numPolygons; i ++) {
 			for (j = 0; j < currentFloor -> numPolygons; j ++) {
 				if (currentFloor -> matrix[i][j] == -1) {
@@ -191,7 +191,7 @@ BOOL setFloor (int fileNum) {
 								
 								 currentFloor -> matrix[i][j] = d;
 								 distanceMatrix		  [i][j] = lookForDistance + 1;
-								 madeChange = TRUE;
+								 madeChange = true;
 							}
 						}
 					}
@@ -208,7 +208,7 @@ BOOL setFloor (int fileNum) {
 	
 	setResourceForFatal (-1);
 
-	return TRUE;
+	return true;
 }
 
 void drawFloor () {
@@ -241,7 +241,7 @@ int inFloor (int x, int y) {
 	return r;
 }
 
-BOOL closestPointOnLine (int & closestX, int & closestY, int x1, int y1, int x2, int y2, int xP, int yP) {
+bool closestPointOnLine (int & closestX, int & closestY, int x1, int y1, int x2, int y2, int xP, int yP) {
 	int xDiff = x2 - x1;
 	int yDiff = y2 - y1;
 	
@@ -257,7 +257,7 @@ BOOL closestPointOnLine (int & closestX, int & closestY, int x1, int y1, int x2,
 	} else {
 		closestX = x1 + m * xDiff;
 		closestY = y1 + m * yDiff;
-		return TRUE;
+		return true;
 	}
-	return FALSE;
+	return false;
 }

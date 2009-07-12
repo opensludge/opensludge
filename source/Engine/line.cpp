@@ -1,65 +1,111 @@
+
+//#include <SDL_opengl.h>
+#include "glee.h"
+#include <stdlib.h>
+#include "Graphics.h"
+#include "sprites_AA.h"
+
 #include "allfiles.h"
 
-extern unsigned short int * * backDropImage;
+extern int sceneWidth, sceneHeight;
+extern GLuint backdropTextureName;
+
 
 void drawLine(int x1, int y1, int x2, int y2) {
-	int i, deltax, deltay, numpixels,
-	    d, dinc1, dinc2,
-    	x, xinc1, xinc2,
-	    y, yinc1, yinc2;
-
-  // Calculate deltax and deltay for initialisation }
-  deltax = abs(x2 - x1);
-  deltay = abs(y2 - y1);
-
-  // Initialize all vars based on which is the independent variable }
-  if (deltax >= deltay) {
-      // x is independent variable }
-      numpixels = deltax + 1;
-      d = (2 * deltay) - deltax;
-      dinc1 = deltay << 1;
-      dinc2 = (deltay - deltax) << 1;
-      xinc1 = 1;
-      xinc2 = 1;
-      yinc1 = 0;
-      yinc2 = 1;
-  } else {
-      // y is independent variable }
-      numpixels = deltay + 1;
-      d = (2 * deltax) - deltay;
-      dinc1 = deltax << 1;
-      dinc2 = (deltax - deltay) << 1;
-      xinc1 = 0;
-      xinc2 = 1;
-      yinc1 = 1;
-      yinc2 = 1;
-	}
+	int x, y;
+	bool backwards = false;
 	
-  // Make sure x and y move in the right directions }
+	if (x1 < 0)  x1 = 0;
+	if (y1 < 0)  y1 = 0;
+	if (x2 < 0)  x2 = 0;
+	if (y2 < 0)  y2 = 0;
+	if (x1 > sceneWidth) x1 = sceneWidth - 1;
+	if (x2 > sceneWidth) x2 = sceneWidth - 1;
+	if (y1 > sceneHeight) y1 = sceneHeight - 1;
+	if (y2 > sceneHeight) y2 = sceneHeight - 1;
+
 	if (x1 > x2) {
-		xinc1 = - xinc1;
-		xinc2 = - xinc2;
+		x = x2; 
+		backwards = !backwards;
+	} else x = x1;
+		
+	if (y1 > y2) {
+		y = y2; 
+		backwards = !backwards;
+	} else y = y1;	
+	
+	int diffX = abs(x2-x1);
+	int diffY = abs(y2-y1);	
+	
+	if (! diffX) {
+		diffX = 1;
+		if (x == sceneWidth - 1) x = sceneWidth -2;
 	}
-  if (y1 > y2) {
-      yinc1 = - yinc1;
-      yinc2 = - yinc2;
+	if (! diffY) {
+		diffY = 1;
+		if (y == sceneHeight - 1) y = sceneHeight -2;
 	}
 	
-  // Start drawing at <x1, y1> }
-  x = x1;
-  y = y1;
-
-  // Draw the pixels }
-  for (i = 0; i < numpixels; i ++) {
-      backDropImage[y][x] ^= 0xFFFF;
-      if (d < 0) {
-          d = d + dinc1;
-          x = x + xinc1;
-          y = y + yinc1;
-	} else {
-          d = d + dinc2;
-          x = x + xinc2;
-          y = y + yinc2;
+	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+	setPixelCoords (true);
+	
+	glLineWidth (2.0);
+	glColor3ub (255, 255, 255);
+	
+	int xoffset = 0;
+	while (xoffset < diffX) {
+		int w = (diffX-xoffset < viewportWidth) ? diffX-xoffset : viewportWidth;
+		
+		int yoffset = 0;
+		while (yoffset < diffY) {
+			int h = (diffY-yoffset < viewportHeight) ? diffY-yoffset : viewportHeight;
+			
+			// Render the scene - first the old backdrop
+			glEnable (GL_TEXTURE_2D);
+			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
+			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			
+			glBegin(GL_QUADS);
+			glTexCoord2f(0.0, 0.0); glVertex3f(-x-xoffset+0.325, -y+yoffset+0.325, 0);
+			glTexCoord2f(1.0, 0.0); glVertex3f(sceneWidth-0.325-x-xoffset, -y+yoffset+0.325, 0);
+			glTexCoord2f(1.0, 1.0); glVertex3f(sceneWidth-0.325-x-xoffset, sceneHeight-0.325-y+yoffset, 0);
+			glTexCoord2f(0.0, 1.0); glVertex3f(-x-xoffset+0.325, sceneHeight-0.325-y+yoffset, 0);
+			glEnd();	
+			
+			glDisable (GL_TEXTURE_2D);
+			
+			// Then the line
+			glEnable (GL_COLOR_LOGIC_OP);
+			glLogicOp (GL_XOR);
+			
+			glBegin(GL_LINES);			
+			if (! backwards) {
+				glVertex3f(-xoffset, -yoffset, 0.0);
+				glVertex3f(diffX-xoffset, -yoffset+diffY, 0.0);
+			} else {
+				glVertex3f(diffX-xoffset, -yoffset, 0.0);
+				glVertex3f(-xoffset, -yoffset+diffY, 0.0);
+			}
+			glEnd();
+			
+			glDisable (GL_COLOR_LOGIC_OP);				
+				
+			// Copy Our ViewPort To The Texture
+			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
+			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, x+xoffset, y+yoffset, viewportOffsetX, viewportOffsetY, w, h);
+			
+			yoffset += viewportHeight;
+		}		
+		xoffset += viewportWidth;
 	}
-}
+	setPixelCoords (false);	
+	if (maxAntiAliasSettings.useMe) {
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	} else {
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	}			
 }

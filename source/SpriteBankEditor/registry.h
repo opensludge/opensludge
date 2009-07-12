@@ -1,4 +1,4 @@
-BOOL getRegSetting (char * settingName);
-BOOL putRegSetting (char * settingName, BOOL onOff);
+bool getRegSetting (char * settingName);
+bool putRegSetting (char * settingName, bool onOff);
 char * getRegString (char * settingName);
-BOOL setRegString (char * settingName, char * writeMe);
+bool setRegString (char * settingName, char * writeMe);

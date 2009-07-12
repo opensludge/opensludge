@@ -1,0 +1,58 @@
+<html>
+<head>
+<TITLE>callEvent</TITLE>
+</head>
+<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
+<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>callEvent</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=20><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Syntax:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<font color=#BB4444 SIZE=+2><TT><B>callEvent (<i>thisAction, thisObject</i>);</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Purpose:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+Calls the function specified inside the <i>thisObject</i> objectType definition by the line &quot;event <i>thisAction</i>&quot;. Both <i>thisAction</i> and <i>thisObject</i> must be variables of type objectType.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Return value:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+TRUE if a function was called. FALSE if no event was found.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Example:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<FONT color=#BB4444><TT><B>objectType ego () {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>objectType lookAt () {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>objectType poster (&quot;poster&quot;) {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;event lookAt {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;I'm looking at the poster.&quot;);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;}</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>sub init () {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;callEvent (poster, lookAt);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Returns FALSE</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;callEvent (lookAt, poster);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Calls function and returns TRUE</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>See also:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<b><a href="Object_Types_and_Events.html">Object Types and Events</a></b><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<b><a href="fetchEvent.html">fetchEvent</a></b><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</BODY>
+</html>

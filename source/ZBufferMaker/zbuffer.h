@@ -3,8 +3,10 @@ struct zPanel {
 	unsigned short yCutOff;
 };
 
-BOOL processZBufferData ();
+bool processZBufferData ();
 void saveZBufferFile (char * name);
-BOOL loadZBufferFile (char * name);
+bool loadZBufferFile (char * name);
+#ifdef WIN32
 LRESULT CALLBACK LayerSettingsFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
-BOOL setZBufferClick (int x, int y);
+#endif
+bool setZBufferClick (int x, int y);

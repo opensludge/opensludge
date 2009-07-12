@@ -1,3 +1,5 @@
+#ifdef WIN32
+
 #include <windows.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -31,8 +33,8 @@ extern HINSTANCE inst;
 extern char * windowName;
 extern char * quitMessage;
 extern char * customIcon;
-extern BOOL runMe;
-extern BOOL forceSilent;
+extern bool runMe;
+extern bool forceSilent;
 extern char * finalFile;
 
 extern stringArray * functionNames;
@@ -45,13 +47,7 @@ extern stringArray * allFileHandles = NULL;
 extern int numStringsFound;
 extern int numFilesFound;
 
-#if CHECK_WHETHER_REGISTERED
-	BOOL registered;
-#else
-	#define registered 1
-#endif
-
-extern BOOL silent;
+extern bool silent;
 
 enum { CSTEP_INIT,
 	   CSTEP_PARSE,
@@ -129,7 +125,7 @@ void runCompiledGame (HWND h) {
 	}
 }
 
-BOOL doSingleCompileStep () {
+bool doSingleCompileStep () {
 	switch (compileStep)
 	{
 		case CSTEP_INIT:
@@ -139,7 +135,7 @@ BOOL doSingleCompileStep () {
 
 		projectFile = fopen (theFile, "rt");
 		if (! projectFile) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't read project file", theFile, NULL);
-		if (! readSettings (projectFile)) return FALSE;
+		if (! readSettings (projectFile)) return false;
 	
 		addToStringArray (allSourceStrings, "");
 		addToStringArray (allSourceStrings, windowName);
@@ -163,7 +159,7 @@ BOOL doSingleCompileStep () {
 				if (strcmp (compareMe, ".sld") == 0) {
 					doDefines (tx, allSourceStrings, allFileHandles);
 				} else if (strcmp (compareMe, ".slu") == 0) {
-					if (! preProcess (tx, numProcessed ++, allSourceStrings, allFileHandles)) return FALSE;
+					if (! preProcess (tx, numProcessed ++, allSourceStrings, allFileHandles)) return false;
 				} else if (strcmp (compareMe, ".tra") == 0) {
 					registerTranslationFile (tx);
 				} else {
@@ -179,7 +175,7 @@ BOOL doSingleCompileStep () {
 		numStringsFound = countElements (allSourceStrings);
 		numFilesFound = countElements (allFileHandles);
 		setCompileStep (CSTEP_COMPILE, numProcessed);
-		if (! startFunction (protoFunction ("_globalInitFunction", ""), 0, globalSpace, "_globalInitFunction", TRUE, FALSE, "-"))
+		if (! startFunction (protoFunction ("_globalInitFunction", ""), 0, globalSpace, "_globalInitFunction", true, false, "-"))
 			return errorBox (ERRORTYPE_INTERNALERROR, "Couldn't create global variable initialisation code segment", NULL, NULL);
 		break;
 
@@ -192,14 +188,12 @@ BOOL doSingleCompileStep () {
 		
 		percRect (data1, P_BOTTOM);
 		if (! realWork (data1, globalVarNames, globalSpace))
-			return FALSE;
+			return false;
 //		percRect (a + 1, P_BOTTOM);
 		data1 ++;
 		break;
 
 		case CSTEP_AFTERCOMPILE:
-		if (! registered)
-			outputDoneCode (globalSpace, SLU_UNREGMESSAGE, 0);
 
 		outputHalfCode (globalSpace, SLU_LOAD_GLOBAL, "init");
 		outputDoneCode (globalSpace, SLU_CALLIT, 0);
@@ -218,7 +212,7 @@ BOOL doSingleCompileStep () {
 		
 		stringArray * silenceChecker = allFileHandles;
 		while (silenceChecker) {
-			if (audioFile (silenceChecker -> string)) silent = FALSE;
+			if (audioFile (silenceChecker -> string)) silent = false;
 			silenceChecker = silenceChecker -> next;
 		}
 		projectFile = openFinalFile (".sl~", "wb");
@@ -254,7 +248,7 @@ BOOL doSingleCompileStep () {
 
 		if (! gotoTempDirectory ()) {
 			fclose (projectFile);
-			return FALSE;
+			return false;
 		}
 		tempIndex = fopen ("SLUDGE1.tmp", "wb");
 		tempData = fopen ("SLUDGE2.tmp", "wb");
@@ -270,7 +264,7 @@ BOOL doSingleCompileStep () {
 		{
 			percRect (data1, P_BOTTOM);
 			if (! runLinker (tempData, tempIndex, data1, globalVarNames, iSize, allSourceStrings))
-				return FALSE;
+				return false;
 			allTheFunctionNamesTemp = allTheFunctionNamesTemp -> next;
 //		percRect (a + 1, P_BOTTOM);		
 			data1 ++;
@@ -304,7 +298,7 @@ BOOL doSingleCompileStep () {
 			percRect (data1, P_BOTTOM);
 			if (! linkObjectFile (tempData, tempIndex, data1, iSize)) {
 				fclose (projectFile);
-				return FALSE;
+				return false;
 			}
 			data1 ++;
 		}
@@ -335,7 +329,7 @@ BOOL doSingleCompileStep () {
 		case CSTEP_DUMPFILES:
 		if (! dumpFiles (projectFile, allFileHandles)) {
 			fclose (projectFile);
-			return FALSE;
+			return false;
 		}
 		fclose (projectFile);
 		gotoSourceDirectory ();
@@ -361,17 +355,17 @@ BOOL doSingleCompileStep () {
 			else
 			{
 //				errorBox (ERRORTYPE_SYSTEMERROR, "autorun", "OFF", NULL);
-				EnableWindow (GetDlgItem (compWin, IDOK), TRUE);
+				EnableWindow (GetDlgItem (compWin, IDOK), true);
 			}
 		}
 		setCompileStep (CSTEP_DONE, 0);
 		break;
 	}
 
-	return TRUE;
+	return true;
 }
 
-BOOL APIENTRY warningBoxFunc (HWND h, UINT m, WPARAM w, LPARAM l) {
+bool APIENTRY warningBoxFunc (HWND h, UINT m, WPARAM w, LPARAM l) {
 	switch (m) {
 		case WM_COMMAND:
 		switch (LOWORD (w)) {
@@ -400,7 +394,7 @@ BOOL APIENTRY warningBoxFunc (HWND h, UINT m, WPARAM w, LPARAM l) {
 	return 0;
 }
 
-BOOL APIENTRY dialogComp (HWND h, UINT m, WPARAM w, LPARAM l) {
+bool APIENTRY dialogComp (HWND h, UINT m, WPARAM w, LPARAM l) {
 //	static OPENFILENAME ofn;
 //	static char path[MAX_PATH];
 
@@ -419,7 +413,7 @@ BOOL APIENTRY dialogComp (HWND h, UINT m, WPARAM w, LPARAM l) {
 /*
 		case WM_USER + 1:
 		
-			EnableWindow (GetDlgItem (h, IDOK), TRUE);
+			EnableWindow (GetDlgItem (h, IDOK), true);
 
 			// Sort out file stuff
 
@@ -442,7 +436,7 @@ BOOL APIENTRY dialogComp (HWND h, UINT m, WPARAM w, LPARAM l) {
 //		ofn.Flags = OFN_HIDEREADONLY | OFN_EXPLORER;
 		SetForegroundWindow (h);	// handle of window
 		SetTimer(h,1,20,NULL);
-		EnableWindow (GetDlgItem (h, IDCANCEL), TRUE);
+		EnableWindow (GetDlgItem (h, IDCANCEL), true);
 		return 1;
 
 		case WM_CLOSE:
@@ -451,8 +445,8 @@ BOOL APIENTRY dialogComp (HWND h, UINT m, WPARAM w, LPARAM l) {
 
 		case WM_PAINT:
 		repaintPercBars ();
-//		if (doneOnce == FALSE) {
-//			doneOnce = TRUE;
+//		if (doneOnce == false) {
+//			doneOnce = true;
 //			PostMessage (compWin, WM_USER + 1, 526, 0);
 //		}
 		break;
@@ -480,55 +474,15 @@ BOOL APIENTRY dialogComp (HWND h, UINT m, WPARAM w, LPARAM l) {
 	return 0;
 }
 
-#if CHECK_WHETHER_REGISTERED
-int findCharInString (const char ch, const char * st) {
-	int i = 0;
-	while (st[i] && ch != st[i]) i ++;
-	return i;
-}
-
-#define all32Chars "6WXE1YLM4NA5PQR3SZB7C2DFG8HJKT9V"
-
-BOOL realUnlockCheck (const char * name, const char * codeIn) {
-	unsigned int i, codeSoFar = 3556733886, exOrVal = 1842677271;
-	if (! name) return FALSE;
-	if (! codeIn) return FALSE;
-	for (i = 0; name[i]; i ++) {
-		codeSoFar += name[i] ^ exOrVal;
-		exOrVal <<= 1;
-		exOrVal += name[i] & 1;
-	}
-	int numCodeIn = 0;
-	for (i = 0; codeIn[i]; i ++) {
-		if (i == 3) {
-			numCodeIn = (codeIn[i] == '-') ? numCodeIn : 0;
-		} else {
-			int j = findCharInString (codeIn[i], all32Chars);
-			numCodeIn <<= 5;
-			numCodeIn += j;
-//			errorBox ("Char index", j);
-		}
-	}
-//	errorBox ("In", numCodeIn);
-//	errorBox ("Should be", codeSoFar);
-
-	return (i == 8) ? (numCodeIn == codeSoFar) : FALSE;
-}
-#endif
-
 char * myNameIs;
 
 void compileWindow (char * file, char * name, char * code) {
 	MSG msg;
 	theFile = file;
 
-#if CHECK_WHETHER_REGISTERED
-	registered = realUnlockCheck (name, code);
-#endif
-
 	myNameIs = name;
 
-	initBuiltInFunc (registered);
+	initBuiltInFunc ();
 
 	if (! CreateDialog (inst, MAKEINTRESOURCE(DIALOG_1), NULL, dialogComp)) {
 		MessageBox (NULL, "Can't create dialogue box... ack!", "SLUDGE Compiler Error", MB_OK | MB_SETFOREGROUND);
@@ -547,3 +501,5 @@ void compileWindow (char * file, char * name, char * code) {
 			WaitMessage();
 	}
 }
+
+#endif

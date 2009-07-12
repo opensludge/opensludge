@@ -1,4 +1,6 @@
-#include <windows.h>
+#if 0
+
+//#include <windows.h>
 #include <stdio.h>
 #include <unistd.h>
 
@@ -14,24 +16,24 @@
 #include "allknown.h"
 
 int subNum = 0;
-extern HWND compWin;
+//extern HWND compWin;
 char * emptyString = "";
 char * inThisClass = emptyString;
 //extern stringArray * & localVars;
 stringArray * globalVarFileOrigins;
 
-BOOL globalVar (char * theString, stringArray * & globalVars, compilationSpace & globalSpace, const char * filename) {
+bool globalVar (char * theString, stringArray * & globalVars, compilationSpace & globalSpace, const char * filename) {
 	int numVar;
 
 	stringArray * multi = splitString (theString, ',');
 	while (multi) {
 		stringArray * getVarName = splitString (multi -> string, '=', ONCE);
 
-		if (! checkValidName (getVarName->string, "Not a valid global variable name", filename)) return FALSE;
-//		if (! checkNotKnown (getVarName -> string)) return FALSE;
+		if (! checkValidName (getVarName->string, "Not a valid global variable name", filename)) return false;
+//		if (! checkNotKnown (getVarName -> string)) return false;
 		char * variableName = joinStrings (inThisClass, getVarName -> string);
 		
-		if (! checkNotKnown (variableName, filename)) return FALSE;
+		if (! checkNotKnown (variableName, filename)) return false;
 		addToStringArray (globalVars, variableName);
 		addToStringArray (globalVarFileOrigins, filename);
 		numVar = findElement (globalVars, variableName);
@@ -46,10 +48,10 @@ BOOL globalVar (char * theString, stringArray * & globalVars, compilationSpace &
 		destroyAll (getVarName);
 		destroyFirst (multi);
 	}
-	return TRUE;
+	return true;
 }
 
-BOOL realWork (int fileNumber, stringArray * & globalVars, compilationSpace & globalSpace) {
+bool realWork (int fileNumber, stringArray * & globalVars, compilationSpace & globalSpace) {
 	char * theSource;
 	char inputName[13];
 	stringArray * origName;
@@ -80,32 +82,32 @@ BOOL realWork (int fileNumber, stringArray * & globalVars, compilationSpace & gl
 					return errorBox (ERRORTYPE_PROJECTERROR, "Bad sub declaration", theBits -> string, origName->string);
 				}
 				if (! outdoorSub (removeTokenString -> string, origName -> string)) {
-					return FALSE;
+					return false;
 				}
 				break;
 
 				case TOK_VAR:
 				if (! destroyFirst (removeTokenString)) return errorBox (ERRORTYPE_PROJECTERROR, "Bad global variable definition", theBits -> string, origName->string);
-				if (! globalVar (removeTokenString -> string, globalVars, globalSpace, origName->string)) return FALSE;
+				if (! globalVar (removeTokenString -> string, globalVars, globalSpace, origName->string)) return false;
 				break;
 				
 				case TOK_FLAG:
 				case TOK_FLAGS:
 				if (! destroyFirst (removeTokenString)) return errorBox (ERRORTYPE_PROJECTERROR, "Bad flags definition", theBits -> string, origName->string);
-				if (! handleFlags (removeTokenString -> string)) return FALSE;
+				if (! handleFlags (removeTokenString -> string)) return false;
 				break;
 
 				case TOK_OBJECTTYPE:
 				if (! destroyFirst (removeTokenString)) {
 					return errorBox (ERRORTYPE_PROJECTERROR, "Bad objectType declaration", theBits -> string, origName->string);
 				}
-				if (! createObjectType (removeTokenString -> string, origName -> string, globalVars, globalSpace, origName -> string)) return FALSE;
+				if (! createObjectType (removeTokenString -> string, origName -> string, globalVars, globalSpace, origName -> string)) return false;
 				break;
 
 				case TOK_UNKNOWN:
 				default:
 				errorBox (ERRORTYPE_PROJECTERROR, "Unknown or illegal token (only 'sub', 'var', 'flag', 'flags' and 'objectType' allowed here)", removeTokenString -> string, origName->string);
-				return FALSE;
+				return false;
 			}
 			destroyAll (removeTokenString);
 		}
@@ -114,5 +116,7 @@ BOOL realWork (int fileNumber, stringArray * & globalVars, compilationSpace & gl
 	}
 	destroyAll (origName);
 //	finishTask ();
-	return TRUE;
+	return true;
 }
+
+#endif

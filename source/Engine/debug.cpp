@@ -1,10 +1,18 @@
+#include <stdarg.h>
+
 #include "allfiles.h"
 #include "debug.h"
 
 #if DEBUGGING
-void debugOut(char * a) {
+void debugOut(char * a, ...) {
+
+	va_list argptr;
+	va_start(argptr, a);
+
 	FILE * fp = fopen ("debuggy.txt", "at");
-	fprintf (fp, "%s\n", a);
-	fclose (fp);
+	if (fp) {
+		vfprintf (fp, a, argptr);
+		fclose (fp);
+	}
 }
 #endif

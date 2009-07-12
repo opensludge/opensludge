@@ -1,5 +1,6 @@
 #include "allfiles.h"
 #include <math.h>
+#include <stdlib.h>
 
 #include "version.h"
 #include "sprites.h"
@@ -16,6 +17,7 @@
 #include "moreio.h"
 #include "loadsave.h"
 #include "floor.h"
+#include "zbuffer.h"
 
 #define ANGLEFIX (180.0 / 3.14157)
 #define ANI_STAND 0
@@ -24,22 +26,13 @@
 
 extern speechStruct * speech;
 
-/*
-//------------------------------------------------------------------
-void db (char * txt) {
-	FILE * debu = fopen ("debuTURN.txt", "at");
-
-	fprintf (debu, txt);
-	fprintf (debu, "\n");
-	fclose (debu);
-}
-//------------------------------------------------------------------*/
 
 extern int cameraX, cameraY;
 screenRegion personRegion;
 extern screenRegion * lastRegion;
 extern flor * currentFloor;
-extern unsigned short int * * lightMapImage;
+extern GLubyte * lightMapTexture;
+extern GLuint lightMapTextureName;
 
 extern inputType input;
 onScreenPerson * allPeople = NULL;
@@ -160,7 +153,7 @@ void turnMeAngle (onScreenPerson * thisPerson, int direc) {
 	thisPerson -> direction = (direc * d) / 360;
 }
 
-BOOL initPeople () {
+bool initPeople () {
 	personRegion.sX = 0;
 	personRegion.sY = 0;
 	personRegion.di = -1;
@@ -177,7 +170,7 @@ BOOL initPeople () {
 	}
 	fclose (debug);		*/
 	
-	return TRUE;
+	return true;
 }
 
 void spinStep (onScreenPerson * thisPerson) {
@@ -193,7 +186,7 @@ void spinStep (onScreenPerson * thisPerson) {
 		turnMeAngle (thisPerson, thisPerson -> angle + eachSlice);
 	} else {
 		turnMeAngle (thisPerson, thisPerson -> wantAngle);
-		thisPerson -> spinning = FALSE;
+		thisPerson -> spinning = false;
 	}	
 
 /*
@@ -215,28 +208,28 @@ void rethinkAngle (onScreenPerson * thisPerson) {
 	thisPerson -> direction = (direc * d) / 360;
 }
 
-BOOL turnPersonToFace (int thisNum, int direc) {
+bool turnPersonToFace (int thisNum, int direc) {
 	onScreenPerson * thisPerson = findPerson (thisNum);
 	if (thisPerson) {
 		if (thisPerson -> continueAfterWalking) abortFunction (thisPerson -> continueAfterWalking);
 		thisPerson -> continueAfterWalking = NULL;
-		thisPerson -> walking = FALSE;
-		thisPerson -> spinning = FALSE;
+		thisPerson -> walking = false;
+		thisPerson -> spinning = false;
 		turnMeAngle (thisPerson, direc);
 		setFrames (* thisPerson, (thisPerson == speech->currentTalker) ? ANI_TALK : ANI_STAND);
-		return TRUE;
+		return true;
 	}
-	return FALSE;
+	return false;
 }
 
-BOOL setPersonExtra (int thisNum, int extra) {
+bool setPersonExtra (int thisNum, int extra) {
 	onScreenPerson * thisPerson = findPerson (thisNum);
 	if (thisPerson) {
 		thisPerson -> extra = extra;
 		if (extra & EXTRA_NOSCALE) thisPerson -> scale = 1;
-		return TRUE;
+		return true;
 	}
-	return FALSE;
+	return false;
 }
 
 void setScale (short int h, short int d) {
@@ -264,7 +257,7 @@ void movePerson (int x, int y, int objNum) {
 	if (moveMe) moveAndScale (* moveMe, x, y);
 }
 
-void setShown (BOOL h, int ob) {
+void setShown (bool h, int ob) {
 	onScreenPerson * moveMe = findPerson (ob);
 	if (moveMe) moveMe -> show = h;
 }
@@ -332,7 +325,7 @@ void fixPeople (int oldX, int oldY) {
 					meX = thisPerson -> x - oldX;
 					meY = thisPerson -> y - oldY;
 				}
-				fixScaleSprite (meX, meY, myAnim -> theSprites -> bank.sprites[fNum], myAnim -> theSprites -> bank.myPalette, thisPerson -> scale, thisPerson -> drawMode, thisPerson -> floaty, ! (thisPerson -> extra & EXTRA_NOZB), (thisPerson -> extra & EXTRA_NOLITE) ? NULL : lightMapImage, oldX, oldY, m, & thisPerson->aaSettings);
+				fixScaleSprite (meX, meY, myAnim -> theSprites -> bank.sprites[fNum], myAnim -> theSprites -> bank.myPalette, thisPerson -> scale, thisPerson -> drawMode, thisPerson -> floaty, ! (thisPerson -> extra & EXTRA_NOZB), !(thisPerson -> extra & EXTRA_NOLITE), oldX, oldY, m, & thisPerson->aaSettings);
 			}
 		}
 		thisPerson = thisPerson -> next;
@@ -362,7 +355,7 @@ void drawPeople () {
 				m = 2 - m;
 			}
 			if (m != 2) {
-				BOOL r = false;
+				bool r = false;
 				float drawAtX = thisPerson->x;
 				float drawAtY = thisPerson->y;
 				if (! (thisPerson -> extra & EXTRA_FIXTOSCREEN))
@@ -370,7 +363,7 @@ void drawPeople () {
 					drawAtX -= cameraX;
 					drawAtY -= cameraY;
 				}
-				r = scaleSprite (drawAtX, drawAtY, myAnim->theSprites->bank.sprites[fNum], myAnim -> theSprites -> bank.myPalette, thisPerson -> scale, thisPerson -> drawMode, thisPerson -> floaty, ! (thisPerson -> extra & EXTRA_NOZB), (thisPerson -> extra & EXTRA_NOLITE) ? NULL : lightMapImage, m, thisPerson -> extra & EXTRA_RECTANGULAR, & thisPerson->aaSettings);
+				r = scaleSprite (drawAtX, drawAtY, myAnim->theSprites->bank.sprites[fNum], myAnim -> theSprites -> bank.myPalette, thisPerson -> scale, thisPerson -> drawMode, thisPerson -> floaty, ! (thisPerson -> extra & EXTRA_NOZB), ! (thisPerson -> extra & EXTRA_NOLITE), m, thisPerson -> extra & EXTRA_RECTANGULAR, & thisPerson->aaSettings);
 				if (r) {
 					if (thisPerson -> thisType -> screenName[0]) {
 						if (personRegion.thisType != thisPerson -> thisType) lastRegion = NULL;
@@ -397,7 +390,7 @@ void makeSilent (onScreenPerson & me) {
 	setFrames (me, ANI_STAND);
 }
 
-BOOL handleClosestPoint (int & setX, int & setY, int & setPoly) {
+bool handleClosestPoint (int & setX, int & setY, int & setPoly) {
 	int gotX = 320, gotY = 200, gotPoly = -1, i, j, xTest1, yTest1,
 		xTest2, yTest2, closestX, closestY, oldJ, currentDistance = 0xFFFFF,
 		thisDistance;
@@ -433,15 +426,15 @@ BOOL handleClosestPoint (int & setX, int & setY, int & setPoly) {
 	}
 //	fclose (dbug);
 
-	if (gotPoly == -1) return FALSE;
+	if (gotPoly == -1) return false;
 	setX = gotX;
 	setY = gotY;
 	setPoly = gotPoly;
 	
-	return TRUE;
+	return true;
 }
 
-BOOL doBorderStuff (onScreenPerson * moveMe) {
+bool doBorderStuff (onScreenPerson * moveMe) {
 	if (moveMe -> inPoly == moveMe -> walkToPoly) {
 		moveMe -> inPoly = -1;
 		moveMe -> thisStepX = moveMe -> walkToX;
@@ -449,7 +442,7 @@ BOOL doBorderStuff (onScreenPerson * moveMe) {
 	} else {
 		// The section in which we need to be next...
 		int newPoly = currentFloor -> matrix[moveMe -> inPoly][moveMe -> walkToPoly];
-		if (newPoly == -1) return FALSE;
+		if (newPoly == -1) return false;
 		
 		// Grab the index of the second matching corner...
 		int ID, ID2;
@@ -485,8 +478,8 @@ BOOL doBorderStuff (onScreenPerson * moveMe) {
 			dx13 *= dx13; dx14 *= dx14; dx23 *= dx23; dx24 *= dx24;
 			dy13 *= dy13; dy14 *= dy14; dy23 *= dy23; dy24 *= dy24;
 						
-			if (sqrt(dx13 + dy13) + sqrt(dx23 + dy23) <
-				sqrt(dx14 + dy14) + sqrt(dx24 + dy24)) {
+			if (sqrt((double) dx13 + dy13) + sqrt((double) dx23 + dy23) <
+				sqrt((double) dx14 + dy14) + sqrt((double) dx24 + dy24)) {
 				moveMe -> thisStepX = x3;
 				moveMe -> thisStepY = y3;			
 			} else {
@@ -500,14 +493,14 @@ BOOL doBorderStuff (onScreenPerson * moveMe) {
 	float xDiff = moveMe -> x - moveMe -> thisStepX;
 	if (xDiff || yDiff) {
 		moveMe -> wantAngle = 180 + ANGLEFIX * atan2(xDiff, yDiff * 2);
-		moveMe -> spinning = TRUE;
+		moveMe -> spinning = true;
 	}
 	
 	setFrames (* moveMe, ANI_WALK);
-	return TRUE;
+	return true;
 }
 
-BOOL walkMe (onScreenPerson * thisPerson) {
+bool walkMe (onScreenPerson * thisPerson) {
 	float xDiff, yDiff, maxDiff, s;
 	
 	for (;;) {
@@ -515,7 +508,8 @@ BOOL walkMe (onScreenPerson * thisPerson) {
 		yDiff = (thisPerson -> thisStepY - thisPerson -> y) * 2;
 		s = thisPerson -> scale * thisPerson -> walkSpeed;
 		if (s < 0.2) s = 0.2;
-		maxDiff = max (TF_abs (xDiff), TF_abs (yDiff));
+		
+		maxDiff = (TF_abs (xDiff) >= TF_abs (yDiff)) ? TF_abs (xDiff) : TF_abs (yDiff);
 
 		if (TF_abs (maxDiff) > s) {
 			if (thisPerson -> spinning) {
@@ -527,13 +521,13 @@ BOOL walkMe (onScreenPerson * thisPerson) {
 			moveAndScale (* thisPerson,
 							  thisPerson -> x + xDiff / s,
 							  thisPerson -> y + yDiff / (s * 2));
-			return TRUE;
+			return true;
 		}
 
 		if (thisPerson -> inPoly == -1) {
 			if (thisPerson -> directionWhenDoneWalking != -1) {
 				thisPerson -> wantAngle = thisPerson -> directionWhenDoneWalking;
-				thisPerson -> spinning = TRUE;
+				thisPerson -> spinning = true;
 //				db ("IN WALKME (INPOLY == -1):");
 				spinStep (thisPerson);
 			}
@@ -542,68 +536,68 @@ BOOL walkMe (onScreenPerson * thisPerson) {
 		if (! doBorderStuff (thisPerson)) break;
 	}
 	
-	thisPerson -> walking = FALSE;
+	thisPerson -> walking = false;
 	setFrames (* thisPerson, ANI_STAND);
 	moveAndScale (* thisPerson,
 				  thisPerson -> walkToX,
 				  thisPerson -> walkToY);
-	return FALSE;
+	return false;
 }
 
-BOOL makeWalkingPerson (int x, int y, int objNum, loadedFunction * func, int di) {
-	if (x == 0 && y == 0) return FALSE;
-	if (currentFloor -> numPolygons == 0) return FALSE;
+bool makeWalkingPerson (int x, int y, int objNum, loadedFunction * func, int di) {
+	if (x == 0 && y == 0) return false;
+	if (currentFloor -> numPolygons == 0) return false;
 	onScreenPerson * moveMe = findPerson (objNum);
-	if (! moveMe) return FALSE;
+	if (! moveMe) return false;
 	
 	if (moveMe -> continueAfterWalking) abortFunction (moveMe -> continueAfterWalking);
 	moveMe -> continueAfterWalking = NULL;
-	moveMe -> walking = TRUE;
+	moveMe -> walking = true;
 	moveMe -> directionWhenDoneWalking = di;
 	
 	moveMe -> walkToX = x;
 	moveMe -> walkToY = y;
 	moveMe -> walkToPoly = inFloor (x, y);
 	if (moveMe -> walkToPoly == -1) {
-		if (! handleClosestPoint (moveMe -> walkToX, moveMe -> walkToY, moveMe -> walkToPoly)) return FALSE;
+		if (! handleClosestPoint (moveMe -> walkToX, moveMe -> walkToY, moveMe -> walkToPoly)) return false;
 	}
 	
 	moveMe -> inPoly = inFloor (moveMe -> x, moveMe -> y);
 	if (moveMe -> inPoly == -1) {
 		int xxx = moveMe -> x, yyy = moveMe -> y;
-		if (! handleClosestPoint (xxx, yyy, moveMe -> inPoly)) return FALSE;
+		if (! handleClosestPoint (xxx, yyy, moveMe -> inPoly)) return false;
 	}
 	
 	doBorderStuff (moveMe);
 	if (walkMe (moveMe) || moveMe -> spinning) {
 		moveMe -> continueAfterWalking = func;
-		return TRUE;
+		return true;
 	} else {
-		return FALSE;
+		return false;
 	}
 }
 
-BOOL stopPerson (int o) {
+bool stopPerson (int o) {
 	onScreenPerson * moveMe = findPerson (o);
 	if (moveMe) 	
 		if (moveMe -> continueAfterWalking) {
 			abortFunction (moveMe -> continueAfterWalking);
 			moveMe -> continueAfterWalking = NULL;
-			moveMe -> walking = FALSE;
-			moveMe -> spinning = FALSE;
+			moveMe -> walking = false;
+			moveMe -> spinning = false;
 			setFrames (* moveMe, ANI_STAND);
-			return TRUE;
+			return true;
 		}
-	return FALSE;
+	return false;
 }
 
-BOOL forceWalkingPerson (int x, int y, int objNum, loadedFunction * func, int di) {
-	if (x == 0 && y == 0) return FALSE;
+bool forceWalkingPerson (int x, int y, int objNum, loadedFunction * func, int di) {
+	if (x == 0 && y == 0) return false;
 	onScreenPerson * moveMe = findPerson (objNum);
-	if (! moveMe) return FALSE;
+	if (! moveMe) return false;
 	
 	if (moveMe -> continueAfterWalking) abortFunction (moveMe -> continueAfterWalking);
-	moveMe -> walking = TRUE;
+	moveMe -> walking = true;
 	moveMe -> continueAfterWalking = NULL;
 	moveMe -> directionWhenDoneWalking = di;
 	
@@ -618,9 +612,9 @@ BOOL forceWalkingPerson (int x, int y, int objNum, loadedFunction * func, int di
 	doBorderStuff (moveMe);
 	if (walkMe (moveMe) || moveMe -> spinning) {
 		moveMe -> continueAfterWalking = func;
-		return TRUE;
+		return true;
 	} else {
-		return FALSE;
+		return false;
 	}
 }
 
@@ -630,24 +624,24 @@ void jumpPerson (int x, int y, int objNum) {
 	if (! moveMe) return;
 	if (moveMe -> continueAfterWalking) abortFunction (moveMe -> continueAfterWalking);
 	moveMe -> continueAfterWalking = NULL;
-	moveMe -> walking = FALSE;
-	moveMe -> spinning = FALSE;
+	moveMe -> walking = false;
+	moveMe -> spinning = false;
 	moveAndScale (* moveMe, x, y);
 }
 
-BOOL floatCharacter (int f, int objNum) {
+bool floatCharacter (int f, int objNum) {
 	onScreenPerson * moveMe = findPerson (objNum);
-	if (! moveMe) return FALSE;
+	if (! moveMe) return false;
 	moveMe -> floaty = f;
-	return TRUE;
+	return true;
 }
 
-BOOL setCharacterWalkSpeed (int f, int objNum) {
-	if (f <= 0) return FALSE;
+bool setCharacterWalkSpeed (int f, int objNum) {
+	if (f <= 0) return false;
 	onScreenPerson * moveMe = findPerson (objNum);
-	if (! moveMe) return FALSE;
+	if (! moveMe) return false;
 	moveMe -> walkSpeed = f;
-	return TRUE;
+	return true;
 }
 
 void walkAllPeople () {
@@ -671,9 +665,9 @@ void walkAllPeople () {
 	}
 }
 
-BOOL addPerson (int x, int y, int objNum, persona * p) {
+bool addPerson (int x, int y, int objNum, persona * p) {
 	onScreenPerson * newPerson = new onScreenPerson;
-	if (! checkNew (newPerson)) return FALSE;
+	if (! checkNew (newPerson)) return false;
 
 //	debug ("addPerson start");
 
@@ -686,9 +680,9 @@ BOOL addPerson (int x, int y, int objNum, persona * p) {
 	newPerson -> frameNum = 0;
 	newPerson -> walkToX = x;
 	newPerson -> walkToY = y;
-	newPerson -> walking = FALSE;
-	newPerson -> spinning = FALSE;
-	newPerson -> show = TRUE;
+	newPerson -> walking = false;
+	newPerson -> spinning = false;
+	newPerson -> show = true;
 	newPerson -> direction = 0;
 	newPerson -> angle = 180;
 	newPerson -> wantAngle = 180;
@@ -725,7 +719,7 @@ BOOL addPerson (int x, int y, int objNum, persona * p) {
 	newPerson -> next = (* changethat);
 	(* changethat) = newPerson;
 
-	return (BOOL) (newPerson -> thisType != NULL);
+	return (bool) (newPerson -> thisType != NULL);
 }
 
 int timeForAnim (personaAnimation * fram) {
@@ -741,8 +735,8 @@ void animatePerson (int obj, personaAnimation * fram) {	// Set a new SINGLE anim
 	if (moveMe) {
 		if (moveMe -> continueAfterWalking) abortFunction (moveMe -> continueAfterWalking);
 		moveMe -> continueAfterWalking = NULL;
-		moveMe -> walking = FALSE;
-		moveMe -> spinning = FALSE;
+		moveMe -> walking = false;
+		moveMe -> spinning = false;
 		moveMe -> myAnim = fram;
 	}
 }
@@ -752,8 +746,8 @@ void animatePerson (int obj, persona * per) {			// Set a new costume
 	if (moveMe) {
 		if (moveMe -> continueAfterWalking) abortFunction (moveMe -> continueAfterWalking);
 		moveMe -> continueAfterWalking = NULL;
-		moveMe -> walking = FALSE;
-		moveMe -> spinning = FALSE;
+		moveMe -> walking = false;
+		moveMe -> spinning = false;
 		moveMe -> myPersona = per;
 		rethinkAngle (moveMe);
 		setFrames (* moveMe, 0);
@@ -816,7 +810,7 @@ void removeOneCharacter (int i) {
 	}
 }
 
-BOOL saveAnim (personaAnimation * p, FILE * fp) {
+bool saveAnim (personaAnimation * p, FILE * fp) {
 	put2bytes (p -> numFrames, fp);
 	if (p -> numFrames) {
 		put4bytes (p -> theSprites -> ID, fp);
@@ -826,17 +820,16 @@ BOOL saveAnim (personaAnimation * p, FILE * fp) {
 			put4bytes (p -> frames[a].howMany, fp);
 		}
 	}
-	return TRUE;
+	return true;
 }
 
-BOOL loadAnim (personaAnimation * p, FILE * fp) {
+bool loadAnim (personaAnimation * p, FILE * fp) {
 	p -> numFrames = get2bytes (fp);
 
 	if (p -> numFrames) {
 		int a = get4bytes (fp);
-
 		p -> frames = new animFrame[p -> numFrames];
-		if (! checkNew (p -> frames)) return FALSE;
+		if (! checkNew (p -> frames)) return false;
 		p -> theSprites = loadBankForAnim (a);
 
 		for (a = 0; a < p -> numFrames; a ++) {
@@ -847,7 +840,7 @@ BOOL loadAnim (personaAnimation * p, FILE * fp) {
 		p -> theSprites = NULL;
 		p -> frames = NULL;
 	}
-	return TRUE;
+	return true;
 }
 /*
 void debugCostume (char * message, persona * cossy) {
@@ -864,32 +857,32 @@ void debugCostume (char * message, persona * cossy) {
 	fclose (db);
 }
 */
-BOOL saveCostume (persona * cossy, FILE * fp) {
+bool saveCostume (persona * cossy, FILE * fp) {
 	int a;
 	put2bytes (cossy -> numDirections, fp);
 	for (a = 0; a < cossy -> numDirections * 3; a ++) {
-		if (! saveAnim (cossy -> animation[a], fp)) return FALSE;
+		if (! saveAnim (cossy -> animation[a], fp)) return false;
 	}
 //	debugCostume ("Saved", cossy);
-	return TRUE;
+	return true;
 }
 
-BOOL loadCostume (persona * cossy, FILE * fp) {
+bool loadCostume (persona * cossy, FILE * fp) {
 	int a;
 	cossy -> numDirections = get2bytes (fp);
 	cossy -> animation = new personaAnimation * [cossy -> numDirections * 3];
-	if (! checkNew (cossy -> animation)) return FALSE;
+	if (! checkNew (cossy -> animation)) return false;
 	for (a = 0; a < cossy -> numDirections * 3; a ++) {
 		cossy -> animation[a] = new personaAnimation;
-		if (! checkNew (cossy -> animation[a])) return FALSE;
+		if (! checkNew (cossy -> animation[a])) return false;
 
-		if (! loadAnim (cossy -> animation[a], fp)) return FALSE;
+		if (! loadAnim (cossy -> animation[a], fp)) return false;
 	}
 //	debugCostume ("Loaded", cossy);
-	return TRUE;
+	return true;
 }
 
-BOOL savePeople (FILE * fp) {
+bool savePeople (FILE * fp) {
 	onScreenPerson * me = allPeople;
 	int countPeople = 0, a;
 
@@ -950,10 +943,10 @@ BOOL savePeople (FILE * fp) {
 
 		me = me -> next;
 	}
-	return TRUE;
+	return true;
 }
 
-BOOL loadPeople (FILE * fp, int ssgVersion) {
+bool loadPeople (FILE * fp, int ssgVersion) {
 	onScreenPerson * * pointy = & allPeople;
 	onScreenPerson * me;
 
@@ -976,13 +969,13 @@ BOOL loadPeople (FILE * fp, int ssgVersion) {
 //		db ("Loading a person...");
 //		fprintf (debug, "\n  LOADING PERSON %d of %d", a, countPeople);
 		me = new onScreenPerson;
-		if (! checkNew (me)) return FALSE;
+		if (! checkNew (me)) return false;
 
 		me -> myPersona = new persona;
-		if (! checkNew (me -> myPersona)) return FALSE;
+		if (! checkNew (me -> myPersona)) return false;
 
 		me -> myAnim = new personaAnimation;
-		if (! checkNew (me -> myAnim)) return FALSE;
+		if (! checkNew (me -> myAnim)) return false;
 
 		me -> x = readFloat (fp);
 		me -> y = readFloat (fp);
@@ -1017,7 +1010,7 @@ BOOL loadPeople (FILE * fp, int ssgVersion) {
 		me -> spinning = fgetc (fp);
 		if (fgetc (fp)) {
 			me -> continueAfterWalking = loadFunction (fp);
-			if (! me -> continueAfterWalking) return FALSE;
+			if (! me -> continueAfterWalking) return false;
 //			db ("Got continueAfterWalking");
 		} else {
 			me -> continueAfterWalking = NULL;
@@ -1047,5 +1040,5 @@ BOOL loadPeople (FILE * fp, int ssgVersion) {
 		pointy = & (me -> next);
 	}
 //	db ("End of loadPeople");
-	return TRUE;
+	return true;
 }

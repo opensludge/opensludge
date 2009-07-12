@@ -1,14 +1,30 @@
 #include "allfiles.h"
+#include "SDL.h"
 
+#ifdef __APPLE__
+#import <Cocoa/Cocoa.h>
+#endif
+
+#include <sys/types.h>
+#include <sys/stat.h>
+
+#include "glee.h"
+//#include <SDL_opengl.h>
+
+#ifdef _MSC_VER
+#include <shellapi.h>
+#include <direct.h>
+#else
 #include <unistd.h>
+#endif
 #include <stdlib.h>
+#include <string.h>
 
 #include "version.h"
 #include "sludger.h"
-#include "direct.h"
-#include "vid.h"
 #include "backdrop.h"
 #include "cursors.h"
+#include "colours.h"
 #include "objtypes.h"
 #include "region.h"
 #include "sprites.h"
@@ -30,11 +46,15 @@
 #include "transition.h"
 #include "language.h"
 #include "specialSettings.h"
+#include "Graphics.h"
+
+#include "debug.h"
+
+int showSetupWindow();
 
 extern personaAnimation * mouseCursorAnim;
 extern spritePalette pastePalette;
 extern int dialogValue, sceneWidth, sceneHeight;
-extern BOOL runningFullScreen;
 extern char * launchMe;
 extern variable * launchResult;
 
@@ -52,9 +72,7 @@ int specialSettings;
 FILETIME fileTime;
 //extern byte frameRate;
 extern int desiredfps;
-BOOL captureAllKeys = FALSE, updateDisplay = TRUE;
-extern HINSTANCE helloInstance;
-extern BOOL videoPlaying;
+bool captureAllKeys = false;
 
 unsigned char brightnessLevel = 255;
 
@@ -65,7 +83,6 @@ extern HWND hMainWindow;
 extern screenRegion * overRegion;
 extern speechStruct * speech;
 extern statusStuff * nowStatus;
-extern BOOL veryBusyIndeed;
 extern loadedFunction * saverFunc;
 
 loadedFunction * allRunningFunctions = NULL;
@@ -110,15 +127,15 @@ FILE * openAndVerify (char * filename, char extra1, char extra2, char * er, int 
 	FILE * fp = fopen (filename, "rb");
 	if (! fp) {
 		fatal ("Can't open file", filename);
-		return FALSE;
+		return false;
 	}
-	BOOL headerBad = FALSE;
-	if (fgetc (fp) != 'S') headerBad = TRUE;
-	if (fgetc (fp) != 'L') headerBad = TRUE;
-	if (fgetc (fp) != 'U') headerBad = TRUE;
-	if (fgetc (fp) != 'D') headerBad = TRUE;
-	if (fgetc (fp) != extra1) headerBad = TRUE;
-	if (fgetc (fp) != extra2) headerBad = TRUE;
+	bool headerBad = false;
+	if (fgetc (fp) != 'S') headerBad = true;
+	if (fgetc (fp) != 'L') headerBad = true;
+	if (fgetc (fp) != 'U') headerBad = true;
+	if (fgetc (fp) != 'D') headerBad = true;
+	if (fgetc (fp) != extra1) headerBad = true;
+	if (fgetc (fp) != extra2) headerBad = true;
 	if (headerBad) {
 		fatal (er, filename);
 		return NULL;
@@ -144,16 +161,15 @@ FILE * openAndVerify (char * filename, char extra1, char extra2, char * er, int 
 	return fp;
 }
 
-extern HICON customIcon;
-HICON makeCustomIcon (HINSTANCE);
+extern settingsStruct gameSettings;
 
-BOOL initSludge (char * filename, iniStuff & iniFileSettings) {
+bool initSludge (char * filename) {
 	int a = 0;
 	mouseCursorAnim = makeNullAnim ();
 	createFontPalette (pastePalette);
 	
 	FILE * fp = openAndVerify (filename, 'G', 'E', ERROR_BAD_HEADER, gameVersion);
-	if (! fp) return FALSE;
+	if (! fp) return false;
 
 	if (fgetc (fp)) {
 		numBIFNames = get2bytes (fp);
@@ -186,69 +202,130 @@ BOOL initSludge (char * filename, iniStuff & iniFileSettings) {
 
 	char * dataFol = (gameVersion >= VERSION(1,3)) ? readString(fp) : joinStrings ("", "");
 	if (dataFol[0]) {
-		if (failSecurityCheck (dataFol)) return FALSE;
-		CreateDirectory (dataFol, NULL);
+		if (failSecurityCheck (dataFol)) return false;
+		mkdir (dataFol, 0000777);
+		
+#ifdef _MSC_VER
+		if (_chdir (dataFol)) return fatal ("This game's data folder is inaccessible!\nI can't access the following directory (maybe there's a file with the same name, or maybe it's read-protected):", dataFol);
+#else
 		if (chdir (dataFol)) return fatal ("This game's data folder is inaccessible!\nI can't access the following directory (maybe there's a file with the same name, or maybe it's read-protected):", dataFol);
-	}
+#endif
+	}	
 
-	readIniFile (filename, iniFileSettings);
-
-	int numLanguages = (gameVersion >= VERSION(1,3)) ? (fgetc (fp)) : 0;
-	languageNum = getLanguageForFileB (numLanguages, fp, iniFileSettings.languageID);
-	if (languageNum < 0) return fatal ("Can't find the translation data you specified!");
+	readIniFile (filename);
+	
+	gameSettings.numLanguages = (gameVersion >= VERSION(1,3)) ? (fgetc (fp)) : 0;
+	makeLanguageTable (fp);
 	
 	bool useAAFromIni = true;
 	if (gameVersion >= VERSION(1,6))
 	{
 		useAAFromIni = fgetc(fp);
 		aaLoad(maxAntiAliasSettings, fp);
-	}
-
-	if (useAAFromIni && iniFileSettings.antiAlias >= 0)
-	{
-		maxAntiAliasSettings.useMe = (iniFileSettings.antiAlias != 0);
-	}
-
+	}	
+	
 	char * checker = readString (fp);
 	
 	if (strcmp (checker, "okSoFar")) return fatal (ERROR_BAD_HEADER, filename);
 	delete checker;
 	
 	if (fgetc (fp)) {
-		loadHSI (fp, 0, 0, TRUE);
-		customIcon = makeCustomIcon (helloInstance);
+		// There is an icon - read it!
+		int n;
+		int w = get2bytes(fp);
+		int h = get2bytes(fp);
+		
+		if (SDL_Surface * programIcon = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 32, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000)) {
+			signed long transCol = 63519;			
+			SDL_LockSurface(programIcon);
+			Uint8 *p = (Uint8 *) programIcon->pixels;
+			for (int t2 = 0; t2 < h; t2 ++) {
+				int t1 = 0;
+				while (t1 < w) {
+					unsigned short c = (unsigned short) get2bytes (fp);
+					if (c & 32) {
+						n = fgetc (fp) + 1;
+						c -= 32;
+					} else {
+						n = 1;
+					}
+					while (n --) {
+						*p++ = (Uint8) redValue(c);
+						*p++ = (Uint8) greenValue(c);
+						*p++ = (Uint8) blueValue(c);
+						*p++ = (Uint8) (c == transCol) ? 0 : 255;
+						
+						t1++;
+					}
+				}
+			}
+			SDL_UnlockSurface (programIcon);
+			SDL_WM_SetIcon(programIcon, NULL);
+			SDL_FreeSurface(programIcon);
+		}		
 	}
 
  	numGlobals = get2bytes (fp);
 
 	globalVars = new variable[numGlobals];
-	if (! checkNew (globalVars)) return FALSE;
+	if (! checkNew (globalVars)) return false;
 	for (a = 0; a < numGlobals; a ++) initVarNew (globalVars[a]);
-	
-	setFileIndices (fp, numLanguages, languageNum);
- 	positionStatus (10, winHeight - 15);
 
-	return TRUE;
-}
-//void bgDebug (char * t);
+	if (! showSetupWindow()) return 0;		
 
-void sludgeDisplay () {
-	if (updateDisplay) {
-//		bgDebug ("updateDisplay");
-		backDropToScreenBuffer ();		// First, copy the room bitmap
-//		bgDebug ("I'm back");
-		drawPeople ();					// Then add any moving characters...
-		viewSpeech ();					// ...and anything being said
-//		bgDebug ("Everything");
-//	} else {
-//		bgDebug ("no update");
+	if (useAAFromIni && gameSettings.antiAlias >= 0)
+	{
+		maxAntiAliasSettings.useMe = (gameSettings.antiAlias != 0);
 	}
 
-	if (videoPlaying) nextVideoFrame ();
+	languageNum = getLanguageForFileB ();
+	if (languageNum < 0) return fatal ("Can't find the translation data specified!");
+	setFileIndices (fp, gameSettings.numLanguages, languageNum);
+ 	positionStatus (10, winHeight - 15);
+
+	return true;
+}
+
+extern int cameraX, cameraY;
+
+bool checkColourChange (bool reset) {
+	static GLuint oldPixel;
+	static GLuint pixel;
+	
+	glReadPixels(viewportOffsetX+input.mouseX*viewportWidth/winWidth, viewportOffsetY+(winHeight - input.mouseY)*viewportHeight/winHeight, 1, 1, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8, &pixel);
+
+	if (reset || oldPixel != pixel) {
+//		fprintf (stderr, "%d %d %d %d\n", input.mouseX, viewportOffsetX+input.mouseX*viewportWidth/winWidth, input.mouseY, viewportOffsetY+(winHeight - input.mouseY)*viewportHeight/winHeight);
+		oldPixel = pixel;
+		return true;
+	}
+	return false;
+}
+
+void sludgeDisplay () {
+
+	glDepthMask (GL_TRUE);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear The Screen
+	glDepthMask (GL_FALSE);
+	drawBackDrop ();				// Draw the room	
+	
+	drawZBuffer(cameraX, cameraY, false);
+		
+	checkColourChange (true);
+	
+	glEnable(GL_DEPTH_TEST);
+	drawPeople ();					// Then add any moving characters...
+	glDisable(GL_DEPTH_TEST);
+	viewSpeech ();					// ...and anything being said
 	drawStatusBar ();
-	if (brightnessLevel != 255) fixBrightness ();
+	
+	if (brightnessLevel < 255) fixBrightness ();	// This is for transitionLevel special effects
 
 	displayCursor ();
+	
+	glFlush();
+	SDL_GL_SwapBuffers();
+	
 }
 
 void pauseFunction (loadedFunction * fun) {
@@ -273,7 +350,7 @@ void killSpeechTimers () {
 	while (thisFunction) {
 		if (thisFunction -> freezerLevel == 0 && thisFunction -> isSpeech && thisFunction -> timeLeft) {
 			thisFunction -> timeLeft = 0;
-			thisFunction -> isSpeech = FALSE;
+			thisFunction -> isSpeech = false;
 		}
 		thisFunction = thisFunction -> next;
 	}
@@ -315,16 +392,16 @@ void abortFunction (loadedFunction * fun) {
 	delete fun;
 }
 
-int cancelAFunction (int funcNum, loadedFunction * myself, BOOL & killedMyself) {
+int cancelAFunction (int funcNum, loadedFunction * myself, bool & killedMyself) {
 	int n = 0;
-	killedMyself = FALSE;
+	killedMyself = false;
 	
 	loadedFunction * fun = allRunningFunctions;
 	while (fun) {
 		if (fun -> originalNumber == funcNum) {
-			fun -> cancelMe = TRUE;
+			fun -> cancelMe = true;
 			n ++;
-			if (fun == myself) killedMyself = TRUE;
+			if (fun == myself) killedMyself = true;
 		}
 		fun = fun -> next;
 	}
@@ -356,21 +433,23 @@ void unfreezeSubs () {
 //FILE * debuggy2 = fopen ("ou.txt", "wt");
 //extern persona * hackPersona;
 
-BOOL continueFunction (loadedFunction * fun) {
-	BOOL keepLooping = TRUE;
-	BOOL advanceNow;
+bool continueFunction (loadedFunction * fun) {
+	bool keepLooping = true;
+	bool advanceNow;
 	unsigned int param;
 	sludgeCommand com;
 	
 	if (fun -> cancelMe) {
 		abortFunction (fun);
-		return TRUE;
+		return true;
 	}
 
 //	if (numBIFNames) newDebug ("*** Function:", allUserFunc[fun -> originalNumber]);
 
+	//debugOut ("SLUDGER: continueFunction\n");
+
 	while (keepLooping) {
-		advanceNow = TRUE;
+		advanceNow = true;
 		param = fun -> compiledLines[fun -> runThisLine].param;
 		com = fun -> compiledLines[fun -> runThisLine].theCommand;
 
@@ -382,7 +461,9 @@ BOOL continueFunction (loadedFunction * fun) {
 //				(com < numSludgeCommands) ? sludgeText[com] : "Unknown SLUDGE machine code",
 //				param);
 		}
-			
+		
+		//debugOut ("SLUDGER: continueFunction - in da loop: %s\n", sludgeText[com]);
+
 		switch (com) {
 			case SLU_RETURN:
 			if (fun -> calledBy) {
@@ -393,8 +474,8 @@ BOOL continueFunction (loadedFunction * fun) {
 				restartFunction (fun);
 			} else {
 				finishFunction (fun);
-				advanceNow = FALSE;		// So we don't do anything else with "fun"
-				keepLooping = FALSE;		// So we drop out of the loop
+				advanceNow = false;		// So we don't do anything else with "fun"
+				keepLooping = false;	// So we drop out of the loop
 			}
 			break;
 
@@ -406,27 +487,31 @@ BOOL continueFunction (loadedFunction * fun) {
 					(fun -> originalNumber < numUserFunc) ? allUserFunc[fun -> originalNumber] : "Unknown user function",
 					(fun -> reg.varData.intValue < numUserFunc) ? allUserFunc[fun -> reg.varData.intValue] : "Unknown user function");
 			
-				if (! startNewFunctionNum (fun -> reg.varData.intValue, param, fun, fun -> stack)) return FALSE;
+				if (! startNewFunctionNum (fun -> reg.varData.intValue, param, fun, fun -> stack)) return false;
 				fun = allRunningFunctions;
-				advanceNow = FALSE;		// So we don't do anything else with "fun"
+				advanceNow = false;		// So we don't do anything else with "fun"
 				break;
 
 				case SVT_BUILT:
-				switch (callBuiltIn (fun -> reg.varData.intValue, param, fun)) {
+					{
+					builtReturn br = callBuiltIn (fun -> reg.varData.intValue, param, fun);
+				//debugOut ("built - %i\n", br);
+
+				switch (br) {
 					case BR_NOCOMMENT:
-					return FALSE;
+					return false;
 
 					case BR_PAUSE:
 					pauseFunction (fun);
 					// No break!
 
 					case BR_KEEP_AND_PAUSE:
-					keepLooping = FALSE;
+					keepLooping = false;
 					break;
 					
 					case BR_ALREADY_GONE:
-					keepLooping = FALSE;
-					advanceNow = FALSE;					
+					keepLooping = false;
+					advanceNow = false;					
 					break;
 
 					case BR_CALLAFUNC:
@@ -437,11 +522,12 @@ BOOL continueFunction (loadedFunction * fun) {
 						if (numBIFNames) setFatalInfo (
 							(fun -> originalNumber < numUserFunc) ? allUserFunc[fun -> originalNumber] : "Unknown user function",
 							(i < numUserFunc) ? allUserFunc[i] : "Unknown user function");
-						if (! startNewFunctionNum (i, 0, fun, noStack, FALSE)) return FALSE;
+						if (! startNewFunctionNum (i, 0, fun, noStack, false)) return false;
 						fun = allRunningFunctions;
-						advanceNow = FALSE;		// So we don't do anything else with "fun"
+						advanceNow = false;		// So we don't do anything else with "fun"
 					}
 					break;
+				}
 				}
 				break;
 
@@ -465,7 +551,7 @@ BOOL continueFunction (loadedFunction * fun) {
 			break;
 
 			case SLU_LOAD_LOCAL:
-			if (! copyVariable (fun -> localVars[param], fun -> reg)) return FALSE;
+			if (! copyVariable (fun -> localVars[param], fun -> reg)) return false;
 			break;
 
 			case SLU_AND:
@@ -495,7 +581,9 @@ BOOL continueFunction (loadedFunction * fun) {
 			break;
 
 			case SLU_LOAD_STRING:
-			if (! loadStringToVar (fun -> reg, param)) return FALSE;
+				if (! loadStringToVar (fun -> reg, param)) {
+					return false;
+				}
 			break;
 
 			case SLU_INDEXGET:
@@ -517,7 +605,7 @@ BOOL continueFunction (loadedFunction * fun) {
 					return fatal (ERROR_INDEX_EMPTY);
 				} else {
 					int ii;
-					if (! getValueType (ii, SVT_INT, fun -> reg)) return FALSE;
+					if (! getValueType (ii, SVT_INT, fun -> reg)) return false;
 					variable * grab = (fun -> stack -> thisVar.varType == SVT_FASTARRAY) ?
 						fastArrayGetByIndex (fun -> stack -> thisVar.varData.fastArray, ii)
 							:
@@ -531,19 +619,19 @@ BOOL continueFunction (loadedFunction * fun) {
 						int ii;
 						switch (com) {
 							case SLU_INCREMENT_INDEX:
-							if (! getValueType (ii, SVT_INT, * grab)) return FALSE;
+							if (! getValueType (ii, SVT_INT, * grab)) return false;
 							setVariable (fun -> reg, SVT_INT, ii);
 							grab -> varData.intValue = ii + 1;
 							break;
 							
 							case SLU_DECREMENT_INDEX:
-							if (! getValueType (ii, SVT_INT, * grab)) return FALSE;
+							if (! getValueType (ii, SVT_INT, * grab)) return false;
 							setVariable (fun -> reg, SVT_INT, ii);
 							grab -> varData.intValue = ii - 1;
 							break;
 							
 							default:
-							if (! copyVariable (* grab, fun -> reg)) return FALSE;
+							if (! copyVariable (* grab, fun -> reg)) return false;
 						}
 					}
 				}
@@ -561,9 +649,9 @@ BOOL continueFunction (loadedFunction * fun) {
 					return fatal (ERROR_INDEX_EMPTY);
 				} else {
 					int ii;
-					if (! getValueType (ii, SVT_INT, fun -> reg)) return FALSE;
+					if (! getValueType (ii, SVT_INT, fun -> reg)) return false;
 					if (! stackSetByIndex (fun -> stack -> thisVar.varData.theStack -> first, ii, fun -> stack -> next -> thisVar)) {
-						return FALSE;
+						return false;
 					}
 					trimStack (fun -> stack);
 					trimStack (fun -> stack);
@@ -573,10 +661,10 @@ BOOL continueFunction (loadedFunction * fun) {
 				case SVT_FASTARRAY:
 				{
 					int ii;
-					if (! getValueType (ii, SVT_INT, fun -> reg)) return FALSE;
+					if (! getValueType (ii, SVT_INT, fun -> reg)) return false;
 					variable * v = fastArrayGetByIndex (fun -> stack -> thisVar.varData.fastArray, ii);
 					if (v == NULL) return fatal ("Not within bounds of fast array.");
-					if (! copyVariable (fun -> stack -> next -> thisVar, * v)) return FALSE;
+					if (! copyVariable (fun -> stack -> next -> thisVar, * v)) return false;
 					trimStack (fun -> stack);
 					trimStack (fun -> stack);
 				}
@@ -593,7 +681,7 @@ BOOL continueFunction (loadedFunction * fun) {
 			case SLU_INCREMENT_LOCAL:
 			{
 				int ii;
-				if (! getValueType (ii, SVT_INT, fun -> localVars[param])) return FALSE;
+				if (! getValueType (ii, SVT_INT, fun -> localVars[param])) return false;
 				setVariable (fun -> reg, SVT_INT, ii);
 				setVariable (fun -> localVars[param], SVT_INT, ii + 1);
 			}
@@ -602,7 +690,7 @@ BOOL continueFunction (loadedFunction * fun) {
 			case SLU_INCREMENT_GLOBAL:
 			{
 				int ii;
-				if (! getValueType (ii, SVT_INT, globalVars[param])) return FALSE;
+				if (! getValueType (ii, SVT_INT, globalVars[param])) return false;
 				setVariable (fun -> reg, SVT_INT, ii);
 				setVariable (globalVars[param], SVT_INT, ii + 1);
 			}
@@ -611,7 +699,7 @@ BOOL continueFunction (loadedFunction * fun) {
 			case SLU_DECREMENT_LOCAL:
 			{
 				int ii;
-				if (! getValueType (ii, SVT_INT, fun -> localVars[param])) return FALSE;
+				if (! getValueType (ii, SVT_INT, fun -> localVars[param])) return false;
 				setVariable (fun -> reg, SVT_INT, ii);
 				setVariable (fun -> localVars[param], SVT_INT, ii - 1);
 			}
@@ -620,35 +708,35 @@ BOOL continueFunction (loadedFunction * fun) {
 			case SLU_DECREMENT_GLOBAL:
 			{
 				int ii;
-				if (! getValueType (ii, SVT_INT, globalVars[param])) return FALSE;
+				if (! getValueType (ii, SVT_INT, globalVars[param])) return false;
 				setVariable (fun -> reg, SVT_INT, ii);
 				setVariable (globalVars[param], SVT_INT, ii - 1);
 			}
 			break;
 
 			case SLU_SET_LOCAL:
-			if (! copyVariable (fun -> reg, fun -> localVars[param])) return FALSE;
+			if (! copyVariable (fun -> reg, fun -> localVars[param])) return false;
 			break;
 
 			case SLU_SET_GLOBAL:
 //			newDebug ("  Copying TO global variable", param);
 //			newDebug ("  Global type at the moment", globalVars[param].varType);
-			if (! copyVariable (fun -> reg, globalVars[param])) return FALSE;
+			if (! copyVariable (fun -> reg, globalVars[param])) return false;
 //			newDebug ("  New type", globalVars[param].varType);
 			break;
 
 			case SLU_LOAD_GLOBAL:
 //			newDebug ("  Copying FROM global variable", param);
 //			newDebug ("  Global type at the moment", globalVars[param].varType);
-			if (! copyVariable (globalVars[param], fun -> reg)) return FALSE;
+			if (! copyVariable (globalVars[param], fun -> reg)) return false;
 			break;
 
 			case SLU_STACK_PUSH:
-			if (! addVarToStack (fun -> reg, fun -> stack)) return FALSE;
+			if (! addVarToStack (fun -> reg, fun -> stack)) return false;
 			break;
 
 			case SLU_QUICK_PUSH:
-			if (! addVarToStackQuick (fun -> reg, fun -> stack)) return FALSE;
+			if (! addVarToStackQuick (fun -> reg, fun -> stack)) return false;
 			break;
 
 			case SLU_NOT:
@@ -657,20 +745,20 @@ BOOL continueFunction (loadedFunction * fun) {
 
 			case SLU_BR_ZERO:
 			if (! getBoolean (fun -> reg)) {
-				advanceNow = FALSE;
+				advanceNow = false;
 				fun -> runThisLine = param;
 			}
 			break;
 
 			case SLU_BRANCH:
-			advanceNow = FALSE;
+			advanceNow = false;
 			fun -> runThisLine = param;
 			break;
 
 			case SLU_NEGATIVE:
 			{
 				int i;
-				if (! getValueType (i, SVT_INT, fun -> reg)) return FALSE;
+				if (! getValueType (i, SVT_INT, fun -> reg)) return false;
 				setVariable (fun -> reg, SVT_INT, -i);
 			}
 			break;
@@ -709,8 +797,8 @@ BOOL continueFunction (loadedFunction * fun) {
 					break;
 
 					default:
-					if (! getValueType (firstValue, SVT_INT, fun -> stack -> thisVar)) return FALSE;
-					if (! getValueType (secondValue, SVT_INT, fun -> reg)) return FALSE;
+					if (! getValueType (firstValue, SVT_INT, fun -> stack -> thisVar)) return false;
+					if (! getValueType (secondValue, SVT_INT, fun -> reg)) return false;
 					trimStack (fun -> stack);
 
 					switch (com) {
@@ -756,13 +844,15 @@ BOOL continueFunction (loadedFunction * fun) {
 			return fatal (ERROR_UNKNOWN_CODE);
 		}
 
+		//debugOut ("AdvanceNow is %i\n", advanceNow);
 		if (advanceNow) fun -> runThisLine ++;
 	}
 //	fprintf (debuggy, "I think I've dropped out of this thread successfully!\n");
-	return TRUE;
+	return true;
 }
 
-BOOL runSludge () {
+
+bool runSludge () {
 	loadedFunction * thisFunction = allRunningFunctions;
 	loadedFunction * nextFunction;
 
@@ -770,10 +860,10 @@ BOOL runSludge () {
 	builtInDebugTick();
 #endif
 
-//	newDebug ("*** Tick!");
 //	debugSounds ();
 	while (thisFunction) {
 		nextFunction = thisFunction -> next;
+		//debugOut ("SLUDGER: runSludge in the loop\n");
 
 		if (! thisFunction -> freezerLevel) {
 			if (thisFunction -> timeLeft) {
@@ -787,10 +877,12 @@ BOOL runSludge () {
 				}
 			} else {
 				if (thisFunction -> isSpeech) {
-					thisFunction -> isSpeech = FALSE;
+					thisFunction -> isSpeech = false;
 					killAllSpeech ();
 				}
-				if (! continueFunction (thisFunction)) return FALSE;
+				//debugOut ("SLUDGER: runSludge before\n");
+				if (! continueFunction (thisFunction)) return false;
+				//debugOut ("SLUDGER: runSludge after\n");
 			}
 		}
 
@@ -802,27 +894,27 @@ BOOL runSludge () {
 			saveGame (loadNow + 1);
 			setVariable (saverFunc -> reg, SVT_INT, 1);
 		} else {
-			if (! loadGame (loadNow)) return FALSE;
+			if (! loadGame (loadNow)) return false;
 		}			
 		delete loadNow;
 		loadNow = NULL;
 	}
 	
-	return TRUE;
+	return true;
 }
 
-BOOL loadFunctionCode (loadedFunction * newFunc) {
+bool loadFunctionCode (loadedFunction * newFunc) {
 	unsigned int numLines, numLinesRead;
 	int a;
 
-	if (! openSubSlice (newFunc -> originalNumber)) return FALSE;
+	if (! openSubSlice (newFunc -> originalNumber)) return false;
 
 	newFunc -> unfreezable	= fgetc (bigDataFile);
 	numLines				= get2bytes (bigDataFile);
 	newFunc -> numArgs		= get2bytes (bigDataFile);
 	newFunc -> numLocals	= get2bytes (bigDataFile);
 	newFunc -> compiledLines = new lineOfCode[numLines];
-	if (! checkNew (newFunc -> compiledLines)) return FALSE;
+	if (! checkNew (newFunc -> compiledLines)) return false;
 
 	for (numLinesRead = 0; numLinesRead < numLines; numLinesRead ++) {
 		newFunc -> compiledLines[numLinesRead].theCommand = (sludgeCommand) fgetc (bigDataFile);
@@ -834,14 +926,14 @@ BOOL loadFunctionCode (loadedFunction * newFunc) {
 	// Now we need to reserve memory for the local variables
 
 	newFunc -> localVars = new variable[newFunc -> numLocals];
-	if (! checkNew (newFunc -> localVars)) return FALSE;
+	if (! checkNew (newFunc -> localVars)) return false;
 	for (a = 0; a < newFunc -> numLocals; a ++) {
 		initVarNew (newFunc -> localVars[a]);
 	}
-	return TRUE;
+	return true;
 }
 
-int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, loadedFunction * calledBy, variableStack * & vStack, BOOL returnSommet) {
+int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, loadedFunction * calledBy, variableStack * & vStack, bool returnSommet) {
 	loadedFunction * newFunc = new loadedFunction;
 	checkNew (newFunc);
 	newFunc -> originalNumber = funcNum;
@@ -860,7 +952,7 @@ int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, l
 		trimStack (vStack);
 	}
 
-	newFunc -> cancelMe = FALSE;
+	newFunc -> cancelMe = false;
 	newFunc -> timeLeft = 0;
 	newFunc -> returnSomething = returnSommet;
 	newFunc -> calledBy = calledBy;
@@ -878,13 +970,13 @@ int lastFramesPerSecond = -1;
 int thisFramesPerSecond = -1;
 int lastSeconds = 0;
 
-BOOL handleInput () {
-	static l = 0;
-	static SYSTEMTIME theTime;
+bool handleInput () {
+	static int l = 0;
+	static Uint32 theTime;
 	
-	GetSystemTime (& theTime);
-	if (lastSeconds != theTime.wSecond) {
-		lastSeconds = theTime.wSecond;
+	theTime = SDL_GetTicks() / 1000;
+	if (lastSeconds != theTime) {
+		lastSeconds = theTime;
 		lastFramesPerSecond = thisFramesPerSecond;
 		thisFramesPerSecond = 1;
 	} else {
@@ -897,33 +989,49 @@ BOOL handleInput () {
 			// Still paused because of spawned thingy...
 		} else {
 			l = 1;
-			unsigned long retVal = (unsigned long) ShellExecute (hMainWindow, "open",
+			unsigned long retVal = 0;
+#ifdef WIN32			
+			retVal = (unsigned long) ShellExecute (hMainWindow, "open",
 							  									 launchMe, NULL, "C:\\",
 							  									 SW_SHOWNORMAL);
+#else
+			if (launchMe[0] == 'h' &&
+				launchMe[1] == 't' &&
+				launchMe[2] == 't' &&
+				launchMe[3] == 'p' &&
+				launchMe[4] == ':') {
+				
+				// IT'S A WEBSITE!
+				[[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString: [NSString stringWithUTF8String: launchMe]]];
+				
+			} else {
+				[[NSWorkspace sharedWorkspace] openFile: [NSString stringWithUTF8String: launchMe]];
+			}
+#endif
 			setVariable (* launchResult, SVT_INT, retVal > 31);
 			launchMe = NULL;
 			launchResult = NULL;
 		}
-		return TRUE;
+		return true;
 	} else {
 		 l = 0;
 	}
 
 	if (! overRegion) getOverRegion ();
-//	input.checkRegion = FALSE;
+//	input.checkRegion = false;
 
 	if (input.justMoved) {
 		if (currentEvents -> moveMouseFunction) {
-			if (! startNewFunctionNum (currentEvents -> moveMouseFunction, 0, NULL, noStack)) return FALSE;
+			if (! startNewFunctionNum (currentEvents -> moveMouseFunction, 0, NULL, noStack)) return false;
 		}
 	}
-	input.justMoved = FALSE;
-//	if (! runSludge ()) return FALSE;
+	input.justMoved = false;
+//	if (! runSludge ()) return false;
 
 	if (lastRegion != overRegion && currentEvents -> focusFunction) {
 		variableStack * tempStack = new variableStack;
 
-		if (! checkNew (tempStack)) return FALSE;
+		if (! checkNew (tempStack)) return false;
 		initVarNew (tempStack -> thisVar);
 		if (overRegion) {
 			setVariable (tempStack -> thisVar, SVT_OBJTYPE, overRegion -> thisType -> objectNum);
@@ -931,19 +1039,27 @@ BOOL handleInput () {
 			setVariable (tempStack -> thisVar, SVT_INT, 0);
 		}
 		tempStack -> next = NULL;
-		if (! startNewFunctionNum (currentEvents -> focusFunction, 1, NULL, tempStack)) return FALSE;
+		if (! startNewFunctionNum (currentEvents -> focusFunction, 1, NULL, tempStack)) return false;
 	}
-	if (input.leftRelease && currentEvents -> leftMouseUpFunction) if (! startNewFunctionNum (currentEvents -> leftMouseUpFunction, 0, NULL, noStack)) return FALSE;
-	if (input.rightRelease && currentEvents -> rightMouseUpFunction) if (! startNewFunctionNum (currentEvents -> rightMouseUpFunction, 0, NULL, noStack)) return FALSE;
-	if (input.leftClick && currentEvents -> leftMouseFunction) if (! startNewFunctionNum (currentEvents -> leftMouseFunction, 0, NULL, noStack)) return FALSE;
-	if (input.rightClick && currentEvents -> rightMouseFunction) if (! startNewFunctionNum (currentEvents -> rightMouseFunction, 0, NULL, noStack)) return FALSE;
+	if (input.leftRelease && currentEvents -> leftMouseUpFunction)  {
+		if (! startNewFunctionNum (currentEvents -> leftMouseUpFunction, 0, NULL, noStack)) return false;
+	}
+	if (input.rightRelease && currentEvents -> rightMouseUpFunction) {
+		if (! startNewFunctionNum (currentEvents -> rightMouseUpFunction, 0, NULL, noStack)) return false;
+	}
+	if (input.leftClick && currentEvents -> leftMouseFunction)
+		if (! startNewFunctionNum (currentEvents -> leftMouseFunction, 0, NULL, noStack)) return false;
+	if (input.rightClick && currentEvents -> rightMouseFunction) {
+		if (! startNewFunctionNum (currentEvents -> rightMouseFunction, 0, NULL, noStack)) return false;
+	}
 	if (input.keyPressed && currentEvents -> spaceFunction) {
 		char * tempString = NULL;
 		switch (input.keyPressed) {
-			case 8:		tempString = copyString ("BACKSPACE");	break;
+			case 127:	tempString = copyString ("BACKSPACE");	break;
 			case 9:		tempString = copyString ("TAB");		break;
 			case 13:	tempString = copyString ("ENTER");		break;
 			case 27:	tempString = copyString ("ESCAPE");		break;
+			/*
 			case 1112:	tempString = copyString ("ALT+F1");		break;
 			case 1113:	tempString = copyString ("ALT+F2");		break;
 			case 1114:	tempString = copyString ("ALT+F3");		break;
@@ -958,38 +1074,38 @@ BOOL handleInput () {
 			case 1123:	tempString = copyString ("ALT+F12");	break;
 
 			case 2019:	tempString = copyString ("PAUSE");		break;
-			case 2033:	tempString = copyString ("PAGE UP");	break;
-			case 2034:	tempString = copyString ("PAGE DOWN");	break;
-			case 2035:	tempString = copyString ("END");		break;
-			case 2036:	tempString = copyString ("HOME");		break;
-			case 2037:	tempString = copyString ("LEFT");		break;
-			case 2038:	tempString = copyString ("UP");			break;
-			case 2039:	tempString = copyString ("RIGHT");		break;
-			case 2040:	tempString = copyString ("DOWN");		break;
+			*/
+			case 63276:	tempString = copyString ("PAGE UP");	break;
+			case 63277:	tempString = copyString ("PAGE DOWN");	break;
+			case 63275:	tempString = copyString ("END");		break;
+			case 63273:	tempString = copyString ("HOME");		break;
+			case 63234:	tempString = copyString ("LEFT");		break;
+			case 63232:	tempString = copyString ("UP");			break;
+			case 63235:	tempString = copyString ("RIGHT");		break;
+			case 63233:	tempString = copyString ("DOWN");		break;
+				/*
 			case 2045:	tempString = copyString ("INSERT");		break;
 			case 2046:	tempString = copyString ("DELETE");		break;
-			case 2112:	tempString = copyString ("F1");			break;
-			case 2113:	tempString = copyString ("F2");			break;
-			case 2114:	tempString = copyString ("F3");			break;
-			case 2115:	tempString = copyString ("F4");			break;
-			case 2116:	tempString = copyString ("F5");			break;
-			case 2117:	tempString = copyString ("F6");			break;
-			case 2118:	tempString = copyString ("F7");			break;
-			case 2119:	tempString = copyString ("F8");			break;
-			case 2120:	tempString = copyString ("F9");			break;
-			case 2121:	tempString = copyString ("F10");		break;
-			case 2122:	tempString = copyString ("F11");		break;
-			case 2123:	tempString = copyString ("F12");		break;
+				*/
+			case 63236:	tempString = copyString ("F1");			break;
+			case 63237:	tempString = copyString ("F2");			break;
+			case 63238:	tempString = copyString ("F3");			break;
+			case 63239:	tempString = copyString ("F4");			break;
+			case 63240:	tempString = copyString ("F5");			break;
+			case 63241:	tempString = copyString ("F6");			break;
+			case 63242:	tempString = copyString ("F7");			break;
+			case 63243:	tempString = copyString ("F8");			break;
+			case 63244:	tempString = copyString ("F9");			break;
+			case 63245:	tempString = copyString ("F10");		break;
+			case 63246:	tempString = copyString ("F11");		break;
+			case 63247:	tempString = copyString ("F12");		break;
 			
 			default:
-			if (input.keyPressed >= 1000) {
-				if (input.keyPressed >= 1065 && input.keyPressed <= 1091) {
-					tempString = copyString ("ALT+ ");
-					tempString[4] = input.keyPressed - 1000;
-				} else if (captureAllKeys) {
-					tempString = copyString ("ABCD");
+			if (input.keyPressed >= 256) {
+				//if (captureAllKeys) {
+					tempString = copyString ("ABCDEF");
 					sprintf (tempString, "%i", input.keyPressed);
-				}
+				//}
 			} else {
 				tempString = copyString (" ");
 				tempString[0] = input.keyPressed;
@@ -998,20 +1114,20 @@ BOOL handleInput () {
 		
 		if (tempString) {
 			variableStack * tempStack = new variableStack;
-			if (! checkNew (tempStack)) return FALSE;
+			if (! checkNew (tempStack)) return false;
 			initVarNew (tempStack -> thisVar);
 			makeTextVar (tempStack -> thisVar, tempString);
 			delete tempString;
 			tempStack -> next = NULL;
-			if (! startNewFunctionNum (currentEvents -> spaceFunction, 1, NULL, tempStack)) return FALSE;
+			if (! startNewFunctionNum (currentEvents -> spaceFunction, 1, NULL, tempStack)) return false;
 		}
 	}
-	input.rightClick = FALSE;
-	input.leftClick = FALSE;
-	input.rightRelease = FALSE;
-	input.leftRelease = FALSE;
+	input.rightClick = false;
+	input.leftClick = false;
+	input.rightRelease = false;
+	input.leftRelease = false;
 	input.keyPressed = 0;
 	lastRegion = overRegion;
 	return runSludge ();
-//	return TRUE;
+//	return true;
 }

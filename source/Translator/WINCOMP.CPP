@@ -1,3 +1,5 @@
+#ifdef WIN32
+
 #include <windows.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -46,14 +48,14 @@ char * registryGetString (char * settingName) {
 	return buff;
 }
 
-BOOL searchSensitive = FALSE;//getRegSetting ("searchSensitive", FALSE);
+bool searchSensitive = false;//getRegSetting ("searchSensitive", false);
 char * searchString = NULL;
 
 LRESULT CALLBACK searchBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message) {
         case WM_INITDIALOG:
        	if (searchSensitive) CheckDlgButton (hDlg, ID_CASESENSITIVE, BST_CHECKED);
-		return (TRUE);
+		return (true);
 
 		case WM_COMMAND:
 			switch (LOWORD(wParam)) {
@@ -78,16 +80,16 @@ LRESULT CALLBACK searchBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 				autoSelectContent (TYPE_SEARCH);
 
 				case IDCANCEL:
-				EndDialog(hDlg, TRUE);
-				return (TRUE);
+				EndDialog(hDlg, true);
+				return (true);
 			}
 			break;
 	}
 
-    return FALSE;
+    return false;
 }
 
-BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
+bool APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 
 	static OPENFILENAME ofn;
 	static char path[MAX_PATH];
@@ -96,7 +98,7 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 		case WM_COMMAND:
 		switch (LOWORD(w)) {
 			case ID_ENTER_TRANSLATION:
-			if (HIWORD(w) == 1024) setChanged (TRUE);
+			if (HIWORD(w) == 1024) setChanged (true);
 			break;
 
 			case IDCANCEL:				// X button
@@ -129,7 +131,7 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 					MESS (ID_STRINGS, LB_GETTEXT, n, thisIsMe);
 					selectedString (thisIsMe);
 					delete thisIsMe;
-					setChanged (FALSE);
+					setChanged (false);
 				}
 			}
 			break;
@@ -164,7 +166,7 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 				} else {
 					enableTranslationBox (5, NULL);
 				}
-				setChanged (TRUE);
+				setChanged (true);
 			}
 			break;
 			
@@ -217,8 +219,8 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 			case ID_PROJECT_SAVEAS:
 			case ID_PROJECT_SAVE:
 			{
-				BOOL didItWork = FALSE;
-				unsigned int languageID = GetDlgItemInt (mainWin, ID_ID, &didItWork, FALSE);
+				bool didItWork = false;
+				unsigned int languageID = GetDlgItemInt (mainWin, ID_ID, &didItWork, false);
 				if (didItWork && languageID > 0 && languageID <= 65535) {
 					char * trySavingMe = NULL;
 	
@@ -277,7 +279,7 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 		MESS (ID_CATEGORY, CB_ADDSTRING, 0, "STRINGS WITH TRANSLATIONS");
 		MESS (ID_CATEGORY, CB_ADDSTRING, 0, "SEARCH RESULTS");
 		MESS (ID_CATEGORY, CB_SETCURSEL, 0, 0);
-		EnableWindow (GetDlgItem (mainWin, ID_ORIGINAL_TEXT), FALSE);
+		EnableWindow (GetDlgItem (mainWin, ID_ORIGINAL_TEXT), false);
 
 //		errorBox ("I want to load the following file", loader);
 		if (loader[0])
@@ -320,3 +322,6 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine,
 	}	
 	return 0;
 }
+
+
+#endif

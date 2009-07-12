@@ -15,4 +15,4 @@ void putFloat (float f, FILE * fp);
 
 // Misc
 
-BOOL newerFile (char * newFileN, char * oldFileN);
+bool newerFile (char * newFileN, char * oldFileN);

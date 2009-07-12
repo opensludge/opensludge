@@ -16,10 +16,6 @@
 #include "stringy.h"
 #include "moreio.h"
 
-//void debugOut (char * txt);
-//void debugOut (char * txt, int i);
-//void debugOut (char * txt, char * i);
-
 extern int fontHeight, cameraX, cameraY, speechMode;
 speechStruct * speech;
 float speechSpeed = 1;
@@ -42,7 +38,6 @@ void killAllSpeech () {
 	}
 
 	if (speech -> currentTalker) {
-//		debugOut ("I need to make currentTalker silent!");
 		makeSilent (* (speech -> currentTalker));
 		speech -> currentTalker = NULL;
 	}
@@ -52,7 +47,6 @@ void killAllSpeech () {
 	while (speech -> allSpeech) {
 		killMe = speech -> allSpeech;
 		speech -> allSpeech = speech -> allSpeech -> next;
-//		debugOut ("Deleting speech line: ", killMe -> textLine);
 		delete killMe -> textLine;
 		delete killMe;
 	}
@@ -76,8 +70,11 @@ void addSpeechLine (char * theLine, int x, int & offset) {
 	newLine -> textLine = copyString (theLine);
 	newLine -> x = xx1;
 	speech -> allSpeech = newLine;
-	if (xx1 < 5) offset = max (5 - xx1, offset);
-	if (xx2 >= winWidth - 5) offset = min (winWidth - 5 - xx2, offset);
+	if ((xx1 < 5) && (offset < (5 - xx1))) {
+		offset = 5 - xx1;
+	} else if ((xx2 >= winWidth - 5) && (offset > (winWidth - 5 - xx2))) {
+		offset = winWidth - 5 - xx2;
+	}
 }
 
 int isThereAnySpeechGoingOn () {
@@ -93,7 +90,7 @@ int wrapSpeechXY (char * theText, int x, int y, int wrap, int sampleFile) {
 
 	if (sampleFile != -1) {
 		if (speechMode >= 1) {
-			if (startSound (sampleFile, FALSE)) {
+			if (startSound (sampleFile, false)) {
 				speechTime = -10;
 				speech -> lastFile = sampleFile;
 				if (speechMode == 2) return -10;
@@ -133,7 +130,7 @@ int wrapSpeechXY (char * theText, int x, int y, int wrap, int sampleFile) {
 	return speechTime;
 }
 
-int wrapSpeechPerson (char * theText, onScreenPerson & thePerson, int sampleFile, BOOL animPerson) {
+int wrapSpeechPerson (char * theText, onScreenPerson & thePerson, int sampleFile, bool animPerson) {
 	int i = wrapSpeechXY (theText, thePerson.x - cameraX, thePerson.y - cameraY - (thePerson.scale * (thePerson.height - thePerson.floaty)) - thePerson.thisType -> speechGap, thePerson.thisType -> wrapSpeech, sampleFile);
 	if (animPerson) {
 		makeTalker (thePerson);
@@ -142,7 +139,7 @@ int wrapSpeechPerson (char * theText, onScreenPerson & thePerson, int sampleFile
 	return i;
 }
 
-int wrapSpeech (char * theText, int objT, int sampleFile, BOOL animPerson) {
+int wrapSpeech (char * theText, int objT, int sampleFile, bool animPerson) {
 	int i;
 	speech -> lookWhosTalking = objT;
 	onScreenPerson * thisPerson = findPerson (objT);
@@ -205,11 +202,11 @@ void saveSpeech (speechStruct * sS, FILE * fp) {
 		fputc (0, fp);
 }
 
-BOOL loadSpeech (speechStruct * sS, FILE * fp) {
+bool loadSpeech (speechStruct * sS, FILE * fp) {
 //	debugOut ("About to kill all speech...");
 	speech -> currentTalker = NULL;
 	killAllSpeech ();
-//	debugOut ("...done!");
+//	debugOut (" done!\n");
 	byte r = fgetc (fp);
 	byte g = fgetc (fp);
 	byte b = fgetc (fp);
@@ -239,7 +236,7 @@ BOOL loadSpeech (speechStruct * sS, FILE * fp) {
 	speech -> lastFile = -1;
 	while (fgetc (fp)) {
 		newOne = new speechLine;
-		if (! checkNew (newOne)) return FALSE;
+		if (! checkNew (newOne)) return false;
 		newOne -> textLine = readString (fp);
 //		debugOut ("TEXT: ", newOne -> textLine);
 		newOne -> x	= get2bytes (fp);
@@ -250,5 +247,5 @@ BOOL loadSpeech (speechStruct * sS, FILE * fp) {
 	}
 
 //	debugOut ("About to return...");
-	return TRUE;
+	return true;
 }

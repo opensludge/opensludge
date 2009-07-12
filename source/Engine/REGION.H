@@ -4,7 +4,7 @@ struct screenRegion {
 	screenRegion * next;
 };
 
-BOOL addScreenRegion (int x1, int y1, int x2, int y2, int, int, int, int objectNum);
+bool addScreenRegion (int x1, int y1, int x2, int y2, int, int, int, int objectNum);
 void getOverRegion ();
 screenRegion * getRegionForObject (int obj);
 void removeScreenRegion (int objectNum);

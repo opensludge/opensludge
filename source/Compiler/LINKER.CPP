@@ -1,6 +1,10 @@
-#include <windows.h>
+#if 0
+TODO
+
+// #include <windows.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <string.h>
 
 #include "moreio.h"
 #include "splitter.h"
@@ -34,7 +38,7 @@ char * sludgeText[] = {"?????",
 //	linkText = fopen ("ASSEMBLE.TXT", "wt");
 //}
 
-BOOL runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray * globalVarNames, unsigned long calcIndexSize, stringArray * allSourceStrings) {
+bool runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray * globalVarNames, unsigned long calcIndexSize, stringArray * allSourceStrings) {
 	char filename[32];
 	char * grabbedText, * originalName;
 	FILE * readObj, * totalsFile;
@@ -43,11 +47,11 @@ BOOL runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray 
 	unsigned int * markers;
 	halfCode halfType;
 	long int numGlobalsSet = 0;
-	BOOL unfreezable, debugMe;
+	bool unfreezable, debugMe;
 	
 	put4bytes (ftell (mainFile) + calcIndexSize, indexFile);
 
-	if (! gotoTempDirectory ()) return FALSE;
+	if (! gotoTempDirectory ()) return false;
 	sprintf (filename, "_F%05i.DAT", functionNum);
 
 	readObj = fopen (filename, "rb");
@@ -66,7 +70,7 @@ BOOL runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray 
 	totalsFile = fopen (filename, "rb");
 	if (totalsFile == NULL) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't open", filename, NULL);
 
-//	if (! gotoOutputDirectory ()) return FALSE;
+//	if (! gotoOutputDirectory ()) return false;
 //	sprintf (filename, "F%05i.FUN", functionNum);
 //	createFinalFile = fopen (filename, "wb");
 //	if (createFinalFile == NULL) return errorBox ("Can't write", filename);
@@ -82,8 +86,8 @@ BOOL runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray 
 	numLines = get2bytes (totalsFile);
 	fclose (totalsFile);
 	
-	BOOL * localsUsed = new BOOL[numLocals];
-	memset (localsUsed, 0, sizeof(BOOL) * numLocals);
+	bool * localsUsed = new bool[numLocals];
+	memset (localsUsed, 0, sizeof(bool) * numLocals);
 
 	fputc (unfreezable, mainFile);
 	put2bytes (numLines, mainFile);
@@ -93,7 +97,7 @@ BOOL runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray 
 	markers = new unsigned int [numMarkers];
 //	checkNew (markers);
 
-	if (! gotoTempDirectory ()) return FALSE;
+	if (! gotoTempDirectory ()) return false;
 	sprintf (filename, "_F%05iM.DAT", functionNum);
 	totalsFile = fopen (filename, "rb");
 	if (totalsFile == NULL) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't open", filename, NULL);
@@ -112,9 +116,9 @@ BOOL runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray 
 
 	if (debugMe) {
 		sprintf (filename, "Debug function %s.txt", originalName);
-		if (! gotoSourceDirectory ()) return FALSE;
+		if (! gotoSourceDirectory ()) return false;
 		debugFile = fopen (filename, "wt");
-		if (! gotoTempDirectory ()) return FALSE;
+		if (! gotoTempDirectory ()) return false;
 		fprintf (debugFile, "%i parameters...\n%i locals...\n\n", numArg, numLocals);
 	}
 	
@@ -134,7 +138,7 @@ BOOL runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray 
 			value = get2bytes (readObj);
 			if (b == SLU_LOAD_LOCAL)
 			{
-				localsUsed[value] = TRUE;
+				localsUsed[value] = true;
 			}
 			break;
 
@@ -216,7 +220,7 @@ BOOL runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray 
 		if (functionNum == 0) {		// Extra error checking for global init function
 			if (b == SLU_LOAD_GLOBAL && value >= numGlobalsSet) {
 				addComment (ERRORTYPE_PROJECTERROR, "Trying to initialise a global variable using a later (or earlier and undefined) one", theOriginalFilename);
-				return FALSE;
+				return false;
 			} else if (b == SLU_SET_GLOBAL) {
 				numGlobalsSet = value + 1;
 			}
@@ -266,5 +270,7 @@ BOOL runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray 
 	sprintf (filename, "_F%05iM.DAT", functionNum);
 	unlink (filename);
 
-	return TRUE;
+	return true;
 }
+
+#endif

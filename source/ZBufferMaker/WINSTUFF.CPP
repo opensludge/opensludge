@@ -1,3 +1,5 @@
+#ifdef WIN32
+
 #include <windows.h>
 #include "winstuff.h"
 #include "winterface.h"
@@ -38,7 +40,7 @@ const char * className = "SLUDGE_ZBUFFMAKER_32";
 
 int mouseX = WINWIDTH/2, mouseY = WINHEIGHT/2;
 char * loadedFile = NULL;
-BOOL draggingRight = FALSE, speedScroll = FALSE;
+bool draggingRight = false, speedScroll = false;
 int startLineX, startLineY;
 
 //----------------------------------------------
@@ -47,19 +49,13 @@ void alert (char * txt) {
 	MessageBox (NULL, txt, "Z-Buffer Maker", MB_OK | MB_TASKMODAL | MB_SETFOREGROUND);
 }
 
-BOOL fatal (char * a, char * b = NULL) {
+bool fatal (char * a, char * b = NULL) {
 	alert (a);
 	b;
-	return FALSE;
+	return false;
 }
 
-char * copyString (char * incoming) {
-	char * n = new char[strlen (incoming) + 1];
-	sprintf (n, incoming);
-	return n;
-}
-
-BOOL InitInstance (HINSTANCE hInstance, int nCmdShow) {
+bool InitInstance (HINSTANCE hInstance, int nCmdShow) {
 		  HWND hWnd;
 		  RECT clientRect;
 
@@ -68,7 +64,7 @@ BOOL InitInstance (HINSTANCE hInstance, int nCmdShow) {
 		  clientRect.right=100 + WINWIDTH;
 		  clientRect.bottom=100 + WINHEIGHT;
 
-		  AdjustWindowRect (& clientRect, WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX, TRUE);
+		  AdjustWindowRect (& clientRect, WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX, true);
 
 		  hInst = hInstance; // Store instance handle in our global variable
 		  hWnd = CreateWindow(className, windowName, WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
@@ -83,18 +79,18 @@ BOOL InitInstance (HINSTANCE hInstance, int nCmdShow) {
 		  hMainWindow = hWnd;
 
 		  if (! hWnd) {
-					 return (FALSE);
+					 return (false);
 		  }
 
 		  ShowWindow (hWnd, nCmdShow);
 		  UpdateWindow (hWnd);
 
-		  return (TRUE);
+		  return (true);
 }
 
 HCURSOR normalCursor, moverCursor;
 
-BOOL initVideo(HWND hWnd) {
+bool initVideo(HWND hWnd) {
 	int i;
 	HDC hdc;
 
@@ -134,18 +130,18 @@ BOOL initVideo(HWND hWnd) {
 	if((i==NULL) || (i==GDI_ERROR)) {
 		MessageBox(hWnd,"Could not select buffer DIB into device context",
 					  "initVideo(...) error",MB_ICONSTOP | MB_OK);
-		return(FALSE);
+		return(false);
 	};
 	ReleaseDC (hWnd, hdc);
 
-	return(TRUE);
+	return(true);
 }
 
-BOOL CenterWindow (HWND hwndChild, HWND hwndParent) {
+bool CenterWindow (HWND hwndChild, HWND hwndParent) {
 		  RECT    rChild, rParent, rWorkArea;
 		  int     wChild, hChild, wParent, hParent;
 		  int     xNew, yNew;
-		  BOOL    bResult;
+		  bool    bResult;
 
 		  // Get the Height and Width of the child window
 		  GetWindowRect (hwndChild, &rChild);
@@ -219,7 +215,7 @@ void fixShift () {
 	if (yShift > VERT_RES - WINHEIGHT) yShift = VERT_RES - WINHEIGHT;
 }
 
-void toggleMenuOption (int theOption, BOOL & changeMe) {
+void toggleMenuOption (int theOption, bool & changeMe) {
 	changeMe = ! changeMe;
 	CheckMenuItem (myMenu, theOption, changeMe ? MF_CHECKED : MF_UNCHECKED);
 }
@@ -347,12 +343,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		startLineX = mouseX;
 		startLineY = mouseY;
 		SetCursor (moverCursor);
-		draggingRight = TRUE;
+		draggingRight = true;
 		break;
 
 		case WM_RBUTTONUP:
 		if (draggingRight) {
-			draggingRight = FALSE;
+			draggingRight = false;
 			SetCursor (normalCursor);
 		}
 		break;
@@ -385,7 +381,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 	return (0);
 }
 
-BOOL InitApplication(HINSTANCE hInstance) {
+bool InitApplication(HINSTANCE hInstance) {
 	 WNDCLASS  wc;
 //	 HWND      hwnd;
 
@@ -405,3 +401,5 @@ BOOL InitApplication(HINSTANCE hInstance) {
 
 	 return RegisterClass (& wc);
 }
+
+#endif

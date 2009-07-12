@@ -1,0 +1,33 @@
+<html>
+<head>
+<TITLE>registryGetString</TITLE>
+</head>
+<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
+<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>registryGetString</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=20><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Syntax:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<font color=#BB4444 SIZE=+2><TT><B>registryGetString (<i>thisRegistryKey, thisElement</i>);</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Purpose:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+Gets the specified string from the HKEY_LOCAL_MACHINE section of the Windows registry. SLUDGE can't currently write to the registry, but this function is very useful for retrieving settings written there by, for example, an installer or another program.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Return value:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+If the HKEY_LOCAL_MACHINE section of your Windows registry contains the key <I>thisRegistryKey</I> and that key contains the element <I>thisElement</I>, that string will be the return value. If not, the return value will be NULL.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Example:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<FONT color=#BB4444><TT><B>var myVersion = registryGetString ("Someone Software\\Potato Quest", "version");</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</BODY>
+</html>

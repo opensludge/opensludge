@@ -1,4 +1,4 @@
-#include <windows.h>
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -13,18 +13,35 @@
 #include "splitter.h"
 #include "regbox.h"
 #include "launch.h"
-#include "dialogueBoxInOut.h"
 
 enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 
-BOOL keepImages, keepStrings, verboseMode;
-BOOL changed = FALSE;
+bool keepImages, keepStrings, verboseMode;
+bool changed = false;
 
-char * quitMessage = NULL, * customIcon = NULL, * runtimeDataFolder = NULL;
-unsigned int screenWidth = 0, screenHeight = 0, frameSpeed = 0, winMouseImage = 0;
-BOOL runFullScreen = FALSE, forceSilent = FALSE, ditherImages = FALSE;
-BOOL searchSensitive = FALSE;
-chrRenderingSettingsStruct chrRenderingSettings;
+extern char * quitMessage;
+extern char * customIcon;
+char * runtimeDataFolder = NULL;
+unsigned int screenWidth = 0, screenHeight = 0, frameSpeed = 0;
+extern int winMouseImage;
+extern bool runFullScreen;
+extern bool forceSilent;
+bool ditherImages = false;
+bool searchSensitive = false;
+extern chrRenderingSettingsStruct chrRenderingSettings;
+
+bool startupShowLogo = true;
+bool startupShowLoading = false;
+extern bool startupInvisible;
+
+
+#ifdef WIN32
+#include <windows.h>
+
+#include "dialogueBoxInOut.h"
+
+
+//TODO? 
 
 HWND mainWin=NULL;
 HINSTANCE inst;
@@ -43,11 +60,7 @@ char * searchString = NULL;
 #define MESS(id,m,w,l) SendDlgItemMessage(mainWin,id,m,(WPARAM)w,(LPARAM)l)
 #define MESSP(id,m,w,l) SendDlgItemMessage(hDlg,id,m,(WPARAM)w,(LPARAM)l)
 
-void setChanged (BOOL newVal);
-
-bool startupShowLogo = TRUE;
-bool startupShowLoading = FALSE;
-bool startupInvisible = FALSE;
+void setChanged (bool newVal);
 
 static bool advancedLoadSaveSetup (HWND hDlg, dlgOperation operation)
 {
@@ -65,7 +78,7 @@ LRESULT CALLBACK projectAdvancedFunc(HWND hDlg, UINT message, WPARAM wParam, LPA
         	if (startupInvisible) CheckDlgButton (hDlg, ID_STARTUP_INVISIBLE, BST_CHECKED);
         	if (startupShowLogo) CheckDlgButton (hDlg, ID_STARTUP_DISPLAY_SLUDGE, BST_CHECKED);
         	if (startupShowLoading) CheckDlgButton (hDlg, ID_STARTUP_DISPLAY_LOADING, BST_CHECKED);
-			return (TRUE);
+			return (true);
 		}
 
 		case WM_COMMAND:
@@ -75,17 +88,17 @@ LRESULT CALLBACK projectAdvancedFunc(HWND hDlg, UINT message, WPARAM wParam, LPA
 					startupInvisible = isChecked (hDlg, ID_STARTUP_INVISIBLE);
 					startupShowLogo = isChecked (hDlg, ID_STARTUP_DISPLAY_SLUDGE);
 					startupShowLoading = isChecked (hDlg, ID_STARTUP_DISPLAY_LOADING);
-					setChanged (TRUE);
+					setChanged (true);
 				}
 
 				case IDCANCEL:
-				EndDialog(hDlg, TRUE);
-				return (TRUE);
+				EndDialog(hDlg, true);
+				return (true);
 			}
 			break;
 	}
 
-    return FALSE;
+    return false;
  */
 	dialogueBoxHandler (hDlg, message, wParam, lParam, advancedLoadSaveSetup);
 }
@@ -128,14 +141,14 @@ LRESULT CALLBACK prefsBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
         	if (runFullScreen) CheckDlgButton (hDlg, ID_FULLSCREEN, BST_CHECKED);
         	if (forceSilent) CheckDlgButton (hDlg, ID_MAKESILENT, BST_CHECKED);
         	if (ditherImages) CheckDlgButton (hDlg, ID_DITHERIMAGES, BST_CHECKED);
-			return (TRUE);
+			return (true);
 		}
 
 		case WM_COMMAND:
 			switch (LOWORD(wParam)) {
 				case ID_EDIT_SPEED:
 				if (HIWORD(wParam) == 1024) {
-					BOOL success = TRUE;
+					bool success = true;
 					unsigned int newFrame = GetDlgItemInt (hDlg, ID_EDIT_SPEED, &success, 0);
 					
 					if (! success || newFrame > 1000 || newFrame < 1) {
@@ -151,7 +164,7 @@ LRESULT CALLBACK prefsBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 					char * newText;
 					int le;
 	
-					BOOL success = TRUE;
+					bool success = true;
 	
 					unsigned int newHeight, newWidth = GetDlgItemInt (hDlg, ID_EDIT_WINWIDTH, & success, 0);
 					if (success) {
@@ -159,13 +172,13 @@ LRESULT CALLBACK prefsBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 					}
 					if (! success) {
 						messageBox (er, "Screen width and height should be positive integer values.");
-						return TRUE;
+						return true;
 					}
 					
 					unsigned int newFrame = GetDlgItemInt (hDlg, ID_EDIT_SPEED, &success, 0);
 					if (! success || newFrame > 250 || newFrame < 1) {
 						messageBox (er, "Milliseconds per frame (ms/frame) should be an integer between 1 and 250 inclusive.");
-						return TRUE;
+						return true;
 					}
 	
 					frameSpeed = newFrame;
@@ -211,12 +224,12 @@ LRESULT CALLBACK prefsBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 					ditherImages = isChecked (hDlg, ID_DITHERIMAGES);
 					winMouseImage = MESSP (ID_MOUSE_IMAGE, CB_GETCURSEL, 0, 0);
 //					hideWinMouse = isChecked (hDlg, ID_HIDEMOUSE);
-					setChanged (TRUE);
+					setChanged (true);
 				}
 
 				case IDCANCEL:
-				EndDialog(hDlg, TRUE);
-				return (TRUE);
+				EndDialog(hDlg, true);
+				return (true);
 				
 				case ID_MOREOPTIONS:
 				DialogBox(inst, MAKEINTRESOURCE(DLG_PROJECT_ADVANCED), hDlg, (DLGPROC)projectAdvancedFunc);
@@ -229,7 +242,7 @@ LRESULT CALLBACK prefsBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 			break;
 	}
 
-    return FALSE;
+    return false;
 }
 
 void upperString (char * s) {
@@ -255,7 +268,7 @@ LRESULT CALLBACK resourcesBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM
         		for (i = 0; i < n; i ++) {
 					tx = getFileFromBox (i);
 					if (tx) {
-						BOOL gotcha = FALSE;
+						bool gotcha = false;
 						char * entireFile = grabWholeFile (tx);
 						
 						if (entireFile) {
@@ -269,7 +282,7 @@ LRESULT CALLBACK resourcesBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 										break;
 								}
 								if (! searchString[j]) {
-									gotcha = TRUE;
+									gotcha = true;
 									break;
 								}
 							}
@@ -359,7 +372,7 @@ LRESULT CALLBACK resourcesBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 					}
 				}
 			}
-			return (TRUE);
+			return (true);
 		}
 
 		case WM_COMMAND:
@@ -374,23 +387,23 @@ LRESULT CALLBACK resourcesBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 					delete me;
 				}
 			}
-			return TRUE;
+			return true;
 			
 			case IDCANCEL:
-			EndDialog(hDlg, TRUE);
-			return TRUE;
+			EndDialog(hDlg, true);
+			return true;
 		}
 		break;
 	}
 
-    return FALSE;
+    return false;
 }
 
 LRESULT CALLBACK searchBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message) {
         case WM_INITDIALOG:
        	if (searchSensitive) CheckDlgButton (hDlg, ID_CASESENSITIVE, BST_CHECKED);
-		return (TRUE);
+		return (true);
 
 		case WM_COMMAND:
 			switch (LOWORD(wParam)) {
@@ -414,13 +427,13 @@ LRESULT CALLBACK searchBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 				// No break; here
 								
 				case IDCANCEL:
-				EndDialog(hDlg, TRUE);
-				return (TRUE);
+				EndDialog(hDlg, true);
+				return (true);
 			}
 			break;
 	}
 
-    return FALSE;
+    return false;
 }
 
 HBITMAP hbitmap = NULL;
@@ -448,11 +461,11 @@ void drawLogo (HWND hDlg, int x, int y) {
 LRESULT CALLBACK aboutBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message) {
 //        case WM_INITDIALOG:
-//      	return TRUE;
+//      	return true;
         
         case WM_PAINT:
 		drawLogo (hDlg, 149, 12);
-		return FALSE;
+		return false;
 
 		case WM_COMMAND:
 			switch (LOWORD(wParam)) {
@@ -461,13 +474,13 @@ LRESULT CALLBACK aboutBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 				break;
 
 				case IDCANCEL:
-				EndDialog(hDlg, TRUE);
-				return (TRUE);
+				EndDialog(hDlg, true);
+				return (true);
 			}
 			break;
 	}
 
-    return FALSE;
+    return false;
 }
 
 LRESULT CALLBACK settingsBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) {
@@ -486,7 +499,7 @@ LRESULT CALLBACK settingsBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM 
 			ofn.lpstrInitialDir=path;
 			ofn.Flags=OFN_HIDEREADONLY|OFN_EXPLORER;
 //			ShowWindow (hDlg, SW_SHOW);
-			return (TRUE);
+			return (true);
 		}
 
 		case WM_COMMAND:
@@ -506,8 +519,8 @@ LRESULT CALLBACK settingsBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM 
 				}
 
 				case IDCANCEL:
-				EndDialog(hDlg, TRUE);
-				return (TRUE);
+				EndDialog(hDlg, true);
+				return (true);
 				
 				case ID_TEXT_BROWSE:
 				{
@@ -526,7 +539,7 @@ LRESULT CALLBACK settingsBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM 
 			break;
 	}
 
-    return FALSE;
+    return false;
 }
 
 LRESULT CALLBACK sizeBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) {
@@ -535,8 +548,8 @@ LRESULT CALLBACK sizeBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
         {
         	SetDlgItemInt (hDlg, ID_EDIT_WINWIDTH, getRegInt ("utilityWidth", 640), 0);
         	SetDlgItemInt (hDlg, ID_EDIT_WINHEIGHT, getRegInt ("utilityHeight", 480), 0);
-			if (! loadedFile) EnableWindow (GetDlgItem (hDlg, ID_USE_PROJECT_SIZE), FALSE);
-			return (TRUE);
+			if (! loadedFile) EnableWindow (GetDlgItem (hDlg, ID_USE_PROJECT_SIZE), false);
+			return (true);
 		}
 
 		case WM_COMMAND:
@@ -544,38 +557,38 @@ LRESULT CALLBACK sizeBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 				case ID_USE_PROJECT_SIZE:
     	    	SetDlgItemInt (hDlg, ID_EDIT_WINWIDTH, screenWidth, 0);
 	        	SetDlgItemInt (hDlg, ID_EDIT_WINHEIGHT, screenHeight, 0);
-				return (TRUE);
+				return (true);
 				
 				case IDOK:
 				{
-					BOOL success;
+					bool success;
 					unsigned int newHeight, newWidth = GetDlgItemInt (hDlg, ID_EDIT_WINWIDTH, & success, 0);
 					if (success) {
 						newHeight = GetDlgItemInt (hDlg, ID_EDIT_WINHEIGHT, & success, 0);
 					}
 					if (! success || newHeight < 100 || newWidth < 100) {
 						messageBox (er, "Width and height should both be positive integer values bigger than 99");
-						return TRUE;
+						return true;
 					}
-					if (! putRegInt ("utilityWidth", newWidth))		return TRUE;
-					if (! putRegInt ("utilityHeight", newHeight))	return TRUE;
+					if (! putRegInt ("utilityWidth", newWidth))		return true;
+					if (! putRegInt ("utilityHeight", newHeight))	return true;
 				}
 
 				case IDCANCEL:
-				EndDialog(hDlg, TRUE);
-				return (TRUE);
+				EndDialog(hDlg, true);
+				return (true);
 			}
 			break;
 	}
 
-    return FALSE;
+    return false;
 }
 
-void setTick (int what, BOOL yesNo) {
+void setTick (int what, bool yesNo) {
 	CheckMenuItem (myMenu, what, yesNo ? MF_CHECKED : MF_UNCHECKED);
 }
 
-void setEverything (BOOL on) {
+void setEverything (bool on) {
 	EnableWindow (GetDlgItem (mainWin, ID_FILELIST), on);
 	EnableWindow (GetDlgItem (mainWin, ID_PROJECT_COMPILE), on);
 	EnableWindow (GetDlgItem (mainWin, ID_PROJECT_RUN), on);
@@ -610,16 +623,16 @@ void updateTitle () {
 		char buff[500];
 		sprintf (buff, "SLUDGE Project Manager: %s%s", changed ? "* " : "", loadedFile);
 		SetWindowText (mainWin, buff);
-		setEverything (TRUE);
+		setEverything (true);
 		setWindowText (ID_LOADED_FILE, loadedFile);
 	} else {
 		SetWindowText (mainWin, "SLUDGE Project Manager");
-		setEverything (FALSE);
+		setEverything (false);
 		setWindowText (ID_LOADED_FILE, "No project loaded");
 	}
 }
 
-void setChanged (BOOL newVal) {
+void setChanged (bool newVal) {
 	changed = newVal;
 	updateTitle ();
 }
@@ -659,14 +672,14 @@ void loadProject (char * filename) {
 		delete loadedFile;
 		loadedFile = joinStrings (filename, "");
 	}
-	setChanged (FALSE);
+	setChanged (false);
 }
 
-BOOL saveProject (char * filename) {
+bool saveProject (char * filename) {
 	FILE * fp = fopen (filename, "wt");
 	if (! fp) {
 		errorBox ("Can't write to project file", filename);
-		return FALSE;
+		return false;
 	}
 
 	writeSettings (fp);
@@ -688,8 +701,8 @@ BOOL saveProject (char * filename) {
 		delete loadedFile;
 		loadedFile = joinStrings (filename, "");
 	}
-	setChanged (FALSE);
-	return TRUE;
+	setChanged (false);
+	return true;
 }
 
 void closeProject () {
@@ -736,20 +749,20 @@ void addFileToProject (char * wholeName) {
 	delete newName;
 }
 
-BOOL checkOverwrite (char * fn) {
+bool checkOverwrite (char * fn) {
 	FILE * fp = fopen (fn, "rb");
 	if (fp) {
 		fclose (fp);
 		char * buff = joinStrings ("That file already exists! Are you sure you want to overwrite the following file?\n\n", fn);
 		if (MessageBox (mainWin, buff, "Overwrite?", MB_TASKMODAL | MB_YESNO | MB_ICONQUESTION | MB_SETFOREGROUND) == IDYES) {
 			delete buff;
-			return TRUE;
+			return true;
 		} else {
 			delete buff;
-			return FALSE;
+			return false;
 		}
 	}
-	return TRUE;
+	return true;
 }
 
 void fixExtension (char * buff, char * ext) {
@@ -766,7 +779,7 @@ void fixExtension (char * buff, char * ext) {
 	}
 }
 
-BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
+bool APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 
 	static OPENFILENAME ofn;
 	static char path[MAX_PATH];
@@ -783,7 +796,7 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 		switch (LOWORD(w)) {
 			case ID_EDIT_NAME:
 			case ID_EDIT_OUTPUTFILE:
-			if (HIWORD(w) == 1024) setChanged (TRUE);
+			if (HIWORD(w) == 1024) setChanged (true);
 			break;
 			
 			case ID_SETTINGSBOX:
@@ -827,7 +840,7 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 					}
 					FILE * tester = fopen (file, "rb");
 
-					BOOL ok = TRUE;
+					bool ok = true;
 					if (tester) {
 						fclose (tester);
 					} else {
@@ -845,7 +858,7 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 
 					if (ok) {
 						addFileToProject (file);
-						setChanged (TRUE);
+						setChanged (true);
 					}
 				}
 			}
@@ -957,7 +970,7 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 				for (i = 0; i < n; i ++) {
 					if (MESS (ID_FILELIST, LB_GETSEL, i, 0)) {
 						MESS (ID_FILELIST, LB_DELETESTRING, i, 0);
-						setChanged (TRUE);
+						setChanged (true);
 						i --;
 						n --;
 					}
@@ -1067,7 +1080,7 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 
         case WM_PAINT:
 		drawLogo (h, 301, 257);
-		return FALSE;
+		return false;
 
 		case WM_DESTROY:
 		WinHelp (mainWin, helpFile, HELP_QUIT, 0);
@@ -1078,7 +1091,7 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 	return 0;
 }
 
-//extern BOOL hacker;
+//extern bool hacker;
 
 int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine, int nCmdShow)
 {
@@ -1118,3 +1131,5 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine,
 //	if (hacker) unlink (compiler);
 	return 0;
 }
+
+#endif

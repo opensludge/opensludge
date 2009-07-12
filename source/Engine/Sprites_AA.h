@@ -1,6 +1,8 @@
 #ifndef __SPRITES_AA__
 #define __SPRITES_AA__
 
+#include <stdio.h>
+
 struct sprite;
 struct spritePalette;
 struct loadedFunction;
@@ -13,9 +15,6 @@ struct aaSettingsStruct
 };
 
 extern aaSettingsStruct maxAntiAliasSettings;
-
-BOOL scaleSprite_AA (int x, int y, sprite & single, const spritePalette & fontPal, float scale, unsigned int drawMode, int floaty, BOOL useZB, unsigned short int * * lightMapImage, bool mirror, bool boundingBoxCollision, aaSettingsStruct * aa);
-void fixScaleSprite_AA (int x1, int y1, sprite & single, const spritePalette & fontPal, float scale, unsigned int drawMode, int floaty, BOOL useZB, unsigned short int * * lightMapImage, const int camX, const int camY, bool mirror, aaSettingsStruct * aa);
 
 void aaSave (aaSettingsStruct & aa, FILE * fp);
 void aaLoad (aaSettingsStruct & aa, FILE * fp);

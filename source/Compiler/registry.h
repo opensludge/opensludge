@@ -1,2 +1,2 @@
-BOOL getRegSetting (char * settingName);
+bool getRegSetting (char * settingName);
 char * getRegString (char * settingName);

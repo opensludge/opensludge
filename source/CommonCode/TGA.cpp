@@ -1,11 +1,11 @@
-#include <windows.h>
+//#include <windows.h>
 #include <stdio.h>
 
 #include "TGA.h"
 
 //FILE * debugFile = fopen ("TGAdebug.txt", "wt");
 
-unsigned short int makeColour (byte r, byte g, byte b) {
+unsigned short int makeColour (unsigned char r, unsigned char g, unsigned char b) {
 	unsigned short int reply = (unsigned short int) (r >> 3);
 	reply <<= 6;
 	reply += (unsigned short int) (g >> 2);
@@ -25,7 +25,7 @@ bool dither24bitImages = 0;
 
 char ditherArray[4][4] = {{4,12,6,14},{10,0,8,2},{7,15,5,13},{9,3,11,1}};
 
-void grabRGB (FILE * fp, int bpc, byte & r, byte & g, byte & b, palCol thePalette[])
+void grabRGB (FILE * fp, int bpc, unsigned char & r, unsigned char & g, unsigned char & b, palCol thePalette[])
 {
 	int grabbed1, grabbed2;
 	switch (bpc) {
@@ -59,7 +59,7 @@ void grabRGB (FILE * fp, int bpc, byte & r, byte & g, byte & b, palCol thePalett
 	}
 }
 
-void addDither (byte & col, const byte add)
+void addDither (unsigned char & col, const unsigned char add)
 {
 	int tot = col;
 	tot += add;
@@ -67,7 +67,7 @@ void addDither (byte & col, const byte add)
 }
 
 unsigned short readAColour (FILE * fp, int bpc, palCol thePalette[], int x, int y) {
-	byte r,g,b;
+	unsigned char r,g,b;
 	grabRGB (fp, bpc, r, g, b, thePalette);
 
 	if (dither24bitImages)
@@ -81,9 +81,9 @@ unsigned short readAColour (FILE * fp, int bpc, palCol thePalette[], int x, int 
 }
 
 unsigned short readCompressedColour (FILE * fp, int bpc, palCol thePalette[], int x, int y) {
-	static byte r, g, b;
-	byte r2, g2, b2;
-	static BOOL oneCol;
+	static unsigned char r, g, b;
+	unsigned char r2, g2, b2;
+	static bool oneCol;
 	unsigned short col;
 	
 	// Do we have to start a new packet?
@@ -94,12 +94,12 @@ unsigned short readCompressedColour (FILE * fp, int bpc, palCol thePalette[], in
 				
 		// Is it raw data?
 		if (col >= 128) {
-			oneCol = TRUE;
+			oneCol = true;
 			countDown = col - 127;
 			grabRGB (fp, bpc, r, g, b, thePalette);
 //			fprintf (debugFile, "  %d raw colours...\n", countDown);
 		} else {
-			oneCol = FALSE;
+			oneCol = false;
 			countDown = col + 1;
 //			fprintf (debugFile, "  %d pixels the same colour...\n", countDown);
 		}
@@ -129,7 +129,7 @@ char * readTGAHeader (TGAHeader & h, FILE * fp, palCol thePalette[]) {
 
 	h.IDBlockSize = fgetc (fp);
 	h.gotMap = fgetc (fp);
-	byte imageType = fgetc (fp);
+	unsigned char imageType = fgetc (fp);
 	h.firstPalColour = get2bytesReverse (fp);
 	h.numPalColours = get2bytesReverse (fp);
 	h.bitsPerPalColour = fgetc (fp);
@@ -148,12 +148,12 @@ char * readTGAHeader (TGAHeader & h, FILE * fp, palCol thePalette[]) {
 	switch (imageType) {
 		case 1:
 		case 2:
-		h.compressed = FALSE;
+		h.compressed = false;
 		break;
 		
 		case 9:
 		case 10:
-		h.compressed = TRUE;
+		h.compressed = true;
 		break;
 		
 		default:

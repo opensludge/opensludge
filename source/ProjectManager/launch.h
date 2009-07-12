@@ -1,3 +1,7 @@
+#ifndef HWND
+#define HWND int
+#endif
+
 enum typeOfFile {FILETYPE_UNKNOWN, FILETYPE_SCRIPT, FILETYPE_CONST, FILETYPE_TRANS};
 
 void gotoSourceRoot ();

@@ -1,3 +1,5 @@
+#ifdef WIN32
+
 #include <windows.h>
 #include "winstuff.h"
 #include "winterface.h"
@@ -49,10 +51,10 @@ char * loadedFile = NULL;
 int mouseX = WINWIDTH / 2, mouseY = WINHEIGHT / 2, screenMouseX = WINWIDTH/2, screenMouseY = WINHEIGHT/2;
 int lastMouseX = 320, lastMouseY = 200;
 int startLineX = 320, startLineY = 200;
-BOOL draggingSplit = FALSE;
-BOOL draggingRight = FALSE;
-BOOL markVertices = FALSE, speedScroll = FALSE;
-BOOL notSaved = FALSE;
+bool draggingSplit = false;
+bool draggingRight = false;
+bool markVertices = false, speedScroll = false;
+bool notSaved = false;
 
 HCURSOR blokeyCursor;
 HCURSOR snapCursor;
@@ -74,18 +76,18 @@ void setLoadedFile (char * t) {
 	loadedFile = t ? copyString (t) : NULL;
 }
 
-BOOL ask (char * txt) {
+bool ask (char * txt) {
 	return MessageBox (hMainWindow, txt, windowName, MB_YESNO | MB_APPLMODAL | MB_SETFOREGROUND | MB_ICONQUESTION) == IDYES;
 }
 
-BOOL abandon () {
-	return notSaved ? ask ("Sure you want to abandon your changes to this floor?") : TRUE;
+bool abandon () {
+	return notSaved ? ask ("Sure you want to abandon your changes to this floor?") : true;
 }
 
-BOOL fatal (char * a, char * b = NULL) {
+bool fatal (char * a, char * b = NULL) {
 	alert (a);
 	b;
-	return FALSE;
+	return false;
 }
 
 void updateTitle () {
@@ -103,7 +105,7 @@ void updateTitle () {
 	SetWindowText (hMainWindow, buff);
 }
 
-BOOL InitInstance (HINSTANCE hInstance, int nCmdShow) {
+bool InitInstance (HINSTANCE hInstance, int nCmdShow) {
 		  HWND hWnd;
 		  RECT clientRect;
 
@@ -112,7 +114,7 @@ BOOL InitInstance (HINSTANCE hInstance, int nCmdShow) {
 		  clientRect.right=100 + WINWIDTH;
 		  clientRect.bottom=100 + WINHEIGHT;
 
-		  AdjustWindowRect (& clientRect, WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX, TRUE);
+		  AdjustWindowRect (& clientRect, WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX, true);
 
 		  hInst = hInstance; // Store instance handle in our global variable
 		  hWnd = CreateWindow(className, windowName, WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
@@ -126,15 +128,15 @@ BOOL InitInstance (HINSTANCE hInstance, int nCmdShow) {
 
 		  hMainWindow = hWnd;
 
-		  if (! hWnd) return (FALSE);
+		  if (! hWnd) return (false);
 
 		  ShowWindow (hWnd, nCmdShow);
 		  UpdateWindow (hWnd);
 
-		  return (TRUE);
+		  return (true);
 }
 
-BOOL initVideo(HWND hWnd) {
+bool initVideo(HWND hWnd) {
 	int i;
 	HDC hdc;
 
@@ -174,7 +176,7 @@ BOOL initVideo(HWND hWnd) {
 	if((i==NULL) || (i==GDI_ERROR)) {
 		MessageBox(hWnd,"Could not select buffer DIB into device context",
 					  "initVideo(...) error",MB_ICONSTOP | MB_OK);
-		return(FALSE);
+		return(false);
 	};
 	ReleaseDC (hWnd, hdc);
 
@@ -184,14 +186,14 @@ BOOL initVideo(HWND hWnd) {
 		arrowsCursor	= LoadCursor (hInst, MAKEINTRESOURCE (103));
 		moverCursor		= LoadCursor (hInst, MAKEINTRESOURCE (104));
 
-	return(TRUE);
+	return(true);
 }
 
-BOOL CenterWindow (HWND hwndChild, HWND hwndParent) {
+bool CenterWindow (HWND hwndChild, HWND hwndParent) {
 		  RECT    rChild, rParent, rWorkArea;
 		  int     wChild, hChild, wParent, hParent;
 		  int     xNew, yNew;
-		  BOOL    bResult;
+		  bool    bResult;
 
 		  // Get the Height and Width of the child window
 		  GetWindowRect (hwndChild, &rChild);
@@ -241,7 +243,7 @@ void changeMode (int newMode) {
 	currentMode = newMode;
 }
 
-void toggleMenuOption (int theOption, BOOL & changeMe) {
+void toggleMenuOption (int theOption, bool & changeMe) {
 	changeMe = ! changeMe;
 	CheckMenuItem (myMenu, theOption, changeMe ? MF_CHECKED : MF_UNCHECKED);
 }
@@ -315,7 +317,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		break;
 
 		case WM_COMMAND:
-		draggingSplit = FALSE;
+		draggingSplit = false;
 		switch (LOWORD (wParam)) {
 			case ID_MODE_DEFINE:
 			case ID_MODE_SPLIT:
@@ -418,11 +420,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		switch (currentMode) {
 			case ID_MODE_DEFINE:
 			{
-				BOOL keepGoing = TRUE;
+				bool keepGoing = true;
 				drawSoFar (HIDEFLOOR);
 				SetCursor (snapCursor);	
 				while (keepGoing) {
-					keepGoing = FALSE;
+					keepGoing = false;
 					i = addVertex (mouseX, mouseY);
 					switch (i) {
 						case 0:
@@ -436,7 +438,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 						case 2:
 						if (ask ("Can't add another vertex as the floor is already complete... do you want to start a NEW polygon at this point?")) {
 							addPoly ();
-							keepGoing = TRUE;
+							keepGoing = true;
 						}
 						break;
 					}
@@ -458,7 +460,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			case ID_MODE_SPLIT:
 			SetCursor (snapToClosest (mouseX, mouseY) ? snapCursor : noWayCursor);
 			if (snapToClosest (mouseX, mouseY)) {
-				draggingSplit = TRUE;
+				draggingSplit = true;
 				startLineX = mouseX;
 				startLineY = mouseY;
 				drawLine (mouseX, mouseY, mouseX, mouseY, SHOWSPLIT);
@@ -468,7 +470,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			case ID_MODE_MOVE:
 			if (snapToClosest (mouseX, mouseY)) {
 				SetCursor (arrowsCursor);
-				draggingSplit = TRUE;
+				draggingSplit = true;
 				startLineX = mouseX;
 				startLineY = mouseY;
 				drawLine (mouseX, mouseY, mouseX, mouseY, SHOWMOVE);
@@ -484,13 +486,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			startLineX = screenMouseX;
 			startLineY = screenMouseY;
 			SetCursor (moverCursor);
-			draggingRight = TRUE;
+			draggingRight = true;
 		}
 		break;
 
 		case WM_RBUTTONUP:
 		if (draggingRight) {
-			draggingRight = FALSE;
+			draggingRight = false;
 		}
 		// No break;
 		
@@ -517,7 +519,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 				}
 				drawSoFar (SHOWFLOOR);
 				backDropToScreenBuffer ();
-				draggingSplit = FALSE;
+				draggingSplit = false;
 			}
 			break;
 			
@@ -536,7 +538,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 				}
 				drawSoFar (SHOWFLOOR);
 				backDropToScreenBuffer ();
-				draggingSplit = FALSE;
+				draggingSplit = false;
 			} else {
 				SetCursor (snapToClosest (mouseX, mouseY) ? noWayCursor : arrowsCursor);
 			}
@@ -585,13 +587,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 				case ID_MODE_MOVE:
 				if (draggingSplit) {
 					scrollAtEdges ();
-					BOOL sn = FALSE;
+					bool sn = false;
 					int tempX = mouseX, tempY = mouseY;
 					if (snapToClosest (tempX, tempY)) {
 						if (tempX != startLineX || tempY != startLineY) {
 							mouseX = tempX;
 							mouseY = tempY;
-							sn = TRUE;
+							sn = true;
 						}
 					}
 					SetCursor (sn ? snapCursor : arrowsCursor);
@@ -622,7 +624,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 	return (0);
 }
 
-BOOL InitApplication(HINSTANCE hInstance) {
+bool InitApplication(HINSTANCE hInstance) {
 	 WNDCLASS  wc;
 
 	myMenu = LoadMenu (hInst, MAKEINTRESOURCE(1));
@@ -640,3 +642,5 @@ BOOL InitApplication(HINSTANCE hInstance) {
 
 	 return RegisterClass (& wc);
 }
+
+#endif

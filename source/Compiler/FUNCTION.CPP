@@ -1,4 +1,7 @@
-#include <windows.h>
+#if 0
+TODO
+
+//#include <windows.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -14,7 +17,7 @@
 #include "wintext.h"
 #include "allknown.h"
 
-extern HWND compWin;
+//extern HWND compWin;
 extern char * inThisClass;
 
 // Sludge commands
@@ -86,10 +89,10 @@ void outputDoneCode (compilationSpace & theSpace, sludgeCommand theCommand, int 
 	theSpace.numLines ++;
 }
 
-BOOL startFunction (int num,
+bool startFunction (int num,
 					int argNum,
 					compilationSpace & theSpace,
-					const char * theName, BOOL unfr, BOOL dbMe, const char * fileName) {
+					const char * theName, bool unfr, bool dbMe, const char * fileName) {
 					
 	char file1[30], file2[30];
 	
@@ -97,7 +100,7 @@ BOOL startFunction (int num,
 	sprintf (file1, "_F%05i.dat", num);
 	sprintf (file2, "_F%05iM.dat", num);
 	
-	if (! gotoTempDirectory ()) return FALSE;
+	if (! gotoTempDirectory ()) return false;
 		
 	theSpace.writeToFile = fopen (file1, "wb");
 	theSpace.markerFile = fopen (file2, "wb");
@@ -107,11 +110,11 @@ BOOL startFunction (int num,
 
 	if (! theSpace.writeToFile) {
 		errorBox (ERRORTYPE_SYSTEMERROR, "Can't write to temporary file", file1, NULL);
-		return FALSE;
+		return false;
 	}
 	if (! theSpace.markerFile) {
 		errorBox (ERRORTYPE_SYSTEMERROR, "Can't write to temporary file", file2, NULL);
-		return FALSE;
+		return false;
 	}
 
 	writeString (theName, theSpace.writeToFile);
@@ -122,10 +125,10 @@ BOOL startFunction (int num,
 //	if (unfr) errorBox ("Set unfreezable flag in function header", theName);
 	fputc (argNum, theSpace.writeToFile);
 
-	return TRUE;
+	return true;
 }
 
-BOOL finishFunctionNew (compilationSpace & theSpace, stringArray * localVars) {
+bool finishFunctionNew (compilationSpace & theSpace, stringArray * localVars) {
 	FILE * theFileHandle;
 	char filename[20];
 	int localNum = countElements(localVars);
@@ -146,7 +149,7 @@ BOOL finishFunctionNew (compilationSpace & theSpace, stringArray * localVars) {
 	sprintf (filename, "_F%05iN.DAT", theSpace.myNum);
 	
 	theFileHandle = fopen (filename, "wb");
-	if (! theFileHandle) return FALSE;
+	if (! theFileHandle) return false;
 
 	fputc (localNum, theFileHandle);
 	fputc (theSpace.numMarkers, theFileHandle);
@@ -155,7 +158,7 @@ BOOL finishFunctionNew (compilationSpace & theSpace, stringArray * localVars) {
 	fclose (theFileHandle);
 	
 //	errorBox ("Ending finishFunction", "");	
-	return TRUE;
+	return true;
 }
 
 int protoFunction (char * funcName, char * fileName) {
@@ -163,7 +166,7 @@ int protoFunction (char * funcName, char * fileName) {
 	return findOrAdd (functionNames, funcName);
 }
 
-BOOL handleIf (char * theIf, stringArray * & localVars, compilationSpace & theSpace, stringArray * & theRest, const char * filename) {
+bool handleIf (char * theIf, stringArray * & localVars, compilationSpace & theSpace, stringArray * & theRest, const char * filename) {
 	stringArray * getCondition, * getElse;
 	int endMarker;
 
@@ -172,7 +175,7 @@ BOOL handleIf (char * theIf, stringArray * & localVars, compilationSpace & theSp
 		return errorBox (ERRORTYPE_PROJECTERROR, "Bad if", theIf, filename);
 	}
 
-	if (! compileSourceLine (getCondition -> string, localVars, theSpace, nullArray, filename)) return FALSE;
+	if (! compileSourceLine (getCondition -> string, localVars, theSpace, nullArray, filename)) return false;
 
 	if (! destroyFirst (getCondition)) {
 		return errorBox (ERRORTYPE_PROJECTERROR, "Bad if", theIf, filename);
@@ -188,7 +191,7 @@ BOOL handleIf (char * theIf, stringArray * & localVars, compilationSpace & theSp
 	char * elseString = "";
 	while (theRest) {
 		char * newString;
-		BOOL isAnElse;
+		bool isAnElse;
 
 		getElse = splitString (theRest -> string, ' ', ONCE);
 
@@ -232,10 +235,10 @@ BOOL handleIf (char * theIf, stringArray * & localVars, compilationSpace & theSp
 	}
 
 	addMarker (theSpace, endMarker);
-	return TRUE;
+	return true;
 }
 
-BOOL niceLoop (char * condition, char * & middle, char * endy, stringArray * & localVars, compilationSpace & theSpace, const char * filename) {
+bool niceLoop (char * condition, char * & middle, char * endy, stringArray * & localVars, compilationSpace & theSpace, const char * filename) {
 	int endMarker, startMarker;
 
 	// Top of the loop...
@@ -244,7 +247,7 @@ BOOL niceLoop (char * condition, char * & middle, char * endy, stringArray * & l
 	theSpace.numMarkers ++;
 
 	// Condition
-	if (! compileSourceLine (condition, localVars, theSpace, nullArray, NULL)) return FALSE;
+	if (! compileSourceLine (condition, localVars, theSpace, nullArray, NULL)) return false;
 	
 	if (trimStart (middle, '{')) {
 		if (! trimEnd (middle, '}')) return errorBox (ERRORTYPE_PROJECTERROR, "No matching }", middle, NULL);
@@ -253,9 +256,9 @@ BOOL niceLoop (char * condition, char * & middle, char * endy, stringArray * & l
 	// Break if condition is zero, otherwise a bunch of code
 	endMarker = outputMarkerCode (theSpace, SLU_BR_ZERO);
 
-	if (! compileSourceBlock (middle, localVars, theSpace, filename)) return FALSE;
+	if (! compileSourceBlock (middle, localVars, theSpace, filename)) return false;
 
-	if (endy) if (! compileSourceBlock (endy, localVars, theSpace, filename)) return FALSE;
+	if (endy) if (! compileSourceBlock (endy, localVars, theSpace, filename)) return false;
 
 	fputc			(HALF_MARKER,		theSpace.writeToFile);
 	fputc			(SLU_BRANCH,		theSpace.writeToFile);
@@ -265,10 +268,10 @@ BOOL niceLoop (char * condition, char * & middle, char * endy, stringArray * & l
 
 	// Here's that end-of-the-loop we were talking about
 	addMarker (theSpace, endMarker);
-	return TRUE;
+	return true;
 }
 
-BOOL handleWhile (char * theCode, stringArray * & localVars, compilationSpace & theSpace, const char * filename) {
+bool handleWhile (char * theCode, stringArray * & localVars, compilationSpace & theSpace, const char * filename) {
 	stringArray * getCondition = splitString (theCode, ')', ONCE);
 	if (! trimStart (getCondition -> string, '(')) return errorBox (ERRORTYPE_PROJECTERROR, "Bad while (no condition)", theCode, NULL);
 	if (countElements (getCondition) != 2) return errorBox (ERRORTYPE_PROJECTERROR, "Bad while (no condition)", theCode, NULL);
@@ -276,10 +279,10 @@ BOOL handleWhile (char * theCode, stringArray * & localVars, compilationSpace & 
 		return errorBox (ERRORTYPE_PROJECTERROR, "Bad loop stuff (while loop)", getCondition -> string, NULL);
 	} 
 	destroyAll (getCondition);
-	return TRUE;
+	return true;
 }
 
-BOOL handleFor (char * theCode, stringArray * & localVars, compilationSpace & theSpace, const char * filename) {
+bool handleFor (char * theCode, stringArray * & localVars, compilationSpace & theSpace, const char * filename) {
 	stringArray * getCondition = splitString (theCode, ')', ONCE);
 	if (! trimStart (getCondition -> string, '(')) return errorBox (ERRORTYPE_PROJECTERROR, "Bad for (no condition)", theCode, filename);
 
@@ -289,7 +292,7 @@ BOOL handleFor (char * theCode, stringArray * & localVars, compilationSpace & th
 
 	if (countElements (getBits) != 3) return errorBox (ERRORTYPE_PROJECTERROR, "Bad for (not a;b;c in condition)", theCode, filename);
 
-	if (! compileSourceLine (getBits -> string, localVars, theSpace, nullArray, filename)) return FALSE;
+	if (! compileSourceLine (getBits -> string, localVars, theSpace, nullArray, filename)) return false;
 	destroyFirst (getBits);
 
 	if (! niceLoop (getBits -> string, getCondition -> string, getBits -> next -> string, localVars, theSpace, filename)) {
@@ -297,10 +300,10 @@ BOOL handleFor (char * theCode, stringArray * & localVars, compilationSpace & th
 	}
 	destroyAll (getCondition);
 	destroyAll (getBits);
-	return TRUE;
+	return true;
 }
 
-BOOL handleLoop (char * & theLoop, stringArray * & localVars, compilationSpace & theSpace, const char * filename) {
+bool handleLoop (char * & theLoop, stringArray * & localVars, compilationSpace & theSpace, const char * filename) {
 	int endMarker;
 
 	if (trimStart (theLoop, '{')) {
@@ -310,45 +313,45 @@ BOOL handleLoop (char * & theLoop, stringArray * & localVars, compilationSpace &
 	addMarker (theSpace, theSpace.numMarkers ++);
 	endMarker = theSpace.numMarkers - 1;
 
-	if (! compileSourceBlock (theLoop, localVars, theSpace, filename)) return FALSE;
+	if (! compileSourceBlock (theLoop, localVars, theSpace, filename)) return false;
 
 	fputc			(HALF_MARKER,		theSpace.writeToFile);
 	fputc			(SLU_BRANCH,		theSpace.writeToFile);
 	put2bytes		(endMarker,			theSpace.writeToFile);
 	theSpace.numLines ++;
-	return TRUE;
+	return true;
 }
 
-BOOL compileQMark (const char * condition, const char * doThis, stringArray * & localVarNames, compilationSpace & theSpace) {
+bool compileQMark (const char * condition, const char * doThis, stringArray * & localVarNames, compilationSpace & theSpace) {
 	int elseMarker, endMarker;
 	stringArray * splitter = splitString (doThis, ':', ONCE);
 
-	if (! compileSourceLine (condition, localVarNames, theSpace, nullArray, NULL)) return FALSE;
+	if (! compileSourceLine (condition, localVarNames, theSpace, nullArray, NULL)) return false;
 	elseMarker = outputMarkerCode (theSpace, SLU_BR_ZERO);
-	if (! compileSourceLine (splitter -> string, localVarNames, theSpace, nullArray, NULL)) return FALSE;
+	if (! compileSourceLine (splitter -> string, localVarNames, theSpace, nullArray, NULL)) return false;
 	endMarker = outputMarkerCode (theSpace, SLU_BRANCH);
 	addMarker (theSpace, elseMarker);
 	if (! destroyFirst (splitter)) return errorBox (ERRORTYPE_PROJECTERROR, "No : after ?", doThis, NULL);
-	if (! compileSourceLine (splitter -> string, localVarNames, theSpace, nullArray, NULL)) return FALSE;
+	if (! compileSourceLine (splitter -> string, localVarNames, theSpace, nullArray, NULL)) return false;
 	addMarker (theSpace, endMarker);
 	destroyFirst (splitter);
-	return TRUE;
+	return true;
 }
 
 enum YNF {YNF_FAIL, YNF_YES, YNF_NO};
 
-BOOL handleVar (const char * sourceCode, stringArray * & localVarNames, sludgeCommand ifLocal, sludgeCommand ifGlobal, sludgeCommand ifIndex, compilationSpace & theSpace, BOOL arrayPush) {
+bool handleVar (const char * sourceCode, stringArray * & localVarNames, sludgeCommand ifLocal, sludgeCommand ifGlobal, sludgeCommand ifIndex, compilationSpace & theSpace, bool arrayPush) {
 	int varNum = findElement (localVarNames, sourceCode);
-	BOOL reply = FALSE;
+	bool reply = false;
 
 	if (varNum != -1) {
 		outputDoneCode (theSpace, ifLocal, varNum);
-		reply = TRUE;
+		reply = true;
 	} else {
 		stringArray * indexMe = splitAtLast (sourceCode, '[');
 		if (countElements (indexMe) == 1) {
 			outputHalfCode (theSpace, ifGlobal, sourceCode);
-			reply = TRUE;
+			reply = true;
 		} else {
 			if (arrayPush) outputDoneCode (theSpace, SLU_STACK_PUSH, 0);
 			if (compileSourceLine (indexMe -> string, localVarNames, theSpace, nullArray, NULL)) {
@@ -362,7 +365,7 @@ BOOL handleVar (const char * sourceCode, stringArray * & localVarNames, sludgeCo
 					errorBox (ERRORTYPE_PROJECTERROR, "No matching ] for [", sourceCode, NULL);
 				} else if (compileSourceLine (indexMe -> string, localVarNames, theSpace, nullArray, NULL)) {
 					outputDoneCode (theSpace, ifIndex, 0);
-					reply = TRUE;
+					reply = true;
 				}
 			}
 		}
@@ -375,18 +378,18 @@ YNF checkMaths (const char * sourceCode, stringArray * & localVarNames, compilat
 	int aa;
 	stringArray * splitMaths;
 	YNF reply = YNF_NO;
-	BOOL done = FALSE;
+	bool done = false;
 
 	for (aa = 0; aa < numMathsFunc; aa ++) {
 		splitMaths = splitAtLast (sourceCode, mathsChar[aa]);
 		if (countElements (splitMaths) == 2) {
-			done = TRUE;
+			done = true;
 			if (splitMaths -> string[0] && splitMaths -> next -> string[0]) {
 				switch (aa) {
 				
 					case MATHS_SET:
 					if (! compileSourceLine (splitMaths -> next -> string, localVarNames, theSpace, nullArray, NULL)) return YNF_FAIL;
-					reply = (YNF) handleVar (splitMaths -> string, localVarNames, SLU_SET_LOCAL, SLU_SET_GLOBAL, SLU_INDEXSET, theSpace, TRUE);
+					reply = (YNF) handleVar (splitMaths -> string, localVarNames, SLU_SET_LOCAL, SLU_SET_GLOBAL, SLU_INDEXSET, theSpace, true);
 					break;
 
 					case MATHS_QMARK:
@@ -410,7 +413,7 @@ YNF checkMaths (const char * sourceCode, stringArray * & localVarNames, compilat
 
 					if (! compileSourceLine (splitMaths -> next -> string, localVarNames, theSpace, nullArray, NULL)) return YNF_FAIL;
 					outputDoneCode (theSpace, math2Sludge[aa], 0);
-					if (handleVar (splitMaths -> string, localVarNames, SLU_SET_LOCAL, SLU_SET_GLOBAL, SLU_INDEXSET, theSpace, TRUE)) {
+					if (handleVar (splitMaths -> string, localVarNames, SLU_SET_LOCAL, SLU_SET_GLOBAL, SLU_INDEXSET, theSpace, true)) {
 						reply = YNF_YES;
 					} else {
 						errorBox (ERRORTYPE_PROJECTERROR, "Couldn't handle something-equals with", splitMaths -> string, NULL);
@@ -431,11 +434,11 @@ YNF checkMaths (const char * sourceCode, stringArray * & localVarNames, compilat
 			} else if (splitMaths -> string[0]) {
 				switch (aa) {
 					case MATHS_INCREMENT:
-					reply = (YNF) handleVar (splitMaths -> string, localVarNames, SLU_INCREMENT_L, SLU_INCREMENT_G, SLU_INCREMENT_I, theSpace, FALSE);
+					reply = (YNF) handleVar (splitMaths -> string, localVarNames, SLU_INCREMENT_L, SLU_INCREMENT_G, SLU_INCREMENT_I, theSpace, false);
 					break;
 
 					case MATHS_DECREMENT:
-					reply = (YNF) handleVar (splitMaths -> string, localVarNames, SLU_DECREMENT_L, SLU_DECREMENT_G, SLU_DECREMENT_I, theSpace, FALSE);
+					reply = (YNF) handleVar (splitMaths -> string, localVarNames, SLU_DECREMENT_L, SLU_DECREMENT_G, SLU_DECREMENT_I, theSpace, false);
 					break;
 				}				
 			} else {
@@ -455,19 +458,19 @@ YNF checkMaths (const char * sourceCode, stringArray * & localVarNames, compilat
 	return reply;
 }
 
-BOOL checkLocal (const char * sourceLine, stringArray * & localVars, compilationSpace & theSpace) {
+bool checkLocal (const char * sourceLine, stringArray * & localVars, compilationSpace & theSpace) {
 	if (theSpace.myNum) {
 		int gotcha = findElement (localVars, sourceLine);
 
 		if (gotcha != -1) {
 			outputDoneCode (theSpace, SLU_LOAD_LOCAL, gotcha);
-			return TRUE;
+			return true;
 		}
 	}
-	return FALSE;
+	return false;
 }
 
-BOOL localVar (char * theString, stringArray * & localVars, compilationSpace & theSpace, const char * filename) {
+bool localVar (char * theString, stringArray * & localVars, compilationSpace & theSpace, const char * filename) {
 	int numVar;
 
 	stringArray * multi = splitString (theString, ',');
@@ -475,22 +478,22 @@ BOOL localVar (char * theString, stringArray * & localVars, compilationSpace & t
 	while (multi) {
 		stringArray * getVarName = splitString (multi -> string, '=', ONCE);
 
-		if (! checkValidName (getVarName -> string, "Not a valid variable name", filename)) return FALSE;
-		if (! checkNotKnown2 (getVarName -> string, filename)) return FALSE;
+		if (! checkValidName (getVarName -> string, "Not a valid variable name", filename)) return false;
+		if (! checkNotKnown2 (getVarName -> string, filename)) return false;
 		numVar = findElement (localVars, getVarName -> string);
 		if (numVar != -1) return errorBox (ERRORTYPE_PROJECTERROR, "Local variable declared twice", getVarName -> string, filename);
 		addToStringArray (localVars, getVarName -> string);
 		numVar = findElement (localVars, getVarName -> string);
 
 		if (getVarName -> next) {
-			if (! compileSourceLine (getVarName -> next -> string, localVars, theSpace, nullArray, NULL)) return FALSE;
+			if (! compileSourceLine (getVarName -> next -> string, localVars, theSpace, nullArray, NULL)) return false;
 			outputDoneCode (theSpace, SLU_SET_LOCAL, numVar);
 		}
 
 		destroyAll (getVarName);
 		destroyFirst (multi);
 	}
-	return TRUE;
+	return true;
 }
 
 YNF expandTypeDefInner (char * & theString) {
@@ -512,25 +515,24 @@ YNF expandTypeDefInner (char * & theString) {
 	return YNF_NO;
 }
 
-BOOL expandTypeDefOK (char * & theString) {
+bool expandTypeDefOK (char * & theString) {
 	int timesDone = 0;
-	BOOL keepGoing = TRUE;
 
 	for (;;) {
 		switch (expandTypeDefInner (theString)) {
 			case YNF_YES:
 			if (++ timesDone == 10) {
 				addComment (ERRORTYPE_PROJECTERROR, "Too many constant replacements... you fool!", NULL);
-				return FALSE;
+				return false;
 			}
 			break;
 			
 			case YNF_NO:
-			return TRUE;
+			return true;
 			break;
 			
 			case YNF_FAIL:
-			return FALSE;
+			return false;
 			break;
 		}
 	}
@@ -538,14 +540,14 @@ BOOL expandTypeDefOK (char * & theString) {
 	// We never get here
 }
 
-BOOL callAFunction (const char * sourceCode, stringArray * & localVarNames, compilationSpace & theSpace, const char * filename) {
+bool callAFunction (const char * sourceCode, stringArray * & localVarNames, compilationSpace & theSpace, const char * filename) {
 	stringArray * splitParams;
 	stringArray * eachParam;
 	int varNum;
 	char * keepNameIfUser;
 
 	splitParams = splitAtLast (sourceCode, '(');
-	if (! expandTypeDefOK (splitParams -> string)) return FALSE;
+	if (! expandTypeDefOK (splitParams -> string)) return false;
 	varNum = findElement (builtInFunc, splitParams -> string);
 
 	keepNameIfUser = joinStrings (splitParams -> string, "");
@@ -556,7 +558,7 @@ BOOL callAFunction (const char * sourceCode, stringArray * & localVarNames, comp
 
 	// Split the parameters up...
 	eachParam = splitString (splitParams -> string, ',', REPEAT);
-	if (eachParam -> string[0] == NULL) destroyFirst (eachParam);
+	if (! eachParam -> string[0]) destroyFirst (eachParam);
 	if (destroyFirst (splitParams)) return errorBox (ERRORTYPE_PROJECTERROR, "Bad sub call", sourceCode, filename);
 
 	// Store the number of parameters...
@@ -564,7 +566,7 @@ BOOL callAFunction (const char * sourceCode, stringArray * & localVarNames, comp
 
 	// Compile the parameters...
 	while (eachParam) {
-		if (! compileSourceLine (eachParam -> string, localVarNames, theSpace, nullArray, filename)) return FALSE;
+		if (! compileSourceLine (eachParam -> string, localVarNames, theSpace, nullArray, filename)) return false;
 		destroyFirst (eachParam);
 		outputDoneCode (theSpace, SLU_QUICK_PUSH, 0);
 	}
@@ -572,16 +574,16 @@ BOOL callAFunction (const char * sourceCode, stringArray * & localVarNames, comp
 	if (varNum != -1) {
 		outputDoneCode (theSpace, SLU_LOAD_BUILT, varNum);
 	} else {
-		if (! compileSourceLine (keepNameIfUser, localVarNames, theSpace, nullArray, filename)) return FALSE;
+		if (! compileSourceLine (keepNameIfUser, localVarNames, theSpace, nullArray, filename)) return false;
 	}
 
 	delete keepNameIfUser;
 
 	outputDoneCode (theSpace, SLU_CALLIT, nP);
-	return TRUE;
+	return true;
 }
 
-BOOL getArrayIndex (const char * sourceCode, stringArray * & localVarNames, compilationSpace & theSpace, const char * filename) {
+bool getArrayIndex (const char * sourceCode, stringArray * & localVarNames, compilationSpace & theSpace, const char * filename) {
 	stringArray * splitParams;
 
 	splitParams = splitAtLast (sourceCode, '[');
@@ -596,19 +598,19 @@ BOOL getArrayIndex (const char * sourceCode, stringArray * & localVarNames, comp
 	
 	// Push the array onto the run-time stack and compile index number
 	outputDoneCode (theSpace, SLU_QUICK_PUSH, 0);
-	if (! compileSourceLine (splitParams -> string, localVarNames, theSpace, nullArray, filename)) return FALSE;
+	if (! compileSourceLine (splitParams -> string, localVarNames, theSpace, nullArray, filename)) return false;
 
 	destroyAll (splitParams);
 	outputDoneCode (theSpace, SLU_INDEXGET, 0);
-	return TRUE;
+	return true;
 }
 
 void compileNumber (const char * textNumber, compilationSpace & theSpace) {
 	outputDoneCode (theSpace, SLU_LOAD_VALUE, stringToInt (textNumber, ERRORTYPE_PROJECTERROR));
 }
 
-BOOL checkString (const char * sourceCode, compilationSpace & theSpace) {
-	BOOL reply = FALSE;
+bool checkString (const char * sourceCode, compilationSpace & theSpace) {
+	bool reply = false;
 	int i;
 	stringArray * grabNum = splitString (sourceCode, 'g', ONCE);
 
@@ -617,7 +619,7 @@ BOOL checkString (const char * sourceCode, compilationSpace & theSpace) {
 			i = stringToInt (grabNum -> string, ERRORTYPE_PROJECTERROR);
 			if (i < numStringsFound && i >= 0) {
 				outputDoneCode (theSpace, SLU_LOAD_STRING, i);
-				reply = TRUE;
+				reply = true;
 			}
 		}
 	}
@@ -625,8 +627,8 @@ BOOL checkString (const char * sourceCode, compilationSpace & theSpace) {
 	return reply;
 }
 
-BOOL checkFileHandle (const char * sourceCode, compilationSpace & theSpace) {
-	BOOL reply = FALSE;
+bool checkFileHandle (const char * sourceCode, compilationSpace & theSpace) {
+	bool reply = false;
 	int i;
 	stringArray * grabNum = splitString (sourceCode, 'e', ONCE);
 
@@ -635,7 +637,7 @@ BOOL checkFileHandle (const char * sourceCode, compilationSpace & theSpace) {
 			i = stringToInt (grabNum -> string, ERRORTYPE_PROJECTERROR);
 			if (i < numFilesFound) {
 				outputDoneCode (theSpace, SLU_LOAD_FILE, i);
-				reply = TRUE;
+				reply = true;
 			}
 		}
 	}
@@ -643,10 +645,10 @@ BOOL checkFileHandle (const char * sourceCode, compilationSpace & theSpace) {
 	return reply;
 }
 
-BOOL compileSourceLineInner (const char * sourceCodeIn, stringArray * & localVarNames, compilationSpace & theSpace, stringArray * & theRest, const char * filename) {
+bool compileSourceLineInner (const char * sourceCodeIn, stringArray * & localVarNames, compilationSpace & theSpace, stringArray * & theRest, const char * filename) {
 	char * sourceCode = joinStrings (sourceCodeIn, "");
 
-	if (! expandTypeDefOK (sourceCode)) return FALSE;
+	if (! expandTypeDefOK (sourceCode)) return false;
 
 	stringArray * getType = splitString (sourceCode, ' ', ONCE);
 	YNF ynf;
@@ -660,7 +662,7 @@ BOOL compileSourceLineInner (const char * sourceCodeIn, stringArray * & localVar
 
 		// Let's see... is it maths?
 		ynf = checkMaths (sourceCode, localVarNames, theSpace);
-		if (ynf == YNF_FAIL) return FALSE;
+		if (ynf == YNF_FAIL) return false;
 		if (ynf == YNF_YES) break;
 
 		// Is it a local?
@@ -676,7 +678,7 @@ BOOL compileSourceLineInner (const char * sourceCodeIn, stringArray * & localVar
 			stringArray * insides = splitString (sourceCode, '(', ONCE);
 			if (! destroyFirst (insides)) return errorBox (ERRORTYPE_PROJECTERROR, "Mismatched () - 001", sourceCode, filename);
 			if (! trimEnd (insides -> string, ')')) return errorBox (ERRORTYPE_PROJECTERROR, "Mismatched () - 002", sourceCode, filename);
-			if (! compileSourceLine (insides -> string, localVarNames, theSpace, nullArray, filename)) return FALSE;
+			if (! compileSourceLine (insides -> string, localVarNames, theSpace, nullArray, filename)) return false;
 			if (destroyFirst (insides)) return errorBox (ERRORTYPE_PROJECTERROR, "Mismatched () - 003", sourceCode, filename);
 			break;
 		}
@@ -684,14 +686,14 @@ BOOL compileSourceLineInner (const char * sourceCodeIn, stringArray * & localVar
 		// No? In that case, if it ends with a ')' it's a function call
 
 		if (sourceCode[strlen (sourceCode) - 1] == ')') {
-			if (! callAFunction (sourceCode, localVarNames, theSpace, filename)) return FALSE;
+			if (! callAFunction (sourceCode, localVarNames, theSpace, filename)) return false;
 			break;
 		}
 
 		// No? In that case, if it ends with a ']' it's an array index
 
 		if (sourceCode[strlen (sourceCode) - 1] == ']') {
-			if (! getArrayIndex (sourceCode, localVarNames, theSpace, filename)) return FALSE;
+			if (! getArrayIndex (sourceCode, localVarNames, theSpace, filename)) return false;
 			break;
 		}
 
@@ -708,38 +710,38 @@ BOOL compileSourceLineInner (const char * sourceCodeIn, stringArray * & localVar
 		case TOK_VAR:
 //		printf ("It's a local variable!\n");
 		if (! destroyFirst (getType)) return errorBox (ERRORTYPE_PROJECTERROR, "Bad local variable definition", sourceCode, filename);
-		if (! localVar (getType -> string, localVarNames, theSpace, filename)) return FALSE;
+		if (! localVar (getType -> string, localVarNames, theSpace, filename)) return false;
 		break;
 
 		case TOK_IF:
 		if (! destroyFirst (getType)) return errorBox (ERRORTYPE_PROJECTERROR, "Dodgy if statement", sourceCode, filename);
-		if (! handleIf (getType -> string, localVarNames, theSpace, theRest, filename)) return FALSE;
+		if (! handleIf (getType -> string, localVarNames, theSpace, theRest, filename)) return false;
 		break;
 
 		case TOK_WHILE:
 		if (! destroyFirst (getType)) return errorBox (ERRORTYPE_PROJECTERROR, "Dodgy while statement", sourceCode, filename);
-		if (! handleWhile (getType -> string, localVarNames, theSpace, filename)) return FALSE;
+		if (! handleWhile (getType -> string, localVarNames, theSpace, filename)) return false;
 		break;
 
 		case TOK_FOR:
 		if (! destroyFirst (getType)) return errorBox (ERRORTYPE_PROJECTERROR, "Dodgy for statement", sourceCode, filename);
-		if (! handleFor (getType -> string, localVarNames, theSpace, filename)) return FALSE;
+		if (! handleFor (getType -> string, localVarNames, theSpace, filename)) return false;
 		break;
 
 		case TOK_LOOP:
 		if (! destroyFirst (getType)) return errorBox (ERRORTYPE_PROJECTERROR, "Dodgy loop statement", sourceCode, filename);
-		if (! handleLoop (getType -> string, localVarNames, theSpace, filename)) return FALSE;
+		if (! handleLoop (getType -> string, localVarNames, theSpace, filename)) return false;
 		break;
 
 		case TOK_NOT:
 		if (! destroyFirst (getType)) return errorBox (ERRORTYPE_PROJECTERROR, "Dodgy ! statement", sourceCode, filename);
-		if (! compileSourceLine (getType -> string, localVarNames, theSpace, nullArray, filename)) return FALSE;
+		if (! compileSourceLine (getType -> string, localVarNames, theSpace, nullArray, filename)) return false;
 		outputDoneCode (theSpace, SLU_NOT, 0);
 		break;
 
 		case TOK_RETURN:
 		if (destroyFirst (getType)) {
-			if (! compileSourceLine (getType -> string, localVarNames, theSpace, nullArray, filename)) return FALSE;
+			if (! compileSourceLine (getType -> string, localVarNames, theSpace, nullArray, filename)) return false;
 		} else {
 			outputDoneCode (theSpace, SLU_LOAD_NULL, 0);
 		}
@@ -753,34 +755,34 @@ BOOL compileSourceLineInner (const char * sourceCodeIn, stringArray * & localVar
 	destroyAll (getType);
 
 	delete sourceCode;
-	return TRUE;
+	return true;
 }
 
-BOOL compileSourceLine (const char * sourceCode, stringArray * & localVarNames, compilationSpace & theSpace, stringArray * & theRest, const char * filename) {
-	return compileSourceLineInner (sourceCode, localVarNames, theSpace, theRest, filename); //? TRUE : errorBox ("Couldn't compile SLUDGE source code", sourceCode);
+bool compileSourceLine (const char * sourceCode, stringArray * & localVarNames, compilationSpace & theSpace, stringArray * & theRest, const char * filename) {
+	return compileSourceLineInner (sourceCode, localVarNames, theSpace, theRest, filename); //? true : errorBox ("Couldn't compile SLUDGE source code", sourceCode);
 }
 
-BOOL compileSourceBlock (const char * sourceCode, stringArray * & localVarNames, compilationSpace & theSpace, const char * filename) {
+bool compileSourceBlock (const char * sourceCode, stringArray * & localVarNames, compilationSpace & theSpace, const char * filename) {
 	stringArray * splitBlock = splitString (sourceCode);
 
 	do {
 		if (splitBlock -> string[0]) {
-			if (! compileSourceLine (splitBlock -> string, localVarNames, theSpace, splitBlock -> next, filename)) return FALSE;
+			if (! compileSourceLine (splitBlock -> string, localVarNames, theSpace, splitBlock -> next, filename)) return false;
 		}
 	} while (destroyFirst (splitBlock));
-	return TRUE;
+	return true;
 }
 
-int defineFunction (char * funcName, char * args, char * sourceCode, BOOL unfreezable, BOOL debugMe, const char * fileName) {
+int defineFunction (char * funcName, char * args, char * sourceCode, bool unfreezable, bool debugMe, const char * fileName) {
 	int funcNum;
 	stringArray * localVarNames;
 	compilationSpace localSpace;
 
 //	if (unfreezable) errorBox ("Found an unfreezable function", funcName);
-	if (! checkNotKnown (funcName, fileName)) return FALSE;
+	if (! checkNotKnown (funcName, fileName)) return false;
 	funcNum = findOrAdd (functionNames, funcName);
 	localVarNames = splitString (args, ',', REPEAT);
-	if (localVarNames -> string[0] == NULL) destroyFirst (localVarNames);
+	if (! localVarNames -> string[0]) destroyFirst (localVarNames);
 	addToStringArray (functionFiles, fileName);
 	
 	if (! startFunction (funcNum, countElements (localVarNames), localSpace, funcName, unfreezable, debugMe, fileName)) {
@@ -794,21 +796,18 @@ int defineFunction (char * funcName, char * args, char * sourceCode, BOOL unfree
 	return funcNum;
 }
 
-inline void addAdvancedFunc (char * tx, BOOL reg) {
-	addToStringArray (builtInFunc, reg ? tx : "ßßß");
-}
 
-void initBuiltInFunc (BOOL reg)
+void initBuiltInFunc ()
 {
 
-#define FUNC(special,name) addAdvancedFunc(# name, reg || !special);
+#define FUNC(special,name) addToStringArray(builtInFunc, #name);
 #include "functionList.h"
 #undef FUNC
 	
 	addToStringArray (typeDefFrom, "NULL");			addToStringArray (typeDefTo, "0");
 
-	addToStringArray (typeDefFrom, "FALSE");		addToStringArray (typeDefTo, "0");
-	addToStringArray (typeDefFrom, "TRUE");			addToStringArray (typeDefTo, "1");
+	addToStringArray (typeDefFrom, "false");		addToStringArray (typeDefTo, "0");
+	addToStringArray (typeDefFrom, "true");			addToStringArray (typeDefTo, "1");
 
 	addToStringArray (typeDefFrom, "CENTER");		addToStringArray (typeDefTo, "65535");
 	addToStringArray (typeDefFrom, "CENTRE");		addToStringArray (typeDefTo, "65535");
@@ -912,13 +911,13 @@ void doDefines (char * fn, stringArray * & strings, stringArray * & fileHandles)
 					if (trimStart (bits->next->string, '"')) {
 						if (! trimEnd (bits->next->string, '"')) errorBox (ERRORTYPE_PROJECTERROR, "Definition starts with \", but doesn't end with it! Sorry, currently support for complex constants is very limited", bits->next->string, fn);
 						char * newTarget = new char[30];
-						sprintf (newTarget, "_string%i", findOrAdd (strings, bits->next->string, FALSE));
+						sprintf (newTarget, "_string%i", findOrAdd (strings, bits->next->string, false));
 						delete bits->next->string;
 						bits->next->string = newTarget;
 					} else if (trimStart (bits->next->string, '"')) {
 						if (! trimEnd (bits->next->string, '\'')) errorBox (ERRORTYPE_PROJECTERROR, "Definition starts with ', but doesn't end with it! Sorry, currently support for complex constants is very limited", bits->next->string, fn);
 						char * newTarget = new char[30];
-						sprintf (newTarget, "_file%i", findOrAdd (fileHandles, bits->next->string, FALSE));
+						sprintf (newTarget, "_file%i", findOrAdd (fileHandles, bits->next->string, false));
 						delete bits->next->string;
 						bits->next->string = newTarget;
 					}
@@ -939,11 +938,11 @@ void doDefines (char * fn, stringArray * & strings, stringArray * & fileHandles)
 	}
 }
 
-BOOL outdoorSub (char * code, const char * fileName) {
+bool outdoorSub (char * code, const char * fileName) {
 	stringArray * getArguments;
 	stringArray * getContents = splitString (code, ')', ONCE);
 	stringArray * getSpecial;
-	BOOL unfreezable = FALSE, debugMe = FALSE;
+	bool unfreezable = false, debugMe = false;
 	tokenType t;
 
 	getArguments = splitString (getContents -> string, '(', ONCE);
@@ -956,11 +955,11 @@ BOOL outdoorSub (char * code, const char * fileName) {
 		t = getToken (getSpecial -> string);
 		switch (t) {
 			case TOK_UNFREEZABLE:
-			unfreezable = TRUE;
+			unfreezable = true;
 			break;
 			
 			case TOK_DEBUG:
-			debugMe = TRUE;
+			debugMe = true;
 			break;
 			
 			default:
@@ -992,10 +991,10 @@ BOOL outdoorSub (char * code, const char * fileName) {
 		destroyAll (getContents);
 		destroyAll (getArguments);
 		destroyAll (getSpecial);
-		return TRUE;
+		return true;
 	}
 	delete functionName;
-	return FALSE;
+	return false;
 }
 
 void writeDebugData (FILE * mainFile) {
@@ -1028,3 +1027,5 @@ void writeDebugData (FILE * mainFile) {
 		funcName = funcName -> next;
 	}
 }
+
+#endif

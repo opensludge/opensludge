@@ -1,3 +1,5 @@
+#include "sprites.h"
+
 struct speechLine {
 	char * textLine;
 	speechLine * next;
@@ -11,11 +13,11 @@ struct speechStruct {
 	spritePalette talkCol;
 };
 
-int wrapSpeech (char * theText, int objT, int sampleFile, BOOL);
+int wrapSpeech (char * theText, int objT, int sampleFile, bool);
 void viewSpeech ();
 void killAllSpeech ();
 int isThereAnySpeechGoingOn ();
 void initSpeech ();
 void saveSpeech (speechStruct * sS, FILE * fp);
-BOOL loadSpeech (speechStruct * sS, FILE * fp);
+bool loadSpeech (speechStruct * sS, FILE * fp);
 

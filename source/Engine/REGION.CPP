@@ -34,7 +34,7 @@ void removeScreenRegion (int objectNum) {
 			removeObjectType (killMe -> thisType);
 			if (killMe == overRegion) overRegion = NULL;
 			delete killMe;
-//			input.checkRegion = TRUE;
+//			input.checkRegion = true;
 		} else {
 			huntRegion = & ((* huntRegion) -> next);
 		}
@@ -95,12 +95,12 @@ void killAllRegions () {
 		delete killRegion;
 	}
 	overRegion = NULL;
-//	input.checkRegion = TRUE;
+//	input.checkRegion = true;
 }
 
-BOOL addScreenRegion (int x1, int y1, int x2, int y2, int sX, int sY, int di, int objectNum) {
+bool addScreenRegion (int x1, int y1, int x2, int y2, int sX, int sY, int di, int objectNum) {
 	screenRegion * newRegion = new screenRegion;
-	if (! checkNew (newRegion)) return FALSE;
+	if (! checkNew (newRegion)) return false;
 	newRegion -> di = di;
 	newRegion -> x1 = x1;
 	newRegion -> y1 = y1;
@@ -111,8 +111,8 @@ BOOL addScreenRegion (int x1, int y1, int x2, int y2, int sX, int sY, int di, in
 	newRegion -> thisType = loadObjectType (objectNum);
 	newRegion -> next = allScreenRegions;
 	allScreenRegions = newRegion;
-//	input.checkRegion = TRUE;
-	return (BOOL) (newRegion -> thisType != NULL);
+//	input.checkRegion = true;
+	return (bool) (newRegion -> thisType != NULL);
 }
 
 void getOverRegion () {

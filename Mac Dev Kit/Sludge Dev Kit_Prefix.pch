@@ -1,0 +1,9 @@
+//
+// Prefix header for all source files of the 'Sludge Dev Kit' target in the 'Sludge Dev Kit' project
+//
+
+#include "SDL.h"
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif

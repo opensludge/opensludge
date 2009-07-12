@@ -1,3 +1,5 @@
+#ifdef WIN32
+
 #include <windows.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -29,8 +31,8 @@ extern HINSTANCE inst;
 extern char * windowName;
 extern char * quitMessage;
 extern char * customIcon;
-extern BOOL runMe;
-extern BOOL forceSilent;
+extern bool runMe;
+extern bool forceSilent;
 
 extern stringArray * functionNames;
 extern char * sourceDirectory;
@@ -42,11 +44,11 @@ extern stringArray * allFileHandles = NULL;
 extern int numStringsFound;
 extern int numFilesFound;
 
-BOOL registered;
+bool registered;
 
-extern BOOL silent;
+extern bool silent;
 
-BOOL compileEverything () {
+bool compileEverything () {
 	int a, numProcessed = 0;
 	stringArray * allSourceStrings = NULL;
 	stringArray * globalVarNames = NULL;
@@ -63,7 +65,7 @@ BOOL compileEverything () {
 
 	projectFile = fopen (theFile, "rt");
 	if (! projectFile) return errorBox ("Can't read project file", theFile);
-	if (! readSettings (projectFile)) return FALSE;
+	if (! readSettings (projectFile)) return false;
 	
 	addToStringArray (allSourceStrings, "");
 	addToStringArray (allSourceStrings, windowName);
@@ -86,7 +88,7 @@ BOOL compileEverything () {
 			if (strcmp (compareMe, ".sld") == 0) {
 				doDefines (tx, allSourceStrings, allFileHandles);
 			} else if (strcmp (compareMe, ".slu") == 0) {
-				if (! preProcess (tx, numProcessed ++, allSourceStrings, allFileHandles)) return FALSE;
+				if (! preProcess (tx, numProcessed ++, allSourceStrings, allFileHandles)) return false;
 			} else if (strcmp (compareMe, ".tra") == 0) {
 				registerTranslationFile (tx);
 			} else {
@@ -114,15 +116,15 @@ BOOL compileEverything () {
 	percRect (1, P_TOP);
 	clearRect (numProcessed, P_BOTTOM);
 
-	if (! startFunction (protoFunction ("_globalInitFunction"), 0, globalSpace, "_globalInitFunction", TRUE, FALSE, "-"))
+	if (! startFunction (protoFunction ("_globalInitFunction"), 0, globalSpace, "_globalInitFunction", true, false, "-"))
 		return errorBox ("Couldn't create global variable initialisation code segment");
 
-//	if (! startFunction (protoFunction ("_globalInitFunction"), 0, globalSpace, "_globalInitFunction", TRUE, TRUE, "-"))
+//	if (! startFunction (protoFunction ("_globalInitFunction"), 0, globalSpace, "_globalInitFunction", true, true, "-"))
 //		return errorBox ("Couldn't create global variable initialisation code segment");
 
 	for (a = 0; a < numProcessed; a ++) {
 		if (! realWork (a, globalVarNames, globalSpace)) {
-			return FALSE;
+			return false;
 		}
 		percRect (a + 1, P_BOTTOM);
 	}
@@ -143,7 +145,7 @@ BOOL compileEverything () {
 	
 	stringArray * silenceChecker = allFileHandles;
 	while (silenceChecker) {
-		if (audioFile (silenceChecker -> string)) silent = FALSE;
+		if (audioFile (silenceChecker -> string)) silent = false;
 		silenceChecker = silenceChecker -> next;
 	}
 	
@@ -192,7 +194,7 @@ BOOL compileEverything () {
 	
 	if (! gotoTempDirectory ()) {
 		fclose (projectFile);
-		return FALSE;
+		return false;
 	}
 	FILE * tempIndex = fopen ("SLUDGE1.tmp", "wb");
 	FILE * tempData = fopen ("SLUDGE2.tmp", "wb");
@@ -200,7 +202,7 @@ BOOL compileEverything () {
 	stringArray * sA = functionNames;
 	unsigned long iSize = countElements (functionNames) * 4 + ftell (projectFile) + 4;
 	for (a = 0; a < countElements (functionNames); a ++) {
-		if (! runLinker (tempData, tempIndex, a, globalVarNames, iSize, allSourceStrings)) return FALSE;
+		if (! runLinker (tempData, tempIndex, a, globalVarNames, iSize, allSourceStrings)) return false;
 		sA = sA -> next;
 		percRect (a + 1, P_BOTTOM);
 	}
@@ -224,7 +226,7 @@ BOOL compileEverything () {
 	for (a = 0; a < tot; a ++) {
 		if (! linkObjectFile (tempData, tempIndex, a, iSize)) {
 			fclose (projectFile);
-			return FALSE;
+			return false;
 		}
 		percRect (a + 1, P_BOTTOM);
 	}
@@ -242,7 +244,7 @@ BOOL compileEverything () {
 	percRect (4, P_TOP);
 	if (! dumpFiles (projectFile, allFileHandles)) {
 		fclose (projectFile);
-		return FALSE;
+		return false;
 	}
 	percRect (5, P_TOP);
 	setWindowText (COM_PROGTEXT, "Done!");
@@ -250,10 +252,10 @@ BOOL compileEverything () {
 	setWindowText (COM_ITEMTEXT, "");
 
 	fclose (projectFile);
-	return TRUE;
+	return true;
 }
 
-BOOL doneOnce = FALSE;
+bool doneOnce = false;
 extern char * finalFile;
 
 void runCompiledGame (HWND h) {
@@ -271,7 +273,7 @@ void runCompiledGame (HWND h) {
 	}
 }
 
-BOOL APIENTRY warningBoxFunc (HWND h, UINT m, WPARAM w, LPARAM l) {
+bool APIENTRY warningBoxFunc (HWND h, UINT m, WPARAM w, LPARAM l) {
 	switch (m) {
 		case WM_COMMAND:
 		switch (LOWORD (w)) {
@@ -289,7 +291,7 @@ BOOL APIENTRY warningBoxFunc (HWND h, UINT m, WPARAM w, LPARAM l) {
 	return 0;
 }
 
-BOOL APIENTRY dialogComp (HWND h, UINT m, WPARAM w, LPARAM l) {
+bool APIENTRY dialogComp (HWND h, UINT m, WPARAM w, LPARAM l) {
 //	static OPENFILENAME ofn;
 //	static char path[MAX_PATH];
 
@@ -308,7 +310,7 @@ BOOL APIENTRY dialogComp (HWND h, UINT m, WPARAM w, LPARAM l) {
 
 		case WM_USER + 1:
 		
-		EnableWindow (GetDlgItem (h, IDCANCEL), TRUE);
+		EnableWindow (GetDlgItem (h, IDCANCEL), true);
 		if (! compileEverything ()) {		// SOMETHING WENT WRONG!
 
 			// Report
@@ -323,7 +325,7 @@ BOOL APIENTRY dialogComp (HWND h, UINT m, WPARAM w, LPARAM l) {
 			delete killName;
 
 		} else {							// SUCCESS! HOORAY!
-			EnableWindow (GetDlgItem (h, IDOK), TRUE);
+			EnableWindow (GetDlgItem (h, IDOK), true);
 
 			// Sort out file stuff
 
@@ -368,8 +370,8 @@ BOOL APIENTRY dialogComp (HWND h, UINT m, WPARAM w, LPARAM l) {
 
 		case WM_PAINT:
 //		repaintPercBars ();
-		if (doneOnce == FALSE) {
-			doneOnce = TRUE;
+		if (doneOnce == false) {
+			doneOnce = true;
 			PostMessage (compWin, WM_USER + 1, 526, 0);
 		}
 		break;
@@ -393,10 +395,12 @@ int findCharInString (const char ch, const char * st) {
 
 #define all32Chars "6WXE1YLM4NA5PQR3SZB7C2DFG8HJKT9V"
 
-BOOL realUnlockCheck (const char * name, const char * codeIn) {
-	unsigned int i, codeSoFar = 3556733886, exOrVal = 1842677271;
-	if (! name) return FALSE;
-	if (! codeIn) return FALSE;
+bool realUnlockCheck (const char * name, const char * codeIn) {
+	unsigned int i;
+	unsigned int codeSoFar = 3556733886;
+	unsigned int exOrVal = 1842677271;
+	if (! name) return false;
+	if (! codeIn) return false;
 	for (i = 0; name[i]; i ++) {
 		codeSoFar += name[i] ^ exOrVal;
 		exOrVal <<= 1;
@@ -416,7 +420,7 @@ BOOL realUnlockCheck (const char * name, const char * codeIn) {
 //	errorBox ("In", numCodeIn);
 //	errorBox ("Should be", codeSoFar);
 
-	return (i == 8) ? (numCodeIn == codeSoFar) : FALSE;
+	return (i == 8) ? (numCodeIn == codeSoFar) : false;
 }
 
 char * myNameIs;
@@ -444,3 +448,5 @@ void compileWindow (char * file, char * name, char * code) {
 			WaitMessage();
 	}
 }
+
+#endif

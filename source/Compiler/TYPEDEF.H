@@ -1,5 +1,5 @@
-//enum bool {FALSE, TRUE};
-#define bool BOOL
+//enum bool {false, true};
+#define bool bool
 
 #ifndef NULL
 	#define NULL 0

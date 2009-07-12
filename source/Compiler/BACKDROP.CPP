@@ -1,7 +1,7 @@
-#include <windows.h>
+//#include <windows.h>
 #include <stdio.h>
 #include <string.h>
-#include <io.h>
+//#include <io.h>
 
 #include "moreio.h"
 #include "splitter.h"
@@ -11,25 +11,25 @@
 #include "tga.h"
 
 //extern unsigned short int * screen;
-unsigned short int * * backDropImage;
-int VERT_RES, HORZ_RES;
+extern unsigned short int * * backDropImage;
+extern int VERT_RES, HORZ_RES;
 
-BOOL initBackDrop (int x, int y) {
+bool initBackDropForCompiler (int x, int y) {
 	int a;
 
 	HORZ_RES = x;
 	VERT_RES = y;
 
 	backDropImage = new unsigned short int * [y];
-	if (backDropImage == NULL) return FALSE;
+	if (! backDropImage) return false;
 	for (a = 0; a < y; a ++) {
 		backDropImage[a] = new unsigned short int [x];
-		if (backDropImage[a] == NULL) return FALSE;
+		if (! backDropImage[a]) return false;
 	}
-	return TRUE;
+	return true;
 }
 
-int loadBackDrop (char * fileName) {
+int loadBackDropForCompiler (char * fileName) {
 	unsigned short int * toScreen;
 	unsigned short int t1, t2;
 	palCol thePalette[256];
@@ -37,7 +37,7 @@ int loadBackDrop (char * fileName) {
 	
 	FILE * fp = fopen (fileName, "rb");
 	if (fp == NULL) {
-		return FALSE;
+		return false;
 	}
 	
 	// Grab the header
@@ -47,10 +47,10 @@ int loadBackDrop (char * fileName) {
 	errorBack = readTGAHeader (imageHeader, fp, thePalette);
 	if (errorBack) {
 //		alert (errorBack);
-		return FALSE;		
+		return false;		
 	}
 
-	initBackDrop (imageHeader.width, imageHeader.height);
+	initBackDropForCompiler (imageHeader.width, imageHeader.height);
 	
 	unsigned short (* readColFunction) (FILE *, int, palCol[], int, int) =
 		imageHeader.compressed ? readCompressedColour : readAColour;
@@ -116,10 +116,10 @@ int saveHSI (char * filename) {
 	return i;
 }
 /*
-BOOL newerFile (char * newFileN, char * oldFileN) {
+bool newerFile (char * newFileN, char * oldFileN) {
 	struct stat oldFileStat, newFileStat;
-	if (stat (oldFileN, & oldFileStat)) return TRUE;
-	if (stat (newFileN, & newFileStat)) return TRUE;
+	if (stat (oldFileN, & oldFileStat)) return true;
+	if (stat (newFileN, & newFileStat)) return true;
 //	char buff[200];
 //	sprintf (buff, "Difference between %s and %s is %i", oldFileN, newFileN, (int) difftime (oldFileStat.st_mtime, newFileStat.st_mtime));
 //	if (difftime (oldFileStat.st_mtime, newFileStat.st_mtime) <= 0) errorBox ("Backdrop report", buff);
@@ -127,7 +127,7 @@ BOOL newerFile (char * newFileN, char * oldFileN) {
 }
 */
 
-BOOL convertTGA (char * filename) {
+bool convertTGA (char * filename) {
 	char * originalName = joinStrings (filename, "");
 	filename[strlen (filename) - 3] = 's';
 	filename[strlen (filename) - 2] = 'l';
@@ -135,12 +135,11 @@ BOOL convertTGA (char * filename) {
 	int i, j;
 
 	if (newerFile (originalName, filename)) {
-		setWindowText (COM_ITEMTEXT, "Compressing image");
-//		addComment ("Compressing ", originalName);
-		i = loadBackDrop (originalName);
-		if (! i) return FALSE;
+		// TODO setWindowText (COM_ITEMTEXT, "Compressing image");
+		i = loadBackDropForCompiler (originalName);
+		if (! i) return false;
 		j = saveHSI (filename);
-		if (! j) return FALSE;
+		if (! j) return false;
 //		{
 //			char blah[255];
 //			sprintf (blah, "Compressed %s...", originalName);
@@ -151,8 +150,8 @@ BOOL convertTGA (char * filename) {
 //		}
 		for (int a = 0; a < VERT_RES; a ++) delete backDropImage[a];
 		delete backDropImage;
-		setWindowText (COM_ITEMTEXT, "");
+		// TODO setWindowText (COM_ITEMTEXT, "");
 	}
 	delete originalName;
-	return TRUE;
+	return true;
 }

@@ -5,65 +5,169 @@
 #include "sludger.h"
 #include "colours.h"
 #include "backdrop.h"
+#include "Graphics.h"
+#include "sprites_AA.h"
+#include "newfatal.h"
 
-BOOL freeze ();
-void unfreeze (BOOL);	// Because freeze.h needs a load of other includes
+bool freeze ();
+void unfreeze (bool);	// Because freeze.h needs a load of other includes
 
 int thumbWidth = 0, thumbHeight = 0;
 
-unsigned short int * * backDropImage = NULL;
+extern GLuint backdropTextureName;
 
-BOOL saveThumbnail (FILE * fp) {
+
+bool saveThumbnail (FILE * fp) {
+	GLuint thumbnailTextureName = NULL;
+	
 	put4bytes (thumbWidth, fp);
 	put4bytes (thumbHeight, fp);
+		
 	if (thumbWidth && thumbHeight) {
-		if (! freeze ()) return FALSE;
+		if (! freeze ()) return false;
+		
+	
+		glEnable (GL_TEXTURE_2D);
+		setPixelCoords (true);
+		
+		glGenTextures (1, &thumbnailTextureName);
+		glBindTexture(GL_TEXTURE_2D, thumbnailTextureName);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, thumbWidth, thumbHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+		
+		// Render the backdrop (scaled)
+		glTexEnvi (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+		glBindTexture (GL_TEXTURE_2D, backdropTextureName);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		
+		glBegin(GL_QUADS);
+		glTexCoord2f(0.0, 0.0); glVertex3f(0.325, 0.325, 0.0);
+		glTexCoord2f(1.0, 0.0); glVertex3f(thumbWidth-0.325, 0.325, 0.0);
+		glTexCoord2f(1.0, 1.0); glVertex3f(thumbWidth-0.325, thumbHeight-0.325, 0.0);
+		glTexCoord2f(0.0, 1.0); glVertex3f(0.325, thumbHeight-0.325, 0.0);
+		glEnd();	
+		
+		if (! maxAntiAliasSettings.useMe) {
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		}	
+		
+		// Copy Our ViewPort To The Texture
+		glBindTexture(GL_TEXTURE_2D, thumbnailTextureName);
+		glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, viewportOffsetX, viewportOffsetY, thumbWidth, thumbHeight);
+		
+		GLushort* image = new GLushort [thumbWidth*thumbHeight];
+		glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, image);
+		glDeleteTextures (1, &thumbnailTextureName);		
+		thumbnailTextureName = 0;
+		
+		setPixelCoords (false);
+	
 		for (int y = 0; y < thumbHeight; y ++) {
 			for (int x = 0; x < thumbWidth; x ++) {
-				unsigned long redTotal = 0;
-				unsigned long greenTotal = 0;
-				unsigned long blueTotal = 0;
-				unsigned long div = 0;
-				unsigned int yStart = (y * winHeight) / thumbHeight;
-				unsigned int xStart = (x * winWidth) / thumbWidth;
-				unsigned int yStop = ((y+1) * winHeight) / thumbHeight;
-				unsigned int xStop = ((x+1) * winWidth) / thumbWidth;
-				
-				for (unsigned int yy = yStart; yy < yStop; yy ++) {
-					for (unsigned int xx = xStart; xx < xStop; xx ++) {
-						
-						redTotal += redValue (backDropImage[yy][xx]);
-						greenTotal += greenValue (backDropImage[yy][xx]);
-						blueTotal += blueValue (backDropImage[yy][xx]);
-						div ++;
-					}
-				}
-				put2bytes (makeColour (redTotal/div, greenTotal/div, blueTotal/div), fp);
+				put2bytes ((*(image +y*thumbWidth+x)), fp);
 			}
 		}
-		unfreeze (TRUE);
-	}		
+		delete image;
+		unfreeze (true);
+	}	
 	fputc ('!', fp);
-	return TRUE;
+	return true;
 }
 
 void showThumbnail (char * filename, int atX, int atY) {
+	GLubyte * thumbnailTexture = NULL;
+	GLuint thumbnailTextureName = NULL;
+
 	int ssgVersion;
 	FILE * fp = openAndVerify (filename, 'S', 'A', ERROR_GAME_LOAD_NO, ssgVersion);
 	if (ssgVersion >= VERSION(1,4)) {
 		if (fp == NULL) return;
 		int fileWidth = get4bytes (fp);
 		int fileHeight = get4bytes (fp);
-		for (int y = 0; y < fileHeight; y ++) {
-			for (int x = 0; x < fileWidth; x ++) {
-				backDropImage[atY + y][atX + x] = get2bytes (fp);
+
+		thumbnailTexture = new GLubyte [fileHeight*fileWidth*4];
+		if (thumbnailTexture == NULL) return;
+		
+		int t1, t2;
+		unsigned short c;
+		GLubyte * target;
+		for (t2 = 0; t2 < fileHeight; t2 ++) {
+			t1 = 0;
+			while (t1 < fileWidth) {
+				c = (unsigned short) get2bytes (fp);
+				target = thumbnailTexture + 4*fileWidth*t2 + t1*4;
+				target[0] = (GLubyte) redValue(c);
+				target[1] = (GLubyte) greenValue(c);
+				target[2] = (GLubyte) blueValue(c);
+				target[3] = (GLubyte) 255;
+				t1++;
 			}
 		}
+
 		fclose (fp);
+
+		glGenTextures (1, &thumbnailTextureName);
+		glBindTexture(GL_TEXTURE_2D, thumbnailTextureName);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, fileWidth, fileHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, thumbnailTexture);
+		
+		delete thumbnailTexture;
+
+		if (atX<0){
+			fileWidth+= atX;
+			atX=0;
+		}
+		if (atY<0){
+			fileHeight+= atY;
+			atY=0;
+		}
+		if (fileWidth + atX > sceneWidth) fileWidth = sceneWidth-atX;
+		if (fileHeight + atY > sceneHeight) fileHeight = sceneHeight-atY;
+		
+		glEnable (GL_TEXTURE_2D);
+		setPixelCoords (true);
+		int xoffset = 0;
+		while (xoffset < fileWidth) {
+			int w = (fileWidth-xoffset < viewportWidth) ? fileWidth-xoffset : viewportWidth;
+			
+			int yoffset = 0;
+			while (yoffset < fileHeight) {
+				int h = (fileHeight-yoffset < viewportHeight) ? fileHeight-yoffset : viewportHeight;
+				
+				glBindTexture (GL_TEXTURE_2D, thumbnailTextureName);
+								
+				glBegin(GL_QUADS);			
+					glTexCoord2f(1.0, 0.0); glVertex3f(fileWidth-0.325-xoffset, 0.325-yoffset, 0.0);
+					glTexCoord2f(0.0, 0.0); glVertex3f(0.325-xoffset, 0.325-yoffset, 0.0);
+					glTexCoord2f(0.0, 1.0); glVertex3f(0.325-xoffset, fileHeight-0.325-yoffset, 0.0);
+					glTexCoord2f(1.0, 1.0); glVertex3f(fileWidth-0.325-xoffset, fileHeight-0.325-yoffset, 0.0);
+				glEnd();
+				glDisable(GL_BLEND);
+				
+				// Copy Our ViewPort To The Texture
+				glBindTexture(GL_TEXTURE_2D, backdropTextureName);
+				glCopyTexSubImage2D(GL_TEXTURE_2D, 0, atX+xoffset, atY+yoffset, viewportOffsetX, viewportOffsetY, w, h);
+				
+				yoffset += viewportHeight;
+			}		
+			xoffset += viewportWidth;
+		}
+		
+		setPixelCoords (false);
+		glDeleteTextures (1, &thumbnailTextureName);
+		thumbnailTextureName = 0;
 	}
 }
 
-BOOL skipThumbnail (FILE * fp) {
+bool skipThumbnail (FILE * fp) {
 	thumbWidth = get4bytes (fp);
 	thumbHeight = get4bytes (fp);
 	unsigned long skippy = thumbWidth;
@@ -71,132 +175,3 @@ BOOL skipThumbnail (FILE * fp) {
 	fseek (fp, skippy, 1);
 	return (fgetc (fp) == '!');
 }
-
-/*BOOL freeze () {
-	frozenStuffStruct * newFreezer = new frozenStuffStruct;
-	if (! checkNew (newFreezer)) return FALSE;
-
-	newFreezer -> backDropImage = backDropImage;
-	newFreezer -> sceneWidth = sceneWidth;
-	newFreezer -> sceneHeight = sceneHeight;
-	newFreezer -> cameraX = cameraX;
-	newFreezer -> cameraY = cameraY;
-	backDropImage = NULL;
-
-	newFreezer -> lightMapImage = lightMapImage;
-	newFreezer -> lightMapNumber = lightMapNumber;
-	lightMapImage = NULL;
-
-	newFreezer -> parallaxStuff = parallaxStuff;
-	parallaxStuff = NULL;
-
-	newFreezer -> zBufferImage = zBuffer.map;
-	newFreezer -> zBufferNumber = zBuffer.originalNum;
-	zBuffer.map = NULL;
-
-	// resizeBackdrop kills parallax stuff, light map, z-buffer...
-	if (! resizeBackdrop (winWidth, winHeight)) return fatal ("Can't create new temporary backdrop buffer");
-
-	copyToBackDrop (newFreezer -> backDropImage,
-					newFreezer -> sceneWidth,
-					newFreezer -> sceneHeight,
-					newFreezer -> cameraX,
-					newFreezer -> cameraY,
-					newFreezer -> parallaxStuff);
-
-	// Put the lightmap and z-buffer back JUST for drawing the people...
-	lightMapImage = newFreezer -> lightMapImage;
-	zBuffer.map = newFreezer -> zBufferImage;
-	fixPeople (newFreezer -> cameraX, newFreezer -> cameraY);
-	lightMapImage = NULL;
-	zBuffer.map = NULL;
-
-	newFreezer -> allPeople = allPeople;
-	allPeople = NULL;
-	
-	statusStuff * newStatusStuff = new statusStuff;
-	if (! checkNew (newStatusStuff)) return FALSE;
-	newFreezer -> frozenStatus = copyStatusBarStuff (newStatusStuff);
-	
-	newFreezer -> allScreenRegions = allScreenRegions;
-	allScreenRegions = NULL;
-	overRegion = NULL;
-
-	newFreezer -> mouseCursorAnim = mouseCursorAnim;
-	newFreezer -> mouseCursorFrameNum = mouseCursorFrameNum;
-	mouseCursorAnim = makeNullAnim ();
-	mouseCursorFrameNum = 0;
-
-	newFreezer -> speech = speech;
-	initSpeech ();
-	
-	newFreezer -> currentEvents = currentEvents;
-	currentEvents = new eventHandlers;
-	if (! checkNew (currentEvents)) return FALSE;
-	memset (currentEvents, 0, sizeof (eventHandlers));
-
-	newFreezer -> next = frozenStuff;
-	frozenStuff = newFreezer;
-	return TRUE;
-}
-
-int howFrozen () {
-	int a = 0;
-	frozenStuffStruct * f = frozenStuff;
-	while (f) {
-		a ++;
-		f = f -> next;
-	}
-	return a;
-}
-
-void unfreeze () {
-	frozenStuffStruct * killMe = frozenStuff;
-
-	if (! frozenStuff) return;
-
-	killAllPeople ();
-	allPeople = frozenStuff -> allPeople;
-
-	killAllRegions ();
-	allScreenRegions = frozenStuff -> allScreenRegions;
-
-	killBackDrop ();
-	backDropImage = frozenStuff -> backDropImage;
-
-	killLightMap ();
-	lightMapImage = frozenStuff -> lightMapImage;
-	lightMapNumber = frozenStuff -> lightMapNumber;
-	
-	noZBuffer ();
-	zBuffer.map = frozenStuff -> zBufferImage;
-	zBuffer.originalNum = frozenStuff -> zBufferNumber;
-
-	killParallax ();
-	parallaxStuff = frozenStuff -> parallaxStuff;
-
-	sceneWidth = frozenStuff -> sceneWidth;
-	sceneHeight = frozenStuff -> sceneHeight;
-	cameraX = frozenStuff -> cameraX;
-	cameraY = frozenStuff -> cameraY;
-
-	deleteAnim (mouseCursorAnim);
-	mouseCursorAnim = frozenStuff -> mouseCursorAnim;
-	mouseCursorFrameNum = frozenStuff -> mouseCursorFrameNum;
-
-	restoreBarStuff (frozenStuff -> frozenStatus);
-
-	delete currentEvents;
-	currentEvents = frozenStuff -> currentEvents;
-
-	killAllSpeech ();
-	delete speech;
-	speech = frozenStuff -> speech;
-
-	frozenStuff = frozenStuff -> next;
-
-	overRegion = NULL;
-	delete killMe;
-}
-
-*/

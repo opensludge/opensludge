@@ -1,0 +1,42 @@
+<html>
+<head>
+<TITLE>Project Manager: &quot;Project properties&quot; Dialog</TITLE>
+</head>
+<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
+<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>Project Manager: &quot;Project properties&quot; Dialog</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+You can open this dialog box from the <b>Project</b> <b><a href="Project_Manager__Menus.html">menu</a></b> or by hitting the <b>Project properties</b> button in the <b><a href="Project_Manager___quot;Project_management_quot;_Section.html">Project management area</a></b> of the screen.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+When you've finished changing the project properties, press <b>OK</b> to update the project with the new settings. If you want to close the dialog box without changing the project, press the <b>Cancel</b> button.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Video Settings:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+If you want your game to take up the full screen when it runs, tick the box marked <b>Run full screen if possible</b>. If the box isn't ticked, your game will be run in a window.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+Enter the size of the window you wish your game to use (in the boxes marked <b>Window/screen width</b> and <b>Window/screen height</b>.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+If you tick the <b>Run full screen if possible</b> box, the SLUDGE engine will attempt to go into a resolution with the width and height specified in the appropriate boxes and a colour depth of 16 bits per pixel (or, failing that, 24 bits per pixel). If it cannot, will run the game in a window instead.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Miscellaneous:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+Tick the <b>Hide Windows mouse pointer</b> box to make the Windows mouse cursor invisible while your game runs. Without the box ticked, the Windows mouse pointer will be visible on the screen at all times, as a small crosshair.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+Enter the prompt to be displayed when a player tries to quit in the <b>Quit message</b> text area. This will only be displayed if the player tries to close your game using the button in the top-right corner of the window or the Close option on the game's System menu (or by pressing Alt-F4 when the game isn't running full screen). The prompt will not appear, whether the game is running full-screen or windowed, in response to a call to the <b><a href="quitGame.html">quitGame</a></b> command, which always closes the game immediately.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+You can specify an icon to be used in your game's title bar, plus in the taskbar and in the window that appears should a player switch between programs using Alt-Tab. Type the filename into the box marked <b>Custom icon</b> (or leave the box empty to use the normal SLUDGE icon).<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+In the box labelled <b>Ms/frame</b> enter the minimum time, in milliseconds, for which each frame should be displayed on-screen. The lower the number, the faster your game will run... provided it is being run on a machine which is <i>capable</i> of the speed requested. Higher numbers mean your game will run more slowly on a fast machine, but will act consistently across different specifications. If you're more used to thinking in terms of how many frames you'll get per second, that figure is shown alongside in the box marked <b>Frames/sec</b> and is 1000 divided by the milliseconds per frame value... eg. 25 milliseconds per frame gives (1000 / 25 =) 40 frames per second.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Run-time File Settings:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+By default, any run-time files which your SLUDGE game uses (i.e. any <b><a href="loadCustomData_and_saveCustomData.html">custom data</a></b> or saved game files) will be created in, and loaded from, the same folder as your compiled game. Should you want to keep these run-time files in a subdirectory instead, enter the name of the folder in the box marked <b>Keep all saved games and custom data in this folder</b>. The folder need not exist already - when your game starts, it will create the folder if it doesn't already exist. The name you specify must be a valid Windows filename... i.e. no illegal characters, such as &quot;:&quot;, &quot;/&quot;, &quot;\&quot;, &quot;?&quot;, &quot;*&quot; or &quot;|&quot;.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</BODY>
+</html>

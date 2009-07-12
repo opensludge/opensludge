@@ -1,5 +1,8 @@
 #include "variable.h"
 
+//#include <SDL_opengl.h>
+#include "glee.h"
+
 enum {
 	LIGHTMAPMODE_NONE		= -1,
 	LIGHTMAPMODE_HOTSPOT,
@@ -10,41 +13,49 @@ enum {
 extern int winWidth, winHeight, sceneWidth, sceneHeight, lightMapMode;
 
 struct parallaxLayer {
-	unsigned short int * * parallaxImage;
+	GLubyte * texture;
+	GLuint textureName;
 	int width, height, speedX, speedY;
-	unsigned short fileNum, wrapX, wrapY, fractionX, fractionY;
-	unsigned int cameraX, cameraY;
+	bool wrapS, wrapT;
+	unsigned short fileNum, fractionX, fractionY;
+	int cameraX, cameraY;
 	parallaxLayer * next;
+	parallaxLayer * prev;
 };
 
-BOOL resizeBackdrop (int x, int y);
+bool resizeBackdrop (int x, int y);
 void killBackDrop ();
 void loadBackDrop (int fileNum, int x, int y);
 void mixBackDrop (int fileNum, int x, int y);
-void backDropToScreenBuffer ();
-void copyToBackDrop (unsigned short int * * fromHere, int orW, int orH, int orX, int orY, parallaxLayer * parallaxS);
+void drawBackDrop ();
+void copyToBackDrop (GLuint fromHere, int orW, int orH, int orX, int orY, parallaxLayer * parallaxS);
 void blankScreen (int x1, int y1, int x2, int y2);
 void darkScreen ();
 void saveHSI (FILE * writer);
-void saveCoreHSI (FILE * writer, unsigned short int * * image, int w, int h);
-BOOL loadHSI (FILE * fp, int, int, BOOL);
-BOOL mixHSI (FILE * fp, int x = 0, int y = 0);
+void saveCoreHSI (FILE * writer, GLuint texture);
+bool loadHSI (FILE * fp, int, int, bool);
+bool mixHSI (FILE * fp, int x = 0, int y = 0);
 void drawHorizontalLine (unsigned int, unsigned int, unsigned int);
 void drawVerticalLine (unsigned int, unsigned int, unsigned int);
 void hardScroll (int distance);
-BOOL getRGBIntoStack (unsigned int x, unsigned int y, stackHandler * sH);
+bool getRGBIntoStack (unsigned int x, unsigned int y, stackHandler * sH);
 
 // Also the light map stuff
 
 void killLightMap ();
-BOOL loadLightMap (int v);
+bool loadLightMap (int v);
+
+extern GLubyte * lightMapTexture;
+extern GLuint lightMapTextureName;
+
 
 // And background parallax scrolling
 
 void killParallax ();
-BOOL loadParallax (unsigned short v, unsigned short fracX, unsigned short fracY);
+bool loadParallax (unsigned short v, unsigned short fracX, unsigned short fracY);
 void saveParallaxRecursive (parallaxLayer * me, FILE * fp);
+void reloadParallaxTextures ();
 
 void nosnapshot ();
-BOOL snapshot ();
-BOOL restoreSnapshot (FILE * fp);
+bool snapshot ();
+bool restoreSnapshot (FILE * fp);

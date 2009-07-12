@@ -1,3 +1,5 @@
+#include <string.h>
+
 #include "allfiles.h"
 #include "variable.h"
 #include "newfatal.h"
@@ -5,7 +7,7 @@
 
 #define LOAD_ERROR "Can't load custom data...\n\n"
 
-unsigned short saveEncoding = FALSE;
+unsigned short saveEncoding = false;
 char encode1 = 0;
 char encode2 = 0;
 
@@ -61,9 +63,10 @@ char * readStringEncoded (FILE * fp) {
 }
 
 char * readTextPlain (FILE * fp) {
-	unsigned long startPos;
+	fpos_t startPos;
+
 	int stringSize = 0;
-	BOOL keepGoing = TRUE;
+	bool keepGoing = true;
 	char gotChar;
 	char * reply;
 
@@ -71,7 +74,7 @@ char * readTextPlain (FILE * fp) {
 	while (keepGoing) {
 		gotChar = (char) fgetc (fp);
 		if ((gotChar == '\n') || (feof (fp))) {
-			keepGoing = FALSE;
+			keepGoing = false;
 		} else {
 			stringSize ++;
 		}
@@ -91,10 +94,10 @@ char * readTextPlain (FILE * fp) {
 	return reply;
 }
 
-BOOL fileToStack (char * filename, stackHandler * sH) {
+bool fileToStack (char * filename, stackHandler * sH) {
 	variable stringVar;
 	stringVar.varType = SVT_NULL;
-	char * checker = saveEncoding ? "[Custom data (encoded)]\r\n" : "[Custom data (ASCII)]\n";
+	const char * checker = saveEncoding ? "[Custom data (encoded)]\r\n" : "[Custom data (ASCII)]\n";
 
 	FILE * fp = fopen (filename, saveEncoding ? "rb" : "rt");
 	if (! fp) return fatal ("No such file", filename);
@@ -147,7 +150,7 @@ BOOL fileToStack (char * filename, stackHandler * sH) {
 				default:
 				fatal (LOAD_ERROR "Corrupt custom data file:", filename);
 				fclose (fp);
-				return FALSE;
+				return false;
 			}
 		} else {
 			char * line = readTextPlain (fp);
@@ -157,19 +160,19 @@ BOOL fileToStack (char * filename, stackHandler * sH) {
 		
 		if (sH -> first == NULL) {
 			// Adds to the TOP of the array... oops!
-			if (! addVarToStackQuick (stringVar, sH -> first)) return FALSE;
+			if (! addVarToStackQuick (stringVar, sH -> first)) return false;
 			sH -> last = sH -> first;
 		} else {
 			// Adds to the END of the array... much better
-			if (! addVarToStackQuick (stringVar, sH -> last -> next)) return FALSE;
+			if (! addVarToStackQuick (stringVar, sH -> last -> next)) return false;
 			sH -> last = sH -> last -> next;
 		}
 	}
 	fclose (fp);
-	return TRUE;
+	return true;
 }
 
-BOOL stackToFile (char * filename, const variable & from) {
+bool stackToFile (char * filename, const variable & from) {
 	FILE * fp = fopen (filename, saveEncoding ? "wb" : "wt");
 	if (! fp) return fatal ("Can't create file", filename);
 
@@ -207,7 +210,7 @@ BOOL stackToFile (char * filename, const variable & from) {
 				default:
 				fatal ("Can't create an encoded custom data file containing anything other than numbers and strings", filename);
 				fclose (fp);
-				return FALSE;
+				return false;
 			}
 		} else {
 			char * makeSureItsText = getTextFromAnyVar (hereWeAre -> thisVar);
@@ -220,5 +223,5 @@ BOOL stackToFile (char * filename, const variable & from) {
 	}
 //	fprintf (fp, "Done!\n");
 	fclose (fp);
-	return TRUE;
+	return true;
 }

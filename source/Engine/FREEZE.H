@@ -1,9 +1,12 @@
 struct frozenStuffStruct {
 	onScreenPerson * allPeople;
 	screenRegion * allScreenRegions;
-	unsigned short int * * backDropImage;
-	unsigned short int * * lightMapImage;
-	unsigned short int * * zBufferImage;
+	GLubyte * backdropTexture;
+	GLuint backdropTextureName;
+	GLuint lightMapTextureName;
+	GLubyte * lightMapTexture;	
+	GLubyte * zBufferImage;
+	int zPanels;
 	parallaxLayer * parallaxStuff;
 	int lightMapNumber, zBufferNumber;
 	speechStruct * speech;
@@ -16,6 +19,6 @@ struct frozenStuffStruct {
 	frozenStuffStruct * next;
 };
 
-BOOL freeze ();
-void unfreeze (BOOL killImage = TRUE);
+bool freeze ();
+void unfreeze (bool killImage = true);
 int howFrozen ();

@@ -2,7 +2,7 @@
 
 
 #if DEBUGGING
-	void debugOut(char * a);
+	void debugOut(char * a, ...);
 #else
 	#define debugOut(a)
 #endif

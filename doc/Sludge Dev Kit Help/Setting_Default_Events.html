@@ -1,0 +1,86 @@
+<html>
+<head>
+<TITLE>Setting Default Events</TITLE>
+</head>
+<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
+<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>Setting Default Events</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+In the <b><a href="Object_Types_and_Events.html">Object Types and Events</a></b> section of this help file this code was given as an example:<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>objectType ego (&quot;&quot;) {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>objectType lookAt (&quot;Look at&quot;) {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>objectType pickUp (&quot;Pick up&quot;) {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>objectType box (&quot;box&quot;) {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;event lookAt {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;It's full of junk, none of which looks useful.&quot;);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;}</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>objectType hat (&quot;old battered top hat&quot;) {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+However, if your code was to call one of the following lines:<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>callEvent (lookAt, hat);</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>callEvent (pickUp, box);</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>callEvent (pickUp, hat);</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+...nothing would happen, as there are no events specified which match the parameters given. Therefore, in order to provide default reactions it is a good idea to create a default object type as follows:<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>objectType default (&quot;&quot;) {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+The lookAt and pickUp object types could then be expanded to include default code:<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>objectType lookAt (&quot;Look at&quot;) {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;event default {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;Nothing interesting to look at there.&quot;);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;}</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>objectType pickUp (&quot;Pick up&quot;) {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;event default {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;I can't pick that up.&quot;);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;}</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+Of course, the <b><a href="callEvent.html">callEvent</a></b> function doesn't know how to resort to this default behaviour, so it's best to provide your own function instead, such as this:<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>sub findEvent (action, object) {</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;# callEvent returns a value of TRUE if it's worked, so...</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;if (callEvent (action, object) != TRUE) {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;callEvent (default, action);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;}</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+Of course, you'll probably want to combine objects with other objects - and sooner or later you'll probably forget a default event somewhere. Also, combining object A with object B should probably have the same effect as combining object B with object A. So, let's make our findEvent function even more complicated...<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>sub findEvent (action, object) {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;if (callEvent (action, object)) return;</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;if (callEvent (object, action)) return;</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;if (callEvent (default, action)) return;</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;if (callEvent (default, object)) return;</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;say (ego, &quot;I can't use these things together.&quot;);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+So let's say your function called:<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>findEvent (box, hat);</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+First it would try to use the box with the hat. Then, because there was no event for that, it would try to use the hat with the box. Then it would try to use the default action in the box object type. Then the default action in the hat object type. Finally, because none of those events exist, the script would resort to making the ego say the immortal line &quot;I can't use these things together.&quot;<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</BODY>
+</html>

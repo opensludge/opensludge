@@ -1,6 +1,9 @@
-#include <windows.h>
+//#include <windows.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <string.h>
+
+
 
 #include "version.h"
 #include "splitter.h"
@@ -11,6 +14,13 @@
 #include "translation.h"
 #include "tga.h"
 #include "settings.h"
+
+
+typedef struct _FILETIME {
+	unsigned long dwLowDateTime;
+	unsigned long dwHighDateTime;
+} FILETIME;
+
 
 char * tempDirectory = NULL;
 char * sourceDirectory = NULL;
@@ -30,17 +40,20 @@ chrRenderingSettingsStruct chrRenderingSettings =
 
 extern char * myNameIs;
 
-BOOL leaveCompressedImages = TRUE;
-BOOL useCompressedImages = TRUE;
+bool leaveCompressedImages = true;
+bool useCompressedImages = true;
 int winMouseImage = 0;
-BOOL runFullScreen = FALSE;
-BOOL silent = TRUE;
-BOOL forceSilent = FALSE;
-BOOL startupHideLogo = TRUE;
-BOOL startupHideLoading = TRUE;
-BOOL startupInvisible = FALSE;
+bool runFullScreen = false;
+bool silent = true;
+bool forceSilent = false;
+bool startupHideLogo = true;
+bool startupHideLoading = true;
+bool startupInvisible = false;
 
-BOOL getSourceDirFromName (char * filename) {
+#if 0
+TODO
+
+bool getSourceDirFromName (char * filename) {
 	int a, lastSlash = -1;
 	for (a = 0; filename[a]; a ++) {
 		if (filename[a] == '/' || filename[a] == '\\') {
@@ -57,12 +70,13 @@ BOOL getSourceDirFromName (char * filename) {
 	if (! getcwd (buff, 1000)) return errorBox (ERRORTYPE_SYSTEMERROR, "I can't work out which directory I'm in...", NULL, NULL);
 	sourceDirectory = joinStrings (buff, "");
 //	errorBox ("I think the source directory is", sourceDirectory);
-	return TRUE;
+	return true;
 }
 
 char * grabEnv (const char * la) {
 	char buffer[500];
 	char * returnVal;
+	/* TODO
 	if (ExpandEnvironmentStrings (la, buffer, 499) == 0) {
 		errorBox (ERRORTYPE_SYSTEMERROR, "Can't expand string containing environment variable(s)", la, NULL);
 		return NULL;
@@ -71,12 +85,16 @@ char * grabEnv (const char * la) {
 		errorBox (ERRORTYPE_SYSTEMERROR, "No environment variable(s)", la, NULL);
 		return NULL;
 	}
+	*/
 	returnVal = joinStrings (buffer, "");
 //	errorBox ("Expanded to", returnVal);
 	return returnVal;
 }
 
-void readDir (char * t) {
+
+void readDir (char * t);
+ 
+ /*{
 	stringArray * splitLine = splitString (t, '=', ONCE);
 	if (countElements (splitLine) == 2) {
 		if (strcmp (splitLine -> string, "finalfile") == 0) {
@@ -139,17 +157,21 @@ void readDir (char * t) {
 	}
 	destroyAll (splitLine);
 }
+*/
 
-BOOL readSettings (FILE * fp) {
+void noSettings ();
+
+bool readSettings (FILE * fp) {
 	char * grabLine;
-	BOOL keepGoing = TRUE;
+	bool keepGoing = true;
+	noSettings ();
 
 	while (keepGoing) {
 		grabLine = readText (fp);
 		if (grabLine[0])
 			readDir (grabLine);
 		else
-			keepGoing = FALSE;
+			keepGoing = false;
 		delete grabLine;
 	}
 
@@ -160,22 +182,22 @@ BOOL readSettings (FILE * fp) {
 	return ((tempDirectory = grabEnv ("%temp%")) != NULL);
 }
 
-BOOL gotoSourceDirectory () {
-	BOOL r = chdir (sourceDirectory);
+bool gotoSourceDirectory () {
+	bool r = chdir (sourceDirectory);
 	if (r) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't move to source directory", sourceDirectory, NULL);
-	return TRUE;
+	return true;
 }
 
-BOOL gotoTempDirectory () {
-	BOOL r = chdir (tempDirectory);
+bool gotoTempDirectory () {
+	bool r = chdir (tempDirectory);
 	if (r) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't move to temporary directory", tempDirectory, NULL);
-	return TRUE;
+	return true;
 }
 /*
-BOOL gotoOutputDirectory () {
-	BOOL r = chdir (outputDirectory);
+bool gotoOutputDirectory () {
+	bool r = chdir (outputDirectory);
 	if (r) return errorBox ("Can't move to output directory", outputDirectory);
-	return TRUE;
+	return true;
 }
 */
 FILE * openFinalFile (char * addMe, char * mode) {
@@ -199,7 +221,7 @@ int winMouseLookup[4] = {
 		MOUSE_2 | MOUSE_1
 };
 
-void writeFinalData (FILE * mainFile, BOOL reg) {
+void writeFinalData (FILE * mainFile) {
 	fprintf (mainFile, "SLUDGE");
 	fputc (0, mainFile);
 	fprintf (mainFile, "\r\nSLUDGE data file\r\nSLUDGE is (c) Hungry Software 2006\r\nThis data file must be run using the SLUDGE engine available at http://www.hungrysoftware.com/\r\n");
@@ -215,15 +237,9 @@ void writeFinalData (FILE * mainFile, BOOL reg) {
 		fputc (0, mainFile);
 	}
 	
-	if (! reg) {
-		startupHideLogo = FALSE;
-		startupHideLoading = FALSE;
-		startupInvisible = FALSE;
-	}
-
 	put2bytes (finalWidth, mainFile);
 	put2bytes (finalHeight, mainFile);
-	fputc ((reg											/*<< 0 */) +
+	fputc ((1 /* reg */	) +
 		   (runFullScreen								  << 1) +
 		   (winMouseLookup[winMouseImage & 3]				  ) +
 		   (silent										  << 3) +
@@ -239,10 +255,11 @@ void writeFinalData (FILE * mainFile, BOOL reg) {
 
 	// Now write the date and time of compilation...
 	
-	SYSTEMTIME systemTime;
+	/* TODO - but not used by the engine anyway 
+	SYSTEMTIME systemTime;*/
 	FILETIME fileTime;
-	GetSystemTime (& systemTime);
-	SystemTimeToFileTime (& systemTime, & fileTime);
+	//GetSystemTime (& systemTime);
+	//SystemTimeToFileTime (& systemTime, & fileTime);
 	fwrite (& fileTime, sizeof (fileTime), 1, mainFile);
 	
 	// More bits
@@ -258,3 +275,6 @@ void writeFinalData (FILE * mainFile, BOOL reg) {
 	
 	writeString ("okSoFar", mainFile);
 }
+
+
+#endif

@@ -1,0 +1,24 @@
+<html>
+<head>
+<TITLE>Scrolling Scenes</TITLE>
+</head>
+<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
+<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>Scrolling Scenes</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+When SLUDGE starts, an initial (blank) <b><a href="The_Background_Image.html">background image</a></b> is set up to be the same width and height as set for the project in the <b><a href="Project_Manager___quot;Project_properties_quot;_Dialog.html">Project properties dialog</a></b> in the <b><a href="About_the_SLUDGE_Project_Manager.html">SLUDGE project manager</a></b> application. However, you can change the size of the background image to an area larger than the window or screen. Then, by moving a &quot;camera&quot;, you can view different areas within the scene... the technique known as scrolling.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+To change the size of the background image, use the <b><a href="setSceneDimensions.html">setSceneDimensions</a></b> function. Then, load your graphics in the usual way; using the <b><a href="addOverlay.html">addOverlay</a></b> function. Remember, if you want to change the size of background image back to the values specified in the project manager you will need to call the setSceneDimensions function again, with the original values as parameters.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+When the background is resized, the camera is moved to the top left hand corner of the total area. To move the camera elsewhere in the scene, use the <b><a href="aimCamera.html">aimCamera</a></b> function.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Parallax Scrolling:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+SLUDGE can handle multiple layered parallax scrolling. Each layer can be added using a single call to the built-in <b><a href="parallaxAdd.html">parallaxAdd</a></b> function and any parallax layers loaded will be visible through areas of your scene coloured bright cyan (0, 255, 255 or #00FFFF). The function <b><a href="parallaxClear.html">parallaxClear</a></b> removes all loaded parallax layers from memory.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</BODY>
+</html>

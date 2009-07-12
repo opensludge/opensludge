@@ -1,0 +1,73 @@
+<html>
+<head>
+<TITLE>Reusing Code for or from Events</TITLE>
+</head>
+<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
+<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>Reusing Code for or from Events</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+When an event is defined inside an object type and a new set of commands are defined:<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>objectType someObject (&quot;whatever&quot;) {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;event someAction {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Do stuff here</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;}</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+...this is equivalent to the following code:<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>sub myFunction () {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;# Do stuff here</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>objectType someObject (&quot;whatever&quot;) {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;event someAction = myFunction;</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+Using the second method, the name of the function is obviously myFunction. Using the first method, with the code defined inside the object type itself, the code is stored in a function with no parameters, the name of which is the name of the object, followed by a period, followed by the name of the action. So, in the first example, the function is created with the name doorFromAToB.lookAt. This makes it possible to access events directly without using the <b><a href="callEvent.html">callEvent</a></b> command and to reuse predefined actions for new events:<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>objectType doorFromAToB (&quot;big metal door&quot;) {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;event lookAt {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;It's only a door. Never seen a door before?&quot;);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;}</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>objectType doorFromCToD (&quot;tiny wooden door&quot;) {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;event lookAt = doorFromAToB.lookAt;</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>objectType doorFromEToF (&quot;purple door&quot;) {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;event lookAt {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doorFromAToB.lookAt ();</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;The hinges are a bit rusty...&quot;);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;}</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+Or, as is perhaps clearer to read:<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>sub lookAtDoor {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;say (ego, &quot;It's only a door. Never seen a door before?&quot;);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>objectType doorFromAToB (&quot;big metal door&quot;) {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;event lookAt = lookAtDoor;</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>objectType doorFromCToD (&quot;tiny wooden door&quot;) {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;event lookAt = lookAtDoor;</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>objectType doorFromEToF (&quot;purple door&quot;) {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;event lookAt {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lookAtDoor ();</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;The hinges are a bit rusty...&quot;);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;}</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+(Note that because the events in the first two object types above reuse an existing function, there are no new functions created called either doorFromAToB.lookAt or doorFromCToD.lookAt.)<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</BODY>
+</html>

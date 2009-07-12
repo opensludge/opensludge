@@ -1,0 +1,50 @@
+<html>
+<head>
+<TITLE>addOverlay</TITLE>
+</head>
+<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
+<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>addOverlay</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=20><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Syntax:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<font color=#BB4444 SIZE=+2><TT><B>addOverlay (<i>thisFile, atX, atY</i>);</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Purpose:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+Loads an image from the file handle <i>thisFile</i> and overlays it onto the screen. Bright magenta (255, 0, 255 or #FF00FF) is used as the transparency colour, making is possible to add irregular shapes.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+The values <i>atX</i> and <i>atY</i> define the top left corner of the area into which the image will be added. If the value of <i>atX</i> is CENTRE (or CENTER) the image will be added halfway across the window. If the value of <i>atY</i> is CENTRE (or CENTER) the image will be added halfway down the window.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+NB: Should any parallax layers exist, they will be visible &quot;through&quot; any areas of the background image filled in with bright cyan (0, 255, 255 or #00FFFF). You can add parallax layers using the <b><a href="parallaxAdd.html">parallaxAdd</a></b> function.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Return value:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+No return value.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Example:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<FONT color=#BB4444><TT><B>sub init () {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;addOverlay ('someImage.tga', CENTER, CENTER);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>See also:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<b><a href="File_Handling.html">File Handling</a></b><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<b><a href="The_Background_Image.html">The Background Image</a></b><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<b><a href="darkBackground.html">darkBackground</a></b><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<b><a href="mixOverlay.html">mixOverlay</a></b><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</BODY>
+</html>

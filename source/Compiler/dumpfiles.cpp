@@ -1,6 +1,10 @@
-#include <windows.h>
+#if 0
+TODO
+
+//#include <windows.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <string.h>
 
 #include "splitter.h"
 #include "percbar.h"
@@ -15,18 +19,18 @@
 #include "translation.h"
 #include "dumpfiles.h"
 
-BOOL dumpFileInto (FILE * writer, char * thisFile) {
+bool dumpFileInto (FILE * writer, char * thisFile) {
 	int a;
 	FILE * reader = fopen (thisFile, "rb");
 
-	if (! reader) return FALSE;
+	if (! reader) return false;
 	for (;;) {
 		a = fgetc (reader);
 		if (a == EOF) break;
 		fputc (a, writer);
 	}
 	fclose (reader);
-	return TRUE;
+	return true;
 }
 
 int getFileType (char * filename) {
@@ -67,9 +71,9 @@ int getFileType (char * filename) {
 	return reply;
 }
 
-BOOL dumpFiles (FILE * mainFile, stringArray * & theSA) {
+bool dumpFiles (FILE * mainFile, stringArray * & theSA) {
 
-	BOOL destroyCompressedImages = getRegSetting ("compilerKillImages");
+	bool destroyCompressedImages = false; //TODO getRegSetting ("compilerKillImages");
 
 	// Display first...
 
@@ -91,12 +95,12 @@ BOOL dumpFiles (FILE * mainFile, stringArray * & theSA) {
 		return errorBox (ERRORTYPE_SYSTEMERROR, "Can't write temporary file", "alldata.big", NULL);
 	gotoSourceDirectory ();
 	
-	BOOL killAfterAdd;
+	bool killAfterAdd;
 	while (theSA) {
 		setWindowText (COM_FILENAME, theSA -> string);
 		
-		killAfterAdd = FALSE;
-		if (theSA -> string[0] == NULL) {
+		killAfterAdd = false;
+		if (! theSA -> string[0]) {
 			// Nothing - used in forceSilent mode to replace audio	
 			put4bytes (0, outFile);
 
@@ -111,7 +115,7 @@ BOOL dumpFiles (FILE * mainFile, stringArray * & theSA) {
 				
 				case FILETYPE_FLOOR:
 				convertFloor (theSA -> string);
-				killAfterAdd = TRUE;
+				killAfterAdd = true;
 				break;
 				
 				case FILETYPE_MIDI:
@@ -167,21 +171,21 @@ BOOL dumpFiles (FILE * mainFile, stringArray * & theSA) {
 //	sprintf (showWhenDone, "Added %d resources", howManyFiles);
 //	addComment (showWhenDone);
 	
-	return TRUE;
+	return true;
 }
 
-BOOL saveStrings (FILE * mainFile, FILE * textFile, stringArray * theSA) {
+bool saveStrings (FILE * mainFile, FILE * textFile, stringArray * theSA) {
 	stringArray * wholeStringThing = theSA;
 	
 	FILE * projectFile, * indexFile;
 	int indexSize = countElements (theSA) * 4 + ftell (mainFile) + 4;
 
 //	errorBox ("Number of unique strings: ", countElements (theSA));
-	if (! gotoTempDirectory ()) return FALSE;
+	if (! gotoTempDirectory ()) return false;
 	projectFile = fopen ("txtdata.tmp", "wb");
 	indexFile = fopen ("txtindex.tmp", "wb");
 //	textFile = fopen ("alltext.txt", "wt");
-	if (! (projectFile && indexFile)) return FALSE;
+	if (! (projectFile && indexFile)) return false;
 
 	while (theSA) {
 //		printf ("Writing string %s at position %i\n", theSA -> string, (int) (ftell (projectFile) + indexSize));
@@ -198,12 +202,14 @@ BOOL saveStrings (FILE * mainFile, FILE * textFile, stringArray * theSA) {
 	fclose (indexFile);
 	if (textFile) fclose (textFile);
 
-	if (! gotoTempDirectory ()) return FALSE;
+	if (! gotoTempDirectory ()) return false;
 	if (dumpFileInto (mainFile, "txtindex.tmp") && dumpFileInto (mainFile, "txtdata.tmp")) {
 		unlink ("txtindex.tmp");
 		unlink ("txtdata.tmp");
 		return addAllTranslationData (wholeStringThing, mainFile);
 	} else {
-		return FALSE;
+		return false;
 	}
 }
+
+#endif

@@ -1,3 +1,7 @@
+
+//#include <SDL_opengl.h>
+#include "glee.h"
+
 #include "allfiles.h"
 #include "cursors.h"
 #include "colours.h"
@@ -21,6 +25,7 @@ void pickAnimCursor (personaAnimation * pp) {
 
 void displayCursor () {
 	if (mouseCursorAnim && mouseCursorAnim -> numFrames) {
+		
 		int spriteNum = mouseCursorAnim -> frames[mouseCursorFrameNum].frameNum;
 		int flipMe = 0;
 
@@ -35,7 +40,7 @@ void displayCursor () {
 		if (flipMe != 2) {
 			(flipMe ? flipFontSprite : fontSprite) (input.mouseX, input.mouseY,
 				mouseCursorAnim -> theSprites -> bank.sprites[spriteNum],
-				mouseCursorAnim -> theSprites -> bank.myPalette);
+				mouseCursorAnim -> theSprites -> bank.myPalette /* ( spritePalette&) NULL*/);
 		}
 
 		if (++ mouseCursorCountUp >= mouseCursorAnim -> frames[mouseCursorFrameNum].howMany) {

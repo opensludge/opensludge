@@ -1,1 +1,1 @@
-BOOL fileToStack (char * filename, stackHandler * sH);
+bool fileToStack (char * filename, stackHandler * sH);

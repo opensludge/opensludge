@@ -1,0 +1,192 @@
+<html>
+<head>
+<TITLE>Introduction to SLUDGE Concepts</TITLE>
+</head>
+<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
+<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>Introduction to SLUDGE Concepts</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+If you've played an adventure game before, you're probably more than aware of all the concepts involved, right? The player controls a character (sometimes, more than one) in some kind of world, consisting of different areas. Along the way the player's character can meet other characters, interact with objects in a variety of ways and carry certain objects with them. Most games also feature conversations of some kind or another. The aim of the game is nearly always to reach the end of the plot which has been set out by the creator(s) of the game by completing a series of puzzles and making the right decisions.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+Throughout this documentation, various words have specific meanings... although, much of the time, you should be able to fully understand the gist of what's meant without knowing exactly how things work.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Objects:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+An object is a thing. Simple. That character you see on the screen? That's an object. That doorway? That's an object too. That jar of jam you've got in your inventory, that explosion, that daisy, that seagull flying past? They're all objects.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+To create an object, you first need to define an object type.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>objectType phil (&quot;Phil Philson, Juggler Extraordinaire&quot;) {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+The first word has to be &quot;objectType&quot; - because that's what we're creating. The next word is whatever you want to call it... providing the name you choose doesn't use any strange characters or symbols with special meanings. If you just stick to letters you're well and truly safe.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+Next, in brackets, you have to choose the name by which the object will be known on the screen. Make sure you put it in speech marks, otherwise the compiler will try and turn the name into code and get very confused.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+So why give each object an internal name <b>and</b> an on-screen name? Well, put it this way... personally, if I had an object called &quot;big fluffy dog called Duke&quot; and wanted to make it do 10 different things, I'd be happier calling it &quot;dog&quot; or &quot;duke&quot; or &quot;dogDuke&quot; in my code.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+One last thing... those squirly brackets, { and }. They're there so that you can specify different things about each of your objects, such as the colours which are used for text when they speak, the speed at which they walk and, most importantly, what happens when you combine them with other objects. This is all covered in depth elsewhere, but for now, consider the following...<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>objectType ball (&quot;spotty ball&quot;) {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>objectType phil (&quot;Phil Philson, Juggler Extraordinaire&quot;) {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;event ball {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (phil, &quot;Wow, you found my spotty juggling ball!&quot;);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;}</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+That bit of code creates two objects, called &quot;ball&quot; and &quot;phil&quot;. The event inside the second object says what happens when you use the ball object on the phil object. Not too tricky, is it? Each object can contain as many or as few events as you need.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Actions:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+Actions, or verbs, are the concepts such as &quot;Look at&quot;, &quot;Talk to&quot;, &quot;Pick up&quot;, &quot;Walk to&quot; and so on which you will find, in one form or another, in a lot of games. In SLUDGE, guess what? They're just more objects. So, in the same way as we can use the ball object with the phil object in the example above, we can create and use other objects such as lookAt and talkTo.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>objectType ball (&quot;spotty ball&quot;) {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;event lookAt {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (player, &quot;Looks like it's got a childhood disease.&quot;);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;}</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>objectType phil (&quot;Phil Philson, Juggler Extraordinaire&quot;) {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;event lookAt {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (player, &quot;He's very impressive.&quot;);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;}</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;event ball {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (phil, &quot;Wow, you found my spotty juggling ball!&quot;);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;}</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+Obviously, objects such as lookAt and talkTo won't be found in crates, pinned to walls or waiting for the bus in your game... but they <b>are</b> just objects, all the same.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Functions:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+Functions look a lot like events. Like events, they're just lists of instructions. For example, if your game has a book which you can read to several people, you don't want to type (or copy and paste) the same thing into a &quot;book&quot; event for each person... what a waste of time and effort, not to mention space. As a rule of thumb, if you want to do something in more than one place... put it in a function.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+Function definitions start with the word &quot;sub&quot;, which is short for subroutine (another name for a function). Next comes the name of the function - again, call it anything you want, but stick to basic characters, like letters. After that, add an empty pair of brackets, and - just like an event - the list of things to do in squirly brackets.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>sub readBook () {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;say (player, &quot;SLUDGE - A Beginner's Guide.&quot;);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;say (player, &quot;SLUDGE is a programming language.&quot;);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;say (player, &quot;With it, you can write your own adventure games.&quot;);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+To call a function - that is, to run the code which it contains - just type its name in another function, or in an event. For example, you may want to call the readBook function, above, when the player looks at it (combining the lookAt and sludgeBook objects) and also when the player shows it to someone (combining the sludgeBook and phil objects).<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>objectType sludgeBook (&quot;book about the wonders of SLUDGE&quot;) {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;event lookAt {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;readBook ();</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (player, &quot;...it goes on like that for 400 pages.&quot;);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;}</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>objectType phil (&quot;Phil Philson, Juggler Extraordinaire&quot;) {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;event sludgeBook {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (player, &quot;I'm going to read you this book.&quot;);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;readBook ();</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (phil, &quot;Stop! Please stop!&quot;);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;}</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+When you call a function, SLUDGE pauses the current event or function until the code you've called is all finished. So, if you combine the sludgeBook and phil objects, you'll be shown the following scene...<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<b>Player's character:&nbsp;&nbsp;&nbsp;</b>I'm going to read you this book.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<b>Player's character:&nbsp;&nbsp;&nbsp;</b>SLUDGE - A Beginner's Guide.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<b>Player's character:&nbsp;&nbsp;&nbsp;</b>SLUDGE is a programming language.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<b>Player's character:&nbsp;&nbsp;&nbsp;</b>With it, you can write your own adventure games.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<b>Phil:&nbsp;&nbsp;&nbsp;</b>Stop! Please stop!<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+You may be wondering what those empty brackets are for. Well, you can pass any number of values into a function, and use them inside. This is, however, beyond the scope of this quick introduction.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Global and local variables:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+If you've programmed before, you can skip this paragraph. If you're new to programming, you probably won't know much about variables, if anything... so here goes. You can think of a variable as a whiteboard... you can write things onto it, and you can read from it. Why a whiteboard, and not a bit of paper? Because it's reusable. When you write something new onto it, whatever was there before is wiped - and you can use it as much as you want. And yes, that means it can only hold one thing at once.*<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+ * = Normally<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+Right - the people who'd heard of variables before, welcome back. Any SLUDGE variable can hold any type of information (there are some languages where you need one type of variable to hold a number, a different type to hold a sentence, a different type to hold a noise and so on). You can create variables inside or outside of events and functions, and in either case you do it by saying:<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>var variableNameGoesHere;</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+If you create a variable in between two functions, two object types, a function and an object type... OK, you get the idea... it's what's known as a global variable. It will be created when your game starts, and will last until your game stops. Any of your functions and events can look at and change it.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+If you create a variable inside a function or an event, it's what's known as a local variable. It's only created when the function or event starts, and disappears when the function or event comes to an end. That means, if you run the same function twice, the value of the variable is reset the second time the function starts. Variables inside one function are separate from variables inside another - one function can't look at or change another function's variables.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+The simplest way to give a variable a value is to use the equals sign, which means &quot;gets changed to&quot;. So...<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>sub doNumberStuff () {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;var num;</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;num = 1;</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;say (player, num);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;num = 2;</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;say (player, num);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;num = num - 5;</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;say (player, num);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+...would make the &quot;player&quot; object say &quot;1&quot;, &quot;2&quot; and (at this point, &quot;num&quot; becomes its old value minus 5) &quot;-3&quot;.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+There are plenty of other built-in mathematical and logical operations which can be performed on variables, too... from adding and subtracting, past multiplication and division all the way to binary ands and ors.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Rooms:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+In SLUDGE, there's no such thing as a room as such. Why bother? Walking into a new room, after all, means little more than putting characters in certain places on the screen and changing the background image. It's just a list of instructions. In SLUDGE, every room is just a function.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+OK, now this is where we start to see a few commands we haven't run into yet... but you should be able to work out what they do.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>sub kitchen () {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;addOverlay ('kitchenPicture.tga', 0, 0);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;addCharacter (player, 320, 400, playerCostume);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+How do we go from one room into the next? Personally, I'd suggest a doorway. That's something with which you'll want to interact... so it's an object.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>objectType kitchenDoor (&quot;door into hallway&quot;) {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;event walkTo {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gotoRoom (hallway);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;}</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+(Of course, this will only work if you're using an interface which uses a walkTo object and has a gotoRoom function. If you're basing your game on a different interface, take a look at the door objects which exist already, to see how they've been coded.)<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+Hang on... a doorway isn't a character! It's something we've drawn on the background image already! All we want to do is set up an area of the screen which will be labelled &quot;door into hallway&quot; when the mouse points at it. That's something known as a screen region in SLUDGE, and we can add one like this...<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>sub kitchen () {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;addOverlay ('kitchenPicture.tga', 0, 0);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;addCharacter (player, 320, 400, playerCostume);</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;addScreenRegion (kitchenDoor, 50, 50, 150, 350, 100, 370, NORTH);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+The numbers here are in pairs... the first pair (50, 50) specifies the top left corner of the interactive region. The second pair (150, 350) specifies the bottom right corner of the region. The final pair (100, 370) specifies where a character will try and stand if (s)he's told to walk to the object in question.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>And away you go:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+That's pretty much all the basics you need to get started. You should now be able to understand much of the room and object code in any example project you may have around... and even start changing bits.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+Bear in mind that a lot of functions - such as gotoRoom, mentioned above, and any inventory management and interactive conversation code - won't be described in this help file because they're not part of SLUDGE... they're part of the specific project. By all means, find and take a look at the code, but don't expect to follow it all just yet.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+Good luck!<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>See also:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<b><a href="Overview__Creating_a_Game.html">Overview: Creating a Game</a></b><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<b><a href="SLUDGE_Language_Reference_Manual.html">SLUDGE Language Reference Manual</a></b><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</BODY>
+</html>

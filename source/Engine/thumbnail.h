@@ -1,3 +1,3 @@
-BOOL saveThumbnail (FILE * fp);
+bool saveThumbnail (FILE * fp);
 void showThumbnail (char * filename, int x, int y);
-BOOL skipThumbnail (FILE * fp);
+bool skipThumbnail (FILE * fp);

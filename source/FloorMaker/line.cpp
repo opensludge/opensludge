@@ -1,4 +1,4 @@
-#include <windows.h>
+#include <stdlib.h>
 
 extern unsigned short int * * backDropImage;
 extern int HORZ_RES, VERT_RES;

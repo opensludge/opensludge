@@ -1,6 +1,15 @@
+#include "debug.h"
 #include "allfiles.h"
+#include "SDL.h"
 
+#include <stdlib.h>
+#include <string.h>
+#ifdef _MSC_VER
+#include <complex>
+#include <direct.h>
+#else
 #include <unistd.h>
+#endif
 #include <stdio.h>
 
 #include "sludger.h"
@@ -14,10 +23,8 @@
 #include "bg_effects.h"
 #include "sprites.h"
 #include "fonttext.h"
-#include "registry.h"
 #include "sprbanks.h"
 #include "people.h"
-#include "direct.h"
 #include "sound.h"
 #include "objtypes.h"
 #include "floor.h"
@@ -25,12 +32,12 @@
 #include "talk.h"
 #include "region.h"
 #include "moreio.h"
-#include "vid.h"
 #include "savedata.h"
 #include "freeze.h"
 #include "colours.h"
 #include "language.h"
 #include "thumbnail.h"
+#include "Graphics.h"
 
 int speechMode = 0;
 int cameraX, cameraY;
@@ -40,25 +47,29 @@ char * launchMe = NULL;
 variable * launchResult = NULL;
 
 extern int lastFramesPerSecond, thumbWidth, thumbHeight;
-extern BOOL allowAnyFilename;
-extern BOOL captureAllKeys;
-extern BOOL updateDisplay;
-extern BOOL videoPlaying;
+extern bool allowAnyFilename;
+extern bool captureAllKeys;
 extern short fontSpace;
 extern eventHandlers * currentEvents;
 extern variableStack * noStack;
 extern statusStuff * nowStatus;
 extern screenRegion * overRegion;
 extern HWND hMainWindow;
-extern BOOL runningFullScreen;
 extern int /*dialogValue,*/ sceneWidth, sceneHeight;
 extern int numBIFNames, numUserFunc;
+extern char builtInFunctionNames[][25];
+
 extern char * * allUserFunc;
 extern char * * allBIFNames;
 extern inputType input;
 extern char * loadNow;
 extern byte fontTable[256];
-extern unsigned short int * * lightMapImage;
+
+extern GLubyte * lightMapTexture;
+extern GLuint lightMapTextureName;
+extern GLuint backdropTextureName;
+
+
 extern float speechSpeed;
 extern unsigned char brightnessLevel;
 extern unsigned char fadeMode;
@@ -67,7 +78,7 @@ extern frozenStuffStruct * frozenStuff;
 extern unsigned int currentBlankColour;
 extern unsigned int languageID;
 extern unsigned char currentBurnR, currentBurnG, currentBurnB;
-extern iniStuff iniFileSettings;
+extern settingsStruct gameSettings;
 extern aaSettingsStruct maxAntiAliasSettings;
 
 int paramNum[] = {-1, 0, 1, 1, -1, -1, 1, 3, 4, 1, 0, 0, 8, -1,		// SAY -> MOVEMOUSE
@@ -89,10 +100,10 @@ int paramNum[] = {-1, 0, 1, 1, -1, -1, 1, 3, 4, 1, 0, 0, 8, -1,		// SAY -> MOVEM
 						3, 2, 2, 0, 0, 1,							// readThumbnail, setThumbnailSize, hasFlag, snapshot, clearSnapshot, anyFilename
 						2, 1,										// regGet, fatal
 						4, 3, -1, 0									// chr AA, max AA, setBackgroundEffect, doBackgroundEffect
-					};
+};
 
-BOOL failSecurityCheck (char * fn) {
-	if (fn == NULL) return TRUE;
+bool failSecurityCheck (char * fn) {
+	if (fn == NULL) return true;
 
 	int a = 0;
 
@@ -107,12 +118,12 @@ BOOL failSecurityCheck (char * fn) {
 			case '<':
 			case '>':
 			case '|':
-			fatal ("Windows doesn't support filenames containing the following characters: \n\n\\  /  :  \"  <  >  |  ?  *\n\nConsequently, the following filename is not allowed:", fn);
-			return TRUE;
+			fatal ("Filenames may not contain the following characters: \n\n\\  /  :  \"  <  >  |  ?  *\n\nConsequently, the following filename is not allowed:", fn);
+			return true;
 		}
 		a ++;
 	}
-	return FALSE;
+	return false;
 }
 
 loadedFunction * saverFunc;
@@ -149,7 +160,8 @@ static builtReturn sayCore (int numParams, loadedFunction * fun, bool sayIt)
 		trimStack (fun -> stack);
 		p = wrapSpeech (newText, objT, fileNum, sayIt);
 		fun -> timeLeft = p;
-		fun -> isSpeech = TRUE;
+		//debugOut ("BUILTIN: sayCore: %s (%i)\n", newText, p);
+		fun -> isSpeech = true;
 		delete newText;
 		return BR_KEEP_AND_PAUSE;
 	}
@@ -161,13 +173,15 @@ static builtReturn sayCore (int numParams, loadedFunction * fun, bool sayIt)
 builtIn(say)
 {
 	 UNUSEDALL
-	sayCore (numParams, fun, TRUE);
+	return sayCore (numParams, fun, true);
+	//return BR_CONTINUE; <- Why was this here? I have no idea. /RP
 }
 
 builtIn(think)
 {
 	 UNUSEDALL
-	sayCore (numParams, fun, FALSE);
+	return sayCore (numParams, fun, false);
+	//return BR_CONTINUE;
 }
 
 builtIn(freeze)
@@ -261,10 +275,6 @@ builtIn(getMatchingFiles)
 builtIn(saveGame)
 {
 	 UNUSEDALL
-				if (videoPlaying) {
-					fatal ("Can't save game state while a video is playing");
-					return BR_NOCOMMENT;
-				}
 				
 				if (frozenStuff) {
 					fatal ("Can't save game state while the engine is frozen");
@@ -449,7 +459,7 @@ builtIn(aimCamera)
 			builtIn(pickOne)
 			{
 	 UNUSEDALL
-				if (numParams == NULL) {
+				if (! numParams) {
 					fatal ("Built-in function should have at least 1 parameter");
 					return BR_NOCOMMENT;
 				}
@@ -475,21 +485,31 @@ builtIn(substring)
 	char * newString;
 	int start, length, a;
 
+	//debugOut ("BUILTIN: substring\n");
+
 	if (! getValueType (length, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 	trimStack (fun -> stack);
 	if (! getValueType (start, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 	trimStack (fun -> stack);
 	wholeString = getTextFromAnyVar (fun -> stack -> thisVar);
 	trimStack (fun -> stack);
+	//debugOut ("String is %s (%i)\n", wholeString, length);
+	if (length<0) {
+		length=0;
+	}
 
 	newString = new char[length + 1];
-	if (! checkNew (newString)) return BR_NOCOMMENT;
+	if (! checkNew (newString)) {
+		//debugOut ("BUILTIN: substring exiting early.\n");
+		return BR_NOCOMMENT;
+	}
 
 	for (a = 0; a < length; a ++) newString[a] = wholeString[start ++];
 	
 	newString[length] = NULL;
 	makeTextVar (fun -> reg, newString);
 	delete newString;
+	//debugOut ("BUILTIN: substring exiting normally.\n");
 	return BR_CONTINUE;
 }
 
@@ -619,7 +639,7 @@ builtIn(deleteFromStack)
 	// Return value
 	setVariable (fun -> reg, SVT_INT,
 		deleteVarFromStack (fun -> stack -> thisVar,
-			fun -> stack -> next -> thisVar.varData.theStack -> first, FALSE));
+			fun -> stack -> next -> thisVar.varData.theStack -> first, false));
 
 	// Horrible hacking because 'last' value might now be wrong!
 	fun->stack->next->thisVar.varData.theStack->last = stackFindLast (fun->stack->next->thisVar.varData.theStack->first);
@@ -640,7 +660,7 @@ builtIn(deleteAllFromStack)
 	// Return value
 	setVariable (fun -> reg, SVT_INT,
 		deleteVarFromStack (fun -> stack -> thisVar,
-			fun -> stack -> next -> thisVar.varData.theStack -> first, TRUE));
+			fun -> stack -> next -> thisVar.varData.theStack -> first, true));
 
 	// Horrible hacking because 'last' value might now be wrong!
 	fun->stack->next->thisVar.varData.theStack->last = stackFindLast (fun->stack->next->thisVar.varData.theStack->first);
@@ -721,13 +741,13 @@ builtIn(random)
 
 static bool getRGBParams(int & red, int & green, int & blue, loadedFunction * fun)
 {
-				if (! getValueType (blue, SVT_INT, fun -> stack -> thisVar)) return FALSE;
+				if (! getValueType (blue, SVT_INT, fun -> stack -> thisVar)) return false;
 				trimStack (fun -> stack);
-				if (! getValueType (green, SVT_INT, fun -> stack -> thisVar)) return FALSE;
+				if (! getValueType (green, SVT_INT, fun -> stack -> thisVar)) return false;
 				trimStack (fun -> stack);
-				if (! getValueType (red, SVT_INT, fun -> stack -> thisVar)) return FALSE;
+				if (! getValueType (red, SVT_INT, fun -> stack -> thisVar)) return false;
 				trimStack (fun -> stack);
-				return TRUE;
+				return true;
 }
 
 builtIn (setStatusColour)
@@ -823,7 +843,7 @@ builtIn(inFont)
 	trimStack (fun -> stack);
 
 	// Return value
-	setVariable (fun -> reg, SVT_INT, newText[0] && newText[1] == 0 && fontTable[newText[0]] != 0);
+	setVariable (fun -> reg, SVT_INT, newText[0] && newText[1] == 0 && fontTable[(unsigned char) newText[0]] != 0);
 	return BR_CONTINUE;
 }
 
@@ -848,7 +868,7 @@ builtIn(anim)
 {
 	 UNUSEDALL
 	if (numParams < 2) {
-		fatal ("Built-in function must have at least 2 parameters.");
+		fatal ("Built-in function anim() must have at least 2 parameters.");
 		return BR_NOCOMMENT;
 	}
 
@@ -867,6 +887,7 @@ builtIn(anim)
 
 	// Return value
 	newAnimationVariable (fun -> reg, ba);
+	
 	return BR_CONTINUE;
 }
 		
@@ -915,23 +936,33 @@ builtIn(launch)
 //					return BR_NOCOMMENT;
 	} else {
 		char gameDir[1000];
+#ifdef _MSC_VER
+		if (! _getcwd (gameDir, 998)) {
+#else
 		if (! getcwd (gameDir, 998)) {
+#endif
 			fatal ("Can't get current directory");
 			return BR_NOCOMMENT;
 		}
+#ifdef _MSC_VER
 		if (gameDir[strlen (gameDir) - 1] != '\\') {
 			gameDir[strlen (gameDir) + 1] = NULL;
 			gameDir[strlen (gameDir)] = '\\';
 		}
+#else
+		if (gameDir[strlen (gameDir) - 1] != '/') {
+			gameDir[strlen (gameDir) + 1] = NULL;
+			gameDir[strlen (gameDir)] = '/';
+		}
+#endif
 		launchMe = joinStrings (gameDir, newText);
 		delete newText;
 		if (! launchMe) return BR_NOCOMMENT;
 	}
-	if (runningFullScreen) {
-		ShowWindow (hMainWindow, SW_MINIMIZE);
-	}
+	setGraphicsWindow(false);
 	setVariable (fun -> reg, SVT_INT, 1);
 	launchResult = &fun->reg;
+	
 	return BR_KEEP_AND_PAUSE;
 }
 
@@ -943,7 +974,7 @@ builtIn(pause)
 	trimStack (fun -> stack);
 	if (theTime > 0) {
 		fun -> timeLeft = theTime - 1;
-		fun -> isSpeech = FALSE;
+		fun -> isSpeech = false;
 		return BR_KEEP_AND_PAUSE;
 	}
 	return BR_CONTINUE;
@@ -976,10 +1007,38 @@ builtIn(callEvent)
 	return BR_CONTINUE;
 }
 
+builtIn(movieStart)	// TODO(?)
+{
+	UNUSEDALL
+	trimStack (fun -> stack);
+	return BR_CONTINUE;
+}
+
+builtIn(movieAbort)
+{			
+	UNUSEDALL
+	setVariable (fun -> reg, SVT_INT, 0);				
+	return BR_CONTINUE;
+}
+
+builtIn(moviePlaying)
+{
+	UNUSEDALL
+	setVariable (fun -> reg, SVT_INT, 0);
+	return BR_CONTINUE;
+}
+
+
+SDL_Event quit_event;
+bool reallyWantToQuit = false;
+
 builtIn(quitGame)
 {
 	UNUSEDALL
-	PostQuitMessage(0);
+	reallyWantToQuit = true;
+	quit_event.type=SDL_QUIT;
+	SDL_PushEvent(&quit_event);
+	//PostQuitMessage(0);
 	return BR_NOCOMMENT;
 }
 
@@ -1039,7 +1098,7 @@ builtIn(playSound)
 	int fileNumber;
 	if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 	trimStack (fun -> stack);
-	if (! startSound (fileNumber, FALSE)) return BR_NOCOMMENT;
+	if (! startSound (fileNumber, false)) return BR_NOCOMMENT;
 	return BR_CONTINUE;
 }
 builtIn(loopSound)
@@ -1048,7 +1107,7 @@ builtIn(loopSound)
 	int fileNumber;
 	if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 	trimStack (fun -> stack);
-	if (! startSound (fileNumber, TRUE)) return BR_NOCOMMENT;
+	if (! startSound (fileNumber, true)) return BR_NOCOMMENT;
 	return BR_CONTINUE;
 }
 
@@ -1139,7 +1198,7 @@ builtIn(setZBuffer)
 				if (! setZBuffer (v)) return BR_NOCOMMENT;
 			} else {
 				trimStack (fun -> stack);
-				noZBuffer ();
+				killZBuffer ();
 			}
 			return BR_CONTINUE;	
 }
@@ -1324,7 +1383,7 @@ builtIn(hideCharacter)
 int objectNumber;
 	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 	trimStack (fun -> stack);
-	setShown (FALSE, objectNumber);
+	setShown (false, objectNumber);
 	return BR_CONTINUE;
 }
 	
@@ -1334,7 +1393,7 @@ builtIn(showCharacter)
 	int objectNumber;
 	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 	trimStack (fun -> stack);
-	setShown (TRUE, objectNumber);
+	setShown (true, objectNumber);
 	return BR_CONTINUE;
 }
 
@@ -1400,7 +1459,7 @@ builtIn(pasteCharacter)
 					}
 
 					int fNum = myAnim -> frames[thisPerson -> frameNum].frameNum;
-					fixScaleSprite (thisPerson -> x, thisPerson -> y, myAnim -> theSprites -> bank.sprites[abs (fNum)], myAnim -> theSprites -> bank.myPalette, thisPerson -> scale, thisPerson -> drawMode, thisPerson -> floaty, ! (thisPerson -> extra & EXTRA_NOZB), (thisPerson -> extra & EXTRA_NOLITE) ? NULL : lightMapImage, 0, 0, fNum < 0, & thisPerson->aaSettings);
+					fixScaleSprite (thisPerson -> x, thisPerson -> y, myAnim -> theSprites -> bank.sprites[abs (fNum)], myAnim -> theSprites -> bank.myPalette, thisPerson -> scale, thisPerson -> drawMode, thisPerson -> floaty, ! (thisPerson -> extra & EXTRA_NOZB), ! (thisPerson -> extra & EXTRA_NOLITE), 0, 0, fNum < 0, & thisPerson->aaSettings);
 					setVariable (fun -> reg, SVT_INT, 1);
 				} else {
 					setVariable (fun -> reg, SVT_INT, 0);
@@ -1553,19 +1612,19 @@ static builtReturn moveChr(int numParams, loadedFunction * fun, bool force, bool
 builtIn(moveCharacter)
 {
 	UNUSEDALL
-	return moveChr(numParams, fun, FALSE, FALSE);
+	return moveChr(numParams, fun, false, false);
 }
 
 builtIn(forceCharacter)
 {
 	UNUSEDALL
-	return moveChr(numParams, fun, TRUE, FALSE);
+	return moveChr(numParams, fun, true, false);
 }
 
 builtIn(jumpCharacter)
 {
 	UNUSEDALL
-	return moveChr(numParams, fun, FALSE, TRUE);
+	return moveChr(numParams, fun, false, true);
 }
 
 builtIn(clearStatus)
@@ -1640,15 +1699,15 @@ static bool getFuncNumForCallback(int numParams, loadedFunction * fun, int & fun
 					break;
 	
 					case 1:
-					if (! getValueType (functionNum, SVT_FUNC, fun -> stack -> thisVar)) return FALSE;
+					if (! getValueType (functionNum, SVT_FUNC, fun -> stack -> thisVar)) return false;
 					trimStack (fun -> stack);
 					break;
 	
 					default:
 					fatal ("Too many parameters.");
-					return FALSE;
+					return false;
 				}
-				return TRUE;
+				return true;
 }
 
 builtIn (onLeftMouse)
@@ -1753,7 +1812,7 @@ builtIn (cancelSub)
 	int functionNum;
 	if (getFuncNumForCallback (numParams, fun, functionNum))
 	{
-		BOOL killedMyself;
+		bool killedMyself;
 		cancelAFunction (functionNum, fun, killedMyself);
 		if (killedMyself) {
 			abortFunction (fun);
@@ -1894,7 +1953,7 @@ builtIn(spinCharacter)
 				onScreenPerson * thisPerson = findPerson (objectNumber);
 				if (thisPerson) {
 					thisPerson -> wantAngle = number;
-					thisPerson -> spinning = TRUE;
+					thisPerson -> spinning = true;
 					thisPerson -> continueAfterWalking = fun;
 					setVariable (fun -> reg, SVT_INT, 1);
 					return BR_PAUSE;
@@ -1986,13 +2045,15 @@ builtIn(fetchEvent)
 builtIn(deleteFile)
 			{
 	UNUSEDALL
+
 				char * namNormal = getTextFromAnyVar (fun -> stack -> thisVar);
 				trimStack (fun -> stack);
 				char * nam = encodeFilename (namNormal);
 				delete namNormal;
 				if (failSecurityCheck (nam)) return BR_NOCOMMENT;
-				setVariable (fun -> reg, SVT_INT, DeleteFile (nam));
+				setVariable (fun -> reg, SVT_INT, remove (nam));
 				delete nam;
+	 
 				return BR_CONTINUE;
 			}
 
@@ -2013,9 +2074,11 @@ builtIn(renameFile)
 				if (failSecurityCheck (nam)) return BR_NOCOMMENT;
 				delete temp;
 
-				setVariable (fun -> reg, SVT_INT, MoveFile (nam, newnam));
+				setVariable (fun -> reg, SVT_INT, rename (nam, newnam));
 				delete nam;
 				delete newnam;
+
+				
 			return BR_CONTINUE;
 			}
 
@@ -2078,40 +2141,13 @@ builtIn(transitionMode)
 			}
 
 			
-builtIn(movieStart)	
-			{
-	UNUSEDALL
-				int videoNum;
-				if (! getValueType (videoNum, SVT_FILE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
-				trimStack (fun -> stack);
-				return startVideo (videoNum) ? BR_CONTINUE : BR_NOCOMMENT;
-			}
-
-builtIn(movieAbort)
-{			
-	UNUSEDALL
-			if (videoPlaying) {
-				finishVideo ();
-				setVariable (fun -> reg, SVT_INT, 1);
-			} else {
-				setVariable (fun -> reg, SVT_INT, 0);				
-			}
-			return BR_CONTINUE;
-}
-
-builtIn(moviePlaying)
-{
-	UNUSEDALL
-			setVariable (fun -> reg, SVT_INT, videoPlaying);
-			return BR_CONTINUE;
-}
 			
 builtIn(updateDisplay)
 {
 	UNUSEDALL
-			updateDisplay = getBoolean (fun -> stack -> thisVar);
+			//updateDisplay = getBoolean (fun -> stack -> thisVar);
 			trimStack (fun -> stack);
-			setVariable (fun -> reg, SVT_INT, updateDisplay);
+			setVariable (fun -> reg, SVT_INT, true /*updateDisplay*/);
 			return BR_CONTINUE;
 }			
 
@@ -2253,7 +2289,7 @@ builtIn(makeFastArray)
 				switch (fun -> stack -> thisVar.varType) {
 					case SVT_STACK:
 					{
-						BOOL success = makeFastArrayFromStack (fun -> reg, fun -> stack -> thisVar.varData.theStack);
+						bool success = makeFastArrayFromStack (fun -> reg, fun -> stack -> thisVar.varData.theStack);
 						trimStack (fun -> stack);
 						return success ? BR_CONTINUE : BR_NOCOMMENT;
 					}
@@ -2290,11 +2326,11 @@ builtIn(getCharacterScale)
 builtIn(getLanguageID)			
 			{
 	UNUSEDALL
-				setVariable (fun -> reg, SVT_INT, iniFileSettings.languageID);
+				setVariable (fun -> reg, SVT_INT, gameSettings.languageID);
 				return BR_CONTINUE;
 			}
 
-builtIn(launchWith)	
+builtIn(launchWith)	// TODO - remove?
 			{
 	UNUSEDALL
 				char * temp, * programFile, * arguments;
@@ -2309,6 +2345,7 @@ builtIn(launchWith)
 				trimStack (fun -> stack);
 				delete temp;
 				
+#ifdef WIN32				
 				temp = new char[strlen (arguments) + strlen (programFile) + 5];
 				sprintf (temp, "\"%s\" %s", programFile, arguments);
 				delete arguments;
@@ -2316,8 +2353,13 @@ builtIn(launchWith)
 
 				setVariable (fun -> reg, SVT_INT, (WinExec (temp, SW_SHOW) > 31));
 				delete temp;
-				
+#else
+				delete arguments;
+				delete programFile;				
+#endif
+
 				return BR_CONTINUE;
+	 
 			}
 			
 builtIn(getFramesPerSecond)
@@ -2397,7 +2439,7 @@ builtIn(snapshotClear)
 builtIn(bodgeFilenames)
 			{
 	UNUSEDALL
-				BOOL lastValue = allowAnyFilename;
+				bool lastValue = allowAnyFilename;
 				allowAnyFilename = getBoolean (fun -> stack -> thisVar);
 				trimStack (fun -> stack);
 				setVariable (fun -> reg, SVT_INT, lastValue);
@@ -2407,6 +2449,7 @@ builtIn(bodgeFilenames)
 builtIn(registryGetString)	
 			{
 	UNUSEDALL
+	/*TODO? (Or leave it disabled.)
 				char * item = getTextFromAnyVar (fun -> stack -> thisVar);
 				trimStack (fun -> stack);
 				char * folder = getTextFromAnyVar (fun -> stack -> thisVar);
@@ -2422,6 +2465,11 @@ builtIn(registryGetString)
 				} else {
 					setVariable (fun -> reg, SVT_INT, 0);
 				}
+	*/
+				trimStack (fun -> stack);
+				trimStack (fun -> stack);
+				setVariable (fun -> reg, SVT_INT, 0);
+	
 				return BR_CONTINUE;
 			}
 	
@@ -2468,6 +2516,14 @@ builtIn(setMaximumAntiAliasing)
 	
 	if (aaGetFromStack (& maxAntiAliasSettings, fun))
 	{
+		glBindTexture(GL_TEXTURE_2D, backdropTextureName);
+		if (maxAntiAliasSettings.useMe) {
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		} else {
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		}			
 		return BR_CONTINUE;
 	}
 	else
@@ -2495,11 +2551,19 @@ builtIn(doBackgroundEffect)
 
 //-------------------------------------
 
-#define FUNC(special,name)		{builtIn_ ## name},
+#define FUNC(special,name)		{builtIn_ ## name}, 
 static builtInFunctionData builtInFunctionArray[] =
 {
 	#include "functionList.h"
 };
+#undef FUNC
+
+#define FUNC(special,name)		{#name}, 
+char builtInFunctionNames[][25] =
+{
+#include "functionList.h"
+};
+#undef FUNC
 
 #define NUM_FUNCS			(sizeof (builtInFunctionArray) / sizeof (builtInFunctionArray[0]))
 
@@ -2521,6 +2585,9 @@ void builtInDebugTick()
 	ticky ++;
 }
 #endif
+
+
+
 
 builtReturn callBuiltIn (int whichFunc, int numParams, loadedFunction * fun) {
 	if (numBIFNames) {
@@ -2556,6 +2623,7 @@ builtReturn callBuiltIn (int whichFunc, int numParams, loadedFunction * fun) {
 	
 	if (builtInFunctionArray[whichFunc].func)
 	{
+		//fprintf (stderr, "Calling %i: %s\n", whichFunc, builtInFunctionNames[whichFunc]);
 		return builtInFunctionArray[whichFunc].func (numParams, fun);
 	}
 	

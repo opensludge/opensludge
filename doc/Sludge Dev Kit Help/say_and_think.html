@@ -1,0 +1,65 @@
+<html>
+<head>
+<TITLE>say and think</TITLE>
+</head>
+<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
+<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>say and think</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=20><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Syntax:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<font color=#BB4444 SIZE=+2><TT><B>say (<i>thisObject, textToSay</i>);</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<font color=#BB4444 SIZE=+2><TT><B>say (<i>thisObject, textToSay, soundFile</i>);</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<font color=#BB4444 SIZE=+2><TT><B>think (<i>thisObject, textToThink</i>);</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<font color=#BB4444 SIZE=+2><TT><B>think (<i>thisObject, textToThink, soundFile</i>);</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Purpose:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+Makes <i>thisObject</i> say the contents of the <i>textToSay</i> parameter (or think the contents of the <i>textToThink </i>parameter). The text is shown on the screen in the speech colour defined in the object type definition. If a <i>soundFile</i> parameter is specified, the sound may be used instead of (or as well as) the text - this depends on the current <b><a href="setSpeechMode.html">setSpeechMode</a></b> setting. IT IS THEREFORE PRETTY POINTLESS USING THE <i>soundFile</i> PARAMETER UNLESS YOU'RE A REGISTERED USER. Sorry. Life's like that at times.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<b>If <i>thisObject</i> is a character:<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</b>Any displayed text will be shown over the head of the character.<b> </b>If the say command is being used, the character's current animation will be changed to the speaking animation (for the character facing its current direction) defined in the <b><a href="costume.html">costume</a></b> assigned to the character. When the character has finished speaking, the character's animation will change to the standing still animation. If the think command is being used, the character will not be made to animate.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<b>If <i>thisObject</i> is a screen region:<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</b>Any displayed text will be shown above the last region to have been added which represents the object; that is, if there are three screen regions which represent the same object and the object is told to speak, the text will appear over the third region.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<b>If <i>thisObject</i> isn't a character or screen region:<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</b>Any displayed text will appear centred at the top of the screen.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+The function from which the say command is called will pause until the object stops speaking. The time this takes depends on the number of characters in <i>textToSay</i> or <i>textToThink </i>and is calculated by the SLUDGE engine at runtime. If the <i>soundFile</i> parameter is specified (and used), the time for which the function pauses is the length of time needed to play the sound.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+Valid file formats for the <i>soundFile</i> parameter are Windows wave files (.WAV), MPEG layer 3 (.MP3) and Ogg Vorbis (.OGG), as in the <b><a href="playSound.html">playSound</a></b> and <b><a href="loopSound.html">loopSound</a></b> functions.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Return value:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+No return value.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>See also:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<b><a href="addCharacter.html">addCharacter</a></b><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<b><a href="addScreenRegion.html">addScreenRegion</a></b><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<b><a href="cacheSound.html">cacheSound</a></b><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<b><a href="setSpeechSpeed.html">setSpeechSpeed</a></b><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<b><a href="skipSpeech.html">skipSpeech</a></b><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<b><a href="somethingSpeaking.html">somethingSpeaking</a></b><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</BODY>
+</html>

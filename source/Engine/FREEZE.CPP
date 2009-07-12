@@ -1,3 +1,5 @@
+#include <string.h>
+
 #include "allfiles.h"
 #include "newfatal.h"
 #include "sprites.h"
@@ -18,9 +20,9 @@ extern screenRegion * allScreenRegions;
 extern screenRegion * overRegion;
 extern speechStruct * speech;
 extern inputType input;
-extern unsigned short int * * backDropImage;
-extern unsigned short int * * lightMapImage;
-extern unsigned short int * * zBufferImage;
+extern GLuint backdropTextureName;
+extern GLubyte * lightMapTexture;
+extern GLuint lightMapTextureName;
 extern parallaxLayer * parallaxStuff;
 extern int lightMapNumber, zBufferNumber;
 extern eventHandlers * currentEvents;
@@ -28,35 +30,43 @@ extern personaAnimation * mouseCursorAnim;
 extern int mouseCursorFrameNum;
 extern int cameraX, cameraY, sceneWidth, sceneHeight;
 extern zBufferData zBuffer;
+extern bool backdropExists;
 
 frozenStuffStruct * frozenStuff = NULL;
 
-BOOL freeze () {
+bool freeze () {
 	frozenStuffStruct * newFreezer = new frozenStuffStruct;
-	if (! checkNew (newFreezer)) return FALSE;
+	if (! checkNew (newFreezer)) return false;
 
-	newFreezer -> backDropImage = backDropImage;
+	newFreezer -> backdropTextureName = backdropTextureName;
+	newFreezer -> backdropTexture = new GLubyte [sceneHeight*sceneWidth*4];
+	glBindTexture (GL_TEXTURE_2D, backdropTextureName);			
+	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, newFreezer -> backdropTexture);
+	backdropTextureName = 0;
+
 	newFreezer -> sceneWidth = sceneWidth;
 	newFreezer -> sceneHeight = sceneHeight;
 	newFreezer -> cameraX = cameraX;
 	newFreezer -> cameraY = cameraY;
-	backDropImage = NULL;
 
-	newFreezer -> lightMapImage = lightMapImage;
+	newFreezer -> lightMapTexture = lightMapTexture;
+	newFreezer -> lightMapTextureName = lightMapTextureName;
 	newFreezer -> lightMapNumber = lightMapNumber;
-	lightMapImage = NULL;
+	lightMapTexture = NULL;
+	lightMapTextureName = NULL;
 
 	newFreezer -> parallaxStuff = parallaxStuff;
 	parallaxStuff = NULL;
 
-	newFreezer -> zBufferImage = zBuffer.map;
+	newFreezer -> zBufferImage = zBuffer.tex;
 	newFreezer -> zBufferNumber = zBuffer.originalNum;
-	zBuffer.map = NULL;
+	newFreezer -> zPanels = zBuffer.numPanels;
+	zBuffer.tex = NULL;
 
 	// resizeBackdrop kills parallax stuff, light map, z-buffer...
 	if (! resizeBackdrop (winWidth, winHeight)) return fatal ("Can't create new temporary backdrop buffer");
 
-	copyToBackDrop (newFreezer -> backDropImage,
+	copyToBackDrop (newFreezer -> backdropTextureName,
 					newFreezer -> sceneWidth,
 					newFreezer -> sceneHeight,
 					newFreezer -> cameraX,
@@ -64,17 +74,37 @@ BOOL freeze () {
 					newFreezer -> parallaxStuff);
 
 	// Put the lightmap and z-buffer back JUST for drawing the people...
-	lightMapImage = newFreezer -> lightMapImage;
-	zBuffer.map = newFreezer -> zBufferImage;
+	lightMapTexture = newFreezer -> lightMapTexture;
+	lightMapTextureName = newFreezer -> lightMapTextureName;
+	zBuffer.tex = newFreezer -> zBufferImage;
+	zBuffer.numPanels = newFreezer -> zPanels;
 	fixPeople (newFreezer -> cameraX, newFreezer -> cameraY);
-	lightMapImage = NULL;
-	zBuffer.map = NULL;
+	lightMapTexture = NULL;
+	lightMapTextureName = NULL;
+	zBuffer.tex = NULL;
+	zBuffer.numPanels = 0;
 
+	// Free texture memory used by old stuff
+	parallaxStuff = newFreezer -> parallaxStuff;
+	while (parallaxStuff) {
+		glDeleteTextures (1, &parallaxStuff -> textureName);
+		parallaxStuff = parallaxStuff -> next;
+	}		
+	if (newFreezer -> zBufferImage) {
+		glDeleteTextures (1, &zBuffer.texName);
+	}
+	if (newFreezer -> lightMapTextureName) {
+		glDeleteTextures (1, &newFreezer -> lightMapTextureName);
+	}
+	if (newFreezer -> backdropTextureName) {
+		glDeleteTextures (1, &newFreezer -> backdropTextureName);
+	}
+	
 	newFreezer -> allPeople = allPeople;
 	allPeople = NULL;
 	
 	statusStuff * newStatusStuff = new statusStuff;
-	if (! checkNew (newStatusStuff)) return FALSE;
+	if (! checkNew (newStatusStuff)) return false;
 	newFreezer -> frozenStatus = copyStatusBarStuff (newStatusStuff);
 	
 	newFreezer -> allScreenRegions = allScreenRegions;
@@ -91,12 +121,12 @@ BOOL freeze () {
 	
 	newFreezer -> currentEvents = currentEvents;
 	currentEvents = new eventHandlers;
-	if (! checkNew (currentEvents)) return FALSE;
+	if (! checkNew (currentEvents)) return false;
 	memset (currentEvents, 0, sizeof (eventHandlers));
 
 	newFreezer -> next = frozenStuff;
 	frozenStuff = newFreezer;
-	return TRUE;
+	return true;
 }
 
 int howFrozen () {
@@ -109,36 +139,67 @@ int howFrozen () {
 	return a;
 }
 
-void unfreeze (BOOL killImage) {
+extern GLubyte * backdropTexture;
+
+void unfreeze (bool killImage) {
 	frozenStuffStruct * killMe = frozenStuff;
 
 	if (! frozenStuff) return;
 
+	sceneWidth = frozenStuff -> sceneWidth;
+	sceneHeight = frozenStuff -> sceneHeight;
+	cameraX = frozenStuff -> cameraX;
+	cameraY = frozenStuff -> cameraY;
+	
 	killAllPeople ();
 	allPeople = frozenStuff -> allPeople;
 
 	killAllRegions ();
 	allScreenRegions = frozenStuff -> allScreenRegions;
 
-	if (killImage) killBackDrop ();
-	backDropImage = frozenStuff -> backDropImage;
-
 	killLightMap ();
-	lightMapImage = frozenStuff -> lightMapImage;
+	lightMapTexture = frozenStuff -> lightMapTexture;
+	lightMapTextureName = frozenStuff -> lightMapTextureName;
 	lightMapNumber = frozenStuff -> lightMapNumber;
+	if (lightMapNumber) {
+		lightMapTextureName = 0;
+		loadLightMap(lightMapNumber);
+	}
 	
-	noZBuffer ();
-	zBuffer.map = frozenStuff -> zBufferImage;
+	killZBuffer ();
+	zBuffer.tex = frozenStuff -> zBufferImage;
 	zBuffer.originalNum = frozenStuff -> zBufferNumber;
-
+	zBuffer.numPanels = frozenStuff -> zPanels;
+	if (zBuffer.numPanels) {
+		zBuffer.texName = 0;
+		setZBuffer (zBuffer.originalNum);
+	}
+	
 	killParallax ();
 	parallaxStuff = frozenStuff -> parallaxStuff;
+	reloadParallaxTextures ();	
 
-	sceneWidth = frozenStuff -> sceneWidth;
-	sceneHeight = frozenStuff -> sceneHeight;
-	cameraX = frozenStuff -> cameraX;
-	cameraY = frozenStuff -> cameraY;
-
+	if (killImage) killBackDrop ();
+	backdropTextureName = frozenStuff -> backdropTextureName;
+	backdropExists = true;	
+	if (backdropTextureName) {
+		backdropTextureName = 0;
+		glGenTextures (1, &backdropTextureName);
+		glBindTexture (GL_TEXTURE_2D, backdropTextureName);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		if (maxAntiAliasSettings.useMe) {
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); //GL_NEAREST
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		} else {
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		}
+		// Restore the backdrop
+		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, sceneWidth, sceneHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, frozenStuff -> backdropTexture);
+		
+	}
+	
 	deleteAnim (mouseCursorAnim);
 	mouseCursorAnim = frozenStuff -> mouseCursorAnim;
 	mouseCursorFrameNum = frozenStuff -> mouseCursorFrameNum;

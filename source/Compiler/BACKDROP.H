@@ -1,2 +1,2 @@
-BOOL convertTGA (char * filename);
+bool convertTGA (char * filename);
 

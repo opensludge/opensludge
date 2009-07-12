@@ -1,4 +1,4 @@
-#include <windows.h>
+#include <string.h>
 #include <stdio.h>
 //#include <unistd.h>
 
@@ -10,13 +10,13 @@
 
 extern char * quitMessage, * customIcon, * runtimeDataFolder;
 extern unsigned int screenWidth, screenHeight, frameSpeed, winMouseImage;
-extern BOOL runFullScreen, forceSilent, ditherImages;
+extern bool runFullScreen, forceSilent, ditherImages;
 extern bool startupShowLogo, startupShowLoading, startupInvisible;
 extern chrRenderingSettingsStruct chrRenderingSettings;
 
 void blankSettings () {
-	setWindowText (ID_EDIT_OUTPUTFILE, "");
-	setWindowText (ID_EDIT_NAME, "");
+	// TODO setWindowText (ID_EDIT_OUTPUTFILE, "");
+	// TODO setWindowText (ID_EDIT_NAME, "");
 }
 
 void noSettings () {
@@ -25,18 +25,18 @@ void noSettings () {
 	quitMessage = joinStrings ("Are you sure you want to quit?", "");
 	customIcon = joinStrings ("", "");
 	runtimeDataFolder = joinStrings ("", "");
-	setWindowText (ID_EDIT_OUTPUTFILE, "myNewProject");
-	setWindowText (ID_EDIT_NAME, "Untitled SLUDGE project");
+	// TODO setWindowText (ID_EDIT_OUTPUTFILE, "myNewProject");
+	// TODO setWindowText (ID_EDIT_NAME, "Untitled SLUDGE project");
 	screenWidth = 640;
 	screenHeight = 480;
 	frameSpeed = 20;
 	winMouseImage = 0;
-	ditherImages = FALSE;
-	runFullScreen = FALSE;
-	forceSilent = FALSE;
-	startupShowLogo = TRUE;
-	startupShowLoading = TRUE;
-	startupInvisible = FALSE;
+	ditherImages = true;
+	runFullScreen = true;
+	forceSilent = false;
+	startupShowLogo = true;
+	startupShowLoading = true;
+	startupInvisible = false;
 	chrRenderingSettingsFillDefaults(true);
 }
 
@@ -65,10 +65,10 @@ void readDir (char * t) {
 			runtimeDataFolder = joinStrings ("", splitLine -> next -> string);
 
 		} else if (strcmp (splitLine -> string, "finalfile") == 0) {
-			setWindowText (ID_EDIT_OUTPUTFILE, splitLine -> next -> string);
+			// TODO setWindowText (ID_EDIT_OUTPUTFILE, splitLine -> next -> string);
 
 		} else if (strcmp (splitLine -> string, "windowname") == 0) {
-			setWindowText (ID_EDIT_NAME, splitLine -> next -> string);
+			// TODO setWindowText (ID_EDIT_NAME, splitLine -> next -> string);
 			
 		// NEW MOUSE SETTING
 		} else if (strcmp (splitLine -> string, "mouse") == 0) {
@@ -122,23 +122,6 @@ void readDir (char * t) {
 		}
 	}
 	while (destroyFirst (splitLine)){;}
-}
-
-BOOL readSettings (FILE * fp) {
-	char * grabLine;
-	BOOL keepGoing = TRUE;
-	noSettings ();
-	while (keepGoing) {
-		grabLine = readText (fp);
-//		errorBox ("La la la, settings line read...", grabLine);
-		if (grabLine[0])
-			readDir (grabLine);
-		else
-			keepGoing = FALSE;
-		delete grabLine;
-	}
-
-	return TRUE;
 }
 
 static void fileWriteBool (FILE * fp, const char * theString, bool theBool)

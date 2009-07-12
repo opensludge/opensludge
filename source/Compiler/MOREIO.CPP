@@ -1,16 +1,12 @@
-#include <windows.h>
+//#include <windows.h>
 #include <stdio.h>
 #include <string.h>
-#include <io.h>
+//#include <io.h>
 
 //#include "fatal.h"
+#include "moreio.h"
 
 #define MOVETEXT 1
-
-unsigned int get2bytes (FILE * fp) {
-	unsigned int reply = (unsigned int) (fgetc (fp)) * 256 + fgetc (fp);
-	return reply;
-}
 
 char * readString (FILE * fp) {
 	int n = get2bytes (fp), a;
@@ -52,9 +48,9 @@ void writeString (const char * txt, FILE * fp) {
 }
 
 char * readText (FILE * fp) {
-	unsigned long startPos;
+	fpos_t startPos;
 	int stringSize = 0;
-	BOOL keepGoing = TRUE;
+	bool keepGoing = true;
 	char gotChar;
 	char * reply;
 
@@ -62,7 +58,7 @@ char * readText (FILE * fp) {
 	while (keepGoing) {
 		gotChar = (char) fgetc (fp);
 		if ((gotChar == '\n') || (feof (fp))) {
-			keepGoing = FALSE;
+			keepGoing = false;
 		} else {
 			stringSize ++;
 		}
@@ -85,7 +81,7 @@ char * readText (FILE * fp) {
 char * grabWholeFile (char * theName) {
 	FILE * inputFile;
 	char * allText;
-	unsigned long size;
+	fpos_t size;
 
 	inputFile = fopen (theName, "rb");
 	if (! inputFile) return NULL;//fatal ("Can't read file", theName);
@@ -107,12 +103,18 @@ char * grabWholeFile (char * theName) {
 	return allText;
 }
 
-BOOL newerFile (char * newFileN, char * oldFileN) {
+
+bool newerFile (char * newFileN, char * oldFileN) {
+	/*TODO
 	struct stat oldFileStat, newFileStat;
-	if (stat (oldFileN, & oldFileStat)) return TRUE;
-	if (stat (newFileN, & newFileStat)) return TRUE;
+	if (stat (oldFileN, & oldFileStat)) return true;
+	if (stat (newFileN, & newFileStat)) return true;
 	return difftime (oldFileStat.st_mtime, newFileStat.st_mtime) <= 0;
+	*/
+	return false;
 }
+
+
 
 void putFloat (float f, FILE * fp) {
 	fwrite (& f, sizeof (float), 1, fp);

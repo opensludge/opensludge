@@ -1,6 +1,14 @@
+#ifndef SLUDGER_H
+#define SLUDGER_H
+
 #include "variable.h"
 #include "csludge.h"
 #include "language.h"
+
+typedef struct _FILETIME {
+	unsigned long dwLowDateTime;
+	unsigned long dwHighDateTime;
+} FILETIME;
 
 struct eventHandlers {
 	int leftMouseFunction;
@@ -27,21 +35,21 @@ struct loadedFunction {
 	unsigned int				runThisLine;
 	loadedFunction *			calledBy;
 	loadedFunction *			next;
-	BOOL						returnSomething, isSpeech, unfreezable, cancelMe;
-	byte						freezerLevel;
+	bool						returnSomething, isSpeech, unfreezable, cancelMe;
+	unsigned char				freezerLevel;
 };
 
 struct inputType {
-	BOOL leftClick, rightClick, justMoved, leftRelease, rightRelease;
+	bool leftClick, rightClick, justMoved, leftRelease, rightRelease;
 	int mouseX, mouseY, keyPressed;
 };
 
-BOOL initSludge (char *, iniStuff & iniFileSettings);
+bool initSludge (char *);
 void sludgeDisplay ();
-int startNewFunctionNum (unsigned int, unsigned int, loadedFunction *, variableStack * &, BOOL = TRUE);
-BOOL handleInput ();
+int startNewFunctionNum (unsigned int, unsigned int, loadedFunction *, variableStack * &, bool = true);
+bool handleInput ();
 void restartFunction (loadedFunction * fun);
-BOOL loadFunctionCode (loadedFunction * newFunc);
+bool loadFunctionCode (loadedFunction * newFunc);
 void loadHandlers (FILE * fp);
 void saveHandlers (FILE * fp);
 void finishFunction (loadedFunction * fun);
@@ -51,4 +59,6 @@ void freezeSubs ();
 void unfreezeSubs ();
 void completeTimers ();
 void killSpeechTimers ();
-int cancelAFunction (int funcNum, loadedFunction * myself, BOOL & killedMyself);
+int cancelAFunction (int funcNum, loadedFunction * myself, bool & killedMyself);
+
+#endif

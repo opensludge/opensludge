@@ -32,13 +32,13 @@ struct onScreenPerson {
 	float scale;
 	onScreenPerson * next;
 	int walkToX, walkToY, thisStepX, thisStepY, inPoly, walkToPoly;
-	BOOL walking, spinning;
+	bool walking, spinning;
 	struct loadedFunction * continueAfterWalking;
 	personaAnimation * myAnim;
 	personaAnimation * lastUsedAnim;
 	persona * myPersona;
 	int frameNum, frameTick, angle, wantAngle;
-	BOOL show;
+	bool show;
 	int direction, directionWhenDoneWalking;
 	struct objectType * thisType;
 	int drawMode, extra, spinSpeed;
@@ -47,8 +47,8 @@ struct onScreenPerson {
 
 // Initialisation and creation
 
-BOOL initPeople ();
-BOOL addPerson (int x, int y, int objNum, persona * p);
+bool initPeople ();
+bool addPerson (int x, int y, int objNum, persona * p);
 
 // Draw to screen and to backdrop
 
@@ -70,20 +70,20 @@ void setScale (short int h, short int d);
 
 void makeTalker (onScreenPerson & me);
 void makeSilent (onScreenPerson & me);
-void setShown (BOOL h, int ob);
+void setShown (bool h, int ob);
 void setDrawMode (int h, int ob);
 
 // Moving 'em
 
 void movePerson (int x, int y, int objNum);
-BOOL makeWalkingPerson (int x, int y, int objNum, struct loadedFunction * func, int di);
-BOOL forceWalkingPerson (int x, int y, int objNum, struct loadedFunction * func, int di);
+bool makeWalkingPerson (int x, int y, int objNum, struct loadedFunction * func, int di);
+bool forceWalkingPerson (int x, int y, int objNum, struct loadedFunction * func, int di);
 void jumpPerson (int x, int y, int objNum);
 void walkAllPeople ();
-BOOL turnPersonToFace (int thisNum, int direc);
-BOOL stopPerson (int o);
-BOOL floatCharacter (int f, int objNum);
-BOOL setCharacterWalkSpeed (int f, int objNum);
+bool turnPersonToFace (int thisNum, int direc);
+bool stopPerson (int o);
+bool floatCharacter (int f, int objNum);
+bool setCharacterWalkSpeed (int f, int objNum);
 
 // Animating 'em
 
@@ -91,7 +91,7 @@ void animatePerson (int obj, personaAnimation *);
 void animatePerson (int obj, persona * per);
 personaAnimation * createPersonaAnim (int num, struct variableStack * & stacky);
 inline void setBankFile (personaAnimation * newP, loadedSpriteBank * sB) { newP -> theSprites = sB; }
-BOOL setPersonExtra (int f, int newSetting);
+bool setPersonExtra (int f, int newSetting);
 int timeForAnim (personaAnimation * fram);
 personaAnimation * copyAnim (personaAnimation * orig);
 personaAnimation * makeNullAnim ();
@@ -99,9 +99,9 @@ void deleteAnim (personaAnimation * orig);
 
 // Loading and saving
 
-BOOL saveAnim (personaAnimation * p, FILE * fp);
-BOOL loadAnim (personaAnimation * p, FILE * fp);
-BOOL savePeople (FILE * fp);
-BOOL loadPeople (FILE * fp, int ssgVersion);
-BOOL saveCostume (persona * cossy, FILE * fp);
-BOOL loadCostume (persona * cossy, FILE * fp);
+bool saveAnim (personaAnimation * p, FILE * fp);
+bool loadAnim (personaAnimation * p, FILE * fp);
+bool savePeople (FILE * fp);
+bool loadPeople (FILE * fp, int ssgVersion);
+bool saveCostume (persona * cossy, FILE * fp);
+bool loadCostume (persona * cossy, FILE * fp);

@@ -1,7 +1,10 @@
-#include <windows.h>
+#if 0
+TODO
+
+//#include <windows.h>
 #include <stdio.h>
 #include <string.h>
-#include <io.h>
+//#include <io.h>
 
 #include "moreio.h"
 #include "splitter.h"
@@ -9,9 +12,9 @@
 #include "winterfa.h"
 #include "messbox.h"
 
-BOOL convertFloor (char * filename) {
+bool convertFloor (char * filename) {
 	char * wholeFile = grabWholeFile (filename);
-	if (! wholeFile) return FALSE;
+	if (! wholeFile) return false;
 
 	filename[strlen (filename) - 1] = 'z';
 	stringArray * knownCo = NULL;
@@ -56,5 +59,7 @@ BOOL convertFloor (char * filename) {
 		destroyFirst (knownCo);
 	}
 	fclose (outFile);
-	return TRUE;
+	return true;
 }
+
+#endif

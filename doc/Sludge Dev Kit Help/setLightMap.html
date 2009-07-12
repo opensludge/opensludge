@@ -1,0 +1,51 @@
+<html>
+<head>
+<TITLE>setLightMap</TITLE>
+</head>
+<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
+<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>setLightMap</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=20><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Syntax:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<font color=#BB4444 SIZE=+2><TT><B>setLightMap (<i>imageFile</i>);</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<font color=#BB4444 SIZE=+2><TT><B>setLightMap (<i>imageFile, lightMapMode</i>);</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Purpose:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+Sets a new light-map, loading it from the <i>imageFile</i> file. Each pixel of the light-map corresponds to a pixel of the background image. With a light-map loaded, every character's red, green and blue colour values will be multiplied by the red, green and blue values of the pixel in the <i>imageFile</i> at the corresponding location. The <i>imageFile</i> image must be the same width and height as the current scene dimensions, as set by the most recent call to the <b><a href="setSceneDimensions.html">setSceneDimensions</a></b> function.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+The light-map arithmetic is applied before a character's draw mode (set using the <b><a href="setCharacterDrawMode.html">setCharacterDrawMode</a></b> function) is taken into consideration. This means that light-maps behave as expected even when dealing with transparent characters, but may not give you the results you expect when using FOGGY1 to FOGGY4.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+If <i>imageFile</i> is NULL (or anything other than a file handle) the current light-map will be removed. With no light-map loaded, all characters will be drawn at full colour (after any colour changes due to the character's current drawing mode).<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+If you specify a <i>lightMapMode</i> the current method for applying a light map to characters will be changed. If you don't specify this parameter, the current method for applying a light map will stay the same. The default method is PERPIXEL. Valid values for the <i>lightMapMode</i> parameter are:<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<B>PERPIXEL</B>: Each pixel of a character is multiplied by the light map colour in the same position - i.e. one character will have many different colours applied to it in different places.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<B>HOTSPOT</B>: Each pixel of a character is multipled by the light map colour at the character's hotspot (base point) - i.e. each character will only have one colour applied to it, determined by where it is currently positioned.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+Characters whose extra properties - set using <b><a href="setCharacterExtra.html">setCharacterExtra</a></b> - include the NOLIGHTMAP option are not affected by light-maps.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Return value:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+No return value.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+This function is unavailable to unregistered users of the development kit. To use this function, and for a heap of other benefits, please register your copy of the SLUDGE development kit.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>See also:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<b><a href="How_(and_Why)_to_Register_SLUDGE.html">How (and Why) to Register SLUDGE</a></b><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<b><a href="addOverlay.html">addOverlay</a></b><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</BODY>
+</html>

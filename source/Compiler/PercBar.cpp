@@ -1,3 +1,5 @@
+#ifdef WIN32
+
 #include <windows.h>
 //#include <stdlib.h>
 //#include <stdio.h>
@@ -82,3 +84,5 @@ void repaintPercBars () {
 		percRect (lastVal[1], P_BOTTOM);
 	}
 }
+
+#endif

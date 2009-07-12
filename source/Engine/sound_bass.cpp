@@ -1,6 +1,6 @@
 #include "allfiles.h"
 #include "newfatal.h"
-#include "bass/bass.h"
+#include "bass.h"
 #include "sound.h"
 #include "moreio.h"
 #include "fileset.h"
@@ -10,7 +10,7 @@
 #define EFFECT_CHANNELS 8
 #define TOTAL_CHANNELS 32
 
-BOOL soundOK = FALSE;
+bool soundOK = false;
 
 struct soundThing {
 	HSAMPLE sample;
@@ -19,7 +19,7 @@ struct soundThing {
 	bool looping;
 };
 
-HMUSIC mod[MAX_MODS];
+DWORD mod[MAX_MODS];
 
 soundThing soundCache[MAX_SAMPLES];
 
@@ -54,7 +54,7 @@ int findInSoundCache (int a) {
 void huntKillSound (int filenum) {
 	int gotSlot = findInSoundCache (filenum);
 	if (gotSlot == -1) return;
-	soundCache[gotSlot].looping = FALSE;
+	soundCache[gotSlot].looping = false;
 	BASS_SampleStop (soundCache[gotSlot].sample);
 }
 
@@ -70,16 +70,16 @@ void huntKillFreeSound (int filenum) {
 	if (gotSlot != -1) freeSound (gotSlot);
 }
 
-BOOL initSoundStuff (HWND hwnd) {
-	if (BASS_GetVersion()!=MAKELONG(2,2))
+bool initSoundStuff (HWND hwnd) {
+	if (HIWORD(BASS_GetVersion())!=BASSVERSION)
 	{
 		warning (WARNING_BASS_WRONG_VERSION);
-		return FALSE;
+		return false;
 	}
 
 	if (!BASS_Init(1,44100,0,hwnd,NULL)) {
-		warning (WARNING_BASS_FAIL); //, FMOD_ErrorString(FSOUND_GetError()));
-		return FALSE;
+		warning (WARNING_BASS_FAIL); 
+		return false;
 	}
 	
 	int a;
@@ -87,12 +87,11 @@ BOOL initSoundStuff (HWND hwnd) {
 		soundCache[a].sample = NULL;
 		soundCache[a].fileLoaded = -1;
 	}
-//	for (a = 0; a < EFFECT_CHANNELS; a ++) {
-//		FSOUND_SetReserved (a, TRUE);
-//	}
-	
-	BASS_SetConfig(BASS_CONFIG_MAXVOL, 256);
-	soundOK = TRUE;
+
+	BASS_SetConfig(BASS_CONFIG_GVOL_MUSIC, 10000);
+	BASS_SetConfig(BASS_CONFIG_GVOL_SAMPLE, 10000);
+	BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, 10000);
+	return soundOK = true;
 }
 
 void killSoundStuff () {
@@ -104,8 +103,9 @@ void killSoundStuff () {
 	}
 }
 
-BOOL playMOD (int f, int a, int fromTrack) {
+bool playMOD (int f, int a, int fromTrack) {
 	if (soundOK) {
+				
 		stopMOD (a);
 	
 		setResourceForFatal (f);
@@ -116,43 +116,35 @@ BOOL playMOD (int f, int a, int fromTrack) {
 		memImage = loadEntireFileToMemory (bigDataFile, length);
 		if (! memImage) return fatal (ERROR_MUSIC_MEMORY_LOW);
 		
-		mod[a] = BASS_MusicLoad (TRUE, memImage, 0, length, BASS_MUSIC_LOOP|BASS_MUSIC_RAMP/*|BASS_MUSIC_PRESCAN needed too if we're going to set the position in bytes*/, 0);
+		mod[a] = BASS_MusicLoad (true, memImage, 0, length, BASS_MUSIC_LOOP|BASS_MUSIC_RAMP/*|BASS_MUSIC_PRESCAN needed too if we're going to set the position in bytes*/, 0);
 		delete memImage;
 		
 		if (! mod[a]) {
 		
-
 		}
 		else
 		{
 			setMusicVolume (a, defVol);
 
-#if 0	// Old BASS
-			BASS_MusicPlayEx (mod[a], MAKELONG(fromTrack, 0), BASS_MUSIC_LOOP|BASS_MUSIC_RAMP, FALSE);
-#else
-			BASS_ChannelPlay (mod[a], TRUE);
-			BASS_ChannelSetPosition (mod[a], MAKEMUSICPOS(fromTrack, 0));
-			BASS_ChannelSetFlags (mod[a], BASS_MUSIC_LOOP|BASS_MUSIC_RAMP);
-#endif
+			if (! BASS_ChannelPlay (mod[a], true) )
+				fprintf(stderr, "playMOD: Error %d!\n", BASS_ErrorGetCode());
+
+			BASS_ChannelSetPosition (mod[a], MAKELONG(fromTrack, 0), BASS_POS_MUSIC_ORDER);
+			BASS_ChannelFlags(mod[a], BASS_SAMPLE_LOOP|BASS_MUSIC_RAMP, BASS_SAMPLE_LOOP|BASS_MUSIC_RAMP);			
 		}
 		setResourceForFatal (-1);
 	}
-    return TRUE;
+    return true;
 }
 
 void setMusicVolume (int a, int v) {
+	int ret;
 	if (soundOK && mod[a])
 	{
-#if 0
-		FILE * fp = fopen ("vol.txt", "at");
-		if (fp)
-		{
-			fprintf (fp, "mod[%d] vol %d\n", a, v);
-			fclose (fp);
+		ret = BASS_ChannelSetAttribute (mod[a], BASS_ATTRIB_VOL, (float) v / 256);
+		if (! ret) {
+			fprintf (stderr, "setMusicVolume: Error %d\n", BASS_ErrorGetCode());
 		}
-#endif
-//		BASS_MusicSetAmplify (mod[a], (v/255.f) * 75.f);
-		BASS_ChannelSetAttributes (mod[a], -1, v, -101);
 	}
 }
 
@@ -166,19 +158,19 @@ void setSoundVolume (int a, int v) {
 		if (ch != -1) {
 			if (BASS_ChannelIsActive (soundCache[ch].mostRecentChannel))
 			{
-				BASS_ChannelSetAttributes (soundCache[ch].mostRecentChannel, -1, v, -1);
+				BASS_ChannelSetAttribute (soundCache[ch].mostRecentChannel, BASS_ATTRIB_VOL, (float) v / 256);
 			}
 		}
 	}
 }
 
-BOOL stillPlayingSound (int ch) {
+bool stillPlayingSound (int ch) {
 	if (soundOK)
 		if (ch != -1)
 			if (soundCache[ch].fileLoaded != -1)
 				if (BASS_ChannelIsActive (soundCache[ch].mostRecentChannel) != BASS_ACTIVE_STOPPED)
-					return TRUE;
-	return FALSE;
+					return true;
+	return false;
 }
 
 void setSoundLoop (int a, int s, int e) {
@@ -206,9 +198,7 @@ int findEmptySoundSlot () {
 	for (t = 0; t < MAX_SAMPLES; t ++) {
 		emptySoundSlot ++;
 		emptySoundSlot %= MAX_SAMPLES;
-		if (soundCache[emptySoundSlot].sample == NULL
-		// || FSOUND_GetCurrentSample (soundCache[emptySoundSlot].mostRecentChannel) != soundCache[emptySoundSlot].sample
-		)
+		if (! soundCache[emptySoundSlot].sample)
 			return emptySoundSlot;
 	}
 
@@ -228,21 +218,6 @@ int findEmptySoundSlot () {
 }
 
 int guessSoundFree = 0;
-/*
-int fakeCacheSoundForVideo (char * memImage, int length) {
-	if (! soundOK) return 0;
-	int a = findEmptySoundSlot ();
-	freeSound (a);
-
-	soundCache[a].sample = FSOUND_Sample_Load(FSOUND_FREE, memImage, FSOUND_LOADMEMORY | FSOUND_2D, length);
-	soundCache[a].fileLoaded = -2;
-
-	if (soundCache[a].sample) return a;
-
-	fatal ("Don't understand the audio for this movie");
-	return -1;
-}
-*/
 
 /*
 void soundWarning (char * t, int i) {
@@ -303,7 +278,7 @@ int cacheSound (int f) {
 	
 	for (;;) {
 //		soundWarning ("  Trying to load sound into slot", a);
-		soundCache[a].sample = BASS_SampleLoad(TRUE, memImage, 0, length, 65535, 0);
+		soundCache[a].sample = BASS_SampleLoad(true, memImage, 0, length, 65535, 0);
 
 		if (soundCache[a].sample) {
 			soundCache[a].fileLoaded = f;
@@ -311,51 +286,33 @@ int cacheSound (int f) {
 			setResourceForFatal (-1);
 			return a;
 		}
-
-		// Something's gone wrong!
-//		switch (FSOUND_GetError()) {
-//			case FMOD_ERR_MEMORY:
-//			if (forceRemoveSound ()) break; // Try again...
-//			fatal (ERROR_SOUND_MEMORY_LOW);
-//			return -1;
-//	
-//			case FMOD_ERR_VERSION:
-//			case FMOD_ERR_FILE_FORMAT:
-//			fatal (ERROR_SOUND_UNKNOWN);
-//			return -1;
-//	
-//			default:		
-			fatal (ERROR_SOUND_ODDNESS);
-			return -1;
-//		}	
+		
+		fatal (ERROR_SOUND_ODDNESS);
+		return -1;
 	}
 }
 
-BOOL startSound (int f, BOOL loopy) {
+bool startSound (int f, bool loopy) {
 	if (soundOK) {
 		int a = cacheSound (f);
-		if (a == -1) return FALSE;
+		if (a == -1) return false;
 		
 		soundCache[a].looping = loopy;
 		soundCache[a].vol = defSoundVol;
 		
-#if 0 // Old BASS
-		soundCache[a].mostRecentChannel = BASS_SamplePlayEx(soundCache[a].sample, 0, -1, defSoundVol, -101, loopy);
-#else
-		soundCache[a].mostRecentChannel = BASS_SampleGetChannel (soundCache[a].sample, FALSE);
+		soundCache[a].mostRecentChannel = BASS_SampleGetChannel (soundCache[a].sample, false);
 		if (soundCache[a].mostRecentChannel)
 		{
-			BASS_ChannelPlay(soundCache[a].mostRecentChannel, TRUE);
-			BASS_ChannelSetAttributes(soundCache[a].mostRecentChannel, -1, defSoundVol, -101);
+			BASS_ChannelPlay(soundCache[a].mostRecentChannel, true);
+			BASS_ChannelSetAttribute(soundCache[a].mostRecentChannel, BASS_ATTRIB_VOL, defSoundVol);
 			if (loopy)
 			{
-				BASS_ChannelSetFlags (soundCache[a].mostRecentChannel, BASS_SAMPLE_LOOP);
+				BASS_ChannelFlags(soundCache[a].mostRecentChannel, BASS_SAMPLE_LOOP, BASS_SAMPLE_LOOP); // set LOOP flag
 			}
 		}
-#endif
 
 	}
-	return TRUE;
+	return true;
 }
 
 /*
@@ -400,17 +357,17 @@ void loadSounds (FILE * fp) {
 	defVol = get2bytes (fp);
 }
 
-BOOL getSoundCacheStack (stackHandler * sH) {
+bool getSoundCacheStack (stackHandler * sH) {
 	variable newFileHandle;
 	newFileHandle.varType = SVT_NULL;
 		
 	for (int a = 0; a < MAX_SAMPLES; a ++) {
 		if (soundCache[a].fileLoaded != -1) {
 			setVariable (newFileHandle, SVT_FILE, soundCache[a].fileLoaded);
-			if (! addVarToStackQuick (newFileHandle, sH -> first)) return FALSE;
+			if (! addVarToStackQuick (newFileHandle, sH -> first)) return false;
 			if (sH -> last == NULL) sH -> last = sH -> first;
 		}
 	}			
-	return TRUE;
+	return true;
 }
 

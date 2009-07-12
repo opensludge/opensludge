@@ -32,20 +32,13 @@
 									"Maybe it's stored in a format that SLUDGE doesn't know about... " \
 									"make sure you've got a recent version of the SLUDGE engine from http://www.hungrysoftware.com/. " \
 									"Failing that, maybe the resource in question isn't a valid music format at all... in which case, contact the game's author and tell them what's happened."
-#define ERROR_SOUND_UNKNOWN			"I can't understand a sample which I've been told to play!\n\Make sure you've got the latest SLUDGE engine from http://www.hungrysoftware.com/. Failing that, maybe the resource in question isn't a valid sound at all... in which case, contact the game's author and tell them what's happened."
+#define ERROR_SOUND_UNKNOWN			"I can't understand a sample which I've been told to play!\nMake sure you've got the latest SLUDGE engine from http://www.hungrysoftware.com/. Failing that, maybe the resource in question isn't a valid sound at all... in which case, contact the game's author and tell them what's happened."
 #define ERROR_MUSIC_ODDNESS			"I can't load a music resource I've been told to play. Sorry."
 #define ERROR_SOUND_ODDNESS			"I can't load a sound resource I've been told to play. Sorry."
-
-#define ERROR_AVI_FILE_ERROR		"VIDEO ERROR: The movie I just extracted isn't a movie at all, or if it is it's not in a format I understand."
-#define ERROR_AVI_NO_STREAM			"VIDEO ERROR: The movie resource I'm meant to be playing doesn't contain any video information."
-#define ERROR_AVI_ARGH				"VIDEO ERROR: I can't decompress a frame from the movie resource I'm meant to be playing. The most likely reason is that your computer doesn't have the correct codec installed..."
 
 //---------------------------------------
 // Startup warnings
 //---------------------------------------
-
-#define WARNING_FMOD_WRONG_VERSION	"Incompatible version of FMOD.DLL found!"
-#define WARNING_FMOD_FAIL			"Can't initialise sound engine."
 
 #define WARNING_BASS_WRONG_VERSION	"Incompatible version of BASS.DLL found!"
 #define WARNING_BASS_FAIL			"Can't initialise sound engine."

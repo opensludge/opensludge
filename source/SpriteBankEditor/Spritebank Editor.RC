@@ -1,0 +1,157 @@
+#include <windows.h>
+#include "winterfa.h"
+#include "version.h"
+
+500 DIALOG 11, 17, 312, 237
+STYLE WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX
+CAPTION "Hungry Software SLUDGE Sprite Bank Editor"
+FONT 8, "Arial"
+{
+ PUSHBUTTON "New",			ID_PROJECT_NEW,		53,		29,	50,	14, WS_TABSTOP
+ PUSHBUTTON "Open",			ID_PROJECT_LOAD,	105,	29,	50,	14, WS_TABSTOP
+ PUSHBUTTON "Save",			ID_PROJECT_SAVE,	157,	29,	50,	14, WS_TABSTOP
+ PUSHBUTTON "Save as...",	ID_PROJECT_SAVEAS,	209,	29,	50,	14, WS_TABSTOP 
+ 
+ GROUPBOX "Viewing area", -1, 124,	47, 	186,	164, BS_GROUPBOX
+ GROUPBOX "Current file", -1, 	2,	2,		308,	22, BS_GROUPBOX
+  CTEXT "", ID_LOADED_FILE,   	8,	12,		296,	8
+
+ GROUPBOX "Sprite bank", -1,	2,	47,		115,	50, BS_GROUPBOX
+  RTEXT "Sprites:", -1, 		8,	57,		51,		8
+  LTEXT "", ID_NUM_SPRITES,   	61,	57,		53,		8
+  RTEXT "Colours used:", -1, 	8,	67,		51,		8
+  LTEXT "", ID_NUM_COLOURS,   	61,	67,		53,		8
+  
+  PUSHBUTTON "View palette",	ID_VIEWPAL,
+								8,	77,		102,		14, WS_TABSTOP
+ 
+ GROUPBOX "Current sprite", -1, 2,	100,		115,	111, BS_GROUPBOX
+  RTEXT "Sprite #:", -1, 		8,	110,		31,		8
+  LTEXT "", ID_SPRITENUM,   	41,	110,		73,		8
+  RTEXT "Size:", -1,	 		8,	120,	31,		8
+  LTEXT "", ID_SPRITESIZE,   	41,	120,	73,		8
+  RTEXT "Hotspot:", -1,	 		8,	130,	31,		8
+  LTEXT "", ID_SPRITECENTRE,   	41,	130,	73,		8
+
+  PUSHBUTTON "Save to file",	ID_SPRITESAVE,		8,	140,		50,	14, WS_TABSTOP
+  PUSHBUTTON "Load from file",	ID_SPRITELOAD,		60,	140,		50,	14, WS_TABSTOP
+  PUSHBUTTON "Insert",			ID_SPRITEINSERT,	8,	157,	50,	14, WS_TABSTOP
+  PUSHBUTTON "Delete",			ID_SPRITEDELETE,	60,	157,	50,	14, WS_TABSTOP
+
+  PUSHBUTTON "<<",				ID_SPRITEFIRST,		8,	174,	24,	14, WS_TABSTOP
+  PUSHBUTTON "<",				ID_SPRITEBACK,		34,	174,	24,	14, WS_TABSTOP
+  PUSHBUTTON ">",				ID_SPRITEFORWARD,	60,	174,	24,	14, WS_TABSTOP
+  PUSHBUTTON ">>",				ID_SPRITELAST,		86,	174,	24,	14, WS_TABSTOP
+  PUSHBUTTON "Hotspot",			ID_MOVEHOTSPOT,		8,	191,	50, 14, WS_TABSTOP
+  PUSHBUTTON "Trim",			ID_SPRITETRIM,		60,	191,	50, 14, WS_TABSTOP
+
+  CHECKBOX	"Add new colours to palette when loading sprites", ID_ADDCOLOURS,
+  													2,   215, 180, 8, WS_TABSTOP
+  													
+  PUSHBUTTON "",				ID_FIXAXIS,			300, 215,   9, 8, WS_TABSTOP
+  RTEXT "Centre sprite in viewing area", 	-1,	 	192, 215, 103, 8
+}
+
+600 DIALOG 100, 70, 280, 213
+STYLE WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "View palette"
+FONT 8, "Arial"
+{
+ GROUPBOX "Palette information", -1, 2,	2, 276,	32, BS_GROUPBOX
+  RTEXT "Colours used:", -1, 	8,	12, 51,		8
+  LTEXT "", ID_NUM_COLOURS,   	61,	12,	153,	8
+  RTEXT "Colour offset:", -1, 	8,	22, 51,		8
+  LTEXT "", ID_COLOUR_OFFSET,   61,	22,	153,	8
+
+ GROUPBOX "Colours", -1,		2,	37,		276,	155, BS_GROUPBOX
+  PUSHBUTTON "OK",	IDOK,		2,	195,	48,		14, WS_TABSTOP
+  PUSHBUTTON "Sort by brightness", ID_SORTBRIGHT,
+  								55, 195,	95,		14, WS_TABSTOP
+  PUSHBUTTON "Remove unused colours", ID_REMOVEUNUSED,
+  								155, 195,	122,	14, WS_TABSTOP
+}
+
+700 DIALOG 300, 30, 104, 73
+STYLE WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Move hotspot"
+FONT 8, "Arial"
+{
+ GROUPBOX "Co-ords", -1,	2,	2, 48,	36, BS_GROUPBOX
+  RTEXT "X:", -1,			 	8,	12, 11,	8
+  EDITTEXT ID_X,   				21,	11,	25,	10
+  RTEXT "Y:", -1, 				8,	24, 11,	8
+  EDITTEXT ID_Y,				21,	23,	25,	10
+
+  DEFPUSHBUTTON "Apply",	IDOK,		54,	6,		48,		14, WS_TABSTOP  
+  PUSHBUTTON "Close",	IDCANCEL,		54,	23,		48,		14, WS_TABSTOP
+  PUSHBUTTON "Centre",	ID_HOT_CENTRE,	2,	40,	100,	14, WS_TABSTOP
+  PUSHBUTTON "Base",	ID_HOT_BASE,	2,	56,	100,	14, WS_TABSTOP
+}
+
+701 DIALOG 270, 30, 142, 83
+STYLE WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Fontify"
+FONT 8, "Arial"
+{
+ GROUPBOX "Settings", 						-1,					2,	 2,	 138, 48, BS_GROUPBOX
+  AUTOCHECKBOX "Add space at end of font",	ID_FON_ADDSPACE, 	8,	 12, 126, 8,	WS_TABSTOP
+  LTEXT " Width of space character:",		-1,				 	8,	 24, 100,  8
+  EDITTEXT									ID_FON_SPACEWIDTH, 	110, 23, 24,  10, WS_TABSTOP
+  LTEXT " Number of colours:",				-1,				 	8,	 36, 100,  8
+  EDITTEXT									ID_FON_COLOURS, 	110, 35, 24,  10, WS_TABSTOP
+
+  DEFPUSHBUTTON "Go!",						IDOK,				2,	66,	67,	14, WS_TABSTOP  
+  PUSHBUTTON "Cancel",						IDCANCEL,			73,	66,	67,	14, WS_TABSTOP
+}
+
+1 MENU
+BEGIN
+    POPUP "&File"
+        begin
+            MENUITEM "&New", ID_PROJECT_NEW
+            MENUITEM "&Open", ID_PROJECT_LOAD
+            MENUITEM "&Save",  ID_PROJECT_SAVE
+            MENUITEM "Save &as...",  ID_PROJECT_SAVEAS
+//            MENUITEM "&Revert",  ID_PROJECT_REVERT
+            MENUITEM SEPARATOR
+            MENUITEM "&Fontify", ID_FONTIFY
+            MENUITEM SEPARATOR
+            MENUITEM "E&xit",    IDCANCEL
+        end
+    popup "Sprite &bank"
+        BEGIN
+            MENUITEM "&View palette", ID_VIEWPAL
+            MENUITEM "&Trim all", ID_BANKTRIM
+	END
+    popup "Current &sprite"
+        BEGIN
+            MENUITEM "&Save to file", ID_SPRITESAVE
+            MENUITEM "&Load from file",   ID_SPRITELOAD
+            MENUITEM "&Insert", ID_SPRITEINSERT
+            MENUITEM "&Insert empty sprite", ID_SPRITEINSERTEMPTY
+            MENUITEM "&Delete", ID_SPRITEDELETE
+			MENUITEM "Move &hotspot", ID_MOVEHOTSPOT
+			MENUITEM "&Trim", ID_SPRITETRIM
+        END
+END
+
+3 ICON "resources/Icon.ico"
+
+1 VERSIONINFO
+ FILEVERSION 0,1,0,0
+ PRODUCTVERSION 0,1,0,0
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904E4"
+        BEGIN
+            VALUE "FileVersion", TEXT_VERSION"\0"
+            VALUE "FileDescription", "SLUDGE Sprite Bank Editor\0"
+            VALUE "LegalCopyright", COPYRIGHT_TEXT"\0"
+            VALUE "About SLUDGE", "Er... well, SLUDGE stands for Scripting Language for Unhindered Development of a Gaming Environment. So there. What, you thought this was a help file?\0"
+            VALUE "About the sprite bank editor", "Adventure games need characters. Characters need sprite banks. Sprite banks need a sprite bank editor. And... hey, wow! That's what this is!\0"
+            VALUE "SLUDGE on the WWW", "When you get a free moment, you could do worse than to pop over to http://hungrysoftware.com/ and check out the SLUDGE resources. You know you want to, fool.\0"
+            VALUE "UPX on the WWW", "This SLUDGE executable has been compressed using the UPX executable packer. For more information, please visit the UPX website. It's at http://upx.sf.com/ and it's lovely.\0"
+        END
+    END
+END

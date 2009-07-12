@@ -1,31 +1,48 @@
+#ifndef SPRITE_H
+#define SPRITE_H
+
+//#include <SDL_opengl.h>
+#include "glee.h"
+
 struct sprite {
 	int width, height, xhot, yhot;
-	byte * data;
+	int tex_x;
+	int texNum;
+	//unsigned char * data;
 };
 
 struct spritePalette {
 	unsigned short int * pal;
-	byte originalRed, originalGreen, originalBlue, total;
+	unsigned char * r;
+	unsigned char * g;
+	unsigned char * b;
+	GLuint tex_names[256];
+	GLuint burnTex_names[256];
+	int tex_w[256], tex_h[256];
+	int numTextures;
+	unsigned char originalRed, originalGreen, originalBlue, total;
 };
 
 struct spriteBank {
 	int total;
 	sprite * sprites;
 	spritePalette myPalette;
+	bool isFont;
 };
 
 struct aaSettingsStruct;
 
 void forgetSpriteBank (spriteBank & forgetme);
-BOOL loadSpriteBank (char * filename, spriteBank & loadhere);
-BOOL loadSpriteBank (int fileNum, spriteBank & loadhere);
+bool loadSpriteBank (char * filename, spriteBank & loadhere);
+bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont);
 
 void fontSprite		(int x1, int y1, sprite & single, const spritePalette & fontPal);
 void flipFontSprite	(int x1, int y1, sprite & single, const spritePalette & fontPal);
 
-BOOL scaleSprite (int x1, int y1, sprite & single, const spritePalette & fontPal, float, unsigned int, int, BOOL, unsigned short int * *, bool, bool, aaSettingsStruct *);
+bool scaleSprite (int x1, int y1, sprite & single, const spritePalette & fontPal, float, unsigned int, int, bool, bool, bool, bool, aaSettingsStruct *);
 void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette & fontPal);
-BOOL reserveSpritePal (spritePalette & sP, int n);
-void fixScaleSprite (int x1, int y1, sprite & single, const spritePalette & fontPal, float scale, unsigned int drawMode, int, BOOL, unsigned short int * *, const int camX, const int camY, bool, aaSettingsStruct * aa);
+bool reserveSpritePal (spritePalette & sP, int n);
+void fixScaleSprite (int x1, int y1, sprite & single, const spritePalette & fontPal, float scale, unsigned int drawMode, int, bool, bool light, const int camX, const int camY, bool, aaSettingsStruct * aa);
 void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette & fontPal);
-bool getScaleData (int * & scaleDataX, int * & scaleDataY, int diffX, int diffY, float scale, bool mirror);
+
+#endif

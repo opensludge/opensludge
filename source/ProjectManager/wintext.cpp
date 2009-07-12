@@ -1,5 +1,8 @@
-#include <windows.h>
 #include "splitter.h"
+
+#ifdef WIN32
+
+#include <windows.h>
 
 extern HWND mainWin;
 
@@ -13,4 +16,15 @@ char * getWindowText (int where) {
 	char tx[255];
 	MESS(where, WM_GETTEXT, 255, tx);
 	return joinStrings (tx, "");
+}
+
+#endif
+
+//TODO
+
+void setWindowText (int where, char * tx) {
+}
+
+char * getWindowText (int where) {
+	return joinStrings ("", "");
 }

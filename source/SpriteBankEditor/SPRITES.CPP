@@ -1,13 +1,16 @@
-#include "allfiles.h"
+#if 0
+/*TODO! */
 
-#include "fileset.h"
+#include "../engine/allfiles.h"
+
+#include "../engine/fileset.h"
 #include "sprites.h"
 #include "moreio.h"
-#include "newfatal.h"
-#include "colours.h"
-#include "backdrop.h"
-#include "sludger.h"
-#include "zbuffer.h"
+#include "../engine/newfatal.h"
+#include "../engine/colours.h"
+#include "../engine/backdrop.h"
+#include "../engine/sludger.h"
+#include "../engine/zbuffer.h"
 
 extern zBufferData zBuffer;
 extern unsigned short int * screen;
@@ -27,13 +30,13 @@ void forgetSpriteBank (spriteBank & forgetme) {
 	delete forgetme.sprites;
 }
 
-BOOL reserveSpritePal (spritePalette & sP, int n) {
+bool reserveSpritePal (spritePalette & sP, int n) {
 	sP.pal = new unsigned short int [n];
 	sP.total = n;
-	return (BOOL) (sP.pal != NULL);
+	return (bool) (sP.pal != NULL);
 }
 
-/*BOOL loadSpriteBank (char * filename, spriteBank & loadhere) {
+/*bool loadSpriteBank (char * filename, spriteBank & loadhere) {
 	unsigned int index, total;
 	byte picwidth, picheight, * data;
 
@@ -43,7 +46,7 @@ BOOL reserveSpritePal (spritePalette & sP, int n) {
 //	debug ("Attempting to load sprites (old method) from", filename);
 	if (fp == NULL) {
 		fatal ("Argh! Can't load sprites", filename);
-		return FALSE;
+		return false;
 	}
 
 	total = get2bytes (fp);
@@ -51,7 +54,7 @@ BOOL reserveSpritePal (spritePalette & sP, int n) {
 	loadhere.total = total;
 	if (total == 0) {
 		fatal ("Argh 2! No sprites in bank!");
-		return FALSE;
+		return false;
 	}
 	loadhere.sprites = new sprite [total];
 	checkNew (loadhere.sprites);
@@ -76,7 +79,7 @@ BOOL reserveSpritePal (spritePalette & sP, int n) {
 	int startIndex = fgetc (fp);
 	byte r, g, b;
 
-	if (! reserveSpritePal (loadhere.myPalette, howmany + startIndex)) return FALSE;
+	if (! reserveSpritePal (loadhere.myPalette, howmany + startIndex)) return false;
 
 	for (index = 0; index < howmany; index ++) {
 		r = (byte) fgetc (fp);
@@ -86,13 +89,13 @@ BOOL reserveSpritePal (spritePalette & sP, int n) {
 	}
 	
 	fclose (fp);
-	return TRUE;
+	return true;
 }
 */
-BOOL loadSpriteBank (int fileNum, spriteBank & loadhere) {
+bool loadSpriteBank (int fileNum, spriteBank & loadhere) {
 	int index, total, picwidth, picheight, loadSaveMode = 0, howmany,
 		startIndex;
-	byte r, g, b, * data;
+	unsigned char r, g, b, * data;
 
 	setResourceForFatal (fileNum);
 	if (! openFileFromNum (fileNum)) return fatal ("Can't open sprite bank / font");
@@ -112,7 +115,7 @@ BOOL loadSpriteBank (int fileNum, spriteBank & loadhere) {
 
 	loadhere.total = total;
 	loadhere.sprites = new sprite [total];
-	if (! checkNew (loadhere.sprites)) return FALSE;
+	if (! checkNew (loadhere.sprites)) return false;
 
 	if (loadSaveMode) {
 		howmany = fgetc (bigDataFile);
@@ -124,8 +127,8 @@ BOOL loadSpriteBank (int fileNum, spriteBank & loadhere) {
 			case 2:
 			picwidth = get2bytes (bigDataFile);
 			picheight = get2bytes (bigDataFile);
-			loadhere.sprites[index].xhot = readSigned (bigDataFile);
-			loadhere.sprites[index].yhot = readSigned (bigDataFile);
+			loadhere.sprites[index].xhot = getSigned (bigDataFile);
+			loadhere.sprites[index].yhot = getSigned (bigDataFile);
 			break;
 			
 			default:
@@ -139,7 +142,7 @@ BOOL loadSpriteBank (int fileNum, spriteBank & loadhere) {
 		loadhere.sprites[index].height = picheight;
 
 		data = (byte *) new byte [picwidth * (picheight + 1)];
-		if (! checkNew (data)) return FALSE;
+		if (! checkNew (data)) return false;
 		int ooo = picwidth * picheight;
 		for (int tt = 0; tt < picwidth; tt ++) {
 			data[ooo ++] = 0;
@@ -178,7 +181,7 @@ BOOL loadSpriteBank (int fileNum, spriteBank & loadhere) {
 		startIndex = fgetc (bigDataFile);
 	}
 
-	if (! reserveSpritePal (loadhere.myPalette, howmany + startIndex)) return FALSE;
+	if (! reserveSpritePal (loadhere.myPalette, howmany + startIndex)) return false;
 
 	for (index = 0; index < howmany; index ++) {
 		r = (byte) fgetc (bigDataFile);
@@ -189,7 +192,7 @@ BOOL loadSpriteBank (int fileNum, spriteBank & loadhere) {
 
 	finishAccess ();
 	setResourceForFatal (-1);
-	return TRUE;
+	return true;
 }
 
 void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette & fontPal) {
@@ -477,7 +480,7 @@ inline unsigned short multCols (unsigned short col1, unsigned short col2) {
 bool getScaleData (int * & scaleDataX, int * & scaleDataY, int diffX, int diffY, float scale, bool mirror) {
 	int xpos, biggest = ((diffX > diffY) ? diffX : diffY) + 1;
 	scaleDataY = new int[biggest + 1];
-	if (! checkNew (scaleDataY)) return FALSE;
+	if (! checkNew (scaleDataY)) return false;
 
 	for (xpos = 0; xpos <= biggest; xpos ++) {
 		scaleDataY[xpos] = (xpos + 0.5) / (scale);
@@ -485,18 +488,18 @@ bool getScaleData (int * & scaleDataX, int * & scaleDataY, int diffX, int diffY,
 	
 	if (mirror) {
 		scaleDataX = new int[diffX + 1];
-		if (! checkNew (scaleDataX)) return FALSE;
+		if (! checkNew (scaleDataX)) return false;
 		for (xpos = 0; xpos <= diffX; xpos ++) {
 			scaleDataX[diffX - xpos] = (xpos - 0.5) / (scale);
 		}
 	} else {
 		scaleDataX = scaleDataY;
 	}
-	return TRUE;
+	return true;
 }
 
-BOOL scaleSprite (int x1, int y1, sprite & single, const spritePalette & fontPal, float scale, unsigned int drawMode, int floaty, BOOL useZB, unsigned short int * * lightMapImage, bool mirror) {
-	if (scale <= 0.05) return FALSE;
+bool scaleSprite (int x1, int y1, sprite & single, const spritePalette & fontPal, float scale, unsigned int drawMode, int floaty, bool useZB, unsigned short int * * lightMapImage, bool mirror) {
+	if (scale <= 0.05) return false;
 
 	int xpos, ypos, x2, y2, imX1 = 0, imY1 = 0, imX, imY, diffX, diffY;
 	unsigned short int s;
@@ -515,7 +518,7 @@ BOOL scaleSprite (int x1, int y1, sprite & single, const spritePalette & fontPal
 
 	int * scaleDataX;
 	int * scaleDataY;
-	if (! getScaleData (scaleDataX, scaleDataY, diffX, diffY, scale, mirror)) return FALSE;
+	if (! getScaleData (scaleDataX, scaleDataY, diffX, diffY, scale, mirror)) return false;
 	
 	if (x1 < 0) {
 		imX1 = - x1;
@@ -534,7 +537,7 @@ BOOL scaleSprite (int x1, int y1, sprite & single, const spritePalette & fontPal
 	unsigned short int * toHere;
 	unsigned short int * lmi;
 	unsigned long startOfLine;
-	BOOL exactHit = FALSE;
+	bool exactHit = false;
 
 	imY = imY1;
 	if (zBuffer.map && useZB) {
@@ -601,10 +604,10 @@ BOOL scaleSprite (int x1, int y1, sprite & single, const spritePalette & fontPal
 	
 	// Are we pointing at the sprite?
 	
-	return exactHit;//(BOOL) (input.mouseX >= x1 && input.mouseX <= x2 && input.mouseY >= y1 && input.mouseY <= y2);
+	return exactHit;//(bool) (input.mouseX >= x1 && input.mouseX <= x2 && input.mouseY >= y1 && input.mouseY <= y2);
 }
 
-void fixScaleSprite (int x1, int y1, sprite & single, const spritePalette & fontPal, float scale, unsigned int drawMode, int floaty, BOOL useZB, unsigned short int * * lightMapImage, const int camX, const int camY, bool mirror) {
+void fixScaleSprite (int x1, int y1, sprite & single, const spritePalette & fontPal, float scale, unsigned int drawMode, int floaty, bool useZB, unsigned short int * * lightMapImage, const int camX, const int camY, bool mirror) {
 	if (scale <= 0.05) return;
 	
 	int xpos, ypos, x2, y2, imX1 = 0, imY1 = 0, imX, imY, diffX, diffY;
@@ -702,7 +705,7 @@ unsigned short int * screen;
 HBITMAP videoBuffer;          // handle to the buffer bitmap
 extern HWND mainWin;
 
-BOOL initSpriteArea () {
+bool initSpriteArea () {
 	int i;
 	HDC hdc;
 
@@ -729,7 +732,7 @@ BOOL initSpriteArea () {
 	// Attempt to create a memory DC for the buffer
 	bufferDC=CreateCompatibleDC(hdc);
 
-	if(bufferDC==NULL) return FALSE;
+	if(bufferDC==NULL) return false;
 
 	// Get pointer and handle to buffer DIB
 	screen=NULL;
@@ -739,15 +742,15 @@ BOOL initSpriteArea () {
 	// Select the buffer DIB into the memory device context
 	i=(int)SelectObject(bufferDC,videoBuffer);
 
-	if((i==NULL) || (i==GDI_ERROR)) {
+	if((!i) || (i==GDI_ERROR)) {
 //		MessageBox(main,"Could not select buffer DIB into device context",
 //					  "initVideo(...) error",MB_ICONSTOP | MB_OK);
-		return(FALSE);
+		return(false);
 	};
 
 	ReleaseDC(mainWin, hdc);
 
-	return(TRUE);
+	return(true);
 }
 
 void paintSpriteArea () {
@@ -755,3 +758,5 @@ void paintSpriteArea () {
 	BitBlt (hdc, SPRITE_AREA_X, SPRITE_AREA_Y, SPRITE_AREA_W, SPRITE_AREA_H, bufferDC, 0, 0, SRCCOPY);
 	ReleaseDC (mainWin, hdc);
 }
+
+#endif

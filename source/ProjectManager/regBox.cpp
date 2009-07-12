@@ -6,7 +6,7 @@
 
 #define all32Chars "B7C2DFG8HJKT9V6WX01YLM4NA5PQR3SZ"
 
-BOOL hacker = FALSE;
+bool hacker = false;
 
 void gotoSite (HWND, char *);
 
@@ -68,12 +68,12 @@ LRESULT CALLBACK regBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
 				}
 
 				case IDCANCEL:
-				EndDialog(hDlg, TRUE);
-				return (TRUE);
+				EndDialog(hDlg, true);
+				return (true);
 			}
 			break;
 	}
 
-    return FALSE;
+    return false;
 }
 #endif

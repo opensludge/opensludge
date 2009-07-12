@@ -1,4 +1,7 @@
-#include <windows.h>
+#if 0
+
+//#include <windows.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include "data.h"
 #include "line.h"
@@ -34,7 +37,7 @@ void splitLine (int x1, int y1, int x2, int y2) {
 	}
 }
 
-BOOL snapToClosest (int & x, int & y) {
+bool snapToClosest (int & x, int & y) {
 	polyList * pL =  firstPoly;
 	if (x < 4) x = 0;
 	if (y < 4) y = 0;
@@ -46,13 +49,13 @@ BOOL snapToClosest (int & x, int & y) {
 			if (abs (vL -> x - x) < CLOSENESS && abs (vL -> y - y) < CLOSENESS) {
 				x = vL -> x;
 				y = vL -> y;
-				return TRUE;
+				return true;
 			}
 			vL = vL -> next;
 		}
 		pL = pL -> next;
 	}
-	return FALSE;
+	return false;
 }
 
 void removePoly (polyList * killMe) {
@@ -74,7 +77,7 @@ void killVertex (int x, int y) {
 	polyList * pL =  firstPoly;
 	while (pL) {
 		vertexList * * changeMe = & (pL -> firstVertex);
-		BOOL killedAlready = FALSE;
+		bool killedAlready = false;
 		while (* changeMe) {
 			if ((* changeMe) -> x == x && (* changeMe) -> y == y) {
 				if (killedAlready) {
@@ -89,7 +92,7 @@ void killVertex (int x, int y) {
 					vertexList * killMe = (* changeMe);
 					(* changeMe) = (* changeMe) -> next;
 					delete killMe;
-					killedAlready = TRUE;
+					killedAlready = true;
 				}
 			} else {
 				changeMe = & ((* changeMe) -> next);
@@ -127,24 +130,24 @@ void killVertex (int x, int y) {
 	}
 }
 
-BOOL moveVertices (int x1, int y1, int x2, int y2) {
+bool moveVertices (int x1, int y1, int x2, int y2) {
 	polyList * pL;
 	vertexList * vL;
-	BOOL got1, got2;
+	bool got1, got2;
 
 	// Check we're not doubling up...
 
 	pL = firstPoly;
 	while (pL) {
-		got1 = FALSE;
-		got2 = FALSE;
+		got1 = false;
+		got2 = false;
 		vL = pL -> firstVertex;
 		while (vL) {
-			if (vL -> x == x1 && vL -> y == y1) got1 = TRUE;
-			if (vL -> x == x2 && vL -> y == y2) got2 = TRUE;
+			if (vL -> x == x1 && vL -> y == y1) got1 = true;
+			if (vL -> x == x2 && vL -> y == y2) got2 = true;
 			vL = vL -> next;
 		}
-		if (got1 && got2) return FALSE;
+		if (got1 && got2) return false;
 		pL = pL -> next;
 	}
 	
@@ -162,7 +165,7 @@ BOOL moveVertices (int x1, int y1, int x2, int y2) {
 		}
 		pL = pL -> next;
 	}
-	return TRUE;
+	return true;
 }
 
 polyList * addPoly () {
@@ -188,9 +191,9 @@ void noFloor () {
 	addPoly ();
 }
 
-BOOL polyIsComplete () {
-	if (firstPoly -> firstVertex == NULL) return FALSE;
-	if (firstPoly -> firstVertex -> next == NULL) return FALSE;
+bool polyIsComplete () {
+	if (firstPoly -> firstVertex == NULL) return false;
+	if (firstPoly -> firstVertex -> next == NULL) return false;
 	vertexList * newVertex = firstPoly -> firstVertex;
 	while (newVertex -> next) newVertex = newVertex -> next;
 	return firstPoly -> firstVertex -> x == newVertex -> x && firstPoly -> firstVertex -> y == newVertex -> y;
@@ -222,7 +225,7 @@ int addVertex (int x, int y) {
 	return 1;
 }
 
-extern BOOL markVertices;
+extern bool markVertices;
 
 void drawSoFar (unsigned short adder) {
 	polyList * pL = firstPoly;
@@ -243,7 +246,6 @@ void drawSoFar (unsigned short adder) {
 			
 			if (markVertices) {
 				vertexList * newV = drawnVertices;
-				BOOL alreadyDrawn = FALSE;
 
 				while (newV) {
 					if (newV -> x == vL -> x && newV -> y == vL -> y) break;
@@ -300,11 +302,11 @@ void drawSoFar (unsigned short adder) {
 	}
 }
 
-BOOL saveToFile (char * filename) {
+bool saveToFile (char * filename) {
 	FILE * fp = fopen (filename, "wt");
 	if (! fp) {
 		alert ("Can't open file for writing");
-		return FALSE;
+		return false;
 	}
 	polyList * pL =  firstPoly;
 	while (pL) {
@@ -319,15 +321,15 @@ BOOL saveToFile (char * filename) {
 		pL = pL -> next;
 	}
 	fclose (fp);
-	return TRUE;
+	return true;
 }
 
-BOOL loadFromFile (char * name) {
-	BOOL adding = FALSE;
+bool loadFromFile (char * name) {
+	bool adding = false;
 	int numGot = 0, gotX, firstX, firstY;
 
 	FILE * fp = fopen (name, "rb");
-	if (! fp) return FALSE;
+	if (! fp) return false;
 	char c;
 	
 	noFloor ();
@@ -341,7 +343,7 @@ BOOL loadFromFile (char * name) {
 
 		switch (c) {
 			case '*':
-			adding = TRUE;
+			adding = true;
 			firstX = -1;
 			addPoly ();
 			numGot = 0;
@@ -377,7 +379,7 @@ BOOL loadFromFile (char * name) {
 				}
 				if (c == '\n') {
 					addVertex (firstX, firstY);
-					adding = FALSE;
+					adding = false;
 				}
 				numGot = 0;
 			}
@@ -388,7 +390,7 @@ BOOL loadFromFile (char * name) {
 		}
 	}
 	fclose (fp);
-	return TRUE;
+	return true;
 }
 
 void splitPoly (int x1, int y1, int x2, int y2) {
@@ -396,20 +398,20 @@ void splitPoly (int x1, int y1, int x2, int y2) {
 	if (x1 == x2 && y1 == y2) return;
 
 	vertexList * gotCorner1, * gotCorner2, * vTemp;
-	BOOL swap;
+	bool swap;
 
 	polyList * pL = firstPoly;
 	while (pL) {
 		gotCorner1 = NULL;
 		gotCorner2 = NULL;
-		swap = FALSE;
+		swap = false;
 		vertexList * vL = pL -> firstVertex;
 		if (vL) {
 			while (vL -> next) {
 				if (vL -> x == x1 && vL -> y == y1) gotCorner1 = vL;
 				if (vL -> x == x2 && vL -> y == y2) {
 					gotCorner2 = vL;
-					if (gotCorner1 == NULL) swap = TRUE;
+					if (gotCorner1 == NULL) swap = true;
 				}
 				vL = vL -> next;
 			}
@@ -438,3 +440,5 @@ void splitPoly (int x1, int y1, int x2, int y2) {
 		pL = pL -> next;
 	}
 }
+
+#endif

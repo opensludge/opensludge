@@ -1,9 +1,22 @@
+#ifndef _ZBUFFER_H_
+#define _ZBUFFER_H_
+
+//#include <SDL_opengl.h>
+#include "glee.h"
+
 struct zBufferData {
-	unsigned short * * map;
-//	int width, height;
-//	BOOL loaded;
+	int width, height;
+//	bool loaded;
+	int numPanels;
+	int panel[16];
 	int originalNum;
+	
+	GLubyte * tex;
+	GLuint texName;
 };
 
-BOOL setZBuffer (int y);
-void noZBuffer ();
+bool setZBuffer (int y);
+void killZBuffer ();
+void drawZBuffer(int x, int y, bool upsidedown);
+
+#endif 

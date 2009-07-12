@@ -1,1 +1,1 @@
-BOOL preProcess (char *, int, stringArray * &, stringArray * &);
+bool preProcess (char *, int, stringArray * &, stringArray * &);

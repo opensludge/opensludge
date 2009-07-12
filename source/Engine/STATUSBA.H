@@ -18,15 +18,15 @@ void setStatusBar (char * txt);
 void clearStatusBar ();
 void addStatusBar ();
 void killLastStatus ();
-void statusBarColour (byte r, byte g, byte b);
-void statusBarLitColour (byte r, byte g, byte b);
+void statusBarColour (unsigned char r, unsigned char g, unsigned char b);
+void statusBarLitColour (unsigned char r, unsigned char g, unsigned char b);
 void setLitStatus (int i);
 char * statusBarText ();
 void positionStatus (int, int);
 void drawStatusBar ();
 
 // Load and save
-BOOL loadStatusBars (FILE * fp);
+bool loadStatusBars (FILE * fp);
 void saveStatusBars (FILE * fp);
 
 // For freezing

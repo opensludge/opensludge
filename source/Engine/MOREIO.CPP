@@ -1,45 +1,23 @@
+#include <string.h>
+
 #include "allfiles.h"
 #include "moreio.h"
 #include "newfatal.h"
 #include "stringy.h"
 
-BOOL allowAnyFilename = FALSE;
+#include "debug.h"
 
-/*
-void newDebug (char * a) {
-	FILE * fp = fopen ("newdebug.txt", "at");
-	if (fp) {
-		fprintf (fp, "%s\n", a);
-		fclose (fp);
-	}
-}
+bool allowAnyFilename = false;
 
-void newDebug (char * a, int i) {
-	FILE * fp = fopen ("newdebug.txt", "at");
-	if (fp) {
-		fprintf (fp, "%s %d\n", a, i);
-		fclose (fp);
-	}
-}
 
-void newDebug (char * a, char * b) {
-	FILE * fp = fopen ("newdebug.txt", "at");
-	if (fp) {
-		fprintf (fp, "%s %s\n", a, b);
-		fclose (fp);
-	}
-}
-
-void initDebug () {
-	FILE * fp = fopen ("newdebug.txt", "wt");
-	if (fp) {
-		fprintf (fp, "DEBUG!\n\n");
-		fclose (fp);
-	}
-}
-// */
 int get2bytes (FILE * fp) {
-	return (fgetc (fp) * 256 + fgetc (fp));
+	int f1, f2;
+
+	f1 = fgetc (fp);
+	f2 = fgetc (fp);
+	
+	return (f1 * 256 + f2);
+//	return (fgetc (fp) * 256 + fgetc (fp));
 }
 
 void put2bytes (int numtoput, FILE * fp) {
@@ -55,18 +33,20 @@ void writeString (char * s, FILE * fp) {
 	}
 }
 
+
 char * readString (FILE * fp) {
-//	FILE * db = fopen ("debugStr.txt", "at");
 
 	int a, len = get2bytes (fp);
+	//debugOut ("MOREIO: readString - len %i\n", len);
 	char * s = new char[len + 1];
-	if (! checkNew (s)) return NULL;
+	if (! checkNew (s)) {
+		return NULL;
+	}
 	for (a = 0; a < len; a ++) {
 		s[a] = (char) (fgetc (fp) - 1);
 	}
 	s[len] = NULL;
-//	fprintf (db, "Length: %d\t[%s]\n", len, s);
-//	fclose (db);
+	//debugOut ("MOREIO: readString: %s\n", s);
 	return s;
 }
 
@@ -91,6 +71,19 @@ void putSigned (short f, FILE * fp) {
 }
 
 long get4bytes (FILE * fp) {
+/*	int f1, f2, f3, f4;
+
+	f1 = fgetc (fp);
+	f2 = fgetc (fp);
+	f3 = fgetc (fp);
+	f4 = fgetc (fp);
+
+	debugOut ("MOREIO: get4bytes * %i %i %i %i\n", f1, f2, f3, f4);
+
+	return (f1 + f2*256 + f3*256*256 + f4*256*256*256);
+
+*/
+
 	long f;
 	fread (& f, sizeof (long), 1, fp);
 	return f;

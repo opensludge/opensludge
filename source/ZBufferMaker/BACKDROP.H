@@ -1,7 +1,7 @@
 extern int WINWIDTH, WINHEIGHT;
 
-BOOL loadBackDrop (char * fileName);
+bool loadBackDrop (char * fileName);
 void backDropToScreenBuffer ();
-BOOL initBackDrop (int, int);
+bool initBackDrop (int, int);
 void blankBackDrop ();
-BOOL saveBackdropToTGA (char * filename);
+bool saveBackdropToTGA (char * filename);

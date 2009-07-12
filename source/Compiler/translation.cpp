@@ -1,6 +1,7 @@
-#include <windows.h>
+#if 0
+
 #include <stdio.h>
-//#include <string.h>
+#include <string.h>
 #include <unistd.h>
 
 #include "typedef.h"
@@ -23,7 +24,7 @@ translationReg * allTranslations = NULL;
 
 enum mode {TM_COMMENTS, TM_ID, TM_DATA};
 
-BOOL addNewTraReg (char * filename, int ID) {
+bool addNewTraReg (char * filename, int ID) {
 //	errorBox ("Adding", filename);
 	translationReg * newReg = new translationReg;
 	if (newReg) {
@@ -33,7 +34,7 @@ BOOL addNewTraReg (char * filename, int ID) {
 			newReg -> next = allTranslations;
 			allTranslations = newReg;
 			numberOfValidTranslations ++;
-			return TRUE;
+			return true;
 		}
 		delete newReg;
 	}
@@ -99,12 +100,12 @@ void registerTranslationFile (char * filename) {
 stringArray * transFrom = NULL;
 stringArray * transTo = NULL;
 
-BOOL cacheTranslationData (char * f) {
-	if (! gotoSourceDirectory ()) return FALSE;
+bool cacheTranslationData (char * f) {
+	if (! gotoSourceDirectory ()) return false;
 	FILE * fp = fopen (f, "rt");
 	if (! fp) return errorBox (ERRORTYPE_PROJECTERROR, "Translation file has suddenly gone missing", f, NULL);
 	
-	BOOL unfinished = FALSE;
+	bool unfinished = false;
 
 	char * theLine = NULL;
 	do {
@@ -117,16 +118,16 @@ BOOL cacheTranslationData (char * f) {
 
 	do {
 		theLine = readText (fp);
-		if (theLine && theLine[0] != NULL && theLine[0] != '\t') {
-			stringArray * pair = splitString (theLine, '\t', ONCE, FALSE);
-			addToStringArray (transFrom, pair->string, 0, -1, TRUE);
+		if (theLine && theLine[0] && theLine[0] != '\t') {
+			stringArray * pair = splitString (theLine, '\t', ONCE, false);
+			addToStringArray (transFrom, pair->string, 0, -1, true);
 			if (pair->next == NULL) {
 				// No translation
 			} else if (strcmp (pair->next->string, "*\t") == 0) {
 				// Unfinished file
-				if (unfinished == FALSE) {
+				if (unfinished == false) {
 					errorBox (ERRORTYPE_PROJECTWARNING, "This translation file isn't finished - there are still strings in the \"YET TO BE TRANSLATED\" category", f, NULL);
-					unfinished = TRUE;
+					unfinished = true;
 				}
 			} else {
 				// Translation
@@ -136,20 +137,20 @@ BOOL cacheTranslationData (char * f) {
 			// The only thing we DO want to trim is excess tabbage
 			trimStart (pair->string, '\t');
 
-			addToStringArray (transTo, pair->string, 0, -1, TRUE);
+			addToStringArray (transTo, pair->string, 0, -1, true);
 			while (destroyFirst (pair)) {;}
 		}
 	} while (theLine);
 
 	fclose (fp);
 	
-	return TRUE;
+	return true;
 }
 
 char * translateMe (char * originalIn) {
 	char * original = copyString (originalIn);
 
-	if (original[0] == NULL) return original;
+	if (! original[0]) return original;
 
 	int spacesAtStart = 0, spacesAtEnd = 0;
 	while (trimStart (original, ' ')) spacesAtStart ++;
@@ -182,8 +183,8 @@ char * translateMe (char * originalIn) {
 	return trans;
 }
 
-BOOL addTranslationData (translationReg * trans, stringArray * theSA, FILE * mainFile) {
-	if (! cacheTranslationData (trans->filename)) return FALSE;
+bool addTranslationData (translationReg * trans, stringArray * theSA, FILE * mainFile) {
+	if (! cacheTranslationData (trans->filename)) return false;
 	
 	FILE * projectFile, * indexFile;
 	
@@ -191,7 +192,7 @@ BOOL addTranslationData (translationReg * trans, stringArray * theSA, FILE * mai
 
 //	errorBox ("Number of unique strings", countElements (theSA));
 
-	if (! gotoTempDirectory ()) return FALSE;
+	if (! gotoTempDirectory ()) return false;
 	projectFile = fopen ("tdata.tmp", "wb");
 	indexFile = fopen ("tindex.tmp", "wb");
 
@@ -214,25 +215,25 @@ BOOL addTranslationData (translationReg * trans, stringArray * theSA, FILE * mai
 	fclose (projectFile);
 	fclose (indexFile);
 
-	if (! gotoTempDirectory ()) return FALSE;
+	if (! gotoTempDirectory ()) return false;
 	if (dumpFileInto (mainFile, "tindex.tmp") && dumpFileInto (mainFile, "tdata.tmp")) {
 		unlink ("tindex.tmp");
 		unlink ("tdata.tmp");
-		return TRUE;
+		return true;
 	} else {
-		return FALSE;
+		return false;
 	}	
 }
 
-BOOL addAllTranslationData (stringArray * theSA, FILE * mainFile) {
+bool addAllTranslationData (stringArray * theSA, FILE * mainFile) {
 	translationReg * temp = allTranslations;
 
 	while (temp) {
-		if (! addTranslationData (temp, theSA, mainFile)) return FALSE;
+		if (! addTranslationData (temp, theSA, mainFile)) return false;
 		temp = temp -> next;
 	}
 
-	return TRUE;
+	return true;
 }
 
 void addTranslationIDTable (FILE * mainFile) {
@@ -245,3 +246,5 @@ void addTranslationIDTable (FILE * mainFile) {
 		temp = temp -> next;
 	}	
 }
+
+#endif

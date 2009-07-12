@@ -1,4 +1,5 @@
-#include "allfiles.h"
+#include <string.h>
+//#include "allfiles.h"
 #include "splitter.h"
 #include "messbox.h"
 #include "checkUsed.h"
@@ -22,12 +23,12 @@ void warnAboutUnused (int type, stringArray * temp, char * preamble, stringArray
 		if (! flagUsed[type][i])
 		{
 			char * buff = joinStrings (preamble, temp->string, " not used");
-			addComment (ERRORTYPE_PROJECTWARNING, buff, files ? files->string : NULL);
+			//TODO addComment (ERRORTYPE_PROJECTWARNING, buff, files ? files->string : 0);
 			delete buff;
 		}
 		i ++;
 		temp = temp->next;
-		files = files ? files->next : NULL;
+		files = files ? files->next : 0;
 	}
 }
 

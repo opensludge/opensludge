@@ -1,21 +1,24 @@
+#include "SDL.h"
 #include "allfiles.h"
 #include "version.h"
 
 #include <string.h>
 #include <stdlib.h>
 
+#include "sound.h"
+
 #include "stringy.h"
 #include "errors.h"
+
+void msgBox (const char * head, const char * msg);
 
 const char emergencyMemoryMessage[]	= "Out of memory displaying error message!";
 
 static char * fatalMessage = NULL;
 static char * fatalInfo = joinStrings ("Initialisation error! Something went wrong before we even got started!", "");
-static HWND mainWindow;
 
-extern BOOL winReg = FALSE;
-extern int numResourceNames = 0;
-extern char * * allResourceNames = NULL;
+extern int numResourceNames /* = 0*/;
+extern char * * allResourceNames /*= NULL*/;
 
 int resourceForFatal = -1;
 
@@ -26,43 +29,44 @@ char * resourceNameFromNum (int i) {
 	return "Unknown resource";
 }
 
+bool hasFatal () {
+	if (fatalMessage) return true;
+	return false;
+}
+
 void displayFatal () {
 	if (fatalMessage) {
-		MessageBox (NULL, fatalMessage, "SLUDGE v"TEXT_VERSION" fatal error!", MB_OK | MB_ICONSTOP | MB_SYSTEMMODAL | MB_SETFOREGROUND);
+		msgBox ("SLUDGE v"TEXT_VERSION" fatal error!", fatalMessage);
 	}
 }
 
 void warning (const char * l) {
-	MessageBox (NULL, l, "SLUDGE v"TEXT_VERSION" non-fatal indigestion report", MB_OK | MB_ICONSTOP | MB_SYSTEMMODAL | MB_SETFOREGROUND);
+	msgBox ("SLUDGE v"TEXT_VERSION" non-fatal indigestion report", l);
 }
 
-void registerWindowForFatal (const HWND v) {
-	mainWindow = v;
-	winReg = TRUE;
+void registerWindowForFatal () {
 	delete fatalInfo;
 	fatalInfo = joinStrings ("There's an error with this SLUDGE game! If you're designing this game, please turn on verbose error messages in the project manager and recompile. If not, please contact the author saying where and how this problem occured.", "");
 }
 
+extern SDL_Event quit_event;
+
 int inFatal (const char * str) {
-	if (winReg) {
-		FILE * fatFile = fopen ("fatal.txt", "wt");
-		if (fatFile) {
-			fprintf (fatFile, "FATAL:\n%s\n", str);
-			fclose (fatFile);
-		}
 
-		fatalMessage = copyString (str);
-		if (fatalMessage == NULL) fatalMessage = "Out of memory";
-		PostQuitMessage (0);
-		DestroyWindow (mainWindow);
-
-		//		atexit (displayFatal);
-//		exit (1);
-	} else {
-		MessageBox (NULL, str, "SLUDGE v"TEXT_VERSION" startup error!", MB_OK | MB_ICONSTOP | MB_SYSTEMMODAL | MB_SETFOREGROUND);
-		exit (1);
+	FILE * fatFile = fopen ("fatal.txt", "wt");
+	if (fatFile) {
+		fprintf (fatFile, "FATAL:\n%s\n", str);
+		fclose (fatFile);
 	}
-	return 0;
+
+	fatalMessage = copyString (str);
+	if (fatalMessage == NULL) fatalMessage = "Out of memory";
+
+	killSoundStuff ();
+	SDL_Quit();
+		
+	atexit (displayFatal);
+	exit (1);
 }
 
 int checkNew (const void * mem) {
@@ -73,7 +77,7 @@ int checkNew (const void * mem) {
 	return 1;
 }
 
-void setFatalInfo (char * userFunc, char * BIF) {
+void setFatalInfo (const char * userFunc, const char * BIF) {
 	delete fatalInfo;
 	fatalInfo = new char [strlen (userFunc) + strlen (BIF) + 38];
 	if (fatalInfo) sprintf (fatalInfo, "Currently in this sub: %s\nCalling: %s", userFunc, BIF);

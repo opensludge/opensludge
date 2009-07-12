@@ -1,3 +1,5 @@
+#ifdef WIN32
+
 #include <windows.h>
 #include "splitter.h"
 
@@ -14,3 +16,5 @@ char * getWindowText (int where) {
 	MESS(where, WM_GETTEXT, 255, tx);
 	return joinStrings (tx, "");
 }
+
+#endif

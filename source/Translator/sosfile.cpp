@@ -1,3 +1,6 @@
+#if 0
+TODO
+
 #include <windows.h>
 #include <stdio.h>
 #include <string.h>
@@ -20,29 +23,29 @@ extern HMENU			myMenu;
 transLine * firstTransLine = NULL;
 transLine * selectedTransLine;
 
-BOOL beenChanged = FALSE, fileBeenChanged = FALSE;
+bool beenChanged = false, fileBeenChanged = false;
 extern char * loader;
 extern char * searchString;
-extern BOOL searchSensitive;
+extern bool searchSensitive;
 
 #define enableMenu(a,b)		EnableMenuItem (myMenu, a, b ? MF_ENABLED : MF_GRAYED)
 
-void fixMenus (BOOL f) {
+void fixMenus (bool f) {
 	fileBeenChanged = f;
 	enableMenu (ID_PROJECT_REVERT, fileBeenChanged && loader[0]);	
 	enableMenu (ID_PROJECT_SAVE,   fileBeenChanged && loader[0]);	
 	enableMenu (ID_PROJECT_SAVEAS, fileBeenChanged || loader[0]);
 }
 
-BOOL trashProgress (char * doWhat) {
+bool trashProgress (char * doWhat) {
 	if (fileBeenChanged) {
 		
 		char * question = joinStrings ("Are you sure you want to ", doWhat, "? You'll lose all your unsaved data...");
-		BOOL answer = ask (question);
+		bool answer = ask (question);
 		delete question;
 		return answer;
 	} else {
-		return TRUE;
+		return true;
 	}
 }
 
@@ -61,8 +64,8 @@ void setFileName (char * fn, unsigned int languageID) {
 		loader = copyString ("");
 		SendDlgItemMessage (mainWin, ID_FILENAME, WM_SETTEXT, (WPARAM) 0, (LPARAM) "Untitled");
 	}
-	SetDlgItemInt (mainWin, ID_ID, languageID, FALSE);
-	fixMenus (FALSE);
+	SetDlgItemInt (mainWin, ID_ID, languageID, false);
+	fixMenus (false);
 }
 
 void newFile () {
@@ -77,7 +80,7 @@ void newFile () {
 	autoSelectContent (TYPE_TRANS);
 	setFileName (NULL, 0);
 	delete searchString;
-	searchString = FALSE;
+	searchString = false;
 }
 
 unsigned int stringToInt (const char * textNumber) {
@@ -203,7 +206,7 @@ void enableTranslationBox (int level, char * s) {
 	EnableWindow (GetDlgItem (mainWin, ID_ENTER_TRANSLATION), level < 5);
 }
 
-void setChanged (BOOL bc) {
+void setChanged (bool bc) {
 	beenChanged = bc;
 	EnableWindow (GetDlgItem (mainWin, IDOK), bc);
 	EnableWindow (GetDlgItem (mainWin, ID_UNDO), bc);
@@ -248,7 +251,7 @@ void commitChanges () {
 		}
 	}
 	updateStringList ();
-	fixMenus (TRUE);
+	fixMenus (true);
 }
 
 char * mystrstr (const char * biggy, const char * littley) {
@@ -260,17 +263,17 @@ char * mystrstr (const char * biggy, const char * littley) {
 	return reply;
 }
 
-BOOL doesSearchStringMatchLine (transLine * thisLine) {
+bool doesSearchStringMatchLine (transLine * thisLine) {
 	char * (* callMe) (const char *, const char *);
 	callMe = searchSensitive ? strstr : mystrstr;
 	if (searchString) {
 		if (callMe (thisLine -> transFrom, searchString))
-			return TRUE;
+			return true;
 
 		if (thisLine -> transTo && callMe (thisLine -> transTo, searchString))
-			return TRUE;
+			return true;
 	}
-	return FALSE;
+	return false;
 }
 
 void updateStringList () {
@@ -281,7 +284,7 @@ void updateStringList () {
 	transLine * eachLine = firstTransLine;
 	
 	while (eachLine) {
-		BOOL addMe = FALSE;
+		bool addMe = false;
 
 		if (showtype == TYPE_SEARCH) {
 			addMe = doesSearchStringMatchLine (eachLine);
@@ -296,14 +299,14 @@ void updateStringList () {
 	}
 	
 	if (MESS (ID_STRINGS, LB_GETCOUNT, 0, 0)) {
-		EnableWindow (GetDlgItem (mainWin, ID_STRINGS), TRUE);
+		EnableWindow (GetDlgItem (mainWin, ID_STRINGS), true);
 	} else {
 		MESS (ID_STRINGS, LB_ADDSTRING, 0, "(Empty)");
-		EnableWindow (GetDlgItem (mainWin, ID_STRINGS), FALSE);
+		EnableWindow (GetDlgItem (mainWin, ID_STRINGS), false);
 	}
 	selectedTransLine = NULL;
 	enableTranslationBox (10, "");
-	setChanged (FALSE);
+	setChanged (false);
 }
 
 void autoSelectContent (lineType type) {
@@ -362,12 +365,12 @@ int updateFromSource (char * filename) {
 	for (;;) {
 		char * wholeLine = readText(source);
 		if (wholeLine == NULL) break;
-		for (int a = 0; wholeLine[a] != NULL; a ++) {
+		for (int a = 0; wholeLine[a]; a ++) {
 			if (wholeLine[a] == '#') break;	// Comment? Skip it!
 			if (wholeLine[a] == '\"') {
 				while (wholeLine[a+1] == ' ') a ++;	// No spaces at start, please
-				BOOL escape = FALSE;
-				for (int b = a+1; wholeLine[b] != NULL; b ++) {
+				bool escape = false;
+				for (int b = a+1; wholeLine[b]; b ++) {
 					if (wholeLine[b] == '\\') {
 						if (! escape) wholeLine[b] = '\t';		// So we can split the string up on tab later
 						escape = ! escape;
@@ -381,9 +384,9 @@ int updateFromSource (char * filename) {
 							a = b;
 							break;
 						}
-						escape = FALSE;
+						escape = false;
 					} else {
-						escape = FALSE;
+						escape = false;
 					}
 				}
 			}
@@ -425,7 +428,7 @@ void updateFromProject (char * filename) {
 	}
 	if (totalNew) {
 		autoSelectContent (TYPE_NEW);
-		fixMenus (TRUE);
+		fixMenus (true);
 	} else {
 		errorBox ("Found no new strings in the project that I don't already know about. This translation file is up to date! Hooray!\n\nProject file scanned", filename);
 	}
@@ -463,3 +466,5 @@ void saveToFile (char * filename, unsigned int lan) {
 	fclose (fp);	
 	setFileName (filename, lan);
 }
+
+#endif

@@ -12,8 +12,8 @@ extern int gameVersion;
 
 #define DEBUG_COMBINATIONS	0
 
-BOOL initObjectTypes () {
-	return TRUE;
+bool initObjectTypes () {
+	return true;
 }
 
 objectType * findObjectType (int i) {
@@ -48,7 +48,7 @@ objectType * loadObjectType (int i) {
 			}
 			else
 			{
-				newType->antiAliasingSettings.useMe = true; //	false;
+				newType->antiAliasingSettings.useMe = false;
 				newType->antiAliasingSettings.blurX = 0.1f;	//0.f;
 				newType->antiAliasingSettings.blurY = 0.1f; //0.f;
 			}

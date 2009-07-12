@@ -1,10 +1,12 @@
+#ifdef WIN32
+
 #include <windows.h>
 #include "winbox.h"
 #include "registry.h"
 
 HINSTANCE inst;
 
-BOOL runMe = FALSE;
+bool runMe = false;
 
 int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -17,7 +19,7 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		switch (lpCmdLine[flagHunt]) {
 			case 'r':
 			flagHunt ++;
-			runMe = TRUE;
+			runMe = true;
 			break;
 		}
 		while (lpCmdLine[flagHunt] == ' ') {
@@ -29,3 +31,5 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	return 0;
 }
+
+#endif

@@ -1,3 +1,5 @@
+#ifdef WIN32
+
 #include <windows.h>
 
 extern HWND compWin;
@@ -14,3 +16,5 @@ void setWindowInt (const int where, const int val)
 	sprintf (buff, "%i", val);
 	setWindowText (where, buff);
 }
+
+#endif

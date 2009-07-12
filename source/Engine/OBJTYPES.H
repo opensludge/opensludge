@@ -8,7 +8,7 @@ struct objectType {
 	char * screenName;
 	int objectNum;
 	objectType * next;
-	byte r, g, b;
+	unsigned char r, g, b;
 	int numCom;
 	int speechGap, walkSpeed, wrapSpeech, spinSpeed;
 	unsigned short int flags;
@@ -16,7 +16,7 @@ struct objectType {
 	aaSettingsStruct antiAliasingSettings;
 };
 
-BOOL initObjectTypes ();
+bool initObjectTypes ();
 objectType * findObjectType (int i);
 objectType * loadObjectType (int i);
 int getCombinationFunction (int a, int b);

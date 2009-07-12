@@ -1,0 +1,36 @@
+<html>
+<head>
+<TITLE>setCustomEncoding</TITLE>
+</head>
+<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
+<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>setCustomEncoding</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=20><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Syntax:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<font color=#BB4444 SIZE=+2><TT><B>setCustomEncoding (<i>n</i>);</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Purpose:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+Changes the way in which files are treated when created by the <b><a href="loadCustomData_and_saveCustomData.html">saveCustomData</a></b> function or read by the <b><a href="loadCustomData_and_saveCustomData.html">loadCustomData</a></b> function.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+If the value of n is NULL (or FALSE, or NORMAL, or anything else that equates to 0) then <b><a href="loadCustomData_and_saveCustomData.html">saveCustomData</a></b> creates text files. Text files can only contain strings. Should you use <b><a href="loadCustomData_and_saveCustomData.html">saveCustomData</a></b> to save a stack which contains anything other than a string, a string representing the value will be stored instead.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+If the value of n is any number between 1 and 65535 then <b><a href="loadCustomData_and_saveCustomData.html">saveCustomData</a></b> will create encoded data files. Encoded data files can contain strings and numbers but no other variable types. Should you try to use <b><a href="loadCustomData_and_saveCustomData.html">saveCustomData</a></b> to save a stack which contains anything other than a string or a number the engine will close with a fatal error message. This is because custom data files should be usable by any SLUDGE game and costumes, animations, file handles and so on are all game-specific.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+If the value of n is less than 0 or greater than 65535 then the behaviour of <b><a href="loadCustomData_and_saveCustomData.html">saveCustomData</a></b> and <b><a href="loadCustomData_and_saveCustomData.html">loadCustomData</a></b> is not guaranteed. Don't do it. It's just plain dumb.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+The default custom encoding setting before setCustomEncoding is called is 0.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Return value:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+No return value.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</BODY>
+</html>

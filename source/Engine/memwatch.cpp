@@ -1,9 +1,10 @@
+#include <stdlib.h>
 #include "allfiles.h"
 
 void * allKnownMem[3000];
 int allKnownNum = 0;
 
-void db (char *);
+//void db (char *);
 
 void outputKnownMem () {
 	FILE * debu = fopen ("debuTURN.txt", "at");
@@ -22,7 +23,7 @@ void adding (void * mem) {
 
 	outputKnownMem ();
 	if (allKnownNum == 3000) {
-		db ("Error! Array too full!");
+		//db ("Error! Array too full!");
 		exit (1);
 	}
 }
@@ -36,6 +37,6 @@ void deleting (void * mem) {
 			return;
 		}
 	}
-	db ("Error! Deleted a block which hasn't been allocated!");
+	//db ("Error! Deleted a block which hasn't been allocated!");
 	exit (1);
 }

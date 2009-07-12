@@ -1,4 +1,6 @@
-#include <windows.h>
+#if 0
+
+//#include <windows.h>
 #include <stdio.h>
 //#include <conio.h>
 
@@ -17,40 +19,40 @@ const char * doubleChangeMe[] = {"&&", "==", "||", "!=", "<=", ">=", "++", "--",
 const char   doubleBecome  [] = {CHAR_AND, CHAR_EQUALS, CHAR_OR, CHAR_NOT_EQ, CHAR_LESS_EQUAL, CHAR_MORE_EQUAL, CHAR_INCREMENT, CHAR_DECREMENT, CHAR_PLUS_EQ, CHAR_MINUS_EQ, CHAR_MULT_EQ, CHAR_DIV_EQ, CHAR_MOD_EQ};
 
 extern char * sourceDirectory;
-extern BOOL forceSilent;
+extern bool forceSilent;
 
-BOOL preProcess (char * codeFileName, int fileNumber, stringArray * & strings, stringArray * & fileHandles) {
+bool preProcess (char * codeFileName, int fileNumber, stringArray * & strings, stringArray * & fileHandles) {
 	FILE * outputFile;
 	char * wholeFile;
 	char outputName[13], quoteChar = ' ';
-	BOOL showStringWhenFinished = FALSE;
+	bool showStringWhenFinished = false;
 	int index = 0, stringPosition = 0;
-	bool readingQuote = FALSE, spaceLast = TRUE;
-	bool escapeCharNext = FALSE, justAComment = FALSE;
+	bool readingQuote = false, spaceLast = true;
+	bool escapeCharNext = false, justAComment = false;
 	char grabString[1000];
 	int doubleCheckLoop;
 
-	if (! gotoTempDirectory ()) return FALSE;
+	if (! gotoTempDirectory ()) return false;
 
 	sprintf (outputName, "_T%05i.TMP", fileNumber);
 	outputFile = fopen (outputName, "wt");
 	if (! outputFile) {
 		addComment (ERRORTYPE_SYSTEMERROR, "Can't create temporary file!\n\nPerhaps you've left another SLUDGE compiler window open - if so, please close it (and this one!) and then try compiling again.\n\nOtherwise, either you're out of disk space or you don't have access to Windows' temporary folder.", NULL);
-		return FALSE;
+		return false;
 	}
 
-	if (! gotoSourceDirectory ()) return FALSE;
+	if (! gotoSourceDirectory ()) return false;
 	wholeFile = grabWholeFile (codeFileName);
 	if (wholeFile == NULL) {
 		addComment (ERRORTYPE_PROJECTERROR, "Either this file contains nothing, or it doesn't exist...", codeFileName);
-		return FALSE;
+		return false;
 	}
 
 	fprintf (outputFile, "%s*", codeFileName);
 	while (wholeFile[index]) {
 		if (readingQuote) {
 			if ((wholeFile[index] == quoteChar) && (! escapeCharNext)) {
-				readingQuote = FALSE;
+				readingQuote = false;
 				grabString[stringPosition] = NULL;
 				stringPosition = 0;
 				if (showStringWhenFinished) {
@@ -64,22 +66,22 @@ BOOL preProcess (char * codeFileName, int fileNumber, stringArray * & strings, s
 
 				if (quoteChar == '\"')
 				{
-					fprintf (outputFile, "_%s%i ", "string", findOrAdd (strings, grabString, FALSE));
+					fprintf (outputFile, "_%s%i ", "string", findOrAdd (strings, grabString, false));
 				}
 				else
 				{
-					fprintf (outputFile, "_%s%i ", "file", findOrAdd (fileHandles, grabString, FALSE));
+					fprintf (outputFile, "_%s%i ", "file", findOrAdd (fileHandles, grabString, false));
 				}
 			}
 			else if ((wholeFile[index] == '\\') && (quoteChar == '\"') && (! escapeCharNext))
 			{
-				escapeCharNext = TRUE;
+				escapeCharNext = true;
 			}
 			else if (wholeFile[index] == '\n')
 			{
 				grabString[stringPosition] = NULL;
 				errorBox (ERRORTYPE_PROJECTERROR, "Runaway string", grabString, codeFileName);
-				return FALSE;
+				return false;
 			}
 			else
 			{
@@ -87,25 +89,25 @@ BOOL preProcess (char * codeFileName, int fileNumber, stringArray * & strings, s
 					if (wholeFile[index] != '\"' && wholeFile[index] != '\\') {
 						char buff[255];
 						sprintf (buff, "Unrecognised excape character found in a string... I don't know what \"\\%c\" is meant to mean. Tell you what - I'll interpret it as just \"%c\", OK?", wholeFile[index], wholeFile[index]);
-						showStringWhenFinished = TRUE;
+						showStringWhenFinished = true;
 						addComment (ERRORTYPE_PROJECTWARNING, buff, codeFileName);
 					}
 				}
-				escapeCharNext = FALSE;
+				escapeCharNext = false;
 				grabString[stringPosition ++] = wholeFile[index];
 			}
 		} else if (justAComment) {
 //			printf ("%c", wholeFile[index]);
-			if (wholeFile[index] == '\n') justAComment = FALSE;
+			if (wholeFile[index] == '\n') justAComment = false;
 		} else {
 			switch (wholeFile[index]) {
 				case '\"':
 				case '\'':
 				if (! spaceLast) fprintf (outputFile, " ");
 				quoteChar = wholeFile[index];
-				readingQuote = TRUE;
-				showStringWhenFinished = FALSE;
-				spaceLast = FALSE;
+				readingQuote = true;
+				showStringWhenFinished = false;
+				spaceLast = false;
 				break;
 
 				case ' ':
@@ -113,16 +115,16 @@ BOOL preProcess (char * codeFileName, int fileNumber, stringArray * & strings, s
 				case '\n':
 				case '\t':
 				if (! spaceLast) fprintf (outputFile, " ");
-				spaceLast = TRUE;
+				spaceLast = true;
 				break;
 
 				case '}':
-				spaceLast = FALSE;
+				spaceLast = false;
 				fprintf (outputFile, "};");
 				break;
 
 				case '#':
-				justAComment = TRUE;
+				justAComment = true;
 				break;
 
 				case '{':
@@ -132,7 +134,7 @@ BOOL preProcess (char * codeFileName, int fileNumber, stringArray * & strings, s
 				// No break!
 
 				default:
-				spaceLast = FALSE;
+				spaceLast = false;
 				for (doubleCheckLoop = 0; doubleCheckLoop < numDoubleCharTypes; doubleCheckLoop ++) {
 					if ((wholeFile[index]     == doubleChangeMe[doubleCheckLoop][0]) &&
 						 (wholeFile[index + 1] == doubleChangeMe[doubleCheckLoop][1])) {
@@ -150,5 +152,7 @@ BOOL preProcess (char * codeFileName, int fileNumber, stringArray * & strings, s
 
 	delete wholeFile;
 	fclose (outputFile);
-	return TRUE;
+	return true;
 }
+
+#endif

@@ -1,16 +1,18 @@
+#ifdef WIN32
+
 #include <windows.h>
 #include "messbox.h"
 
-BOOL getRegSetting (char * settingName) {
+bool getRegSetting (char * settingName) {
 	HKEY gotcha;
 	int r;
 	unsigned char buff[10];
 	unsigned long si = 8;
 
-	if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, "Software\\Hungry Software\\SLUDGE Compiler", 0, KEY_READ, & gotcha) != ERROR_SUCCESS) return FALSE;
+	if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, "Software\\Hungry Software\\SLUDGE Compiler", 0, KEY_READ, & gotcha) != ERROR_SUCCESS) return false;
 	r = RegQueryValueEx (gotcha, settingName, NULL, NULL, buff, & si);
 	RegCloseKey (gotcha);
-	if (r != ERROR_SUCCESS) return FALSE;
+	if (r != ERROR_SUCCESS) return false;
 //	messageBox (settingName, (char *) buff);
 	return buff[0] == 'Y';
 }
@@ -44,3 +46,5 @@ char * getRegString (char * settingName) {
 	RegCloseKey (gotcha);
 	return buff;
 }
+
+#endif

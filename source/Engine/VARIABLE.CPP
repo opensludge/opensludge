@@ -1,3 +1,7 @@
+#include <string.h>
+
+#include "debug.h"
+
 #include "allfiles.h"
 
 #include "variable.h"
@@ -7,6 +11,9 @@
 #include "objtypes.h"
 #include "people.h"
 #include "fileset.h"
+
+#include <dirent.h>
+
 
 char * typeName[] = {"undefined", "number", "user function", "string",
 							"built-in function", "file", "stack",
@@ -108,36 +115,64 @@ int stackSize (const stackHandler * me) {
 	return r;
 }
 
-BOOL getSavedGamesStack (stackHandler * sH, char * ext) {
+bool getSavedGamesStack (stackHandler * sH, char * ext) {
 	char * pattern = joinStrings ("*", ext);
-	if (! pattern) return FALSE;
+	if (! pattern) return false;
 
+	variable newName;
+	newName.varType = SVT_NULL;	
+	
+#ifdef _WIN32	
+	
 	WIN32_FIND_DATA theData;
 	HANDLE handle = FindFirstFile (pattern, & theData);
-	variable newName;
-	newName.varType = SVT_NULL;
 		
 	if (handle != INVALID_HANDLE_VALUE) {
-		BOOL keepGoing;
+		bool keepGoing;
 		do {
 			theData.cFileName[strlen (theData.cFileName) - strlen (ext)] = NULL;
 			char * decoded = decodeFilename (theData.cFileName);
 			makeTextVar (newName, decoded);
 			delete decoded;
-			if (! addVarToStack (newName, sH -> first)) return FALSE;
+			if (! addVarToStack (newName, sH -> first)) return false;
 			if (sH -> last == NULL) sH -> last = sH -> first;
 			keepGoing = FindNextFile (handle, & theData);
 		} while (keepGoing);
 		FindClose (handle);
 	}
+
+#else	
+	
+		DIR * dir = opendir (".");
+		if (! dir) return false;
+				
+		struct dirent *d = readdir (dir);
+		while (d != NULL) {
+			if (! strcmp(d->d_name + strlen (d->d_name) - strlen (ext), ext)) {
+				d->d_name[strlen (d->d_name) - strlen (ext)] = NULL;
+				char * decoded = decodeFilename (d->d_name);
+				makeTextVar (newName, decoded);
+				delete decoded;
+				if (! addVarToStack (newName, sH -> first)) return false;
+				if (sH -> last == NULL) sH -> last = sH -> first;
+			}
+			
+			d = readdir (dir);
+		}
+		
+		
+		closedir (dir);
+	
+#endif
+	
 	delete pattern;
-	return TRUE;
+	return true;
 }
 
-BOOL copyStack (const variable & from, variable & to) {
+bool copyStack (const variable & from, variable & to) {
 	to.varType = SVT_STACK;
 	to.varData.theStack = new stackHandler;
-	if (! checkNew (to.varData.theStack)) return FALSE;
+	if (! checkNew (to.varData.theStack)) return false;
 	to.varData.theStack -> first = NULL;
 	to.varData.theStack -> last = NULL;
 	to.varData.theStack -> timesUsed = 1;
@@ -181,7 +216,7 @@ BOOL copyStack (const variable & from, variable & to) {
 		stackDebug((stackfp, "last = %p\n", to.varData.theStack->last));		
 	}
 #endif
-	return TRUE;
+	return true;
 }
 
 /*void newStackVar (variable & thisVar) {
@@ -244,15 +279,18 @@ void compareVariablesInSecond (const variable & var1, variable & var2) {
 }
 
 void makeTextVar (variable & thisVar, char * txt) {
+	//debugOut ("VARIABLE: makeTextVar\n");
 	unlinkVar (thisVar);
 	thisVar.varType = SVT_STRING;
 	thisVar.varData.theString = copyString (txt);
-//   debug ("makeTextVar", thisVar.varData.theString);
 }
 
-BOOL loadStringToVar (variable & thisVar, int value) {
+bool loadStringToVar (variable & thisVar, int value) {
+	//debugOut ("VARIABLE: loadStringToVar... ");
+
 	makeTextVar (thisVar, getNumberedString (value));
-	return (BOOL) (thisVar.varData.theString != NULL);
+	//debugOut ("done.\n");
+	return (bool) (thisVar.varData.theString != NULL);
 }
 
 char * getTextFromAnyVar (const variable & from) {
@@ -335,27 +373,27 @@ char * getTextFromAnyVar (const variable & from) {
 	return copyString (typeName[from.varType]);
 }
 
-BOOL getBoolean (const variable & from) {
+bool getBoolean (const variable & from) {
 	switch (from.varType) {
 		case SVT_NULL:
-		return FALSE;
+		return false;
 
 		case SVT_INT:
-		return (BOOL) (from.varData.intValue != 0);
+		return (bool) (from.varData.intValue != 0);
 
 		case SVT_STACK:
-		return (BOOL) (from.varData.theStack -> first != NULL);
+		return (bool) (from.varData.theStack -> first != NULL);
 
 		case SVT_STRING:
-		return (BOOL) (from.varData.theString[0] != 0);
+		return (bool) (from.varData.theString[0] != 0);
 		
 		case SVT_FASTARRAY:
-		return (BOOL) (from.varData.fastArray -> size != 0);
+		return (bool) (from.varData.fastArray -> size != 0);
 	}
-	return TRUE;
+	return true;
 }
 
-BOOL copyMain (const variable & from, variable & to) {
+bool copyMain (const variable & from, variable & to) {
 	to.varType = from.varType;
 //	debug ("Copying variable of type", typeName[from.varType]);
 //	debug ("Destination", & to);
@@ -367,38 +405,38 @@ BOOL copyMain (const variable & from, variable & to) {
 		case SVT_OBJTYPE:
 		to.varData.intValue = from.varData.intValue;
 //		debug ("Value", to.varData.intValue);
-		return TRUE;
+		return true;
 		
 		case SVT_FASTARRAY:
 		to.varData.fastArray = from.varData.fastArray;
 		to.varData.fastArray -> timesUsed ++;
-		return TRUE;
+		return true;
 
 		case SVT_STRING:
 		to.varData.theString = copyString (from.varData.theString);
-		return to.varData.theString ? TRUE : FALSE;
+		return to.varData.theString ? true : false;
 
 		case SVT_STACK:
 		to.varData.theStack = from.varData.theStack;
 		to.varData.theStack -> timesUsed ++;
-		return TRUE;
+		return true;
 
 		case SVT_COSTUME:
 		to.varData.costumeHandler = from.varData.costumeHandler;
-		return TRUE;
+		return true;
 
 		case SVT_ANIM:
 		to.varData.animHandler = copyAnim (from.varData.animHandler);
-		return TRUE;
+		return true;
 
 		case SVT_NULL:
-		return TRUE;
+		return true;
 	}
 	fatal ("Unknown value type");
-	return FALSE;
+	return false;
 }
 
-BOOL copyVariable (const variable & from, variable & to) {
+bool copyVariable (const variable & from, variable & to) {
 	unlinkVar (to);
 	return copyMain (from, to);
 }
@@ -408,25 +446,25 @@ variable * fastArrayGetByIndex (fastArrayHandler * vS, unsigned int theIndex) {
 	return & vS -> fastVariables[theIndex];
 }
 
-BOOL makeFastArraySize (variable & to, int size) {
+bool makeFastArraySize (variable & to, int size) {
 	if (size < 0) return fatal ("Can't create a fast array with a negative number of elements!");
 	unlinkVar (to);
 	to.varType = SVT_FASTARRAY;
 	to.varData.fastArray = new fastArrayHandler;
-	if (! checkNew (to.varData.fastArray)) return FALSE;
+	if (! checkNew (to.varData.fastArray)) return false;
 	to.varData.fastArray -> fastVariables = new variable[size];
-	if (! checkNew (to.varData.fastArray -> fastVariables)) return FALSE;
+	if (! checkNew (to.varData.fastArray -> fastVariables)) return false;
 	for (int i = 0; i < size; i ++) {
 		initVarNew (to.varData.fastArray -> fastVariables[i]);
 	}
 	to.varData.fastArray -> size = size;
 	to.varData.fastArray -> timesUsed = 1;
-	return TRUE;
+	return true;
 }
 
-BOOL makeFastArrayFromStack (variable & to, const stackHandler * stacky) {
+bool makeFastArrayFromStack (variable & to, const stackHandler * stacky) {
 	int size = stackSize (stacky);
-	if (! makeFastArraySize (to, size)) return FALSE;
+	if (! makeFastArraySize (to, size)) return false;
 
 	// Now let's fill up the new array
 
@@ -437,43 +475,44 @@ BOOL makeFastArrayFromStack (variable & to, const stackHandler * stacky) {
 		size ++;
 		allV = allV -> next;
 	}
+	return true;
 }
 
 /*
-BOOL moveVariable (variable & from, variable & to) {
+bool moveVariable (variable & from, variable & to) {
 	unlinkVar (to);
 	memcpy (& to, & from, sizeof (variable));
 	from.varType = SVT_NULL;
 }
 */
 
-BOOL addVarToStack (const variable & va, variableStack * & thisStack) {
+bool addVarToStack (const variable & va, variableStack * & thisStack) {
 	variableStack * newStack = new variableStack;
-	if (! checkNew (newStack)) return FALSE;
+	if (! checkNew (newStack)) return false;
 //	debug ("New variableStack created at", newStack);
 //	debug ("Want to add to the stack starting at", thisStack);
 
-	if (! copyMain (va, newStack -> thisVar)) return FALSE;
+	if (! copyMain (va, newStack -> thisVar)) return false;
 	newStack -> next = thisStack;
 	thisStack = newStack;
-	return TRUE;
+	return true;
 }
 
-BOOL addVarToStackQuick (variable & va, variableStack * & thisStack) {
+bool addVarToStackQuick (variable & va, variableStack * & thisStack) {
 	variableStack * newStack = new variableStack;
-	if (! checkNew (newStack)) return FALSE;
+	if (! checkNew (newStack)) return false;
 
-//	if (! copyMain (va, newStack -> thisVar)) return FALSE;
+//	if (! copyMain (va, newStack -> thisVar)) return false;
 
 	memcpy (& (newStack -> thisVar), & va, sizeof (variable));
 	va.varType = SVT_NULL;
 
 	newStack -> next = thisStack;
 	thisStack = newStack;
-	return TRUE;
+	return true;
 }
 
-BOOL stackSetByIndex (variableStack * vS, unsigned int theIndex, const variable & va) {
+bool stackSetByIndex (variableStack * vS, unsigned int theIndex, const variable & va) {
 	while (theIndex --) {
 		vS = vS -> next;
 		if (! vS) return fatal ("Index past end of stack.");
@@ -491,7 +530,7 @@ variable * stackGetByIndex (variableStack * vS, unsigned int theIndex) {
 	return & (vS -> thisVar);
 }
 
-int deleteVarFromStack (const variable & va, variableStack * & thisStack, BOOL allOfEm) {
+int deleteVarFromStack (const variable & va, variableStack * & thisStack, bool allOfEm) {
 	variableStack * * huntVar = & thisStack;
 	variableStack * killMe;
 	int reply = 0;
@@ -523,15 +562,15 @@ variableStack * stackFindLast (variableStack * hunt) {
 	return hunt;
 }
 
-BOOL getValueType (int & toHere, variableType vT, const variable & v) {
+bool getValueType (int & toHere, variableType vT, const variable & v) {
 	if (v.varType != vT) {
 		char * e1 = joinStrings ("Can only perform specified operation on a value which is of type ", typeName[vT]);
 		char * e2 = joinStrings ("... value supplied was of type ", typeName[v.varType]);
 		fatal (e1, e2);
-		return FALSE;
+		return false;
 	}
 	toHere = v.varData.intValue;
-	return TRUE;
+	return true;
 }
 
 void trimStack (variableStack * & stack) {

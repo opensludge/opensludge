@@ -1,3 +1,5 @@
+#ifdef WIN32
+
 #include <windows.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -20,7 +22,7 @@ HCURSOR				grabCursor, normalCursor, busyCursor;
 
 char				* loader;
 int					mouseX = 0, mouseY = 0, currentSpriteNum = 0;
-BOOL				changed = FALSE, addColours = FALSE, dragging = FALSE;
+bool				changed = false, addColours = false, dragging = false;
 
 static OPENFILENAME ofn;
 static char path[MAX_PATH];
@@ -45,17 +47,17 @@ void fixExtension (char * buff, char * ext) {
 	}
 }
 
-void setChanged (BOOL on) {
+void setChanged (bool on) {
 	EnableWindow (GetDlgItem (mainWin, ID_PROJECT_SAVE), on);
 	EnableMenuItem (myMenu, ID_PROJECT_SAVE, on ? MF_ENABLED : MF_GRAYED);
 	changed = on;
 }
 
 void updateSpriteNum () {
-	BOOL allowButtons = currentSpriteNum < loadedSprites.total;
-	BOOL allowSaveSprite = FALSE;
+	bool allowButtons = currentSpriteNum < loadedSprites.total;
+	bool allowSaveSprite = false;
 	
-	SetDlgItemInt (mainWin, ID_SPRITENUM, currentSpriteNum, TRUE);
+	SetDlgItemInt (mainWin, ID_SPRITENUM, currentSpriteNum, true);
 	
 	if (allowButtons) {
 		char buff[20];	// 11 should be big enough, but in case of errors...
@@ -89,18 +91,18 @@ void updateSpriteNum () {
 
 void updateData () {
 	SetDlgItemText (mainWin, ID_LOADED_FILE, loader ? loader : "New sprite bank");
-	SetDlgItemInt (mainWin, ID_NUM_SPRITES, loadedSprites.total, FALSE);
-	SetDlgItemInt (mainWin, ID_NUM_COLOURS, loadedSprites.myPaletteNum, FALSE);
+	SetDlgItemInt (mainWin, ID_NUM_SPRITES, loadedSprites.total, false);
+	SetDlgItemInt (mainWin, ID_NUM_COLOURS, loadedSprites.myPaletteNum, false);
 	updateSpriteNum ();
 }
 
-BOOL saveProject (BOOL overwrite) {
+bool saveProject (bool overwrite) {
 	if (loader && overwrite) {
 		if (saveSpriteBank (loader)) {
-			setChanged (FALSE);
-			return TRUE;
+			setChanged (false);
+			return true;
 		}
-		return FALSE;
+		return false;
 	}
 
 	char file[MAX_PATH]="";
@@ -115,32 +117,32 @@ BOOL saveProject (BOOL overwrite) {
 			delete loader;
 			loader = joinStrings (file, "");
 			updateData ();
-			setChanged (FALSE);
-			return TRUE;
+			setChanged (false);
+			return true;
 		}
 	}
-	return FALSE;
+	return false;
 }
 
-BOOL continueEvenIfChanged () {
+bool continueEvenIfChanged () {
 	if (changed) {
 		switch (MessageBox (mainWin, "Do you want to save your changes to this sprite bank first?", "SLUDGE Sprite Bank Editor", MB_YESNOCANCEL)) {
 			case IDYES:
-			return saveProject (TRUE);
+			return saveProject (true);
 			
 			case IDCANCEL:
-			return FALSE;
+			return false;
 		}
 	}
-	return TRUE;		
+	return true;		
 }
 
 LRESULT CALLBACK paletteDialogFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message) {
         case WM_INITDIALOG:
-		SetDlgItemInt (hDlg, ID_NUM_COLOURS, loadedSprites.myPaletteNum, FALSE);
-		SetDlgItemInt (hDlg, ID_COLOUR_OFFSET, loadedSprites.myPaletteStart, FALSE);
-		return TRUE;
+		SetDlgItemInt (hDlg, ID_NUM_COLOURS, loadedSprites.myPaletteNum, false);
+		SetDlgItemInt (hDlg, ID_COLOUR_OFFSET, loadedSprites.myPaletteStart, false);
+		return true;
 		
 		case WM_PAINT:
 		paintPal (hDlg);
@@ -150,60 +152,60 @@ LRESULT CALLBACK paletteDialogFunc(HWND hDlg, UINT message, WPARAM wParam, LPARA
 		switch (LOWORD(wParam)) {
 			case IDOK:
 			case IDCANCEL:
-			EndDialog(hDlg, TRUE);
-			return TRUE;
+			EndDialog(hDlg, true);
+			return true;
 			
 			case ID_SORTBRIGHT:
 			SetCursor (busyCursor);
 			sortColours (hDlg);
 			updateData ();
-			setChanged (TRUE);
+			setChanged (true);
 			SetCursor (normalCursor);
-			return TRUE;
+			return true;
 						
 			case ID_REMOVEUNUSED:
 			optimizePalette ();
-			SetDlgItemInt (hDlg, ID_NUM_COLOURS, loadedSprites.myPaletteNum, FALSE);
-			SetDlgItemInt (hDlg, ID_COLOUR_OFFSET, loadedSprites.myPaletteStart, FALSE);
+			SetDlgItemInt (hDlg, ID_NUM_COLOURS, loadedSprites.myPaletteNum, false);
+			SetDlgItemInt (hDlg, ID_COLOUR_OFFSET, loadedSprites.myPaletteStart, false);
 			RedrawWindow (hDlg, NULL, NULL, RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW);
 			paintPal (hDlg);
 			updateData ();
-			setChanged (TRUE);
-			return TRUE;
+			setChanged (true);
+			return true;
 		}
 	}
 
-    return FALSE;
+    return false;
 }
 
 LRESULT CALLBACK hotspotDialogFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message) {
         case WM_INITDIALOG:
-		SetDlgItemInt (hDlg, ID_X, loadedSprites.sprites[currentSpriteNum].xhot, FALSE);
-		SetDlgItemInt (hDlg, ID_Y, loadedSprites.sprites[currentSpriteNum].yhot, FALSE);
-		return TRUE;
+		SetDlgItemInt (hDlg, ID_X, loadedSprites.sprites[currentSpriteNum].xhot, false);
+		SetDlgItemInt (hDlg, ID_Y, loadedSprites.sprites[currentSpriteNum].yhot, false);
+		return true;
 		
 		case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 			case IDOK:
 			{
-				BOOL worked;
-				int newX = GetDlgItemInt (hDlg, ID_X, & worked, TRUE);
+				bool worked;
+				int newX = GetDlgItemInt (hDlg, ID_X, & worked, true);
 				if (worked) {
-					int newY = GetDlgItemInt (hDlg, ID_Y, & worked, TRUE);
+					int newY = GetDlgItemInt (hDlg, ID_Y, & worked, true);
 					if (worked) {
 						loadedSprites.sprites[currentSpriteNum].xhot = newX;
 						loadedSprites.sprites[currentSpriteNum].yhot = newY;
 						pasteSprite (currentSpriteNum);
 						paintSpriteArea ();
 						updateSpriteNum ();
-						setChanged (TRUE);
-						return TRUE;
+						setChanged (true);
+						return true;
 					}
 				}
 				errorBox ("Can't apply changes", "Values must be integers in the range 0 to 255.");
 			}
-			return TRUE;
+			return true;
 			
 			case ID_HOT_CENTRE:
 			loadedSprites.sprites[currentSpriteNum].xhot = loadedSprites.sprites[currentSpriteNum].width >> 1;
@@ -211,10 +213,10 @@ LRESULT CALLBACK hotspotDialogFunc(HWND hDlg, UINT message, WPARAM wParam, LPARA
 			pasteSprite (currentSpriteNum);
 			paintSpriteArea ();
 			updateSpriteNum ();
-			SetDlgItemInt (hDlg, ID_X, loadedSprites.sprites[currentSpriteNum].xhot, FALSE);
-			SetDlgItemInt (hDlg, ID_Y, loadedSprites.sprites[currentSpriteNum].yhot, FALSE);
-			setChanged (TRUE);
-			return TRUE;
+			SetDlgItemInt (hDlg, ID_X, loadedSprites.sprites[currentSpriteNum].xhot, false);
+			SetDlgItemInt (hDlg, ID_Y, loadedSprites.sprites[currentSpriteNum].yhot, false);
+			setChanged (true);
+			return true;
 			
 			case ID_HOT_BASE:
 			loadedSprites.sprites[currentSpriteNum].xhot = loadedSprites.sprites[currentSpriteNum].width >> 1;
@@ -222,18 +224,18 @@ LRESULT CALLBACK hotspotDialogFunc(HWND hDlg, UINT message, WPARAM wParam, LPARA
 			pasteSprite (currentSpriteNum);
 			paintSpriteArea ();
 			updateSpriteNum ();
-			SetDlgItemInt (hDlg, ID_X, loadedSprites.sprites[currentSpriteNum].xhot, FALSE);
-			SetDlgItemInt (hDlg, ID_Y, loadedSprites.sprites[currentSpriteNum].yhot, FALSE);
-			setChanged (TRUE);
-			return TRUE;
+			SetDlgItemInt (hDlg, ID_X, loadedSprites.sprites[currentSpriteNum].xhot, false);
+			SetDlgItemInt (hDlg, ID_Y, loadedSprites.sprites[currentSpriteNum].yhot, false);
+			setChanged (true);
+			return true;
 						
 			case IDCANCEL:
-			EndDialog(hDlg, TRUE);
-			return TRUE;
+			EndDialog(hDlg, true);
+			return true;
 		}
 	}
 
-    return FALSE;
+    return false;
 }
 
 void centreMouseOverArea () {
@@ -245,7 +247,7 @@ void centreMouseOverArea () {
 	if (ClientToScreen (mainWin, & w)) SetCursorPos (w.x, w.y);
 }
 
-BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM lParam) {
+bool APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM lParam) {
 	switch (m) {
 
 		case WM_COMMAND:
@@ -278,7 +280,7 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM lParam) {
 							pasteSprite (currentSpriteNum);
 							paintSpriteArea ();
 							updateData ();
-							setChanged (TRUE);
+							setChanged (true);
 							DialogBox(inst, MAKEINTRESOURCE(700), h, (DLGPROC) hotspotDialogFunc);
 						} else {
 							deleteSprite (currentSpriteNum);
@@ -288,7 +290,7 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM lParam) {
 							pasteSprite (currentSpriteNum);
 							paintSpriteArea ();
 							updateData ();
-							setChanged (TRUE);
+							setChanged (true);
 							DialogBox(inst, MAKEINTRESOURCE(700), h, (DLGPROC) hotspotDialogFunc);						
 						}
 					}
@@ -329,7 +331,7 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM lParam) {
 				updateData ();
 				pasteSprite (currentSpriteNum);
 				paintSpriteArea ();
-				setChanged (FALSE);
+				setChanged (false);
 			}
 			break;
 
@@ -390,13 +392,13 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM lParam) {
 				pasteSprite (currentSpriteNum);
 				paintSpriteArea ();
 				updateData ();
-				setChanged (TRUE);
+				setChanged (true);
 			}
 			break;
 			
 			case ID_BANKTRIM:
 			{
-				int trimmedTotal = FALSE;
+				int trimmedTotal = false;
 				for (int a = 0; a < loadedSprites.total; a ++) {
 					trimmedTotal += trimSprite (a);
 				}
@@ -407,7 +409,7 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM lParam) {
 					pasteSprite (currentSpriteNum);
 					paintSpriteArea ();
 					updateData ();
-					setChanged (TRUE);
+					setChanged (true);
 				} else {
 					messageBox (er, "No sprites require trimming.");
 				}
@@ -420,7 +422,7 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM lParam) {
 					pasteSprite (currentSpriteNum);
 					paintSpriteArea ();
 					updateData ();
-					setChanged (TRUE);
+					setChanged (true);
 				}
 			}
 			break;
@@ -450,17 +452,17 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM lParam) {
 					updateData ();
 					pasteSprite (currentSpriteNum);
 					paintSpriteArea ();
-					setChanged (FALSE);
+					setChanged (false);
 				}
 			}
 			break;
 		
 			case ID_PROJECT_SAVE:
-			saveProject (TRUE);
+			saveProject (true);
 			break;
 
 			case ID_PROJECT_SAVEAS:
-			saveProject (FALSE);
+			saveProject (false);
 			break;
 		}
 		break;
@@ -489,7 +491,7 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM lParam) {
 		updateData ();
 		pasteSprite (currentSpriteNum);
 		paintSpriteArea ();
-		setChanged (FALSE);
+		setChanged (false);
 		return 1;
 		
 		case WM_MOUSEMOVE:
@@ -506,8 +508,8 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM lParam) {
 
 		case WM_LBUTTONUP:
 		if (dragging) {
-			ShowCursor (TRUE);
-			dragging = FALSE;
+			ShowCursor (true);
+			dragging = false;
 		}
 		break;
 
@@ -516,9 +518,9 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM lParam) {
 			mouseY >= SPRITE_AREA_Y						&&
 			mouseX <  SPRITE_AREA_X + SPRITE_AREA_W		&&
 			mouseY <  SPRITE_AREA_Y + SPRITE_AREA_H		&& ! dragging) {
-			dragging = TRUE;
+			dragging = true;
 			centreMouseOverArea ();
-			ShowCursor (FALSE);
+			ShowCursor (false);
 		}
 		break;
 
@@ -563,3 +565,5 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine,
 	
 	return 0;
 }
+
+#endif

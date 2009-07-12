@@ -9,10 +9,10 @@ struct chrRenderingSettingsStruct
 
 extern chrRenderingSettingsStruct chrRenderingSettings;
 
-BOOL getSourceDirFromName (char * filename);
-BOOL readSettings (FILE * fp);
-BOOL gotoSourceDirectory ();
-BOOL gotoTempDirectory ();
-//BOOL gotoOutputDirectory ();
+bool getSourceDirFromName (char * filename);
+bool readSettings (FILE * fp);
+bool gotoSourceDirectory ();
+bool gotoTempDirectory ();
+//bool gotoOutputDirectory ();
 FILE * openFinalFile (char *, char *);
-void writeFinalData (FILE * mainFile, BOOL);
+void writeFinalData (FILE * mainFile, bool);

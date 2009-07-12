@@ -1,3 +1,9 @@
+#include <stdlib.h> 
+#include <string.h>
+#ifdef _MSC_VER
+#include <malloc.h>
+#endif
+
 #include "allfiles.h"
 #include "backdrop.h"
 #include "colours.h"
@@ -7,7 +13,7 @@
 #define DEBUG_MATRIX_EFFECTS	0
 #define DEBUG_MATRIX_CREATE		0
 
-extern unsigned short int * * backDropImage;
+//extern unsigned short int * * backDropImage;
 
 #if 0
 // Raised
@@ -306,6 +312,7 @@ static inline void blur_createSourceLine (unsigned short int * createLine, unsig
 }
 
 bool blurScreen () {
+	/*TODO
 	if (s_matrixEffectWidth && s_matrixEffectHeight && s_matrixEffectDivide && s_matrixEffectData)
 	{
 		unsigned short int * thisLine;
@@ -422,5 +429,6 @@ bool blurScreen () {
 	
 		return true;
 	}
+	*/
 	return false;
 }

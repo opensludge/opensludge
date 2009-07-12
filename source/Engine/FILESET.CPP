@@ -1,3 +1,6 @@
+#include "debug.h"
+
+
 #include "allfiles.h"
 #include "moreio.h"
 #include "newfatal.h"
@@ -5,19 +8,19 @@
 
 //char * outputDir;
 
-BOOL sliceBusy = TRUE;
+bool sliceBusy = true;
 FILE * bigDataFile = NULL;
 unsigned long startOfDataIndex, startOfTextIndex,
 			  startOfSubIndex, startOfObjectIndex;
 
-BOOL openSubSlice (int num) {
+bool openSubSlice (int num) {
 //	FILE * dbug = fopen ("debuggy.txt", "at");
 
 //	fprintf (dbug, "\nTrying to open sub %i\n", num);
 	
 	if (sliceBusy) {
 		fatal ("Can't read from data file", "I'm already reading something");
-		return FALSE;
+		return false;
 	}
 	
 //	fprintf (dbug, "Going to position %li\n", startOfSubIndex + (num << 2));
@@ -25,17 +28,17 @@ BOOL openSubSlice (int num) {
 	fseek (bigDataFile, get4bytes (bigDataFile), 0);
 //	fprintf (dbug, "Told to skip forward to %li\n", ftell (bigDataFile));
 //	fclose (dbug);
-	return sliceBusy = TRUE;
+	return sliceBusy = true;
 }
 
-BOOL openObjectSlice (int num) {
+bool openObjectSlice (int num) {
 //	FILE * dbug = fopen ("debuggy.txt", "at");
 
 //	fprintf (dbug, "\nTrying to open object %i\n", num);
 	
 	if (sliceBusy) {
 		fatal ("Can't read from data file", "I'm already reading something");
-		return FALSE;
+		return false;
 	}
 	
 //	fprintf (dbug, "Going to position %li\n", startOfObjectIndex + (num << 2));
@@ -43,7 +46,7 @@ BOOL openObjectSlice (int num) {
 	fseek (bigDataFile, get4bytes (bigDataFile), 0);
 //	fprintf (dbug, "Told to skip forward to %li\n", ftell (bigDataFile));
 //	fclose (dbug);
-	return sliceBusy = TRUE;
+	return sliceBusy = true;
 }
 
 unsigned int openFileFromNum (int num) {
@@ -59,16 +62,15 @@ unsigned int openFileFromNum (int num) {
 	fseek (bigDataFile, startOfDataIndex + (num << 2), 0);
 	fseek (bigDataFile, get4bytes (bigDataFile), 1);
 //	fprintf (dbug, "Jumping to %li (for data) \n", ftell (bigDataFile));
-	sliceBusy = TRUE;
+	sliceBusy = true;
 //	fclose (dbug);
 
 	return get4bytes (bigDataFile);
 }
 
 char * getNumberedString (int value) {
-//	FILE * dbug = fopen ("debug.txt", "at");
 
-//	fprintf (dbug, "\nTrying to read string %i\n", value);
+	//debugOut ("FILSET: getNumberedString - Reading: %i (%i) %i\n", value, (value << 2) + startOfTextIndex, startOfTextIndex);
 
 	if (sliceBusy) {
 		fatal ("Can't read from data file", "I'm already reading something");
@@ -76,23 +78,24 @@ char * getNumberedString (int value) {
 	}
 	
 	fseek (bigDataFile, (value << 2) + startOfTextIndex, 0);
-	fseek (bigDataFile, get4bytes (bigDataFile), 0);
-	
+	value = get4bytes (bigDataFile);
+	//debugOut ("FILSET: getNumberedString - Seeking: %i\n", value);
+	fseek (bigDataFile, value, 0);
+
 //	char * re = readString (bigDataFile);
 //	fprintf (dbug, "Read [%s]\n", re);
-//	fclose (dbug);
 //	return re;
 	return readString (bigDataFile);
 }
 
 void finishAccess () {
-	sliceBusy = FALSE;
+	sliceBusy = false;
 }
 
 void setFileIndices (FILE * fp, int numLanguages, unsigned int skipBefore) {
 	// Keep hold of the file handle, and let things get at it
 	bigDataFile = fp;
-	sliceBusy = FALSE;
+	sliceBusy = false;
 	
 	if (skipBefore > numLanguages) {
 		warning ("Not a valid language ID! Using default instead.");
@@ -106,6 +109,7 @@ void setFileIndices (FILE * fp, int numLanguages, unsigned int skipBefore) {
 		skipBefore --;
 	}
 	startOfTextIndex = ftell (fp) + 4;
+
 	fseek (fp, get4bytes (fp), 0);
 
 	while (skipAfter) {

@@ -1,8 +1,10 @@
-#include <windows.h>
+//#include <windows.h>
 #include <stdio.h>
 
 #include "backdrop.h"
 #include "tga.h"
+
+/* TODO
 
 extern unsigned short int * screen;
 unsigned short int * * backDropImage = NULL;
@@ -36,7 +38,7 @@ void blankScreen () {
 	}
 }
 
-BOOL initBackDrop (int x, int y) {
+bool initBackDrop (int x, int y) {
 	int a;
 
 	deleteBackdrop ();
@@ -50,16 +52,16 @@ BOOL initBackDrop (int x, int y) {
 	yShift = 0;
 
 	backDropImage = new unsigned short int * [y];
-	if (backDropImage == NULL) return FALSE;
+	if (backDropImage == NULL) return false;
 	for (a = 0; a < y; a ++) {
 		backDropImage[a] = new unsigned short int [x];
-		if (backDropImage[a] == NULL) return FALSE;
+		if (backDropImage[a] == NULL) return false;
 	}
 	blankScreen ();
-	return TRUE;
+	return true;
 }
 
-BOOL loadBackDrop (char * fileName) {
+bool loadBackDrop (char * fileName) {
 	unsigned short int * toScreen;
 	unsigned short int t1, t2;
 	palCol thePalette[256];
@@ -68,7 +70,7 @@ BOOL loadBackDrop (char * fileName) {
 	FILE * fp = fopen (fileName, "rb");
 	if (fp == NULL) {
 		alert ("Can't open that image file!");
-		return FALSE;
+		return false;
 	}
 	
 	// Grab the header
@@ -78,7 +80,7 @@ BOOL loadBackDrop (char * fileName) {
 	errorBack = readTGAHeader (imageHeader, fp, thePalette);
 	if (errorBack) {
 		alert (errorBack);
-		return FALSE;		
+		return false;		
 	}
 	
 	unsigned short (* readColFunction) (FILE *, int, palCol[], int, int) =
@@ -93,7 +95,7 @@ BOOL loadBackDrop (char * fileName) {
 		}
 	}
 	fclose (fp);
-	return TRUE;
+	return true;
 }
 
 void screenBufferToWindow () {
@@ -120,3 +122,5 @@ void backDropToScreenBuffer () {
 	
 	screenBufferToWindow ();
 }
+
+*/

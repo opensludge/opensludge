@@ -1,4 +1,4 @@
-#include <windows.h>
+#include <stdio.h>
 #include "winterface.h"
 #include "zbuffer.h"
 #include "moreio.h"
@@ -9,7 +9,7 @@ extern int HORZ_RES, VERT_RES;
 zPanel panel[16];
 int numPanels = 0;
 
-BOOL processZBufferData () {
+bool processZBufferData () {
 	int n, x, y;
 	numPanels = 0;
 
@@ -23,23 +23,23 @@ BOOL processZBufferData () {
 					panel[n].theColour = backDropImage[y][x];
 					numPanels ++;
 					panel[n].yCutOff = 0;
-				} else return FALSE;
+				} else return false;
 			}
 			if (panel[n].theColour) panel[n].yCutOff = y;
 		}
 	}
-	return TRUE;
+	return true;
 }
 
-BOOL loadZBufferFile (char * name) {
+bool loadZBufferFile (char * name) {
 	int n, x, y, zbWidth, zbHeight;
 	unsigned long stillToGo = 0;
 	
 	FILE * fp = fopen (name, "rb");
-	if (! fp) return FALSE;
-	if (fgetc (fp) != 'S') { fclose (fp); return FALSE; }
-	if (fgetc (fp) != 'z') { fclose (fp); return FALSE; }
-	if (fgetc (fp) != 'b') { fclose (fp); return FALSE; }
+	if (! fp) return false;
+	if (fgetc (fp) != 'S') { fclose (fp); return false; }
+	if (fgetc (fp) != 'z') { fclose (fp); return false; }
+	if (fgetc (fp) != 'b') { fclose (fp); return false; }
 	switch (fgetc (fp)) {
 		case 0:
 		zbWidth = 640;
@@ -53,7 +53,7 @@ BOOL loadZBufferFile (char * name) {
 		
 		default:
 		fclose (fp);
-		return FALSE;
+		return false;
 	}
 
 	numPanels = fgetc (fp);
@@ -62,7 +62,7 @@ BOOL loadZBufferFile (char * name) {
 		panel[n].theColour = 0x1111 * n;
 	}
 	
-	if (! initBackDrop (zbWidth, zbHeight)) return FALSE;
+	if (! initBackDrop (zbWidth, zbHeight)) return false;
 	
 	for (y = 0; y < zbHeight; y ++) {
 		for (x = 0; x < zbWidth; x ++) {
@@ -78,12 +78,12 @@ BOOL loadZBufferFile (char * name) {
 		}
 	}
 	fclose (fp);
-	return TRUE;
+	return true;
 }
 
 int editLayerNum = 0;
 
-BOOL setZBufferClick (int x, int y) {
+bool setZBufferClick (int x, int y) {
 	for (editLayerNum = 0; editLayerNum < numPanels; editLayerNum ++) {
 		if (panel[editLayerNum].theColour == backDropImage[y][x]) break;
 	}
@@ -142,6 +142,8 @@ void saveZBufferFile (char * name) {
 	fclose (fp);
 }
 
+#ifdef WIN32
+
 LRESULT CALLBACK LayerSettingsFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
 
@@ -157,22 +159,23 @@ LRESULT CALLBACK LayerSettingsFunc(HWND hDlg, UINT message, WPARAM wParam, LPARA
 			sprintf (buff, "%i", panel[editLayerNum].yCutOff);
 		    SetWindowText (GetDlgItem(hDlg, ID_LAYERCUTOFF), buff);
 			ShowWindow (hDlg, SW_SHOW);
-			return (TRUE);
+			return (true);
 		}
 
 		case WM_COMMAND:
 			if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL) {
-				BOOL worked;
-				int grabbed = GetDlgItemInt (hDlg, ID_LAYERCUTOFF, & worked, FALSE);
+				bool worked;
+				int grabbed = GetDlgItemInt (hDlg, ID_LAYERCUTOFF, & worked, false);
 				if (worked) {
 					panel[editLayerNum].yCutOff = grabbed;
-					EndDialog(hDlg, TRUE);
+					EndDialog(hDlg, true);
 				}
-				return (TRUE);
+				return (true);
 			}
 			break;
 	}
 
-    return FALSE;
+    return false;
 }
 
+#endif

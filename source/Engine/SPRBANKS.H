@@ -1,3 +1,5 @@
+#include "sprites.h"
+
 struct loadedSpriteBank {
 	int ID, timesUsed;
 	spriteBank bank;
@@ -5,3 +7,4 @@ struct loadedSpriteBank {
 };
 
 loadedSpriteBank * loadBankForAnim (int ID);
+void reloadSpriteTextures ();

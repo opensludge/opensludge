@@ -1,6 +1,11 @@
 #include "allfiles.h"
 
+#ifndef _MSC_VER		// Microsoft compiler?
 #include <unistd.h>		// For unlink
+#else
+#include <io.h>
+#include <stdio.h>
+#endif
 
 #include "newfatal.h"
 #include "stringy.h"
@@ -26,7 +31,7 @@ static DWORD biSize;
 
 static char * videoFile = NULL;
 
-BOOL videoPlaying = FALSE;
+bool videoPlaying = false;
 
 extern int winWidth, winHeight;
 extern unsigned short int * screen;
@@ -39,10 +44,10 @@ void initialiseMovieStuff () {
 //	warning (videoFile);
 }
 
-BOOL getStream (DWORD type, timStream & intoHere) {
+bool getStream (DWORD type, timStream & intoHere) {
     if (AVIFileGetStream (pAviFile, & intoHere.got, type, 0)) {
     	intoHere.got = NULL;
-    	return TRUE;
+    	return true;
     } else if (AVIStreamInfo (intoHere.got, & intoHere.info, sizeof(AVISTREAMINFO))) {
 		return fatal ("Can't get stream info");
 	} else if (AVIStreamReadFormat (intoHere.got, AVIStreamStart(intoHere.got), NULL, & intoHere.chunkSize)) {
@@ -58,7 +63,7 @@ BOOL getStream (DWORD type, timStream & intoHere) {
 			return fatal ("Couldn't read stream format");
 		}
 	}
-	return TRUE;
+	return true;
 }
 
 void killStream (timStream & intoHere) {
@@ -94,7 +99,7 @@ void handleAudio () {
 			fclose (fp);
 		}
 		int i = fakeCacheSoundForVideo ((char *) pBuffer, totalSize);
-		if (i != -1) startSound (i, FALSE);
+		if (i != -1) startSound (i, false);
 	}
 	
 	delete pBuffer;
@@ -102,7 +107,7 @@ void handleAudio () {
 */
 
 void finishVideo () {
-	videoPlaying = FALSE;
+	videoPlaying = false;
 	AVIStreamGetFrameClose (pgf);
 	if (audio.got) AVIStreamRelease (audio.got);
 	if (video.got) AVIStreamRelease (video.got);
@@ -110,16 +115,20 @@ void finishVideo () {
 	killStream (video);
 	AVIFileRelease (pAviFile);
 	AVIFileExit ();
+#ifdef _MSC_VER
+	_unlink (videoFile);
+#else
 	unlink (videoFile);
+#endif
 }
 
 #define COPYSIZE 256
 
-BOOL extractSlice (int fileNum, char * toName) {
+bool extractSlice (int fileNum, char * toName) {
 	unsigned char buff[COPYSIZE];
 
 	unsigned long fileLength = openFileFromNum (fileNum);
-	if (! fileLength) return FALSE;	// Error already displayed
+	if (! fileLength) return false;	// Error already displayed
 
 	FILE * copyVid = fopen (toName, "wb");
 	if (! copyVid) return fatal ("Can't extract resource");
@@ -137,10 +146,10 @@ BOOL extractSlice (int fileNum, char * toName) {
 	fclose (copyVid);
 	finishAccess ();
 
-	return TRUE;
+	return true;
 }
 
-BOOL startVideo (int fileNum) {
+bool startVideo (int fileNum) {
 
 	setResourceForFatal (fileNum);
 
@@ -149,14 +158,14 @@ BOOL startVideo (int fileNum) {
 	if (videoPlaying) finishVideo ();
 	AVIFileInit ();
 
-	if (! extractSlice (fileNum, videoFile)) return FALSE;
+	if (! extractSlice (fileNum, videoFile)) return false;
 	if (AVIFileOpen (& pAviFile, videoFile, OF_READ, NULL))
 		return fatal (ERROR_AVI_FILE_ERROR);
 
 	AVIFileInfo(pAviFile, &info, sizeof(info));
 		
-	if (! getStream (streamtypeAUDIO, audio)) return FALSE;
-	if (! getStream (streamtypeVIDEO, video)) return FALSE;
+	if (! getStream (streamtypeAUDIO, audio)) return false;
+	if (! getStream (streamtypeVIDEO, video)) return false;
 
 	if (! video.got) return fatal (ERROR_AVI_NO_STREAM);
 		
@@ -172,18 +181,18 @@ BOOL startVideo (int fileNum) {
 	vidHeight = pInfo -> bmiHeader.biHeight;
 
 	videoFrameNum = 0;
-	videoPlaying = TRUE;
+	videoPlaying = true;
 
 	setResourceForFatal (-1);
 
-	return TRUE;
+	return true;
 }
 
-BOOL nextVideoFrame () {
+bool nextVideoFrame () {
 	LPBITMAPINFOHEADER lpbi = (LPBITMAPINFOHEADER) AVIStreamGetFrame(pgf, videoFrameNum);
 	if (! lpbi) {
 		finishVideo ();
-		return FALSE;
+		return false;
 	}
 	
 	BYTE * pData = (((BYTE *) lpbi) + lpbi->biSize);
@@ -223,5 +232,5 @@ BOOL nextVideoFrame () {
 
 	videoFrameNum ++;
 
-	return TRUE;
+	return true;
 }

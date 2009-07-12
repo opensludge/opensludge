@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 short getSigned (FILE * fp);
 unsigned int get2bytes (FILE * fp);
 void putSigned (short, FILE * fp);

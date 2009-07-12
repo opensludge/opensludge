@@ -1,11 +1,15 @@
 #include "variable.h"
 
+#ifndef _WIN32
+#define HWND void *
+#endif
+
 // GENERAL...
-BOOL initSoundStuff (HWND);
+bool initSoundStuff (HWND);
 void killSoundStuff ();
 
 // MUSIC...
-BOOL playMOD (int, int, int);
+bool playMOD (int, int, int);
 void stopMOD (int);
 void setMusicVolume (int a, int v);
 void setDefaultMusicVolume (int v);
@@ -13,14 +17,14 @@ void setDefaultMusicVolume (int v);
 // SAMPLES...
 int cacheSound (int f);
 //int fakeCacheSoundForVideo (char * memImage, int length);
-BOOL startSound (int, BOOL = FALSE);
+bool startSound (int, bool = false);
 void huntKillSound (int a);
 void huntKillFreeSound (int filenum);
 void setSoundVolume (int a, int v);
 void setDefaultSoundVolume (int v);
 void setSoundLoop (int a, int s, int e);
-BOOL stillPlayingSound (int ch);
-BOOL getSoundCacheStack (stackHandler * sH);
+bool stillPlayingSound (int ch);
+bool getSoundCacheStack (stackHandler * sH);
 int findInSoundCache (int a);
 
 void debugSounds ();

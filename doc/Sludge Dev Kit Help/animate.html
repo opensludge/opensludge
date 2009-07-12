@@ -1,0 +1,49 @@
+<html>
+<head>
+<TITLE>animate</TITLE>
+</head>
+<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
+<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>animate</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=20><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Syntax:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<font color=#BB4444 SIZE=+2><TT><B>animate (<i>character, animation</i>);</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Purpose:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+Makes the specified <i>character</i> perform the selected <i>animation</i> which must be created with the <b><a href="anim.html">anim</a></b> function. The character will continue performing the animation until told to move, change direction or speak.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+The animate function can be used, for example, to provide different speaking animations without having to build a new costume.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>animate (ego, chinHitsFloorAnimation);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>think (ego, &quot;WHAT?&quot;);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>say (ego, &quot;Are you kidding?&quot;);</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+The above example will give the ego character a different animation while it <b><a href="say_and_think.html">think</a></b>s the line &quot;WHAT?&quot; - the ego will then use its standard talking animation to <b><a href="say_and_think.html">say</a></b> the like &quot;Are you kidding?&quot;.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Return value:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+The return value is the total playing time of <i>animation</i>. Consequently, the following code will perform an animation once and once only:<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>var a = anim ('pickNose.duc', 0, wait (1, 4), 2, 3, 4);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>pause (animate (ego, a));</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>normalCharacter (ego);</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+In the above example, the return value of the animate function is 8... 1 + 4 + 1 + 1 + 1. So, the <b><a href="pause.html">pause</a></b> function stops the function for 8 frames: just long enough for the animation to run.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>See also:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<b><a href="addCharacter.html">addCharacter</a></b><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<b><a href="normalCharacter.html">normalCharacter</a></b><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</BODY>
+</html>

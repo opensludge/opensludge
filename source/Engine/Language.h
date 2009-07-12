@@ -1,15 +1,22 @@
 #ifndef __LANGUAGE_H__
 #define __LANGUAGE_H__
+/*
+#if defined(_WIN32)
+#include "windef.h"
+#endif
+*/
 
-struct iniStuff
+struct settingsStruct
 {
 	unsigned int languageID;
-	BOOL userFullScreen;
+	unsigned int numLanguages;
+	bool userFullScreen;
 	unsigned int refreshRate;
 	int antiAlias;
 };
 
-void readIniFile (char * filename, iniStuff & iniFileSettings);
-int getLanguageForFileB (int total, FILE * table, unsigned int languageID);
+void readIniFile (char * filename);
+int getLanguageForFileB ();
+void makeLanguageTable (FILE * table);
 
 #endif

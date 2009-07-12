@@ -1,3 +1,5 @@
+// Simple colour conversion routines to deal with 16-bit graphics
+
 //unsigned short int makeColour (byte r, byte g, byte b);
 
 inline unsigned short redValue (unsigned short c) { return (c >> 11) << 3; }

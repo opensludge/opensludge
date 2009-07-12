@@ -175,7 +175,7 @@ void saveStatusBars (FILE * fp) {
 	fputc (0, fp);
 }
 
-BOOL loadStatusBars (FILE * fp) {
+bool loadStatusBars (FILE * fp) {
 	clearStatusBar ();
 
 	nowStatus -> alignStatus = get2bytes (fp);
@@ -197,11 +197,11 @@ BOOL loadStatusBars (FILE * fp) {
 	statusBar * newOne;
 	while (fgetc (fp)) {
 		newOne = new statusBar;
-		if (! checkNew (newOne)) return FALSE;
+		if (! checkNew (newOne)) return false;
 		newOne -> text = readString (fp);
 		newOne -> next = NULL;
 		(* viewLine) = newOne;
 		viewLine = & (newOne -> next);
 	}
-	return TRUE;
+	return true;
 }

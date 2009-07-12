@@ -3,6 +3,10 @@ struct floorPolygon {
 	int * vertexID;
 };
 
+struct POINT {
+	int x; int y;
+};
+
 struct flor {
 	int originalNum;
 	POINT * vertex;
@@ -11,10 +15,10 @@ struct flor {
 	int * * matrix;
 };
 
-BOOL initFloor ();
+bool initFloor ();
 void setFloorNull ();
-BOOL setFloor (int fileNum);
+bool setFloor (int fileNum);
 void drawFloor ();
 int inFloor (int x, int y);
-BOOL getMatchingCorners (floorPolygon &, floorPolygon &, int &, int &);
-BOOL closestPointOnLine (int & closestX, int & closestY, int x1, int y1, int x2, int y2, int xP, int yP);
+bool getMatchingCorners (floorPolygon &, floorPolygon &, int &, int &);
+bool closestPointOnLine (int & closestX, int & closestY, int x1, int y1, int x2, int y2, int xP, int yP);

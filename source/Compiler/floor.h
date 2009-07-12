@@ -1,1 +1,1 @@
-BOOL convertFloor (char * filename);
+bool convertFloor (char * filename);

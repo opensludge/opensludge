@@ -37,17 +37,16 @@ extern byte fontTable[256];							// "	"	"
 extern spriteBank theFont;							// "	"	"
 extern FILETIME fileTime;							// In sludger.cpp
 extern int speechMode;								// "	"	"
-extern unsigned short int * * lightMapImage;		// In backdrop.cpp
-extern unsigned short int * * snapshotImage;		// In backdrop.cpp
+extern GLubyte * lightMapTexture;					// In backdrop.cpp
+extern GLuint snapshotTextureName;
 extern int lightMapNumber;							// "	"	"
 extern int sceneWidth, sceneHeight;					// "	"	"
 extern int cameraX, cameraY;						// "	"	"
 extern unsigned char brightnessLevel;				// "	"	"
 extern short fontSpace;								// in textfont.cpp
 extern unsigned char fadeMode;						// In transition.cpp
-extern BOOL captureAllKeys;
-extern BOOL updateDisplay;
-extern BOOL allowAnyFilename;
+extern bool captureAllKeys;
+extern bool allowAnyFilename;
 extern unsigned short saveEncoding;					// in savedata.cpp
 extern unsigned char currentBurnR, currentBurnG, currentBurnB;
 extern unsigned int currentBlankColour;				// in backdrop.cpp
@@ -66,30 +65,12 @@ struct stackLibrary {
 
 int stackLibTotal = 0;
 stackLibrary * stackLib = NULL;
-/*
-void debugOut (char * txt) {
-	FILE * db = fopen ("load.txt", "at");
-	fprintf (db, "%s\n", txt);
-	fclose (db);
-}
 
-void debugOut (char * txt, int i) {
-	FILE * db = fopen ("load.txt", "at");
-	fprintf (db, "%s %i\n", txt, i);
-	fclose (db);
-}
-
-void debugOut (char * txt, char * i) {
-	FILE * db = fopen ("load.txt", "at");
-	fprintf (db, "%s %s\n", txt, i);
-	fclose (db);
-}
-*/
 //----------------------------------------------------------------------
 // For saving and loading stacks...
 //----------------------------------------------------------------------
-BOOL saveVariable (variable * from, FILE * fp);
-BOOL loadVariable (variable * to, FILE * fp);
+bool saveVariable (variable * from, FILE * fp);
+bool loadVariable (variable * to, FILE * fp);
 
 void saveStack (variableStack * vs, FILE * fp) {
 	int elements = 0;
@@ -134,7 +115,7 @@ variableStack * loadStack (FILE * fp, variableStack ** last) {
 	return first;
 }
 
-BOOL saveStackRef (stackHandler * vs, FILE * fp) {
+bool saveStackRef (stackHandler * vs, FILE * fp) {
 	stackLibrary * s = stackLib;
 	int a = 0;
 	while (s) {
@@ -144,7 +125,7 @@ BOOL saveStackRef (stackHandler * vs, FILE * fp) {
 //			sprintf (buff, "Found a duplicate! total = %d, a = %d, saving %d", stackLibTotal, a, stackLibTotal - a);
 //			warning (buff);
 			put2bytes (stackLibTotal - a, fp);
-			return TRUE;
+			return true;
 		}
 		s = s -> next;
 		a ++;
@@ -153,11 +134,11 @@ BOOL saveStackRef (stackHandler * vs, FILE * fp) {
 	saveStack (vs -> first, fp);
 	s = new stackLibrary;
 	stackLibTotal ++;
-	if (! checkNew (s)) return FALSE;
+	if (! checkNew (s)) return false;
 	s -> next = stackLib;
 	s -> stack = vs;
 	stackLib = s;
-	return TRUE;
+	return true;
 }
 
 void clearStackLib () {
@@ -171,7 +152,7 @@ void clearStackLib () {
 }
 
 stackHandler * getStackFromLibrary (int n) {
-	stackLibrary * each = stackLib;
+//	stackLibrary * each = stackLib;
 //	char buff[100];
 //	sprintf (buff, "stack lib entry %d of %d", n, stackLibTotal);
 //	warning (buff);
@@ -224,7 +205,7 @@ stackHandler * loadStackRef (FILE * fp) {
 // For saving and loading variables...
 //----------------------------------------------------------------------
 
-BOOL saveVariable (variable * from, FILE * fp)
+bool saveVariable (variable * from, FILE * fp)
 {
 #if DEBUG_STACKINESS
 	{
@@ -242,11 +223,11 @@ BOOL saveVariable (variable * from, FILE * fp)
 		case SVT_FILE:
 		case SVT_OBJTYPE:
 		put4bytes (from -> varData.intValue, fp);
-		return TRUE;
+		return true;
 
 		case SVT_STRING:
 		writeString (from -> varData.theString, fp);
-		return TRUE;
+		return true;
 
 		case SVT_STACK:
 		return saveStackRef (from -> varData.theStack, fp);
@@ -254,14 +235,14 @@ BOOL saveVariable (variable * from, FILE * fp)
 		case SVT_COSTUME:
 		saveCostume (from -> varData.costumeHandler, fp);
 //		fatal ("Can't save costumes yet!");
-		return FALSE;
+		return false;
 
 		case SVT_ANIM:
 		saveAnim (from -> varData.animHandler, fp);
-		return FALSE;
+		return false;
 		
 		case SVT_NULL:
-		return FALSE;
+		return false;
 
 		default:
 		fatal ("Can't save variables of this type:",
@@ -269,10 +250,10 @@ BOOL saveVariable (variable * from, FILE * fp)
 						typeName[from->varType] :
 						"bad ID");
 	}
-	return TRUE;
+	return true;
 }
 
-BOOL loadVariable (variable * to, FILE * fp) {
+bool loadVariable (variable * to, FILE * fp) {
 	to -> varType = (variableType) fgetc (fp);
 	switch (to -> varType) {
 		case SVT_INT:
@@ -281,11 +262,11 @@ BOOL loadVariable (variable * to, FILE * fp) {
 		case SVT_FILE:
 		case SVT_OBJTYPE:
 		to -> varData.intValue = get4bytes (fp);
-		return TRUE;
+		return true;
 
 		case SVT_STRING:
 		to -> varData.theString = readString (fp);
-		return TRUE;
+		return true;
 
 		case SVT_STACK:
 		to -> varData.theStack = loadStackRef (fp);
@@ -296,21 +277,21 @@ BOOL loadVariable (variable * to, FILE * fp) {
 		delete str;
 	}
 #endif
-		return TRUE;
+		return true;
 
 		case SVT_COSTUME:
 		to -> varData.costumeHandler = new persona;
-		if (! checkNew (to -> varData.costumeHandler)) return FALSE;
+		if (! checkNew (to -> varData.costumeHandler)) return false;
 		loadCostume (to -> varData.costumeHandler, fp);
-		return TRUE;
+		return true;
 
 		case SVT_ANIM:
 		to -> varData.animHandler = new personaAnimation;
-		if (! checkNew (to -> varData.animHandler)) return FALSE;
+		if (! checkNew (to -> varData.animHandler)) return false;
 		loadAnim (to -> varData.animHandler, fp);
-		return TRUE;
+		return true;
 	}
-	return TRUE;
+	return true;
 }
 
 //----------------------------------------------------------------------
@@ -385,11 +366,11 @@ loadedFunction * loadFunction (FILE * fp) {
 // Save everything
 //----------------------------------------------------------------------
 
-BOOL saveGame (char * fname) {
+bool saveGame (char * fname) {
 	int a;
 
 	FILE * fp = fopen (fname, "wb");
-	if (fp == NULL) return FALSE;
+	if (fp == NULL) return false;
 
 	fprintf (fp, "SLUDSA");
 	fputc (0, fp);
@@ -397,7 +378,7 @@ BOOL saveGame (char * fname) {
 	fputc (MAJOR_VERSION, fp);
 	fputc (MINOR_VERSION, fp);
 
-	if (! saveThumbnail (fp)) return FALSE;
+	if (! saveThumbnail (fp)) return false;
 	
 	fwrite (& fileTime, sizeof (FILETIME), 1, fp);
 
@@ -405,7 +386,7 @@ BOOL saveGame (char * fname) {
 
 	fputc (allowAnyFilename, fp);	
 	fputc (captureAllKeys, fp);
-	fputc (updateDisplay, fp);
+	fputc (true, fp); // updateDisplay
 	fputc (fontLoaded, fp);
 
 	if (fontLoaded) {
@@ -458,12 +439,12 @@ BOOL saveGame (char * fname) {
 		put2bytes (currentFloor -> originalNum, fp);
 	} else fputc (0, fp);
 
-	if (zBuffer.map) {
+	if (zBuffer.tex) {
 		fputc (1, fp);
 		put2bytes (zBuffer.originalNum, fp);
 	} else fputc (0, fp);
 
-	if (lightMapImage) {
+	if (lightMapTexture) {
 		fputc (1, fp);
 		put2bytes (lightMapNumber, fp);
 	} else fputc (0, fp);
@@ -489,16 +470,17 @@ BOOL saveGame (char * fname) {
 	fputc (0, fp);
 
 	fputc (languageNum, fp);	// Selected language
-	if (snapshotImage) {
+
+	if (snapshotTextureName) {
 		fputc (1, fp);				// 1 for snapshot follows
-		saveCoreHSI (fp, snapshotImage, winWidth, winHeight);
+		saveCoreHSI (fp, snapshotTextureName);
 	} else {
 		fputc (0, fp);
 	}
 	
 	fclose (fp);
 	clearStackLib ();
-	return TRUE;
+	return true;
 }
 
 //----------------------------------------------------------------------
@@ -507,7 +489,7 @@ BOOL saveGame (char * fname) {
 
 //FILE * debug = NULL;
 
-BOOL loadGame (char * fname) {
+bool loadGame (char * fname) {
 	int ssgVersion;
 	FILE * fp;
 	FILETIME savedGameTime;
@@ -516,7 +498,7 @@ BOOL loadGame (char * fname) {
 	while (allRunningFunctions) finishFunction (allRunningFunctions);
 
 	fp = openAndVerify (fname, 'S', 'A', ERROR_GAME_LOAD_NO, ssgVersion);
-	if (fp == NULL) return FALSE;
+	if (fp == NULL) return false;
 
 	if (ssgVersion >= VERSION(1,4)) {
 		if (! skipThumbnail (fp)) return fatal (ERROR_GAME_LOAD_CORRUPT, fname);
@@ -535,18 +517,17 @@ BOOL loadGame (char * fname) {
 		allowAnyFilename = fgetc (fp);
 	}
 	captureAllKeys = fgetc (fp);
-	updateDisplay = fgetc (fp);
+	fgetc (fp); // updateDisplay (part of movie playing)
 
 
 	fontLoaded = fgetc (fp);
 	forgetSpriteBank (theFont);
-	
+		
 	if (fontLoaded) {
 		loadedFontNum = get2bytes (fp);
-		loadSpriteBank (loadedFontNum, theFont);
+		loadSpriteBank (loadedFontNum, theFont, true);
 		fontHeight = get2bytes (fp);
 		for (int a = 0; a < 256; a ++) fontTable[a] = fgetc (fp);
-		numFontColours = theFont.myPalette.total;	
 	}
 	fontSpace = readSigned (fp);
 	
@@ -557,13 +538,13 @@ BOOL loadGame (char * fname) {
 	int camerY = get2bytes (fp);
 	brightnessLevel = fgetc (fp);
 
-	loadHSI (fp, 0, 0, TRUE);
+	loadHSI (fp, 0, 0, true);
 	loadHandlers (fp);
 	loadRegions (fp);
 
 	mouseCursorAnim = new personaAnimation;
-	if (! checkNew (mouseCursorAnim)) return FALSE;
-	if (! loadAnim (mouseCursorAnim, fp)) return FALSE;
+	if (! checkNew (mouseCursorAnim)) return false;
+	if (! loadAnim (mouseCursorAnim, fp)) return false;
 	mouseCursorFrameNum = get2bytes (fp);
 
 	loadedFunction * rFunc;
@@ -585,15 +566,15 @@ BOOL loadGame (char * fname) {
 	loadPeople (fp, ssgVersion);
 
 	if (fgetc (fp)) {
-		if (! setFloor (get2bytes (fp))) return FALSE;
+		if (! setFloor (get2bytes (fp))) return false;
 	} else setFloorNull ();
 
 	if (fgetc (fp)) {
-		if (! setZBuffer (get2bytes (fp))) return FALSE;
+		if (! setZBuffer (get2bytes (fp))) return false;
 	}
 	
 	if (fgetc (fp)) {
-		if (! loadLightMap (get2bytes (fp))) return FALSE;
+		if (! loadLightMap (get2bytes (fp))) return false;
 	}
 	
 	if (ssgVersion >= VERSION(1,4)) {
@@ -626,17 +607,18 @@ BOOL loadGame (char * fname) {
 			int fx = get2bytes (fp);
 			int fy = get2bytes (fp);
 			
-			if (! loadParallax (im, fx, fy)) return FALSE;
+			if (! loadParallax (im, fx, fy)) return false;
 		}
 		
 		int selectedLanguage = fgetc (fp);
-		if (selectedLanguage != languageNum) return fatal ("Sorry - this game was saved when the program was running in a different language!");
+		// Why was this check in here? Things seem to still work when I remove it. -RP
+		//if (selectedLanguage != languageNum) return fatal ("Sorry - this game was saved when the program was running in a different language!");
 	}
 	
 	nosnapshot ();
 	if (ssgVersion >= VERSION(1,4)) {
 		if (fgetc (fp)) {
-			if (! restoreSnapshot (fp)) return FALSE;
+			if (! restoreSnapshot (fp)) return false;
 		}
 	}
 
@@ -646,5 +628,5 @@ BOOL loadGame (char * fname) {
 	cameraX = camerX;
 	cameraY = camerY;
 
-	return TRUE;
+	return true;
 }

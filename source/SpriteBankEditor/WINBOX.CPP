@@ -1,3 +1,5 @@
+#ifdef WIN32
+
 #include <windows.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -60,7 +62,7 @@ void percRect (int i, whichPerc whichBox) {
 	ReleaseDC (hdc, compWin);
 }
 
-BOOL dumpFiles (stringArray * & theSA) {
+bool dumpFiles (stringArray * & theSA) {
 	int i = 0, ch;
 	char outname[20];
 	FILE * inFile, * outFile;
@@ -87,24 +89,24 @@ BOOL dumpFiles (stringArray * & theSA) {
 		fclose (inFile);
 		fclose (outFile);
 	}
-	return TRUE;
+	return true;
 }
 
-BOOL dumpFileInto (FILE * writer, char * thisFile) {
+bool dumpFileInto (FILE * writer, char * thisFile) {
 	int a;
 	FILE * reader = fopen (thisFile, "rb");
 
-	if (! reader) return FALSE;
+	if (! reader) return false;
 	for (;;) {
 		a = fgetc (reader);
 		if (a == EOF) break;
 		fputc (a, writer);
 	}
 	fclose (reader);
-	return TRUE;
+	return true;
 }
 
-BOOL saveAndDiscard (stringArray * & theSA, char * oName) {
+bool saveAndDiscard (stringArray * & theSA, char * oName) {
 	FILE * projectFile, * indexFile, * textFile;
 	int indexSize = countElements (theSA) * 4;
 
@@ -113,7 +115,7 @@ BOOL saveAndDiscard (stringArray * & theSA, char * oName) {
 	projectFile = fopen ("txtdata.tmp", "wb");
 	indexFile = fopen ("txtindex.tmp", "wb");
 	textFile = fopen ("alltext.txt", "wt");
-	if (! (projectFile && indexFile && textFile)) return FALSE;
+	if (! (projectFile && indexFile && textFile)) return false;
 
 	while (theSA) {
 //		printf ("Writing string %s at position %i\n", theSA -> string, (int) (ftell (projectFile) + indexSize));
@@ -133,29 +135,29 @@ BOOL saveAndDiscard (stringArray * & theSA, char * oName) {
 	gotoTempDirectory ();
 	if (dumpFileInto (projectFile, "txtindex.tmp") && dumpFileInto (projectFile, "txtdata.tmp")) {
 		fclose (projectFile);
-		return TRUE;
+		return true;
 	} else {
 		fclose (projectFile);
-		return FALSE;
+		return false;
 	}
 }
 
 extern int numStringsFound;
 extern int numFilesFound;
 
-BOOL compileEverything () {
+bool compileEverything () {
 	int a, numProcessed = 0;
 	stringArray * allSourceStrings = NULL;
 	stringArray * allFileHandles = NULL;
 	stringArray * globalVarNames = NULL;
 	int num = MESS(ID_FILELIST, LB_GETCOUNT, 0, 0);
-	BOOL OK;
+	bool OK;
 	compilationSpace globalSpace;
 	FILE * projectFile;
 
 	if (num == LB_ERR) {
 		messageBox ("ERROR!", "Can't count how many things are in ID_FILELIST");
-		return FALSE;
+		return false;
 	}
 	char * tx;
 
@@ -169,7 +171,7 @@ BOOL compileEverything () {
 		COMPMESS (COM_FILENAME, WM_SETTEXT, 0, tx);
 		OK = preProcess (tx, numProcessed ++, allSourceStrings, allFileHandles);
 		delete tx;
-		if (! OK) return FALSE;
+		if (! OK) return false;
 		percRect (a + 1, P_BOTTOM);
 	}
 
@@ -177,7 +179,7 @@ BOOL compileEverything () {
 	numFilesFound = countElements (allFileHandles);
 	if (! saveAndDiscard (allSourceStrings, "alltext.dat")) {
 		messageBox (er, "Can't save string bank");
-		return FALSE;
+		return false;
 	}
 
 	COMPMESS (COM_PROGTEXT, WM_SETTEXT, 0, "Compiling");
@@ -198,7 +200,7 @@ BOOL compileEverything () {
 	clearRect (countElements (functionNames), P_BOTTOM);
 	for (a = 0; a < countElements (functionNames); a ++) {
 		COMPMESS (COM_FILENAME, WM_SETTEXT, 0, sA -> string);
-		if (! runLinker (a, globalVarNames)) return FALSE;
+		if (! runLinker (a, globalVarNames)) return false;
 		sA = sA -> next;
 		percRect (a + 1, P_BOTTOM);
 	}
@@ -218,14 +220,14 @@ BOOL compileEverything () {
 		put2bytes (countElements (globalVarNames), projectFile);
 		fclose (projectFile);
 
-		return TRUE;
+		return true;
 	}
-	return FALSE;
+	return false;
 }
 
 /* Messaging macros */
 
-BOOL APIENTRY dialogComp (h, m, w, l) HWND h; UINT m; WPARAM w; LPARAM l; {
+bool APIENTRY dialogComp (h, m, w, l) HWND h; UINT m; WPARAM w; LPARAM l; {
 	static OPENFILENAME ofn;
 	static char path[MAX_PATH];
 
@@ -281,3 +283,5 @@ void compileWindow () {
 			WaitMessage();
 	}
 }
+
+#endif

@@ -1,7 +1,9 @@
+#include <stdio.h>
+
 struct TGAHeader {
 	unsigned char IDBlockSize;
 	unsigned char gotMap;
-	BOOL compressed;
+	bool compressed;
 	unsigned short int firstPalColour;
 	unsigned short int numPalColours;
 	unsigned char bitsPerPalColour;
@@ -15,10 +17,10 @@ struct TGAHeader {
 
 struct palCol
 {
-	byte r,g,b;
+	unsigned char r,g,b;
 };
 
-unsigned short int makeColour (byte r, byte g, byte b);
+unsigned short int makeColour (unsigned char r, unsigned char g, unsigned char b);
 unsigned short readAColour (FILE * fp, int bpc, palCol thePalette[], int x, int y);
 unsigned short readCompressedColour (FILE * fp, int bpc, palCol thePalette[], int x, int y);
 char * readTGAHeader (TGAHeader & h, FILE * fp, palCol thePalette[]);

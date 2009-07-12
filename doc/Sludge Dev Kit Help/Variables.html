@@ -1,0 +1,80 @@
+<html>
+<head>
+<TITLE>Variables</TITLE>
+</head>
+<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
+<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>Variables</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+SLUDGE has only one variable structure - the &quot;var&quot; - which can hold many different types of data. The different data types which can be held in a SLUDGE variable are:<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<B>Undefined:</B><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+Not much use, but it's the value to which variables are initialised, and the default return value from user defined functions.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<B>Numbers:</B><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+For those of you who know C or C++, they're long signed integers. For everyone else, they're big but they can't do decimal points. Whoever heard of an adventure game saying &quot;It's a bag of 482.66666666667 gold coins&quot;?<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<B>Strings:</B><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+Used for holding text. All of the other data types can be turned into strings automatically, making debugging a lot simpler - see the <b><a href="Treating_Variables_as_Strings.html">Treating Variables as Strings</a></b> page.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<B>File handles:</B><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+How do you get a picture, sound, sprite bank or floor into your code? Here's how. Read up on these in the <b><a href="File_Handling.html">File Handling</a></b> section.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<B>Object types:</B><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+Objects, actions and characters. More information on creating and using these is available in the <b><a href="Object_Types_and_Events.html">Object Types and Events</a></b> section.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<B>Stacks:</B><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+These double as arrays, but you don't have to set any boundaries. Stacks can hold any number (including 0) of other variables of any - or mixed - data types. And yes, that includes other stacks. See the section about <b><a href="The_Multi-Purpose_Stack___Array___Queue_Type.html">The Multi-Purpose Stack / Array / Queue Type</a></b> for more information.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<B>Function handles:</B><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+Pass a function around like a variable! Fun, fun, fun. There's <b><a href="Passing_Functions_as_Variables.html">more information here</A></B>.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<B>Animations:</B><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+Created using the <b><a href="anim.html">anim</a></b> function.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<B>Costumes:</B><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+Created using the <b><a href="costume.html">costume</a></b> function.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Local and global variables:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+Variables can be local or global. Local variables (defined inside a function) exist for only the duration of the <b><a href="Functions_(subs).html">function</a></b> in which they are defined; global variables (defined outside of all the functions) are accessible to everything. For example:<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>var thisIsGlobal = 5;</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>sub someFunction () {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;var thisIsLocal = 10;</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;say (ego, thisIsGlobal + thisIsLocal);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;# Fine</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT color=#BB4444><TT><B>sub someOtherFunction () {</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;say (ego, thisIsGlobal + thisIsLocal);</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;# Not fine... in this function we have no idea what &quot;thisIsLocal&quot; is</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>More on this subject:</B></FONT><BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<b><a href="Treating_Variables_as_Booleans.html">Treating Variables as Booleans</a></b><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<b><a href="Treating_Variables_as_Strings.html">Treating Variables as Strings</a></b><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<b><a href="The_Multi-Purpose_Stack___Array___Queue_Type.html">The Multi-Purpose Stack / Array / Queue Type</a></b><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<b><a href="Variable_Operations.html">Variable Operations</a></b><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</BODY>
+</html>

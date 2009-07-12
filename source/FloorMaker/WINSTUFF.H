@@ -3,6 +3,6 @@ struct myBitmapInfo {
 	DWORD bitMask[3];
 };
 
-BOOL InitApplication (HINSTANCE hInstance);
-BOOL InitInstance (HINSTANCE hInstance, int nCmdShow);
+bool InitApplication (HINSTANCE hInstance);
+bool InitInstance (HINSTANCE hInstance, int nCmdShow);
 void setLoadedFile (char * t);
