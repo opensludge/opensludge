@@ -17,6 +17,7 @@
 #include "sound.h"
 #include "thumbnail.h"
 #include "bg_effects.h"
+#include "fileset.h"
 
 //----------------------------------------------------------------------
 // From elsewhere
@@ -53,6 +54,9 @@ extern unsigned int currentBlankColour;				// in backdrop.cpp
 extern parallaxLayer * parallaxStuff;				//		"
 extern int lightMapMode;							//		"
 extern int languageNum;
+
+extern settingsStruct gameSettings;
+
 
 //----------------------------------------------------------------------
 // Globals (so we know what's saved already and what's a reference
@@ -611,8 +615,12 @@ bool loadGame (char * fname) {
 		}
 		
 		int selectedLanguage = fgetc (fp);
-		// Why was this check in here? Things seem to still work when I remove it. -RP
-		//if (selectedLanguage != languageNum) return fatal ("Sorry - this game was saved when the program was running in a different language!");
+		if (selectedLanguage != languageNum) 
+			//return fatal ("Sorry - this game was saved when the program was running in a different language!");
+		{
+			languageNum = selectedLanguage;
+			setFileIndices (bigDataFile, gameSettings.numLanguages, languageNum);
+		}
 	}
 	
 	nosnapshot ();
