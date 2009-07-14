@@ -6,3 +6,5 @@ struct myBitmapInfo {
 bool InitApplication (HINSTANCE hInstance);
 bool InitInstance (HINSTANCE hInstance, int nCmdShow);
 char * copyString (char * incoming);
+
+void setLoadedFile (char * t);

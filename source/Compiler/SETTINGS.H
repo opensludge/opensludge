@@ -15,4 +15,4 @@ bool gotoSourceDirectory ();
 bool gotoTempDirectory ();
 //bool gotoOutputDirectory ();
 FILE * openFinalFile (char *, char *);
-void writeFinalData (FILE * mainFile, bool);
+void writeFinalData (FILE * mainFile);

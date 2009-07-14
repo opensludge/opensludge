@@ -1,2 +1,0 @@
-bool convertTGA (char * filename);
-

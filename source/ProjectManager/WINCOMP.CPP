@@ -11,7 +11,6 @@
 #include "registry.h"
 #include "settings.h"
 #include "splitter.h"
-#include "regbox.h"
 #include "launch.h"
 
 enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};

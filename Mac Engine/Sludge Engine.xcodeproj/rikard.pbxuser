@@ -175,38 +175,25 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 269220138;
-			PBXWorkspaceStateSaveDate = 269220138;
-		};
-		perUserProjectItems = {
-			2F1578DC100BF1610046C4D6 /* PBXTextBookmark */ = 2F1578DC100BF1610046C4D6 /* PBXTextBookmark */;
-			2F1578DF100BF1610046C4D6 /* PBXTextBookmark */ = 2F1578DF100BF1610046C4D6 /* PBXTextBookmark */;
-			2FF61F4D100BFAE700BE1414 /* PBXTextBookmark */ = 2FF61F4D100BFAE700BE1414 /* PBXTextBookmark */;
-			2FF61F4E100BFAE700BE1414 /* PBXTextBookmark */ = 2FF61F4E100BFAE700BE1414 /* PBXTextBookmark */;
+			PBXPerProjectTemplateStateSaveDate = 269290418;
+			PBXWorkspaceStateSaveDate = 269290418;
 		};
 		sourceControlManager = 2FAD3C3B0E335871003DEE41 /* Source Control */;
 		userBuildSettings = {
 		};
 	};
-	2F1578DC100BF1610046C4D6 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 2F7BFECE0E33853B003F5DC3 /* LOADSAVE.CPP */;
-		name = "LOADSAVE.CPP: 59";
-		rLen = 0;
-		rLoc = 2118;
-		rType = 0;
-		vrLen = 973;
-		vrLoc = 5607;
+	2F2538240FFEB72800A12579 /* sludge.bmp */ = {
+		uiCtxt = {
+			sepNavWindowFrame = "{{15, 59}, {775, 714}}";
+		};
 	};
-	2F1578DF100BF1610046C4D6 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 2F7BFEE20E33858E003F5DC3 /* SLUDGER.CPP */;
-		name = "SLUDGER.CPP: 282";
-		rLen = 0;
-		rLoc = 7791;
-		rType = 0;
-		vrLen = 1003;
-		vrLoc = 7107;
+	2F3AB887100CF97C00CD6A13 /* Credits.html */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {736, 585}}";
+			sepNavSelRange = "{189, 0}";
+			sepNavVisRect = "{{0, 0}, {736, 585}}";
+			sepNavWindowFrame = "{{15, 59}, {775, 714}}";
+		};
 	};
 	2F6E5C310E49FE55007408A4 /* bass.h */ = {
 		uiCtxt = {
@@ -826,26 +813,6 @@
 		name = "Project Breakpoints";
 		objects = (
 		);
-	};
-	2FF61F4D100BFAE700BE1414 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 2F7BFECE0E33853B003F5DC3 /* LOADSAVE.CPP */;
-		name = "LOADSAVE.CPP: 7";
-		rLen = 0;
-		rLoc = 148;
-		rType = 0;
-		vrLen = 1440;
-		vrLoc = 0;
-	};
-	2FF61F4E100BFAE700BE1414 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 2F7BFEE20E33858E003F5DC3 /* SLUDGER.CPP */;
-		name = "SLUDGER.CPP: 282";
-		rLen = 0;
-		rLoc = 7791;
-		rType = 0;
-		vrLen = 1003;
-		vrLoc = 7107;
 	};
 	8D1107260486CEB800E47090 /* OpenSLUDGE */ = {
 		activeExec = 0;

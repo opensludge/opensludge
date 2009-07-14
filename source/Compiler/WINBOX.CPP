@@ -221,7 +221,7 @@ bool doSingleCompileStep () {
 		FILE * textFile = getRegSetting ("compilerWriteStrings") ?
 			openFinalFile (" text.doc", "wt") : NULL;
 	
-		writeFinalData (projectFile, registered);
+		writeFinalData (projectFile);
 	
 		// ADD ICON ------------------------------------
 		if (customIcon[0]) {

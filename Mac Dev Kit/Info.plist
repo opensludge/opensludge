@@ -4,6 +4,25 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>slp</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>ProjIcon.icns</string>
+			<key>CFBundleTypeName</key>
+			<string>SLUDGE Project file</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSTypeIsPackage</key>
+			<false/>
+			<key>NSPersistentStoreTypeKey</key>
+			<string>Binary</string>
+		</dict>
+	</array>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleHelpBookFolder</key>
@@ -11,7 +30,7 @@
 	<key>CFBundleHelpBookName</key>
 	<string>SLUDGE Dev Kit Help</string>
 	<key>CFBundleIconFile</key>
-	<string></string>
+	<string>icon.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.hungrysoftware.SludgeDevKit</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -23,7 +42,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>100</string>
 	<key>NSMainNibFile</key>
 	<string>DevKit Main</string>
 	<key>NSPrincipalClass</key>

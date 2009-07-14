@@ -17,7 +17,12 @@
 		2F18B6A0100CBDC60009A1CB /* WINCOMP.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA48D0FFCEBE6005E5C36 /* WINCOMP.H */; };
 		2F18B6AD100CBE5A0009A1CB /* SPLITTER.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA4890FFCEBE6005E5C36 /* SPLITTER.H */; };
 		2F18B7B3100CC25F0009A1CB /* wintext.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA4910FFCEBE6005E5C36 /* wintext.h */; };
+		2F1B9A32100CF12700BD9739 /* BACKDROP.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA4940FFCEBE6005E5C36 /* BACKDROP.H */; };
+		2F1B9A63100CF81C00BD9739 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 2F1B9A62100CF81C00BD9739 /* Credits.html */; };
+		2F3AB9CE100D0B7100CD6A13 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D1107310486CEB800E47090 /* Info.plist */; };
 		2F59AFFF100CD9E1004A21BC /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F59AFFE100CD9E1004A21BC /* Carbon.framework */; };
+		2F695C72100D138D008A8DC1 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 2F695C70100D138D008A8DC1 /* icon.icns */; };
+		2F695C73100D138D008A8DC1 /* ProjIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 2F695C71100D138D008A8DC1 /* ProjIcon.icns */; };
 		2F7EA3E50FFCEBCF005E5C36 /* functionList.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA3DD0FFCEBCF005E5C36 /* functionList.h */; };
 		2F7EA3E90FFCEBCF005E5C36 /* specialSettings.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA3E10FFCEBCF005E5C36 /* specialSettings.h */; };
 		2F7EA3EA0FFCEBCF005E5C36 /* TGA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA3E20FFCEBCF005E5C36 /* TGA.cpp */; };
@@ -26,7 +31,6 @@
 		2F7EA4A40FFCEBE6005E5C36 /* ALLKNOWN.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA3EE0FFCEBE6005E5C36 /* ALLKNOWN.CPP */; };
 		2F7EA4A50FFCEBE6005E5C36 /* ALLKNOWN.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA3EF0FFCEBE6005E5C36 /* ALLKNOWN.H */; };
 		2F7EA4A60FFCEBE6005E5C36 /* BACKDROP.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA3F00FFCEBE6005E5C36 /* BACKDROP.CPP */; };
-		2F7EA4A70FFCEBE6005E5C36 /* BACKDROP.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA3F10FFCEBE6005E5C36 /* BACKDROP.H */; };
 		2F7EA4A80FFCEBE6005E5C36 /* checkUsed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA3F20FFCEBE6005E5C36 /* checkUsed.cpp */; };
 		2F7EA4A90FFCEBE6005E5C36 /* checkUsed.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA3F30FFCEBE6005E5C36 /* checkUsed.h */; };
 		2F7EA4AA0FFCEBE6005E5C36 /* CSLUDGE.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA3F40FFCEBE6005E5C36 /* CSLUDGE.H */; };
@@ -66,12 +70,9 @@
 		2F7EA4EF0FFCEBE6005E5C36 /* launch.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA43C0FFCEBE6005E5C36 /* launch.h */; };
 		2F7EA4F00FFCEBE6005E5C36 /* WIN MESSBOX.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA43D0FFCEBE6005E5C36 /* WIN MESSBOX.CPP */; };
 		2F7EA4F10FFCEBE6005E5C36 /* MESSBOX.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA43E0FFCEBE6005E5C36 /* MESSBOX.H */; };
-		2F7EA4F40FFCEBE6005E5C36 /* regBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA4410FFCEBE6005E5C36 /* regBox.cpp */; };
-		2F7EA4F50FFCEBE6005E5C36 /* regBox.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA4420FFCEBE6005E5C36 /* regBox.h */; };
 		2F7EA4F60FFCEBE6005E5C36 /* WIN registry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA4430FFCEBE6005E5C36 /* WIN registry.cpp */; };
 		2F7EA4F70FFCEBE6005E5C36 /* registry.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA4440FFCEBE6005E5C36 /* registry.h */; };
 		2F7EA4F80FFCEBE6005E5C36 /* flags.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 2F7EA4470FFCEBE6005E5C36 /* flags.bmp */; };
-		2F7EA4F90FFCEBE6005E5C36 /* icon.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 2F7EA4480FFCEBE6005E5C36 /* icon.bmp */; };
 		2F7EA4FA0FFCEBE6005E5C36 /* projIcon2.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 2F7EA4490FFCEBE6005E5C36 /* projIcon2.bmp */; };
 		2F7EA4FB0FFCEBE6005E5C36 /* scriptIcon.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 2F7EA44A0FFCEBE6005E5C36 /* scriptIcon.bmp */; };
 		2F7EA4FC0FFCEBE6005E5C36 /* scriptIcon2.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 2F7EA44B0FFCEBE6005E5C36 /* scriptIcon2.bmp */; };
@@ -105,7 +106,6 @@
 				2F7EA3EB0FFCEBCF005E5C36 /* TGA.h in Copy Frameworks into .app bundle */,
 				2F7EA3EC0FFCEBCF005E5C36 /* version.h in Copy Frameworks into .app bundle */,
 				2F7EA4A50FFCEBE6005E5C36 /* ALLKNOWN.H in Copy Frameworks into .app bundle */,
-				2F7EA4A70FFCEBE6005E5C36 /* BACKDROP.H in Copy Frameworks into .app bundle */,
 				2F7EA4A90FFCEBE6005E5C36 /* checkUsed.h in Copy Frameworks into .app bundle */,
 				2F7EA4AA0FFCEBE6005E5C36 /* CSLUDGE.H in Copy Frameworks into .app bundle */,
 				2F7EA4AC0FFCEBE6005E5C36 /* dumpfiles.h in Copy Frameworks into .app bundle */,
@@ -123,7 +123,6 @@
 				2F7EA4ED0FFCEBE6005E5C36 /* dialogueBoxInOut.h in Copy Frameworks into .app bundle */,
 				2F7EA4EF0FFCEBE6005E5C36 /* launch.h in Copy Frameworks into .app bundle */,
 				2F7EA4F10FFCEBE6005E5C36 /* MESSBOX.H in Copy Frameworks into .app bundle */,
-				2F7EA4F50FFCEBE6005E5C36 /* regBox.h in Copy Frameworks into .app bundle */,
 				2F7EA4F70FFCEBE6005E5C36 /* registry.h in Copy Frameworks into .app bundle */,
 				2F7EA5060FFCEBE6005E5C36 /* savedata.h in Copy Frameworks into .app bundle */,
 				2F7EA5080FFCEBE6005E5C36 /* settings.h in Copy Frameworks into .app bundle */,
@@ -133,6 +132,7 @@
 				2F18B6A0100CBDC60009A1CB /* WINCOMP.H in Copy Frameworks into .app bundle */,
 				2F18B6AD100CBE5A0009A1CB /* SPLITTER.H in Copy Frameworks into .app bundle */,
 				2F18B7B3100CC25F0009A1CB /* wintext.h in Copy Frameworks into .app bundle */,
+				2F1B9A32100CF12700BD9739 /* BACKDROP.H in Copy Frameworks into .app bundle */,
 			);
 			name = "Copy Frameworks into .app bundle";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -152,7 +152,10 @@
 		2F18B65D100CB9C20009A1CB /* GLee.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = GLee.c; path = ../GLee/GLee.c; sourceTree = SOURCE_ROOT; };
 		2F18B65E100CB9C20009A1CB /* GLee.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GLee.h; path = ../GLee/GLee.h; sourceTree = SOURCE_ROOT; };
 		2F18B6D5100CC0B40009A1CB /* Sludge Dev Kit Help */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Sludge Dev Kit Help"; path = "../doc/Sludge Dev Kit Help"; sourceTree = SOURCE_ROOT; };
+		2F1B9A62100CF81C00BD9739 /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; name = Credits.html; path = ../doc/Credits.html; sourceTree = SOURCE_ROOT; };
 		2F59AFFE100CD9E1004A21BC /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/Carbon.framework; sourceTree = SYSTEM_DEVELOPER_DIR; };
+		2F695C70100D138D008A8DC1 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = icon.icns; path = ../source/ProjectManager/resources/icon.icns; sourceTree = SOURCE_ROOT; };
+		2F695C71100D138D008A8DC1 /* ProjIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ProjIcon.icns; path = ../source/ProjectManager/resources/ProjIcon.icns; sourceTree = SOURCE_ROOT; };
 		2F7EA3DD0FFCEBCF005E5C36 /* functionList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = functionList.h; sourceTree = "<group>"; };
 		2F7EA3E10FFCEBCF005E5C36 /* specialSettings.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = specialSettings.h; sourceTree = "<group>"; };
 		2F7EA3E20FFCEBCF005E5C36 /* TGA.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = TGA.cpp; sourceTree = "<group>"; };
@@ -161,7 +164,6 @@
 		2F7EA3EE0FFCEBE6005E5C36 /* ALLKNOWN.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = ALLKNOWN.CPP; sourceTree = "<group>"; };
 		2F7EA3EF0FFCEBE6005E5C36 /* ALLKNOWN.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; path = ALLKNOWN.H; sourceTree = "<group>"; };
 		2F7EA3F00FFCEBE6005E5C36 /* BACKDROP.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = BACKDROP.CPP; sourceTree = "<group>"; };
-		2F7EA3F10FFCEBE6005E5C36 /* BACKDROP.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; path = BACKDROP.H; sourceTree = "<group>"; };
 		2F7EA3F20FFCEBE6005E5C36 /* checkUsed.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = checkUsed.cpp; sourceTree = "<group>"; };
 		2F7EA3F30FFCEBE6005E5C36 /* checkUsed.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = checkUsed.h; sourceTree = "<group>"; };
 		2F7EA3F40FFCEBE6005E5C36 /* CSLUDGE.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; path = CSLUDGE.H; sourceTree = "<group>"; };
@@ -196,7 +198,6 @@
 		2F7EA41B0FFCEBE6005E5C36 /* WINCOMP.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = WINCOMP.CPP; sourceTree = "<group>"; };
 		2F7EA4200FFCEBE6005E5C36 /* wintext.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = wintext.cpp; sourceTree = "<group>"; };
 		2F7EA4240FFCEBE6005E5C36 /* BACKDROP.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = BACKDROP.CPP; sourceTree = "<group>"; };
-		2F7EA4250FFCEBE6005E5C36 /* BACKDROP.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; path = BACKDROP.H; sourceTree = "<group>"; };
 		2F7EA4270FFCEBE6005E5C36 /* data.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = data.cpp; sourceTree = "<group>"; };
 		2F7EA4280FFCEBE6005E5C36 /* data.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = data.h; sourceTree = "<group>"; };
 		2F7EA42A0FFCEBE6005E5C36 /* floorico.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = floorico.bmp; sourceTree = "<group>"; };
@@ -204,20 +205,15 @@
 		2F7EA42D0FFCEBE6005E5C36 /* line.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = line.h; sourceTree = "<group>"; };
 		2F7EA4340FFCEBE6005E5C36 /* WINMAIN.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = WINMAIN.CPP; sourceTree = "<group>"; };
 		2F7EA4350FFCEBE6005E5C36 /* WINSTUFF.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = WINSTUFF.CPP; sourceTree = "<group>"; };
-		2F7EA4360FFCEBE6005E5C36 /* WINSTUFF.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; path = WINSTUFF.H; sourceTree = "<group>"; };
-		2F7EA4370FFCEBE6005E5C36 /* winterface.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = winterface.h; sourceTree = "<group>"; };
 		2F7EA4390FFCEBE6005E5C36 /* WIN dialogueBoxInOut.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = "WIN dialogueBoxInOut.cpp"; sourceTree = "<group>"; };
 		2F7EA43A0FFCEBE6005E5C36 /* dialogueBoxInOut.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = dialogueBoxInOut.h; sourceTree = "<group>"; };
 		2F7EA43B0FFCEBE6005E5C36 /* WIN launch.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = "WIN launch.cpp"; sourceTree = "<group>"; };
 		2F7EA43C0FFCEBE6005E5C36 /* launch.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = launch.h; sourceTree = "<group>"; };
 		2F7EA43D0FFCEBE6005E5C36 /* WIN MESSBOX.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = "WIN MESSBOX.CPP"; sourceTree = "<group>"; };
 		2F7EA43E0FFCEBE6005E5C36 /* MESSBOX.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; path = MESSBOX.H; sourceTree = "<group>"; };
-		2F7EA4410FFCEBE6005E5C36 /* regBox.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = regBox.cpp; sourceTree = "<group>"; };
-		2F7EA4420FFCEBE6005E5C36 /* regBox.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = regBox.h; sourceTree = "<group>"; };
 		2F7EA4430FFCEBE6005E5C36 /* WIN registry.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = "WIN registry.cpp"; sourceTree = "<group>"; };
 		2F7EA4440FFCEBE6005E5C36 /* registry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = registry.h; sourceTree = "<group>"; };
 		2F7EA4470FFCEBE6005E5C36 /* flags.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = flags.bmp; sourceTree = "<group>"; };
-		2F7EA4480FFCEBE6005E5C36 /* icon.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = icon.bmp; sourceTree = "<group>"; };
 		2F7EA4490FFCEBE6005E5C36 /* projIcon2.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = projIcon2.bmp; sourceTree = "<group>"; };
 		2F7EA44A0FFCEBE6005E5C36 /* scriptIcon.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = scriptIcon.bmp; sourceTree = "<group>"; };
 		2F7EA44B0FFCEBE6005E5C36 /* scriptIcon2.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = scriptIcon2.bmp; sourceTree = "<group>"; };
@@ -282,13 +278,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		080E96DDFE201D6D7F000001 /* Classes */ = {
+		080E96DDFE201D6D7F000001 /* Mac Code */ = {
 			isa = PBXGroup;
 			children = (
 				002F3A2B09D0888800EBEB88 /* SDLMain.h */,
 				002F3A2C09D0888800EBEB88 /* SDLMain.m */,
 			);
-			name = Classes;
+			name = "Mac Code";
 			sourceTree = "<group>";
 		};
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
@@ -330,7 +326,7 @@
 				2F7EA4630FFCEBE6005E5C36 /* SpriteBankEditor */,
 				2F7EA47C0FFCEBE6005E5C36 /* Translator */,
 				2F7EA4920FFCEBE6005E5C36 /* ZBufferMaker */,
-				080E96DDFE201D6D7F000001 /* Classes */,
+				080E96DDFE201D6D7F000001 /* Mac Code */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
@@ -343,7 +339,6 @@
 			isa = PBXGroup;
 			children = (
 				32CA4F630368D1EE00C91783 /* Sludge Dev Kit_Prefix.pch */,
-				002F3A3E09D088BA00EBEB88 /* main.c */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -351,6 +346,9 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2F695C70100D138D008A8DC1 /* icon.icns */,
+				2F695C71100D138D008A8DC1 /* ProjIcon.icns */,
+				2F1B9A62100CF81C00BD9739 /* Credits.html */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165DFE840E0CC02AAC07 /* InfoPlist.strings */,
 				002F3AF009D08F1000EBEB88 /* DevKit Main.nib */,
@@ -392,7 +390,6 @@
 				2F7EA3EE0FFCEBE6005E5C36 /* ALLKNOWN.CPP */,
 				2F7EA3EF0FFCEBE6005E5C36 /* ALLKNOWN.H */,
 				2F7EA3F00FFCEBE6005E5C36 /* BACKDROP.CPP */,
-				2F7EA3F10FFCEBE6005E5C36 /* BACKDROP.H */,
 				2F7EA3F20FFCEBE6005E5C36 /* checkUsed.cpp */,
 				2F7EA3F30FFCEBE6005E5C36 /* checkUsed.h */,
 				2F7EA3F40FFCEBE6005E5C36 /* CSLUDGE.H */,
@@ -442,7 +439,6 @@
 			isa = PBXGroup;
 			children = (
 				2F7EA4240FFCEBE6005E5C36 /* BACKDROP.CPP */,
-				2F7EA4250FFCEBE6005E5C36 /* BACKDROP.H */,
 				2F7EA4270FFCEBE6005E5C36 /* data.cpp */,
 				2F7EA4280FFCEBE6005E5C36 /* data.h */,
 				2F7EA42A0FFCEBE6005E5C36 /* floorico.bmp */,
@@ -450,8 +446,6 @@
 				2F7EA42D0FFCEBE6005E5C36 /* line.h */,
 				2F7EA4340FFCEBE6005E5C36 /* WINMAIN.CPP */,
 				2F7EA4350FFCEBE6005E5C36 /* WINSTUFF.CPP */,
-				2F7EA4360FFCEBE6005E5C36 /* WINSTUFF.H */,
-				2F7EA4370FFCEBE6005E5C36 /* winterface.h */,
 			);
 			name = FloorMaker;
 			path = ../source/FloorMaker;
@@ -460,13 +454,12 @@
 		2F7EA4380FFCEBE6005E5C36 /* ProjectManager */ = {
 			isa = PBXGroup;
 			children = (
+				002F3A3E09D088BA00EBEB88 /* main.c */,
 				2F7EA4390FFCEBE6005E5C36 /* WIN dialogueBoxInOut.cpp */,
 				2F7EA43A0FFCEBE6005E5C36 /* dialogueBoxInOut.h */,
 				2F7EA43B0FFCEBE6005E5C36 /* WIN launch.cpp */,
 				2F7EA43C0FFCEBE6005E5C36 /* launch.h */,
 				2F7EA43D0FFCEBE6005E5C36 /* WIN MESSBOX.CPP */,
-				2F7EA4410FFCEBE6005E5C36 /* regBox.cpp */,
-				2F7EA4420FFCEBE6005E5C36 /* regBox.h */,
 				2F7EA4430FFCEBE6005E5C36 /* WIN registry.cpp */,
 				2F7EA4440FFCEBE6005E5C36 /* registry.h */,
 				2F7EA4450FFCEBE6005E5C36 /* resources */,
@@ -496,7 +489,6 @@
 			isa = PBXGroup;
 			children = (
 				2F7EA4470FFCEBE6005E5C36 /* flags.bmp */,
-				2F7EA4480FFCEBE6005E5C36 /* icon.bmp */,
 				2F7EA4490FFCEBE6005E5C36 /* projIcon2.bmp */,
 				2F7EA44A0FFCEBE6005E5C36 /* scriptIcon.bmp */,
 				2F7EA44B0FFCEBE6005E5C36 /* scriptIcon2.bmp */,
@@ -627,13 +619,16 @@
 				2F9DE047100CC7ED0067DE50 /* DevKit Main.nib in Resources */,
 				2F7EA4C30FFCEBE6005E5C36 /* Sludge_c.bmp in Resources */,
 				2F7EA4F80FFCEBE6005E5C36 /* flags.bmp in Resources */,
-				2F7EA4F90FFCEBE6005E5C36 /* icon.bmp in Resources */,
 				2F7EA4FA0FFCEBE6005E5C36 /* projIcon2.bmp in Resources */,
 				2F7EA4FB0FFCEBE6005E5C36 /* scriptIcon.bmp in Resources */,
 				2F7EA4FC0FFCEBE6005E5C36 /* scriptIcon2.bmp in Resources */,
 				2F7EA4FD0FFCEBE6005E5C36 /* sIcon.bmp in Resources */,
 				2F7EA5050FFCEBE6005E5C36 /* sludgeLogo.bmp in Resources */,
 				2F9DDF75100CC7DA0067DE50 /* Sludge Dev Kit Help in Resources */,
+				2F1B9A63100CF81C00BD9739 /* Credits.html in Resources */,
+				2F3AB9CE100D0B7100CD6A13 /* Info.plist in Resources */,
+				2F695C72100D138D008A8DC1 /* icon.icns in Resources */,
+				2F695C73100D138D008A8DC1 /* ProjIcon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -670,7 +665,6 @@
 				2F7EA4EC0FFCEBE6005E5C36 /* WIN dialogueBoxInOut.cpp in Sources */,
 				2F7EA4EE0FFCEBE6005E5C36 /* WIN launch.cpp in Sources */,
 				2F7EA4F00FFCEBE6005E5C36 /* WIN MESSBOX.CPP in Sources */,
-				2F7EA4F40FFCEBE6005E5C36 /* regBox.cpp in Sources */,
 				2F7EA4F60FFCEBE6005E5C36 /* WIN registry.cpp in Sources */,
 				2F7EA5070FFCEBE6005E5C36 /* settings.cpp in Sources */,
 				2F7EA50C0FFCEBE6005E5C36 /* WINBOX.CPP in Sources */,

@@ -26,7 +26,6 @@
 #define DLG_PROJECT_PROPERTIES			650
 #define DLG_PROJECT_ADVANCED			651
 #define DLG_PROJECT_RENDERING			652
-//#define DLG_REGISTRATION_INFO			700
 #define DLG_SEARCH_RESULTS				999
 
 #define ID_FILELIST						1000
@@ -71,7 +70,6 @@
 
 // These menu options open other dialog boxes...
 #define ID_SETTINGSBOX					1850
-//#define ID_REGISTER						1851
 #define ID_DISPLAY						1852
 #define ID_SIZEBOX						1853
 
@@ -85,11 +83,6 @@
 
 // For the window size dialog box...
 #define ID_USE_PROJECT_SIZE				2502
-
-// For the registration dialog box...
-//#define ID_REG_NAME						2500
-//#define ID_REG_CODE						2501
-//#define ID_REG_GET_CODE					2502
 
 // For the display dialog box...
 #define ID_EDIT_QUITMESSAGE				2003

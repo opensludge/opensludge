@@ -1,10 +1,3 @@
-
-/* Simple program:  Create a blank window, wait for keypress, quit.
-
-   Please see the SDL documentation for details on using the SDL API:
-   /Developer/Documentation/SDL/docs.html
-*/
-   
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -19,7 +12,7 @@ int main(int argc, char *argv[])
 	Uint8  video_bpp = 0;
 	Uint32 videoflags = SDL_SWSURFACE;
 	int    done;
-        SDL_Event event;
+	SDL_Event event;
 
 	/* Initialize the SDL library */
 	if ( SDL_Init(initflags) < 0 ) {
@@ -27,6 +20,9 @@ int main(int argc, char *argv[])
 			SDL_GetError());
 		exit(1);
 	}
+
+	// Needed to make menu shortcuts work (on Mac), i.e. Command+Q for quit
+	SDL_putenv("SDL_ENABLEAPPEVENTS=1");
 
 	/* Set 640x480 video mode */
 	screen=SDL_SetVideoMode(640,480, video_bpp, videoflags);
@@ -49,7 +45,7 @@ int main(int argc, char *argv[])
 				case SDL_MOUSEBUTTONDOWN:
 					break;
 				case SDL_KEYDOWN:
-					/* Any keypress quits the app... */
+					break;
 				case SDL_QUIT:
 					done = 1;
 					break;

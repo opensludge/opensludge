@@ -23,12 +23,6 @@
 	</UL>
 	<UL>
 		<LI> <OBJECT type="text/sitemap">
-			<param name="Name" value="How (and Why) to Register SLUDGE">
-			<param name="Local" value="How_(and_Why)_to_Register_SLUDGE.html">
-			</OBJECT>
-	</UL>
-	<UL>
-		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="Introduction to SLUDGE Concepts">
 			<param name="Local" value="Introduction_to_SLUDGE_Concepts.html">
 			</OBJECT>
@@ -545,12 +539,6 @@
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="random">
 					<param name="Local" value="random.html">
-					</OBJECT>
-			</UL>
-			<UL>
-				<LI> <OBJECT type="text/sitemap">
-					<param name="Name" value="registryGetString">
-					<param name="Local" value="registryGetString.html">
 					</OBJECT>
 			</UL>
 			<UL>
@@ -1127,12 +1115,6 @@
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="Project Manager: &quot;Project settings&quot; Section">
 					<param name="Local" value="Project_Manager___quot;Project_settings_quot;_Section.html">
-					</OBJECT>
-			</UL>
-			<UL>
-				<LI> <OBJECT type="text/sitemap">
-					<param name="Name" value="Project Manager: &quot;Registration info&quot; Dialog">
-					<param name="Local" value="Project_Manager___quot;Registration_info_quot;_Dialog.html">
 					</OBJECT>
 			</UL>
 			<UL>
