@@ -6,10 +6,14 @@
 	<string>English</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
+	<key>CFBundleHelpBookFolder</key>
+	<string>SLUDGE Dev Kit Help</string>
+	<key>CFBundleHelpBookName</key>
+	<string>SLUDGE Dev Kit Help</string>
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
-	<string>com.yourcompany.Sludge Dev Kit</string>
+	<string>com.hungrysoftware.SludgeDevKit</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>

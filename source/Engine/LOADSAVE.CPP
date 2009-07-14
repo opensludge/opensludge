@@ -619,7 +619,7 @@ bool loadGame (char * fname) {
 			//return fatal ("Sorry - this game was saved when the program was running in a different language!");
 		{
 			languageNum = selectedLanguage;
-			setFileIndices (bigDataFile, gameSettings.numLanguages, languageNum);
+			setFileIndices (NULL, gameSettings.numLanguages, languageNum);
 		}
 	}
 	

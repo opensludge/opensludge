@@ -11,8 +11,8 @@
 #include "tga.h"
 
 //extern unsigned short int * screen;
-extern unsigned short int * * backDropImage;
-extern int VERT_RES, HORZ_RES;
+unsigned short int * * backDropImage;
+int VERT_RES, HORZ_RES;
 
 bool initBackDropForCompiler (int x, int y) {
 	int a;

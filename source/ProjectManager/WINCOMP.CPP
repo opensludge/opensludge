@@ -1091,7 +1091,6 @@ bool APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 	return 0;
 }
 
-//extern bool hacker;
 
 int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine, int nCmdShow)
 {
@@ -1100,11 +1099,8 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine,
 	loader = lpCmdLine;
 	if (loader[0] == '\"') {
 		stringArray * bits = splitString (loader + 1, '\"', ONCE);
-//		errorBox ("Changed", loader);
-//		delete loader;
 		loader = joinStrings (bits -> string, "");
 		while (destroyFirst (bits)) {;}
-//		errorBox ("into", loader);
 	}
 
 	hbitmap = (HBITMAP) LoadImage (hInstance, MAKEINTRESOURCE (1235),
@@ -1128,7 +1124,6 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine,
 	}
 
 	cleanUpFiles ();
-//	if (hacker) unlink (compiler);
 	return 0;
 }
 

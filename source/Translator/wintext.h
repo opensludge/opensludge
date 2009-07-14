@@ -1,2 +1,2 @@
-void setWindowText (int where, char * tx);
-char * getWindowText (int where);
+void setWindowText (const int where, const char * theText);
+void setWindowInt (const int where, const int val);char * getWindowText (int where);

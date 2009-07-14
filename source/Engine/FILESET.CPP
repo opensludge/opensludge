@@ -95,19 +95,17 @@ void finishAccess () {
 long startIndex;
 
 void setFileIndices (FILE * fp, int numLanguages, unsigned int skipBefore) {
-	if (! bigDataFile) {
+	if (fp) {
 		// Keep hold of the file handle, and let things get at it
 		bigDataFile = fp;
 		startIndex = ftell (fp);
-		fprintf (stderr, "startIndex: %d\n", startIndex);
 	} else {
+		// No file pointer - this means that we reuse the bigDataFile
+		fp = bigDataFile;
 		fseek (fp, startIndex, 0);	
 	}
 	sliceBusy = false;
-	
-	fprintf (stderr, "Language %d / %d used. BigDatafile: %d\n",  skipBefore, numLanguages, bigDataFile);
-	
-	
+		
 	if (skipBefore > numLanguages) {
 		warning ("Not a valid language ID! Using default instead.");
 		skipBefore = 0;
@@ -136,5 +134,4 @@ void setFileIndices (FILE * fp, int numLanguages, unsigned int skipBefore) {
 
 	// Remember that the data section starts here
 	startOfDataIndex = ftell (fp);
-	fprintf (stderr, "SubIndex: %d ObjectIndex: %d DataIndex: %d \n",  startOfSubIndex, startOfObjectIndex, startOfDataIndex);
 }

@@ -13,5 +13,4 @@
 - (IBAction)openGame:(id)sender;
 - (IBAction)saveGame:(id)sender;
 - (IBAction)saveGameAs:(id)sender;
-- (IBAction)help:(id)sender;
 @end

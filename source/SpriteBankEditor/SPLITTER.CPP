@@ -10,6 +10,10 @@
 
 //stringArray * nullArray = NULL;
 
+// TODO
+#define errorBox(a, b, c, d) 0
+
+
 bool trimStart (char * & thisString, char trimChar) {
 	char * newString;
 	if (thisString[0] == trimChar) {

@@ -1,3 +1,25 @@
+#define DIALOG_1			1
+#define WARNINGDIALOG		2
+
+#define IDI_ICON1			105
+#define IDI_ICON2			106
+#define ID_WARNINGLIST		3000
+
+#define COM_CANCEL_BUTTON	2000
+#define COM_PROJTEXT		2001
+#define COM_PROGTEXT		2002
+#define COM_FILENAME		2003
+#define COM_ITEMTEXT		2004
+#define COM_PERC1			2005
+#define COM_PERC2			2006
+#define COM_NUM_FUNC		2007
+#define COM_NUM_OBJ			2008
+#define COM_NUM_RES			2009
+#define COM_NUM_GLOB		2010
+#define COM_NUM_STRINGS		2011
+
+
+
 #define DLG_MAIN						500
 #define DLG_FILE_LOCATIONS				600
 #define DLG_WINDOW_SIZES				626
@@ -90,3 +112,62 @@
 #define ID_DITHERIMAGES					2206
 
 #define ID_CASESENSITIVE				2600
+
+
+#define ID_NUM_COLOURS					1701
+#define ID_NUM_SPRITES					1702
+#define ID_VIEWPAL						1703
+
+#define ID_SPRITELOAD					1800
+#define ID_SPRITESAVE					1801
+#define ID_SPRITENUM					1802
+#define ID_SPRITESIZE					1803
+#define ID_SPRITEFIRST					1804
+#define ID_SPRITEBACK					1805
+#define ID_SPRITEFORWARD				1806
+#define ID_SPRITELAST					1807
+#define ID_SPRITEINSERT					1808
+#define ID_SPRITEDELETE					1809
+#define ID_SPRITECENTRE					1810
+#define ID_MOVEHOTSPOT					1811
+#define ID_SPRITETRIM					1812
+#define ID_FIXAXIS						1813
+#define ID_FONTIFY						1814
+#define ID_SPRITEINSERTEMPTY			1815
+#define ID_BANKTRIM						1816
+
+// Extra stuff for palette dialog
+#define ID_COLOUR_OFFSET				2000
+#define ID_REMOVEUNUSED					2001
+#define ID_SORTBRIGHT					2002
+#define ID_ADDCOLOURS					2003
+
+// Extra stuff for hotspot dialog
+#define ID_X							2000
+#define ID_Y							2001
+#define ID_HOT_CENTRE					2002
+#define	ID_HOT_BASE						2003
+
+// Extra stuff for hotspot dialog
+#define ID_FON_ADDSPACE					2000
+#define ID_FON_SPACEWIDTH				2001
+#define ID_FON_COLOURS					2002
+
+
+#define ID_PROJECT_LOAD					1500
+#define ID_PROJECT_UPDATE				1504
+
+#define ID_HELP							1530
+#define ID_SEARCH						1531
+
+#define ID_CATEGORY						1550
+#define ID_STRINGS						1551
+#define ID_ENTER_TRANSLATION			1552
+#define ID_GOT_TRANSLATION				1553
+#define ID_UNDO							1554
+#define ID_ORIGINAL_TEXT				1555
+#define ID_FILENAME						1556
+#define ID_ID							1557
+
+
+
