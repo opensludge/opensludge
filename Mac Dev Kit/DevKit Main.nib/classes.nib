@@ -1,6 +1,21 @@
 {
     IBClasses = (
+        {
+            ACTIONS = {
+                helpMenu = id; 
+                newProject = id; 
+                openProject = id; 
+                prefsMenu = id; 
+                saveProject = id; 
+                saveProjectAs = id; 
+            }; 
+            CLASS = AppController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {projectFiles = NSTableView; projectWindow = NSWindow; }; 
+            SUPERCLASS = NSObject; 
+        }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = ProjectController; LANGUAGE = ObjC; SUPERCLASS = NSWindowController; }, 
         {
             ACTIONS = {
                 help = id; 

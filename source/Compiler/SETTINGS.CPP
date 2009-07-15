@@ -22,11 +22,9 @@ typedef struct _FILETIME {
 } FILETIME;
 
 
-char * tempDirectory = NULL;
 char * sourceDirectory = NULL;
 char * windowName = joinStrings ("Untitled SLUDGE project", "");
 char * quitMessage = joinStrings ("Are you completely sure that you're determined that you really want to exit?", "");
-char * finalFile = joinStrings ("Untitled SLUDGE project", "");
 char * customIcon = joinStrings ("", "");
 char * dataFolderName = joinStrings ("", "");
 int finalWidth = 640;
@@ -161,26 +159,6 @@ void readDir (char * t);
 
 void noSettings ();
 
-bool readSettings (FILE * fp) {
-	char * grabLine;
-	bool keepGoing = true;
-	noSettings ();
-
-	while (keepGoing) {
-		grabLine = readText (fp);
-		if (grabLine[0])
-			readDir (grabLine);
-		else
-			keepGoing = false;
-		delete grabLine;
-	}
-
-	if (! finalFile) return errorBox (ERRORTYPE_PROJECTERROR, "Vital line missing from project", "finalfile", NULL);
-//	if (! outputDirectory) return errorBox ("Vital line missing from project", "outputdir");
-
-//	tempDirectory;
-	return ((tempDirectory = grabEnv ("%temp%")) != NULL);
-}
 
 bool gotoSourceDirectory () {
 	bool r = chdir (sourceDirectory);

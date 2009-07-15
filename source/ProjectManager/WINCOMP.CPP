@@ -16,7 +16,6 @@
 enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 
 bool keepImages, keepStrings, verboseMode;
-bool changed = false;
 
 extern char * quitMessage;
 extern char * customIcon;
@@ -51,7 +50,6 @@ char * editor;
 char * compiler;
 char * helpFile;
 
-char * loadedFile = NULL;
 
 char * searchString = NULL;
 
@@ -617,136 +615,13 @@ void setEverything (bool on) {
 	EnableMenuItem (myMenu, ID_PROJECT_REVERT, (on && changed) ? MF_ENABLED : MF_GRAYED);
 }
 
-void updateTitle () {
-	if (loadedFile) {
-		char buff[500];
-		sprintf (buff, "SLUDGE Project Manager: %s%s", changed ? "* " : "", loadedFile);
-		SetWindowText (mainWin, buff);
-		setEverything (true);
-		setWindowText (ID_LOADED_FILE, loadedFile);
-	} else {
-		SetWindowText (mainWin, "SLUDGE Project Manager");
-		setEverything (false);
-		setWindowText (ID_LOADED_FILE, "No project loaded");
-	}
-}
-
-void setChanged (bool newVal) {
-	changed = newVal;
-	updateTitle ();
-}
-
 char * getFileFromBox (int i) {
 	char * me = new char[MESS (ID_FILELIST, LB_GETTEXTLEN, i, 0) + 1];
 	MESS (ID_FILELIST, LB_GETTEXT, i, me);
 	return me;
 }
 
-void loadProject (char * filename) {
-	char * readLine;
-	FILE * fp = fopen (filename, "rt");
-	if (! fp) return;
 
-	readSettings (fp);
-	for (;;) {
-		readLine = readText (fp);
-		if (readLine == NULL) break;
-		if (strcmp (readLine, "[FILES]") == 0) break;
-		messageBox ("Skipping", readLine);
-		delete readLine;
-	}
-
-	if (readLine) delete readLine;
-
-	MESS(ID_FILELIST, LB_RESETCONTENT, 0, 0);
-	for (;;) {
-		readLine = readText (fp);
-		if (readLine == NULL) break;
-		if (readLine[0]) MESS(ID_FILELIST, LB_ADDSTRING, 0, readLine);
-		delete readLine;
-	}
-
-	fclose (fp);
-	if (filename != loadedFile) {
-		delete loadedFile;
-		loadedFile = joinStrings (filename, "");
-	}
-	setChanged (false);
-}
-
-bool saveProject (char * filename) {
-	FILE * fp = fopen (filename, "wt");
-	if (! fp) {
-		errorBox ("Can't write to project file", filename);
-		return false;
-	}
-
-	writeSettings (fp);
-	
-	// Now write out the list of files...
-	
-	char * tx;
-	int i, n = MESS (ID_FILELIST, LB_GETCOUNT, 0, 0);
-	
-	for (i = 0; i < n; i ++) {
-		tx = getFileFromBox (i);
-		fprintf (fp, "%s\n", tx);
-		delete tx;
-	}
-	
-	fclose (fp);
-
-	if (filename != loadedFile) {
-		delete loadedFile;
-		loadedFile = joinStrings (filename, "");
-	}
-	setChanged (false);
-	return true;
-}
-
-void closeProject () {
-	blankSettings ();
-	delete loadedFile;
-	loadedFile = NULL;
-	MESS(ID_FILELIST, LB_RESETCONTENT, 0, 0);
-	updateTitle ();
-}
-
-void newProject (char * filename) {
-	noSettings ();
-	MESS(ID_FILELIST, LB_RESETCONTENT, 0, 0);
-	if (! saveProject (filename)) closeProject ();
-}
-
-void addFileToProject (char * wholeName) {
-	int a = 0;
-	char * newName, * temp;
-//	messageBox (wholeName, loadedFile);
-	while (wholeName[a] == loadedFile[a]) {
-		a ++;
-	}
-	
-	for (;;) {
-		if (a == 0) break;
-		if (wholeName[a - 1] == '\\') break;
-		a --;
-	}
-	
-	newName = joinStrings ("", wholeName + a);
-	while (loadedFile[a]) {
-		if (loadedFile[a] == '\\') {
-			temp = joinStrings ("..\\", newName);
-			delete newName;
-			newName = temp;
-//			messageBox (newName, loadedFile + a);
-		}
-		a ++;
-	}
-//	messageBox ("Final: ", newName);
-	MESS(ID_FILELIST, LB_ADDSTRING, 0, newName);
-	MESS(ID_FILELIST, LB_SELECTSTRING, 0, newName);
-	delete newName;
-}
 
 bool checkOverwrite (char * fn) {
 	FILE * fp = fopen (fn, "rb");

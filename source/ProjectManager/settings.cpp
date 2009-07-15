@@ -7,12 +7,17 @@
 #include "winterfa.h"
 #include "moreio.h"
 #include "wintext.h"
+#include "MessBox.h"
 
 extern char * quitMessage, * customIcon, * runtimeDataFolder;
 extern unsigned int screenWidth, screenHeight, frameSpeed, winMouseImage;
 extern bool runFullScreen, forceSilent, ditherImages;
 extern bool startupShowLogo, startupShowLoading, startupInvisible;
 extern chrRenderingSettingsStruct chrRenderingSettings;
+
+char * finalFile = joinStrings ("Untitled SLUDGE project", "");
+char * tempDirectory = NULL;
+
 
 void blankSettings () {
 	// TODO setWindowText (ID_EDIT_OUTPUTFILE, "");
@@ -39,6 +44,7 @@ void noSettings () {
 	startupInvisible = false;
 	chrRenderingSettingsFillDefaults(true);
 }
+
 
 unsigned int stringToInt (char * st) {
 	unsigned int a = 0;
@@ -123,6 +129,28 @@ void readDir (char * t) {
 	}
 	while (destroyFirst (splitLine)){;}
 }
+
+bool readSettings (FILE * fp) {
+	char * grabLine;
+	bool keepGoing = true;
+	noSettings ();
+	
+	while (keepGoing) {
+		grabLine = readText (fp);
+		if (grabLine && grabLine[0]) {
+			readDir (grabLine);			
+		} else
+			keepGoing = false;
+		delete grabLine;
+	}
+	
+	if (! finalFile) return errorBox (ERRORTYPE_PROJECTERROR, "Vital line missing from project", "finalfile", NULL);
+	//	if (! outputDirectory) return errorBox ("Vital line missing from project", "outputdir");
+	
+	//	tempDirectory;
+	return 1; //((tempDirectory = grabEnv ("%temp%")) != NULL);
+}
+
 
 static void fileWriteBool (FILE * fp, const char * theString, bool theBool)
 {

@@ -1,4 +1,4 @@
-/*   SDLMain.m - main entry point for our Cocoa-ized SDL app
+/*   AppController.m - main entry point for our Cocoa-ized SDL app
        Initial Version: Darrell Walisser <dwaliss1@purdue.edu>
        Non-NIB-Code & other changes: Max Horn <max@quendi.de>
 
@@ -6,9 +6,15 @@
 */
 
 #import "SDL.h"
-#import "SDLMain.h"
+#import "AppController.h"
+#import "ProjectController.h"
+
+#include "Project.hpp"
+
+
 #import <sys/param.h> /* for MAXPATHLEN */
 #import <unistd.h>
+
 
 /* For some reaon, Apple removed setAppleMenu from the headers in 10.4,
  but the method still is there and works. To avoid warnings, we declare
@@ -51,59 +57,63 @@ static NSString *getApplicationName(void)
 /* Invoked from the Quit menu item */
 - (void)terminate:(id)sender
 {
-    /* Post a SDL_QUIT event */
-    SDL_Event event;
-    event.type = SDL_QUIT;
-    SDL_PushEvent(&event);
+	[super terminate:sender];
 }
 @end
 
 
 /* The main class of the application, the application's delegate */
-@implementation SDLMain
+@implementation AppController
 
 - (IBAction)prefsMenu:(id)sender
 {
     printf ("prefs menu\n");
 }
 
-- (IBAction)newGame:(id)sender
-{
-    printf ("new game\n");
+
+
+- (IBAction)newProject:(id)sender
+{    
+    NSString *path = nil;
+    NSSavePanel *savePanel = [ NSSavePanel savePanel ];
+	[savePanel setTitle:@"New SLUDGE Project"];
+	[savePanel setRequiredFileType:@"slp"];
     
-    NSRunAlertPanel (@"Get ready to blow up some... stuff!", 
-        @"Click OK to begin total carnage. Click Cancel to prevent total carnage.", 	        		@"OK", @"Cancel", nil);
+    if ( [ savePanel runModalForDirectory:nil
+									 file:nil ] ) {
+		
+        path = [ savePanel filename ];
+		doNewProject ([path UTF8String]);
+    }
+	if (path) {
+		[projectWindow makeKeyAndOrderFront:nil];
+	}
 }
 
-- (IBAction)openGame:(id)sender
+- (IBAction)openProject:(id)sender
 {
     NSString *path = nil;
     NSOpenPanel *openPanel = [ NSOpenPanel openPanel ];
-    
+ 
+    NSArray *fileTypes = [NSArray arrayWithObject:@"slp"];
+	
     if ( [ openPanel runModalForDirectory:nil
-             file:@"SavedGame" types:nil ] ) {
+             file:nil types:fileTypes ] ) {
              
         path = [ [ openPanel filenames ] objectAtIndex:0 ];
+		loadProject ([path UTF8String]);
     }
-    
-    printf ("open game: %s\n", [ path cString ]);
+	if (path) {
+		[projectWindow makeKeyAndOrderFront:nil];
+	}
 }
 
-- (IBAction)saveGame:(id)sender
+- (IBAction)saveProject:(id)sender
 {
-    NSString *path = nil;
-    NSSavePanel *savePanel = [ NSSavePanel savePanel ];
-    
-    if ( [ savePanel runModalForDirectory:nil
-           file:@"SaveGameFile" ] ) {
-            
-        path = [ savePanel filename ];
-    }
-    
-    printf ("save game: %s\n", [ path cString ]);
+    printf ("save game\n");
 }
 
-- (IBAction)saveGameAs:(id)sender
+- (IBAction)saveProjectAs:(id)sender
 {
     printf ("save game as\n");
 }
@@ -164,7 +174,7 @@ bail: return err;
 			
 }
 
-- (IBAction)help:(id)sender
+- (IBAction)helpMenu:(id)sender
 {
 	MyGotoHelpPage(NULL, NULL);
 }
@@ -280,6 +290,21 @@ bail: return err;
     /* We're done, thank you for playing */
     exit(status);
 }
+
+// This is the project file list!
+- (int)numberOfRowsInTableView:(NSTableView *)tv
+{
+	return 2;
+}
+
+- (id)tableView:(NSTableView *)tv
+	objectValueForTableColumn:(NSTableColumn *)tableColumn
+			row:(int)row
+{
+	NSString *v = @"Hello";
+	return v;
+}
+
 @end
 
 
@@ -321,6 +346,9 @@ bail: return err;
 }
 
 @end
+
+
+
 
 
 

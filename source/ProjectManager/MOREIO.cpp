@@ -74,7 +74,7 @@ char * readText (FILE * fp) {
 	fgetpos (fp, & startPos);
 	while (keepGoing) {
 		gotChar = (char) fgetc (fp);
-		if ((gotChar == '\n') || (feof (fp))) {
+		if ((gotChar == '\n') || feof (fp)) {
 			keepGoing = false;
 		} else {
 			stringSize ++;
@@ -88,6 +88,7 @@ char * readText (FILE * fp) {
 		reply = new char[stringSize + 1];
 //		checkNew (reply);
 		fread (reply, stringSize, 1, fp);
+		if (reply[stringSize-1] == '\r') reply[stringSize-1] = 0;
 		fgetc (fp); // Skip the newline character
 		reply[stringSize] = NULL;
 	}
