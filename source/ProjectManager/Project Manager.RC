@@ -210,23 +210,6 @@ FONT 8, "Arial"
  PUSHBUTTON "Cancel", 	IDCANCEL,		108,105, 98, 14, WS_TABSTOP
 }
 
-/*
-DLG_REGISTRATION_INFO DIALOG 150, 100, 260, 75
-STYLE WS_VISIBLE | WS_CAPTION | WS_SYSMENU
-CAPTION "Registration info"
-FONT 8, "Arial"
-{
- LTEXT "Name:", -1,			5,  5, 250,  8
- EDITTEXT ID_REG_NAME,		5, 15, 250, 10, WS_BORDER | WS_TABSTOP
- LTEXT "Unlock code:", -1,	5, 30, 250,  8
- EDITTEXT ID_REG_CODE,		5, 40, 250, 10, WS_BORDER | WS_TABSTOP
-
- PUSHBUTTON "OK",		IDOK,		5, 56, 50, 14, WS_TABSTOP
- PUSHBUTTON "Cancel", 	IDCANCEL,	60, 56, 50, 14, WS_TABSTOP
- PUSHBUTTON "No code? Register SLUDGE online!",	ID_REG_GET_CODE,	
- 									115, 56, 140, 14, WS_TABSTOP
-}
-*/
 
 1 MENU
 BEGIN
@@ -259,8 +242,6 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "&File locations", ID_SETTINGSBOX
             MENUITEM "Window &sizes", ID_SIZEBOX
-//            MENUITEM SEPARATOR
-//          MENUITEM "&Register SLUDGE", ID_REGISTER
         END
     popup "&Programs"
         BEGIN

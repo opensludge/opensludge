@@ -197,7 +197,7 @@ bool initSludge (char * filename) {
 	
 	desiredfps = 1000/fgetc (fp);
 			
-	delete readString (fp);
+	delete readString (fp); // Unused - was used for registration purposes.
 	fread (& fileTime, sizeof (FILETIME), 1, fp);
 
 	char * dataFol = (gameVersion >= VERSION(1,3)) ? readString(fp) : joinStrings ("", "");

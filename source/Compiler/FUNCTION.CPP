@@ -1,12 +1,9 @@
-#if 0
-TODO
-
 //#include <windows.h>
 #include <stdio.h>
 #include <string.h>
 
 #include "typedef.h"
-#include "splitter.h"
+#include "Splitter.hpp"
 #include "function.h"
 #include "settings.h"
 #include "tokens.h"
@@ -1028,4 +1025,3 @@ void writeDebugData (FILE * mainFile) {
 	}
 }
 
-#endif

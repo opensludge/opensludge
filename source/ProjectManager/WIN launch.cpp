@@ -6,7 +6,7 @@
 #include <unistd.h>
 
 #include "messbox.h"
-#include "splitter.h"
+#include "Splitter.hpp"
 #include "launch.h"
 #include "winterfa.h"
 #include "registry.h"

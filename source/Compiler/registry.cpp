@@ -1,9 +1,11 @@
-#ifdef WIN32
+#include "stdlib.h"
 
-#include <windows.h>
+//#include <windows.h>
 #include "messbox.h"
 
 bool getRegSetting (char * settingName) {
+	return false;
+	/*
 	HKEY gotcha;
 	int r;
 	unsigned char buff[10];
@@ -14,10 +16,12 @@ bool getRegSetting (char * settingName) {
 	RegCloseKey (gotcha);
 	if (r != ERROR_SUCCESS) return false;
 //	messageBox (settingName, (char *) buff);
-	return buff[0] == 'Y';
+	return buff[0] == 'Y';*/
 }
 
 char * getRegString (char * settingName) {
+	return NULL;
+/*	
 	HKEY gotcha;
 	int r;
 	char * buff = NULL; 
@@ -45,6 +49,6 @@ char * getRegString (char * settingName) {
 	}
 	RegCloseKey (gotcha);
 	return buff;
+ */
 }
 
-#endif

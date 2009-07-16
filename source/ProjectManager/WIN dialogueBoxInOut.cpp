@@ -12,7 +12,7 @@
 #include "wintext.h"
 #include "registry.h"
 #include "settings.h"
-#include "splitter.h"
+#include "Splitter.hpp"
 #include "regbox.h"
 #include "launch.h"
 #include "dialogueBoxInOut.h"

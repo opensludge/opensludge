@@ -13,24 +13,52 @@
 
 #include "Settings.h"
 #include "MoreIO.h"
-#include "Splitter.h"
+#include "Splitter.hpp"
 #include "MessBox.h"
 #include "Project.hpp"
 
 char * loadedFile = NULL;
 bool changed = false;
 
+extern "C" void updateFileListing();
+extern "C" void activateMenus (bool);
+
+char *fileList[1000];
+int fileListNum = 0;
+
+void clearFileList() {
+	int i = 0;
+	while (i<fileListNum) {
+		delete fileList[i];
+		fileList[i] = NULL;
+		i++;
+	}
+	fileListNum = 0;
+	updateFileListing();
+}
+
+void addFileToList (char * file) {
+	fileList[fileListNum] = new char [strlen (file)+1];
+	if (! fileList[fileListNum]) return;
+	strcpy (fileList[fileListNum], file);
+	fileListNum++;
+	updateFileListing();
+}
+
+char * getFileFromList (int index) {
+	return fileList[index];
+}
 
 void updateTitle () {
 	if (loadedFile) {
 		char buff[500];
 		sprintf (buff, "SLUDGE Project Manager: %s%s", changed ? "* " : "", loadedFile);
 		//SetWindowText (mainWin, buff);
-		//setEverything (true);
+		activateMenus (true);
 		//setWindowText (ID_LOADED_FILE, loadedFile);
 	} else {
 		//SetWindowText (mainWin, "SLUDGE Project Manager");
-		//setEverything (false);
+		activateMenus (false);
 		//setWindowText (ID_LOADED_FILE, "No project loaded");
 	}
 }
@@ -40,7 +68,7 @@ void setChanged (bool newVal) {
 	updateTitle ();
 }
 
-void loadProject (char * filename) {
+void loadProject (const char * filename) {
 	char * readLine;
 
 	FILE * fp = fopen (filename, "rt");
@@ -59,11 +87,11 @@ void loadProject (char * filename) {
 	
 	if (readLine) delete readLine;
 	
-	//MESS(ID_FILELIST, LB_RESETCONTENT, 0, 0);
+	clearFileList();
 	for (;;) {
 		readLine = readText (fp);
 		if (readLine == NULL) break;
-		//if (readLine[0]) MESS(ID_FILELIST, LB_ADDSTRING, 0, readLine);
+		addFileToList (readLine);
 		delete readLine;
 	}
 	
@@ -75,33 +103,30 @@ void loadProject (char * filename) {
 	setChanged (false);
 }
 
-bool saveProject (char * filename) {
-	FILE * fp = fopen (filename, "wt");
+bool saveProject (const char * filename) {
+	if (filename != loadedFile) {
+		if (filename) {
+			delete loadedFile;
+			loadedFile = joinStrings (filename, "");
+		}
+	}
+	FILE * fp = fopen (loadedFile, "wt");
 	if (! fp) {
-		errorBox ("Can't write to project file", filename);
+		errorBox ("Can't write to project file", loadedFile);
 		return false;
 	}
 	
 	writeSettings (fp);
 	
 	// Now write out the list of files...
-	
-	char * tx;
-	/*
-	int i, n = MESS (ID_FILELIST, LB_GETCOUNT, 0, 0);
-	
-	for (i = 0; i < n; i ++) {
-		tx = getFileFromBox (i);
-		fprintf (fp, "%s\n", tx);
-		delete tx;
-	}*/
+	int i = 0;
+	while (i<fileListNum) {
+		fprintf (fp, "%s\n", fileList[i]);
+		i++;
+	}
 	
 	fclose (fp);
 	
-	if (filename != loadedFile) {
-		delete loadedFile;
-		loadedFile = joinStrings (filename, "");
-	}
 	setChanged (false);
 	return true;
 }
@@ -110,13 +135,13 @@ void closeProject () {
 	blankSettings ();
 	delete loadedFile;
 	loadedFile = NULL;
-	//MESS(ID_FILELIST, LB_RESETCONTENT, 0, 0);
+	clearFileList();
 	updateTitle ();
 }
 
-void doNewProject (char * filename) {
+void doNewProject (const char * filename) {
 	noSettings ();
-	//MESS(ID_FILELIST, LB_RESETCONTENT, 0, 0);
+	clearFileList();
 	if (! saveProject (filename)) closeProject ();
 }
 
@@ -142,7 +167,8 @@ void addFileToProject (char * wholeName) {
 		}
 		a ++;
 	}
-	//MESS(ID_FILELIST, LB_ADDSTRING, 0, newName);
-	//MESS(ID_FILELIST, LB_SELECTSTRING, 0, newName);
+	addFileToList (newName);
 	delete newName;
 }
+
+

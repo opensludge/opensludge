@@ -1,11 +1,8 @@
-#if 0
-
-//#include <windows.h>
 #include <stdio.h>
 #include <unistd.h>
 
 //#include "typedef.h"
-#include "splitter.h"
+#include "Splitter.hpp"
 #include "function.h"
 #include "moreio.h"
 #include "tokens.h"
@@ -119,4 +116,3 @@ bool realWork (int fileNumber, stringArray * & globalVars, compilationSpace & gl
 	return true;
 }
 
-#endif

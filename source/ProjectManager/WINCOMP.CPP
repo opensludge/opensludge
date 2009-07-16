@@ -10,27 +10,15 @@
 #include "wintext.h"
 #include "registry.h"
 #include "settings.h"
-#include "splitter.h"
+#include "Splitter.hpp"
 #include "launch.h"
 
 enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 
 bool keepImages, keepStrings, verboseMode;
 
-extern char * quitMessage;
-extern char * customIcon;
-char * runtimeDataFolder = NULL;
-unsigned int screenWidth = 0, screenHeight = 0, frameSpeed = 0;
-extern int winMouseImage;
-extern bool runFullScreen;
-extern bool forceSilent;
-bool ditherImages = false;
 bool searchSensitive = false;
 extern chrRenderingSettingsStruct chrRenderingSettings;
-
-bool startupShowLogo = true;
-bool startupShowLoading = false;
-extern bool startupInvisible;
 
 
 #ifdef WIN32
@@ -61,9 +49,9 @@ void setChanged (bool newVal);
 
 static bool advancedLoadSaveSetup (HWND hDlg, dlgOperation operation)
 {
-	return (dialogueBoxTransferValue_Checkbox (hDlg, ID_STARTUP_INVISIBLE, 			& startupInvisible,   operation) &&
-			dialogueBoxTransferValue_Checkbox (hDlg, ID_STARTUP_DISPLAY_SLUDGE, 	& startupShowLogo,    operation) &&
-			dialogueBoxTransferValue_Checkbox (hDlg, ID_STARTUP_DISPLAY_LOADING,	& startupShowLoading, operation));
+	return (dialogueBoxTransferValue_Checkbox (hDlg, ID_STARTUP_INVISIBLE, 			& settings.startupInvisible,   operation) &&
+			dialogueBoxTransferValue_Checkbox (hDlg, ID_STARTUP_DISPLAY_SLUDGE, 	& settings.startupShowLogo,    operation) &&
+			dialogueBoxTransferValue_Checkbox (hDlg, ID_STARTUP_DISPLAY_LOADING,	& settings.startupShowLoading, operation));
 }
 
 LRESULT CALLBACK projectAdvancedFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
@@ -72,9 +60,9 @@ LRESULT CALLBACK projectAdvancedFunc(HWND hDlg, UINT message, WPARAM wParam, LPA
 	switch (message) {
         case WM_INITDIALOG:
         {
-        	if (startupInvisible) CheckDlgButton (hDlg, ID_STARTUP_INVISIBLE, BST_CHECKED);
-        	if (startupShowLogo) CheckDlgButton (hDlg, ID_STARTUP_DISPLAY_SLUDGE, BST_CHECKED);
-        	if (startupShowLoading) CheckDlgButton (hDlg, ID_STARTUP_DISPLAY_LOADING, BST_CHECKED);
+        	if (settings.startupInvisible) CheckDlgButton (hDlg, ID_STARTUP_INVISIBLE, BST_CHECKED);
+        	if (settings.startupShowLogo) CheckDlgButton (hDlg, ID_STARTUP_DISPLAY_SLUDGE, BST_CHECKED);
+        	if (settings.startupShowLoading) CheckDlgButton (hDlg, ID_STARTUP_DISPLAY_LOADING, BST_CHECKED);
 			return (true);
 		}
 
@@ -82,9 +70,9 @@ LRESULT CALLBACK projectAdvancedFunc(HWND hDlg, UINT message, WPARAM wParam, LPA
 			switch (LOWORD(wParam)) {
 				case IDOK:
 				{
-					startupInvisible = isChecked (hDlg, ID_STARTUP_INVISIBLE);
-					startupShowLogo = isChecked (hDlg, ID_STARTUP_DISPLAY_SLUDGE);
-					startupShowLoading = isChecked (hDlg, ID_STARTUP_DISPLAY_LOADING);
+					settings.startupInvisible = isChecked (hDlg, ID_STARTUP_INVISIBLE);
+					settings.startupShowLogo = isChecked (hDlg, ID_STARTUP_DISPLAY_SLUDGE);
+					settings.startupShowLoading = isChecked (hDlg, ID_STARTUP_DISPLAY_LOADING);
 					setChanged (true);
 				}
 
@@ -122,22 +110,22 @@ LRESULT CALLBACK prefsBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 	switch (message) {
         case WM_INITDIALOG:
         {
-        	SetDlgItemInt (hDlg, ID_EDIT_WINWIDTH, screenWidth, 0);
-        	SetDlgItemInt (hDlg, ID_EDIT_WINHEIGHT, screenHeight, 0);
-        	SetDlgItemInt (hDlg, ID_EDIT_SPEED, frameSpeed, 0);
-        	SetDlgItemText (hDlg, ID_EDIT_QUITMESSAGE, quitMessage);
-        	SetDlgItemText (hDlg, ID_EDIT_CUSTOMICON, customIcon);
-        	SetDlgItemText (hDlg, ID_EDIT_DATAFOLDER, runtimeDataFolder);
+        	SetDlgItemInt (hDlg, ID_EDIT_WINWIDTH, settings.screenWidth, 0);
+        	SetDlgItemInt (hDlg, ID_EDIT_WINHEIGHT, settings.screenHeight, 0);
+        	SetDlgItemInt (hDlg, ID_EDIT_SPEED, settings.frameSpeed, 0);
+        	SetDlgItemText (hDlg, ID_EDIT_QUITMESSAGE, settings.quitMessage);
+        	SetDlgItemText (hDlg, ID_EDIT_CUSTOMICON, settings.customIcon);
+        	SetDlgItemText (hDlg, ID_EDIT_DATAFOLDER, settings.runtimeDataFolder);
 
 		MESSP (ID_MOUSE_IMAGE, CB_ADDSTRING, 0, "Standard arrow");
 		MESSP (ID_MOUSE_IMAGE, CB_ADDSTRING, 0, "XOR crosshairs");
 		MESSP (ID_MOUSE_IMAGE, CB_ADDSTRING, 0, "Invisible");
 		MESSP (ID_MOUSE_IMAGE, CB_ADDSTRING, 0, "Big arrow");
-		MESSP (ID_MOUSE_IMAGE, CB_SETCURSEL, winMouseImage, 0);
+		MESSP (ID_MOUSE_IMAGE, CB_SETCURSEL, settings.winMouseImage, 0);
 
-        	if (runFullScreen) CheckDlgButton (hDlg, ID_FULLSCREEN, BST_CHECKED);
-        	if (forceSilent) CheckDlgButton (hDlg, ID_MAKESILENT, BST_CHECKED);
-        	if (ditherImages) CheckDlgButton (hDlg, ID_DITHERIMAGES, BST_CHECKED);
+        	if (settings.runFullScreen) CheckDlgButton (hDlg, ID_FULLSCREEN, BST_CHECKED);
+        	if (settings.forceSilent) CheckDlgButton (hDlg, ID_MAKESILENT, BST_CHECKED);
+        	if (settings.ditherImages) CheckDlgButton (hDlg, ID_DITHERIMAGES, BST_CHECKED);
 			return (true);
 		}
 
@@ -178,17 +166,17 @@ LRESULT CALLBACK prefsBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 						return true;
 					}
 	
-					frameSpeed = newFrame;
-					screenWidth = newWidth;
-					screenHeight = newHeight;
+					settings.frameSpeed = newFrame;
+					settings.screenWidth = newWidth;
+					settings.screenHeight = newHeight;
 	
 					// GET QUIT MESSAGE
 					le = GetWindowTextLength (GetDlgItem (hDlg, ID_EDIT_QUITMESSAGE)) + 1;
 					newText = new char[le];
 					if (newText) {
 						GetWindowText (GetDlgItem (hDlg, ID_EDIT_QUITMESSAGE), newText, le);
-						delete quitMessage;
-						quitMessage = newText;
+						if (settings.quitMessage) delete settings.quitMessage;
+						settings.quitMessage = newText;
 					} else {
 						errorBox ("Out of memory...", "Can't update quit message.");
 					}
@@ -198,7 +186,7 @@ LRESULT CALLBACK prefsBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 					newText = new char[le];
 					if (newText) {
 						GetWindowText (GetDlgItem (hDlg, ID_EDIT_CUSTOMICON), newText, le);
-						delete customIcon;
+						if (settings.customIcon) delete settings.customIcon;
 						customIcon = newText;
 					} else {
 						errorBox ("Out of memory...", "Can't update custom icon filename.");
@@ -209,17 +197,17 @@ LRESULT CALLBACK prefsBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 					newText = new char[le];
 					if (newText) {
 						GetWindowText (GetDlgItem (hDlg, ID_EDIT_DATAFOLDER), newText, le);
-						delete runtimeDataFolder;
-						runtimeDataFolder = newText;
+						if (settings.runtimeDataFolder) delete settings.runtimeDataFolder;
+						settings.runtimeDataFolder = newText;
 					} else {
 						errorBox ("Out of memory...", "Can't update run-time data folder name.");
 					}
 					
 					// GET MORE STUFF
-					runFullScreen = isChecked (hDlg, ID_FULLSCREEN);
-					forceSilent = isChecked (hDlg, ID_MAKESILENT);
-					ditherImages = isChecked (hDlg, ID_DITHERIMAGES);
-					winMouseImage = MESSP (ID_MOUSE_IMAGE, CB_GETCURSEL, 0, 0);
+					settings.runFullScreen = isChecked (hDlg, ID_FULLSCREEN);
+					settings.forceSilent = isChecked (hDlg, ID_MAKESILENT);
+					settings.ditherImages = isChecked (hDlg, ID_DITHERIMAGES);
+					settings.winMouseImage = MESSP (ID_MOUSE_IMAGE, CB_GETCURSEL, 0, 0);
 //					hideWinMouse = isChecked (hDlg, ID_HIDEMOUSE);
 					setChanged (true);
 				}
@@ -552,8 +540,8 @@ LRESULT CALLBACK sizeBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 		case WM_COMMAND:
 			switch (LOWORD(wParam)) {
 				case ID_USE_PROJECT_SIZE:
-    	    	SetDlgItemInt (hDlg, ID_EDIT_WINWIDTH, screenWidth, 0);
-	        	SetDlgItemInt (hDlg, ID_EDIT_WINHEIGHT, screenHeight, 0);
+    	    	SetDlgItemInt (hDlg, ID_EDIT_WINWIDTH, settings.screenWidth, 0);
+	        	SetDlgItemInt (hDlg, ID_EDIT_WINHEIGHT, settings.screenHeight, 0);
 				return (true);
 				
 				case IDOK:
@@ -585,7 +573,7 @@ void setTick (int what, bool yesNo) {
 	CheckMenuItem (myMenu, what, yesNo ? MF_CHECKED : MF_UNCHECKED);
 }
 
-void setEverything (bool on) {
+void activateMenus (bool on) {
 	EnableWindow (GetDlgItem (mainWin, ID_FILELIST), on);
 	EnableWindow (GetDlgItem (mainWin, ID_PROJECT_COMPILE), on);
 	EnableWindow (GetDlgItem (mainWin, ID_PROJECT_RUN), on);

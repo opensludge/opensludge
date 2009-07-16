@@ -1,12 +1,10 @@
-#if 0
-
 //#include <windows.h>
 #include <stdio.h>
 //#include <conio.h>
 
 #include "typedef.h"
 //#include "fatal.h"
-#include "splitter.h"
+#include "Splitter.hpp"
 #include "moreio.h"
 #include "settings.h"
 #include "messbox.h"
@@ -18,8 +16,6 @@
 const char * doubleChangeMe[] = {"&&", "==", "||", "!=", "<=", ">=", "++", "--", "+=", "-=", "*=", "/=", "%="};
 const char   doubleBecome  [] = {CHAR_AND, CHAR_EQUALS, CHAR_OR, CHAR_NOT_EQ, CHAR_LESS_EQUAL, CHAR_MORE_EQUAL, CHAR_INCREMENT, CHAR_DECREMENT, CHAR_PLUS_EQ, CHAR_MINUS_EQ, CHAR_MULT_EQ, CHAR_DIV_EQ, CHAR_MOD_EQ};
 
-extern char * sourceDirectory;
-extern bool forceSilent;
 
 bool preProcess (char * codeFileName, int fileNumber, stringArray * & strings, stringArray * & fileHandles) {
 	FILE * outputFile;
@@ -61,7 +57,7 @@ bool preProcess (char * codeFileName, int fileNumber, stringArray * & strings, s
 					addComment (ERRORTYPE_PROJECTWARNING, buff, codeFileName);
 				}
 
-				if (quoteChar == '\'' && audioFile (grabString) && forceSilent)
+				if (quoteChar == '\'' && audioFile (grabString) && settings.forceSilent)
 					grabString[0] = NULL;
 
 				if (quoteChar == '\"')
@@ -154,5 +150,3 @@ bool preProcess (char * codeFileName, int fileNumber, stringArray * & strings, s
 	fclose (outputFile);
 	return true;
 }
-
-#endif

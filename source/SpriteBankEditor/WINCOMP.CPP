@@ -11,7 +11,7 @@
 #include "wincomp.h"
 #include "wintext.h"
 #include "registry.h"
-#include "splitter.h"
+#include "Splitter.hpp"
 #include "sprites.h"
 #include "fontify.h"
 

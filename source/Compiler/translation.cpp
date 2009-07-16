@@ -1,11 +1,9 @@
-#if 0
-
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
 
 #include "typedef.h"
-#include "splitter.h"
+#include "Splitter.hpp"
 #include "moreio.h"
 #include "messbox.h"
 #include "wintext.h"
@@ -247,4 +245,3 @@ void addTranslationIDTable (FILE * mainFile) {
 	}	
 }
 
-#endif

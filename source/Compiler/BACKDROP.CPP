@@ -4,7 +4,7 @@
 //#include <io.h>
 
 #include "moreio.h"
-#include "splitter.h"
+#include "Splitter.hpp"
 #include "wintext.h"
 #include "winterfa.h"
 #include "messbox.h"

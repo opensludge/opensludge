@@ -1,13 +1,10 @@
-#if 0
-TODO
-
 //#include <windows.h>
 #include <stdio.h>
 #include <string.h>
 //#include <io.h>
 
 #include "moreio.h"
-#include "splitter.h"
+#include "Splitter.hpp"
 #include "wintext.h"
 #include "winterfa.h"
 #include "messbox.h"
@@ -61,5 +58,3 @@ bool convertFloor (char * filename) {
 	fclose (outFile);
 	return true;
 }
-
-#endif

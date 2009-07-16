@@ -1,4 +1,4 @@
-#include "splitter.h"
+#include "Splitter.hpp"
 
 #ifdef WIN32
 

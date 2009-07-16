@@ -1,7 +1,7 @@
 #ifdef WIN32
 
 #include <windows.h>
-#include "splitter.h"
+#include "Splitter.hpp"
 
 extern HWND mainWin;
 

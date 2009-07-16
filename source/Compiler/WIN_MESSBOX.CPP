@@ -5,60 +5,16 @@
 #include <stdio.h>
 #include "winterfa.h"
 #include "messbox.h"
-#include "splitter.h"
+#include "Splitter.hpp"
 
 extern HWND warningWindowH;
 extern HWND compWin;
 
-char * errorTypeStrings[ERRORTYPE_NUM] =
-{
-	"WARNING: ",
-	"ERROR: ",
-	"SYSTEM ERROR: ",
-	"INTERNAL ERROR: "
-};
+
 
 //char * allComments = NULL;
 
-struct errorLinkToFile
-{
-	int errorType;
-	char * overview;
-	char * filename;
-	int lineNumber;
-	errorLinkToFile * next;
-};
 
-errorLinkToFile * errorList = NULL;
-int numErrors = 0;
-
-void addComment (int errorType, const char * comment, const char * filename/*, int lineNumber*/) {
-
-	if (filename && filename[0] == '\0')
-		filename = NULL;
-
-	errorLinkToFile * newLink = new errorLinkToFile;
-	
-	if (newLink)
-	{
-		newLink->errorType = errorType;
-		newLink->overview = copyString (comment);
-		newLink->filename = filename ? copyString (filename) : NULL;
-		newLink->lineNumber = 0;
-		newLink->next = errorList;
-		errorList = newLink;
-
-		char * after = filename ? joinStrings (" (in ", filename, ")") : copyString ("");
-		char * wholeThing = joinStrings (errorTypeStrings[errorType], comment, after);
-		SendDlgItemMessage(warningWindowH, ID_WARNINGLIST, LB_ADDSTRING, (WPARAM) 0, (LPARAM) wholeThing);
-		SendDlgItemMessage(warningWindowH, ID_WARNINGLIST, LB_SELECTSTRING, (WPARAM) 0, (LPARAM) wholeThing);
-		delete after;
-		delete wholeThing;
-		ShowWindow (warningWindowH, SW_SHOW);
-
-		numErrors ++;
-	}
-}
 
 void messageBox (const char * tx2, const char * tx1) {
 	addComment (ERRORTYPE_PROJECTERROR, tx1, NULL);
@@ -92,7 +48,6 @@ bool errorBox (const char * txt1, unsigned int i, const char * filename) {
 	return false;
 }*/
 
-extern char * sourceDirectory;
 
 static void warningOpenSourceFile (char * fileName) {
 	char * wholePath = new char[strlen (sourceDirectory) + strlen (fileName) + 2];

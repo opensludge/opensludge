@@ -1,22 +1,25 @@
 #include <string.h>
 #include <stdio.h>
-//#include <unistd.h>
+#include <unistd.h>
 
-#include "splitter.h"
+#include "Function.h"
+#include "Registry.h"
+#include "Splitter.hpp"
 #include "settings.h"
+#include "Translation.h"
 #include "winterfa.h"
 #include "moreio.h"
 #include "wintext.h"
 #include "MessBox.h"
+#include "version.h"
 
-extern char * quitMessage, * customIcon, * runtimeDataFolder;
-extern unsigned int screenWidth, screenHeight, frameSpeed, winMouseImage;
-extern bool runFullScreen, forceSilent, ditherImages;
-extern bool startupShowLogo, startupShowLoading, startupInvisible;
-extern chrRenderingSettingsStruct chrRenderingSettings;
+settingsStruct settings;
 
-char * finalFile = joinStrings ("Untitled SLUDGE project", "");
+chrRenderingSettingsStruct chrRenderingSettings;
+
 char * tempDirectory = NULL;
+char * sourceDirectory = NULL;
+bool silent = true;
 
 
 void blankSettings () {
@@ -25,23 +28,26 @@ void blankSettings () {
 }
 
 void noSettings () {
-	delete quitMessage;
-	delete customIcon;
-	quitMessage = joinStrings ("Are you sure you want to quit?", "");
-	customIcon = joinStrings ("", "");
-	runtimeDataFolder = joinStrings ("", "");
-	// TODO setWindowText (ID_EDIT_OUTPUTFILE, "myNewProject");
-	// TODO setWindowText (ID_EDIT_NAME, "Untitled SLUDGE project");
-	screenWidth = 640;
-	screenHeight = 480;
-	frameSpeed = 20;
-	winMouseImage = 0;
-	ditherImages = true;
-	runFullScreen = true;
-	forceSilent = false;
-	startupShowLogo = true;
-	startupShowLoading = true;
-	startupInvisible = false;
+	if (settings.quitMessage) delete settings.quitMessage;
+	settings.quitMessage = joinStrings ("Are you sure you want to quit?", "");
+	if (settings.customIcon) delete settings.customIcon;
+	settings.customIcon = NULL;
+	if (settings.runtimeDataFolder) delete settings.runtimeDataFolder;
+	settings.runtimeDataFolder = NULL;
+	if (settings.finalFile) delete settings.finalFile;
+	settings.finalFile =joinStrings ("untitled", "");
+	if (settings.windowName) delete settings.windowName;
+	settings.windowName = joinStrings ("New SLUDGE Game", "");
+	settings.screenWidth = 640;
+	settings.screenHeight = 480;
+	settings.frameSpeed = 20;
+	settings.winMouseImage = 0;
+	settings.ditherImages = true;
+	settings.runFullScreen = true;
+	settings.forceSilent = false;
+	settings.startupShowLogo = true;
+	settings.startupShowLoading = true;
+	settings.startupInvisible = false;
 	chrRenderingSettingsFillDefaults(true);
 }
 
@@ -59,54 +65,56 @@ void readDir (char * t) {
 	stringArray * splitLine = splitString (t, '=', ONCE);
 	if (splitLine -> next) {
 		if (strcmp (splitLine -> string, "quitmessage") == 0) {
-			delete quitMessage;
-			quitMessage = joinStrings ("", splitLine -> next -> string);
+			delete settings.quitMessage;
+			settings.quitMessage = joinStrings ("", splitLine -> next -> string);
 
 		} else if (strcmp (splitLine -> string, "customicon") == 0) {
-			delete customIcon;
-			customIcon = joinStrings ("", splitLine -> next -> string);
+			if (settings.customIcon) delete settings.customIcon;
+			settings.customIcon = joinStrings ("", splitLine -> next -> string);
 
 		} else if (strcmp (splitLine -> string, "datafolder") == 0) {
-			delete runtimeDataFolder;
-			runtimeDataFolder = joinStrings ("", splitLine -> next -> string);
+			if (settings.runtimeDataFolder) delete settings.runtimeDataFolder;
+			settings.runtimeDataFolder = joinStrings ("", splitLine -> next -> string);
 
 		} else if (strcmp (splitLine -> string, "finalfile") == 0) {
-			// TODO setWindowText (ID_EDIT_OUTPUTFILE, splitLine -> next -> string);
+			if (settings.finalFile) delete settings.finalFile;
+			settings.finalFile = joinStrings ("", splitLine -> next -> string);
 
 		} else if (strcmp (splitLine -> string, "windowname") == 0) {
-			// TODO setWindowText (ID_EDIT_NAME, splitLine -> next -> string);
+			if (settings.windowName) delete settings.windowName;
+			settings.windowName = joinStrings ("", splitLine -> next -> string);
 			
 		// NEW MOUSE SETTING
 		} else if (strcmp (splitLine -> string, "mouse") == 0) {
-			winMouseImage = stringToInt (splitLine -> next -> string);
+			settings.winMouseImage = stringToInt (splitLine -> next -> string);
 
 		// OLD MOUSE SETTING
 		} else if (strcmp (splitLine -> string, "hidemouse") == 0) {
-			winMouseImage = (splitLine -> next -> string[0] == 'Y') ? 2 : 1;
+			settings.winMouseImage = (splitLine -> next -> string[0] == 'Y') ? 2 : 1;
 
 		} else if (strcmp (splitLine -> string, "ditherimages") == 0) {
-			ditherImages = (splitLine -> next -> string[0] == 'Y');
+			settings.ditherImages = (splitLine -> next -> string[0] == 'Y');
 
 		} else if (strcmp (splitLine -> string, "fullscreen") == 0) {
-			runFullScreen = (splitLine -> next -> string[0] == 'Y');
+			settings.runFullScreen = (splitLine -> next -> string[0] == 'Y');
 
 		} else if (strcmp (splitLine -> string, "showlogo") == 0) {
-			startupShowLogo = (splitLine -> next -> string[0] == 'Y');
+			settings.startupShowLogo = (splitLine -> next -> string[0] == 'Y');
 
 		} else if (strcmp (splitLine -> string, "showloading") == 0) {
-			startupShowLoading = (splitLine -> next -> string[0] == 'Y');
+			settings.startupShowLoading = (splitLine -> next -> string[0] == 'Y');
 
 		} else if (strcmp (splitLine -> string, "invisible") == 0) {
-			startupInvisible = (splitLine -> next -> string[0] == 'Y');
+			settings.startupInvisible = (splitLine -> next -> string[0] == 'Y');
 
 		} else if (strcmp (splitLine -> string, "makesilent") == 0) {
-			forceSilent = (splitLine -> next -> string[0] == 'Y');
+			settings.forceSilent = (splitLine -> next -> string[0] == 'Y');
 
 		} else if (strcmp (splitLine -> string, "height") == 0) {
-			screenHeight = stringToInt (splitLine -> next -> string);
+			settings.screenHeight = stringToInt (splitLine -> next -> string);
 
 		} else if (strcmp (splitLine -> string, "width") == 0) {
-			screenWidth = stringToInt (splitLine -> next -> string);
+			settings.screenWidth = stringToInt (splitLine -> next -> string);
 
 		} else if (strcmp (splitLine -> string, "chrRender_def_enabled") == 0) {
 			chrRenderingSettings.defEnabled = (splitLine -> next -> string[0] == 'Y');
@@ -124,7 +132,7 @@ void readDir (char * t) {
 			chrRenderingSettings.maxSoftnessY = stringToInt (splitLine -> next -> string);
 
 		} else if (strcmp (splitLine -> string, "speed") == 0) {
-			frameSpeed = stringToInt (splitLine -> next -> string);
+			settings.frameSpeed = stringToInt (splitLine -> next -> string);
 		}
 	}
 	while (destroyFirst (splitLine)){;}
@@ -144,7 +152,7 @@ bool readSettings (FILE * fp) {
 		delete grabLine;
 	}
 	
-	if (! finalFile) return errorBox (ERRORTYPE_PROJECTERROR, "Vital line missing from project", "finalfile", NULL);
+	if (! settings.finalFile) return errorBox (ERRORTYPE_PROJECTERROR, "Vital line missing from project", "finalfile", NULL);
 	//	if (! outputDirectory) return errorBox ("Vital line missing from project", "outputdir");
 	
 	//	tempDirectory;
@@ -158,24 +166,22 @@ static void fileWriteBool (FILE * fp, const char * theString, bool theBool)
 }
 
 void writeSettings (FILE * fp) {
-	char * winName = getWindowText (ID_EDIT_NAME),
-		 * finFile = getWindowText (ID_EDIT_OUTPUTFILE);
 		 
-	fprintf 		(fp, "[SETTINGS]\nwindowname=%s\n", winName);
-	fprintf 		(fp, "finalfile=%s\n", 				finFile);
-	fprintf 		(fp, "datafolder=%s\n", 			runtimeDataFolder);
-	fprintf 		(fp, "quitmessage=%s\n", 			quitMessage);
-	fprintf 		(fp, "customicon=%s\n", 			customIcon);
-	fprintf 		(fp, "mouse=%lu\n", 				winMouseImage);
-	fprintf 		(fp, "fullscreen=%c\n", 			runFullScreen ? 'Y':'N');
-	fprintf 		(fp, "makesilent=%c\n", 			forceSilent ? 'Y':'N');
-	fprintf 		(fp, "showlogo=%c\n", 				startupShowLogo ? 'Y':'N');
-	fprintf 		(fp, "showloading=%c\n", 			startupShowLoading ? 'Y':'N');
-	fprintf 		(fp, "invisible=%c\n", 				startupInvisible ? 'Y':'N');
-	fileWriteBool 	(fp, "ditherimages", 				ditherImages);
-	fprintf 	  	(fp, "width=%lu\n",					screenWidth);
-	fprintf 	  	(fp, "height=%lu\n", 				screenHeight);
-	fprintf 		(fp, "speed=%lu\n", 				frameSpeed);
+	fprintf 		(fp, "[SETTINGS]\nwindowname=%s\n", settings.windowName);
+	fprintf 		(fp, "finalfile=%s\n", 				settings.finalFile);
+	fprintf 		(fp, "datafolder=%s\n", 			settings.runtimeDataFolder);
+	fprintf 		(fp, "quitmessage=%s\n", 			settings.quitMessage);
+	fprintf 		(fp, "customicon=%s\n", 			settings.customIcon);
+	fprintf 		(fp, "mouse=%lu\n", 				settings.winMouseImage);
+	fprintf 		(fp, "fullscreen=%c\n", 			settings.runFullScreen ? 'Y':'N');
+	fprintf 		(fp, "makesilent=%c\n", 			settings.forceSilent ? 'Y':'N');
+	fprintf 		(fp, "showlogo=%c\n", 				settings.startupShowLogo ? 'Y':'N');
+	fprintf 		(fp, "showloading=%c\n", 			settings.startupShowLoading ? 'Y':'N');
+	fprintf 		(fp, "invisible=%c\n", 				settings.startupInvisible ? 'Y':'N');
+	fileWriteBool 	(fp, "ditherimages", 				settings.ditherImages);
+	fprintf 	  	(fp, "width=%lu\n",					settings.screenWidth);
+	fprintf 	  	(fp, "height=%lu\n", 				settings.screenHeight);
+	fprintf 		(fp, "speed=%lu\n", 				settings.frameSpeed);
 	
 	fileWriteBool	(fp, "chrRender_def_enabled", 		chrRenderingSettings.defEnabled);
 	fprintf 	 	(fp, "chrRender_def_softX=%lu\n",	chrRenderingSettings.defSoftnessX);
@@ -187,9 +193,6 @@ void writeSettings (FILE * fp) {
 	fprintf 	 	(fp, "chrRender_max_softY=%lu\n",	chrRenderingSettings.maxSoftnessY);
 	
 	fprintf 		(fp, "\n[FILES]\n");
-		
-	delete winName;
-	delete finFile;
 }
 
 void chrRenderingSettingsFillDefaults(bool enable)
@@ -203,3 +206,165 @@ void chrRenderingSettingsFillDefaults(bool enable)
 	chrRenderingSettings.maxSoftnessX = 100;
 	chrRenderingSettings.maxSoftnessY = 100;
 }
+
+
+bool gotoSourceDirectory () {
+	bool r = chdir (sourceDirectory);
+	if (r) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't move to source directory", sourceDirectory, NULL);
+	return true;
+}
+
+bool gotoTempDirectory () {
+	bool r = chdir (tempDirectory);
+	if (r) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't move to temporary directory", tempDirectory, NULL);
+	return true;
+}
+/*
+bool gotoOutputDirectory () {
+	bool r = chdir (outputDirectory);
+	if (r) return errorBox ("Can't move to output directory", outputDirectory);
+	return true;
+}
+*/
+
+FILE * openFinalFile (char * addMe, char * mode) {
+	char * fullName = joinStrings (settings.finalFile, addMe);
+	if (! fullName) return NULL;
+	
+	gotoSourceDirectory ();
+	FILE * fp = fopen (fullName, mode);
+	delete fullName;
+	
+	return fp;
+}
+
+typedef struct _FILETIME {
+	unsigned long dwLowDateTime;
+	unsigned long dwHighDateTime;
+} FILETIME;
+
+
+#define MOUSE_1		1 << 2
+#define MOUSE_2		1 << 4
+
+int winMouseLookup[4] = {
+	MOUSE_2,
+	0,
+	MOUSE_1,
+	MOUSE_2 | MOUSE_1
+};
+
+
+void writeFinalData (FILE * mainFile) {
+	fprintf (mainFile, "SLUDGE");
+	fputc (0, mainFile);
+	fprintf (mainFile, "\r\nSLUDGE data file\r\nSLUDGE is (c) Hungry Software and contributors 2006-2009\r\nThis data file must be run using the SLUDGE engine available at http://www.hungrysoftware.com/\r\n");
+	fputc (0, mainFile);
+	
+	fputc (MAJOR_VERSION, mainFile);		// Major version
+	fputc (MINOR_VERSION, mainFile);		// Minor version
+	
+	if (getRegSetting ("compilerVerbose")) {
+		fputc (1, mainFile);
+		writeDebugData (mainFile);
+	} else {
+		fputc (0, mainFile);
+	}
+	
+	put2bytes (settings.screenWidth, mainFile);
+	put2bytes (settings.screenHeight, mainFile);
+	fputc ((1 /* reg */	) +
+		   (settings.runFullScreen								  << 1) +
+		   (winMouseLookup[settings.winMouseImage & 3]				  ) +
+		   (silent										  << 3) +
+		   // 4 used for mouse image
+		   (settings.startupInvisible 							  << 5) +
+		   ((! settings.startupShowLogo)								  << 6) +
+		   ((! settings.startupShowLoading)							  << 7),
+		   
+		   mainFile);
+	
+	fputc (settings.frameSpeed, mainFile);
+	writeString ("", mainFile); // Unused - was used for registration.
+	
+	// Now write the date and time of compilation...
+	
+	/* TODO - but not used by the engine anyway 
+		SYSTEMTIME systemTime;*/
+	FILETIME fileTime;
+	//GetSystemTime (& systemTime);
+	//SystemTimeToFileTime (& systemTime, & fileTime);
+	fwrite (& fileTime, sizeof (fileTime), 1, mainFile);
+	
+	// More bits
+	
+	writeString (settings.runtimeDataFolder, mainFile);
+	addTranslationIDTable (mainFile);
+	
+	// Max anti-alias settings
+	fputc (chrRenderingSettings.maxReadIni, mainFile);
+	fputc (chrRenderingSettings.maxEnabled, mainFile);
+	putFloat (chrRenderingSettings.maxSoftnessX / 16.f, mainFile);
+	putFloat (chrRenderingSettings.maxSoftnessY / 16.f, mainFile);
+	
+	writeString ("okSoFar", mainFile);
+}
+
+
+bool getSourceDirFromName (char * filename) {
+	int a, lastSlash = -1;
+	for (a = 0; filename[a]; a ++) {
+		if (filename[a] == '/' || filename[a] == '\\') {
+			lastSlash = a;
+		}
+	}
+	if (lastSlash != -1) {
+		char slashChar = filename[lastSlash];
+		filename[lastSlash] = 0;
+		if (chdir (filename)) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't move to source directory", filename, NULL);
+		filename[lastSlash] = slashChar;
+	}
+	char buff[1000];
+	if (! getcwd (buff, 1000)) return errorBox (ERRORTYPE_SYSTEMERROR, "I can't work out which directory I'm in...", NULL, NULL);
+	sourceDirectory = joinStrings (buff, "");
+	//	errorBox ("I think the source directory is", sourceDirectory);
+	return true;
+}
+
+
+#if 0 
+// TODO BY RP
+
+
+chrRenderingSettingsStruct chrRenderingSettings =
+{
+	true, 4, 4, false, true, 100, 100
+};
+
+bool leaveCompressedImages = true;
+bool useCompressedImages = true;
+
+char * grabEnv (const char * la) {
+	char buffer[500];
+	char * returnVal;
+	/* TODO
+	if (ExpandEnvironmentStrings (la, buffer, 499) == 0) {
+		errorBox (ERRORTYPE_SYSTEMERROR, "Can't expand string containing environment variable(s)", la, NULL);
+		return NULL;
+	}
+	if (! buffer[0]) {
+		errorBox (ERRORTYPE_SYSTEMERROR, "No environment variable(s)", la, NULL);
+		return NULL;
+	}
+	*/
+	returnVal = joinStrings (buffer, "");
+//	errorBox ("Expanded to", returnVal);
+	return returnVal;
+}
+
+
+
+
+
+
+#endif

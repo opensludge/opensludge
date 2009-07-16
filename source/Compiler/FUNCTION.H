@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include "Splitter.hpp"
+
 enum halfCode {HALF_FIND, HALF_MARKER, HALF_DONE};
 
 #include "csludge.h"

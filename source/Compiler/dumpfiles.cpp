@@ -1,12 +1,9 @@
-#if 0
-TODO
-
 //#include <windows.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
 
-#include "splitter.h"
+#include "Splitter.hpp"
 #include "percbar.h"
 #include "wintext.h"
 #include "winterfa.h"
@@ -149,7 +146,7 @@ bool dumpFiles (FILE * mainFile, stringArray * & theSA) {
 			if (killAfterAdd) unlink (theSA -> string);
 		}
 		destroyFirst (theSA);
-		percRect (++ i, P_BOTTOM);
+//		percRect (++ i, P_BOTTOM);
 	}
 	
 	fclose (outFile);
@@ -211,5 +208,3 @@ bool saveStrings (FILE * mainFile, FILE * textFile, stringArray * theSA) {
 		return false;
 	}
 }
-
-#endif

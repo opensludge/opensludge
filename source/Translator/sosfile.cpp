@@ -9,7 +9,7 @@ TODO
 #include "sosfile.h"
 #include "moreio.h"
 #include "messbox.h"
-#include "splitter.h"
+#include "Splitter.hpp"
 #include "wintext.h"
 #include "winterfa.h"
 #include "wincomp.h"

@@ -1,6 +1,4 @@
-#ifdef WIN32
-
-#include <windows.h>
+//#include <windows.h>
 //#include <stdlib.h>
 //#include <stdio.h>
 //#include <unistd.h>
@@ -14,7 +12,7 @@
 #define BOX2		132
 #define BOXHEIGHT	20
 
-extern HWND compWin;
+//extern HWND compWin;
 
 unsigned int percTotal[2] = {100, 100}, lastVal[2] = {0, 0};
 
@@ -24,7 +22,7 @@ void clearRect (int i, whichPerc whichBox) {
 }
 
 void percRect (unsigned int i, whichPerc whichBox) {
-	HDC hdc = GetDC (compWin);
+/*	HDC hdc = GetDC (compWin);
 	char buffff[10];
 	
 	HPEN myPen = CreatePen (PS_SOLID, 0, RGB (0, 0, 0));
@@ -75,14 +73,16 @@ void percRect (unsigned int i, whichPerc whichBox) {
 	SelectObject (hdc, lastPen);
 	DeleteObject (myPen);
 	ReleaseDC (compWin, hdc);
+	*/
 }
 
 void repaintPercBars () {
+	/*
 	if (compWin)
 	{
 		percRect (lastVal[0], P_TOP);
 		percRect (lastVal[1], P_BOTTOM);
 	}
+	 */
 }
 
-#endif

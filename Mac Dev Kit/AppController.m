@@ -1,33 +1,21 @@
-/*   AppController.m - main entry point for our Cocoa-ized SDL app
-       Initial Version: Darrell Walisser <dwaliss1@purdue.edu>
-       Non-NIB-Code & other changes: Max Horn <max@quendi.de>
-
-    Feel free to customize this file to suit your needs
-*/
-
 #import "SDL.h"
 #import "AppController.h"
 #import "ProjectController.h"
 
 #include "Project.hpp"
+//#include "Compiler.hpp"
 
 
 #import <sys/param.h> /* for MAXPATHLEN */
 #import <unistd.h>
 
 
-/* For some reaon, Apple removed setAppleMenu from the headers in 10.4,
- but the method still is there and works. To avoid warnings, we declare
- it ourselves here. */
-@interface NSApplication(SDL_Missing_Methods)
-- (void)setAppleMenu:(NSMenu *)menu;
-@end
-
-
 static int    gArgc;
 static char  **gArgv;
 static bool   gFinderLaunch;
 static bool   gCalledAppMainline = false;
+
+static bool menusActivated = false;
 
 static NSString *getApplicationName(void)
 {
@@ -61,9 +49,17 @@ static NSString *getApplicationName(void)
 }
 @end
 
+AppController *aC;
 
 /* The main class of the application, the application's delegate */
 @implementation AppController
+
+-(id) init
+{
+	[super init];
+	aC = self;
+	return self;
+}
 
 - (IBAction)prefsMenu:(id)sender
 {
@@ -110,13 +106,32 @@ static NSString *getApplicationName(void)
 
 - (IBAction)saveProject:(id)sender
 {
-    printf ("save game\n");
+	saveProject (NULL);
 }
 
 - (IBAction)saveProjectAs:(id)sender
 {
-    printf ("save game as\n");
+    NSString *path = nil;
+    NSSavePanel *savePanel = [ NSSavePanel savePanel ];
+	[savePanel setTitle:@"New SLUDGE Project"];
+	[savePanel setRequiredFileType:@"slp"];
+    
+    if ( [ savePanel runModalForDirectory:nil
+									 file:nil ] ) {
+		
+        path = [ savePanel filename ];
+		saveProject ([path UTF8String]);
+    }
+	if (path) {
+		[projectWindow makeKeyAndOrderFront:nil];
+	}
 }
+
+- (IBAction)compileMenu:(id)sender
+{
+	fprintf (stderr, "Compile!\n");
+}
+
 
 /*
 OSStatus RegisterMyHelpBook(void)
@@ -177,6 +192,12 @@ bail: return err;
 - (IBAction)helpMenu:(id)sender
 {
 	MyGotoHelpPage(NULL, NULL);
+}
+
+- (BOOL)validateMenuItem:(id <NSMenuItem>)menuItem {
+	if ([menuItem tag] == 1000) 
+		return menusActivated;
+	return true;
 }
 
 
@@ -291,21 +312,36 @@ bail: return err;
     exit(status);
 }
 
+
+
+- (void) updateFileListing {
+	[projectFiles noteNumberOfRowsChanged];
+}
+
 // This is the project file list!
 - (int)numberOfRowsInTableView:(NSTableView *)tv
 {
-	return 2;
+	return fileListNum; 
 }
 
 - (id)tableView:(NSTableView *)tv
 	objectValueForTableColumn:(NSTableColumn *)tableColumn
 			row:(int)row
 {
-	NSString *v = @"Hello";
+	NSString *v = [NSString stringWithUTF8String:getFileFromList(row)];
 	return v;
 }
 
+
 @end
+
+void updateFileListing() {
+	[aC updateFileListing];
+}
+
+void activateMenus (bool on) {
+	menusActivated = on;
+}
 
 
 @implementation NSString (ReplaceSubString)
@@ -358,7 +394,7 @@ bail: return err;
 
 
 /* Main entry point to executable - should *not* be SDL_main! */
-int main (int argc, char **argv)
+int main (int argc, char *argv[])
 {
     /* Copy the arguments into a global variable */
     /* This is passed if we are launched by double-clicking */

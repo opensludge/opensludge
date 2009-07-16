@@ -1,8 +1,6 @@
-#if 0
-
 //#include <windows.h>
 #include "messbox.h"
-#include "splitter.h"
+#include "Splitter.hpp"
 
 // TODO
 #define errorBox(a, b, c, d) 0
@@ -64,4 +62,3 @@ bool checkValidName (const char * thisName, const char * error, const char * fil
 }
 
 
-#endif

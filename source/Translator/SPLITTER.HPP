@@ -1,3 +1,6 @@
+#ifndef _SPLITTER_H_
+#define _SPLITTER_H_
+
 struct stringArray {
 	char * string;
 	stringArray * next;
@@ -12,7 +15,9 @@ stringArray * splitString (const char *, const char = ';', const splitMode = REP
 stringArray * splitAtLast (const char * inString, const char findCharIn);
 
 // Handling a stringArray
-void addToStringArray (stringArray * &, const char *, int, int, bool);
+void addToStringArray (stringArray * & theArray, const char * theString, int start = 0, int size = -1, bool trimSpa = true);
+
+//void addToStringArray (stringArray * &, const char *, int, int, bool);
 bool destroyFirst (stringArray * &);
 char * returnElement (stringArray * sA, int i);
 int findElement (stringArray * sA, const char * findString);
@@ -41,3 +46,5 @@ char * copyString (const char * a);
 //bool trimStart (char * & thisString, char trimChar);
 char * elementAt (stringArray * sA, int a);
 char * joinQuote (char * a, char * b, char q1, char q2);
+
+#endif

@@ -1,5 +1,3 @@
-#ifdef WIN32
-
 #include <windows.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -7,7 +5,7 @@
 #include "winbox.h"
 #include "winterfa.h"
 #include "messbox.h"
-#include "splitter.h"
+#include "Splitter.hpp"
 #include "preproc.h"
 #include "function.h"
 #include "realproc.h"
@@ -284,4 +282,3 @@ void compileWindow () {
 	}
 }
 
-#endif

@@ -1,13 +1,9 @@
-#if 0
-TODO
-
-// #include <windows.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
 
 #include "moreio.h"
-#include "splitter.h"
+#include "Splitter.hpp"
 #include "function.h"
 #include "settings.h"
 #include "messbox.h"
@@ -273,4 +269,3 @@ bool runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray 
 	return true;
 }
 
-#endif

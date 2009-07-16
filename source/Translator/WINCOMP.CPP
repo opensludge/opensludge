@@ -10,7 +10,7 @@
 #include "messbox.h"
 #include "wincomp.h"
 #include "wintext.h"
-#include "splitter.h"
+#include "Splitter.hpp"
 #include "sosfile.h"
 
 HWND mainWin=NULL;

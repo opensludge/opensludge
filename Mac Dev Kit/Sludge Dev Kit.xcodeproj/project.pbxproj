@@ -15,7 +15,7 @@
 		2F18B660100CB9C30009A1CB /* GLee.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F18B65E100CB9C20009A1CB /* GLee.h */; };
 		2F18B665100CBA620009A1CB /* SPLITTER.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA4700FFCEBE6005E5C36 /* SPLITTER.CPP */; };
 		2F18B6A0100CBDC60009A1CB /* WINCOMP.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA48D0FFCEBE6005E5C36 /* WINCOMP.H */; };
-		2F18B6AD100CBE5A0009A1CB /* SPLITTER.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA4890FFCEBE6005E5C36 /* SPLITTER.H */; };
+		2F18B6AD100CBE5A0009A1CB /* SPLITTER.HPP in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA4890FFCEBE6005E5C36 /* SPLITTER.HPP */; };
 		2F18B7B3100CC25F0009A1CB /* wintext.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA4910FFCEBE6005E5C36 /* wintext.h */; };
 		2F1B9A32100CF12700BD9739 /* BACKDROP.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA4940FFCEBE6005E5C36 /* BACKDROP.H */; };
 		2F1B9A63100CF81C00BD9739 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 2F1B9A62100CF81C00BD9739 /* Credits.html */; };
@@ -25,8 +25,11 @@
 		2F373F70100E0686009F6880 /* Project.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F373F6E100E0686009F6880 /* Project.cpp */; };
 		2F3AB9CE100D0B7100CD6A13 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D1107310486CEB800E47090 /* Info.plist */; };
 		2F59AFFF100CD9E1004A21BC /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F59AFFE100CD9E1004A21BC /* Carbon.framework */; };
+		2F61A6FD100F50D000EBE4B0 /* Compiler.hpp in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F61A6FB100F50D000EBE4B0 /* Compiler.hpp */; };
+		2F61A6FE100F50D000EBE4B0 /* Compiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F61A6FC100F50D000EBE4B0 /* Compiler.cpp */; };
 		2F695C72100D138D008A8DC1 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 2F695C70100D138D008A8DC1 /* icon.icns */; };
 		2F695C73100D138D008A8DC1 /* ProjIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 2F695C71100D138D008A8DC1 /* ProjIcon.icns */; };
+		2F7DF424100FBA1A00A08B2E /* WINBOX.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA4190FFCEBE6005E5C36 /* WINBOX.CPP */; };
 		2F7EA3E50FFCEBCF005E5C36 /* functionList.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA3DD0FFCEBCF005E5C36 /* functionList.h */; };
 		2F7EA3E90FFCEBCF005E5C36 /* specialSettings.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA3E10FFCEBCF005E5C36 /* specialSettings.h */; };
 		2F7EA3EA0FFCEBCF005E5C36 /* TGA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA3E20FFCEBCF005E5C36 /* TGA.cpp */; };
@@ -57,15 +60,11 @@
 		2F7EA4BF0FFCEBE6005E5C36 /* REALPROC.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA4090FFCEBE6005E5C36 /* REALPROC.H */; };
 		2F7EA4C00FFCEBE6005E5C36 /* registry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA40A0FFCEBE6005E5C36 /* registry.cpp */; };
 		2F7EA4C30FFCEBE6005E5C36 /* Sludge_c.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 2F7EA40E0FFCEBE6005E5C36 /* Sludge_c.bmp */; };
-		2F7EA4C50FFCEBE6005E5C36 /* SETTINGS.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA4100FFCEBE6005E5C36 /* SETTINGS.CPP */; };
-		2F7EA4C60FFCEBE6005E5C36 /* SETTINGS.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA4110FFCEBE6005E5C36 /* SETTINGS.H */; };
 		2F7EA4C90FFCEBE6005E5C36 /* TOKENS.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA4140FFCEBE6005E5C36 /* TOKENS.CPP */; };
 		2F7EA4CA0FFCEBE6005E5C36 /* TOKENS.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA4150FFCEBE6005E5C36 /* TOKENS.H */; };
 		2F7EA4CB0FFCEBE6005E5C36 /* translation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA4160FFCEBE6005E5C36 /* translation.cpp */; };
 		2F7EA4CC0FFCEBE6005E5C36 /* translation.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA4170FFCEBE6005E5C36 /* translation.h */; };
 		2F7EA4CD0FFCEBE6005E5C36 /* TYPEDEF.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA4180FFCEBE6005E5C36 /* TYPEDEF.H */; };
-		2F7EA4CE0FFCEBE6005E5C36 /* WINBOX.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA4190FFCEBE6005E5C36 /* WINBOX.CPP */; };
-		2F7EA4D00FFCEBE6005E5C36 /* WINCOMP.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA41B0FFCEBE6005E5C36 /* WINCOMP.CPP */; };
 		2F7EA4D50FFCEBE6005E5C36 /* wintext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA4200FFCEBE6005E5C36 /* wintext.cpp */; };
 		2F7EA4EC0FFCEBE6005E5C36 /* WIN dialogueBoxInOut.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA4390FFCEBE6005E5C36 /* WIN dialogueBoxInOut.cpp */; };
 		2F7EA4ED0FFCEBE6005E5C36 /* dialogueBoxInOut.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA43A0FFCEBE6005E5C36 /* dialogueBoxInOut.h */; };
@@ -83,7 +82,6 @@
 		2F7EA5060FFCEBE6005E5C36 /* savedata.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA4550FFCEBE6005E5C36 /* savedata.h */; };
 		2F7EA5070FFCEBE6005E5C36 /* settings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA4560FFCEBE6005E5C36 /* settings.cpp */; };
 		2F7EA5080FFCEBE6005E5C36 /* settings.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA4570FFCEBE6005E5C36 /* settings.h */; };
-		2F7EA50C0FFCEBE6005E5C36 /* WINBOX.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA45B0FFCEBE6005E5C36 /* WINBOX.CPP */; };
 		2F7EA50D0FFCEBE6005E5C36 /* WINBOX.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA45C0FFCEBE6005E5C36 /* WINBOX.H */; };
 		2F7EA50E0FFCEBE6005E5C36 /* WINCOMP.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA45D0FFCEBE6005E5C36 /* WINCOMP.CPP */; };
 		2F7EA5110FFCEBE6005E5C36 /* WINTERFA.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA4600FFCEBE6005E5C36 /* WINTERFA.H */; };
@@ -121,7 +119,6 @@
 				2F7EA4BB0FFCEBE6005E5C36 /* PercBar.h in Copy Frameworks into .app bundle */,
 				2F7EA4BD0FFCEBE6005E5C36 /* PREPROC.H in Copy Frameworks into .app bundle */,
 				2F7EA4BF0FFCEBE6005E5C36 /* REALPROC.H in Copy Frameworks into .app bundle */,
-				2F7EA4C60FFCEBE6005E5C36 /* SETTINGS.H in Copy Frameworks into .app bundle */,
 				2F7EA4CA0FFCEBE6005E5C36 /* TOKENS.H in Copy Frameworks into .app bundle */,
 				2F7EA4CC0FFCEBE6005E5C36 /* translation.h in Copy Frameworks into .app bundle */,
 				2F7EA4CD0FFCEBE6005E5C36 /* TYPEDEF.H in Copy Frameworks into .app bundle */,
@@ -134,12 +131,13 @@
 				2F7EA5110FFCEBE6005E5C36 /* WINTERFA.H in Copy Frameworks into .app bundle */,
 				2F18B660100CB9C30009A1CB /* GLee.h in Copy Frameworks into .app bundle */,
 				2F18B6A0100CBDC60009A1CB /* WINCOMP.H in Copy Frameworks into .app bundle */,
-				2F18B6AD100CBE5A0009A1CB /* SPLITTER.H in Copy Frameworks into .app bundle */,
+				2F18B6AD100CBE5A0009A1CB /* SPLITTER.HPP in Copy Frameworks into .app bundle */,
 				2F18B7B3100CC25F0009A1CB /* wintext.h in Copy Frameworks into .app bundle */,
 				2F1B9A32100CF12700BD9739 /* BACKDROP.H in Copy Frameworks into .app bundle */,
 				2F373F39100DFE6D009F6880 /* ProjectController.h in Copy Frameworks into .app bundle */,
 				2F373F6F100E0686009F6880 /* Project.hpp in Copy Frameworks into .app bundle */,
 				2F820CCD100E10AE0004738F /* MESSBOX.H in Copy Frameworks into .app bundle */,
+				2F61A6FD100F50D000EBE4B0 /* Compiler.hpp in Copy Frameworks into .app bundle */,
 			);
 			name = "Copy Frameworks into .app bundle";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -165,6 +163,8 @@
 		2F373F6D100E0686009F6880 /* Project.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Project.hpp; sourceTree = "<group>"; };
 		2F373F6E100E0686009F6880 /* Project.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Project.cpp; sourceTree = "<group>"; };
 		2F59AFFE100CD9E1004A21BC /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/Carbon.framework; sourceTree = SYSTEM_DEVELOPER_DIR; };
+		2F61A6FB100F50D000EBE4B0 /* Compiler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Compiler.hpp; sourceTree = "<group>"; };
+		2F61A6FC100F50D000EBE4B0 /* Compiler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Compiler.cpp; sourceTree = "<group>"; };
 		2F695C70100D138D008A8DC1 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = icon.icns; path = ../source/ProjectManager/resources/icon.icns; sourceTree = SOURCE_ROOT; };
 		2F695C71100D138D008A8DC1 /* ProjIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ProjIcon.icns; path = ../source/ProjectManager/resources/ProjIcon.icns; sourceTree = SOURCE_ROOT; };
 		2F7EA3DD0FFCEBCF005E5C36 /* functionList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = functionList.h; sourceTree = "<group>"; };
@@ -197,15 +197,12 @@
 		2F7EA4090FFCEBE6005E5C36 /* REALPROC.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; path = REALPROC.H; sourceTree = "<group>"; };
 		2F7EA40A0FFCEBE6005E5C36 /* registry.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = registry.cpp; sourceTree = "<group>"; };
 		2F7EA40E0FFCEBE6005E5C36 /* Sludge_c.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = Sludge_c.bmp; sourceTree = "<group>"; };
-		2F7EA4100FFCEBE6005E5C36 /* SETTINGS.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = SETTINGS.CPP; sourceTree = "<group>"; };
-		2F7EA4110FFCEBE6005E5C36 /* SETTINGS.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; path = SETTINGS.H; sourceTree = "<group>"; };
 		2F7EA4140FFCEBE6005E5C36 /* TOKENS.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = TOKENS.CPP; sourceTree = "<group>"; };
 		2F7EA4150FFCEBE6005E5C36 /* TOKENS.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; path = TOKENS.H; sourceTree = "<group>"; };
 		2F7EA4160FFCEBE6005E5C36 /* translation.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = translation.cpp; sourceTree = "<group>"; };
 		2F7EA4170FFCEBE6005E5C36 /* translation.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = translation.h; sourceTree = "<group>"; };
 		2F7EA4180FFCEBE6005E5C36 /* TYPEDEF.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; path = TYPEDEF.H; sourceTree = "<group>"; };
 		2F7EA4190FFCEBE6005E5C36 /* WINBOX.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = WINBOX.CPP; sourceTree = "<group>"; };
-		2F7EA41B0FFCEBE6005E5C36 /* WINCOMP.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = WINCOMP.CPP; sourceTree = "<group>"; };
 		2F7EA4200FFCEBE6005E5C36 /* wintext.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = wintext.cpp; sourceTree = "<group>"; };
 		2F7EA4240FFCEBE6005E5C36 /* BACKDROP.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = BACKDROP.CPP; sourceTree = "<group>"; };
 		2F7EA4270FFCEBE6005E5C36 /* data.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = data.cpp; sourceTree = "<group>"; };
@@ -231,8 +228,7 @@
 		2F7EA4550FFCEBE6005E5C36 /* savedata.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = savedata.h; sourceTree = "<group>"; };
 		2F7EA4560FFCEBE6005E5C36 /* settings.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = settings.cpp; sourceTree = "<group>"; };
 		2F7EA4570FFCEBE6005E5C36 /* settings.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = settings.h; sourceTree = "<group>"; };
-		2F7EA45B0FFCEBE6005E5C36 /* WINBOX.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = WINBOX.CPP; sourceTree = "<group>"; };
-		2F7EA45C0FFCEBE6005E5C36 /* WINBOX.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; path = WINBOX.H; sourceTree = "<group>"; };
+		2F7EA45C0FFCEBE6005E5C36 /* WINBOX.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = WINBOX.H; path = ../ProjectManager/WINBOX.H; sourceTree = "<group>"; };
 		2F7EA45D0FFCEBE6005E5C36 /* WINCOMP.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = WINCOMP.CPP; sourceTree = "<group>"; };
 		2F7EA4600FFCEBE6005E5C36 /* WINTERFA.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; path = WINTERFA.H; sourceTree = "<group>"; };
 		2F7EA4610FFCEBE6005E5C36 /* wintext.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = wintext.cpp; sourceTree = "<group>"; };
@@ -252,7 +248,7 @@
 		2F7EA4840FFCEBE6005E5C36 /* miniflags.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = miniflags.bmp; sourceTree = "<group>"; };
 		2F7EA4860FFCEBE6005E5C36 /* sosfile.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = sosfile.cpp; sourceTree = "<group>"; };
 		2F7EA4870FFCEBE6005E5C36 /* sosfile.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = sosfile.h; sourceTree = "<group>"; };
-		2F7EA4890FFCEBE6005E5C36 /* SPLITTER.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = SPLITTER.H; path = ../Translator/SPLITTER.H; sourceTree = "<group>"; };
+		2F7EA4890FFCEBE6005E5C36 /* SPLITTER.HPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = SPLITTER.HPP; path = ../Translator/SPLITTER.HPP; sourceTree = "<group>"; };
 		2F7EA48C0FFCEBE6005E5C36 /* WINCOMP.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = WINCOMP.CPP; sourceTree = "<group>"; };
 		2F7EA48D0FFCEBE6005E5C36 /* WINCOMP.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; path = WINCOMP.H; sourceTree = "<group>"; };
 		2F7EA4900FFCEBE6005E5C36 /* wintext.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = wintext.cpp; sourceTree = "<group>"; };
@@ -397,6 +393,7 @@
 		2F7EA3ED0FFCEBE6005E5C36 /* Compiler */ = {
 			isa = PBXGroup;
 			children = (
+				2F7EA45C0FFCEBE6005E5C36 /* WINBOX.H */,
 				2F7EA3EE0FFCEBE6005E5C36 /* ALLKNOWN.CPP */,
 				2F7EA3EF0FFCEBE6005E5C36 /* ALLKNOWN.H */,
 				2F7EA3F00FFCEBE6005E5C36 /* BACKDROP.CPP */,
@@ -422,16 +419,15 @@
 				2F7EA4090FFCEBE6005E5C36 /* REALPROC.H */,
 				2F7EA40A0FFCEBE6005E5C36 /* registry.cpp */,
 				2F7EA40C0FFCEBE6005E5C36 /* resources */,
-				2F7EA4100FFCEBE6005E5C36 /* SETTINGS.CPP */,
-				2F7EA4110FFCEBE6005E5C36 /* SETTINGS.H */,
 				2F7EA4140FFCEBE6005E5C36 /* TOKENS.CPP */,
 				2F7EA4150FFCEBE6005E5C36 /* TOKENS.H */,
 				2F7EA4160FFCEBE6005E5C36 /* translation.cpp */,
 				2F7EA4170FFCEBE6005E5C36 /* translation.h */,
 				2F7EA4180FFCEBE6005E5C36 /* TYPEDEF.H */,
 				2F7EA4190FFCEBE6005E5C36 /* WINBOX.CPP */,
-				2F7EA41B0FFCEBE6005E5C36 /* WINCOMP.CPP */,
 				2F7EA4200FFCEBE6005E5C36 /* wintext.cpp */,
+				2F61A6FB100F50D000EBE4B0 /* Compiler.hpp */,
+				2F61A6FC100F50D000EBE4B0 /* Compiler.cpp */,
 			);
 			name = Compiler;
 			path = ../source/Compiler;
@@ -465,7 +461,7 @@
 			isa = PBXGroup;
 			children = (
 				2F7EA4700FFCEBE6005E5C36 /* SPLITTER.CPP */,
-				2F7EA4890FFCEBE6005E5C36 /* SPLITTER.H */,
+				2F7EA4890FFCEBE6005E5C36 /* SPLITTER.HPP */,
 				2F820CC9100E10AE0004738F /* MessBox.cpp */,
 				2F820CCA100E10AE0004738F /* MESSBOX.H */,
 				2F820CCB100E10AE0004738F /* MOREIO.cpp */,
@@ -481,8 +477,6 @@
 				2F7EA4550FFCEBE6005E5C36 /* savedata.h */,
 				2F7EA4560FFCEBE6005E5C36 /* settings.cpp */,
 				2F7EA4570FFCEBE6005E5C36 /* settings.h */,
-				2F7EA45B0FFCEBE6005E5C36 /* WINBOX.CPP */,
-				2F7EA45C0FFCEBE6005E5C36 /* WINBOX.H */,
 				2F7EA45D0FFCEBE6005E5C36 /* WINCOMP.CPP */,
 				2F7EA4600FFCEBE6005E5C36 /* WINTERFA.H */,
 				2F7EA4610FFCEBE6005E5C36 /* wintext.cpp */,
@@ -672,18 +666,14 @@
 				2F7EA4BC0FFCEBE6005E5C36 /* PREPROC.CPP in Sources */,
 				2F7EA4BE0FFCEBE6005E5C36 /* REALPROC.CPP in Sources */,
 				2F7EA4C00FFCEBE6005E5C36 /* registry.cpp in Sources */,
-				2F7EA4C50FFCEBE6005E5C36 /* SETTINGS.CPP in Sources */,
 				2F7EA4C90FFCEBE6005E5C36 /* TOKENS.CPP in Sources */,
 				2F7EA4CB0FFCEBE6005E5C36 /* translation.cpp in Sources */,
-				2F7EA4CE0FFCEBE6005E5C36 /* WINBOX.CPP in Sources */,
-				2F7EA4D00FFCEBE6005E5C36 /* WINCOMP.CPP in Sources */,
 				2F7EA4D50FFCEBE6005E5C36 /* wintext.cpp in Sources */,
 				2F7EA4EC0FFCEBE6005E5C36 /* WIN dialogueBoxInOut.cpp in Sources */,
 				2F7EA4EE0FFCEBE6005E5C36 /* WIN launch.cpp in Sources */,
 				2F7EA4F00FFCEBE6005E5C36 /* WIN MESSBOX.CPP in Sources */,
 				2F7EA4F60FFCEBE6005E5C36 /* WIN registry.cpp in Sources */,
 				2F7EA5070FFCEBE6005E5C36 /* settings.cpp in Sources */,
-				2F7EA50C0FFCEBE6005E5C36 /* WINBOX.CPP in Sources */,
 				2F7EA50E0FFCEBE6005E5C36 /* WINCOMP.CPP in Sources */,
 				2F7EA5120FFCEBE6005E5C36 /* wintext.cpp in Sources */,
 				2F18B65F100CB9C20009A1CB /* GLee.c in Sources */,
@@ -692,6 +682,8 @@
 				2F373F70100E0686009F6880 /* Project.cpp in Sources */,
 				2F820CCC100E10AE0004738F /* MessBox.cpp in Sources */,
 				2F820CCE100E10AE0004738F /* MOREIO.cpp in Sources */,
+				2F61A6FE100F50D000EBE4B0 /* Compiler.cpp in Sources */,
+				2F7DF424100FBA1A00A08B2E /* WINBOX.CPP in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

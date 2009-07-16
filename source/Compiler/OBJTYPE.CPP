@@ -1,6 +1,3 @@
-#if 0
-TODO
-
 //#include <windows.h>
 #include <stdio.h>
 #include <string.h>
@@ -8,7 +5,7 @@ TODO
 
 //#include "typedef.h"
 //#include "fatal.h"
-#include "splitter.h"
+#include "Splitter.hpp"
 #include "function.h"
 #include "settings.h"
 #include "allknown.h"
@@ -361,4 +358,3 @@ bool linkObjectFile (FILE * mainFile, FILE * indexFile, int i, unsigned long cal
 	return true;
 }
 
-#endif

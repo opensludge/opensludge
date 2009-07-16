@@ -10,15 +10,21 @@
 extern "C" {
 #endif
 	
+void clearFileList();
+void addFileToList();
+extern int fileListNum;
+char * getFileFromList (int index);	
+	
 void updateTitle ();
 void setChanged (bool newVal);
 
-void loadProject (char * filename);
-bool saveProject (char * filename);
+void loadProject (const char * filename);
+bool saveProject (const char * filename);
 void closeProject ();
-void doNewProject (char * filename);
+void doNewProject (const char * filename);
 
 void addFileToProject (char * wholeName);
+
 
 #ifdef __cplusplus
 }

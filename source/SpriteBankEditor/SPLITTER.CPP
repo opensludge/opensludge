@@ -5,7 +5,7 @@
 #define MAXINT 32767
 
 //#include "typedef.h"
-#include "splitter.h"
+#include "Splitter.hpp"
 //#include "fatal.h"
 
 //stringArray * nullArray = NULL;
@@ -40,12 +40,14 @@ void trimEdgeSpace (char * & thisString) {
 	while (trimEnd (thisString, ' ')){;}
 }
 
-void addToStringArray (stringArray * & theArray, const char * theString, int start = 0, int size = -1, bool trimSpa = true) {
+void addToStringArray (stringArray * & theArray, const char * theString, int start, int size, bool trimSpa) {
 	char * addMe;
 	stringArray * newSection;
 	stringArray * huntArray = theArray;
 	int looper;
 
+	if (! theString) return;
+	
 	if (size == -1) size = strlen (theString);
 	size -= start;
 
@@ -176,6 +178,12 @@ char * joinStrings (const char * a, const char * b) {
 char * joinStrings (const char * a, const char * b, const char * c) {
 	char * nS = new char[strlen (a) + strlen (b) + strlen (c) + 1];
 	sprintf (nS, "%s%s%s", a, b, c);
+	return nS;
+}
+
+char * joinStrings (const char * a, const char * b, const char * c, const char * d) {
+	char * nS = new char[strlen (a) + strlen (b) + strlen (c) + strlen (d) + 1];
+	sprintf (nS, "%s%s%s%d", a, b, c, d);
 	return nS;
 }
 

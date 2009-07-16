@@ -2,6 +2,7 @@
     IBClasses = (
         {
             ACTIONS = {
+                compileMenu = id; 
                 helpMenu = id; 
                 newProject = id; 
                 openProject = id; 
