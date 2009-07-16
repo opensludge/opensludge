@@ -129,7 +129,7 @@ AppController *aC;
 
 - (IBAction)compileMenu:(id)sender
 {
-	fprintf (stderr, "Compile!\n");
+	compileEverything();
 }
 
 

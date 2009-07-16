@@ -50,3 +50,6 @@ bool gotoTempDirectory ();
 bool gotoOutputDirectory ();
 FILE * openFinalFile (char *, char *);
 void writeFinalData (FILE * mainFile);
+
+void fixPath (char *filename, bool makeGood);
+

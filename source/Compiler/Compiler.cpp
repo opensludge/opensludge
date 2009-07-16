@@ -52,7 +52,7 @@ char * stageName[] = {
 static int compileStep = CSTEP_INIT;
 static stringArray * globalVarNames = NULL;
 
-char * theFile;
+extern char * loadedFile;
 static FILE * projectFile;
 static stringArray * allSourceStrings = NULL;
 static stringArray * allTheFunctionNamesTemp = NULL;
@@ -96,6 +96,8 @@ int numErrors = 0;
 
 
 void addComment (int errorType, const char * comment, const char * filename/*, int lineNumber*/) {
+	
+	fprintf (stderr, "addComment: %s %s\n", comment, filename);
 	
 	if (filename && filename[0] == '\0')
 		filename = NULL;
@@ -179,10 +181,10 @@ bool doSingleCompileStep () {
 		case CSTEP_INIT:
 		setGlobPointer (& globalVarNames);
 
-		if (! getSourceDirFromName (theFile)) return errorBox (ERRORTYPE_INTERNALERROR, "Error initialising!", NULL, NULL);
+		if (! getSourceDirFromName (loadedFile)) return errorBox (ERRORTYPE_INTERNALERROR, "Error initialising!", NULL, NULL);
 
-		projectFile = fopen (theFile, "rt");
-		if (! projectFile) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't read project file", theFile, NULL);
+		projectFile = fopen (loadedFile, "rt");
+		if (! projectFile) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't read project file", loadedFile, NULL);
 		if (! readSettings (projectFile)) return false;
 	
 		addToStringArray (allSourceStrings, "");
@@ -197,7 +199,10 @@ bool doSingleCompileStep () {
 			if (! tx) {
 				setCompileStep (CSTEP_COMPILEINIT, 1);
 			} else if (tx[0] && tx[0] != '[') {
+				fixPath(tx, true);
+				fprintf(stderr, "%s\n ", tx);
 				//setWindowText (COM_FILENAME, tx);
+				
 				char * compareMe = tx + (strlen (tx) - 4);
 				char * lowExt = compareMe;
 				while (*lowExt) {
@@ -207,7 +212,8 @@ bool doSingleCompileStep () {
 				if (strcmp (compareMe, ".sld") == 0) {
 					doDefines (tx, allSourceStrings, allFileHandles);
 				} else if (strcmp (compareMe, ".slu") == 0) {
-					if (! preProcess (tx, numProcessed ++, allSourceStrings, allFileHandles)) return false;
+					if (! preProcess (tx, numProcessed ++, allSourceStrings, allFileHandles)) 
+						return false;
 				} else if (strcmp (compareMe, ".tra") == 0) {
 					registerTranslationFile (tx);
 				} else {
@@ -279,7 +285,7 @@ bool doSingleCompileStep () {
 			fputc (1, projectFile);
 			if (! dumpFileInto (projectFile, settings.customIcon)) {
 				fclose (projectFile);
-				return errorBox (ERRORTYPE_PROJECTERROR, "Error adding custom icon (file not found or not a valid TGA file)", NULL, NULL);
+				return errorBox (ERRORTYPE_PROJECTERROR, "Error adding custom icon (file not found or not a valid TGA file)", settings.customIcon, NULL);
 			}
 		} else {
 			fputc (0, projectFile);
@@ -413,18 +419,25 @@ bool compileEverything () {
 	
 	// 			runMe = true;
 
+	
+	if (!loadedFile) return false;
+	
 	initBuiltInFunc ();
 
 	compileStep = CSTEP_INIT;
-	while (compileStep < CSTEP_DONE)
+	while (compileStep < CSTEP_DONE) {
+		fprintf(stderr, "Doing: %s.\n", stageName[compileStep]);
 		if (! doSingleCompileStep ())
 		{
+			fprintf(stderr, "Error");
 			setCompileStep (CSTEP_ERROR, 1);
 			gotoSourceDirectory ();
 			char * killName = joinStrings (settings.finalFile, ".sl~");
 			unlink (killName);
 			delete killName;
 		}
+	}
+	fprintf(stderr, "Compiling done.\n");
 			
 	return true;		
 }

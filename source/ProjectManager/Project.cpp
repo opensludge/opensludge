@@ -91,6 +91,7 @@ void loadProject (const char * filename) {
 	for (;;) {
 		readLine = readText (fp);
 		if (readLine == NULL) break;
+		fixPath (readLine, true);
 		addFileToList (readLine);
 		delete readLine;
 	}
@@ -121,7 +122,9 @@ bool saveProject (const char * filename) {
 	// Now write out the list of files...
 	int i = 0;
 	while (i<fileListNum) {
+		fixPath (fileList[i], false);
 		fprintf (fp, "%s\n", fileList[i]);
+		fixPath (fileList[i], true);
 		i++;
 	}
 	

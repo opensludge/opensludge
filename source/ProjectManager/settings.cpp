@@ -215,8 +215,9 @@ bool gotoSourceDirectory () {
 }
 
 bool gotoTempDirectory () {
-	bool r = chdir (tempDirectory);
-	if (r) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't move to temporary directory", tempDirectory, NULL);
+	// TODO
+	//bool r = chdir (tempDirectory);
+	//if (r) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't move to temporary directory", tempDirectory, NULL);
 	return true;
 }
 /*
@@ -330,6 +331,26 @@ bool getSourceDirFromName (char * filename) {
 	//	errorBox ("I think the source directory is", sourceDirectory);
 	return true;
 }
+
+
+// Fix pathnames, because Windows doesn't use the same path separator
+// as the rest of the world
+void fixPath (char *filename, bool makeGood) {
+	if (! filename) return;
+#ifndef WIN32
+	char * ptr;
+	if (makeGood) {
+		while (ptr = strstr (filename, "\\")) {
+			ptr[0] = '/';
+		}
+	} else {
+		while (ptr = strstr (filename, "/")) {
+			ptr[0] = '\\';
+		}
+	}
+#endif
+}
+
 
 
 #if 0 

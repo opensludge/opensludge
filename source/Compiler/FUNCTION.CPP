@@ -803,8 +803,8 @@ void initBuiltInFunc ()
 	
 	addToStringArray (typeDefFrom, "NULL");			addToStringArray (typeDefTo, "0");
 
-	addToStringArray (typeDefFrom, "false");		addToStringArray (typeDefTo, "0");
-	addToStringArray (typeDefFrom, "true");			addToStringArray (typeDefTo, "1");
+	addToStringArray (typeDefFrom, "FALSE");		addToStringArray (typeDefTo, "0");
+	addToStringArray (typeDefFrom, "TRUE");			addToStringArray (typeDefTo, "1");
 
 	addToStringArray (typeDefFrom, "CENTER");		addToStringArray (typeDefTo, "65535");
 	addToStringArray (typeDefFrom, "CENTRE");		addToStringArray (typeDefTo, "65535");

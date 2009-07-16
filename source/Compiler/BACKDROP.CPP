@@ -115,17 +115,7 @@ int saveHSI (char * filename) {
 	fclose (writer);
 	return i;
 }
-/*
-bool newerFile (char * newFileN, char * oldFileN) {
-	struct stat oldFileStat, newFileStat;
-	if (stat (oldFileN, & oldFileStat)) return true;
-	if (stat (newFileN, & newFileStat)) return true;
-//	char buff[200];
-//	sprintf (buff, "Difference between %s and %s is %i", oldFileN, newFileN, (int) difftime (oldFileStat.st_mtime, newFileStat.st_mtime));
-//	if (difftime (oldFileStat.st_mtime, newFileStat.st_mtime) <= 0) errorBox ("Backdrop report", buff);
-	return difftime (oldFileStat.st_mtime, newFileStat.st_mtime) <= 0;
-}
-*/
+
 
 bool convertTGA (char * filename) {
 	char * originalName = joinStrings (filename, "");
@@ -134,10 +124,14 @@ bool convertTGA (char * filename) {
 	filename[strlen (filename) - 1] = getDither() ? '2' : 'x';
 	int i, j;
 
+	fprintf (stderr, "convertTGA: %s %s \n", originalName, filename);
 	if (newerFile (originalName, filename)) {
+		fprintf (stderr, "convertTGA: 1\n");
 		// TODO setWindowText (COM_ITEMTEXT, "Compressing image");
 		i = loadBackDropForCompiler (originalName);
+		fprintf (stderr, "convertTGA: 2\n");
 		if (! i) return false;
+		fprintf (stderr, "convertTGA: 3\n");
 		j = saveHSI (filename);
 		if (! j) return false;
 //		{

@@ -29,7 +29,7 @@ bool preProcess (char * codeFileName, int fileNumber, stringArray * & strings, s
 	int doubleCheckLoop;
 
 	if (! gotoTempDirectory ()) return false;
-
+	
 	sprintf (outputName, "_T%05i.TMP", fileNumber);
 	outputFile = fopen (outputName, "wt");
 	if (! outputFile) {

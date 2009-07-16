@@ -129,7 +129,7 @@ bool newerFile (char * newFileN, char * oldFileN) {
 	if (stat (newFileN, & newFileStat)) return true;
 	return difftime (oldFileStat.st_mtime, newFileStat.st_mtime) <= 0;
 	*/
-	return false;
+	return true;
 }
 
 

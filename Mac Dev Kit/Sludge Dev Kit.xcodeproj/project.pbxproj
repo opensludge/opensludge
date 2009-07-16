@@ -93,6 +93,8 @@
 		2F9DE047100CC7ED0067DE50 /* DevKit Main.nib in Resources */ = {isa = PBXBuildFile; fileRef = 002F3AF009D08F1000EBEB88 /* DevKit Main.nib */; };
 		2F9DE048100CC7FA0067DE50 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165DFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		2FE2CEC40FFD683B000CC795 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FE2CEC30FFD683B000CC795 /* OpenGL.framework */; };
+		2FE8E965100FC28F009687AA /* AppController.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 002F3A2B09D0888800EBEB88 /* AppController.h */; };
+		2FE8E966100FC29A009687AA /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97324FDCFA39411CA2CEA /* AppKit.framework */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
@@ -138,6 +140,7 @@
 				2F373F6F100E0686009F6880 /* Project.hpp in Copy Frameworks into .app bundle */,
 				2F820CCD100E10AE0004738F /* MESSBOX.H in Copy Frameworks into .app bundle */,
 				2F61A6FD100F50D000EBE4B0 /* Compiler.hpp in Copy Frameworks into .app bundle */,
+				2FE8E965100FC28F009687AA /* AppController.h in Copy Frameworks into .app bundle */,
 			);
 			name = "Copy Frameworks into .app bundle";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -280,6 +283,7 @@
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				2FE2CEC40FFD683B000CC795 /* OpenGL.framework in Frameworks */,
 				2F59AFFF100CD9E1004A21BC /* Carbon.framework in Frameworks */,
+				2FE8E966100FC29A009687AA /* AppKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

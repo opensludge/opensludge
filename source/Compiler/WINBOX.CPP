@@ -33,7 +33,6 @@ extern HINSTANCE inst;
 
 extern stringArray * functionNames;
 
-char * theFile;
 extern stringArray * allFileHandles = NULL;
 
 extern int numStringsFound;
