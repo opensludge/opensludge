@@ -1,7 +1,5 @@
-//#include <windows.h>
 #include <stdio.h>
 #include <string.h>
-//#include <io.h>
 
 #include "moreio.h"
 #include "Splitter.hpp"
@@ -15,7 +13,6 @@ bool convertFloor (char * filename) {
 
 	filename[strlen (filename) - 1] = 'z';
 	stringArray * knownCo = NULL;
-//	stringArray * splitLine;
 	stringArray * splitBits;
 	stringArray * sA;
 	
@@ -32,14 +29,11 @@ bool convertFloor (char * filename) {
 		splitBits = splitString (sA -> string, ';');
 		fputc (countElements (splitBits), outFile);
 		while (splitBits) {
-//			errorBox ("Got co-ordinates", splitBits -> string);
 			put2bytes (findOrAdd (knownCo, splitBits -> string), outFile);
 			destroyFirst (splitBits);
 		}
 		destroyFirst (sA);
 	}
-
-//	errorBox ("Done all the line processing!");
 
 	put2bytes (countElements (knownCo), outFile);
 	int i;

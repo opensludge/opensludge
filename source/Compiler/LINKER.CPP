@@ -4,7 +4,7 @@
 
 #include "moreio.h"
 #include "Splitter.hpp"
-#include "function.h"
+#include "SLUDGE_Functions.h"
 #include "settings.h"
 #include "messbox.h"
 #include "linker.h"
@@ -26,13 +26,6 @@ char * sludgeText[] = {"?????",
   "LESS_THAN", "MORE_THAN", "NEGATIVE", "UNREGMESSAGE", "LESS_EQUAL", "MORE_EQUAL",
   "INCREMENT_LOCAL", "DECREMENT_LOCAL", "INCREMENT_GLOBAL", "DECREMENT_GLOBAL",
   "INDEXSET", "INDEXGET", "INCREMENT_INDEX", "DECREMENT_INDEX", "QUICK_PUSH"};
-
-//FILE * linkText = NULL;
-
-//void initLinker () {
-//	gotoOutputDirectory ();
-//	linkText = fopen ("ASSEMBLE.TXT", "wt");
-//}
 
 bool runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray * globalVarNames, unsigned long calcIndexSize, stringArray * allSourceStrings) {
 	char filename[32];
@@ -65,11 +58,6 @@ bool runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray 
 	sprintf (filename, "_F%05iN.DAT", functionNum);
 	totalsFile = fopen (filename, "rb");
 	if (totalsFile == NULL) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't open", filename, NULL);
-
-//	if (! gotoOutputDirectory ()) return false;
-//	sprintf (filename, "F%05i.FUN", functionNum);
-//	createFinalFile = fopen (filename, "wb");
-//	if (createFinalFile == NULL) return errorBox ("Can't write", filename);
 
 	// Now - let's get the totals
 
@@ -154,11 +142,7 @@ bool runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray 
 			bigName = joinStrings (classNameDot, grabbedText);
 
 			switch (b) {
-/*				case SLU_LOAD_FUNC: // Parameter should be a user function
-				value = findElement (functionNames, grabbedText);
-				if (value == -1) return errorBox ("Can't find a function called", grabbedText);
-				break;
-*/
+
 				case SLU_LOAD_GLOBAL: // Parameter should be a u-function, scene etc.
 				b = SLU_LOAD_OBJTYPE;
 				value = findElement (objectTypeNames, grabbedText);

@@ -1,9 +1,6 @@
-//#include <windows.h>
 #include <stdio.h>
-//#include <conio.h>
 
 #include "typedef.h"
-//#include "fatal.h"
 #include "Splitter.hpp"
 #include "moreio.h"
 #include "settings.h"
@@ -93,7 +90,6 @@ bool preProcess (char * codeFileName, int fileNumber, stringArray * & strings, s
 				grabString[stringPosition ++] = wholeFile[index];
 			}
 		} else if (justAComment) {
-//			printf ("%c", wholeFile[index]);
 			if (wholeFile[index] == '\n') justAComment = false;
 		} else {
 			switch (wholeFile[index]) {

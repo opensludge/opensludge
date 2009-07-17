@@ -1,9 +1,10 @@
-//#include <windows.h>
 #include <stdio.h>
 #include <string.h>
-//#include <io.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <time.h>
 
-//#include "fatal.h"
+
 #include "moreio.h"
 
 #define MOVETEXT 1
@@ -123,13 +124,12 @@ char * grabWholeFile (char * theName) {
 
 
 bool newerFile (char * newFileN, char * oldFileN) {
-	/*TODO
+
 	struct stat oldFileStat, newFileStat;
 	if (stat (oldFileN, & oldFileStat)) return true;
 	if (stat (newFileN, & newFileStat)) return true;
 	return difftime (oldFileStat.st_mtime, newFileStat.st_mtime) <= 0;
-	*/
-	return true;
+
 }
 
 

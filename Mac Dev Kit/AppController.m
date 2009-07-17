@@ -343,6 +343,11 @@ void activateMenus (bool on) {
 	menusActivated = on;
 }
 
+const char * getTempDir () {
+	return [NSTemporaryDirectory() UTF8String];
+}
+
+
 
 @implementation NSString (ReplaceSubString)
 

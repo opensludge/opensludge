@@ -1,6 +1,3 @@
-#if 0
-
-//#include <windows.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include "data.h"
@@ -441,4 +438,3 @@ void splitPoly (int x1, int y1, int x2, int y2) {
 	}
 }
 
-#endif

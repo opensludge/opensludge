@@ -17,7 +17,6 @@ enum
 };
 
 void addComment (int errorType, const char *, const char * filename);
-//bool errorBox (const char * txt1, unsigned int i);
 void userClickedErrorLine (int n);
 
 bool ask (const char * txt);

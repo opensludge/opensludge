@@ -1,9 +1,5 @@
-//#include <windows.h>
 #include "messbox.h"
 #include "Splitter.hpp"
-
-// TODO
-#define errorBox(a, b, c, d) 0
 
 extern stringArray * functionNames;
 extern stringArray * builtInFunc;

@@ -8,7 +8,7 @@
 #include "moreio.h"
 #include "../engine/newfatal.h"
 #include "../engine/colours.h"
-#include "../engine/backdrop.h"
+#include "../engine/Backdrop.h"
 #include "../engine/sludger.h"
 #include "../engine/zbuffer.h"
 

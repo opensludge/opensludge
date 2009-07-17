@@ -4,14 +4,9 @@
 #include "messbox.h"
 #define MAXINT 32767
 
-//#include "typedef.h"
 #include "Splitter.hpp"
-//#include "fatal.h"
 
-//stringArray * nullArray = NULL;
-
-// TODO
-#define errorBox(a, b, c, d) 0
+stringArray * nullArray = NULL;
 
 
 bool trimStart (char * & thisString, char trimChar) {
@@ -70,16 +65,12 @@ void addToStringArray (stringArray * & theArray, const char * theString, int sta
 	newSection -> string = addMe;
 	newSection -> next = NULL;
 
-//	printf ("I want to add... \"%s\"\n", addMe);
-
 	// Add it
 
 	if (theArray) {
 		while (huntArray -> next) {
-//			printf ("Skipping %s... ", huntArray -> string);
 			huntArray = huntArray -> next;
 		}
-//		printf ("Adding after %s\n", huntArray -> string);
 		huntArray -> next = newSection;
 	} else {
 		theArray = newSection;
@@ -106,7 +97,6 @@ stringArray * splitString (const char * inString, const char findCharIn, const s
 bool destroyFirst (stringArray * & theArray) {
 	stringArray * killMe = theArray;
 	if (theArray) {
-//   	printf ("Destroying %s\n", killMe -> string);
 		theArray = theArray -> next;
 		delete killMe -> string;
 		delete killMe;
@@ -114,41 +104,7 @@ bool destroyFirst (stringArray * & theArray) {
 
 	return (bool) (theArray != NULL);
 }
-/*
-int findElement (stringArray * sA, const char * findString) {
-	int i = 0;
 
-	while (sA) {
-		if (strcmp (sA -> string, findString) == 0) return i;
-		i ++;
-		sA = sA -> next;
-	}
-	return -1;
-}
-*/
-/*
-int findOrAdd (stringArray * & sA, const char * addString, bool trimSpa) {
-	int i = findElement (sA, addString);
-
-	if (i == -1) {
-		addToStringArray (sA, addString, 0, -1, trimSpa);
-		return findElement (sA, addString);
-	} else {
-		return i;
-	}
-}
-*/
-
-/*int countElements (stringArray * sA) {
-	int num = 0;
-
-	while (sA) {
-		sA = sA -> next;
-		num ++;
-	}
-	return num;
-}
-*/
 char * joinStrings (char * a, char * b) {
 	char * nS = new char[strlen (a) + strlen (b) + 1];
 //	checkNew (nS);
@@ -192,8 +148,6 @@ char * joinQuote (char * a, char * b, char q1, char q2) {
 	sprintf (nS, "%s%c%s%c", a, q1, b, q2);
 	return nS;
 }
-
-stringArray * nullArray = NULL;
 
 long stringToInt (const char * textNumber, int errorType) {
 	unsigned long i = 0;

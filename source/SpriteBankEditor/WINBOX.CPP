@@ -7,7 +7,7 @@
 #include "messbox.h"
 #include "Splitter.hpp"
 #include "preproc.h"
-#include "function.h"
+#include "SLUDGE_Functions.h"
 #include "realproc.h"
 #include "backdrop.h"
 #include "settings.h"

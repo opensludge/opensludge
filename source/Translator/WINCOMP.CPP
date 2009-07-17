@@ -48,13 +48,12 @@ char * registryGetString (char * settingName) {
 	return buff;
 }
 
-bool searchSensitive = false;//getRegSetting ("searchSensitive", false);
 char * searchString = NULL;
 
 LRESULT CALLBACK searchBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message) {
         case WM_INITDIALOG:
-       	if (searchSensitive) CheckDlgButton (hDlg, ID_CASESENSITIVE, BST_CHECKED);
+       	if (programSettings.searchSensitive) CheckDlgButton (hDlg, ID_CASESENSITIVE, BST_CHECKED);
 		return (true);
 
 		case WM_COMMAND:
@@ -66,7 +65,7 @@ LRESULT CALLBACK searchBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 					return 1;
 				}
 				searchString = new char[le];
-				searchSensitive = IsDlgButtonChecked (hDlg, ID_CASESENSITIVE) == BST_CHECKED;
+				programSettings.searchSensitive = IsDlgButtonChecked (hDlg, ID_CASESENSITIVE) == BST_CHECKED;
 
 //				putRegSetting ("searchSensitive", searchSensitive);
 
@@ -76,7 +75,7 @@ LRESULT CALLBACK searchBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 					messageBox ("Find", "No memory for specified string.");
 				}
 				// No break; here
-				if (! searchSensitive) CharUpper (searchString);
+				if (! programSettings.searchSensitive) CharUpper (searchString);
 				autoSelectContent (TYPE_SEARCH);
 
 				case IDCANCEL:

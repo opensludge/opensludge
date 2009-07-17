@@ -3,7 +3,7 @@
  *  Sludge Dev Kit
  *
  *  Created by Rikard Peterson on 2009-07-15.
- *  Copyright 2009 __MyCompanyName__. All rights reserved.
+ *  Copyright 2009 Hungry Software and contributors. All rights reserved.
  *
  */
 
@@ -16,12 +16,10 @@
 #include "Splitter.hpp"
 #include "MessBox.h"
 #include "Project.hpp"
+#include "Interface.h"
 
 char * loadedFile = NULL;
 bool changed = false;
-
-extern "C" void updateFileListing();
-extern "C" void activateMenus (bool);
 
 char *fileList[1000];
 int fileListNum = 0;
@@ -135,7 +133,6 @@ bool saveProject (const char * filename) {
 }
 
 void closeProject () {
-	blankSettings ();
 	delete loadedFile;
 	loadedFile = NULL;
 	clearFileList();

@@ -3,7 +3,7 @@
 
 //#include "typedef.h"
 #include "Splitter.hpp"
-#include "function.h"
+#include "SLUDGE_Functions.h"
 #include "moreio.h"
 #include "tokens.h"
 #include "objtype.h"

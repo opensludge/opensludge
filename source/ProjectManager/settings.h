@@ -34,19 +34,31 @@ struct settingsStruct
 };
 
 extern settingsStruct settings;
+
+struct programSettingsStruct
+{
+	bool compilerKillImages;
+	bool compilerWriteStrings;
+	bool compilerVerbose;
+	bool searchSensitive;
+};
+
+extern programSettingsStruct programSettings;
+
+
+
 extern bool silent;
 extern char * sourceDirectory;
 
 bool readSettings (FILE * fp);
 void writeSettings (FILE * fp);
 void noSettings ();
-void blankSettings ();
 void chrRenderingSettingsFillDefaults(bool enable);
-
 
 bool getSourceDirFromName (char * filename);
 bool gotoSourceDirectory ();
 bool gotoTempDirectory ();
+void killTempDir();
 bool gotoOutputDirectory ();
 FILE * openFinalFile (char *, char *);
 void writeFinalData (FILE * mainFile);

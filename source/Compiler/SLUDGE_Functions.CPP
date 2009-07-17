@@ -1,10 +1,9 @@
-//#include <windows.h>
 #include <stdio.h>
 #include <string.h>
 
 #include "typedef.h"
 #include "Splitter.hpp"
-#include "function.h"
+#include "SLUDGE_Functions.h"
 #include "settings.h"
 #include "tokens.h"
 #include "moreio.h"
@@ -14,7 +13,6 @@
 #include "wintext.h"
 #include "allknown.h"
 
-//extern HWND compWin;
 extern char * inThisClass;
 
 // Sludge commands
@@ -56,7 +54,6 @@ extern int subNum;
 void addMarker (compilationSpace & theSpace, int theMarker) {
 	put2bytes (theMarker, theSpace.markerFile);
 	put2bytes (theSpace.numLines, theSpace.markerFile);
-//	printf ("%i %i\n", theMarker, theSpace.numLines);
 }
 
 void outputHalfCode (compilationSpace & theSpace, sludgeCommand theCommand, const char * stringy) {
@@ -119,7 +116,6 @@ bool startFunction (int num,
 	writeString (inThisClass, theSpace.writeToFile);
 	fputc (unfr, theSpace.writeToFile);
 	fputc (dbMe, theSpace.writeToFile);
-//	if (unfr) errorBox ("Set unfreezable flag in function header", theName);
 	fputc (argNum, theSpace.writeToFile);
 
 	return true;
@@ -130,7 +126,6 @@ bool finishFunctionNew (compilationSpace & theSpace, stringArray * localVars) {
 	char filename[20];
 	int localNum = countElements(localVars);
 
-//	errorBox ("Calling finishFunction", "");	
 	outputDoneCode (theSpace, SLU_LOAD_NULL, 0);
 	outputDoneCode (theSpace, SLU_RETURN, 0);
 
@@ -154,7 +149,6 @@ bool finishFunctionNew (compilationSpace & theSpace, stringArray * localVars) {
 	
 	fclose (theFileHandle);
 	
-//	errorBox ("Ending finishFunction", "");	
 	return true;
 }
 

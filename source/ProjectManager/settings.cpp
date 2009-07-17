@@ -1,9 +1,11 @@
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
-#include "Function.h"
-#include "Registry.h"
+
+#include "SLUDGE_Functions.h"
 #include "Splitter.hpp"
 #include "settings.h"
 #include "Translation.h"
@@ -12,8 +14,10 @@
 #include "wintext.h"
 #include "MessBox.h"
 #include "version.h"
+#include "Interface.h"
 
 settingsStruct settings;
+programSettingsStruct programSettings;
 
 chrRenderingSettingsStruct chrRenderingSettings;
 
@@ -21,13 +25,18 @@ char * tempDirectory = NULL;
 char * sourceDirectory = NULL;
 bool silent = true;
 
-
-void blankSettings () {
-	// TODO setWindowText (ID_EDIT_OUTPUTFILE, "");
-	// TODO setWindowText (ID_EDIT_NAME, "");
+void getProgramSettings() {
+	// TODO
+	programSettings.compilerKillImages = false;
+	programSettings.compilerWriteStrings = false;
+	programSettings.compilerVerbose = false;
+	programSettings.searchSensitive = false;
 }
 
+
 void noSettings () {
+	getProgramSettings();
+	
 	if (settings.quitMessage) delete settings.quitMessage;
 	settings.quitMessage = joinStrings ("Are you sure you want to quit?", "");
 	if (settings.customIcon) delete settings.customIcon;
@@ -138,6 +147,7 @@ void readDir (char * t) {
 	while (destroyFirst (splitLine)){;}
 }
 
+
 bool readSettings (FILE * fp) {
 	char * grabLine;
 	bool keepGoing = true;
@@ -153,12 +163,31 @@ bool readSettings (FILE * fp) {
 	}
 	
 	if (! settings.finalFile) return errorBox (ERRORTYPE_PROJECTERROR, "Vital line missing from project", "finalfile", NULL);
-	//	if (! outputDirectory) return errorBox ("Vital line missing from project", "outputdir");
 	
-	//	tempDirectory;
-	return 1; //((tempDirectory = grabEnv ("%temp%")) != NULL);
+	if (! tempDirectory) {
+		tempDirectory = joinStrings(getTempDir(), "/SLUDGE_Tmp_XXXXXX");
+		fixPath (tempDirectory, true);
+		if (mktemp (tempDirectory)) {
+			if (mkdir (tempDirectory, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH))
+				tempDirectory = NULL;
+		}
+		fprintf (stderr, "tempDir: %s \n", tempDirectory);
+	}
+	return (tempDirectory != NULL);
 }
 
+
+/* killTempDir - Removes the temporary directory
+ *
+ * Not really needed on Mac OS, since the OS takes care of that for us every reboot,
+ * but it's nice to clean up anyway, and I don't think Windows cleans up that way.
+ *
+ * Note: Will fail if there are leftovers in the temp folder. Fix?
+ */
+void killTempDir() {	
+	rmdir(tempDirectory);
+	tempDirectory = NULL;
+}
 
 static void fileWriteBool (FILE * fp, const char * theString, bool theBool)
 {
@@ -215,9 +244,9 @@ bool gotoSourceDirectory () {
 }
 
 bool gotoTempDirectory () {
-	// TODO
-	//bool r = chdir (tempDirectory);
-	//if (r) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't move to temporary directory", tempDirectory, NULL);
+	if (! tempDirectory) return false;
+	bool r = chdir (tempDirectory);
+	if (r) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't move to temporary directory", tempDirectory, NULL);
 	return true;
 }
 /*
@@ -265,7 +294,7 @@ void writeFinalData (FILE * mainFile) {
 	fputc (MAJOR_VERSION, mainFile);		// Major version
 	fputc (MINOR_VERSION, mainFile);		// Minor version
 	
-	if (getRegSetting ("compilerVerbose")) {
+	if (programSettings.compilerVerbose) {
 		fputc (1, mainFile);
 		writeDebugData (mainFile);
 	} else {
@@ -312,6 +341,9 @@ void writeFinalData (FILE * mainFile) {
 }
 
 
+
+
+
 bool getSourceDirFromName (char * filename) {
 	int a, lastSlash = -1;
 	for (a = 0; filename[a]; a ++) {
@@ -337,8 +369,12 @@ bool getSourceDirFromName (char * filename) {
 // as the rest of the world
 void fixPath (char *filename, bool makeGood) {
 	if (! filename) return;
-#ifndef WIN32
 	char * ptr;
+#ifdef WIN32
+	while (ptr = strstr (filename, "/")) {
+		ptr[0] = '\\';
+	}
+#else
 	if (makeGood) {
 		while (ptr = strstr (filename, "\\")) {
 			ptr[0] = '/';
@@ -352,23 +388,14 @@ void fixPath (char *filename, bool makeGood) {
 }
 
 
+#ifdef WIN32	
 
-#if 0 
-// TODO BY RP
-
-
-chrRenderingSettingsStruct chrRenderingSettings =
-{
-	true, 4, 4, false, true, 100, 100
-};
-
-bool leaveCompressedImages = true;
-bool useCompressedImages = true;
-
-char * grabEnv (const char * la) {
+char * getTempDir () {
+	char la[] = "%temp";
 	char buffer[500];
-	char * returnVal;
-	/* TODO
+	char * returnVal = NULL;
+	
+	
 	if (ExpandEnvironmentStrings (la, buffer, 499) == 0) {
 		errorBox (ERRORTYPE_SYSTEMERROR, "Can't expand string containing environment variable(s)", la, NULL);
 		return NULL;
@@ -377,15 +404,9 @@ char * grabEnv (const char * la) {
 		errorBox (ERRORTYPE_SYSTEMERROR, "No environment variable(s)", la, NULL);
 		return NULL;
 	}
-	*/
 	returnVal = joinStrings (buffer, "");
-//	errorBox ("Expanded to", returnVal);
+	
 	return returnVal;
 }
-
-
-
-
-
 
 #endif

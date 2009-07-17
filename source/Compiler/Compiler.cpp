@@ -3,7 +3,7 @@
  *  Sludge Dev Kit
  *
  *  Created by Rikard Peterson on 2009-07-16.
- *  Copyright 2009 __MyCompanyName__. All rights reserved.
+ *  Copyright 2009 Hungry Software and contributors. All rights reserved.
  *
  */
 #include <stdlib.h>
@@ -17,17 +17,17 @@
 #include "AllKnown.h"
 #include "CheckUsed.h"
 #include "DumpFiles.h"
-#include "Function.h"
+#include "SLUDGE_Functions.h"
 #include "Linker.h"
 #include "MessBox.h"
 #include "PreProc.h"
+#include "PercBar.h"
 #include "RealProc.h"
 #include "Splitter.hpp"
 #include "Translation.h"
 #include "MoreIO.h"
 #include "settings.h"
-#include "Registry.h"
-#include "Backdrop.h"
+#include "HSI.h"
 #include "ObjType.h"
 
 enum { CSTEP_INIT,
@@ -62,8 +62,6 @@ static FILE * tempIndex;
 static FILE * tempData;
 static unsigned long iSize;
 static int tot;
-static bool runMe = false;
-
 
 extern stringArray * allFileHandles;
 extern int numStringsFound;
@@ -168,9 +166,9 @@ void setCompileStep (int a, int totalBits)
 	//	setWindowText (COM_FILENAME, "");
 	//	setWindowText (COM_ITEMTEXT, "");
 		
-	//	clearRect (CSTEP_DONE, P_TOP);
-	//	percRect (a, P_TOP);
-	//	clearRect (totalBits, P_BOTTOM);
+		clearRect (CSTEP_DONE, P_TOP);
+		percRect (a, P_TOP);
+		clearRect (totalBits, P_BOTTOM);
 	}
 }
 
@@ -240,7 +238,7 @@ bool doSingleCompileStep () {
 			break;
 		}
 		
-//		percRect (data1, P_BOTTOM);
+		percRect (data1, P_BOTTOM);
 		if (! realWork (data1, globalVarNames, globalSpace))
 			return false;
 		data1 ++;
@@ -271,8 +269,7 @@ bool doSingleCompileStep () {
 		projectFile = openFinalFile (".sl~", "wb");
 		if (! projectFile) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't open output file for writing", NULL, NULL);
 	
-		FILE * textFile = getRegSetting ("compilerWriteStrings") ?
-			openFinalFile (" text.doc", "wt") : NULL;
+		FILE * textFile = (programSettings.compilerWriteStrings) ? openFinalFile (" text.doc", "wt") : NULL;
 	
 		writeFinalData (projectFile);
 	
@@ -315,7 +312,7 @@ bool doSingleCompileStep () {
 		case CSTEP_LINKSCRIPTS:
 		if (data1 < countElements(functionNames))
 		{
-//			percRect (data1, P_BOTTOM);
+			percRect (data1, P_BOTTOM);
 			if (! runLinker (tempData, tempIndex, data1, globalVarNames, iSize, allSourceStrings))
 				return false;
 			allTheFunctionNamesTemp = allTheFunctionNamesTemp -> next;
@@ -347,7 +344,7 @@ bool doSingleCompileStep () {
 		case CSTEP_LINKOBJECTS:
 		if (data1 < tot)
 		{
-//			percRect (data1, P_BOTTOM);
+			percRect (data1, P_BOTTOM);
 			if (! linkObjectFile (tempData, tempIndex, data1, iSize)) {
 				fclose (projectFile);
 				return false;
@@ -396,15 +393,7 @@ bool doSingleCompileStep () {
 		else
 		{
 
-			// Run the compiled program (if we were told to)
-			if (runMe)
-			{
-				runCompiledGame ();
-			}
-			else
-			{
 //				EnableWindow (GetDlgItem (compWin, IDOK), true);
-			}
 		}
 		setCompileStep (CSTEP_DONE, 0);
 		break;
@@ -413,12 +402,7 @@ bool doSingleCompileStep () {
 	return true;
 }
 
-
-
 bool compileEverything () {
-	
-	// 			runMe = true;
-
 	
 	if (!loadedFile) return false;
 	
@@ -437,7 +421,10 @@ bool compileEverything () {
 			delete killName;
 		}
 	}
+	
 	fprintf(stderr, "Compiling done.\n");
-			
+	
+	killTempDir();
+	
 	return true;		
 }

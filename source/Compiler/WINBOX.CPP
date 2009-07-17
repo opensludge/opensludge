@@ -11,7 +11,7 @@
 #include "messbox.h"
 #include "Splitter.hpp"
 #include "preproc.h"
-#include "function.h"
+#include "SLUDGE_Functions.h"
 #include "realproc.h"
 #include "registry.h"
 #include "settings.h"

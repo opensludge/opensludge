@@ -1,7 +1,3 @@
-//#include <windows.h>
-//#include <stdlib.h>
-//#include <stdio.h>
-//#include <unistd.h>
 #include "percbar.h"
 #include "wintext.h"
 #include "winterfa.h"
@@ -11,8 +7,6 @@
 #define BOX1		86
 #define BOX2		132
 #define BOXHEIGHT	20
-
-//extern HWND compWin;
 
 unsigned int percTotal[2] = {100, 100}, lastVal[2] = {0, 0};
 
@@ -75,14 +69,3 @@ void percRect (unsigned int i, whichPerc whichBox) {
 	ReleaseDC (compWin, hdc);
 	*/
 }
-
-void repaintPercBars () {
-	/*
-	if (compWin)
-	{
-		percRect (lastVal[0], P_TOP);
-		percRect (lastVal[1], P_BOTTOM);
-	}
-	 */
-}
-

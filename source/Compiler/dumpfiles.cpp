@@ -1,4 +1,3 @@
-//#include <windows.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
@@ -8,11 +7,10 @@
 #include "wintext.h"
 #include "winterfa.h"
 #include "settings.h"
-#include "backdrop.h"
+#include "HSI.h"
 #include "messbox.h"
 #include "moreio.h"
 #include "floor.h"
-#include "registry.h"
 #include "translation.h"
 #include "dumpfiles.h"
 
@@ -70,22 +68,17 @@ int getFileType (char * filename) {
 
 bool dumpFiles (FILE * mainFile, stringArray * & theSA) {
 
-	bool destroyCompressedImages = false; //TODO getRegSetting ("compilerKillImages");
-
 	// Display first...
 
 //	setWindowText (COM_PROGTEXT, "Attaching sprites, images and audio files");
 //	setWindowText (COM_ITEMTEXT, "");
-	int howManyFiles = countElements(theSA);
 	clearRect (countElements (theSA), P_BOTTOM);
 
 	// Now the hard work
-
 	unsigned long remainingIndexSize = countElements (theSA) * 4 - 4;
 	unsigned long filesize;
 	int i = 0, ch;
 	gotoTempDirectory ();
-//	FILE * dbug = fopen ("Compiler debug.txt", "wt");
 
 	FILE * inFile, * outFile = fopen ("alldata.big", "wb");
 	if (outFile == NULL)
@@ -107,7 +100,7 @@ bool dumpFiles (FILE * mainFile, stringArray * & theSA) {
 			switch (getFileType (theSA->string)) {
 				case FILETYPE_TGA:
 				convertTGA (theSA -> string);
-				killAfterAdd = destroyCompressedImages;
+				killAfterAdd = programSettings.compilerKillImages;
 				break;
 				
 				case FILETYPE_FLOOR:
@@ -129,7 +122,6 @@ bool dumpFiles (FILE * mainFile, stringArray * & theSA) {
 			filesize = ftell (inFile);
 			fseek (inFile, 0, 0);
 			
-	//		fprintf (dbug, "File %i... distance to travel is %li, size is %li\n", i, remainingIndexSize, filesize);
 			// Save the size at the start of the data...
 			put4bytes (filesize, outFile);
 			
@@ -146,7 +138,7 @@ bool dumpFiles (FILE * mainFile, stringArray * & theSA) {
 			if (killAfterAdd) unlink (theSA -> string);
 		}
 		destroyFirst (theSA);
-//		percRect (++ i, P_BOTTOM);
+		percRect (++ i, P_BOTTOM);
 	}
 	
 	fclose (outFile);

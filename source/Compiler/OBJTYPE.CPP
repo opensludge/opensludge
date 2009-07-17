@@ -1,12 +1,9 @@
-//#include <windows.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
 
-//#include "typedef.h"
-//#include "fatal.h"
 #include "Splitter.hpp"
-#include "function.h"
+#include "SLUDGE_Functions.h"
 #include "settings.h"
 #include "allknown.h"
 #include "moreio.h"
@@ -19,7 +16,6 @@
 
 stringArray * objectTypeNames = NULL;
 extern stringArray * functionNames;
-//extern HWND compWin;
 extern char * inThisClass;
 extern char * emptyString;
 
@@ -41,9 +37,6 @@ unsigned short handleFlags (char * instring) {
 				}
 			}
 			if (index >= 0) {
-//				char buff[100];
-//				sprintf (buff, "Flag %i: %s", index, bits->string);
-//				addComment (buff);
 				f |= 1<<index;
 			}
 		}
@@ -260,12 +253,6 @@ bool createObjectType (char * code, const char * fName, stringArray * & globalVa
 	
 	put2bytes (flags, objFile);
 
-//	if (flags) {
-//		char buff[100];
-//		sprintf (buff, "Flags: %d", flags);
-//		addComment (buff);
-//	}
-
 	fclose (objFile);
 	
 	return true;
@@ -291,11 +278,6 @@ bool linkObjectFile (FILE * mainFile, FILE * indexFile, int i, unsigned long cal
 	setWindowText (COM_ITEMTEXT, objNam);
 	char * fileNam = readString (fileIn);
 	setWindowText (COM_FILENAME, fileNam);
-
-//	if (! gotoOutputDirectory ()) return false;
-//	sprintf (fbuff, "obj%05i.obd", i);
-//	fileOut = fopen (fbuff, "wb");
-//	if (! fileOut) return errorBox ("Can't write final object file", fbuff);
 
 	for (a = 0; a < 2; a ++) {
 		fputc (fgetc (fileIn), mainFile);
@@ -331,11 +313,9 @@ bool linkObjectFile (FILE * mainFile, FILE * indexFile, int i, unsigned long cal
 	fclose (theNumFile);
 
 	put2bytes (numCom, mainFile);
-//	printf ("%i combinations\n", numCom);
 	while (numCom --) {
 		objNam = readString (fileIn);
 		funcToCall = readString (fileIn);
-//		printf ("Combine with %s => call %s\n", objNam, funcToCall);
 
 		f = findElement (objectTypeNames, objNam);
 		if (f == -1) return errorBox (ERRORTYPE_PROJECTERROR, "Not an object name", objNam, NULL);
@@ -350,7 +330,6 @@ bool linkObjectFile (FILE * mainFile, FILE * indexFile, int i, unsigned long cal
 		delete objNam, funcToCall;
 	}
 	fclose (fileIn);
-//	if (! gotoTempDirectory ()) return false;
 	sprintf (fbuff, "obj%05i.nu~", i);
 	unlink (fbuff);
 	sprintf (fbuff, "obj%05i.ob~", i);

@@ -26,7 +26,6 @@ transLine * selectedTransLine;
 bool beenChanged = false, fileBeenChanged = false;
 extern char * loader;
 extern char * searchString;
-extern bool searchSensitive;
 
 #define enableMenu(a,b)		EnableMenuItem (myMenu, a, b ? MF_ENABLED : MF_GRAYED)
 
@@ -265,7 +264,7 @@ char * mystrstr (const char * biggy, const char * littley) {
 
 bool doesSearchStringMatchLine (transLine * thisLine) {
 	char * (* callMe) (const char *, const char *);
-	callMe = searchSensitive ? strstr : mystrstr;
+	callMe = programSettings.searchSensitive ? strstr : mystrstr;
 	if (searchString) {
 		if (callMe (thisLine -> transFrom, searchString))
 			return true;

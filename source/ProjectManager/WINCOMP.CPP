@@ -8,7 +8,6 @@
 #include "messbox.h"
 #include "wincomp.h"
 #include "wintext.h"
-#include "registry.h"
 #include "settings.h"
 #include "Splitter.hpp"
 #include "launch.h"
@@ -17,7 +16,6 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 
 bool keepImages, keepStrings, verboseMode;
 
-bool searchSensitive = false;
 extern chrRenderingSettingsStruct chrRenderingSettings;
 
 
@@ -34,9 +32,6 @@ HINSTANCE inst;
 HMENU myMenu;
 
 char * loader;
-char * editor;
-char * compiler;
-char * helpFile;
 
 
 char * searchString = NULL;
@@ -249,7 +244,7 @@ LRESULT CALLBACK resourcesBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM
         	if (searchString) {
 	        	SetDlgItemText (hDlg, IDOK, "Edit");
 				SetWindowText (hDlg, "Search results");
-				if (! searchSensitive) upperString (searchString);
+				if (! programSettings.searchSensitive) upperString (searchString);
         		for (i = 0; i < n; i ++) {
 					tx = getFileFromBox (i);
 					if (tx) {
@@ -257,7 +252,7 @@ LRESULT CALLBACK resourcesBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 						char * entireFile = grabWholeFile (tx);
 						
 						if (entireFile) {
-							if (! searchSensitive) upperString (entireFile);
+							if (! programSettings.searchSensitive) upperString (entireFile);
 							
 							// Look for searchString...
 							for (int i = 0; entireFile[i]; i ++) {
@@ -387,7 +382,7 @@ LRESULT CALLBACK resourcesBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 LRESULT CALLBACK searchBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message) {
         case WM_INITDIALOG:
-       	if (searchSensitive) CheckDlgButton (hDlg, ID_CASESENSITIVE, BST_CHECKED);
+       	if (programSettings.searchSensitive) CheckDlgButton (hDlg, ID_CASESENSITIVE, BST_CHECKED);
 		return (true);
 
 		case WM_COMMAND:
@@ -399,9 +394,9 @@ LRESULT CALLBACK searchBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 					return 1;
 				}
 				searchString = new char[le];
-				searchSensitive = isChecked (hDlg, ID_CASESENSITIVE);
+				programSettings.searchSensitive = isChecked (hDlg, ID_CASESENSITIVE);
 
-				putRegSetting ("searchSensitive", searchSensitive);
+				putRegSetting ("searchSensitive", programSettings.searchSensitive);
 
 				if (searchString) {
 					GetWindowText (GetDlgItem (hDlg, ID_TEXT_EDITOR), searchString, le);
@@ -468,64 +463,7 @@ LRESULT CALLBACK aboutBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
     return false;
 }
 
-LRESULT CALLBACK settingsBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) {
-	static OPENFILENAME ofn;
-	static char path[MAX_PATH];
-	switch (message) {
-        case WM_INITDIALOG:
-        {
-		    SetWindowText (GetDlgItem (hDlg, ID_TEXT_EDITOR), editor);
-			GetCurrentDirectory(MAX_PATH,path);
-			memset(&ofn,0,sizeof(ofn));
-			ofn.lStructSize=sizeof(ofn);
-			ofn.hwndOwner=hDlg;
-			ofn.hInstance=inst;
-			ofn.nMaxFile=MAX_PATH;
-			ofn.lpstrInitialDir=path;
-			ofn.Flags=OFN_HIDEREADONLY|OFN_EXPLORER;
-//			ShowWindow (hDlg, SW_SHOW);
-			return (true);
-		}
 
-		case WM_COMMAND:
-			switch (LOWORD(wParam)) {
-				case IDOK:
-				{
-					int le = GetWindowTextLength (GetDlgItem (hDlg, ID_TEXT_EDITOR)) + 1;
-					char * newEditor = new char[le];
-					if (newEditor) {
-						GetWindowText (GetDlgItem (hDlg, ID_TEXT_EDITOR), newEditor, le);
-						delete editor;
-						editor = newEditor;
-						setRegString ("compilerEditor", editor);
-					} else {
-						errorBox ("Out of memory...", "Can't update editor location");
-					}
-				}
-
-				case IDCANCEL:
-				EndDialog(hDlg, true);
-				return (true);
-				
-				case ID_TEXT_BROWSE:
-				{
-					char file[MAX_PATH]="";
-					ofn.lpstrFilter="Executables (*.EXE)\0*.exe\0\0";
-					ofn.lpstrFile=file;
-					ofn.lpstrTitle = "Choose your text editor...";
-					if (GetOpenFileName(&ofn)) {
-						memcpy(path,file,ofn.nFileOffset);
-						path[ofn.nFileOffset-1]=0;
-						SetWindowText (GetDlgItem(hDlg, ID_TEXT_EDITOR), file);
-					}
-				}
-				break;
-			}
-			break;
-	}
-
-    return false;
-}
 
 LRESULT CALLBACK sizeBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message) {
@@ -815,15 +753,6 @@ bool APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 			MESS(ID_FILELIST, LB_RESETCONTENT, 0, 0);
 			break;
 */
-			case ID_PROJECT_COMPILE:
-			saveProject (loadedFile);
-			runProg (compiler, "", loadedFile);
-			break;
-
-			case ID_PROJECT_RUN:
-			saveProject (loadedFile);
-			runProg (compiler, "-r ", loadedFile);
-			break;
 
 			case ID_CONTENTS_DELETE_FILE:
 			{
@@ -911,27 +840,15 @@ bool APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 		ofn.lpstrInitialDir=path;
 //      noSettings ();
 
-		keepImages = ! getRegSetting ("compilerKillImages");
+		keepImages = ! programSettings.compilerKillImages;
 		setTick (ID_KEEP_IMAGES, keepImages);
 
-		keepStrings = getRegSetting ("compilerWriteStrings");
+		keepStrings = programSettings.compilerWriteStrings;
 		setTick (ID_KEEP_STRINGS, keepStrings);
 
-		verboseMode = getRegSetting ("compilerVerbose");
+		verboseMode = programSettings.compilerVerbose;
 		setTick (ID_VERBOSE, verboseMode);
 
-		searchSensitive = getRegSetting ("searchSensitive");
-		editor = getRegString ("compilerInstallDir");
-		if (editor) {
-			compiler = joinStrings (editor, "\\SLUDGE Compiler.exe");
-			helpFile = joinStrings (editor, "\\Help\\SLUDGE.chm");
-			delete editor;
-		} else {
-			compiler = joinStrings ("", "");
-			helpFile = joinStrings (".", "\\Help\\SLUDGE.chm");
-		}
-		editor = getRegString ("compilerEditor");
-		if (! editor) editor = joinStrings ("notepad.exe", "");
 		if (loader[0]) {
 //			messageBox ("Trying to load...", loader);
 			loadProject (loader);

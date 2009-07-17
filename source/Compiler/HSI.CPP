@@ -1,7 +1,5 @@
-//#include <windows.h>
 #include <stdio.h>
 #include <string.h>
-//#include <io.h>
 
 #include "moreio.h"
 #include "Splitter.hpp"
@@ -10,7 +8,6 @@
 #include "messbox.h"
 #include "tga.h"
 
-//extern unsigned short int * screen;
 unsigned short int * * backDropImage;
 int VERT_RES, HORZ_RES;
 
@@ -33,15 +30,14 @@ int loadBackDropForCompiler (char * fileName) {
 	unsigned short int * toScreen;
 	unsigned short int t1, t2;
 	palCol thePalette[256];
-	// Open the file
-	
+
+	// Open the file	
 	FILE * fp = fopen (fileName, "rb");
 	if (fp == NULL) {
 		return false;
 	}
 	
 	// Grab the header
-
 	TGAHeader imageHeader;
 	char * errorBack;
 	errorBack = readTGAHeader (imageHeader, fp, thePalette);
@@ -66,20 +62,7 @@ int loadBackDropForCompiler (char * fileName) {
 	fclose (fp);
 	return i;
 }
-/*
-void backDropToScreenBuffer () {
-	unsigned short int a, b;
-	unsigned short int * fromHere;
-	unsigned short int * toScreen = screen;
 
-	for (a = 0; a < VERT_RES; a ++) {
-		fromHere = backDropImage[a];
-		for (b = 0; b < HORZ_RES; b ++) {
-			* (toScreen ++) = * (fromHere ++);
-//			* (toScreen ++) = a;
-		}
-	}
-}*/
 
 int saveHSI (char * filename) {
 	FILE * writer = fopen (filename, "wb");
@@ -126,12 +109,9 @@ bool convertTGA (char * filename) {
 
 	fprintf (stderr, "convertTGA: %s %s \n", originalName, filename);
 	if (newerFile (originalName, filename)) {
-		fprintf (stderr, "convertTGA: 1\n");
 		// TODO setWindowText (COM_ITEMTEXT, "Compressing image");
 		i = loadBackDropForCompiler (originalName);
-		fprintf (stderr, "convertTGA: 2\n");
 		if (! i) return false;
-		fprintf (stderr, "convertTGA: 3\n");
 		j = saveHSI (filename);
 		if (! j) return false;
 //		{

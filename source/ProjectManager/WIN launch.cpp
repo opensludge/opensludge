@@ -192,19 +192,11 @@ void addTableRow (FILE * fp, int here, char * name, char * code) {
 	delete temp;
 }
 
-char * grabEnv (const char * la) {
-	char buffer[500];
-	char * returnVal;
-	if (ExpandEnvironmentStrings (la, buffer, 499) == 0) return NULL;
-	if (! buffer[0]) return NULL;
-	returnVal = joinStrings (buffer, "");
-	return returnVal;
-}
 
 char * tempHTML = NULL;
 	
 void checkForUpgrades (HWND h) {
-	char * tempDirectory = grabEnv ("%temp%");
+	char * tempDirectory = getTempDir();
 	if (! tempDirectory) return;
 	
 	if (tempHTML) delete tempHTML;

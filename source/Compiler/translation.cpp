@@ -92,7 +92,6 @@ void registerTranslationFile (char * filename) {
 	
 	addNewTraReg (filename, ID);
 //		errorBox ("Translation file registered OK", filename);
-//	}
 }
 
 stringArray * transFrom = NULL;
