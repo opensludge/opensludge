@@ -264,7 +264,6 @@
 		2F820CCB100E10AE0004738F /* MOREIO.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = MOREIO.cpp; sourceTree = "<group>"; };
 		2FE2619E1010BD5D005EF966 /* HSI.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; path = HSI.H; sourceTree = "<group>"; };
 		2FE2CEC30FFD683B000CC795 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
-		32CA4F630368D1EE00C91783 /* Sludge Dev Kit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Sludge Dev Kit_Prefix.pch"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Sludge Dev Kit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sludge Dev Kit.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -329,27 +328,18 @@
 			children = (
 				2F18B6D5100CC0B40009A1CB /* Sludge Dev Kit Help */,
 				2F7EA3DC0FFCEBCF005E5C36 /* CommonCode */,
+				2F7EA4380FFCEBE6005E5C36 /* ProjectManager */,
 				2F7EA3ED0FFCEBE6005E5C36 /* Compiler */,
 				2F7EA4220FFCEBE6005E5C36 /* FloorMaker */,
-				2F7EA4380FFCEBE6005E5C36 /* ProjectManager */,
 				2F7EA4630FFCEBE6005E5C36 /* SpriteBankEditor */,
 				2F7EA47C0FFCEBE6005E5C36 /* Translator */,
 				2F7EA4920FFCEBE6005E5C36 /* ZBufferMaker */,
 				080E96DDFE201D6D7F000001 /* Mac Code */,
-				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
 			name = "Sludge Dev Kit";
-			sourceTree = "<group>";
-		};
-		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
-			isa = PBXGroup;
-			children = (
-				32CA4F630368D1EE00C91783 /* Sludge Dev Kit_Prefix.pch */,
-			);
-			name = "Other Sources";
 			sourceTree = "<group>";
 		};
 		29B97317FDCFA39411CA2CEA /* Resources */ = {

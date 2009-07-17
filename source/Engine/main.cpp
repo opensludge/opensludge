@@ -164,7 +164,12 @@ int main(int argc, char *argv[])
 	SDL_putenv("SDL_ENABLEAPPEVENTS=1");
 
 	setGraphicsWindow(gameSettings.userFullScreen, false);
-	
+
+	if (GLEE_VERSION_1_2) fprintf (stderr, "OpenGL 1.2\n");
+	if (GLEE_VERSION_1_3) fprintf (stderr, "OpenGL 1.3\n");
+	if (GLEE_VERSION_1_4) fprintf (stderr, "OpenGL 1.4\n");
+	if (GLEE_VERSION_2_0) fprintf (stderr, "OpenGL 2.0\n");
+
 	/* Here's a good place to check for graphics capabilities... *
 	if (! GLEE_VERSION_2_0)
 	{

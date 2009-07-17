@@ -175,8 +175,12 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 269357104;
-			PBXWorkspaceStateSaveDate = 269357104;
+			PBXPerProjectTemplateStateSaveDate = 269557778;
+			PBXWorkspaceStateSaveDate = 269557778;
+		};
+		perUserProjectItems = {
+			2FA9138F1011202100DEF98F /* PBXTextBookmark */ = 2FA9138F1011202100DEF98F /* PBXTextBookmark */;
+			2FDEF35310111A1600019267 /* PBXTextBookmark */ = 2FDEF35310111A1600019267 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 2FAD3C3B0E335871003DEE41 /* Source Control */;
 		userBuildSettings = {
@@ -221,9 +225,9 @@
 	};
 	2F6F29930FBEFF3D00BC6A67 /* main.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {839, 4438}}";
-			sepNavSelRange = "{832, 4}";
-			sepNavVisRect = "{{0, 0}, {839, 333}}";
+			sepNavIntBoundsRect = "{{0, 0}, {736, 4508}}";
+			sepNavSelRange = "{3526, 0}";
+			sepNavVisRect = "{{0, 2061}, {736, 585}}";
 			sepNavWindowFrame = "{{15, 64}, {775, 714}}";
 		};
 	};
@@ -231,7 +235,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {926, 14588}}";
 			sepNavSelRange = "{507, 4}";
-			sepNavVisRect = "{{0, 0}, {839, 333}}";
+			sepNavVisRect = "{{0, 110}, {839, 223}}";
 			sepNavWindowFrame = "{{161, 34}, {1021, 744}}";
 		};
 	};
@@ -412,8 +416,8 @@
 	2F7BFEEC0E338627003F5DC3 /* transition.cpp */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {839, 4872}}";
-			sepNavSelRange = "{2471, 4}";
-			sepNavVisRect = "{{0, 1213}, {839, 333}}";
+			sepNavSelRange = "{537, 2}";
+			sepNavVisRect = "{{0, 196}, {839, 223}}";
 			sepNavWindowFrame = "{{15, 82}, {1016, 691}}";
 		};
 	};
@@ -752,6 +756,16 @@
 			sepNavWindowFrame = "{{36, 45}, {775, 714}}";
 		};
 	};
+	2FA9138F1011202100DEF98F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2F6F29930FBEFF3D00BC6A67 /* main.cpp */;
+		name = "main.cpp: 170";
+		rLen = 0;
+		rLoc = 3526;
+		rType = 0;
+		vrLen = 1333;
+		vrLoc = 2605;
+	};
 	2FAD3C2C0E33586B003DEE41 /* OpenSLUDGE */ = {
 		isa = PBXExecutable;
 		activeArgIndex = 2147483647;
@@ -813,6 +827,16 @@
 		name = "Project Breakpoints";
 		objects = (
 		);
+	};
+	2FDEF35310111A1600019267 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2F6F29930FBEFF3D00BC6A67 /* main.cpp */;
+		name = "main.cpp: 170";
+		rLen = 0;
+		rLoc = 3526;
+		rType = 0;
+		vrLen = 1335;
+		vrLoc = 2603;
 	};
 	8D1107260486CEB800E47090 /* OpenSLUDGE */ = {
 		activeExec = 0;

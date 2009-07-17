@@ -269,7 +269,7 @@ bool doSingleCompileStep () {
 		projectFile = openFinalFile (".sl~", "wb");
 		if (! projectFile) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't open output file for writing", NULL, NULL);
 	
-		FILE * textFile = (programSettings.compilerWriteStrings) ? openFinalFile (" text.doc", "wt") : NULL;
+		FILE * textFile = (programSettings.compilerWriteStrings) ? openFinalFile (" text.txt", "wt") : NULL;
 	
 		writeFinalData (projectFile);
 	

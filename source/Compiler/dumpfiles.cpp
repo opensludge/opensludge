@@ -101,6 +101,7 @@ bool dumpFiles (FILE * mainFile, stringArray * & theSA) {
 				case FILETYPE_TGA:
 				convertTGA (theSA -> string);
 				killAfterAdd = programSettings.compilerKillImages;
+				fprintf (stderr, "KillAfterAdd: %d (%s)", killAfterAdd, theSA -> string);
 				break;
 				
 				case FILETYPE_FLOOR:

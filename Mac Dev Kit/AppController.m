@@ -4,10 +4,14 @@
 
 #include "Project.hpp"
 //#include "Compiler.hpp"
-
+#include "Settings.h"
 
 #import <sys/param.h> /* for MAXPATHLEN */
 #import <unistd.h>
+
+
+extern bool changed;
+extern char * loadedFile;
 
 
 static int    gArgc;
@@ -56,6 +60,7 @@ AppController *aC;
 
 -(id) init
 {
+	fprintf (stderr, "Hello");
 	[super init];
 	aC = self;
 	return self;
@@ -63,10 +68,12 @@ AppController *aC;
 
 - (IBAction)prefsMenu:(id)sender
 {
-    printf ("prefs menu\n");
+	[preferenceWindow makeKeyAndOrderFront:nil];
+	
+	[prefKeepImages setState: ! programSettings.compilerKillImages];
+	[prefWriteStrings setState: programSettings.compilerWriteStrings];
+	[prefVerbose setState: programSettings.compilerVerbose];
 }
-
-
 
 - (IBAction)newProject:(id)sender
 {    
@@ -103,6 +110,12 @@ AppController *aC;
 		[projectWindow makeKeyAndOrderFront:nil];
 	}
 }
+
+- (IBAction)closeProject:(id)sender
+{
+	closeProject ();
+}
+
 
 - (IBAction)saveProject:(id)sender
 {
@@ -318,6 +331,16 @@ bail: return err;
 	[projectFiles noteNumberOfRowsChanged];
 }
 
+- (void) setProjectTitle
+{
+	if (loadedFile) {
+		[projectWindow setTitleWithRepresentedFilename:[NSString stringWithUTF8String:loadedFile]];
+		[projectWindow setDocumentEdited:changed];
+	} else 
+		[projectWindow close];
+}
+
+
 // This is the project file list!
 - (int)numberOfRowsInTableView:(NSTableView *)tv
 {
@@ -333,15 +356,37 @@ bail: return err;
 }
 
 
+- (IBAction)prefKeepImagesClick:(id)sender
+{
+	programSettings.compilerKillImages = ! [prefKeepImages state];
+}
+- (IBAction)prefWriteStringsClick:(id)sender
+{
+	programSettings.compilerWriteStrings = [prefWriteStrings state];
+}
+- (IBAction)prefVerboseClick:(id)sender
+{
+	programSettings.compilerVerbose = [prefVerbose state];
+}
+
+
 @end
+
 
 void updateFileListing() {
 	[aC updateFileListing];
 }
 
-void activateMenus (bool on) {
-	menusActivated = on;
+
+void updateTitle () {
+	[aC setProjectTitle];
+	if (loadedFile) {
+		menusActivated = true;
+	} else {
+		menusActivated = false;
+	}
 }
+
 
 const char * getTempDir () {
 	return [NSTemporaryDirectory() UTF8String];
@@ -387,9 +432,6 @@ const char * getTempDir () {
 }
 
 @end
-
-
-
 
 
 

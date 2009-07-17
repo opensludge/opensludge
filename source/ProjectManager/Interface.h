@@ -14,7 +14,10 @@ extern "C" {
 #endif
 
 void updateFileListing();
-void activateMenus (bool on);		
+
+// Update title of project window, and (de)activate menus
+void updateTitle ();
+
 
 const char * getTempDir ();
 

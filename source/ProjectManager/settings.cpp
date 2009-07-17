@@ -25,17 +25,8 @@ char * tempDirectory = NULL;
 char * sourceDirectory = NULL;
 bool silent = true;
 
-void getProgramSettings() {
-	// TODO
-	programSettings.compilerKillImages = false;
-	programSettings.compilerWriteStrings = false;
-	programSettings.compilerVerbose = false;
-	programSettings.searchSensitive = false;
-}
-
 
 void noSettings () {
-	getProgramSettings();
 	
 	if (settings.quitMessage) delete settings.quitMessage;
 	settings.quitMessage = joinStrings ("Are you sure you want to quit?", "");

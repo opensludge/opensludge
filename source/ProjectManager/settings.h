@@ -7,7 +7,7 @@ struct chrRenderingSettingsStruct
 	int maxSoftnessX, maxSoftnessY;
 };
 
-extern chrRenderingSettingsStruct chrRenderingSettings;
+extern struct chrRenderingSettingsStruct chrRenderingSettings;
 
 
 struct settingsStruct
@@ -33,7 +33,7 @@ struct settingsStruct
 	int frameSpeed;
 };
 
-extern settingsStruct settings;
+extern struct settingsStruct settings;
 
 struct programSettingsStruct
 {
@@ -43,7 +43,7 @@ struct programSettingsStruct
 	bool searchSensitive;
 };
 
-extern programSettingsStruct programSettings;
+extern struct programSettingsStruct programSettings;
 
 
 

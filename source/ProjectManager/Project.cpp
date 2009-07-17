@@ -47,19 +47,6 @@ char * getFileFromList (int index) {
 	return fileList[index];
 }
 
-void updateTitle () {
-	if (loadedFile) {
-		char buff[500];
-		sprintf (buff, "SLUDGE Project Manager: %s%s", changed ? "* " : "", loadedFile);
-		//SetWindowText (mainWin, buff);
-		activateMenus (true);
-		//setWindowText (ID_LOADED_FILE, loadedFile);
-	} else {
-		//SetWindowText (mainWin, "SLUDGE Project Manager");
-		activateMenus (false);
-		//setWindowText (ID_LOADED_FILE, "No project loaded");
-	}
-}
 
 void setChanged (bool newVal) {
 	changed = newVal;
