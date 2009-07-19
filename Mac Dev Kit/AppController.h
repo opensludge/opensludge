@@ -21,6 +21,9 @@
 
 - (IBAction)compileMenu:(id)sender;
 
+- (IBAction)spriteBankNew:(id)sender;
+- (IBAction)spriteBankOpen:(id)sender;
+
 - (IBAction)prefKeepImagesClick:(id)sender;
 - (IBAction)prefWriteStringsClick:(id)sender;
 - (IBAction)prefVerboseClick:(id)sender;

@@ -1,0 +1,13 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = SpriteBank; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {spriteView = NSOpenGLView; }; 
+            SUPERCLASS = NSDocument; 
+        }, 
+        {CLASS = SpriteOpenGLView; LANGUAGE = ObjC; SUPERCLASS = NSOpenGLView; }
+    ); 
+    IBVersion = 1; 
+}

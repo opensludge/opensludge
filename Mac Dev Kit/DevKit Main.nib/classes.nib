@@ -13,6 +13,8 @@
                 prefsMenu = id; 
                 saveProject = id; 
                 saveProjectAs = id; 
+                spriteBankNew = id; 
+                spriteBankOpen = id; 
             }; 
             CLASS = AppController; 
             LANGUAGE = ObjC; 

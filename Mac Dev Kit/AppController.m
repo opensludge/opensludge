@@ -1,6 +1,5 @@
 #import "SDL.h"
 #import "AppController.h"
-#import "ProjectController.h"
 
 #include "Project.hpp"
 //#include "Compiler.hpp"
@@ -8,6 +7,8 @@
 
 #import <sys/param.h> /* for MAXPATHLEN */
 #import <unistd.h>
+
+#import "SpriteBank.h"
 
 
 extern bool changed;
@@ -42,25 +43,19 @@ static NSString *getApplicationName(void)
 - (NSString *)stringByReplacingRange:(NSRange)aRange with:(NSString *)aString;
 @end
 
-@interface SDLApplication : NSApplication
-@end
-
-@implementation SDLApplication
-/* Invoked from the Quit menu item */
-- (void)terminate:(id)sender
-{
-	[super terminate:sender];
-}
-@end
 
 AppController *aC;
 
 /* The main class of the application, the application's delegate */
 @implementation AppController
 
+- (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender
+{
+	return NO;
+}
+
 -(id) init
 {
-	fprintf (stderr, "Hello");
 	[super init];
 	aC = self;
 	return self;
@@ -143,6 +138,24 @@ AppController *aC;
 - (IBAction)compileMenu:(id)sender
 {
 	compileEverything();
+}
+
+- (IBAction)spriteBankNew:(id)sender
+{
+	NSDocumentController *docControl = [NSDocumentController sharedDocumentController];
+	NSError **err;
+	NSDocument *spriteDoc = [docControl makeUntitledDocumentOfType:@"SLUDGE Sprite Bank" error:err];
+	[docControl addDocument: spriteDoc];
+	[spriteDoc makeWindowControllers];
+	[spriteDoc showWindows];
+}
+
+
+// This actually opens anything!
+- (IBAction)spriteBankOpen:(id)sender
+{
+	NSDocumentController *docControl = [NSDocumentController sharedDocumentController];
+	return [docControl openDocument: sender];
 }
 
 
@@ -309,7 +322,7 @@ bail: return err;
 /* Called when the internal event loop has just started running */
 - (void) applicationDidFinishLaunching: (NSNotification *) note
 {
-    int status;
+	int status;
 
     /* Set the working directory to the .app's parent directory */
     [self setupWorkingDirectory:gFinderLaunch];
@@ -322,8 +335,9 @@ bail: return err;
     status = SDL_main (gArgc, gArgv);
 
     /* We're done, thank you for playing */
-    exit(status);
+    //exit(status);
 }
+
 
 
 
@@ -460,8 +474,7 @@ int main (int argc, char *argv[])
         gFinderLaunch = NO;
     }
 
-    [SDLApplication poseAsClass:[NSApplication class]];
-    NSApplicationMain (argc, argv);
+    NSApplicationMain (argc, (const char **) argv);
 
     return 0;
 }

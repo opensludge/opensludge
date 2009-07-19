@@ -19,6 +19,26 @@
 			<string>Editor</string>
 			<key>LSTypeIsPackage</key>
 			<false/>
+			<key>NSDocumentClass</key>
+			<string>ProjectDocument</string>
+			<key>NSPersistentStoreTypeKey</key>
+			<string>Binary</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>duc</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>spriteIcon.icns</string>
+			<key>CFBundleTypeName</key>
+			<string>SLUDGE Sprite Bank</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSTypeIsPackage</key>
+			<false/>
+			<key>NSDocumentClass</key>
+			<string>SpriteBank</string>
 			<key>NSPersistentStoreTypeKey</key>
 			<string>Binary</string>
 		</dict>

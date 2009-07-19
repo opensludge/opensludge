@@ -1,6 +1,3 @@
-#if 0
-/*TODO! */
-
 #include "../engine/allfiles.h"
 
 #include "../engine/fileset.h"
@@ -759,4 +756,3 @@ void paintSpriteArea () {
 	ReleaseDC (mainWin, hdc);
 }
 
-#endif

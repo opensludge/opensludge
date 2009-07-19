@@ -204,10 +204,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>2FA9138F1011202100DEF98F</string>
+						<string>2FDEA2AC101287C1004D21F2</string>
 						<key>history</key>
 						<array>
-							<string>2FDEF35310111A1600019267</string>
+							<string>2F831E071012876E009DF96B</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -407,9 +407,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>2FA9138D1011202100DEF98F</string>
+				<string>2FDEA2A71012879C004D21F2</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>2FA9138E1011202100DEF98F</string>
+				<string>2FDEA2A81012879C004D21F2</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -543,10 +543,9 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>2FD9F6F00E3F2B1F0083A726</string>
-		<string>/Users/rikard/Documents/SLUDGE/Mac Engine/Sludge Engine.xcodeproj</string>
 		<string>2F6E58081011108C006C7424</string>
 		<string>1C0AD2B3069F1EA900FABCE6</string>
+		<string>/Users/rikard/Documents/SLUDGE/Mac Engine/Sludge Engine.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
 	<string>574 378 690 397 0 0 1280 778 </string>
@@ -988,9 +987,9 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C0AD2B3069F1EA900FABCE6</string>
-				<string>2FA913911011202100DEF98F</string>
+				<string>2FDEA2AA1012879C004D21F2</string>
 				<string>1CD0528B0623707200166675</string>
-				<string>2FA913921011202100DEF98F</string>
+				<string>2FDEA2AB1012879C004D21F2</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.run</string>
