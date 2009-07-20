@@ -1,3 +1,7 @@
+#ifdef __cplusplus
+extern "C" {
+#endif	
+
 #ifndef HWND
 #define HWND int
 #endif
@@ -9,23 +13,34 @@
 
 struct sprite {
 	int width, height, xhot, yhot;
+	int tex_x;
+	int texNum;
 	unsigned char * data;
 };
 
 struct spritePalette {
 	unsigned short int * pal;
-	unsigned char total;
+	unsigned char * r;
+	unsigned char * g;
+	unsigned char * b;
+	GLuint tex_names[256];
+	GLuint burnTex_names[256];
+	int tex_w[256], tex_h[256];
+	int numTextures;
+	unsigned char originalRed, originalGreen, originalBlue, total;
 };
 
 struct spriteBank {
 	int total;
-	sprite * sprites;
-	spritePalette myPalette;
-	int myPaletteNum, myPaletteStart;
+	struct sprite * sprites;
+	struct spritePalette myPalette;
+	bool isFont;
 };
 
 void forgetSpriteBank ();
-bool loadSpriteBank (char * filename);
+bool loadSpriteBank (unsigned char * file, struct spriteBank * loadhere);
+bool loadSpriteTextures (struct spriteBank *loadhere);
+
 bool saveSpriteBank (char * filename);
 void paintPal (HWND h);
 bool initSpriteArea ();
@@ -40,4 +55,8 @@ bool trimSprite (int);
 void spriteFit (int);
 void initSpriteBank ();
 
-void pasteSprite (int num);
+void pasteSprite (struct sprite * single, const struct spritePalette * fontPal);
+
+#ifdef __cplusplus
+}
+#endif

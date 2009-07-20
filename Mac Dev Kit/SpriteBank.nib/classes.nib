@@ -4,7 +4,7 @@
         {
             CLASS = SpriteBank; 
             LANGUAGE = ObjC; 
-            OUTLETS = {spriteView = NSOpenGLView; }; 
+            OUTLETS = {spriteIndexSlider = NSSlider; spriteView = NSOpenGLView; }; 
             SUPERCLASS = NSDocument; 
         }, 
         {CLASS = SpriteOpenGLView; LANGUAGE = ObjC; SUPERCLASS = NSOpenGLView; }

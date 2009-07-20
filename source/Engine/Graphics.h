@@ -14,6 +14,8 @@ extern int viewportHeight, viewportWidth;
 extern int viewportOffsetX, viewportOffsetY;
 extern int realWinWidth, realWinHeight;
 
+extern bool NPOT_textures;
+
 void setPixelCoords (bool pixels);
 void setGraphicsWindow(bool fullscreen, bool restoreGraphics = true);
 

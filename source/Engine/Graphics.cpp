@@ -7,10 +7,12 @@
 #include "sprbanks.h"
 #include "zbuffer.h"
 #include "backdrop.h"
-
+ 
 int winWidth, winHeight;
 int viewportHeight, viewportWidth;
 int viewportOffsetX = 0, viewportOffsetY = 0;
+
+bool NPOT_textures = true;
 
 extern int specialSettings;
 
