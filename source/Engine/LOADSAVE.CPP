@@ -523,7 +523,6 @@ bool loadGame (char * fname) {
 	captureAllKeys = fgetc (fp);
 	fgetc (fp); // updateDisplay (part of movie playing)
 
-
 	fontLoaded = fgetc (fp);
 	forgetSpriteBank (theFont);
 		
@@ -568,7 +567,8 @@ bool loadGame (char * fname) {
 	}
 
 	loadPeople (fp, ssgVersion);
-
+	
+	
 	if (fgetc (fp)) {
 		if (! setFloor (get2bytes (fp))) return false;
 	} else setFloorNull ();

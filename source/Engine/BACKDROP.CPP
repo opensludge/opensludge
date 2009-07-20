@@ -28,6 +28,8 @@ void unfreeze (bool);	// Because freeze.h needs a load of other includes
 GLubyte * backdropTexture = NULL;
 GLuint backdropTextureName = NULL;
 bool backdropExists = false;
+double backdropTexW = 1.0;
+double backdropTexH = 1.0;
 
 GLubyte * lightMapTexture = NULL;
 GLuint lightMapTextureName = NULL;
@@ -61,18 +63,24 @@ bool snapshot () {
 }
 
 bool restoreSnapshot (FILE * fp) {
-	int picWidth = get2bytes (fp);
-	int picHeight = get2bytes (fp);
+	int realPicWidth, realPicHeight;
+	int picWidth = realPicWidth = get2bytes (fp);
+	int picHeight = realPicHeight = get2bytes (fp);
+	
 
 	int t1, t2, n;
 	unsigned short c;	
 	
 	GLubyte * target;
+	if (! NPOT_textures) {
+		picWidth = getNextPOT(picWidth);
+		picHeight = getNextPOT(picHeight);
+	}
 	GLubyte * snapshotTexture = new GLubyte [picHeight*picWidth*4];
 
-	for (t2 = 0; t2 < picHeight; t2 ++) {
+	for (t2 = 0; t2 < realPicHeight; t2 ++) {
 		t1 = 0;
-		while (t1 < picWidth) {
+		while (t1 < realPicWidth) {
 			c = (unsigned short) get2bytes (fp);
 			if (c & 32) {
 				n = fgetc (fp) + 1;
@@ -105,11 +113,15 @@ bool restoreSnapshot (FILE * fp) {
 }
 
 bool reserveNewLightMap () {
-	
+	int picWidth, picHeight;
 	glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
 	
 	if (lightMapTexture) delete lightMapTexture;
-	lightMapTexture = new GLubyte [sceneHeight*sceneWidth*4];
+	if (! NPOT_textures) {
+		picWidth = getNextPOT(sceneWidth);
+		picHeight = getNextPOT(sceneHeight);
+	}	
+	lightMapTexture = new GLubyte [picWidth*picHeight*4];
 	
 	if (! lightMapTextureName) glGenTextures (1, &lightMapTextureName);
 	glBindTexture (GL_TEXTURE_2D, lightMapTextureName);
@@ -117,7 +129,7 @@ bool reserveNewLightMap () {
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, sceneWidth, sceneHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, lightMapTexture);
+	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, lightMapTexture);
 
 	return true;
 }
@@ -154,11 +166,19 @@ void killParallax () {
 bool reserveBackdrop () {
 	cameraX = 0;
 	cameraY = 0;
+	int picWidth = sceneWidth;
+	int picHeight = sceneHeight;
 
 	glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
 	
 	if (backdropTexture) delete backdropTexture;
-	backdropTexture = new GLubyte [sceneHeight*sceneWidth*4];
+	if (! NPOT_textures) {
+		picWidth = getNextPOT(sceneWidth);
+		picHeight = getNextPOT(sceneHeight);
+		backdropTexW = (double) sceneWidth / picWidth;
+		backdropTexH = (double) sceneHeight / picHeight;
+	}	
+	backdropTexture = new GLubyte [picWidth*picHeight*4];
 	
 	if (! backdropTextureName) glGenTextures (1, &backdropTextureName);
 	glBindTexture (GL_TEXTURE_2D, backdropTextureName);
@@ -171,7 +191,7 @@ bool reserveBackdrop () {
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	}
-	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, sceneWidth, sceneHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture);
+	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture);
 		
 	return true;
 }
@@ -511,21 +531,12 @@ void drawBackDrop () {
 	glBindTexture (GL_TEXTURE_2D, backdropTextureName);
 	glBegin(GL_QUADS);
 	glTexCoord2f(0.0, 0.0); glVertex3f(0.325-cameraX, 0.325-cameraY, 0.0);
-	glTexCoord2f(1.0, 0.0); glVertex3f(sceneWidth-0.325-cameraX, 0.325-cameraY, 0.0);
-	glTexCoord2f(1.0, 1.0); glVertex3f(sceneWidth-0.325-cameraX, sceneHeight-0.325-cameraY, 0.0);
-	glTexCoord2f(0.0, 1.0); glVertex3f(0.325-cameraX, sceneHeight-0.325-cameraY, 0.0);
+	glTexCoord2f(backdropTexW, 0.0); glVertex3f(sceneWidth-0.325-cameraX, 0.325-cameraY, 0.0);
+	glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(sceneWidth-0.325-cameraX, sceneHeight-0.325-cameraY, 0.0);
+	glTexCoord2f(0.0, backdropTexH); glVertex3f(0.325-cameraX, sceneHeight-0.325-cameraY, 0.0);
 	glEnd();
 	glDisable(GL_BLEND);
 	
-}
-
-bool isAPowerOf2 (int j) {
-	int d = 1;
-	while (d >= 0) {
-		if (d == j) return true;
-		d <<= 1;
-	}
-	return false;
 }
 
 bool loadLightMap (int v) {
@@ -538,6 +549,12 @@ bool loadLightMap (int v) {
 	if (picWidth != sceneWidth || picHeight != sceneHeight) {
 		return fatal ("Light map width and height don't match scene width and height.");
 	}
+	int realPicWidth = picWidth;
+	int realPicHeight = picHeight;
+	if (! NPOT_textures) {
+		picWidth = getNextPOT(realPicWidth);
+		picHeight = getNextPOT(realPicHeight);
+	}	
 	
 	killLightMap ();
 	lightMapNumber = v;
@@ -548,9 +565,9 @@ bool loadLightMap (int v) {
 	int t1, t2, n;
 	unsigned short c;
 	GLubyte * target;
-	for (t2 = 0; t2 < picHeight; t2 ++) {
+	for (t2 = 0; t2 < realPicHeight; t2 ++) {
 		t1 = 0;
-		while (t1 < picWidth) {
+		while (t1 < realPicWidth) {
 			c = (unsigned short) get2bytes (bigDataFile);
 			if (c & 32) {
 				n = fgetc (bigDataFile) + 1;
@@ -626,9 +643,13 @@ bool loadParallax (unsigned short v, unsigned short fracX, unsigned short fracY)
 	}
 	nP -> prev = NULL;
 
-	nP -> width = get2bytes (bigDataFile);
-	nP -> height = get2bytes (bigDataFile);
-
+	int picWidth = nP -> width = get2bytes (bigDataFile);
+	int picHeight = nP -> height = get2bytes (bigDataFile);
+	if (! NPOT_textures) {
+		picWidth = getNextPOT(picWidth);
+		picHeight = getNextPOT(picHeight);
+	}	
+	
 	nP -> fileNum = v;
 	nP -> fractionX = fracX;
 	nP -> fractionY = fracY;
@@ -661,9 +682,9 @@ bool loadParallax (unsigned short v, unsigned short fracX, unsigned short fracY)
 	unsigned short c;
 	GLubyte * target;
 
-	for (t2 = 0; t2 < nP -> height; t2 ++) {
+	for (t2 = 0; t2 < picHeight; t2 ++) {
 		t1 = 0;
-		while (t1 < nP -> width) {
+		while (t1 < picWidth) {
 			c = (unsigned short) get2bytes (bigDataFile);
 			if (c & 32) {
 				n = fgetc (bigDataFile) + 1;
@@ -718,25 +739,31 @@ extern int viewportOffsetX, viewportOffsetY;
 
 bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 	
-	int picWidth = get2bytes (fp);
-	int picHeight = get2bytes (fp);
+	int realPicWidth, realPicHeight;
+	int picWidth = realPicWidth = get2bytes (fp);
+	int picHeight = realPicHeight = get2bytes (fp);
 	int t1, t2, n;
 	unsigned short c;
 	GLubyte * target;
 	signed long transCol = reserve ? -1 : 63519;
-		
-	if (reserve) {
-		if (! resizeBackdrop (picWidth, picHeight)) return false;
+
+	if (x == IN_THE_CENTRE) x = (sceneWidth - realPicWidth) >> 1;
+	if (y == IN_THE_CENTRE) y = (sceneHeight - realPicHeight) >> 1;
+	if (x < 0 || x + realPicWidth > sceneWidth || y < 0 || y + realPicHeight > sceneHeight) return false;	
+	
+	if (! NPOT_textures) {
+		picWidth = getNextPOT(picWidth);
+		picHeight = getNextPOT(picHeight);
 	}
 	
-	if (x == IN_THE_CENTRE) x = (sceneWidth - picWidth) >> 1;
-	if (y == IN_THE_CENTRE) y = (sceneHeight - picHeight) >> 1;
+	if (reserve) {
+		if (! resizeBackdrop (sceneWidth, sceneHeight)) return false;
+	}
 	
-	if (x < 0 || x + picWidth > sceneWidth || y < 0 || y + picHeight > sceneHeight) return false;	
-		
-	for (t2 = 0; t2 < picHeight; t2 ++) {
+			
+	for (t2 = 0; t2 < realPicHeight; t2 ++) {
 		t1 = 0;
-		while (t1 < picWidth) {
+		while (t1 < realPicWidth) {
 			c = (unsigned short) get2bytes (fp);
 			if (c & 32) {
 				n = fgetc (fp) + 1;
@@ -844,22 +871,27 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 }
 
 bool mixHSI (FILE * fp, int x, int y) {
-	int picWidth = get2bytes (fp);
-	int picHeight = get2bytes (fp);
+	int realPicWidth, realPicHeight;
+	int picWidth = realPicWidth = get2bytes (fp);
+	int picHeight = realPicHeight = get2bytes (fp);
+
+	if (x == IN_THE_CENTRE) x = (sceneWidth - realPicWidth) >> 1;
+	if (y == IN_THE_CENTRE) y = (sceneHeight - realPicHeight) >> 1;
+	if (x < 0 || x + realPicWidth > sceneWidth || y < 0 || y + realPicHeight > sceneHeight) return false;	
+
+	if (! NPOT_textures) {
+		picWidth = getNextPOT(picWidth);
+		picHeight = getNextPOT(picHeight);
+	}	
 	int t1, t2, n;
 	unsigned short c;
 	GLubyte * target;
 	signed long transCol = 63519;
 	
-	if (x == IN_THE_CENTRE) x = (sceneWidth - picWidth) >> 1;
-	if (y == IN_THE_CENTRE) y = (sceneHeight - picHeight) >> 1;
 	
-	if (x < 0 || x + picWidth > sceneWidth || y < 0 || y + picHeight > sceneHeight) return false;	
-	
-	
-	for (t2 = 0; t2 < picHeight; t2 ++) {
+	for (t2 = 0; t2 < realPicHeight; t2 ++) {
 		t1 = 0;
-		while (t1 < picWidth) {
+		while (t1 < realPicWidth) {
 			c = (unsigned short) get2bytes (fp);
 			if (c & 32) {
 				n = fgetc (fp) + 1;
@@ -1014,7 +1046,12 @@ bool getRGBIntoStack (unsigned int x, unsigned int y, stackHandler * sH) {
 	
 	glGetTexImage (GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture);
 	
-	GLubyte * target = backdropTexture + 4*sceneWidth*y + x*4;
+	GLubyte * target;
+	if (! NPOT_textures) {
+		target = backdropTexture + 4*getNextPOT(sceneWidth)*y + x*4;
+	} else {	
+		target = backdropTexture + 4*sceneWidth*y + x*4;
+	}
 	
 	setVariable (newValue, SVT_INT, target[2]);
 	if (! addVarToStackQuick (newValue, sH -> first)) return false;

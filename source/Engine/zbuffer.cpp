@@ -3,6 +3,7 @@
 #include "fileset.h"
 #include "moreio.h"
 #include "newfatal.h"
+#include "Graphics.h"
 
 zBufferData zBuffer;
 extern int sceneWidth, sceneHeight;
@@ -67,7 +68,9 @@ bool setZBuffer (int y) {
 		return fatal ("Extended Z-buffer format not supported in this version of the SLUDGE engine");
 	}
 	if (zBuffer.width != sceneWidth || zBuffer.height != sceneHeight) {
-		return fatal ("Z-buffer width and height don't match scene width and height");
+		char tmp[256];
+		sprintf (tmp, "Z-w: %d Z-h:%d w: %d, h:%d", zBuffer.width, zBuffer.height, sceneWidth, sceneHeight);
+		return fatal ("Z-buffer width and height don't match scene width and height", tmp);
 	}
 		
 	zBuffer.numPanels = fgetc (bigDataFile);
@@ -80,7 +83,13 @@ bool setZBuffer (int y) {
 		sortback[sorted[y]] = y; 
 	}
 	
-	zBuffer.tex = new GLubyte [sceneHeight*sceneWidth];
+	int picWidth = sceneWidth;
+	int picHeight = sceneHeight;
+	if (! NPOT_textures) {
+		picWidth = getNextPOT(picWidth);
+		picHeight = getNextPOT(picHeight);
+	}
+	zBuffer.tex = new GLubyte [picHeight*picWidth];
 
 	for (y = 0; y < sceneHeight; y ++) {
 		for (x = 0; x < sceneWidth; x ++) {
@@ -91,7 +100,7 @@ bool setZBuffer (int y) {
 				else stillToGo ++;
 				n &= 15;
 			}
-			zBuffer.tex[y*sceneWidth + x] = sortback[n]*16;
+			zBuffer.tex[y*picWidth + x] = sortback[n]*16;
 			stillToGo --;
 		}
 	}
@@ -105,7 +114,7 @@ bool setZBuffer (int y) {
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexImage2D (GL_TEXTURE_2D, 0, GL_ALPHA8, sceneWidth, sceneHeight, 0, GL_ALPHA, GL_UNSIGNED_BYTE, zBuffer.tex);
+	glTexImage2D (GL_TEXTURE_2D, 0, GL_ALPHA8, picWidth, picHeight, 0, GL_ALPHA, GL_UNSIGNED_BYTE, zBuffer.tex);
 	
 	
 	return true;
@@ -135,14 +144,14 @@ void drawZBuffer(int x, int y, bool upsidedown) {
 		glBegin(GL_QUADS);
 		if (upsidedown) {
 			glTexCoord2f(0.0, 0.0); glVertex3f(0.325-x, zBuffer.height-y-0.325, z);
-			glTexCoord2f(1.0, 0.0); glVertex3f(zBuffer.width-x-0.325, zBuffer.height-y-0.325, z);
-			glTexCoord2f(1.0, 1.0); glVertex3f(zBuffer.width-x-0.325, 0.325-y, z);
-			glTexCoord2f(0.0, 1.0); glVertex3f(0.325-x, 0.325-y, z);
+			glTexCoord2f(backdropTexW, 0.0); glVertex3f(zBuffer.width-x-0.325, zBuffer.height-y-0.325, z);
+			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(zBuffer.width-x-0.325, 0.325-y, z);
+			glTexCoord2f(0.0, backdropTexH); glVertex3f(0.325-x, 0.325-y, z);
 		} else {
 			glTexCoord2f(0.0, 0.0); glVertex3f(0.225-x, 0.325-y, z);
-			glTexCoord2f(1.0, 0.0); glVertex3f(zBuffer.width-x, 0.325-y, z);
-			glTexCoord2f(1.0, 1.0); glVertex3f(zBuffer.width-x, zBuffer.height-y-0.325, z);
-			glTexCoord2f(0.0, 1.0); glVertex3f(0.225-x, zBuffer.height-y-0.325, z);
+			glTexCoord2f(backdropTexW, 0.0); glVertex3f(zBuffer.width-x, 0.325-y, z);
+			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(zBuffer.width-x, zBuffer.height-y-0.325, z);
+			glTexCoord2f(0.0, backdropTexH); glVertex3f(0.225-x, zBuffer.height-y-0.325, z);
 		}
 		glEnd();
 	}

@@ -1,6 +1,7 @@
 #include <string.h>
 
 #include "allfiles.h"
+#include "Graphics.h"
 #include "newfatal.h"
 #include "sprites.h"
 #include "sprbanks.h"
@@ -39,7 +40,14 @@ bool freeze () {
 	if (! checkNew (newFreezer)) return false;
 
 	newFreezer -> backdropTextureName = backdropTextureName;
-	newFreezer -> backdropTexture = new GLubyte [sceneHeight*sceneWidth*4];
+	
+	int picWidth = sceneWidth;
+	int picHeight = sceneHeight;
+	if (! NPOT_textures) {
+		picWidth = getNextPOT(picWidth);
+		picHeight = getNextPOT(picHeight);
+	}
+	newFreezer -> backdropTexture = new GLubyte [picHeight*picWidth*4];
 	glBindTexture (GL_TEXTURE_2D, backdropTextureName);			
 	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, newFreezer -> backdropTexture);
 	backdropTextureName = 0;
@@ -148,6 +156,7 @@ void unfreeze (bool killImage) {
 
 	sceneWidth = frozenStuff -> sceneWidth;
 	sceneHeight = frozenStuff -> sceneHeight;
+
 	cameraX = frozenStuff -> cameraX;
 	cameraY = frozenStuff -> cameraY;
 	

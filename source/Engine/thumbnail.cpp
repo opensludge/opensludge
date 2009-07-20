@@ -89,8 +89,15 @@ void showThumbnail (char * filename, int atX, int atY) {
 		if (fp == NULL) return;
 		int fileWidth = get4bytes (fp);
 		int fileHeight = get4bytes (fp);
-
-		thumbnailTexture = new GLubyte [fileHeight*fileWidth*4];
+		
+		int picWidth = fileWidth;
+		int picHeight = fileHeight;
+		if (! NPOT_textures) {
+			picWidth = getNextPOT(picWidth);
+			picHeight = getNextPOT(picHeight);
+		}
+		
+		thumbnailTexture = new GLubyte [picHeight*picWidth*4];
 		if (thumbnailTexture == NULL) return;
 		
 		int t1, t2;
@@ -100,7 +107,7 @@ void showThumbnail (char * filename, int atX, int atY) {
 			t1 = 0;
 			while (t1 < fileWidth) {
 				c = (unsigned short) get2bytes (fp);
-				target = thumbnailTexture + 4*fileWidth*t2 + t1*4;
+				target = thumbnailTexture + 4*picWidth*t2 + t1*4;
 				target[0] = (GLubyte) redValue(c);
 				target[1] = (GLubyte) greenValue(c);
 				target[2] = (GLubyte) blueValue(c);
@@ -117,7 +124,7 @@ void showThumbnail (char * filename, int atX, int atY) {
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, fileWidth, fileHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, thumbnailTexture);
+		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, thumbnailTexture);
 		
 		delete thumbnailTexture;
 

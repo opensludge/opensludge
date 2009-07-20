@@ -16,7 +16,6 @@ bool NPOT_textures = true;
 
 extern int specialSettings;
 
-extern GLubyte * backdropTexture;
 extern GLuint backdropTextureName;
 extern int sceneWidth, sceneHeight;
 extern zBufferData zBuffer;
@@ -71,7 +70,13 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 		 */
 		if (backdropTextureName) {
 			if (backdropTexture) delete backdropTexture;
-			backdropTexture = new GLubyte [sceneHeight*sceneWidth*4];
+			int picWidth = sceneWidth;
+			int picHeight = sceneHeight;
+			if (! NPOT_textures) {
+				picWidth = getNextPOT(picWidth);
+				picHeight = getNextPOT(picHeight);
+			}
+			backdropTexture = new GLubyte [picHeight*picWidth*4];
 			
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);			
 			glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture);
@@ -179,4 +184,18 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 		
 		sludgeDisplay ();
 	}	
+}
+
+
+// I found this function on a coding forum on the 'net.
+// Looks a bit weird, but it should work.
+int getNextPOT(int n) {
+	--n;
+	n |= n >> 16;
+	n |= n >> 8;
+	n |= n >> 4;
+	n |= n >> 2;
+	n |= n >> 1;
+	++n;
+	return n;
 }

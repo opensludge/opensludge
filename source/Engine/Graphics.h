@@ -9,6 +9,11 @@
 #ifndef __SLUDGE_GRAPHICS_H__
 #define __SLUDGE_GRAPHICS_H__
 
+// From Backdrop.cpp, but they're here anyway
+extern GLubyte * backdropTexture;
+extern double backdropTexW, backdropTexH;
+
+
 extern int winWidth, winHeight;
 extern int viewportHeight, viewportWidth;
 extern int viewportOffsetX, viewportOffsetY;
@@ -18,6 +23,8 @@ extern bool NPOT_textures;
 
 void setPixelCoords (bool pixels);
 void setGraphicsWindow(bool fullscreen, bool restoreGraphics = true);
+
+int getNextPOT(int n);
 
 
 #endif
