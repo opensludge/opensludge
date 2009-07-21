@@ -95,6 +95,7 @@ stringArray * splitString (const char * inString, const char findCharIn, const s
 }
 
 bool destroyFirst (stringArray * & theArray) {
+	if (! theArray) return false;
 	stringArray * killMe = theArray;
 	if (theArray) {
 		theArray = theArray -> next;

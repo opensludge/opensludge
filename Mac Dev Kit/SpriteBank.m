@@ -40,6 +40,7 @@
 	if (sprites.total) {
 		[spriteIndexSlider setMaxValue:(double) sprites.total-1];
 		[spriteIndexSlider setNumberOfTickMarks:sprites.total];
+		[spriteIndexSlider setEnabled:YES];
 	}
 }
 
@@ -74,6 +75,17 @@
 
 @implementation SpriteOpenGLView
 
+- (bool) showBox
+{
+	return spriteIndex;
+}
+- (void) setShowBox:(bool)i
+{
+	showBox = i;
+	[self setNeedsDisplay:YES];
+}
+
+
 - (int) spriteIndex
 {
 	return spriteIndex;
@@ -82,8 +94,8 @@
 {
 	if (i >= sprites->total) i = sprites->total-1;
 	if (i<0) i = 0;
-	[self setNeedsDisplay:YES];
 	spriteIndex = i;
+	[self setNeedsDisplay:YES];
 }
 
 - (void) connectToDoc: (SpriteBank *) myDoc
@@ -142,10 +154,10 @@
 	if (z > 200.0) z = 200.0;
 	if (z < -16.0) z = -16.0;
 	
-	if ([theEvent deltaX]<0.0 && spriteIndex < sprites->total-1)
-		spriteIndex ++;
-	if ([theEvent deltaX]>0.0 && spriteIndex > 0)
-		spriteIndex --;
+	if ([theEvent deltaX]<0.0)
+		[self setValue:[NSNumber numberWithInt:spriteIndex+1] forKey:@"spriteIndex"];
+	if ([theEvent deltaX]>0.0)
+		[self setValue:[NSNumber numberWithInt:spriteIndex-1] forKey:@"spriteIndex"];
 	
 	[self setCoords];
 	[self setNeedsDisplay:YES];
@@ -154,7 +166,7 @@
 				
 - (void)prepareOpenGL 
 {
-	fprintf(stderr, "%d sprites in bank.\n", sprites->total);
+	showBox = false;
 	if (sprites->total)
 		loadSpriteTextures (sprites);
 }
@@ -195,9 +207,8 @@
     glColor3f(1.0f, 1.0f, 1.0f);
 	
 	if (sprites->total)
-		pasteSprite (&sprites->sprites[spriteIndex], &sprites->myPalette);
+		pasteSprite (&sprites->sprites[spriteIndex], &sprites->myPalette, showBox);
 
-//    drawAnObject();
     glFlush();
 }
 

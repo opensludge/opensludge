@@ -202,7 +202,7 @@ bool loadSpriteTextures (spriteBank *loadhere) {
 	return true;
 }
 
-void pasteSprite (sprite * single, const spritePalette *fontPal) {
+void pasteSprite (sprite * single, const spritePalette *fontPal, bool showBox) {
 	
 	if (! single) return;
 	
@@ -213,11 +213,28 @@ void pasteSprite (sprite * single, const spritePalette *fontPal) {
 
 	int x1 = -single->xhot;
 	int y1 = -single->yhot;
-		
-	glEnable (GL_TEXTURE_2D);
-	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); 
+
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	if (showBox) {
+		glColor4f(0.35f, 1.0f, 0.35f, 0.5f);
+		//    glBegin(GL_LINE_LOOP);
+		glBegin(GL_QUADS);			
+		{
+			glVertex3f(x1, -y1, 0.0);
+			glVertex3f(x1+single->width, -y1, 0.0);
+			glVertex3f(x1+single->width, -y1-single->height, 0.0);
+			glVertex3f(x1, -y1-single->height, 0.0);
+		}
+		glEnd();
+	}
+	
+    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	
+	
+	glEnable (GL_TEXTURE_2D);
+	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); 
 	
 	// Draw the sprite
 	glBindTexture (GL_TEXTURE_2D, fontPal->tex_names[single->texNum]);

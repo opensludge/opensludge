@@ -30,6 +30,7 @@
 	SpriteBank *doc;
 	struct spriteBank *sprites;
 	int spriteIndex;
+	bool showBox;
 	int x, y, w, h;
 	float z;
 	//NSPoint lastMouseLoc;

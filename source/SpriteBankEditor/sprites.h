@@ -55,7 +55,7 @@ bool trimSprite (int);
 void spriteFit (int);
 void initSpriteBank ();
 
-void pasteSprite (struct sprite * single, const struct spritePalette * fontPal);
+void pasteSprite (struct sprite * single, const struct spritePalette * fontPal, bool showBox);
 
 #ifdef __cplusplus
 }

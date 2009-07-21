@@ -1,3 +1,5 @@
+#include <stdlib.h>
+#include <dirent.h>
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -168,14 +170,30 @@ bool readSettings (FILE * fp) {
 }
 
 
+
+
 /* killTempDir - Removes the temporary directory
  *
  * Not really needed on Mac OS, since the OS takes care of that for us every reboot,
  * but it's nice to clean up anyway, and I don't think Windows cleans up that way.
  *
- * Note: Will fail if there are leftovers in the temp folder. Fix?
  */
 void killTempDir() {	
+	gotoTempDirectory ();
+	
+	struct dirent **eps;
+	int n = scandir (tempDirectory, &eps, NULL, NULL);
+	if (n > 0)
+	{
+		int cnt;
+		for (cnt = 0; cnt < n; ++cnt) {
+			unlink (eps[cnt]->d_name);
+			free (eps[cnt]);
+		}
+		free (eps);
+	}
+	
+	gotoSourceDirectory ();	
 	rmdir(tempDirectory);
 	tempDirectory = NULL;
 }

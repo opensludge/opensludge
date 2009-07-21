@@ -69,6 +69,10 @@ extern int numFilesFound;
 extern stringArray * functionNames;
 extern stringArray * objectTypeNames;
 
+extern stringArray * builtInFunc;
+extern stringArray * typeDefFrom;
+extern stringArray * allKnownFlags;
+
 
 static int data1 = 0, numProcessed = 0;
 
@@ -177,6 +181,7 @@ bool doSingleCompileStep () {
 	switch (compileStep)
 	{
 		case CSTEP_INIT:
+		numProcessed = 0;
 		setGlobPointer (& globalVarNames);
 
 		if (! getSourceDirFromName (loadedFile)) return errorBox (ERRORTYPE_INTERNALERROR, "Error initialising!", NULL, NULL);
@@ -405,7 +410,7 @@ bool doSingleCompileStep () {
 bool compileEverything () {
 	
 	if (!loadedFile) return false;
-	
+		
 	initBuiltInFunc ();
 
 	compileStep = CSTEP_INIT;
@@ -422,7 +427,14 @@ bool compileEverything () {
 		}
 	}
 	
-	fprintf(stderr, "Compiling done.\n");
+	fprintf(stderr, "\nCompiling done.\n\n");
+	
+	destroyAll (functionNames);
+	destroyAll (objectTypeNames);
+	destroyAll (globalVarNames);
+	destroyAll (builtInFunc);
+	destroyAll (typeDefFrom);
+	destroyAll (allKnownFlags);
 	
 	killTempDir();
 	
