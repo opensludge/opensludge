@@ -69,9 +69,9 @@ void drawLine(int x1, int y1, int x2, int y2) {
 			
 			glBegin(GL_QUADS);
 			glTexCoord2f(0.0, 0.0); glVertex3f(-x-xoffset+0.325, -y+yoffset+0.325, 0);
-			glTexCoord2f(1.0, 0.0); glVertex3f(sceneWidth-0.325-x-xoffset, -y+yoffset+0.325, 0);
-			glTexCoord2f(1.0, 1.0); glVertex3f(sceneWidth-0.325-x-xoffset, sceneHeight-0.325-y+yoffset, 0);
-			glTexCoord2f(0.0, 1.0); glVertex3f(-x-xoffset+0.325, sceneHeight-0.325-y+yoffset, 0);
+			glTexCoord2f(backdropTexW, 0.0); glVertex3f(sceneWidth-0.325-x-xoffset, -y+yoffset+0.325, 0);
+			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(sceneWidth-0.325-x-xoffset, sceneHeight-0.325-y+yoffset, 0);
+			glTexCoord2f(0.0, backdropTexH); glVertex3f(-x-xoffset+0.325, sceneHeight-0.325-y+yoffset, 0);
 			glEnd();	
 			
 			glDisable (GL_TEXTURE_2D);

@@ -32,7 +32,7 @@ void copyToBackDrop (GLuint fromHere, int orW, int orH, int orX, int orY, parall
 void blankScreen (int x1, int y1, int x2, int y2);
 void darkScreen ();
 void saveHSI (FILE * writer);
-void saveCoreHSI (FILE * writer, GLuint texture);
+void saveCoreHSI (FILE * writer, GLuint texture, int w, int h);
 bool loadHSI (FILE * fp, int, int, bool);
 bool mixHSI (FILE * fp, int x = 0, int y = 0);
 void drawHorizontalLine (unsigned int, unsigned int, unsigned int);

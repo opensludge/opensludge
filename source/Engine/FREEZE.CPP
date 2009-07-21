@@ -74,6 +74,12 @@ bool freeze () {
 	// resizeBackdrop kills parallax stuff, light map, z-buffer...
 	if (! resizeBackdrop (winWidth, winHeight)) return fatal ("Can't create new temporary backdrop buffer");
 
+	if (! NPOT_textures) {
+		picWidth = getNextPOT(sceneWidth);
+		picHeight = getNextPOT(sceneHeight);
+		backdropTexW = (double) sceneWidth / picWidth;
+		backdropTexH = (double) sceneHeight / picHeight;
+	}
 	copyToBackDrop (newFreezer -> backdropTextureName,
 					newFreezer -> sceneWidth,
 					newFreezer -> sceneHeight,
@@ -204,8 +210,14 @@ void unfreeze (bool killImage) {
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		}
+		int picWidth = sceneWidth;
+		int picHeight = sceneHeight;
+		if (! NPOT_textures) {
+			picWidth = getNextPOT(picWidth);
+			picHeight = getNextPOT(picHeight);
+		}
 		// Restore the backdrop
-		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, sceneWidth, sceneHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, frozenStuff -> backdropTexture);
+		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, frozenStuff -> backdropTexture);
 		
 	}
 	

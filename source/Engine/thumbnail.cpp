@@ -46,9 +46,9 @@ bool saveThumbnail (FILE * fp) {
 		
 		glBegin(GL_QUADS);
 		glTexCoord2f(0.0, 0.0); glVertex3f(0.325, 0.325, 0.0);
-		glTexCoord2f(1.0, 0.0); glVertex3f(thumbWidth-0.325, 0.325, 0.0);
-		glTexCoord2f(1.0, 1.0); glVertex3f(thumbWidth-0.325, thumbHeight-0.325, 0.0);
-		glTexCoord2f(0.0, 1.0); glVertex3f(0.325, thumbHeight-0.325, 0.0);
+		glTexCoord2f(backdropTexW, 0.0); glVertex3f(thumbWidth-0.325, 0.325, 0.0);
+		glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(thumbWidth-0.325, thumbHeight-0.325, 0.0);
+		glTexCoord2f(0.0, backdropTexH); glVertex3f(0.325, thumbHeight-0.325, 0.0);
 		glEnd();	
 		
 		if (! maxAntiAliasSettings.useMe) {
@@ -152,10 +152,10 @@ void showThumbnail (char * filename, int atX, int atY) {
 				glBindTexture (GL_TEXTURE_2D, thumbnailTextureName);
 								
 				glBegin(GL_QUADS);			
-					glTexCoord2f(1.0, 0.0); glVertex3f(fileWidth-0.325-xoffset, 0.325-yoffset, 0.0);
+					glTexCoord2f(backdropTexW, 0.0); glVertex3f(fileWidth-0.325-xoffset, 0.325-yoffset, 0.0);
 					glTexCoord2f(0.0, 0.0); glVertex3f(0.325-xoffset, 0.325-yoffset, 0.0);
-					glTexCoord2f(0.0, 1.0); glVertex3f(0.325-xoffset, fileHeight-0.325-yoffset, 0.0);
-					glTexCoord2f(1.0, 1.0); glVertex3f(fileWidth-0.325-xoffset, fileHeight-0.325-yoffset, 0.0);
+					glTexCoord2f(0.0, backdropTexH); glVertex3f(0.325-xoffset, fileHeight-0.325-yoffset, 0.0);
+					glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(fileWidth-0.325-xoffset, fileHeight-0.325-yoffset, 0.0);
 				glEnd();
 				glDisable(GL_BLEND);
 				

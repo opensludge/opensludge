@@ -477,7 +477,7 @@ bool saveGame (char * fname) {
 
 	if (snapshotTextureName) {
 		fputc (1, fp);				// 1 for snapshot follows
-		saveCoreHSI (fp, snapshotTextureName);
+		saveCoreHSI (fp, snapshotTextureName, sceneWidth, sceneHeight);
 	} else {
 		fputc (0, fp);
 	}

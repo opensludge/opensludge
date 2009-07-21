@@ -9,6 +9,8 @@
 #ifndef __SLUDGE_GRAPHICS_H__
 #define __SLUDGE_GRAPHICS_H__
 
+#include "glee.h"
+
 // From Backdrop.cpp, but they're here anyway
 extern GLubyte * backdropTexture;
 extern double backdropTexW, backdropTexH;

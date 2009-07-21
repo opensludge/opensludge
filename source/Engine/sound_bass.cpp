@@ -76,7 +76,7 @@ bool initSoundStuff (HWND hwnd) {
 		warning (WARNING_BASS_WRONG_VERSION);
 		return false;
 	}
-
+	
 	if (!BASS_Init(1,44100,0,hwnd,NULL)) {
 		warning (WARNING_BASS_FAIL); 
 		return false;

@@ -166,10 +166,9 @@ int main(int argc, char *argv[])
 	setGraphicsWindow(gameSettings.userFullScreen, false);
 
 	/* Here's a good place to check for graphics capabilities... */
-	if (false) { // && GLEE_VERSION_2_0 || GLEE_ARB_texture_non_power_of_two) {
+	if (GLEE_VERSION_2_0 || GLEE_ARB_texture_non_power_of_two) {
 		// Yes! Textures can be any size!
 		NPOT_textures = true;
-		fprintf (stderr, "Textures any size available!\n");
 	} else {
 		// Workaround needed for lesser graphics cards. Let's hope this works...
 		NPOT_textures = false;
@@ -186,7 +185,6 @@ int main(int argc, char *argv[])
 	
 	
 	if (! resizeBackdrop (winWidth, winHeight)) return fatal ("Couldn't allocate memory for backdrop");
-	fprintf (stderr, "Backdrop resized.\n");
 	blankScreen (0, 0, winWidth, winHeight);
 	if (! initPeople ()) return fatal ("Couldn't initialise people stuff");
 	if (! initFloor ()) return fatal ("Couldn't initialise floor stuff");
@@ -195,8 +193,6 @@ int main(int argc, char *argv[])
 	initStatusBar ();
 	resetRandW ();
 
-	fprintf (stderr, "Initialization done.\n");	
-	
 	// Let's convert the game name to Unicode, or we will crash.
 	char * gameNameWin = getNumberedString(1);
 	char * gameName = new char[ 1024];
@@ -284,7 +280,14 @@ int main(int argc, char *argv[])
 				case SDL_KEYDOWN:
 					// Ignore Command keypresses - they're for the OS to handle.
 					if (event.key.keysym.mod & KMOD_META) {
+						// Command+F - let's switch to/from full screen
 						if ('f' == event.key.keysym.unicode) {
+							setGraphicsWindow(! runningFullscreen);
+						}
+						break;
+					} else if (event.key.keysym.mod & KMOD_ALT) {
+						// Alt + Enter also switches full screen mode
+						if (SDLK_RETURN == event.key.keysym.sym) {
 							setGraphicsWindow(! runningFullscreen);
 						}
 						break;

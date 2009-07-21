@@ -167,6 +167,10 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 	GLubyte * tmp[numTextures];
 	GLubyte * tmp2[numTextures];
 	for (tex_num = 0; tex_num < numTextures; tex_num++) {
+		if (! NPOT_textures) {
+			totalwidth[tex_num] = getNextPOT(totalwidth[tex_num]);
+			maxheight[tex_num] = getNextPOT(maxheight[tex_num]);
+		}		
 		tmp[tex_num] = new GLubyte [maxheight[tex_num]*totalwidth[tex_num]*4];
 		if (isFont) tmp2[tex_num] = new GLubyte [maxheight[tex_num]*totalwidth[tex_num]*4];
 		loadhere.myPalette.tex_w[tex_num] = totalwidth[tex_num];
@@ -288,9 +292,9 @@ void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette
 			
 			glBegin(GL_QUADS);
 			glTexCoord2f(0.0, 0.0); glVertex3f(0.325-x1-xoffset, 0.325-y1+yoffset, 0.0);
-			glTexCoord2f(1.0, 0.0); glVertex3f(sceneWidth-0.325-x1-xoffset, 0.325-y1+yoffset, 0.0);
-			glTexCoord2f(1.0, 1.0); glVertex3f(sceneWidth-0.325-x1-xoffset, sceneHeight-0.325-y1+yoffset, 0.0);
-			glTexCoord2f(0.0, 1.0); glVertex3f(0.325-x1-xoffset, sceneHeight-0.325-y1+yoffset, 0.0);
+			glTexCoord2f(backdropTexW, 0.0); glVertex3f(sceneWidth-0.325-x1-xoffset, 0.325-y1+yoffset, 0.0);
+			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(sceneWidth-0.325-x1-xoffset, sceneHeight-0.325-y1+yoffset, 0.0);
+			glTexCoord2f(0.0, backdropTexH); glVertex3f(0.325-x1-xoffset, sceneHeight-0.325-y1+yoffset, 0.0);
 			glEnd();	
 			
 			// Then the sprite
@@ -371,9 +375,9 @@ void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette 
 			
 			glBegin(GL_QUADS);
 			glTexCoord2f(0.0, 0.0); glVertex3f(0.325-x1-xoffset, 0.325-y1+yoffset, 0.0);
-			glTexCoord2f(1.0, 0.0); glVertex3f(sceneWidth-0.325-x1-xoffset, 0.325-y1+yoffset, 0.0);
-			glTexCoord2f(1.0, 1.0); glVertex3f(sceneWidth-0.325-x1-xoffset, sceneHeight-0.325-y1+yoffset, 0.0);
-			glTexCoord2f(0.0, 1.0); glVertex3f(0.325-x1-xoffset, sceneHeight-0.325-y1+yoffset, 0.0);
+			glTexCoord2f(backdropTexW, 0.0); glVertex3f(sceneWidth-0.325-x1-xoffset, 0.325-y1+yoffset, 0.0);
+			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(sceneWidth-0.325-x1-xoffset, sceneHeight-0.325-y1+yoffset, 0.0);
+			glTexCoord2f(0.0, backdropTexH); glVertex3f(0.325-x1-xoffset, sceneHeight-0.325-y1+yoffset, 0.0);
 			glEnd();	
 			
 			// Then the sprite
@@ -642,7 +646,12 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 			if (lx<0 || ly<0 || lx>=sceneWidth || ly>=sceneHeight) {
 				curLight[0] = curLight[1] = curLight[2] = 255;
 			} else {
-				GLubyte *target = lightMapTexture + (ly*sceneWidth + lx)*4;
+				GLubyte *target;
+				if (! NPOT_textures) {
+					target = lightMapTexture + (ly*getNextPOT(sceneWidth) + lx)*4;
+				} else {
+					target = lightMapTexture + (ly*sceneWidth + lx)*4;
+				}
 				curLight[0] = target[0];
 				curLight[1] = target[1];
 				curLight[2] = target[2];
@@ -673,11 +682,22 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
 	glBegin(GL_QUADS);
-	
-	float ltx1 = (float) (x1+cameraX) / sceneWidth;
-	float ltx2 = (float) (x2+cameraX) / sceneWidth;
-	float lty1 = (float) (y1+cameraY) / sceneHeight;
-	float lty2 = (float) (y2+cameraY) / sceneHeight;
+
+	float ltx1;
+	float ltx2;
+	float lty1;
+	float lty2;
+	if (! NPOT_textures) {
+		ltx1 = (float) (x1+cameraX) / getNextPOT(sceneWidth);
+		ltx2 = (float) (x2+cameraX) / getNextPOT(sceneWidth);
+		 lty1 = (float) (y1+cameraY) / getNextPOT(sceneHeight);
+		 lty2 = (float) (y2+cameraY) / getNextPOT(sceneHeight);
+	} else {
+		 ltx1 = (float) (x1+cameraX) / sceneWidth;
+		 ltx2 = (float) (x2+cameraX) / sceneWidth;
+		 lty1 = (float) (y1+cameraY) / sceneHeight;
+		 lty2 = (float) (y2+cameraY) / sceneHeight;
+	}
 	
 	
 	if (! mirror) {
@@ -808,9 +828,9 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 			
 			glBegin(GL_QUADS);
 			glTexCoord2f(0.0, 0.0); glVertex3f(0.325-x1-xoffset, 0.325-y1+yoffset, 0.0);
-			glTexCoord2f(1.0, 0.0); glVertex3f(sceneWidth-0.325-x1-xoffset, 0.325-y1+yoffset, 0.0);
-			glTexCoord2f(1.0, 1.0); glVertex3f(sceneWidth-0.325-x1-xoffset, sceneHeight-0.325-y1+yoffset, 0.0);
-			glTexCoord2f(0.0, 1.0); glVertex3f(0.325-x1-xoffset, sceneHeight-0.325-y1+yoffset, 0.0);
+			glTexCoord2f(backdropTexW, 0.0); glVertex3f(sceneWidth-0.325-x1-xoffset, 0.325-y1+yoffset, 0.0);
+			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(sceneWidth-0.325-x1-xoffset, sceneHeight-0.325-y1+yoffset, 0.0);
+			glTexCoord2f(0.0, backdropTexH); glVertex3f(0.325-x1-xoffset, sceneHeight-0.325-y1+yoffset, 0.0);
 			glEnd();	
 
 			// Then the sprite
