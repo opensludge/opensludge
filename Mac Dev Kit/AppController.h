@@ -2,8 +2,6 @@
 
 @interface AppController : NSObject
 {
-	IBOutlet NSWindow *projectWindow;
-	IBOutlet NSTableView *projectFiles;
 	
 	IBOutlet NSWindow *preferenceWindow;
 	IBOutlet NSButton *prefKeepImages;
@@ -13,16 +11,12 @@
 
 - (IBAction)prefsMenu:(id)sender;
 - (IBAction)newProject:(id)sender;
-- (IBAction)openProject:(id)sender;
-- (IBAction)closeProject:(id)sender;
-- (IBAction)saveProject:(id)sender;
-- (IBAction)saveProjectAs:(id)sender;
+- (IBAction)menuOpen:(id)sender;
 - (IBAction)helpMenu:(id)sender;
 
 - (IBAction)compileMenu:(id)sender;
 
 - (IBAction)spriteBankNew:(id)sender;
-- (IBAction)spriteBankOpen:(id)sender;
 
 - (IBAction)prefKeepImagesClick:(id)sender;
 - (IBAction)prefWriteStringsClick:(id)sender;

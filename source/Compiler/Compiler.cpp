@@ -21,6 +21,7 @@
 #include "Linker.h"
 #include "MessBox.h"
 #include "PreProc.h"
+#include "Project.hpp"
 #include "PercBar.h"
 #include "RealProc.h"
 #include "Splitter.hpp"
@@ -52,7 +53,6 @@ char * stageName[] = {
 static int compileStep = CSTEP_INIT;
 static stringArray * globalVarNames = NULL;
 
-extern char * loadedFile;
 static FILE * projectFile;
 static stringArray * allSourceStrings = NULL;
 static stringArray * allTheFunctionNamesTemp = NULL;
@@ -184,24 +184,20 @@ bool doSingleCompileStep () {
 		numProcessed = 0;
 		setGlobPointer (& globalVarNames);
 
-		if (! getSourceDirFromName (loadedFile)) return errorBox (ERRORTYPE_INTERNALERROR, "Error initialising!", NULL, NULL);
-
-		projectFile = fopen (loadedFile, "rt");
-		if (! projectFile) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't read project file", loadedFile, NULL);
-		if (! readSettings (projectFile)) return false;
+		if (! fileListNum) return errorBox (ERRORTYPE_PROJECTERROR, "No files in project!", NULL, NULL);
 	
 		addToStringArray (allSourceStrings, "");
 		addToStringArray (allSourceStrings, settings.windowName);
 		addToStringArray (allSourceStrings, settings.quitMessage);
-		setCompileStep (CSTEP_PARSE, 1);
+		setCompileStep (CSTEP_PARSE, fileListNum);
 		break;
 
 		case CSTEP_PARSE:
 		{
-			char * tx = readText (projectFile);
-			if (! tx) {
+			if (data1 >= fileListNum) {
 				setCompileStep (CSTEP_COMPILEINIT, 1);
-			} else if (tx[0] && tx[0] != '[') {
+			} else {
+				char * tx = getFileFromList (data1);
 				fixPath(tx, true);
 				fprintf(stderr, "%s\n ", tx);
 				//setWindowText (COM_FILENAME, tx);
@@ -223,12 +219,12 @@ bool doSingleCompileStep () {
 					return errorBox (ERRORTYPE_PROJECTERROR, "What on Earth is this file doing in a project?", tx, NULL);
 				}
 			}
-			delete tx;
+			fprintf (stderr, ".\n");
+			data1++;
 		}
 		break;
 		
 		case CSTEP_COMPILEINIT:
-		fclose (projectFile);
 		numStringsFound = countElements (allSourceStrings);
 		numFilesFound = countElements (allFileHandles);
 		setCompileStep (CSTEP_COMPILE, numProcessed);
@@ -407,10 +403,9 @@ bool doSingleCompileStep () {
 	return true;
 }
 
-bool compileEverything () {
+bool compileEverything (char * project) {
+	if (! getSourceDirFromName (project)) return errorBox (ERRORTYPE_INTERNALERROR, "Error initialising!", NULL, NULL);
 	
-	if (!loadedFile) return false;
-		
 	initBuiltInFunc ();
 
 	compileStep = CSTEP_INIT;

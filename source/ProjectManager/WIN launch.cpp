@@ -11,7 +11,6 @@
 #include "winterfa.h"
 #include "registry.h"
 
-extern char * loadedFile;
 extern char * editor;
 extern HMENU myMenu;
 

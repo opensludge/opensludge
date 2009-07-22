@@ -157,16 +157,7 @@ bool readSettings (FILE * fp) {
 	
 	if (! settings.finalFile) return errorBox (ERRORTYPE_PROJECTERROR, "Vital line missing from project", "finalfile", NULL);
 	
-	if (! tempDirectory) {
-		tempDirectory = joinStrings(getTempDir(), "/SLUDGE_Tmp_XXXXXX");
-		fixPath (tempDirectory, true);
-		if (mktemp (tempDirectory)) {
-			if (mkdir (tempDirectory, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH))
-				tempDirectory = NULL;
-		}
-		fprintf (stderr, "tempDir: %s \n", tempDirectory);
-	}
-	return (tempDirectory != NULL);
+	return true;
 }
 
 
@@ -253,6 +244,15 @@ bool gotoSourceDirectory () {
 }
 
 bool gotoTempDirectory () {
+	if (! tempDirectory) {
+		tempDirectory = joinStrings(getTempDir(), "/SLUDGE_Tmp_XXXXXX");
+		fixPath (tempDirectory, true);
+		if (mktemp (tempDirectory)) {
+			if (mkdir (tempDirectory, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH))
+				tempDirectory = NULL;
+		}
+		fprintf (stderr, "tempDir: %s \n", tempDirectory);
+	}	
 	if (! tempDirectory) return false;
 	bool r = chdir (tempDirectory);
 	if (r) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't move to temporary directory", tempDirectory, NULL);

@@ -48,7 +48,6 @@
 			  ofType:(NSString *)typeName
 			   error:(NSError **)outError
 {
-	fprintf (stderr, "Loading: %s\n", [typeName UTF8String]);
 	if ([typeName isEqualToString:@"SLUDGE Sprite Bank"]) {		
 		if (loadSpriteBank ((unsigned char *) [data bytes], &sprites))
 		{

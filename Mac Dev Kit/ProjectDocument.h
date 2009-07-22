@@ -10,7 +10,9 @@
 
 
 @interface ProjectDocument : NSDocument {
+	IBOutlet NSTableView *projectFiles;
 
 }
+
 
 @end

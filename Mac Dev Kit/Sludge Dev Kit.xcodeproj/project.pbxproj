@@ -10,7 +10,6 @@
 		002F39FA09D0881F00EBEB88 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002F39F909D0881F00EBEB88 /* SDL.framework */; };
 		002F3A0009D0884600EBEB88 /* SDL.framework in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 002F39F909D0881F00EBEB88 /* SDL.framework */; };
 		002F3A2E09D0888800EBEB88 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 002F3A2C09D0888800EBEB88 /* AppController.m */; };
-		002F3A3F09D088BA00EBEB88 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 002F3A3E09D088BA00EBEB88 /* main.c */; };
 		2F18B65F100CB9C20009A1CB /* GLee.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F18B65D100CB9C20009A1CB /* GLee.c */; };
 		2F18B660100CB9C30009A1CB /* GLee.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F18B65E100CB9C20009A1CB /* GLee.h */; };
 		2F18B665100CBA620009A1CB /* SPLITTER.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA4700FFCEBE6005E5C36 /* SPLITTER.CPP */; };
@@ -18,6 +17,7 @@
 		2F18B6AD100CBE5A0009A1CB /* SPLITTER.HPP in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA4890FFCEBE6005E5C36 /* SPLITTER.HPP */; };
 		2F18B7B3100CC25F0009A1CB /* wintext.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA4910FFCEBE6005E5C36 /* wintext.h */; };
 		2F1B9A63100CF81C00BD9739 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 2F1B9A62100CF81C00BD9739 /* Credits.html */; };
+		2F1BD59310172D890014BFBB /* ProjectDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2F1BD59210172D890014BFBB /* ProjectDocument.nib */; };
 		2F373F6F100E0686009F6880 /* Project.hpp in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F373F6D100E0686009F6880 /* Project.hpp */; };
 		2F373F70100E0686009F6880 /* Project.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F373F6E100E0686009F6880 /* Project.cpp */; };
 		2F3AB9CE100D0B7100CD6A13 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D1107310486CEB800E47090 /* Info.plist */; };
@@ -159,7 +159,6 @@
 		002F39F909D0881F00EBEB88 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = /Library/Frameworks/SDL.framework; sourceTree = "<absolute>"; };
 		002F3A2B09D0888800EBEB88 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
 		002F3A2C09D0888800EBEB88 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
-		002F3A3E09D088BA00EBEB88 /* main.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = SOURCE_ROOT; };
 		002F3AF009D08F1000EBEB88 /* DevKit Main.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = "DevKit Main.nib"; sourceTree = "<group>"; };
 		089C165DFE840E0CC02AAC07 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
@@ -169,6 +168,7 @@
 		2F18B65E100CB9C20009A1CB /* GLee.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GLee.h; path = ../GLee/GLee.h; sourceTree = SOURCE_ROOT; };
 		2F18B6D5100CC0B40009A1CB /* Sludge Dev Kit Help */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Sludge Dev Kit Help"; path = "../doc/Sludge Dev Kit Help"; sourceTree = SOURCE_ROOT; };
 		2F1B9A62100CF81C00BD9739 /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; name = Credits.html; path = ../doc/Credits.html; sourceTree = SOURCE_ROOT; };
+		2F1BD59210172D890014BFBB /* ProjectDocument.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = ProjectDocument.nib; sourceTree = "<group>"; };
 		2F373F6D100E0686009F6880 /* Project.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Project.hpp; sourceTree = "<group>"; };
 		2F373F6E100E0686009F6880 /* Project.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Project.cpp; sourceTree = "<group>"; };
 		2F59AFFE100CD9E1004A21BC /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/Carbon.framework; sourceTree = SYSTEM_DEVELOPER_DIR; };
@@ -366,6 +366,7 @@
 				089C165DFE840E0CC02AAC07 /* InfoPlist.strings */,
 				002F3AF009D08F1000EBEB88 /* DevKit Main.nib */,
 				2FF7AE5C10121A0700F6AF98 /* SpriteBank.nib */,
+				2F1BD59210172D890014BFBB /* ProjectDocument.nib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -469,7 +470,6 @@
 				2F820CC9100E10AE0004738F /* MessBox.cpp */,
 				2F820CCA100E10AE0004738F /* MESSBOX.H */,
 				2F820CCB100E10AE0004738F /* MOREIO.cpp */,
-				002F3A3E09D088BA00EBEB88 /* main.c */,
 				2F7EA4390FFCEBE6005E5C36 /* WIN dialogueBoxInOut.cpp */,
 				2F7EA43A0FFCEBE6005E5C36 /* dialogueBoxInOut.h */,
 				2F7EA43B0FFCEBE6005E5C36 /* WIN launch.cpp */,
@@ -585,9 +585,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8D1107260486CEB800E47090 /* Sludge Dev Kit */ = {
+		8D1107260486CEB800E47090 /* SLUDGE Dev Kit */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Sludge Dev Kit" */;
+			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "SLUDGE Dev Kit" */;
 			buildPhases = (
 				8D1107290486CEB800E47090 /* Resources */,
 				8D11072C0486CEB800E47090 /* Sources */,
@@ -598,7 +598,7 @@
 			);
 			dependencies = (
 			);
-			name = "Sludge Dev Kit";
+			name = "SLUDGE Dev Kit";
 			productInstallPath = "$(HOME)/Applications";
 			productName = "Sludge Dev Kit";
 			productReference = 8D1107320486CEB800E47090 /* Sludge Dev Kit.app */;
@@ -614,7 +614,7 @@
 			mainGroup = 29B97314FDCFA39411CA2CEA /* Sludge Dev Kit */;
 			projectDirPath = "";
 			targets = (
-				8D1107260486CEB800E47090 /* Sludge Dev Kit */,
+				8D1107260486CEB800E47090 /* SLUDGE Dev Kit */,
 			);
 		};
 /* End PBXProject section */
@@ -640,6 +640,7 @@
 				2F695C73100D138D008A8DC1 /* ProjIcon.icns in Resources */,
 				2FF7AE5D10121A0700F6AF98 /* SpriteBank.nib in Resources */,
 				2F9355991012656700099D24 /* spriteIcon.icns in Resources */,
+				2F1BD59310172D890014BFBB /* ProjectDocument.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -651,7 +652,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				002F3A2E09D0888800EBEB88 /* AppController.m in Sources */,
-				002F3A3F09D088BA00EBEB88 /* main.c in Sources */,
 				2F7EA3EA0FFCEBCF005E5C36 /* TGA.cpp in Sources */,
 				2F7EA4A40FFCEBE6005E5C36 /* ALLKNOWN.CPP in Sources */,
 				2F7EA4A60FFCEBE6005E5C36 /* HSI.CPP in Sources */,
@@ -777,7 +777,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Sludge Dev Kit" */ = {
+		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "SLUDGE Dev Kit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4B08A954540054247B /* Debug */,

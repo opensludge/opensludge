@@ -18,7 +18,6 @@
 #include "Project.hpp"
 #include "Interface.h"
 
-char * loadedFile = NULL;
 bool changed = false;
 
 char *fileList[1000];
@@ -35,6 +34,7 @@ void clearFileList() {
 	updateFileListing();
 }
 
+// Feed this with relative paths for best cross-platform (and cross-computer!) results.
 void addFileToList (char * file) {
 	fileList[fileListNum] = new char [strlen (file)+1];
 	if (! fileList[fileListNum]) return;
@@ -53,11 +53,11 @@ void setChanged (bool newVal) {
 	updateTitle ();
 }
 
-void loadProject (const char * filename) {
+bool loadProject (const char * filename) {
 	char * readLine;
-
+	
 	FILE * fp = fopen (filename, "rt");
-	if (! fp) return;
+	if (! fp) return false;
 	
 	readSettings (fp);
 
@@ -82,23 +82,14 @@ void loadProject (const char * filename) {
 	}
 	
 	fclose (fp);
-	if (filename != loadedFile) {
-		delete loadedFile;
-		loadedFile = joinStrings (filename, "");
-	}
 	setChanged (false);
+	return true;
 }
 
 bool saveProject (const char * filename) {
-	if (filename != loadedFile) {
-		if (filename) {
-			delete loadedFile;
-			loadedFile = joinStrings (filename, "");
-		}
-	}
-	FILE * fp = fopen (loadedFile, "wt");
+	FILE * fp = fopen (filename, "wt");
 	if (! fp) {
-		errorBox ("Can't write to project file", loadedFile);
+		errorBox ("Can't write to project file", filename);
 		return false;
 	}
 	
@@ -120,8 +111,6 @@ bool saveProject (const char * filename) {
 }
 
 void closeProject () {
-	delete loadedFile;
-	loadedFile = NULL;
 	clearFileList();
 	updateTitle ();
 }
@@ -132,10 +121,11 @@ void doNewProject (const char * filename) {
 	if (! saveProject (filename)) closeProject ();
 }
 
-void addFileToProject (char * wholeName) {
+
+void addFileToProject (char * wholeName, char * path) {
 	int a = 0;
 	char * newName, * temp;
-	while (wholeName[a] == loadedFile[a]) {
+	while (wholeName[a] == path[a]) {
 		a ++;
 	}
 	
@@ -146,8 +136,8 @@ void addFileToProject (char * wholeName) {
 	}
 	
 	newName = joinStrings ("", wholeName + a);
-	while (loadedFile[a]) {
-		if (loadedFile[a] == '\\') {
+	while (path[a]) {
+		if (path[a] == '\\') {
 			temp = joinStrings ("..\\", newName);
 			delete newName;
 			newName = temp;
@@ -157,5 +147,3 @@ void addFileToProject (char * wholeName) {
 	addFileToList (newName);
 	delete newName;
 }
-
-

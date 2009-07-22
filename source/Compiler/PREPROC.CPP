@@ -24,8 +24,10 @@ bool preProcess (char * codeFileName, int fileNumber, stringArray * & strings, s
 	bool escapeCharNext = false, justAComment = false;
 	char grabString[1000];
 	int doubleCheckLoop;
-
+	
 	if (! gotoTempDirectory ()) return false;
+
+	fprintf (stderr, codeFileName);
 	
 	sprintf (outputName, "_T%05i.TMP", fileNumber);
 	outputFile = fopen (outputName, "wt");

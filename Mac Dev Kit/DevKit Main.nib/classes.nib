@@ -2,19 +2,15 @@
     IBClasses = (
         {
             ACTIONS = {
-                closeProject = id; 
                 compileMenu = id; 
                 helpMenu = id; 
+                menuOpen = id; 
                 newProject = id; 
-                openProject = id; 
                 prefKeepImagesClick = id; 
                 prefVerboseClick = id; 
                 prefWriteStringsClick = id; 
                 prefsMenu = id; 
-                saveProject = id; 
-                saveProjectAs = id; 
                 spriteBankNew = id; 
-                spriteBankOpen = id; 
             }; 
             CLASS = AppController; 
             LANGUAGE = ObjC; 
@@ -23,13 +19,18 @@
                 prefVerbose = NSButton; 
                 prefWriteStrings = NSButton; 
                 preferenceWindow = NSWindow; 
-                projectFiles = NSTableView; 
-                projectWindow = NSWindow; 
             }; 
             SUPERCLASS = NSObject; 
         }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {CLASS = ProjectController; LANGUAGE = ObjC; SUPERCLASS = NSWindowController; }, 
+        {
+            ACTIONS = {compileMenu = id; }; 
+            CLASS = ProjectDocument; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {projectFiles = NSTableView; }; 
+            SUPERCLASS = NSDocument; 
+        }, 
         {
             ACTIONS = {
                 help = id; 

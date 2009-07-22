@@ -17,12 +17,12 @@ char * getFileFromList (int index);
 	
 void setChanged (bool newVal);
 
-void loadProject (const char * filename);
+bool loadProject (const char * filename);
 bool saveProject (const char * filename);
 void closeProject ();
 void doNewProject (const char * filename);
 
-void addFileToProject (char * wholeName);
+void addFileToProject (char * wholeName, char * path);
 
 
 #ifdef __cplusplus
