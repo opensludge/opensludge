@@ -63,7 +63,7 @@ bool createObjectType (char * code, const char * fName, stringArray * & globalVa
 
 	char * displayName = joinStrings (getBits -> string, "");
 	inThisClass = joinStrings (displayName, ".");
-	setWindowText (COM_ITEMTEXT, displayName);
+	setCompilerText (COM_ITEMTEXT, displayName);
 	objNam = joinStrings (getBits -> string, ".");
 
 	if (! checkNotKnown (getBits -> string, fName)) return false;
@@ -121,7 +121,7 @@ bool createObjectType (char * code, const char * fName, stringArray * & globalVa
 						 "",										// Args without ()
 						 getBitInsides -> string, false, false, fName);	// Code without {}
 
-					setWindowText (COM_ITEMTEXT, displayName);
+					setCompilerText (COM_ITEMTEXT, displayName);
 					destroyAll (getBitInsides);
 					delete newFuncName;
 					numCombis ++;
@@ -275,9 +275,9 @@ bool linkObjectFile (FILE * mainFile, FILE * indexFile, int i, unsigned long cal
 	if (! fileIn) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't read object type file", fbuff, NULL);
 
 	objNam = readString (fileIn);
-	setWindowText (COM_ITEMTEXT, objNam);
+	setCompilerText (COM_ITEMTEXT, objNam);
 	char * fileNam = readString (fileIn);
-	setWindowText (COM_FILENAME, fileNam);
+	setCompilerText (COM_FILENAME, fileNam);
 
 	for (a = 0; a < 2; a ++) {
 		fputc (fgetc (fileIn), mainFile);

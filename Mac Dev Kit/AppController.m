@@ -7,6 +7,7 @@
 #import <unistd.h>
 
 #import "SpriteBank.h"
+#import "ProjectDocument.h"
 
 
 extern bool changed;
@@ -67,23 +68,28 @@ AppController *aC;
 
 - (IBAction)newProject:(id)sender
 {    
-	/*
-    NSString *path = nil;
-    NSSavePanel *savePanel = [ NSSavePanel savePanel ];
+	NSString *path = nil;
+	NSSavePanel *savePanel = [ NSSavePanel savePanel ];
 	[savePanel setTitle:@"New SLUDGE Project"];
 	[savePanel setRequiredFileType:@"slp"];
-    
-    if ( [ savePanel runModalForDirectory:nil
-									 file:nil ] ) {
-		
-        path = [ savePanel filename ];
+	
+	if ( [ savePanel runModalForDirectory:nil file:nil ] ) {
+		path = [ savePanel filename ];
 		doNewProject ([path UTF8String]);
-    }
-	if (path) {
-		[projectWindow makeKeyAndOrderFront:nil];
-	}*/
+	}
+	
+	if (path) {	
+		NSURL *file = [NSURL fileURLWithPath: path];
+		NSDocumentController *docControl = [NSDocumentController sharedDocumentController];
+		NSError **err;
+		NSDocument *project = [docControl makeDocumentWithContentsOfURL:file ofType:@"SLUDGE Project file" error:err];
+		if (project) {
+			[docControl addDocument: project];
+			[project makeWindowControllers];
+			[project showWindows];
+		}
+	}
 }
-
 
 - (IBAction)spriteBankNew:(id)sender
 {
@@ -99,6 +105,11 @@ AppController *aC;
 {
 	[[[NSDocumentController sharedDocumentController] currentDocument] compile];
 }
+- (IBAction)projectPrefsMenu:(id)sender{
+	[[[NSDocumentController sharedDocumentController] currentDocument] showProjectPrefs];
+}
+
+
 
 /*
 OSStatus RegisterMyHelpBook(void)

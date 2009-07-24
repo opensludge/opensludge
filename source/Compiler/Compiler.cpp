@@ -30,6 +30,8 @@
 #include "settings.h"
 #include "HSI.h"
 #include "ObjType.h"
+#include "WInterfa.h"
+#include "WinText.h"
 
 enum { CSTEP_INIT,
 	   CSTEP_PARSE,
@@ -99,7 +101,6 @@ int numErrors = 0;
 
 void addComment (int errorType, const char * comment, const char * filename/*, int lineNumber*/) {
 	
-	fprintf (stderr, "addComment: %s %s\n", comment, filename);
 	
 	if (filename && filename[0] == '\0')
 		filename = NULL;
@@ -119,6 +120,7 @@ void addComment (int errorType, const char * comment, const char * filename/*, i
 		char * wholeThing = joinStrings (errorTypeStrings[errorType], comment, after);
 //		SendDlgItemMessage(warningWindowH, ID_WARNINGLIST, LB_ADDSTRING, (WPARAM) 0, (LPARAM) wholeThing);
 //		SendDlgItemMessage(warningWindowH, ID_WARNINGLIST, LB_SELECTSTRING, (WPARAM) 0, (LPARAM) wholeThing);
+		fprintf (stderr, "addComment: %s\n", wholeThing);
 		delete after;
 		delete wholeThing;
 //		ShowWindow (warningWindowH, SW_SHOW);
@@ -162,13 +164,12 @@ void setCompileStep (int a, int totalBits)
 	
 	//	errorBox (ERRORTYPE_SYSTEMERROR, "Step", stageName[a], NULL);
 	
-	//	setWindowText (COM_PROJTEXT, windowName);
-	//	setWindowText (COM_PROGTEXT, stageName[a]);
+		setCompilerText (COM_PROGTEXT, stageName[a]);
 	
 	if (a <= CSTEP_DONE)
 	{
-	//	setWindowText (COM_FILENAME, "");
-	//	setWindowText (COM_ITEMTEXT, "");
+		setCompilerText (COM_FILENAME, "");
+		setCompilerText (COM_ITEMTEXT, "");
 		
 		clearRect (CSTEP_DONE, P_TOP);
 		percRect (a, P_TOP);
@@ -199,8 +200,7 @@ bool doSingleCompileStep () {
 			} else {
 				char * tx = getFileFromList (data1);
 				fixPath(tx, true);
-				fprintf(stderr, "%s\n ", tx);
-				//setWindowText (COM_FILENAME, tx);
+				setCompilerText (COM_FILENAME, tx);
 				
 				char * compareMe = tx + (strlen (tx) - 4);
 				char * lowExt = compareMe;
@@ -219,7 +219,6 @@ bool doSingleCompileStep () {
 					return errorBox (ERRORTYPE_PROJECTERROR, "What on Earth is this file doing in a project?", tx, NULL);
 				}
 			}
-			fprintf (stderr, ".\n");
 			data1++;
 		}
 		break;
@@ -275,16 +274,18 @@ bool doSingleCompileStep () {
 		writeFinalData (projectFile);
 	
 		// ADD ICON ------------------------------------
-		if (settings.customIcon) {
-//			setWindowText (COM_PROGTEXT, "Adding custom icon");
-//			setWindowText (COM_FILENAME, settings.customIcon);
-			convertTGA (settings.customIcon);
-//			setWindowText (COM_ITEMTEXT, "");
+		if (settings.customIcon && settings.customIcon[0]) {
+			setCompilerText (COM_PROGTEXT, "Adding custom icon");
+			setCompilerText (COM_FILENAME, settings.customIcon);
+			setCompilerText (COM_ITEMTEXT, "");
+			char * iconFile = joinStrings (settings.customIcon, "");
+			convertTGA (iconFile);
 			fputc (1, projectFile);
-			if (! dumpFileInto (projectFile, settings.customIcon)) {
+			if (! dumpFileInto (projectFile, iconFile)) {
 				fclose (projectFile);
 				return errorBox (ERRORTYPE_PROJECTERROR, "Error adding custom icon (file not found or not a valid TGA file)", settings.customIcon, NULL);
 			}
+			delete iconFile;
 		} else {
 			fputc (0, projectFile);
 		}
@@ -410,10 +411,8 @@ bool compileEverything (char * project) {
 
 	compileStep = CSTEP_INIT;
 	while (compileStep < CSTEP_DONE) {
-		fprintf(stderr, "Doing: %s.\n", stageName[compileStep]);
 		if (! doSingleCompileStep ())
 		{
-			fprintf(stderr, "Error");
 			setCompileStep (CSTEP_ERROR, 1);
 			gotoSourceDirectory ();
 			char * killName = joinStrings (settings.finalFile, ".sl~");
@@ -421,9 +420,7 @@ bool compileEverything (char * project) {
 			delete killName;
 		}
 	}
-	
-	fprintf(stderr, "\nCompiling done.\n\n");
-	
+		
 	destroyAll (functionNames);
 	destroyAll (objectTypeNames);
 	destroyAll (globalVarNames);

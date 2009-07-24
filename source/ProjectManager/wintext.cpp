@@ -1,8 +1,6 @@
 #include "Splitter.hpp"
 
 
-//TODO
-
 void setWindowText (int where, const char * tx) {
 }
 

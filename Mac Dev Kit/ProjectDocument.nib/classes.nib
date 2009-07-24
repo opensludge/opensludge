@@ -2,9 +2,29 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
+            ACTIONS = {closeCompilerBox = id; endProjectPrefs = id; }; 
             CLASS = ProjectDocument; 
             LANGUAGE = ObjC; 
-            OUTLETS = {projectFiles = NSTableView; }; 
+            OUTLETS = {
+                closeCompilerButton = NSButton; 
+                compFile = NSTextField; 
+                compItem = NSTextField; 
+                compTask = NSTextField; 
+                compilerWindow = NSPanel; 
+                prefData = NSTextField; 
+                prefFile = NSTextField; 
+                prefHeight = NSTextField; 
+                prefIcon = NSTextField; 
+                prefName = NSTextField; 
+                prefQuit = NSTextField; 
+                prefSilent = NSButton; 
+                prefSpeed = NSTextField; 
+                prefWidth = NSTextField; 
+                progress1 = NSProgressIndicator; 
+                progress2 = NSProgressIndicator; 
+                projectFiles = NSTableView; 
+                projectPrefs = NSWindow; 
+            }; 
             SUPERCLASS = NSDocument; 
         }
     ); 

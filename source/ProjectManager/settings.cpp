@@ -33,9 +33,9 @@ void noSettings () {
 	if (settings.quitMessage) delete settings.quitMessage;
 	settings.quitMessage = joinStrings ("Are you sure you want to quit?", "");
 	if (settings.customIcon) delete settings.customIcon;
-	settings.customIcon = NULL;
+	settings.customIcon = joinStrings ("", "");
 	if (settings.runtimeDataFolder) delete settings.runtimeDataFolder;
-	settings.runtimeDataFolder = NULL;
+	settings.runtimeDataFolder = joinStrings ("save", "");
 	if (settings.finalFile) delete settings.finalFile;
 	settings.finalFile =joinStrings ("untitled", "");
 	if (settings.windowName) delete settings.windowName;
@@ -160,7 +160,22 @@ bool readSettings (FILE * fp) {
 	return true;
 }
 
+void killSettingsStrings ()
+{
+	if (settings.quitMessage) delete settings.quitMessage;
+	if (settings.customIcon) delete settings.customIcon;
+	if (settings.runtimeDataFolder) delete settings.runtimeDataFolder;
+	if (settings.finalFile) delete settings.finalFile;
+	if (settings.windowName) delete settings.windowName; 
+}
 
+char * newString (const char * old)
+{
+	char * nS = new char[strlen (old) + 1];
+	//	checkNew (nS);
+	sprintf (nS, "%s", old);
+	return nS;
+}
 
 
 /* killTempDir - Removes the temporary directory
@@ -251,7 +266,6 @@ bool gotoTempDirectory () {
 			if (mkdir (tempDirectory, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH))
 				tempDirectory = NULL;
 		}
-		fprintf (stderr, "tempDir: %s \n", tempDirectory);
 	}	
 	if (! tempDirectory) return false;
 	bool r = chdir (tempDirectory);

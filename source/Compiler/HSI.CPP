@@ -101,16 +101,15 @@ int saveHSI (char * filename) {
 
 
 bool convertTGA (char * filename) {
-	char * originalName = joinStrings (filename, "");
+	char * oldName = joinStrings (filename, "");
 	filename[strlen (filename) - 3] = 's';
 	filename[strlen (filename) - 2] = 'l';
 	filename[strlen (filename) - 1] = getDither() ? '2' : 'x';
 	int i, j;
 
-	fprintf (stderr, "convertTGA: %s %s \n", originalName, filename);
-	if (newerFile (originalName, filename)) {
-		// TODO setWindowText (COM_ITEMTEXT, "Compressing image");
-		i = loadBackDropForCompiler (originalName);
+	if (newerFile (oldName, filename)) {
+		setCompilerText (COM_ITEMTEXT, "Compressing image");
+		i = loadBackDropForCompiler (oldName);
 		if (! i) return false;
 		j = saveHSI (filename);
 		if (! j) return false;
@@ -124,8 +123,8 @@ bool convertTGA (char * filename) {
 //		}
 		for (int a = 0; a < VERT_RES; a ++) delete backDropImage[a];
 		delete backDropImage;
-		// TODO setWindowText (COM_ITEMTEXT, "");
+		setCompilerText (COM_ITEMTEXT, "");
 	}
-	delete originalName;
+	delete oldName;
 	return true;
 }

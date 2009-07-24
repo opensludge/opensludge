@@ -70,8 +70,8 @@ bool dumpFiles (FILE * mainFile, stringArray * & theSA) {
 
 	// Display first...
 
-//	setWindowText (COM_PROGTEXT, "Attaching sprites, images and audio files");
-//	setWindowText (COM_ITEMTEXT, "");
+	setCompilerText (COM_PROGTEXT, "Attaching sprites, images and audio files");
+	setCompilerText (COM_ITEMTEXT, "");
 	clearRect (countElements (theSA), P_BOTTOM);
 
 	// Now the hard work
@@ -87,7 +87,7 @@ bool dumpFiles (FILE * mainFile, stringArray * & theSA) {
 	
 	bool killAfterAdd;
 	while (theSA) {
-		setWindowText (COM_FILENAME, theSA -> string);
+		setCompilerText (COM_FILENAME, theSA -> string);
 		
 		killAfterAdd = false;
 		if (! theSA -> string[0]) {
@@ -101,7 +101,6 @@ bool dumpFiles (FILE * mainFile, stringArray * & theSA) {
 				case FILETYPE_TGA:
 				convertTGA (theSA -> string);
 				killAfterAdd = programSettings.compilerKillImages;
-				fprintf (stderr, "KillAfterAdd: %d (%s)", killAfterAdd, theSA -> string);
 				break;
 				
 				case FILETYPE_FLOOR:
@@ -147,7 +146,7 @@ bool dumpFiles (FILE * mainFile, stringArray * & theSA) {
 	inFile = fopen ("alldata.big", "rb");
 	if (! inFile) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't read the file I just wrote", "alldata.big", NULL);
 
-	setWindowText (COM_PROGTEXT, "Adding look-up table");
+	setCompilerText (COM_PROGTEXT, "Adding look-up table");
 	for (;;) {
 		ch = fgetc (inFile);
 		if (feof (inFile)) break;

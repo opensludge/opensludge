@@ -26,13 +26,11 @@ bool preProcess (char * codeFileName, int fileNumber, stringArray * & strings, s
 	int doubleCheckLoop;
 	
 	if (! gotoTempDirectory ()) return false;
-
-	fprintf (stderr, codeFileName);
 	
 	sprintf (outputName, "_T%05i.TMP", fileNumber);
 	outputFile = fopen (outputName, "wt");
 	if (! outputFile) {
-		addComment (ERRORTYPE_SYSTEMERROR, "Can't create temporary file!\n\nPerhaps you've left another SLUDGE compiler window open - if so, please close it (and this one!) and then try compiling again.\n\nOtherwise, either you're out of disk space or you don't have access to Windows' temporary folder.", NULL);
+		addComment (ERRORTYPE_SYSTEMERROR, "Can't create temporary file!\n\nPerhaps you've left another SLUDGE compiler window open - if so, please close it (and this one!) and then try compiling again.\n\nOtherwise, either you're out of disk space or you don't have access to the temporary folder.", NULL);
 		return false;
 	}
 

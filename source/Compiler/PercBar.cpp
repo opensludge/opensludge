@@ -1,3 +1,5 @@
+#ifdef WIN32
+
 #include "percbar.h"
 #include "wintext.h"
 #include "winterfa.h"
@@ -16,7 +18,7 @@ void clearRect (int i, whichPerc whichBox) {
 }
 
 void percRect (unsigned int i, whichPerc whichBox) {
-/*	HDC hdc = GetDC (compWin);
+	HDC hdc = GetDC (compWin);
 	char buffff[10];
 	
 	HPEN myPen = CreatePen (PS_SOLID, 0, RGB (0, 0, 0));
@@ -46,8 +48,6 @@ void percRect (unsigned int i, whichPerc whichBox) {
 		Rectangle (hdc, BOXX - 1 + i, BOX2, BOXX + BOXWIDTH, BOX2 + BOXHEIGHT);
 		SelectObject (hdc, lastBrush);
 		DeleteObject (myBrush);
-
-		setWindowText (COM_PERC2, buffff);
 	} else {
 		if (i) {
 			Rectangle (hdc, BOXX - 1, BOX1, BOXX + i, BOX1 + BOXHEIGHT);
@@ -60,12 +60,11 @@ void percRect (unsigned int i, whichPerc whichBox) {
 		Rectangle (hdc, BOXX - 1 + i, BOX1, BOXX + BOXWIDTH, BOX1 + BOXHEIGHT);
 		SelectObject (hdc, lastBrush);
 		DeleteObject (myBrush);
-
-		setWindowText (COM_PERC1, buffff);
 	}
 
 	SelectObject (hdc, lastPen);
 	DeleteObject (myPen);
 	ReleaseDC (compWin, hdc);
-	*/
 }
+
+#endif

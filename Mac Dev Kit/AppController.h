@@ -7,6 +7,7 @@
 	IBOutlet NSButton *prefKeepImages;
 	IBOutlet NSButton *prefWriteStrings;
 	IBOutlet NSButton *prefVerbose;
+	
 }
 
 - (IBAction)prefsMenu:(id)sender;
@@ -15,6 +16,7 @@
 - (IBAction)helpMenu:(id)sender;
 
 - (IBAction)compileMenu:(id)sender;
+- (IBAction)projectPrefsMenu:(id)sender;
 
 - (IBAction)spriteBankNew:(id)sender;
 

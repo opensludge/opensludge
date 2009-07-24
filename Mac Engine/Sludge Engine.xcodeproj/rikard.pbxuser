@@ -8,6 +8,7 @@
 			8D1107260486CEB800E47090 /* OpenSLUDGE */,
 		);
 		breakpoints = (
+			2F9D1EB310191A6200ACCAFF /* SLUDGER.CPP:237 */,
 		);
 		breakpointsGroup = 2FD9F7220E3F2C380083A726 /* XCBreakpointsBucket */;
 		codeSenseManager = 2FAD3C3C0E335871003DEE41 /* Code sense */;
@@ -175,8 +176,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 269871800;
-			PBXWorkspaceStateSaveDate = 269871800;
+			PBXPerProjectTemplateStateSaveDate = 270080588;
+			PBXWorkspaceStateSaveDate = 270080588;
 		};
 		sourceControlManager = 2FAD3C3B0E335871003DEE41 /* Source Control */;
 		userBuildSettings = {
@@ -221,17 +222,17 @@
 	};
 	2F6F29930FBEFF3D00BC6A67 /* main.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {839, 4550}}";
-			sepNavSelRange = "{5049, 0}";
-			sepNavVisRect = "{{0, 2516}, {839, 223}}";
+			sepNavIntBoundsRect = "{{0, 0}, {678, 4550}}";
+			sepNavSelRange = "{5084, 0}";
+			sepNavVisRect = "{{0, 1818}, {678, 187}}";
 			sepNavWindowFrame = "{{15, 64}, {775, 714}}";
 		};
 	};
 	2F7BFEB60E3384AE003F5DC3 /* BACKDROP.CPP */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {926, 15344}}";
-			sepNavSelRange = "{673, 19}";
-			sepNavVisRect = "{{0, 372}, {839, 223}}";
+			sepNavSelRange = "{32290, 7}";
+			sepNavVisRect = "{{0, 14596}, {839, 223}}";
 			sepNavWindowFrame = "{{-10, 34}, {1021, 744}}";
 		};
 	};
@@ -372,8 +373,8 @@
 	2F7BFEE20E33858E003F5DC3 /* SLUDGER.CPP */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1280, 15876}}";
-			sepNavSelRange = "{7791, 0}";
-			sepNavVisRect = "{{0, 3531}, {736, 585}}";
+			sepNavSelRange = "{4425, 10}";
+			sepNavVisRect = "{{0, 3179}, {736, 585}}";
 			sepNavWindowFrame = "{{99, 64}, {775, 714}}";
 		};
 	};
@@ -710,9 +711,9 @@
 	};
 	2F7BFF590E3387CE003F5DC3 /* version.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {977, 562}}";
-			sepNavSelRange = "{92, 0}";
-			sepNavVisRect = "{{0, 0}, {977, 562}}";
+			sepNavIntBoundsRect = "{{0, 0}, {839, 223}}";
+			sepNavSelRange = "{263, 7}";
+			sepNavVisRect = "{{0, 0}, {839, 223}}";
 			sepNavWindowFrame = "{{15, 82}, {1016, 691}}";
 		};
 	};
@@ -736,6 +737,21 @@
 		uiCtxt = {
 			sepNavWindowFrame = "{{15, 59}, {775, 714}}";
 		};
+	};
+	2F9D1EB310191A6200ACCAFF /* SLUDGER.CPP:237 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		delayBeforeContinue = 0;
+		fileReference = 2F7BFEE20E33858E003F5DC3 /* SLUDGER.CPP */;
+		functionName = "initSludge()";
+		hitCount = 1;
+		lineNumber = 237;
+		location = SLUDGE;
+		modificationTime = 270080658.356811;
+		state = 1;
 	};
 	2FA5507A0FF90CC4006A67ED /* Start.h */ = {
 		uiCtxt = {
@@ -774,6 +790,33 @@
 		libgmallocEnabled = 0;
 		name = OpenSLUDGE;
 		savedGlobals = {
+			"/Users/rikard/Documents/SLUDGE/Mac Engine/build/Debug/SLUDGE.app/Contents/MacOS/SLUDGE" = (
+				{
+					display = 1;
+					filename = "/Users/rikard/Documents/SLUDGE/Mac Engine/../source/Engine/SLUDGER.CPP";
+					name = numGlobals;
+				},
+				{
+					display = 1;
+					filename = "/Users/rikard/Documents/SLUDGE/Mac Engine/../source/Engine/main.cpp";
+					name = gameSettings;
+				},
+				{
+					display = 1;
+					filename = "/Users/rikard/Documents/SLUDGE/Mac Engine/../source/Engine/SLUDGER.CPP";
+					name = gameVersion;
+				},
+				{
+					display = 1;
+					filename = "/Users/rikard/Documents/SLUDGE/Mac Engine/../source/Engine/Graphics.cpp";
+					name = winHeight;
+				},
+				{
+					display = 1;
+					filename = "/Users/rikard/Documents/SLUDGE/Mac Engine/../source/Engine/Graphics.cpp";
+					name = winWidth;
+				},
+			);
 		};
 		sourceDirectories = (
 		);
@@ -812,6 +855,7 @@
 		isa = XCBreakpointsBucket;
 		name = "Project Breakpoints";
 		objects = (
+			2F9D1EB310191A6200ACCAFF /* SLUDGER.CPP:237 */,
 		);
 	};
 	2FEFC49A10073ADA004C66F1 /* GLee.c */ = {

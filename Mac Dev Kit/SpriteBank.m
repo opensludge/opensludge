@@ -15,8 +15,7 @@
 - (id)init
 {
     self = [super init];
-    if (self) {
-		
+    if (self) {		
         // Add your subclass-specific initialization here.
         // If an error occurs here, send a [self release] message and return nil.
 		sprites.total=0;
@@ -26,7 +25,6 @@
 
 - (NSString *)windowNibName
 {
-    // Override returning the nib file name of the document
     // If you need to use a subclass of NSWindowController or if your document supports multiple NSWindowControllers,
 	// you should remove this method and override -makeWindowControllers instead.
     return @"SpriteBank";
@@ -58,11 +56,23 @@
 	return NO;
 }
 
-- (NSData *)dataOfType:(NSString *)aType
-				 error:(NSError **)e
+
+- (BOOL)writeToURL:(NSURL *)absoluteURL 
+			ofType:(NSString *)typeName 
+			 error:(NSError **)outError
 {
-	*e = [NSError errorWithDomain:@"Error" code:1 userInfo:nil];
-	return nil;
+	/*
+	if ([typeName isEqualToString:@"SLUDGE Sprite Bank"]) {	
+		UInt8 buffer[1024];
+		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
+			if (saveProject ((char *) buffer)) {
+				return YES;
+			}
+		}
+	} 
+	 */
+	*outError = [NSError errorWithDomain:@"Error" code:1 userInfo:nil];
+	return NO;
 }
 
 - (struct spriteBank *) getSprites {

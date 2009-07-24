@@ -1,3 +1,12 @@
+
+#ifndef __SETTINGS_H__
+#define __SETTINGS_H__
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif		
+
 struct chrRenderingSettingsStruct
 {
 	bool defEnabled;
@@ -53,6 +62,8 @@ extern char * sourceDirectory;
 bool readSettings (FILE * fp);
 void writeSettings (FILE * fp);
 void noSettings ();
+void killSettingsStrings ();
+char * newString (const char * a);
 void chrRenderingSettingsFillDefaults(bool enable);
 
 bool getSourceDirFromName (char * filename);
@@ -65,3 +76,9 @@ void writeFinalData (FILE * mainFile);
 
 void fixPath (char *filename, bool makeGood);
 
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif

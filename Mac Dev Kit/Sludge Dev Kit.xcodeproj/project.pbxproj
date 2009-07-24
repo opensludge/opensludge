@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		002F39FA09D0881F00EBEB88 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002F39F909D0881F00EBEB88 /* SDL.framework */; };
-		002F3A0009D0884600EBEB88 /* SDL.framework in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 002F39F909D0881F00EBEB88 /* SDL.framework */; };
 		002F3A2E09D0888800EBEB88 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 002F3A2C09D0888800EBEB88 /* AppController.m */; };
 		2F18B65F100CB9C20009A1CB /* GLee.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F18B65D100CB9C20009A1CB /* GLee.c */; };
 		2F18B660100CB9C30009A1CB /* GLee.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F18B65E100CB9C20009A1CB /* GLee.h */; };
@@ -50,7 +49,6 @@
 		2F7EA4B30FFCEBE6005E5C36 /* WIN_MESSBOX.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA3FD0FFCEBE6005E5C36 /* WIN_MESSBOX.CPP */; };
 		2F7EA4B70FFCEBE6005E5C36 /* OBJTYPE.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA4010FFCEBE6005E5C36 /* OBJTYPE.CPP */; };
 		2F7EA4B80FFCEBE6005E5C36 /* OBJTYPE.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA4020FFCEBE6005E5C36 /* OBJTYPE.H */; };
-		2F7EA4BA0FFCEBE6005E5C36 /* PercBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA4040FFCEBE6005E5C36 /* PercBar.cpp */; };
 		2F7EA4BB0FFCEBE6005E5C36 /* PercBar.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA4050FFCEBE6005E5C36 /* PercBar.h */; };
 		2F7EA4BC0FFCEBE6005E5C36 /* PREPROC.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA4060FFCEBE6005E5C36 /* PREPROC.CPP */; };
 		2F7EA4BD0FFCEBE6005E5C36 /* PREPROC.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA4070FFCEBE6005E5C36 /* PREPROC.H */; };
@@ -92,6 +90,7 @@
 		2F9DE047100CC7ED0067DE50 /* DevKit Main.nib in Resources */ = {isa = PBXBuildFile; fileRef = 002F3AF009D08F1000EBEB88 /* DevKit Main.nib */; };
 		2F9DE048100CC7FA0067DE50 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165DFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		2FA3510F10148E2800979809 /* MOREIO.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2FA3510E10148E2800979809 /* MOREIO.H */; };
+		2FD4CACA1019074900265F6E /* PercBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA4040FFCEBE6005E5C36 /* PercBar.cpp */; };
 		2FE2603B1010A1B0005EF966 /* wintext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA4610FFCEBE6005E5C36 /* wintext.cpp */; };
 		2FE2619F1010BD5D005EF966 /* HSI.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2FE2619E1010BD5D005EF966 /* HSI.H */; };
 		2FE2CEC40FFD683B000CC795 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FE2CEC30FFD683B000CC795 /* OpenGL.framework */; };
@@ -110,7 +109,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				002F3A0009D0884600EBEB88 /* SDL.framework in Copy Frameworks into .app bundle */,
 				2F7EA3E50FFCEBCF005E5C36 /* functionList.h in Copy Frameworks into .app bundle */,
 				2F7EA3E90FFCEBCF005E5C36 /* specialSettings.h in Copy Frameworks into .app bundle */,
 				2F7EA3EB0FFCEBCF005E5C36 /* TGA.h in Copy Frameworks into .app bundle */,
@@ -662,7 +660,6 @@
 				2F7EA4B10FFCEBE6005E5C36 /* LINKER.CPP in Sources */,
 				2F7EA4B30FFCEBE6005E5C36 /* WIN_MESSBOX.CPP in Sources */,
 				2F7EA4B70FFCEBE6005E5C36 /* OBJTYPE.CPP in Sources */,
-				2F7EA4BA0FFCEBE6005E5C36 /* PercBar.cpp in Sources */,
 				2F7EA4BC0FFCEBE6005E5C36 /* PREPROC.CPP in Sources */,
 				2F7EA4BE0FFCEBE6005E5C36 /* REALPROC.CPP in Sources */,
 				2F7EA4C90FFCEBE6005E5C36 /* TOKENS.CPP in Sources */,
@@ -684,6 +681,7 @@
 				2FF7AE531012195300F6AF98 /* SpriteBank.m in Sources */,
 				2F9355B01012670D00099D24 /* ProjectDocument.m in Sources */,
 				2F81D1AF1013C9D400276F1B /* SPRITES.CPP in Sources */,
+				2FD4CACA1019074900265F6E /* PercBar.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

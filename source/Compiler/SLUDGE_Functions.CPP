@@ -90,7 +90,7 @@ bool startFunction (int num,
 					
 	char file1[30], file2[30];
 	
-	setWindowText (COM_ITEMTEXT, theName);
+	setCompilerText (COM_ITEMTEXT, theName);
 	sprintf (file1, "_F%05i.dat", num);
 	sprintf (file2, "_F%05iM.dat", num);
 	
@@ -961,7 +961,7 @@ bool outdoorSub (char * code, const char * fileName) {
 
 	char * functionName = joinStrings (inThisClass, getSpecial -> string);
 
-	setWindowText (COM_ITEMTEXT, functionName);
+	setCompilerText (COM_ITEMTEXT, functionName);
 
 	if (! destroyFirst (getContents)) {
 		errorBox (ERRORTYPE_PROJECTERROR, "Bad sub definition (no parameters)", functionName, fileName);

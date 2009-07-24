@@ -3,10 +3,10 @@
 
 struct stringArray {
 	char * string;
-	stringArray * next;
+	struct stringArray * next;
 };
 
-extern stringArray * nullArray;
+extern struct stringArray * nullArray;
 
 enum splitMode {ONCE, REPEAT};
 

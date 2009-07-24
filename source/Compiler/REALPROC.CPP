@@ -62,7 +62,7 @@ bool realWork (int fileNumber, stringArray * & globalVars, compilationSpace & gl
 	delete theSource;
 
 //	showTask (fileNumber, origName -> string);
-	setWindowText (COM_FILENAME, origName -> string);
+	setCompilerText (COM_FILENAME, origName -> string);
 //	errorBox ("Compiling contents of file", origName -> string);
 
 	theBits = splitString (origName -> next -> string, ';', REPEAT);

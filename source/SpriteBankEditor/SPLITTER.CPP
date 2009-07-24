@@ -23,6 +23,7 @@ bool trimStart (char * & thisString, char trimChar) {
 
 bool trimEnd (char * & thisString, char trimChar) {
 	int len = strlen (thisString);
+	if (! len) return 0;
 	if (thisString[len - 1] == trimChar) {
 		thisString[len - 1] = NULL;
 		return true;
@@ -140,7 +141,7 @@ char * joinStrings (const char * a, const char * b, const char * c) {
 
 char * joinStrings (const char * a, const char * b, const char * c, const char * d) {
 	char * nS = new char[strlen (a) + strlen (b) + strlen (c) + strlen (d) + 1];
-	sprintf (nS, "%s%s%s%d", a, b, c, d);
+	sprintf (nS, "%s%s%s%s", a, b, c, d);
 	return nS;
 }
 
@@ -157,6 +158,8 @@ long stringToInt (const char * textNumber, int errorType) {
 	while (textNumber[ac]) {
 		if (textNumber[ac] >= '0' && textNumber[ac] <= '9') {
 			i = (i * 10) + textNumber[ac] - '0';
+			if (i == 65535)
+				return 65535;
 			if (i > MAXINT) {
 				errorBox (errorType, "Number too large", textNumber, NULL);
 				return -1;

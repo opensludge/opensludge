@@ -41,16 +41,16 @@ bool runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray 
 	put4bytes (ftell (mainFile) + calcIndexSize, indexFile);
 
 	if (! gotoTempDirectory ()) return false;
+	
 	sprintf (filename, "_F%05i.DAT", functionNum);
-
 	readObj = fopen (filename, "rb");
 	if (readObj == NULL) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't open", filename, NULL);
 
 	originalName = readString (readObj);
-	setWindowText (COM_ITEMTEXT, originalName);
+	setCompilerText (COM_ITEMTEXT, originalName);
 
 	grabbedText = readString (readObj);
-	setWindowText (COM_FILENAME, grabbedText);
+	setCompilerText (COM_FILENAME, grabbedText);
 	char * theOriginalFilename = grabbedText;
 
 	char * classNameDot = readString (readObj);

@@ -66,7 +66,6 @@ bool loadProject (const char * filename) {
 		readLine = readText (fp);
 		if (readLine == NULL) break;
 		if (strcmp (readLine, "[FILES]") == 0) break;
-		//messageBox ("Skipping", readLine);
 		delete readLine;
 	}
 	

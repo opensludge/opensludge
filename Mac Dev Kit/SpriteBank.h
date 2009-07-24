@@ -12,7 +12,6 @@
 #include "Sprites.h"
 
 
-
 @interface SpriteBank : NSDocument {
 	
 	IBOutlet NSOpenGLView *spriteView;
@@ -33,8 +32,6 @@
 	bool showBox;
 	int x, y, w, h;
 	float z;
-	//NSPoint lastMouseLoc;
-	//bool draggingView;
 }
 - (void) connectToDoc: (SpriteBank *) myDoc;
 - (void) drawRect: (NSRect) bounds ;

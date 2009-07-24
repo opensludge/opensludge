@@ -10,6 +10,7 @@
                 prefVerboseClick = id; 
                 prefWriteStringsClick = id; 
                 prefsMenu = id; 
+                projectPrefsMenu = id; 
                 spriteBankNew = id; 
             }; 
             CLASS = AppController; 
