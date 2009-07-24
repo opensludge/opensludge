@@ -61,16 +61,15 @@
 			ofType:(NSString *)typeName 
 			 error:(NSError **)outError
 {
-	/*
-	if ([typeName isEqualToString:@"SLUDGE Sprite Bank"]) {	
+	if ([typeName isEqualToString:@"SLUDGE Sprite Bank"]) {		
 		UInt8 buffer[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
-			if (saveProject ((char *) buffer)) {
+			if (saveSpriteBank ((char *) buffer, &sprites)) {
 				return YES;
 			}
 		}
 	} 
-	 */
+	
 	*outError = [NSError errorWithDomain:@"Error" code:1 userInfo:nil];
 	return NO;
 }
@@ -151,7 +150,6 @@
 				/* Ignore any other kind of event. */
 				break;
         }
-		
     };
 	
     return;

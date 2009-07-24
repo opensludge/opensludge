@@ -4,17 +4,17 @@
 
 #include "TGA.h"
 #include "Sprites.h"
+#include "MoreIO.h"
 
 void forgetSpriteBank (spriteBank & forgetme) {
-	//unsigned int index;
+	unsigned int index;
 
 	glDeleteTextures (forgetme.myPalette.numTextures, forgetme.myPalette.tex_names);
 	if (forgetme.isFont) glDeleteTextures (forgetme.myPalette.numTextures, forgetme.myPalette.burnTex_names);
-
-	/*
+	
 	for (index = 0; index < forgetme.total; index ++) {
 		delete forgetme.sprites[index].data;
-	}*/
+	}
 
 	delete forgetme.sprites;
 }
@@ -28,16 +28,77 @@ bool reserveSpritePal (spritePalette & sP, int n) {
 	return (bool) (sP.pal != NULL) && (sP.r != NULL) && (sP.g != NULL) && (sP.b != NULL);
 }
 
+
+
+
+bool saveSpriteBank (const char * filename, spriteBank *sprites) {
+	int i;
+	
+	FILE * fp = fopen (filename, "wb");
+	if (! fp) {
+		return false;
+	}
+	
+	// This is version 2 of the DUC format
+	put2bytes(0, fp);
+	fputc (2, fp);
+	
+	put2bytes (sprites->total, fp);
+	
+	// Number of colours used, except 0 because that gets added (or ignored) by the engine.
+	fputc (sprites->myPalette.total-1, fp); 
+	
+	for (i = 0; i < sprites->total; i ++) {
+		put2bytes (sprites->sprites[i].width, fp);
+		put2bytes (sprites->sprites[i].height, fp);
+		putSigned (sprites->sprites[i].xhot, fp);
+		putSigned (sprites->sprites[i].yhot, fp);
+		
+		// Run Length compressed data go here
+		unsigned char * data = sprites->sprites[i].data;
+		unsigned char * lookPointer;
+		unsigned int size = sprites->sprites[i].width * sprites->sprites[i].height;
+		fprintf (stderr, "Saving size %d\n", size);
+		int lookAhead;
+		int x = 0;
+		while (x < size) {
+			lookPointer = data + 1;
+			for (lookAhead = x+1; lookAhead < size; lookAhead++) {
+				if (*data + sprites->myPalette.total > 255) break;
+				if (lookAhead-x > 255) break;
+				if (*data != * lookPointer) break;
+				lookPointer++;
+			}
+			if (lookAhead == x+1) {
+				fputc ((* data), fp);
+			} else {
+				fputc (*data + sprites->myPalette.total, fp);
+				fputc (lookAhead - x - 1, fp);
+			}
+			data = lookPointer;
+			x = lookAhead;
+		}
+	}
+				
+	for (i = 1; i < sprites->myPalette.total; i ++) {
+		fputc (sprites->myPalette.r[i], fp);
+		fputc (sprites->myPalette.g[i], fp);
+		fputc (sprites->myPalette.b[i], fp);
+	}
+	
+	fclose (fp);
+	return true;
+}
+
+
 unsigned int get2bytes (unsigned char ** fp) {
 	int r = (**fp) * 256 + *(*fp+1);
 	*fp+=2;
 	return r;
 }
-
 short readSigned (unsigned char **fp) {
 	short f = **((short **) fp);
 	*fp += sizeof(short);
-	//fread (& f, sizeof (short), 1, fp);
 	return f;
 }
 
@@ -46,9 +107,7 @@ bool loadSpriteBank (unsigned char * file, spriteBank *loadhere) {
 		startIndex;
 	int totalwidth[256], maxheight[256];
 	int numTextures = 0;
-	
-	//debugOut ("loadSpriteBank: Loading new sprite bank... \n");
-	
+		
 	total = get2bytes(&file);
 	if (! total) {
 		loadSaveMode = *file++;
@@ -114,6 +173,7 @@ bool loadSpriteBank (unsigned char * file, spriteBank *loadhere) {
 			{
 				unsigned size = picwidth * picheight;
 				unsigned pip = 0;
+				fprintf (stderr, "Loading size %d\n", size);
 				
 				while (pip < size) {
 					unsigned char col = *file++;
@@ -186,7 +246,7 @@ bool loadSpriteTextures (spriteBank *loadhere) {
 				}
 			}
 		}
-		delete loadhere->sprites[i].data;
+		//delete loadhere->sprites[i].data;
 		
 		loadhere->sprites[i].texNum = i;
 	

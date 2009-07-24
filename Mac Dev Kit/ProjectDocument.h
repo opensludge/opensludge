@@ -10,12 +10,12 @@
 
 
 @interface ProjectDocument : NSDocument {
+	// Main window
 	IBOutlet NSTabView *tabView;
-	
 	IBOutlet NSTableView *projectFiles;
-
 	IBOutlet NSTableView *compilerErrors;
 	
+	// Project Preferences
 	IBOutlet NSWindow *projectPrefs;
 	IBOutlet NSTextField *prefQuit;
 	IBOutlet NSTextField *prefIcon;
@@ -27,6 +27,7 @@
 	IBOutlet NSTextField *prefSpeed;
 	IBOutlet NSButton *prefSilent;
 	
+	// Compiler window
 	IBOutlet NSPanel *compilerWindow;
 	IBOutlet NSProgressIndicator *progress1;
 	IBOutlet NSProgressIndicator *progress2;
@@ -40,7 +41,6 @@
 	IBOutlet NSTextField *compResources;
 	IBOutlet NSButton *closeCompilerButton;
 	
-	//int progress1max, progress1val, progress2max, progress2val;
 }
 
 - (bool) compile;

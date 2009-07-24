@@ -40,8 +40,8 @@ struct spriteBank {
 void forgetSpriteBank ();
 bool loadSpriteBank (unsigned char * file, struct spriteBank * loadhere);
 bool loadSpriteTextures (struct spriteBank *loadhere);
+bool saveSpriteBank (const char * filename, struct spriteBank *sprites);
 
-bool saveSpriteBank (char * filename);
 void paintPal (HWND h);
 bool initSpriteArea ();
 void paintSpriteArea ();
