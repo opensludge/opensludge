@@ -155,7 +155,7 @@ bool readSettings (FILE * fp) {
 		delete grabLine;
 	}
 	
-	if (! settings.finalFile) return errorBox (ERRORTYPE_PROJECTERROR, "Vital line missing from project", "finalfile", NULL);
+	if (! settings.finalFile) return addComment (ERRORTYPE_PROJECTERROR, "Vital line missing from project", "finalfile", NULL);
 	
 	return true;
 }
@@ -254,7 +254,7 @@ void chrRenderingSettingsFillDefaults(bool enable)
 
 bool gotoSourceDirectory () {
 	bool r = chdir (sourceDirectory);
-	if (r) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't move to source directory", sourceDirectory, NULL);
+	if (r) return addComment (ERRORTYPE_SYSTEMERROR, "Can't move to source directory", sourceDirectory, NULL);
 	return true;
 }
 
@@ -269,16 +269,9 @@ bool gotoTempDirectory () {
 	}	
 	if (! tempDirectory) return false;
 	bool r = chdir (tempDirectory);
-	if (r) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't move to temporary directory", tempDirectory, NULL);
+	if (r) return addComment (ERRORTYPE_SYSTEMERROR, "Can't move to temporary directory", tempDirectory, NULL);
 	return true;
 }
-/*
-bool gotoOutputDirectory () {
-	bool r = chdir (outputDirectory);
-	if (r) return errorBox ("Can't move to output directory", outputDirectory);
-	return true;
-}
-*/
 
 FILE * openFinalFile (char * addMe, char * mode) {
 	char * fullName = joinStrings (settings.finalFile, addMe);
@@ -377,13 +370,15 @@ bool getSourceDirFromName (char * filename) {
 	if (lastSlash != -1) {
 		char slashChar = filename[lastSlash];
 		filename[lastSlash] = 0;
-		if (chdir (filename)) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't move to source directory", filename, NULL);
+		if (chdir (filename)) return addComment (ERRORTYPE_SYSTEMERROR, "Can't move to source directory", filename, NULL);
 		filename[lastSlash] = slashChar;
 	}
 	char buff[1000];
-	if (! getcwd (buff, 1000)) return errorBox (ERRORTYPE_SYSTEMERROR, "I can't work out which directory I'm in...", NULL, NULL);
+	if (! getcwd (buff, 1000)) {
+		addComment (ERRORTYPE_SYSTEMERROR, "I can't work out which directory I'm in...", NULL);
+		return false;
+	}
 	sourceDirectory = joinStrings (buff, "");
-	//	errorBox ("I think the source directory is", sourceDirectory);
 	return true;
 }
 
@@ -420,11 +415,11 @@ char * getTempDir () {
 	
 	
 	if (ExpandEnvironmentStrings (la, buffer, 499) == 0) {
-		errorBox (ERRORTYPE_SYSTEMERROR, "Can't expand string containing environment variable(s)", la, NULL);
+		addComment (ERRORTYPE_SYSTEMERROR, "Can't expand string containing environment variable(s)", la, NULL);
 		return NULL;
 	}
 	if (! buffer[0]) {
-		errorBox (ERRORTYPE_SYSTEMERROR, "No environment variable(s)", la, NULL);
+		addComment (ERRORTYPE_SYSTEMERROR, "No environment variable(s)", la, NULL);
 		return NULL;
 	}
 	returnVal = joinStrings (buffer, "");

@@ -82,7 +82,7 @@ bool dumpFiles (FILE * mainFile, stringArray * & theSA) {
 
 	FILE * inFile, * outFile = fopen ("alldata.big", "wb");
 	if (outFile == NULL)
-		return errorBox (ERRORTYPE_SYSTEMERROR, "Can't write temporary file", "alldata.big", NULL);
+		return addComment (ERRORTYPE_SYSTEMERROR, "Can't write temporary file", "alldata.big", NULL);
 	gotoSourceDirectory ();
 	
 	bool killAfterAdd;
@@ -109,15 +109,15 @@ bool dumpFiles (FILE * mainFile, stringArray * & theSA) {
 				break;
 				
 				case FILETYPE_MIDI:
-				errorBox (ERRORTYPE_PROJECTWARNING, "The current version of the SLUDGE engine cannot play MIDI files such as", theSA->string, NULL);
+				addComment (ERRORTYPE_PROJECTWARNING, "The current version of the SLUDGE engine cannot play MIDI files such as", theSA->string, NULL);
 				break;
 				
 				case FILETYPE_UNKNOWN:
-				return errorBox (ERRORTYPE_PROJECTERROR, "Tried to include a file which is not supported by SLUDGE.\n\nSupported music types: .XM, .MOD, .S3M, .IT, .MID, .RMI\nSupported sampled sound types: .WAV, .MP3, .OGG\nSupported graphic types: .TGA\nSLUDGE-specific types: .FLO, .ZBU, .DUC\n\nThe file you tried to include was:", theSA -> string, NULL);
+				return addComment (ERRORTYPE_PROJECTERROR, "Tried to include a file which is not supported by SLUDGE.\n\nSupported music types: .XM, .MOD, .S3M, .IT, .MID, .RMI\nSupported sampled sound types: .WAV, .MP3, .OGG\nSupported graphic types: .TGA\nSLUDGE-specific types: .FLO, .ZBU, .DUC\n\nThe file you tried to include was:", theSA -> string, NULL);
 			}
 			
 			inFile = fopen (theSA -> string, "rb");
-			if (inFile == NULL) return errorBox (ERRORTYPE_PROJECTERROR, "Can't read resource file", theSA -> string, NULL);
+			if (inFile == NULL) return addComment (ERRORTYPE_PROJECTERROR, "Can't read resource file", theSA -> string, NULL);
 			fseek (inFile, 0, 2);
 			filesize = ftell (inFile);
 			fseek (inFile, 0, 0);
@@ -144,7 +144,7 @@ bool dumpFiles (FILE * mainFile, stringArray * & theSA) {
 	fclose (outFile);
 	gotoTempDirectory ();
 	inFile = fopen ("alldata.big", "rb");
-	if (! inFile) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't read the file I just wrote", "alldata.big", NULL);
+	if (! inFile) return addComment (ERRORTYPE_SYSTEMERROR, "Can't read the file I just wrote", "alldata.big", NULL);
 
 	setCompilerText (COM_PROGTEXT, "Adding look-up table");
 	for (;;) {
@@ -169,15 +169,12 @@ bool saveStrings (FILE * mainFile, FILE * textFile, stringArray * theSA) {
 	FILE * projectFile, * indexFile;
 	int indexSize = countElements (theSA) * 4 + ftell (mainFile) + 4;
 
-//	errorBox ("Number of unique strings: ", countElements (theSA));
 	if (! gotoTempDirectory ()) return false;
 	projectFile = fopen ("txtdata.tmp", "wb");
 	indexFile = fopen ("txtindex.tmp", "wb");
-//	textFile = fopen ("alltext.txt", "wt");
 	if (! (projectFile && indexFile)) return false;
 
 	while (theSA) {
-//		printf ("Writing string %s at position %i\n", theSA -> string, (int) (ftell (projectFile) + indexSize));
 		put4bytes ((ftell (projectFile) + indexSize), indexFile);
 		writeString (theSA -> string, projectFile);
 		if (textFile) fprintf (textFile, "%s\n", theSA -> string);
@@ -186,7 +183,6 @@ bool saveStrings (FILE * mainFile, FILE * textFile, stringArray * theSA) {
 
 	put4bytes (ftell (projectFile) + indexSize, mainFile);
 
-//	addComment ("Size of string file: ", ftell (projectFile) + indexSize);
 	fclose (projectFile);
 	fclose (indexFile);
 	if (textFile) fclose (textFile);

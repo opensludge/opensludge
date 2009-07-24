@@ -70,7 +70,6 @@ bool getSourceDirFromName (char * filename);
 bool gotoSourceDirectory ();
 bool gotoTempDirectory ();
 void killTempDir();
-bool gotoOutputDirectory ();
 FILE * openFinalFile (char *, char *);
 void writeFinalData (FILE * mainFile);
 

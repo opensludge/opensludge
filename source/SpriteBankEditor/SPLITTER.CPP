@@ -161,11 +161,11 @@ long stringToInt (const char * textNumber, int errorType) {
 			if (i == 65535)
 				return 65535;
 			if (i > MAXINT) {
-				errorBox (errorType, "Number too large", textNumber, NULL);
+				addComment (errorType, "Number too large", textNumber, NULL);
 				return -1;
 			}
 		} else {
-			errorBox (errorType, "Oh no! I thought this was going to be a number, but there's a non-numerical character in it", textNumber, NULL);
+			addComment (errorType, "Oh no! I thought this was going to be a number, but there's a non-numerical character in it", textNumber, NULL);
 			return -1;
 		}
 		ac ++;			
@@ -192,7 +192,7 @@ stringArray * splitAtLast (const char * inString, const char findCharIn) {
 			case ']':
 			case ')':
 			if (! (indent --)) {
-				errorBox (ERRORTYPE_PROJECTERROR, "Unexpected }, ] or ) in", inString, NULL);
+				addComment (ERRORTYPE_PROJECTERROR, "Unexpected }, ] or ) in", inString, NULL);
 				indent ++;
 			}
 			break;
@@ -229,7 +229,7 @@ stringArray * splitString (const char * inString, const char findCharIn, const s
 			case ']':
 			case ')':
 			if (! (indent --)) {
-				errorBox (ERRORTYPE_PROJECTERROR, "Unexpected }, ] or ) in", inString, NULL);
+				addComment (ERRORTYPE_PROJECTERROR, "Unexpected }, ] or ) in", inString, NULL);
 				indent ++;
 //				return NULL;
 			}

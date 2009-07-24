@@ -21,34 +21,6 @@ void messageBox (const char * tx2, const char * tx1) {
 //	MessageBox (NULL, tx1, tx2, MB_OK | MB_SETFOREGROUND);
 }
 
-bool errorBox (int errorType, const char * txt1, const char * txt2, const char * filename) {
-	if (txt2)
-	{
-		char * a = joinStrings (txt1, ": ", txt2);
-		if (a)
-		{
-			addComment (errorType, a, filename);
-			delete a;
-		}
-	}
-	else
-	{
-		addComment (errorType, txt1, filename);
-	}
-	return false;
-}
-/*
-bool errorBox (const char * txt1, unsigned int i, const char * filename) {
-	char * a = new char[strlen (txt1) + 30];
-	if (a) {
-		sprintf (a, "%s:\n%lu", txt1, i);
-		addComment (a, filename);
-		delete a;
-	}
-	return false;
-}*/
-
-
 static void warningOpenSourceFile (char * fileName) {
 	char * wholePath = new char[strlen (sourceDirectory) + strlen (fileName) + 2];
 	if (wholePath) {

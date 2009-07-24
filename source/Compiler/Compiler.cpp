@@ -78,57 +78,6 @@ extern stringArray * allKnownFlags;
 
 static int data1 = 0, numProcessed = 0;
 
-char * errorTypeStrings[ERRORTYPE_NUM] =
-{
-	"WARNING: ",
-	"ERROR: ",
-	"SYSTEM ERROR: ",
-	"INTERNAL ERROR: "
-};
-
-struct errorLinkToFile
-{
-	int errorType;
-	char * overview;
-	char * filename;
-	int lineNumber;
-	errorLinkToFile * next;
-};
-
-errorLinkToFile * errorList = NULL;
-int numErrors = 0;
-
-
-void addComment (int errorType, const char * comment, const char * filename/*, int lineNumber*/) {
-	
-	
-	if (filename && filename[0] == '\0')
-		filename = NULL;
-	
-	errorLinkToFile * newLink = new errorLinkToFile;
-	
-	if (newLink)
-	{
-		newLink->errorType = errorType;
-		newLink->overview = copyString (comment);
-		newLink->filename = filename ? copyString (filename) : NULL;
-		newLink->lineNumber = 0;
-		newLink->next = errorList;
-		errorList = newLink;
-		
-		char * after = filename ? joinStrings (" (in ", filename, ")") : copyString ("");
-		char * wholeThing = joinStrings (errorTypeStrings[errorType], comment, after);
-//		SendDlgItemMessage(warningWindowH, ID_WARNINGLIST, LB_ADDSTRING, (WPARAM) 0, (LPARAM) wholeThing);
-//		SendDlgItemMessage(warningWindowH, ID_WARNINGLIST, LB_SELECTSTRING, (WPARAM) 0, (LPARAM) wholeThing);
-		fprintf (stderr, "addComment: %s\n", wholeThing);
-		delete after;
-		delete wholeThing;
-//		ShowWindow (warningWindowH, SW_SHOW);
-		
-		numErrors ++;
-	}
-}
-
 
 void runCompiledGame () {
 	char * wholePath = new char[strlen (sourceDirectory) + strlen (settings.finalFile) + 20];
@@ -162,9 +111,7 @@ void setCompileStep (int a, int totalBits)
 	compileStep = a;
 	data1 = 0;
 	
-	//	errorBox (ERRORTYPE_SYSTEMERROR, "Step", stageName[a], NULL);
-	
-		setCompilerText (COM_PROGTEXT, stageName[a]);
+	setCompilerText (COM_PROGTEXT, stageName[a]);
 	
 	if (a <= CSTEP_DONE)
 	{
@@ -185,12 +132,17 @@ bool doSingleCompileStep () {
 		numProcessed = 0;
 		setGlobPointer (& globalVarNames);
 
-		if (! fileListNum) return errorBox (ERRORTYPE_PROJECTERROR, "No files in project!", NULL, NULL);
+		if (! fileListNum) {
+			addComment (ERRORTYPE_PROJECTERROR, "No files in project!", NULL);
+			return false;
+		}
 	
 		addToStringArray (allSourceStrings, "");
 		addToStringArray (allSourceStrings, settings.windowName);
 		addToStringArray (allSourceStrings, settings.quitMessage);
+		clearComments();	
 		setCompileStep (CSTEP_PARSE, fileListNum);
+		setCompilerStats (0, 0, 0, 0, 0);
 		break;
 
 		case CSTEP_PARSE:
@@ -216,7 +168,7 @@ bool doSingleCompileStep () {
 				} else if (strcmp (compareMe, ".tra") == 0) {
 					registerTranslationFile (tx);
 				} else {
-					return errorBox (ERRORTYPE_PROJECTERROR, "What on Earth is this file doing in a project?", tx, NULL);
+					return addComment (ERRORTYPE_PROJECTERROR, "What on Earth is this file doing in a project?", tx, NULL);
 				}
 			}
 			data1++;
@@ -227,8 +179,10 @@ bool doSingleCompileStep () {
 		numStringsFound = countElements (allSourceStrings);
 		numFilesFound = countElements (allFileHandles);
 		setCompileStep (CSTEP_COMPILE, numProcessed);
-		if (! startFunction (protoFunction ("_globalInitFunction", ""), 0, globalSpace, "_globalInitFunction", true, false, "-"))
-			return errorBox (ERRORTYPE_INTERNALERROR, "Couldn't create global variable initialisation code segment", NULL, NULL);
+		if (! startFunction (protoFunction ("_globalInitFunction", ""), 0, globalSpace, "_globalInitFunction", true, false, "-")){
+			addComment (ERRORTYPE_INTERNALERROR, "Couldn't create global variable initialisation code segment", NULL);
+			return false;
+		}	
 		break;
 
 		case CSTEP_COMPILE:
@@ -250,11 +204,11 @@ bool doSingleCompileStep () {
 		outputDoneCode (globalSpace, SLU_CALLIT, 0);
 		finishFunctionNew (globalSpace, NULL);
 	
-//		setWindowInt (COM_NUM_FUNC,		countElements (functionNames) - 1);
-//		setWindowInt (COM_NUM_OBJ,		countElements (objectTypeNames));
-//		setWindowInt (COM_NUM_RES, 		countElements (allFileHandles));
-//		setWindowInt (COM_NUM_GLOB,		countElements (globalVarNames));
-//		setWindowInt (COM_NUM_STRINGS,	countElements (allSourceStrings));
+		setCompilerStats (countElements (functionNames) - 1,
+			countElements (objectTypeNames),
+			countElements (allFileHandles),
+			countElements (globalVarNames),
+			countElements (allSourceStrings));
 
 		checkUsedInit (CHECKUSED_FUNCTIONS, countElements (functionNames));
 		setUsed(CHECKUSED_FUNCTIONS, 0);
@@ -267,8 +221,11 @@ bool doSingleCompileStep () {
 			silenceChecker = silenceChecker -> next;
 		}
 		projectFile = openFinalFile (".sl~", "wb");
-		if (! projectFile) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't open output file for writing", NULL, NULL);
-	
+		if (! projectFile) {
+			addComment (ERRORTYPE_SYSTEMERROR, "Can't open output file for writing", NULL);
+			return false;
+		}
+
 		FILE * textFile = (programSettings.compilerWriteStrings) ? openFinalFile (" text.txt", "wt") : NULL;
 	
 		writeFinalData (projectFile);
@@ -283,7 +240,7 @@ bool doSingleCompileStep () {
 			fputc (1, projectFile);
 			if (! dumpFileInto (projectFile, iconFile)) {
 				fclose (projectFile);
-				return errorBox (ERRORTYPE_PROJECTERROR, "Error adding custom icon (file not found or not a valid TGA file)", settings.customIcon, NULL);
+				return addComment (ERRORTYPE_PROJECTERROR, "Error adding custom icon (file not found or not a valid TGA file)", settings.customIcon, NULL);
 			}
 			delete iconFile;
 		} else {
@@ -295,7 +252,8 @@ bool doSingleCompileStep () {
 
 		if (! saveStrings (projectFile, textFile, allSourceStrings)) {
 			fclose (projectFile);
-			return errorBox (ERRORTYPE_SYSTEMERROR, "Can't save string bank(s)", NULL, NULL);
+			addComment (ERRORTYPE_SYSTEMERROR, "Can't save string bank(s)", NULL);
+			return false;			
 		}
 
 		if (! gotoTempDirectory ()) {
@@ -312,16 +270,13 @@ bool doSingleCompileStep () {
 		break;
 		
 		case CSTEP_LINKSCRIPTS:
-		if (data1 < countElements(functionNames))
-		{
+		if (data1 < countElements(functionNames)) {
 			percRect (data1, P_BOTTOM);
 			if (! runLinker (tempData, tempIndex, data1, globalVarNames, iSize, allSourceStrings))
 				return false;
 			allTheFunctionNamesTemp = allTheFunctionNamesTemp -> next;
 			data1 ++;
-		}
-		else
-		{
+		} else {
 			setCompileStep (CSTEP_AFTERLINKSCRIPTS, 1);
 		}
 		break;
@@ -344,17 +299,14 @@ bool doSingleCompileStep () {
 		break;
 		
 		case CSTEP_LINKOBJECTS:
-		if (data1 < tot)
-		{
+		if (data1 < tot) {
 			percRect (data1, P_BOTTOM);
 			if (! linkObjectFile (tempData, tempIndex, data1, iSize)) {
 				fclose (projectFile);
 				return false;
 			}
 			data1 ++;
-		}
-		else
-		{
+		} else {
 			setCompileStep (CSTEP_AFTERLINKOBJECTS, 0);
 		}
 		break;
@@ -390,12 +342,7 @@ bool doSingleCompileStep () {
 		
 		if (rename (fromName, toName))
 		{
-			errorBox (ERRORTYPE_SYSTEMERROR, "Couldn't rename the compiled game file... it's been left with the name", fromName, NULL);
-		}
-		else
-		{
-
-//				EnableWindow (GetDlgItem (compWin, IDOK), true);
+			addComment (ERRORTYPE_SYSTEMERROR, "Couldn't rename the compiled game file... it's been left with the name", fromName, NULL);
 		}
 		setCompileStep (CSTEP_DONE, 0);
 		break;
@@ -404,8 +351,12 @@ bool doSingleCompileStep () {
 	return true;
 }
 
-bool compileEverything (char * project) {
-	if (! getSourceDirFromName (project)) return errorBox (ERRORTYPE_INTERNALERROR, "Error initialising!", NULL, NULL);
+void compileEverything (char * project) {
+	if (! getSourceDirFromName (project)) {
+		setCompilerText (COM_PROGTEXT, "Error initialising!");
+		setCompilerText (COM_FILENAME, "Could not find the folder for the source files.");
+		return;
+	}		
 	
 	initBuiltInFunc ();
 
@@ -427,8 +378,7 @@ bool compileEverything (char * project) {
 	destroyAll (builtInFunc);
 	destroyAll (typeDefFrom);
 	destroyAll (allKnownFlags);
+	destroyAll (allSourceStrings);
 	
 	killTempDir();
-	
-	return true;		
 }

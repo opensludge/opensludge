@@ -77,7 +77,6 @@ int saveHSI (char * filename) {
 		fromHere = backDropImage[y];
 		x = 0;
 		while (x < HORZ_RES) {
-//			if (* fromHere & 32) errorBox ("OK, so I was wrong...");
 			lookPointer = fromHere + 1;
 			for (lookAhead = x + 1; lookAhead < HORZ_RES; lookAhead ++) {
 				if (lookAhead - x == 256) break;

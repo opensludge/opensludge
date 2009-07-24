@@ -8,8 +8,14 @@
             OUTLETS = {
                 closeCompilerButton = NSButton; 
                 compFile = NSTextField; 
+                compFuncs = NSTextField; 
+                compGlobs = NSTextField; 
                 compItem = NSTextField; 
+                compObjs = NSTextField; 
+                compResources = NSTextField; 
+                compStrings = NSTextField; 
                 compTask = NSTextField; 
+                compilerErrors = NSTableView; 
                 compilerWindow = NSPanel; 
                 prefData = NSTextField; 
                 prefFile = NSTextField; 
@@ -24,6 +30,7 @@
                 progress2 = NSProgressIndicator; 
                 projectFiles = NSTableView; 
                 projectPrefs = NSWindow; 
+                tabView = NSTabView; 
             }; 
             SUPERCLASS = NSDocument; 
         }

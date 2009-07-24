@@ -9,21 +9,21 @@ extern stringArray * allKnownFlags;
 stringArray * * globalVarsP;
 
 bool checkNotKnown (const char * thisName, const char * filename) {
-	if (findElement (functionNames, thisName) != -1) return errorBox (ERRORTYPE_PROJECTERROR, "Already the name of a function", thisName, filename);
-	if (findElement (objectTypeNames, thisName) != -1) return errorBox (ERRORTYPE_PROJECTERROR, "Already the name of an object type", thisName, filename);
-	if (findElement (builtInFunc, thisName) != -1) return errorBox (ERRORTYPE_PROJECTERROR, "Can't overload built-in functions", thisName, filename);
-	if (findElement (typeDefFrom, thisName) != -1) return errorBox (ERRORTYPE_PROJECTERROR, "Already the name of a typedef", thisName, filename);
-	if (findElement (* globalVarsP, thisName) != -1) return errorBox (ERRORTYPE_PROJECTERROR, "Already the name of a global variable", thisName, filename);
-	if (findElement (allKnownFlags, thisName) != -1) return errorBox (ERRORTYPE_PROJECTERROR, "Already the name of an object flag", thisName, filename);
+	if (findElement (functionNames, thisName) != -1) return addComment (ERRORTYPE_PROJECTERROR, "Already the name of a function", thisName, filename);
+	if (findElement (objectTypeNames, thisName) != -1) return addComment (ERRORTYPE_PROJECTERROR, "Already the name of an object type", thisName, filename);
+	if (findElement (builtInFunc, thisName) != -1) return addComment (ERRORTYPE_PROJECTERROR, "Can't overload built-in functions", thisName, filename);
+	if (findElement (typeDefFrom, thisName) != -1) return addComment (ERRORTYPE_PROJECTERROR, "Already the name of a typedef", thisName, filename);
+	if (findElement (* globalVarsP, thisName) != -1) return addComment (ERRORTYPE_PROJECTERROR, "Already the name of a global variable", thisName, filename);
+	if (findElement (allKnownFlags, thisName) != -1) return addComment (ERRORTYPE_PROJECTERROR, "Already the name of an object flag", thisName, filename);
 	return true;
 }
 
 bool checkNotKnown2 (const char * thisName, const char * filename) {
-//	if (findElement (functionNames, thisName) != -1) return errorBox ("Already the name of a function", thisName);
-//	if (findElement (objectTypeNames, thisName) != -1) return errorBox ("Already the name of an object type", thisName);
-	if (findElement (builtInFunc, thisName) != -1) return errorBox (ERRORTYPE_PROJECTERROR, "Can't overload built-in functions", thisName, filename);
-	if (findElement (typeDefFrom, thisName) != -1) return errorBox (ERRORTYPE_PROJECTERROR, "Already the name of a typedef", thisName, filename);
-//	if (findElement (* globalVarsP, thisName) != -1) return errorBox ("Already the name of a global variable", thisName);
+//	if (findElement (functionNames, thisName) != -1) return addComment ("Already the name of a function", thisName);
+//	if (findElement (objectTypeNames, thisName) != -1) return addComment ("Already the name of an object type", thisName);
+	if (findElement (builtInFunc, thisName) != -1) return addComment (ERRORTYPE_PROJECTERROR, "Can't overload built-in functions", thisName, filename);
+	if (findElement (typeDefFrom, thisName) != -1) return addComment (ERRORTYPE_PROJECTERROR, "Already the name of a typedef", thisName, filename);
+//	if (findElement (* globalVarsP, thisName) != -1) return addComment ("Already the name of a global variable", thisName);
 	return true;
 }
 
@@ -53,7 +53,7 @@ bool checkValidName (const char * thisName, const char * error, const char * fil
 		}
 	}
 	
-	errorBox (ERRORTYPE_PROJECTERROR, error, thisName, filename);
+	addComment (ERRORTYPE_PROJECTERROR, error, thisName, filename);
 	return false;
 }
 

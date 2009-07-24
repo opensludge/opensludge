@@ -12,8 +12,23 @@
 #include "settings.h"
 #include "WInterfa.h"
 
+// -- These are from "MessBox.h"
+struct errorLinkToFile
+{
+	int errorType;
+	char * overview;
+	char * filename;
+	char * fullText;
+	int lineNumber;
+	struct errorLinkToFile * next;
+};
+
+extern struct errorLinkToFile * errorList;
+extern int numErrors;
+// --
+
 ProjectDocument * me;
-NSModalSession session;
+NSModalSession session = nil;
 
 @implementation ProjectDocument
 
@@ -58,14 +73,29 @@ NSModalSession session;
 // This is the project file list!
 - (int)numberOfRowsInTableView:(NSTableView *)tv
 {
-	return fileListNum; 
+	if (tv == compilerErrors)
+		return numErrors;
+	else
+		return fileListNum; 
 }
 - (id)tableView:(NSTableView *)tv
 	objectValueForTableColumn:(NSTableColumn *)tableColumn
 						  row:(int)row
 {
-	if (row >= fileListNum) return nil;
-	NSString *v = [NSString stringWithUTF8String:getFileFromList(row)];
+	NSString *v;
+	if (tv == compilerErrors) {
+		struct errorLinkToFile * index = errorList;
+		if (! index) return nil;
+		int i = numErrors-1;
+		while (i>row) {
+			if (! (index = index->next)) return nil;
+			i--;
+		}
+		v = [NSString stringWithUTF8String:index->fullText];
+	} else {
+		if (row >= fileListNum) return nil;
+		v = [NSString stringWithUTF8String:getFileFromList(row)];
+	}
 	return v;
 }
 
@@ -77,6 +107,7 @@ NSModalSession session;
 
 -(bool) compile
 {
+	bool val = false;
 	me = self;
 	session = [NSApp beginModalSessionForWindow:compilerWindow];
 	[closeCompilerButton setEnabled:NO];
@@ -89,13 +120,15 @@ NSModalSession session;
 	UInt8 buffer[1024];
 	if (CFURLGetFileSystemRepresentation((CFURLRef) [self fileURL], true, buffer, 1023)) {
 		compileEverything(buffer);
-		[closeCompilerButton setEnabled:YES];
-		[NSApp endModalSession:session];
-		return true;
+		val = true;
 	}
 	[closeCompilerButton setEnabled:YES];
 	[NSApp endModalSession:session];
-	return false;
+	if (numErrors) {
+		[compilerErrors noteNumberOfRowsChanged];
+		[tabView selectTabViewItemAtIndex:1];
+	}
+	return val;
 }
 
 - (IBAction)closeCompilerBox:(id)sender
@@ -172,6 +205,25 @@ NSModalSession session;
 	}
 }
 
+- (void) setStats: (int) funcs 
+			  obj:(int)objTypes 
+			  res:(int)resources 
+			 glob:(int)globals 
+		  strings:(int)strings
+{
+	[compFuncs setIntValue: funcs];
+	[compObjs setIntValue: objTypes];
+	[compGlobs setIntValue: resources];
+	[compStrings setIntValue: globals];
+	[compResources setIntValue: strings];
+}
+
+- (void) newComments
+{
+	[compilerErrors noteNumberOfRowsChanged];
+	[tabView selectTabViewItemAtIndex:1];
+}
+
 @end
 
 void percRect (unsigned int i, int whichBox) {
@@ -191,4 +243,12 @@ void clearRect (int i, int whichBox) {
 
 void setCompilerText (int where, const char * tx) {
 	[me setText:tx here:where];
+}
+
+void setCompilerStats (int funcs, int objTypes, int resources, int globals, int strings) {
+	[me setStats: funcs obj:objTypes res:resources glob:globals strings:strings];
+}
+
+void compilerCommentsUpdated() {
+	[me newComments];
 }

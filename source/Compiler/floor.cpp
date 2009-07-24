@@ -17,7 +17,7 @@ bool convertFloor (char * filename) {
 	stringArray * sA;
 	
 	FILE * outFile = fopen (filename, "wb");
-	if (! outFile) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't write compiled floor file", filename, NULL);
+	if (! outFile) return addComment (ERRORTYPE_SYSTEMERROR, "Can't write compiled floor file", filename, NULL);
 
 	sA = splitString (wholeFile, '*');
 	
@@ -40,11 +40,11 @@ bool convertFloor (char * filename) {
 	while (knownCo) {
 		splitBits = splitString (knownCo -> string, ',');
 		i = stringToInt (splitBits -> string, ERRORTYPE_PROJECTERROR);
-		if (i < 0) return errorBox (ERRORTYPE_PROJECTERROR, "Error processing floor: X co-ordinate is not a positive integer", knownCo -> string, filename);
+		if (i < 0) return addComment (ERRORTYPE_PROJECTERROR, "Error processing floor: X co-ordinate is not a positive integer", knownCo -> string, filename);
 		put2bytes (i, outFile);
-		if (! destroyFirst (splitBits)) return errorBox (ERRORTYPE_PROJECTERROR, "Error processing floor: No comma in co-ordinate pair", knownCo -> string, filename);
+		if (! destroyFirst (splitBits)) return addComment (ERRORTYPE_PROJECTERROR, "Error processing floor: No comma in co-ordinate pair", knownCo -> string, filename);
 		i = stringToInt (splitBits -> string, ERRORTYPE_PROJECTERROR);
-		if (i < 0) return errorBox (ERRORTYPE_PROJECTERROR, "Error processing floor: Y co-ordinate is not a positive integer", knownCo -> string, filename);
+		if (i < 0) return addComment (ERRORTYPE_PROJECTERROR, "Error processing floor: Y co-ordinate is not a positive integer", knownCo -> string, filename);
 		put2bytes (i, outFile);
 		destroyFirst (splitBits);
 		destroyFirst (knownCo);

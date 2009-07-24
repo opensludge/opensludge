@@ -35,7 +35,6 @@ bool getRegSetting (char * settingName) {
 	unsigned char buff[10];
 	unsigned long si = 8;
 	if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, "Software\\Hungry Software\\SLUDGE", 0, KEY_READ, & gotcha) != ERROR_SUCCESS) {
-		//		errorBox ("Can't open", "Software\\Hungry Software\\SLUDGE");
 		return false;
 	}
 	r = RegQueryValueEx (gotcha, settingName, NULL, NULL, buff, & si);
@@ -46,8 +45,6 @@ bool getRegSetting (char * settingName) {
 		//		errorBox ("Can't open registry thingy in Software\\Hungry Software\\SLUDGE", settingName);
 		return false;
 	}
-	//	errorBox ("Queried", settingName);
-	//	errorBox ("Got", (char *) buff);
 	if (buff[0] == 'Y') return true;
 	return false;
 }

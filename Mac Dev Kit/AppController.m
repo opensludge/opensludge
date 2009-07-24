@@ -282,6 +282,11 @@ const char * getTempDir () {
 
 @end
 
+bool errorBox (const char * head, const char * msg) {
+	NSRunAlertPanel ([NSString stringWithUTF8String: head], [NSString stringWithUTF8String: msg], NULL, NULL, NULL);
+	return false;
+}
+
 int main(int argc, char *argv[])
 {
 	return NSApplicationMain (argc, (const char **) argv);

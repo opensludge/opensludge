@@ -73,7 +73,7 @@ bool preProcess (char * codeFileName, int fileNumber, stringArray * & strings, s
 			else if (wholeFile[index] == '\n')
 			{
 				grabString[stringPosition] = NULL;
-				errorBox (ERRORTYPE_PROJECTERROR, "Runaway string", grabString, codeFileName);
+				addComment (ERRORTYPE_PROJECTERROR, "Runaway string", grabString, codeFileName);
 				return false;
 			}
 			else

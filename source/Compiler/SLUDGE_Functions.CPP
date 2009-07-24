@@ -103,11 +103,11 @@ bool startFunction (int num,
 	theSpace.myNum = num;
 
 	if (! theSpace.writeToFile) {
-		errorBox (ERRORTYPE_SYSTEMERROR, "Can't write to temporary file", file1, NULL);
+		addComment (ERRORTYPE_SYSTEMERROR, "Can't write to temporary file", file1, NULL);
 		return false;
 	}
 	if (! theSpace.markerFile) {
-		errorBox (ERRORTYPE_SYSTEMERROR, "Can't write to temporary file", file2, NULL);
+		addComment (ERRORTYPE_SYSTEMERROR, "Can't write to temporary file", file2, NULL);
 		return false;
 	}
 
@@ -163,20 +163,21 @@ bool handleIf (char * theIf, stringArray * & localVars, compilationSpace & theSp
 
 	getCondition = splitString (theIf, ')', ONCE);
 	if (! trimStart (getCondition -> string, '(')) {
-		return errorBox (ERRORTYPE_PROJECTERROR, "Bad if", theIf, filename);
+		return addComment (ERRORTYPE_PROJECTERROR, "Bad if", theIf, filename);
 	}
 
 	if (! compileSourceLine (getCondition -> string, localVars, theSpace, nullArray, filename)) return false;
 
 	if (! destroyFirst (getCondition)) {
-		return errorBox (ERRORTYPE_PROJECTERROR, "Bad if", theIf, filename);
+		return addComment (ERRORTYPE_PROJECTERROR, "Bad if", theIf, filename);
 	}
 	if (trimStart (getCondition -> string, '{')) {
-		if (! trimEnd (getCondition -> string, '}')) return errorBox (ERRORTYPE_PROJECTERROR, "No matching }", getCondition -> string, filename);
+		if (! trimEnd (getCondition -> string, '}')) return addComment (ERRORTYPE_PROJECTERROR, "No matching }", getCondition -> string, filename);
 	}
 	endMarker = outputMarkerCode (theSpace, SLU_BR_ZERO);
 	if (! compileSourceBlock (getCondition -> string, localVars, theSpace, filename)) {
-		return errorBox (ERRORTYPE_PROJECTERROR, "Can't compile condition in if statement", NULL, filename);
+		addComment (ERRORTYPE_PROJECTERROR, "Can't compile condition in if statement", filename);
+		return false;
 	}	
 
 	char * elseString = "";
@@ -195,7 +196,7 @@ bool handleIf (char * theIf, stringArray * & localVars, compilationSpace & theSp
 
 		// We've found an else!
 
-		if (! destroyFirst (getElse)) return errorBox (ERRORTYPE_PROJECTERROR, "Bad else", theRest -> string, filename);
+		if (! destroyFirst (getElse)) return addComment (ERRORTYPE_PROJECTERROR, "Bad else", theRest -> string, filename);
 
 		if (elseString[0]) {
 			newString = joinStrings (elseString, "; ");
@@ -218,10 +219,10 @@ bool handleIf (char * theIf, stringArray * & localVars, compilationSpace & theSp
 		endMarker = endElseMarker;
 
 		if (trimStart (elseString, '{')) {
-			if (! trimEnd (elseString, '}')) return errorBox (ERRORTYPE_PROJECTERROR, "No matching }", getCondition -> string, filename);
+			if (! trimEnd (elseString, '}')) return addComment (ERRORTYPE_PROJECTERROR, "No matching }", getCondition -> string, filename);
 		}
 		if (! compileSourceBlock (elseString, localVars, theSpace, filename)) {
-			return errorBox (ERRORTYPE_PROJECTERROR, "Can't compile", elseString, filename);
+			return addComment (ERRORTYPE_PROJECTERROR, "Can't compile", elseString, filename);
 		}
 	}
 
@@ -241,7 +242,7 @@ bool niceLoop (char * condition, char * & middle, char * endy, stringArray * & l
 	if (! compileSourceLine (condition, localVars, theSpace, nullArray, NULL)) return false;
 	
 	if (trimStart (middle, '{')) {
-		if (! trimEnd (middle, '}')) return errorBox (ERRORTYPE_PROJECTERROR, "No matching }", middle, NULL);
+		if (! trimEnd (middle, '}')) return addComment (ERRORTYPE_PROJECTERROR, "No matching }", middle, NULL);
 	}
 
 	// Break if condition is zero, otherwise a bunch of code
@@ -264,10 +265,10 @@ bool niceLoop (char * condition, char * & middle, char * endy, stringArray * & l
 
 bool handleWhile (char * theCode, stringArray * & localVars, compilationSpace & theSpace, const char * filename) {
 	stringArray * getCondition = splitString (theCode, ')', ONCE);
-	if (! trimStart (getCondition -> string, '(')) return errorBox (ERRORTYPE_PROJECTERROR, "Bad while (no condition)", theCode, NULL);
-	if (countElements (getCondition) != 2) return errorBox (ERRORTYPE_PROJECTERROR, "Bad while (no condition)", theCode, NULL);
+	if (! trimStart (getCondition -> string, '(')) return addComment (ERRORTYPE_PROJECTERROR, "Bad while (no condition)", theCode, NULL);
+	if (countElements (getCondition) != 2) return addComment (ERRORTYPE_PROJECTERROR, "Bad while (no condition)", theCode, NULL);
 	if (! niceLoop (getCondition -> string, getCondition -> next -> string, NULL, localVars, theSpace, filename)) {
-		return errorBox (ERRORTYPE_PROJECTERROR, "Bad loop stuff (while loop)", getCondition -> string, NULL);
+		return addComment (ERRORTYPE_PROJECTERROR, "Bad loop stuff (while loop)", getCondition -> string, NULL);
 	} 
 	destroyAll (getCondition);
 	return true;
@@ -275,19 +276,19 @@ bool handleWhile (char * theCode, stringArray * & localVars, compilationSpace & 
 
 bool handleFor (char * theCode, stringArray * & localVars, compilationSpace & theSpace, const char * filename) {
 	stringArray * getCondition = splitString (theCode, ')', ONCE);
-	if (! trimStart (getCondition -> string, '(')) return errorBox (ERRORTYPE_PROJECTERROR, "Bad for (no condition)", theCode, filename);
+	if (! trimStart (getCondition -> string, '(')) return addComment (ERRORTYPE_PROJECTERROR, "Bad for (no condition)", theCode, filename);
 
 	// Split the condition into bits
 	stringArray * getBits = splitString (getCondition -> string, ';');
-	if (! destroyFirst (getCondition)) return errorBox (ERRORTYPE_PROJECTERROR, "Bad for (no condition)", theCode, filename);
+	if (! destroyFirst (getCondition)) return addComment (ERRORTYPE_PROJECTERROR, "Bad for (no condition)", theCode, filename);
 
-	if (countElements (getBits) != 3) return errorBox (ERRORTYPE_PROJECTERROR, "Bad for (not a;b;c in condition)", theCode, filename);
+	if (countElements (getBits) != 3) return addComment (ERRORTYPE_PROJECTERROR, "Bad for (not a;b;c in condition)", theCode, filename);
 
 	if (! compileSourceLine (getBits -> string, localVars, theSpace, nullArray, filename)) return false;
 	destroyFirst (getBits);
 
 	if (! niceLoop (getBits -> string, getCondition -> string, getBits -> next -> string, localVars, theSpace, filename)) {
-		return errorBox (ERRORTYPE_PROJECTERROR, "Bad loop stuff (for loop)", getBits -> string, filename);
+		return addComment (ERRORTYPE_PROJECTERROR, "Bad loop stuff (for loop)", getBits -> string, filename);
 	}
 	destroyAll (getCondition);
 	destroyAll (getBits);
@@ -298,7 +299,7 @@ bool handleLoop (char * & theLoop, stringArray * & localVars, compilationSpace &
 	int endMarker;
 
 	if (trimStart (theLoop, '{')) {
-		if (! trimEnd (theLoop, '}')) return errorBox (ERRORTYPE_PROJECTERROR, "No matching } in loop", theLoop, NULL);
+		if (! trimEnd (theLoop, '}')) return addComment (ERRORTYPE_PROJECTERROR, "No matching } in loop", theLoop, NULL);
 	}
 
 	addMarker (theSpace, theSpace.numMarkers ++);
@@ -322,7 +323,7 @@ bool compileQMark (const char * condition, const char * doThis, stringArray * & 
 	if (! compileSourceLine (splitter -> string, localVarNames, theSpace, nullArray, NULL)) return false;
 	endMarker = outputMarkerCode (theSpace, SLU_BRANCH);
 	addMarker (theSpace, elseMarker);
-	if (! destroyFirst (splitter)) return errorBox (ERRORTYPE_PROJECTERROR, "No : after ?", doThis, NULL);
+	if (! destroyFirst (splitter)) return addComment (ERRORTYPE_PROJECTERROR, "No : after ?", doThis, NULL);
 	if (! compileSourceLine (splitter -> string, localVarNames, theSpace, nullArray, NULL)) return false;
 	addMarker (theSpace, endMarker);
 	destroyFirst (splitter);
@@ -353,7 +354,7 @@ bool handleVar (const char * sourceCode, stringArray * & localVarNames, sludgeCo
 
 				// Compile the contents of the []
 				if (! trimEnd (indexMe -> string, ']')) {
-					errorBox (ERRORTYPE_PROJECTERROR, "No matching ] for [", sourceCode, NULL);
+					addComment (ERRORTYPE_PROJECTERROR, "No matching ] for [", sourceCode, NULL);
 				} else if (compileSourceLine (indexMe -> string, localVarNames, theSpace, nullArray, NULL)) {
 					outputDoneCode (theSpace, ifIndex, 0);
 					reply = true;
@@ -390,7 +391,7 @@ YNF checkMaths (const char * sourceCode, stringArray * & localVarNames, compilat
 
 					case MATHS_DECREMENT:
 					case MATHS_INCREMENT:
-					errorBox (ERRORTYPE_PROJECTERROR, "++ and -- must only be used with one variable at a time!", sourceCode, NULL);
+					addComment (ERRORTYPE_PROJECTERROR, "++ and -- must only be used with one variable at a time!", sourceCode, NULL);
 					reply = YNF_FAIL;
 					break;
 					
@@ -407,7 +408,7 @@ YNF checkMaths (const char * sourceCode, stringArray * & localVarNames, compilat
 					if (handleVar (splitMaths -> string, localVarNames, SLU_SET_LOCAL, SLU_SET_GLOBAL, SLU_INDEXSET, theSpace, true)) {
 						reply = YNF_YES;
 					} else {
-						errorBox (ERRORTYPE_PROJECTERROR, "Couldn't handle something-equals with", splitMaths -> string, NULL);
+						addComment (ERRORTYPE_PROJECTERROR, "Couldn't handle something-equals with", splitMaths -> string, NULL);
 						reply = YNF_FAIL;
 					}
 					break;
@@ -472,7 +473,7 @@ bool localVar (char * theString, stringArray * & localVars, compilationSpace & t
 		if (! checkValidName (getVarName -> string, "Not a valid variable name", filename)) return false;
 		if (! checkNotKnown2 (getVarName -> string, filename)) return false;
 		numVar = findElement (localVars, getVarName -> string);
-		if (numVar != -1) return errorBox (ERRORTYPE_PROJECTERROR, "Local variable declared twice", getVarName -> string, filename);
+		if (numVar != -1) return addComment (ERRORTYPE_PROJECTERROR, "Local variable declared twice", getVarName -> string, filename);
 		addToStringArray (localVars, getVarName -> string);
 		numVar = findElement (localVars, getVarName -> string);
 
@@ -544,13 +545,13 @@ bool callAFunction (const char * sourceCode, stringArray * & localVarNames, comp
 	keepNameIfUser = joinStrings (splitParams -> string, "");
 
 	// Get rid of the sub name and the closing bracket...
-	if (! destroyFirst (splitParams)) return errorBox (ERRORTYPE_PROJECTERROR, "Bad sub call", sourceCode, filename);
+	if (! destroyFirst (splitParams)) return addComment (ERRORTYPE_PROJECTERROR, "Bad sub call", sourceCode, filename);
 	trimEnd (splitParams -> string, ')');
 
 	// Split the parameters up...
 	eachParam = splitString (splitParams -> string, ',', REPEAT);
 	if (! eachParam -> string[0]) destroyFirst (eachParam);
-	if (destroyFirst (splitParams)) return errorBox (ERRORTYPE_PROJECTERROR, "Bad sub call", sourceCode, filename);
+	if (destroyFirst (splitParams)) return addComment (ERRORTYPE_PROJECTERROR, "Bad sub call", sourceCode, filename);
 
 	// Store the number of parameters...
 	int nP = countElements (eachParam);
@@ -580,11 +581,11 @@ bool getArrayIndex (const char * sourceCode, stringArray * & localVarNames, comp
 	splitParams = splitAtLast (sourceCode, '[');
 
 	if (! compileSourceLine (splitParams -> string, localVarNames, theSpace, nullArray, NULL)) {
-		return errorBox (ERRORTYPE_PROJECTERROR, "Can't compile", splitParams -> string, filename);
+		return addComment (ERRORTYPE_PROJECTERROR, "Can't compile", splitParams -> string, filename);
 	}
 
 	// Get rid of the array name and then the closing bracket...
-	if (! destroyFirst (splitParams)) return errorBox (ERRORTYPE_PROJECTERROR, "Bad [] index", sourceCode, filename);
+	if (! destroyFirst (splitParams)) return addComment (ERRORTYPE_PROJECTERROR, "Bad [] index", sourceCode, filename);
 	trimEnd (splitParams -> string, ']');
 	
 	// Push the array onto the run-time stack and compile index number
@@ -646,7 +647,7 @@ bool compileSourceLineInner (const char * sourceCodeIn, stringArray * & localVar
 
 	switch (getToken (getType -> string)) {
 		case TOK_ELSE:
-		return errorBox (ERRORTYPE_PROJECTERROR, "Misplaced else", sourceCode, filename);
+		return addComment (ERRORTYPE_PROJECTERROR, "Misplaced else", sourceCode, filename);
 
 		case TOK_UNKNOWN:
 		destroyAll (getType);	// Save a bit of memory...
@@ -667,10 +668,10 @@ bool compileSourceLineInner (const char * sourceCodeIn, stringArray * & localVar
 
 		if (sourceCode[0] == '(') {
 			stringArray * insides = splitString (sourceCode, '(', ONCE);
-			if (! destroyFirst (insides)) return errorBox (ERRORTYPE_PROJECTERROR, "Mismatched () - 001", sourceCode, filename);
-			if (! trimEnd (insides -> string, ')')) return errorBox (ERRORTYPE_PROJECTERROR, "Mismatched () - 002", sourceCode, filename);
+			if (! destroyFirst (insides)) return addComment (ERRORTYPE_PROJECTERROR, "Mismatched () - 001", sourceCode, filename);
+			if (! trimEnd (insides -> string, ')')) return addComment (ERRORTYPE_PROJECTERROR, "Mismatched () - 002", sourceCode, filename);
 			if (! compileSourceLine (insides -> string, localVarNames, theSpace, nullArray, filename)) return false;
-			if (destroyFirst (insides)) return errorBox (ERRORTYPE_PROJECTERROR, "Mismatched () - 003", sourceCode, filename);
+			if (destroyFirst (insides)) return addComment (ERRORTYPE_PROJECTERROR, "Mismatched () - 003", sourceCode, filename);
 			break;
 		}
 
@@ -700,32 +701,32 @@ bool compileSourceLineInner (const char * sourceCodeIn, stringArray * & localVar
 
 		case TOK_VAR:
 //		printf ("It's a local variable!\n");
-		if (! destroyFirst (getType)) return errorBox (ERRORTYPE_PROJECTERROR, "Bad local variable definition", sourceCode, filename);
+		if (! destroyFirst (getType)) return addComment (ERRORTYPE_PROJECTERROR, "Bad local variable definition", sourceCode, filename);
 		if (! localVar (getType -> string, localVarNames, theSpace, filename)) return false;
 		break;
 
 		case TOK_IF:
-		if (! destroyFirst (getType)) return errorBox (ERRORTYPE_PROJECTERROR, "Dodgy if statement", sourceCode, filename);
+		if (! destroyFirst (getType)) return addComment (ERRORTYPE_PROJECTERROR, "Dodgy if statement", sourceCode, filename);
 		if (! handleIf (getType -> string, localVarNames, theSpace, theRest, filename)) return false;
 		break;
 
 		case TOK_WHILE:
-		if (! destroyFirst (getType)) return errorBox (ERRORTYPE_PROJECTERROR, "Dodgy while statement", sourceCode, filename);
+		if (! destroyFirst (getType)) return addComment (ERRORTYPE_PROJECTERROR, "Dodgy while statement", sourceCode, filename);
 		if (! handleWhile (getType -> string, localVarNames, theSpace, filename)) return false;
 		break;
 
 		case TOK_FOR:
-		if (! destroyFirst (getType)) return errorBox (ERRORTYPE_PROJECTERROR, "Dodgy for statement", sourceCode, filename);
+		if (! destroyFirst (getType)) return addComment (ERRORTYPE_PROJECTERROR, "Dodgy for statement", sourceCode, filename);
 		if (! handleFor (getType -> string, localVarNames, theSpace, filename)) return false;
 		break;
 
 		case TOK_LOOP:
-		if (! destroyFirst (getType)) return errorBox (ERRORTYPE_PROJECTERROR, "Dodgy loop statement", sourceCode, filename);
+		if (! destroyFirst (getType)) return addComment (ERRORTYPE_PROJECTERROR, "Dodgy loop statement", sourceCode, filename);
 		if (! handleLoop (getType -> string, localVarNames, theSpace, filename)) return false;
 		break;
 
 		case TOK_NOT:
-		if (! destroyFirst (getType)) return errorBox (ERRORTYPE_PROJECTERROR, "Dodgy ! statement", sourceCode, filename);
+		if (! destroyFirst (getType)) return addComment (ERRORTYPE_PROJECTERROR, "Dodgy ! statement", sourceCode, filename);
 		if (! compileSourceLine (getType -> string, localVarNames, theSpace, nullArray, filename)) return false;
 		outputDoneCode (theSpace, SLU_NOT, 0);
 		break;
@@ -740,7 +741,7 @@ bool compileSourceLineInner (const char * sourceCodeIn, stringArray * & localVar
 		break;
 
 		default:
-		return errorBox (ERRORTYPE_PROJECTERROR, "Can't use this SLUDGE reserved word inside a sub", getType -> string, filename);
+		return addComment (ERRORTYPE_PROJECTERROR, "Can't use this SLUDGE reserved word inside a sub", getType -> string, filename);
 	}
 
 	destroyAll (getType);
@@ -750,7 +751,7 @@ bool compileSourceLineInner (const char * sourceCodeIn, stringArray * & localVar
 }
 
 bool compileSourceLine (const char * sourceCode, stringArray * & localVarNames, compilationSpace & theSpace, stringArray * & theRest, const char * filename) {
-	return compileSourceLineInner (sourceCode, localVarNames, theSpace, theRest, filename); //? true : errorBox ("Couldn't compile SLUDGE source code", sourceCode);
+	return compileSourceLineInner (sourceCode, localVarNames, theSpace, theRest, filename);
 }
 
 bool compileSourceBlock (const char * sourceCode, stringArray * & localVarNames, compilationSpace & theSpace, const char * filename) {
@@ -769,7 +770,6 @@ int defineFunction (char * funcName, char * args, char * sourceCode, bool unfree
 	stringArray * localVarNames;
 	compilationSpace localSpace;
 
-//	if (unfreezable) errorBox ("Found an unfreezable function", funcName);
 	if (! checkNotKnown (funcName, fileName)) return false;
 	funcNum = findOrAdd (functionNames, funcName);
 	localVarNames = splitString (args, ',', REPEAT);
@@ -900,13 +900,13 @@ void doDefines (char * fn, stringArray * & strings, stringArray * & fileHandles)
 					trimStart (bits -> next -> string, '\t');
 
 					if (trimStart (bits->next->string, '"')) {
-						if (! trimEnd (bits->next->string, '"')) errorBox (ERRORTYPE_PROJECTERROR, "Definition starts with \", but doesn't end with it! Sorry, currently support for complex constants is very limited", bits->next->string, fn);
+						if (! trimEnd (bits->next->string, '"')) addComment (ERRORTYPE_PROJECTERROR, "Definition starts with \", but doesn't end with it! Sorry, currently support for complex constants is very limited", bits->next->string, fn);
 						char * newTarget = new char[30];
 						sprintf (newTarget, "_string%i", findOrAdd (strings, bits->next->string, false));
 						delete bits->next->string;
 						bits->next->string = newTarget;
 					} else if (trimStart (bits->next->string, '"')) {
-						if (! trimEnd (bits->next->string, '\'')) errorBox (ERRORTYPE_PROJECTERROR, "Definition starts with ', but doesn't end with it! Sorry, currently support for complex constants is very limited", bits->next->string, fn);
+						if (! trimEnd (bits->next->string, '\'')) addComment (ERRORTYPE_PROJECTERROR, "Definition starts with ', but doesn't end with it! Sorry, currently support for complex constants is very limited", bits->next->string, fn);
 						char * newTarget = new char[30];
 						sprintf (newTarget, "_file%i", findOrAdd (fileHandles, bits->next->string, false));
 						delete bits->next->string;
@@ -916,7 +916,7 @@ void doDefines (char * fn, stringArray * & strings, stringArray * & fileHandles)
 					addToStringArray (typeDefFrom, bits -> string);
 					addToStringArray (typeDefTo,   bits -> next -> string);
 				} else {
-					errorBox (ERRORTYPE_PROJECTERROR, "No = in definition line", sa -> string, fn);
+					addComment (ERRORTYPE_PROJECTERROR, "No = in definition line", sa -> string, fn);
 				}
 				destroyAll (bits);
 			}
@@ -925,7 +925,7 @@ void doDefines (char * fn, stringArray * & strings, stringArray * & fileHandles)
 		}
 		fclose (fp);
 	} else {
-		errorBox (ERRORTYPE_PROJECTERROR, "Can't read definition file", fn, NULL);
+		addComment (ERRORTYPE_PROJECTERROR, "Can't read definition file", fn, NULL);
 	}
 }
 
@@ -937,7 +937,6 @@ bool outdoorSub (char * code, const char * fileName) {
 	tokenType t;
 
 	getArguments = splitString (getContents -> string, '(', ONCE);
-//	errorBox ("getArguments -> string", getArguments -> string);
 	
 	getSpecial = splitString (getArguments -> string, ' ');
 	destroyFirst (getArguments);
@@ -954,7 +953,7 @@ bool outdoorSub (char * code, const char * fileName) {
 			break;
 			
 			default:
-			return errorBox (ERRORTYPE_PROJECTERROR, "Syntax error... this isn't an option which can be applied to a function", getSpecial -> string, fileName);
+			return addComment (ERRORTYPE_PROJECTERROR, "Syntax error... this isn't an option which can be applied to a function", getSpecial -> string, fileName);
 		}
 		destroyFirst (getSpecial);
 	}
@@ -964,20 +963,20 @@ bool outdoorSub (char * code, const char * fileName) {
 	setCompilerText (COM_ITEMTEXT, functionName);
 
 	if (! destroyFirst (getContents)) {
-		errorBox (ERRORTYPE_PROJECTERROR, "Bad sub definition (no parameters)", functionName, fileName);
+		addComment (ERRORTYPE_PROJECTERROR, "Bad sub definition (no parameters)", functionName, fileName);
 	} else if (countElements (getArguments) != 1) {
-		errorBox (ERRORTYPE_PROJECTERROR, "Bad sub definition (no opening bracket)", functionName, fileName);
+		addComment (ERRORTYPE_PROJECTERROR, "Bad sub definition (no opening bracket)", functionName, fileName);
 	} else if (! trimStart (getContents -> string, '{')) {
-		errorBox (ERRORTYPE_PROJECTERROR, "No opening squirly brace in sub definition", functionName, fileName);
+		addComment (ERRORTYPE_PROJECTERROR, "No opening squirly brace in sub definition", functionName, fileName);
 	} else if (! trimEnd (getContents -> string, '}')) {
-		errorBox (ERRORTYPE_PROJECTERROR, "No closing squirly brace in sub definition", functionName, fileName);
+		addComment (ERRORTYPE_PROJECTERROR, "No closing squirly brace in sub definition", functionName, fileName);
 	} else if (defineFunction (functionName,			 		// Name of function
 							   getArguments -> string, 			// Args without ()
 							   getContents -> string,			// Code without {}
 							   unfreezable, debugMe,
 							   fileName) == -1) {
 
-		errorBox (ERRORTYPE_PROJECTERROR, "Couldn't compile function", functionName, fileName);
+		addComment (ERRORTYPE_PROJECTERROR, "Couldn't compile function", functionName, fileName);
 	} else {
 		destroyAll (getContents);
 		destroyAll (getArguments);

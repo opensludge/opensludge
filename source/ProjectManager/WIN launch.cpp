@@ -19,7 +19,6 @@ typeOfFile getFileType (char * filename) {
 	
 	char * extension = joinStrings (filename + strlen(filename) - 4, "");
 	CharLower (extension);
-//	errorBox ("Extension", extension);
 	
 	if (strcmp (extension, ".tra") == 0) reply = FILETYPE_TRANS;
 	if (strcmp (extension, ".slu") == 0) reply = FILETYPE_SCRIPT;
@@ -93,7 +92,6 @@ void editFile (char * me, HWND hDlg) {
 }
 
 void gotoSite (HWND hDlg, char * url) {
-//	errorBox ("I want to launch", url);
 	if ((unsigned long) ShellExecute (hDlg, NULL, url, NULL, "C:\\", SW_SHOWNORMAL) <= 31) {
 		errorBox ("Ooh 'eck, chief!", "Can't open browser window!");
 	}

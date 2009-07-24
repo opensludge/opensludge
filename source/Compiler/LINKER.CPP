@@ -44,7 +44,7 @@ bool runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray 
 	
 	sprintf (filename, "_F%05i.DAT", functionNum);
 	readObj = fopen (filename, "rb");
-	if (readObj == NULL) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't open", filename, NULL);
+	if (readObj == NULL) return addComment (ERRORTYPE_SYSTEMERROR, "Can't open", filename, NULL);
 
 	originalName = readString (readObj);
 	setCompilerText (COM_ITEMTEXT, originalName);
@@ -57,13 +57,12 @@ bool runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray 
 
 	sprintf (filename, "_F%05iN.DAT", functionNum);
 	totalsFile = fopen (filename, "rb");
-	if (totalsFile == NULL) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't open", filename, NULL);
+	if (totalsFile == NULL) return addComment (ERRORTYPE_SYSTEMERROR, "Can't open", filename, NULL);
 
 	// Now - let's get the totals
 
 	unfreezable = fgetc (readObj);
 	debugMe = fgetc (readObj);
-//	errorBox (originalName, debugMe ? "Debugging" : "No debugging");
 	numArg = fgetc (readObj);
 	numLocals = fgetc (totalsFile);
 	numMarkers = fgetc (totalsFile);
@@ -84,7 +83,7 @@ bool runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray 
 	if (! gotoTempDirectory ()) return false;
 	sprintf (filename, "_F%05iM.DAT", functionNum);
 	totalsFile = fopen (filename, "rb");
-	if (totalsFile == NULL) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't open", filename, NULL);
+	if (totalsFile == NULL) return addComment (ERRORTYPE_SYSTEMERROR, "Can't open", filename, NULL);
 
 	unsigned int n = numMarkers;
 
@@ -128,7 +127,10 @@ bool runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray 
 
 			case HALF_MARKER:
 			value = get2bytes (readObj);
-			if (value > numMarkers) return errorBox (ERRORTYPE_INTERNALERROR, "Not that many markers!", NULL, theOriginalFilename);
+			if (value > numMarkers){
+				addComment (ERRORTYPE_INTERNALERROR, "Not that many markers!", theOriginalFilename);
+				return false;
+			}
 			value = markers[(int) value];
 			break;
 
@@ -168,24 +170,25 @@ bool runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray 
 				value = findElement (allKnownFlags, grabbedText);
 				if (value != -1) break;
 
-				return errorBox (ERRORTYPE_PROJECTERROR, "Not a function, variable or object type!", grabbedText, theOriginalFilename);
+				return addComment (ERRORTYPE_PROJECTERROR, "Not a function, variable or object type!", grabbedText, theOriginalFilename);
 
 				case SLU_DECREMENT_G:
 				case SLU_INCREMENT_G:
 				case SLU_SET_GLOBAL: // Parameter should be a global variable
 				value = (long int) findElement (globalVarNames, grabbedText);
-				if (value == -1) return errorBox (ERRORTYPE_PROJECTERROR, "Not a global variable name", grabbedText, theOriginalFilename);
+				if (value == -1) return addComment (ERRORTYPE_PROJECTERROR, "Not a global variable name", grabbedText, theOriginalFilename);
 				break;
 
 				default:
-				return errorBox (ERRORTYPE_INTERNALERROR, "Shouldn't have to resolve parameter for this command", sludgeText[b], theOriginalFilename);
+				return addComment (ERRORTYPE_INTERNALERROR, "Shouldn't have to resolve parameter for this command", sludgeText[b], theOriginalFilename);
 			}
 			delete grabbedText;
 			delete bigName;
 			break;
 
 			default:
-			return errorBox (ERRORTYPE_INTERNALERROR, "Unknown half code", NULL, theOriginalFilename);
+				addComment (ERRORTYPE_INTERNALERROR, "Unknown half code", theOriginalFilename);
+				return false;
 		}
 
 		if (b == SLU_LOAD_FUNC)

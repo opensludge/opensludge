@@ -23,7 +23,6 @@ translationReg * allTranslations = NULL;
 enum mode {TM_COMMENTS, TM_ID, TM_DATA};
 
 bool addNewTraReg (char * filename, int ID) {
-//	errorBox ("Adding", filename);
 	translationReg * newReg = new translationReg;
 	if (newReg) {
 		newReg -> filename = copyString (filename);
@@ -36,21 +35,21 @@ bool addNewTraReg (char * filename, int ID) {
 		}
 		delete newReg;
 	}
-	return errorBox (ERRORTYPE_INTERNALERROR, "Out of memory adding translation data", filename, NULL);
+	return addComment (ERRORTYPE_INTERNALERROR, "Out of memory adding translation data", filename, NULL);
 }
 
 void registerTranslationFile (char * filename) {
 	FILE * fp = fopen (filename, "rt");
 	
 	if (fp == NULL) {
-		errorBox (ERRORTYPE_PROJECTERROR, "Can't open translation file for reading", filename, NULL);
+		addComment (ERRORTYPE_PROJECTERROR, "Can't open translation file for reading", filename, NULL);
 		return;
 	}
 	
 	char * theLine = readText (fp);
 	if (strcmp (theLine, "### SLUDGE Translation File ###")) {
 		fclose (fp);
-		errorBox (ERRORTYPE_PROJECTERROR, "Not a valid SLUDGE translation file", filename, NULL);
+		addComment (ERRORTYPE_PROJECTERROR, "Not a valid SLUDGE translation file", filename, NULL);
 		return;
 	}
 	
@@ -68,7 +67,7 @@ void registerTranslationFile (char * filename) {
 				} else if (strcmp (theLine, "[ID]") == 0) {
 					theMode = TM_ID;
 				} else {
-					errorBox (ERRORTYPE_PROJECTERROR, "Found a block type that I don't recognise in a translation file", theLine, NULL);
+					addComment (ERRORTYPE_PROJECTERROR, "Found a block type that I don't recognise in a translation file", theLine, NULL);
 				}
 			} else {
 				if (theMode == TM_ID) {
@@ -81,17 +80,16 @@ void registerTranslationFile (char * filename) {
 	fclose (fp);
 	
 	if (theMode != TM_DATA) {
-		errorBox (ERRORTYPE_PROJECTERROR, "This translation file doesn't seem to contain any translation data", filename, NULL);
+		addComment (ERRORTYPE_PROJECTERROR, "This translation file doesn't seem to contain any translation data", filename, NULL);
 		return;
 	}
 	
 	if (ID < 0 || ID > 0xFFFF) {
-		errorBox (ERRORTYPE_PROJECTERROR, "This translation file doesn't have a valid ID (either no ID is specified or the ID given is too high a number, negative or non-numerical)", filename, NULL);
+		addComment (ERRORTYPE_PROJECTERROR, "This translation file doesn't have a valid ID (either no ID is specified or the ID given is too high a number, negative or non-numerical)", filename, NULL);
 		return;
 	}
 	
 	addNewTraReg (filename, ID);
-//		errorBox ("Translation file registered OK", filename);
 }
 
 stringArray * transFrom = NULL;
@@ -100,7 +98,7 @@ stringArray * transTo = NULL;
 bool cacheTranslationData (char * f) {
 	if (! gotoSourceDirectory ()) return false;
 	FILE * fp = fopen (f, "rt");
-	if (! fp) return errorBox (ERRORTYPE_PROJECTERROR, "Translation file has suddenly gone missing", f, NULL);
+	if (! fp) return addComment (ERRORTYPE_PROJECTERROR, "Translation file has suddenly gone missing", f, NULL);
 	
 	bool unfinished = false;
 
@@ -110,7 +108,7 @@ bool cacheTranslationData (char * f) {
 		theLine = readText (fp);
 	} while (theLine && strcmp (theLine, "[DATA]"));
 	
-	if (! theLine) return errorBox (ERRORTYPE_PROJECTERROR, "No [DATA] all of a sudden in file", f, NULL);
+	if (! theLine) return addComment (ERRORTYPE_PROJECTERROR, "No [DATA] all of a sudden in file", f, NULL);
 	delete theLine;
 
 	do {
@@ -123,7 +121,7 @@ bool cacheTranslationData (char * f) {
 			} else if (strcmp (pair->next->string, "*\t") == 0) {
 				// Unfinished file
 				if (unfinished == false) {
-					errorBox (ERRORTYPE_PROJECTWARNING, "This translation file isn't finished - there are still strings in the \"YET TO BE TRANSLATED\" category", f, NULL);
+					addComment (ERRORTYPE_PROJECTWARNING, "This translation file isn't finished - there are still strings in the \"YET TO BE TRANSLATED\" category", f, NULL);
 					unfinished = true;
 				}
 			} else {
@@ -161,7 +159,7 @@ char * translateMe (char * originalIn) {
 		trans = copyString (returnElement (transTo, locInArray));
 		delete original;
 	} else {
-		if (original[0]) errorBox (ERRORTYPE_PROJECTWARNING, "No translation for", original, NULL);
+		if (original[0]) addComment (ERRORTYPE_PROJECTWARNING, "No translation for", original, NULL);
 		trans = original;
 	}
 	
@@ -187,13 +185,14 @@ bool addTranslationData (translationReg * trans, stringArray * theSA, FILE * mai
 	
 	int indexSize = countElements (theSA) * 4 + ftell (mainFile) + 4;
 
-//	errorBox ("Number of unique strings", countElements (theSA));
-
 	if (! gotoTempDirectory ()) return false;
 	projectFile = fopen ("tdata.tmp", "wb");
 	indexFile = fopen ("tindex.tmp", "wb");
 
-	if (! (projectFile && indexFile)) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't write to temporary file", NULL, NULL);
+	if (! (projectFile && indexFile)) {
+		addComment (ERRORTYPE_SYSTEMERROR, "Can't write to temporary file", NULL);
+		return false;
+	}
 
 	while (theSA) {
 		put4bytes ((ftell (projectFile) + indexSize), indexFile);

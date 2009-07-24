@@ -30,7 +30,7 @@ unsigned short handleFlags (char * instring) {
 			int index = findElement (allKnownFlags, bits->string);
 			if (index == -1) {
 				if (countElements (allKnownFlags) >= 16)
-					errorBox (ERRORTYPE_PROJECTERROR, "Already got 16 object flags specified, so can't add new flag", bits->string, NULL);
+					addComment (ERRORTYPE_PROJECTERROR, "Already got 16 object flags specified, so can't add new flag", bits->string, NULL);
 				else if (checkNotKnown (bits->string, NULL)) {
 					addToStringArray (allKnownFlags, bits->string);
 					index = findElement (allKnownFlags, bits->string);
@@ -72,50 +72,50 @@ bool createObjectType (char * code, const char * fName, stringArray * & globalVa
 	i = findElement (objectTypeNames, getBits -> string);
 	sprintf (fbuff, "obj%05i.ob~", i);
 
-	if (! destroyFirst (getBits)) return errorBox (ERRORTYPE_PROJECTERROR, "Bad object type definition (no on-screen text in brackets)", code, fName);
-	if (! trimEnd (getBits -> string, ')')) return errorBox (ERRORTYPE_PROJECTERROR, "Bad object type definition (no on-screen text in brackets)", code, fName);
+	if (! destroyFirst (getBits)) return addComment (ERRORTYPE_PROJECTERROR, "Bad object type definition (no on-screen text in brackets)", code, fName);
+	if (! trimEnd (getBits -> string, ')')) return addComment (ERRORTYPE_PROJECTERROR, "Bad object type definition (no on-screen text in brackets)", code, fName);
 
 	// Good grief, what a horrible way to do this!
 
 	trimEdgeSpace (getBits -> string);
-	if (! trimStart (getBits -> string, '_')) return errorBox (ERRORTYPE_PROJECTERROR, "Not a fixed string", getBits -> string, fName);
-	if (! trimStart (getBits -> string, 's')) return errorBox (ERRORTYPE_PROJECTERROR, "Not a fixed string", getBits -> string, fName);
-	if (! trimStart (getBits -> string, 't')) return errorBox (ERRORTYPE_PROJECTERROR, "Not a fixed string", getBits -> string, fName);
-	if (! trimStart (getBits -> string, 'r')) return errorBox (ERRORTYPE_PROJECTERROR, "Not a fixed string", getBits -> string, fName);
-	if (! trimStart (getBits -> string, 'i')) return errorBox (ERRORTYPE_PROJECTERROR, "Not a fixed string", getBits -> string, fName);
-	if (! trimStart (getBits -> string, 'n')) return errorBox (ERRORTYPE_PROJECTERROR, "Not a fixed string", getBits -> string, fName);
-	if (! trimStart (getBits -> string, 'g')) return errorBox (ERRORTYPE_PROJECTERROR, "Not a fixed string", getBits -> string, fName);
+	if (! trimStart (getBits -> string, '_')) return addComment (ERRORTYPE_PROJECTERROR, "Not a fixed string", getBits -> string, fName);
+	if (! trimStart (getBits -> string, 's')) return addComment (ERRORTYPE_PROJECTERROR, "Not a fixed string", getBits -> string, fName);
+	if (! trimStart (getBits -> string, 't')) return addComment (ERRORTYPE_PROJECTERROR, "Not a fixed string", getBits -> string, fName);
+	if (! trimStart (getBits -> string, 'r')) return addComment (ERRORTYPE_PROJECTERROR, "Not a fixed string", getBits -> string, fName);
+	if (! trimStart (getBits -> string, 'i')) return addComment (ERRORTYPE_PROJECTERROR, "Not a fixed string", getBits -> string, fName);
+	if (! trimStart (getBits -> string, 'n')) return addComment (ERRORTYPE_PROJECTERROR, "Not a fixed string", getBits -> string, fName);
+	if (! trimStart (getBits -> string, 'g')) return addComment (ERRORTYPE_PROJECTERROR, "Not a fixed string", getBits -> string, fName);
 
 	int stringValue = stringToInt (getBits -> string, ERRORTYPE_PROJECTERROR);
 //	printf ("Shown on-screen as string: [%i]\n", stringValue);
 
 	if (! gotoTempDirectory ()) return false;
 	FILE * objFile = fopen (fbuff, "wb");
-	if (! objFile) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't write object type file", fbuff, NULL);
+	if (! objFile) return addComment (ERRORTYPE_SYSTEMERROR, "Can't write object type file", fbuff, NULL);
 	writeString (keepName, objFile);
 	writeString (fName, objFile);
 	delete keepName;
 	put2bytes (stringValue, objFile);
 
-	if (destroyFirst (getBits)) return errorBox (ERRORTYPE_INTERNALERROR, "OT1: What's going on?", getBits -> string, NULL);
+	if (destroyFirst (getBits)) return addComment (ERRORTYPE_INTERNALERROR, "OT1: What's going on?", getBits -> string, NULL);
 
-	if (! destroyFirst (getContents)) return errorBox (ERRORTYPE_PROJECTERROR, "Bad object type definition (no opening squirly brace)", code, fName);
-	if (! trimEnd (getContents -> string, '}')) return errorBox (ERRORTYPE_PROJECTERROR, "No object type closing squirly brace", getContents -> string, fName);
+	if (! destroyFirst (getContents)) return addComment (ERRORTYPE_PROJECTERROR, "Bad object type definition (no opening squirly brace)", code, fName);
+	if (! trimEnd (getContents -> string, '}')) return addComment (ERRORTYPE_PROJECTERROR, "No object type closing squirly brace", getContents -> string, fName);
 
 	getBits = splitString (getContents -> string, ';');
 	do {
 		if (getBits -> string[0]) {
 			getBitType = splitString (getBits -> string, ' ', ONCE);
 			if (strcmp ("event", getBitType -> string) == 0) {
-				if (! destroyFirst (getBitType)) return errorBox (ERRORTYPE_PROJECTERROR, "Syntax error in event element of objectType", getBitType -> string, fName);
+				if (! destroyFirst (getBitType)) return addComment (ERRORTYPE_PROJECTERROR, "Syntax error in event element of objectType", getBitType -> string, fName);
 				getBitInsides = splitString (getBitType -> string, '{', ONCE);
 				if (countElements (getBitInsides) > 1) {
-					if (! trimEnd (getBitInsides -> next -> string, '}')) return errorBox (ERRORTYPE_PROJECTERROR, "No closing {}", getBitInsides -> next -> string, fName);
+					if (! trimEnd (getBitInsides -> next -> string, '}')) return addComment (ERRORTYPE_PROJECTERROR, "No closing {}", getBitInsides -> next -> string, fName);
 					char * newFuncName = joinStrings (objNam, getBitInsides -> string);
 //					printf ("Combination: %s %s\n", getBitInsides -> string, objNam);
 					writeString (getBitInsides -> string, objFile);
 					writeString (newFuncName, objFile);
-					if (! destroyFirst (getBitInsides)) return errorBox (ERRORTYPE_PROJECTERROR, "No code for event", newFuncName, fName);
+					if (! destroyFirst (getBitInsides)) return addComment (ERRORTYPE_PROJECTERROR, "No code for event", newFuncName, fName);
 
 					defineFunction (newFuncName,					// Name of function
 						 "",										// Args without ()
@@ -133,14 +133,14 @@ bool createObjectType (char * code, const char * fName, stringArray * & globalVa
 						writeString (getBitInsides -> string, objFile); destroyFirst (getBitInsides);
 						numCombis ++;
 					} else {
-						return errorBox (ERRORTYPE_PROJECTERROR, "Event not followed by = or {", getBitInsides -> string, fName);
+						return addComment (ERRORTYPE_PROJECTERROR, "Event not followed by = or {", getBitInsides -> string, fName);
 					}
 				}
-				if (destroyFirst (getBitType)) return errorBox (ERRORTYPE_PROJECTERROR, "Syntax error in event element of objectType", getBits -> string, fName);
+				if (destroyFirst (getBitType)) return addComment (ERRORTYPE_PROJECTERROR, "Syntax error in event element of objectType", getBits -> string, fName);
 
 			} else if (strcmp ("sub", getBitType -> string) == 0) {
 				if (! destroyFirst (getBitType)) {
-					return errorBox (ERRORTYPE_PROJECTERROR, "Bad member sub declaration", getBits -> string, fName);
+					return addComment (ERRORTYPE_PROJECTERROR, "Bad member sub declaration", getBits -> string, fName);
 				}
 				if (! outdoorSub (getBitType -> string, originalName)) {
 					return false;
@@ -148,15 +148,15 @@ bool createObjectType (char * code, const char * fName, stringArray * & globalVa
 				destroyFirst (getBitType);
 
 			} else if (strcmp ("var", getBitType -> string) == 0) {
-				if (! destroyFirst (getBitType)) return errorBox (ERRORTYPE_PROJECTERROR, "Bad member variable definition", getBits -> string, fName);
+				if (! destroyFirst (getBitType)) return addComment (ERRORTYPE_PROJECTERROR, "Bad member variable definition", getBits -> string, fName);
 				globalVar (getBitType -> string, globalVars, globalSpace, fName);
 				destroyFirst (getBitType);
 
 			} else if ((strcmp ("speechColour", getBitType -> string) == 0) ||
 					   (strcmp ("speechColor", getBitType -> string) == 0)) {
-				if (! destroyFirst (getBitType)) return errorBox (ERRORTYPE_PROJECTERROR, "Syntax error in speechColour element of objectType", getBits -> string, fName);
+				if (! destroyFirst (getBitType)) return addComment (ERRORTYPE_PROJECTERROR, "Syntax error in speechColour element of objectType", getBits -> string, fName);
 				getBitInsides = splitString (getBitType -> string, ',');
-				if (countElements (getBitInsides) != 3) return errorBox (ERRORTYPE_PROJECTERROR, "speechColour syntax is \"n, n, n\"", getBitType -> string, fName);
+				if (countElements (getBitInsides) != 3) return addComment (ERRORTYPE_PROJECTERROR, "speechColour syntax is \"n, n, n\"", getBitType -> string, fName);
 				r = stringToInt (getBitInsides -> string, ERRORTYPE_PROJECTERROR);
 				destroyFirst (getBitInsides);
 				g = stringToInt (getBitInsides -> string, ERRORTYPE_PROJECTERROR);
@@ -164,12 +164,12 @@ bool createObjectType (char * code, const char * fName, stringArray * & globalVa
 				b = stringToInt (getBitInsides -> string, ERRORTYPE_PROJECTERROR);
 				destroyFirst (getBitInsides);
 				if (r < 0 || g < 0 || b < 0)
-					return errorBox (ERRORTYPE_PROJECTERROR, "Red, green and blue values in speechColour should all be positive integers", getBits->string, fName);
+					return addComment (ERRORTYPE_PROJECTERROR, "Red, green and blue values in speechColour should all be positive integers", getBits->string, fName);
 
 			} else if ((strcmp ("antiAlias", getBitType -> string) == 0)) {
-				if (! destroyFirst (getBitType)) return errorBox (ERRORTYPE_PROJECTERROR, "Syntax error in antiAlias element of objectType", getBits -> string, fName);
+				if (! destroyFirst (getBitType)) return addComment (ERRORTYPE_PROJECTERROR, "Syntax error in antiAlias element of objectType", getBits -> string, fName);
 				getBitInsides = splitString (getBitType -> string, ',');
-				if (countElements (getBitInsides) != 3) return errorBox (ERRORTYPE_PROJECTERROR, "antiAlias syntax is \"onOff, blurX, blurY\"", getBitType -> string, fName);
+				if (countElements (getBitInsides) != 3) return addComment (ERRORTYPE_PROJECTERROR, "antiAlias syntax is \"onOff, blurX, blurY\"", getBitType -> string, fName);
 				if (strcmp (getBitInsides -> string, "true") == 0)
 				{
 					aaOnOff = 1;
@@ -188,37 +188,37 @@ bool createObjectType (char * code, const char * fName, stringArray * & globalVa
 				aaBlurY = stringToInt (getBitInsides -> string, ERRORTYPE_PROJECTERROR);
 				destroyFirst (getBitInsides);
 				if (aaOnOff < 0 || aaOnOff > 1)
-					return errorBox (ERRORTYPE_PROJECTERROR, "Anti-aliasing settings: First parameter (on/off value) should either be true or false", getBits->string, fName);
+					return addComment (ERRORTYPE_PROJECTERROR, "Anti-aliasing settings: First parameter (on/off value) should either be true or false", getBits->string, fName);
 				if (aaBlurX < 0 || aaBlurY < 0)
-					return errorBox (ERRORTYPE_PROJECTERROR, "Anti-aliasing settings: X and Y blur values should be positive integers", getBits->string, fName);
+					return addComment (ERRORTYPE_PROJECTERROR, "Anti-aliasing settings: X and Y blur values should be positive integers", getBits->string, fName);
 
 			} else if (strcmp ("speechGap", getBitType -> string) == 0) {
-				if (! destroyFirst (getBitType)) return errorBox (ERRORTYPE_PROJECTERROR, "Syntax error in speechGap element of objectType", getBits -> string, fName);
+				if (! destroyFirst (getBitType)) return addComment (ERRORTYPE_PROJECTERROR, "Syntax error in speechGap element of objectType", getBits -> string, fName);
 				speechGap = stringToInt (getBitType -> string, ERRORTYPE_PROJECTERROR);
 				
 			} else if (strcmp ("flag", getBitType -> string) == 0 ||
 					   strcmp ("flags", getBitType -> string) == 0) {
-				if (! destroyFirst (getBitType)) return errorBox (ERRORTYPE_PROJECTERROR, "Syntax error in flags element of objectType", getBits -> string, fName);
+				if (! destroyFirst (getBitType)) return addComment (ERRORTYPE_PROJECTERROR, "Syntax error in flags element of objectType", getBits -> string, fName);
 				flags |= handleFlags (getBitType -> string);
 				
 			} else if (strcmp ("walkSpeed", getBitType -> string) == 0) {
-				if (! destroyFirst (getBitType)) return errorBox (ERRORTYPE_PROJECTERROR, "Syntax error in walkSpeed element of objectType", getBits -> string, fName);
+				if (! destroyFirst (getBitType)) return addComment (ERRORTYPE_PROJECTERROR, "Syntax error in walkSpeed element of objectType", getBits -> string, fName);
 				walkSpeed = stringToInt (getBitType -> string, ERRORTYPE_PROJECTERROR);
 
 			} else if (strcmp ("spinSpeed", getBitType -> string) == 0) {
-				if (! destroyFirst (getBitType)) return errorBox (ERRORTYPE_PROJECTERROR, "Syntax error in spinSpeed element of objectType", getBits -> string, fName);
+				if (! destroyFirst (getBitType)) return addComment (ERRORTYPE_PROJECTERROR, "Syntax error in spinSpeed element of objectType", getBits -> string, fName);
 				spinSpeed = stringToInt (getBitType -> string, ERRORTYPE_PROJECTERROR);
 
 			} else if (strcmp ("wrapSpeech", getBitType -> string) == 0) {
-				if (! destroyFirst (getBitType)) return errorBox (ERRORTYPE_PROJECTERROR, "Syntax error in wrapSpeech element of objectType", getBits -> string, fName);
+				if (! destroyFirst (getBitType)) return addComment (ERRORTYPE_PROJECTERROR, "Syntax error in wrapSpeech element of objectType", getBits -> string, fName);
 				wrapSpeech = stringToInt (getBitType -> string, ERRORTYPE_PROJECTERROR);
 
 			} else if (strcmp ("wrapSpeechPixels", getBitType -> string) == 0) {
-				if (! destroyFirst (getBitType)) return errorBox (ERRORTYPE_PROJECTERROR, "Syntax error in wrapSpeechPixels element of objectType", getBits -> string, fName);
+				if (! destroyFirst (getBitType)) return addComment (ERRORTYPE_PROJECTERROR, "Syntax error in wrapSpeechPixels element of objectType", getBits -> string, fName);
 				wrapSpeech = - stringToInt (getBitType -> string, ERRORTYPE_PROJECTERROR);
 
 			} else {
-				return errorBox (ERRORTYPE_PROJECTERROR, "Only \"event\", \"speechGap\", \"walkSpeed\" and \"speechColour\" elements are allowed in an objectType, not this", getBitType -> string, fName);
+				return addComment (ERRORTYPE_PROJECTERROR, "Only \"event\", \"speechGap\", \"walkSpeed\" and \"speechColour\" elements are allowed in an objectType, not this", getBitType -> string, fName);
 			}
 		}
 	} while (destroyFirst (getBits));
@@ -235,7 +235,7 @@ bool createObjectType (char * code, const char * fName, stringArray * & globalVa
 	fclose (objFile);
 	sprintf (fbuff, "obj%05i.nu~", i);
 	objFile = fopen (fbuff, "wb");
-	if (! objFile) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't write object num file", fbuff, NULL);
+	if (! objFile) return addComment (ERRORTYPE_SYSTEMERROR, "Can't write object num file", fbuff, NULL);
 
 	put2bytes (numCombis, objFile);
 
@@ -269,10 +269,10 @@ bool linkObjectFile (FILE * mainFile, FILE * indexFile, int i, unsigned long cal
 	if (! gotoTempDirectory ()) return false;
 	sprintf (fbuff, "obj%05i.nu~", i);
 	theNumFile = fopen (fbuff, "rb");
-	if (! theNumFile) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't read object num file", fbuff, NULL);
+	if (! theNumFile) return addComment (ERRORTYPE_SYSTEMERROR, "Can't read object num file", fbuff, NULL);
 	sprintf (fbuff, "obj%05i.ob~", i);
 	fileIn = fopen (fbuff, "rb");
-	if (! fileIn) return errorBox (ERRORTYPE_SYSTEMERROR, "Can't read object type file", fbuff, NULL);
+	if (! fileIn) return addComment (ERRORTYPE_SYSTEMERROR, "Can't read object type file", fbuff, NULL);
 
 	objNam = readString (fileIn);
 	setCompilerText (COM_ITEMTEXT, objNam);
@@ -318,11 +318,11 @@ bool linkObjectFile (FILE * mainFile, FILE * indexFile, int i, unsigned long cal
 		funcToCall = readString (fileIn);
 
 		f = findElement (objectTypeNames, objNam);
-		if (f == -1) return errorBox (ERRORTYPE_PROJECTERROR, "Not an object name", objNam, NULL);
+		if (f == -1) return addComment (ERRORTYPE_PROJECTERROR, "Not an object name", objNam, NULL);
 		put2bytes (f, mainFile);
 
 		f = findElement (functionNames, funcToCall);
-		if (f == -1) return errorBox (ERRORTYPE_PROJECTERROR, "Not a function name", funcToCall, NULL);
+		if (f == -1) return addComment (ERRORTYPE_PROJECTERROR, "Not a function name", funcToCall, NULL);
 		put2bytes (f, mainFile);
 		
 		setUsed (CHECKUSED_FUNCTIONS, f);

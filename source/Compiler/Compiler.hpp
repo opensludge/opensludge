@@ -11,7 +11,7 @@
 extern "C" {
 #endif
 		
-	bool compileEverything (char * project);
+	void compileEverything (char * project);
 	
 	
 #ifdef __cplusplus
