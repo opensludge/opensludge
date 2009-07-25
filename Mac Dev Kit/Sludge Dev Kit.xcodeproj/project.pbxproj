@@ -147,7 +147,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		002F39F909D0881F00EBEB88 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = /Library/Frameworks/SDL.framework; sourceTree = "<absolute>"; };
 		002F3A2B09D0888800EBEB88 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
 		002F3A2C09D0888800EBEB88 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
 		002F3AF009D08F1000EBEB88 /* DevKit Main.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = "DevKit Main.nib"; sourceTree = "<group>"; };
@@ -162,13 +161,13 @@
 		2F1BD59210172D890014BFBB /* ProjectDocument.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = ProjectDocument.nib; sourceTree = "<group>"; };
 		2F373F6D100E0686009F6880 /* Project.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Project.hpp; sourceTree = "<group>"; };
 		2F373F6E100E0686009F6880 /* Project.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Project.cpp; sourceTree = "<group>"; };
-		2F469899101B4ACA00D451DB /* slx.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = slx.icns; path = ../resources/slx.icns; sourceTree = SOURCE_ROOT; };
+		2F469899101B4ACA00D451DB /* slx.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = slx.icns; path = ../images/slx.icns; sourceTree = SOURCE_ROOT; };
 		2F59AFFE100CD9E1004A21BC /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/Carbon.framework; sourceTree = SYSTEM_DEVELOPER_DIR; };
 		2F6092611010729500BC0F94 /* Interface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Interface.h; sourceTree = "<group>"; };
 		2F61A6FB100F50D000EBE4B0 /* Compiler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Compiler.hpp; sourceTree = "<group>"; };
 		2F61A6FC100F50D000EBE4B0 /* Compiler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Compiler.cpp; sourceTree = "<group>"; };
-		2F695C70100D138D008A8DC1 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = icon.icns; path = ../resources/icon.icns; sourceTree = SOURCE_ROOT; };
-		2F695C71100D138D008A8DC1 /* ProjIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ProjIcon.icns; path = ../resources/ProjIcon.icns; sourceTree = SOURCE_ROOT; };
+		2F695C70100D138D008A8DC1 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = icon.icns; path = ../images/icon.icns; sourceTree = SOURCE_ROOT; };
+		2F695C71100D138D008A8DC1 /* ProjIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ProjIcon.icns; path = ../images/ProjIcon.icns; sourceTree = SOURCE_ROOT; };
 		2F7EA3DD0FFCEBCF005E5C36 /* functionList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = functionList.h; sourceTree = "<group>"; };
 		2F7EA3E10FFCEBCF005E5C36 /* specialSettings.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = specialSettings.h; sourceTree = "<group>"; };
 		2F7EA3E20FFCEBCF005E5C36 /* TGA.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = TGA.cpp; sourceTree = "<group>"; };
@@ -247,7 +246,7 @@
 		2F820CC9100E10AE0004738F /* MessBox.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = MessBox.cpp; sourceTree = "<group>"; };
 		2F820CCA100E10AE0004738F /* MessBox.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MessBox.h; sourceTree = "<group>"; };
 		2F820CCB100E10AE0004738F /* MOREIO.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = MOREIO.cpp; sourceTree = "<group>"; };
-		2F9355981012656700099D24 /* spriteIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = spriteIcon.icns; path = ../resources/spriteIcon.icns; sourceTree = SOURCE_ROOT; };
+		2F9355981012656700099D24 /* spriteIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = spriteIcon.icns; path = ../images/spriteIcon.icns; sourceTree = SOURCE_ROOT; };
 		2F9355AD1012670D00099D24 /* ProjectDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectDocument.h; sourceTree = "<group>"; };
 		2F9355AE1012670D00099D24 /* ProjectDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectDocument.m; sourceTree = "<group>"; };
 		2FA3510E10148E2800979809 /* MOREIO.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; path = MOREIO.H; sourceTree = "<group>"; };
@@ -293,7 +292,6 @@
 			children = (
 				2F59AFFE100CD9E1004A21BC /* Carbon.framework */,
 				2FE2CEC30FFD683B000CC795 /* OpenGL.framework */,
-				002F39F909D0881F00EBEB88 /* SDL.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
