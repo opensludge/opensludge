@@ -11,28 +11,35 @@
 #include <OpenGL/gl.h>
 #include "Sprites.h"
 
-
-@interface SpriteBank : NSDocument {
-	
-	IBOutlet NSOpenGLView *spriteView;
-	IBOutlet NSSlider *spriteIndexSlider;
-		
-	struct spriteBank sprites;
-}
-- (struct spriteBank *) getSprites;
-
-
-@end
-
 @interface SpriteOpenGLView : NSOpenGLView
 {
-	SpriteBank *doc;
+	id doc;
 	struct spriteBank *sprites;
 	int spriteIndex;
 	bool showBox;
 	int x, y, w, h;
 	float z;
 }
-- (void) connectToDoc: (SpriteBank *) myDoc;
+- (void) connectToDoc: (id) myDoc;
 - (void) drawRect: (NSRect) bounds ;
+- (int) spriteIndex;
+- (void) setSpriteIndex: (int)i;
 @end
+
+
+@interface SpriteBank : NSDocument {
+	
+	IBOutlet SpriteOpenGLView *spriteView;
+	IBOutlet NSSlider *spriteIndexSlider;
+				
+	struct spriteBank sprites;
+	
+	int hotSpotX, hotSpotY;
+}
+- (struct spriteBank *) getSprites;
+
+- (IBAction)hotSpotCentre:(id)sender;
+- (IBAction)hotSpotBase:(id)sender;
+
+@end
+

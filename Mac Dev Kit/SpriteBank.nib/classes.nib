@@ -2,12 +2,18 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
+            ACTIONS = {hotSpotBase = id; hotSpotCentre = id; }; 
             CLASS = SpriteBank; 
             LANGUAGE = ObjC; 
-            OUTLETS = {spriteIndexSlider = NSSlider; spriteView = NSOpenGLView; }; 
+            OUTLETS = {spriteIndexSlider = NSSlider; spriteView = SpriteOpenGLView; }; 
             SUPERCLASS = NSDocument; 
         }, 
-        {CLASS = SpriteOpenGLView; LANGUAGE = ObjC; SUPERCLASS = NSOpenGLView; }
+        {
+            CLASS = SpriteOpenGLView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {doc = id; }; 
+            SUPERCLASS = NSOpenGLView; 
+        }
     ); 
     IBVersion = 1; 
 }

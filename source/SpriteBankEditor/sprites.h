@@ -43,8 +43,6 @@ bool loadSpriteTextures (struct spriteBank *loadhere);
 bool saveSpriteBank (const char * filename, struct spriteBank *sprites);
 
 void paintPal (HWND h);
-bool initSpriteArea ();
-void paintSpriteArea ();
 void sortColours (HWND h);
 void optimizePalette ();
 void insertSprite (int);

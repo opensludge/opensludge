@@ -78,6 +78,46 @@
 	return &sprites;
 }
 
+- (int) hotSpotX
+{
+	return hotSpotX;
+}
+- (void) setHotSpotX:(int)i
+{
+	hotSpotX = i;
+	if ((sprites.total) && (i != sprites.sprites[[spriteView spriteIndex]].xhot)) {
+		sprites.sprites[[spriteView spriteIndex]].xhot = i;
+		[spriteView setNeedsDisplay:YES];
+		[self updateChangeCount: NSChangeDone];
+	}
+}
+- (int) hotSpotY
+{
+	return hotSpotY;
+}
+- (void) setHotSpotY:(int)i
+{
+	hotSpotY = i;
+	if ((sprites.total) && (i != sprites.sprites[[spriteView spriteIndex]].yhot)) {
+		sprites.sprites[[spriteView spriteIndex]].yhot = i;
+		[spriteView setNeedsDisplay:YES];
+		[self updateChangeCount: NSChangeDone];
+	}
+}
+
+- (IBAction)hotSpotCentre:(id)sender
+{
+	if (sprites.total) {
+		[self setHotSpotX: sprites.sprites[[spriteView spriteIndex]].width / 2];
+		[self setHotSpotY: sprites.sprites[[spriteView spriteIndex]].height / 2];
+	}
+}
+- (IBAction)hotSpotBase:(id)sender{
+	if (sprites.total) {
+		[self setHotSpotX: sprites.sprites[[spriteView spriteIndex]].width / 2];
+		[self setHotSpotY: sprites.sprites[[spriteView spriteIndex]].height-1];
+	}
+}
 
 @end
 
@@ -94,19 +134,26 @@
 }
 
 
+
 - (int) spriteIndex
 {
 	return spriteIndex;
 }
+
 - (void) setSpriteIndex:(int)i
 {
 	if (i >= sprites->total) i = sprites->total-1;
 	if (i<0) i = 0;
 	spriteIndex = i;
-	[self setNeedsDisplay:YES];
+	
+	if (sprites->total) {
+		[doc setHotSpotX:sprites->sprites[i].xhot];
+		[doc setHotSpotY:sprites->sprites[i].yhot];
+	}
+//	[self setNeedsDisplay:YES];
 }
 
-- (void) connectToDoc: (SpriteBank *) myDoc
+- (void) connectToDoc: (id) myDoc
 {
 	doc = myDoc;
 	sprites = [doc getSprites];
@@ -176,6 +223,7 @@
 	showBox = false;
 	if (sprites->total)
 		loadSpriteTextures (sprites);
+	[self setSpriteIndex:0];
 }
 
 - (void)reshape {

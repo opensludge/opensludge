@@ -15,7 +15,6 @@ void forgetSpriteBank (spriteBank & forgetme) {
 	for (index = 0; index < forgetme.total; index ++) {
 		delete forgetme.sprites[index].data;
 	}
-
 	delete forgetme.sprites;
 }
 
@@ -305,37 +304,5 @@ void pasteSprite (sprite * single, const spritePalette *fontPal, bool showBox) {
 	glTexCoord2f(tx2, ty2);	glVertex3f(x1+single->width, -y1-single->height, 0.0);
 	glTexCoord2f(tx1, ty2);	glVertex3f(x1, -y1-single->height, 0.0);
 	glEnd();
-}
-
-
-void fontSprite (int x, int y, sprite & single, const spritePalette & fontPal) {
-
-	float tx1 = (float)(single.tex_x + 0.5) / fontPal.tex_w[single.texNum];
-	float ty1 = 0.0;
-	float tx2 = (float)(single.tex_x + single.width - 0.5) / fontPal.tex_w[single.texNum];
-	float ty2 = (float)(single.height)/fontPal.tex_h[single.texNum];
-	
-	int x1 = x - single.xhot;
-	int y1 = y - single.yhot;
-	int x2 = x1 + single.width;
-	int y2 = y1 + single.height;
-	
-	glEnable (GL_TEXTURE_2D);
-	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // GL_MODULATE instead of decal mixes the colours!
-	glColor3ub (fontPal.originalRed, fontPal.originalGreen, fontPal.originalBlue);
-	glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
-	
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	
-	glBegin(GL_QUADS);
-	
-	glTexCoord2f(tx1, ty1);	glVertex3f(x1, y1, 0.0);
-	glTexCoord2f(tx2, ty1);	glVertex3f(x2, y1, 0.0);
-	glTexCoord2f(tx2, ty2);	glVertex3f(x2, y2, 0.0);
-	glTexCoord2f(tx1, ty2);	glVertex3f(x1, y2, 0.0);
-
-	glEnd();
-	glDisable(GL_BLEND);
 }
 
