@@ -1,0 +1,293 @@
+#include <windows.h>
+#include "winterfa.h"
+#include "version.h"
+
+DLG_MAIN DIALOG 11, 17, 311, 248
+STYLE WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX
+CAPTION "Hungry Software SLUDGE Project Manager"
+FONT 8, "Arial"
+{
+ GROUPBOX "", -1,		193, 138,  116, 42
+ GROUPBOX "Project management", -1,							193, 2,  116, 136, BS_GROUPBOX
+  PUSHBUTTON "Create new project",		ID_PROJECT_NEW,		199, 12, 104, 14, WS_TABSTOP
+  PUSHBUTTON "Open existing project", 	ID_PROJECT_LOAD,	199, 30, 104, 14, WS_TABSTOP
+  PUSHBUTTON "Save project",			ID_PROJECT_SAVE,	199, 48, 104, 14, WS_TABSTOP
+  PUSHBUTTON "Project properties",		ID_DISPLAY,			199, 66, 104, 14, WS_TABSTOP
+  PUSHBUTTON "Compile project",			ID_PROJECT_COMPILE, 199, 84, 104, 14, WS_TABSTOP
+  PUSHBUTTON "Compile and run project",	ID_PROJECT_RUN,		199, 102, 104, 14, WS_TABSTOP
+  
+  PUSHBUTTON "About",					ID_ABOUT,			199, 120, 50, 14, WS_TABSTOP
+  PUSHBUTTON "Help!",					ID_SLUDGE_HELP,		253, 120, 50, 14, WS_TABSTOP
+
+ GROUPBOX "Files in this project", -1,					 2,	2, 187, 178, BS_GROUPBOX
+  LISTBOX ID_FILELIST,									 8,	12, 174, 122, LBS_NOTIFY | WS_BORDER | LBS_EXTENDEDSEL | WS_BORDER | WS_VSCROLL | WS_GROUP | WS_TABSTOP | LBS_NOINTEGRALHEIGHT
+
+  PUSHBUTTON "Edit",			ID_CONTENTS_EDIT_FILE,		15,	142, 51, 14, WS_TABSTOP
+  PUSHBUTTON "Resources",		ID_CONTENTS_RESOURCES,		69, 142, 51, 14, WS_TABSTOP
+  PUSHBUTTON "Delete",			ID_CONTENTS_DELETE_FILE,   123, 142, 51, 14, WS_TABSTOP
+
+  PUSHBUTTON "Add file",		ID_CONTENTS_ADD_FILE,		15,	160, 78, 14, WS_TABSTOP
+  PUSHBUTTON "Find in files",	ID_CONTENTS_FIND_IN_FILE,   96,	160, 78, 14, WS_TABSTOP
+ 
+ GROUPBOX "Project settings", -1,			2,	182, 307, 50, BS_GROUPBOX
+
+  RTEXT "Input filename:", -1,				8,  193, 51,  8
+  EDITTEXT ID_LOADED_FILE,				 	61, 192, 242, 10, WS_BORDER | WS_DISABLED
+
+  RTEXT "Project name:", -1,	8,  205, 51,  8
+  EDITTEXT ID_EDIT_NAME,		61, 204, 242, 10, WS_BORDER | WS_TABSTOP
+
+  RTEXT "Output file:",	 -1,	8,  217, 51,  8
+  EDITTEXT ID_EDIT_OUTPUTFILE,	61, 216, 242, 10, WS_BORDER | WS_TABSTOP
+}
+
+DLG_FILE_LOCATIONS DIALOG 100, 100, 300, 50
+STYLE WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "File locations"
+FONT 8, "Arial"
+{
+ LTEXT "Text editor:", -1,			5,  5, 250,  8
+ EDITTEXT ID_TEXT_EDITOR,			5, 15, 250, 10, WS_BORDER | WS_TABSTOP | ES_AUTOHSCROLL
+ PUSHBUTTON "Browse", ID_TEXT_BROWSE,	260, 13, 35, 12, WS_TABSTOP
+
+ PUSHBUTTON "OK",		IDOK,		5, 31, 50, 14, WS_TABSTOP
+ PUSHBUTTON "Cancel", 	IDCANCEL,	60, 31, 50, 14, WS_TABSTOP
+}
+
+666 DIALOG 100, 100, 160, 65
+STYLE WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Find"
+FONT 8, "Arial"
+{
+ LTEXT "Find this text:", -1,			5,  5, 150,  8
+ EDITTEXT ID_TEXT_EDITOR,				5, 15, 150, 10, WS_BORDER | WS_TABSTOP | ES_AUTOHSCROLL
+
+ AUTOCHECKBOX "Case sensitive", ID_CASESENSITIVE, 5, 31, 150, 8
+ DEFPUSHBUTTON "Search", 	IDOK,		5, 46, 50, 14, WS_TABSTOP
+ PUSHBUTTON "Cancel", 	IDCANCEL,		60, 46, 50, 14, WS_TABSTOP
+}
+
+DLG_WINDOW_SIZES DIALOG 100, 100, 180, 85
+STYLE WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Window sizes"
+FONT 8, "Arial"
+{
+ CTEXT "Enter the width and height to be used by the Z-BUFFER MAKER and FLOOR MAKER programs",
+ 							-1,			5,  5,  170,  16
+ 							
+ RTEXT "Width:", 			-1,			20,  30, 25,   8
+ EDITTEXT ID_EDIT_WINWIDTH,				50,  29, 35,  10, WS_BORDER | WS_TABSTOP
+
+ RTEXT "Height:", 			-1,			90,  30, 25,   8
+ EDITTEXT ID_EDIT_WINHEIGHT,			120, 29, 35,  10, WS_BORDER | WS_TABSTOP
+
+ PUSHBUTTON "Use window/screen size of current project",
+ 				ID_USE_PROJECT_SIZE,	9, 46, 162, 14, WS_TABSTOP
+
+ DEFPUSHBUTTON "OK", 	IDOK,			9, 66, 76, 14, WS_TABSTOP
+ PUSHBUTTON "Cancel", 	IDCANCEL,		95, 66, 76, 14, WS_TABSTOP
+}
+
+DLG_SEARCH_RESULTS DIALOG 100, 100, 260, 135
+STYLE WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Resources used by selected file(s)"
+FONT 8, "Arial"
+{
+ LISTBOX			  ID_FILELIST,	5,  5, 250, 112, LBS_EXTENDEDSEL | LBS_NOTIFY | WS_BORDER | WS_BORDER | WS_VSCROLL | WS_GROUP | WS_TABSTOP
+ DEFPUSHBUTTON "Launch", IDOK,		5,  116, 50,  14,  WS_TABSTOP
+ PUSHBUTTON "Cancel", IDCANCEL,		60, 116, 50,  14,  WS_TABSTOP
+}
+
+1235	BITMAP "resources/sludgeLogo.bmp"
+
+1234 DIALOG 150, 40, 300, 105
+STYLE WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "About SLUDGE"
+FONT 8, "Arial"
+{
+ CTEXT "SLUDGE: Scripting Language for Unhindered Development of a Gaming Environment v"TEXT_VERSION,	-1, 2, 42, 296, 10
+ CTEXT "Visit Hungry Software online at http://www.hungrysoftware.com/",								-1, 2, 52, 296, 10
+
+ PUSHBUTTON "To the SLUDGE web site... and victory!",	IDOK,		7, 66, 286, 14, WS_TABSTOP
+ PUSHBUTTON "OK",		IDCANCEL,		7, 84, 286, 14, WS_TABSTOP
+}
+
+DLG_PROJECT_PROPERTIES DIALOG 120, 20, 421, 130
+STYLE WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Project properties"
+FONT 8, "Arial"
+{
+ GROUPBOX "Display settings", -1, 		2, 		2, 		207, 	117, 		BS_GROUPBOX
+  AUTOCHECKBOX "Full-screen if possible", ID_FULLSCREEN, 
+  										8,		12,		95,		10,			WS_TABSTOP
+  AUTOCHECKBOX "Dither 24-bit images", ID_DITHERIMAGES,
+  										108,	12,		95,		10,			WS_TABSTOP
+
+  CTEXT "Window/screen width:", -1,		8,  	25, 	95,  	8
+  EDITTEXT ID_EDIT_WINWIDTH,			8,		35, 	95, 	10, 		WS_BORDER | WS_TABSTOP
+
+  CTEXT "Window/screen height:", -1, 	108, 	25, 	95,  	8
+  EDITTEXT ID_EDIT_WINHEIGHT,		 	108, 	35, 	95, 	10, 		WS_BORDER | WS_TABSTOP
+
+  LTEXT "Mouse cursor:", -1,			8,   	55, 	58,  	8
+  COMBOBOX ID_MOUSE_IMAGE, 				68,  	53, 	135, 	54, 		CBS_DROPDOWNLIST | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+
+  CTEXT "Custom icon (TGA file; leave blank for none):",
+  							-1,			8,  	70, 	195,  	16
+  EDITTEXT ID_EDIT_CUSTOMICON,			8,		80, 	195, 	10, 		WS_BORDER | WS_TABSTOP | ES_AUTOHSCROLL
+
+  CTEXT "Ms/frame:",		-1,			8,		94, 	95, 	8
+  EDITTEXT ID_EDIT_SPEED,				8,		104, 	95,		10, 		WS_BORDER | WS_TABSTOP
+
+  CTEXT "Frame/sec:",		-1,			108,	94, 	95, 	8
+  EDITTEXT ID_EDIT_SPEED2,				108,	104, 	95, 	10, 		WS_BORDER | WS_DISABLED
+
+ GROUPBOX "Miscellaneous", -1, 			212,	2, 		207, 	89, 		BS_GROUPBOX
+
+  AUTOCHECKBOX "Make silent version", ID_MAKESILENT,
+  										218,	12,		95,		10,			WS_TABSTOP
+
+  CTEXT "Quit message (this will only be used if NOT running full-screen):",
+   							-1,			218,  	25, 	195,  	16
+  EDITTEXT ID_EDIT_QUITMESSAGE,			218,	43, 	195, 	10, 		WS_BORDER | WS_TABSTOP | ES_AUTOHSCROLL
+
+  CTEXT "Keep all saved games and custom data in this folder (leave blank to keep files in same folder as game):",
+  								-1,		218,  	58,		195,	16
+  EDITTEXT ID_EDIT_DATAFOLDER,			218,	76,		195,	10,			WS_BORDER | WS_TABSTOP
+
+ PUSHBUTTON "Rendering", ID_RENDERING,	215,  94, 98, 14, WS_TABSTOP
+ PUSHBUTTON "Advanced", ID_MOREOPTIONS,	317,  94, 98, 14, WS_TABSTOP
+
+ PUSHBUTTON "OK",		IDOK,			215,  112, 98, 14, WS_TABSTOP
+ PUSHBUTTON "Cancel", 	IDCANCEL,		317,  112, 98, 14, WS_TABSTOP
+}
+
+DLG_PROJECT_ADVANCED DIALOG 10, 120, 135, 104
+STYLE WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Advanced"
+FONT 8, "Arial"
+{
+ CTEXT "The following options will only be used if you're running a registered version of the developmet kit!",
+ 							   -1, 4, 2, 127, 38
+ 							   
+ GROUPBOX "Start-up settings", -1, 2, 30, 131, 48, BS_GROUPBOX
+ 
+  AUTOCHECKBOX "Run minimised", ID_STARTUP_INVISIBLE, 8, 40, 119, 10, WS_TABSTOP
+  AUTOCHECKBOX "Display SLUDGE logo", ID_STARTUP_DISPLAY_SLUDGE, 8, 53, 119, 10, WS_TABSTOP
+  AUTOCHECKBOX "Display LOADING caption", ID_STARTUP_DISPLAY_LOADING, 8, 66, 119, 10, WS_TABSTOP
+
+ PUSHBUTTON "OK",		IDOK,			5,  85, 60, 14, WS_TABSTOP
+ PUSHBUTTON "Cancel", 	IDCANCEL,		70, 85, 60, 14, WS_TABSTOP
+}
+
+DLG_PROJECT_RENDERING DIALOG 10, 120, 211, 124
+STYLE WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Character rendering"
+FONT 8, "Arial"
+{
+ GROUPBOX "Default anti-aliasing settings for characters", -1, 2, 2, 207, 48, BS_GROUPBOX
+ 
+  AUTOCHECKBOX "Anti-aliasing enabled", ID_RENDERING_AA_DEF_ENABLED, 8, 12, 95, 10, WS_TABSTOP
+
+  CTEXT "Softness (horizontal):",		-1,			8,		25, 	95, 	8
+  EDITTEXT ID_RENDERING_AA_DEF_SOFT_X,				8,		35, 	95,		10, 		WS_BORDER | WS_TABSTOP
+
+  CTEXT "Softness (vertical):",			-1,			108,	25, 	95, 	8
+  EDITTEXT ID_RENDERING_AA_DEF_SOFT_Y,				108,	35, 	95,		10, 		WS_BORDER | WS_TABSTOP
+
+ GROUPBOX "Initial anti-aliasing maximum settings", -1, 2, 52, 207, 48, BS_GROUPBOX
+ 
+  AUTOCHECKBOX "Anti-aliasing enabled", ID_RENDERING_AA_MAX_ENABLED, 8, 62, 95, 10, WS_TABSTOP
+  AUTOCHECKBOX "Allow .ini file override", ID_RENDERING_AA_MAX_READINI, 108, 62, 95, 10, WS_TABSTOP
+
+  CTEXT "Softness (horizontal):",		-1,			8,		75, 	95, 	8
+  EDITTEXT ID_RENDERING_AA_MAX_SOFT_X,				8,		85, 	95,		10, 		WS_BORDER | WS_TABSTOP
+
+  CTEXT "Softness (vertical):",			-1,			108,	75, 	95, 	8
+  EDITTEXT ID_RENDERING_AA_MAX_SOFT_Y,				108,	85, 	95,		10, 		WS_BORDER | WS_TABSTOP
+
+ PUSHBUTTON "OK",		IDOK,			5,  105, 98, 14, WS_TABSTOP
+ PUSHBUTTON "Cancel", 	IDCANCEL,		108,105, 98, 14, WS_TABSTOP
+}
+
+
+1 MENU
+BEGIN
+    POPUP "&File"
+        begin
+            MENUITEM "&New SLUDGE project", ID_PROJECT_NEW
+            MENUITEM "&Open SLUDGE project", ID_PROJECT_LOAD
+            MENUITEM "&Save",  ID_PROJECT_SAVE
+            MENUITEM "Save &as...",  ID_PROJECT_SAVEAS
+            MENUITEM "&Revert",  ID_PROJECT_REVERT
+            MENUITEM SEPARATOR
+            MENUITEM "&Close",    ID_PROJECT_CLOSE
+            MENUITEM "E&xit",    ID_EXIT
+        end
+    popup "&Project"
+        BEGIN
+            MENUITEM "&Add file", 			ID_CONTENTS_ADD_FILE
+            MENUITEM "&Find in files",   	ID_CONTENTS_FIND_IN_FILE
+            MENUITEM SEPARATOR
+            MENUITEM "&Project properties", ID_DISPLAY
+            MENUITEM SEPARATOR
+            MENUITEM "&Compile",    		ID_PROJECT_COMPILE
+            MENUITEM "Compile and &run",    ID_PROJECT_RUN
+        END
+    popup "&SLUDGE Settings"
+        BEGIN
+            MENUITEM "&Keep compressed images", ID_KEEP_IMAGES
+            MENUITEM "&Write strings to text file", ID_KEEP_STRINGS
+            MENUITEM "&Verbose errors (development mode)", ID_VERBOSE
+            MENUITEM SEPARATOR
+            MENUITEM "&File locations", ID_SETTINGSBOX
+            MENUITEM "Window &sizes", ID_SIZEBOX
+        END
+    popup "&Programs"
+        BEGIN
+            MENUITEM "Launch &z-buffer maker", ID_LAUNCH_Z
+            MENUITEM "Launch &sprite bank editor", ID_LAUNCH_SPRITE
+            MENUITEM "Launch &floor maker", ID_LAUNCH_FLOOR
+            MENUITEM "Launch &translation editor", ID_LAUNCH_TRANS
+            MENUITEM "Launch SLUDGE &engine", ID_LAUNCH_ENGINE
+            MENUITEM SEPARATOR
+            MENUITEM "&Check for upgrades", ID_UPGRADES
+        END
+#ifndef NOHELP
+    POPUP "&Help"
+        BEGIN
+            MENUITEM "&About SLUDGE", ID_ABOUT
+            MENUITEM "&SLUDGE documentation", ID_SLUDGE_HELP
+        END
+#else
+    POPUP "&Info"
+        BEGIN
+            MENUITEM "&About SLUDGE...", ID_ABOUT
+            MENUITEM "&SLUDGE documentation", ID_SLUDGE_HELP
+        END
+#endif /*NOHELP*/
+END
+
+
+3 ICON "resources/Icon.ico"
+4 ICON "resources/scriptIcon.ico"
+5 ICON "resources/projIcon.ico"
+
+1 VERSIONINFO
+ FILEVERSION 0,1,0,0
+ PRODUCTVERSION 0,1,0,0
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904E4"
+        BEGIN
+            VALUE "FileVersion", TEXT_VERSION"\0"
+            VALUE "FileDescription", "SLUDGE Project Manager\0"
+            VALUE "LegalCopyright", COPYRIGHT_TEXT"\0"
+            VALUE "About SLUDGE", "Er... well, SLUDGE stands for Scripting Language for Unhindered Development of a Gaming Environment. So there. What, you thought this was a help file?\0"
+            VALUE "About the project manager", "The SLUDGE project manager is part of the SLUDGE development kit. Use it to create and maintain your SLUDGE projects, and to launch the compiler.\0"
+            VALUE "SLUDGE on the WWW", "When you get a free moment, you could do worse than to pop over to http://hungrysoftware.com/ and check out the SLUDGE resources. You know you want to, fool.\0"
+            VALUE "UPX on the WWW", "This SLUDGE executable has been compressed using the UPX executable packer. For more information, please visit the UPX website. It's at http://upx.sf.com/ and it's lovely.\0"
+        END
+    END
+END

@@ -1,0 +1,60 @@
+#include "winterface.h"
+#include "version.h"
+
+100 CURSOR "blokey.cur"
+101 CURSOR "target.cur"
+102 CURSOR "noway.cur"
+103 CURSOR "arrows.cur"
+104 CURSOR "mover.cur"
+
+10 ICON "floorIcon.ico"
+
+1 MENU
+BEGIN
+    popup "&File"
+        BEGIN
+            MENUITEM "&New", ID_FLOOR_NEW
+            MENUITEM "&Open", ID_FLOOR_LOAD
+            MENUITEM "&Save", ID_FLOOR_SAVE
+            MENUITEM "Save &as", ID_FLOOR_SAVE_AS
+            MENUITEM SEPARATOR
+            MENUITEM "E&xit", ID_EXIT
+        end
+    POPUP "&Image"
+        begin
+            MENUITEM "&Clear screen", ID_IMAGE_CLEAR
+            MENUITEM "&Add from .TGA", ID_IMAGE_ADD
+        end
+    POPUP "&Mode"
+        begin
+            MENUITEM "&Define floor border", ID_MODE_DEFINE
+            MENUITEM "&Split into segments", ID_MODE_SPLIT
+            MENUITEM "&Move vertices", ID_MODE_MOVE
+            MENUITEM "Split &lines into two", ID_MODE_SPLITLINE
+            MENUITEM "&Remove vertex", ID_MODE_KILLVERTEX
+        end
+    POPUP "&View"
+        begin
+            MENUITEM "&Mark each vertex", ID_VIEW_MARKVERT
+            MENUITEM "&High-speed scroll", ID_VIEW_SPEEDSCROLL
+        end
+END
+
+1 VERSIONINFO
+ FILEVERSION 0,1,0,0
+ PRODUCTVERSION 0,1,0,0
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904E4"
+        BEGIN
+            VALUE "FileVersion", TEXT_VERSION"\0"
+            VALUE "FileDescription", "SLUDGE Floor Maker\0"
+            VALUE "LegalCopyright", COPYRIGHT_TEXT"\0"
+            VALUE "About SLUDGE", "Er... well, SLUDGE stands for Scripting Language for Unhindered Development of a Gaming Environment. So there. What, you thought this was a help file?\0"
+            VALUE "About the floor maker", "The SLUDGE floor maker is part of the SLUDGE development kit. Use it to define walkable areas in your scenes.\0"
+            VALUE "SLUDGE on the WWW", "When you get a free moment, you could do worse than to pop over to http://hungrysoftware.com/ and check out the SLUDGE resources. You know you want to, fool.\0"
+            VALUE "UPX on the WWW", "This SLUDGE executable has been compressed using the UPX executable packer. For more information, please visit the UPX website. It's at http://upx.sf.com/ and it's lovely.\0"
+        END
+    END
+END
