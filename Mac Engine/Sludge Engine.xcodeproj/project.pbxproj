@@ -182,9 +182,9 @@
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		2F2538240FFEB72800A12579 /* sludge.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; name = sludge.bmp; path = ../source/Engine/resources/sludge.bmp; sourceTree = SOURCE_ROOT; };
+		2F2538240FFEB72800A12579 /* sludge.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; name = sludge.bmp; path = ../resources/sludge.bmp; sourceTree = SOURCE_ROOT; };
 		2F3AB887100CF97C00CD6A13 /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; name = Credits.html; path = ../doc/Credits.html; sourceTree = SOURCE_ROOT; };
-		2F684E190FFEAF6700EED6FE /* gameicon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = gameicon.icns; path = ../source/Engine/resources/gameicon.icns; sourceTree = SOURCE_ROOT; };
+		2F684E190FFEAF6700EED6FE /* gameicon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = gameicon.icns; path = ../resources/gameicon.icns; sourceTree = SOURCE_ROOT; };
 		2F6E5C2F0E49FE33007408A4 /* libbass.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbass.dylib; path = "../bass24-osx/libbass.dylib"; sourceTree = SOURCE_ROOT; };
 		2F6E5C310E49FE55007408A4 /* bass.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = bass.h; path = "../bass24-osx/bass.h"; sourceTree = SOURCE_ROOT; };
 		2F6F29600FBEFE3C00BC6A67 /* OSXMain.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = OSXMain.h; sourceTree = "<group>"; };
@@ -267,7 +267,7 @@
 		2F7BFF5C0E33880C003F5DC3 /* WINSTUFF.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = WINSTUFF.H; path = ../source/Engine/WINSTUFF.H; sourceTree = SOURCE_ROOT; };
 		2F7BFF5D0E33880C003F5DC3 /* zbuffer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = zbuffer.h; path = ../source/Engine/zbuffer.h; sourceTree = SOURCE_ROOT; };
 		2F83725A0E5042FA00CC8352 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
-		2F9B3FBB0F557405003B4998 /* Sludge.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Sludge.icns; path = ../source/Engine/resources/Sludge.icns; sourceTree = SOURCE_ROOT; };
+		2F9B3FBB0F557405003B4998 /* Sludge.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Sludge.icns; path = ../resources/Sludge.icns; sourceTree = SOURCE_ROOT; };
 		2FA5507A0FF90CC4006A67ED /* Start.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Start.h; sourceTree = "<group>"; };
 		2FA5507B0FF90CC4006A67ED /* Start.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Start.m; sourceTree = "<group>"; };
 		2FA550860FF90E90006A67ED /* Startup.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = Startup.nib; sourceTree = "<group>"; };
