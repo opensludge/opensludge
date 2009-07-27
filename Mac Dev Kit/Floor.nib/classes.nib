@@ -1,0 +1,24 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = Floor; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {floorView = FloorOpenGLView; }; 
+            SUPERCLASS = NSDocument; 
+        }, 
+        {
+            CLASS = FloorDocument; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {floorView = FloorOpenGLView; }; 
+            SUPERCLASS = NSDocument; 
+        }, 
+        {
+            CLASS = FloorOpenGLView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {doc = id; }; 
+            SUPERCLASS = NSOpenGLView; 
+        }
+    ); 
+    IBVersion = 1; 
+}

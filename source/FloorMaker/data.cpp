@@ -6,7 +6,6 @@
 #define CLOSENESS 8
 
 extern int HORZ_RES, VERT_RES;
-polyList * firstPoly = NULL;
 
 // This is very naughty... prototype for a function in another file
 void alert (char * txt);
@@ -165,139 +164,12 @@ bool moveVertices (int x1, int y1, int x2, int y2) {
 	return true;
 }
 
-polyList * addPoly () {
-	polyList * newPoly = new polyList;
-	if (newPoly == NULL) return NULL;
-	newPoly -> next = firstPoly;
-	newPoly -> firstVertex = NULL;
-	firstPoly = newPoly;
-	return newPoly;
-}
 
-void noFloor () {
-	while (firstPoly) {
-		while (firstPoly -> firstVertex) {
-			vertexList * killMe = firstPoly -> firstVertex;
-			firstPoly -> firstVertex = killMe -> next;
-			delete killMe;
-		}
-		polyList * killPoly = firstPoly;
-		firstPoly = firstPoly -> next;
-		delete killPoly;
-	}
-	addPoly ();
-}
 
-bool polyIsComplete () {
-	if (firstPoly -> firstVertex == NULL) return false;
-	if (firstPoly -> firstVertex -> next == NULL) return false;
-	vertexList * newVertex = firstPoly -> firstVertex;
-	while (newVertex -> next) newVertex = newVertex -> next;
-	return firstPoly -> firstVertex -> x == newVertex -> x && firstPoly -> firstVertex -> y == newVertex -> y;
-}
 
-int addVertex (int x, int y) {
-
-	// Let's return 2 if the floor's complete...
-	if (polyIsComplete ()) return 2;
-	
-	// Let's return 3 if the chosen point is already used here...
-	vertexList * newVertex = firstPoly -> firstVertex;
-	while (newVertex) {
-		if (newVertex -> next && x == newVertex -> x && y == newVertex -> y) return 3;
-		newVertex = newVertex -> next;
-	}
-
-	// Let's return 0 if we can't create a new vertexLest thingy...
-	newVertex = new vertexList;
-	if (newVertex == NULL) return 0;
-	
-	// Wow! Now all we need to do is set the values and update the list!
-	newVertex -> x = x;
-	newVertex -> y = y;
-	newVertex -> next = firstPoly -> firstVertex;
-	firstPoly -> firstVertex = newVertex;
-	
-	// It worked, so...
-	return 1;
-}
 
 extern bool markVertices;
 
-void drawSoFar (unsigned short adder) {
-	polyList * pL = firstPoly;
-	vertexList * vL;
-	vertexList * drawnVertices = NULL;
-
-	while (pL) {
-		vL = pL -> firstVertex;
-		while (vL) {
-			
-			// Draw the line from here to the next point
-		
-			if (vL -> next) {
-				drawLine (vL -> x, vL -> y, vL -> next -> x, vL -> next -> y, adder);
-			}
-			
-			// Do we want to draw crosses at the corners?
-			
-			if (markVertices) {
-				vertexList * newV = drawnVertices;
-
-				while (newV) {
-					if (newV -> x == vL -> x && newV -> y == vL -> y) break;
-					newV = newV -> next;
-				}
-				
-				// We haven't drawn this cross already
-
-				if (! newV) {
-				
-					// Remember we've drawn it
-				
-					newV = new vertexList;
-					if (newV) {
-						newV -> next = drawnVertices;
-						drawnVertices = newV;
-						newV -> x = vL -> x;
-						newV -> y = vL -> y;
-					}
-					
-					// Draw it
-					
-					drawLine (vL -> x - 5, vL -> y - 5, vL -> x + 5, vL -> y + 5, adder);
-					drawLine (vL -> x + 5, vL -> y - 5, vL -> x - 5, vL -> y + 5, adder);
-				}
-			}
-			vL = vL -> next;
-		}
-		pL = pL -> next;
-	}
-	
-	if (! polyIsComplete () && firstPoly -> firstVertex) {
-		vL = firstPoly -> firstVertex;
-		int x = vL -> x;
-		int y = vL -> y;
-		drawLine (x - 5, y - 5, x + 5, y - 5, adder);
-		drawLine (x + 5, y - 5, x + 5, y + 5, adder);
-		drawLine (x + 5, y + 5, x - 5, y + 5, adder);
-		drawLine (x - 5, y + 5, x - 5, y - 5, adder);
-		
-		while (vL -> next) vL = vL -> next;
-		x = vL -> x;
-		y = vL -> y;
-		drawLine (x - 7, y, x, y - 7, adder);
-		drawLine (x, y - 7, x + 7, y, adder);
-		drawLine (x + 7, y, x, y + 7, adder);
-		drawLine (x, y + 7, x - 7, y, adder);
-	}
-
-	while (drawnVertices) {
-		vertexList * k = drawnVertices;
-		drawnVertices = drawnVertices -> next;
-		delete k;
-	}
-}
 
 bool saveToFile (char * filename) {
 	FILE * fp = fopen (filename, "wt");
@@ -321,74 +193,6 @@ bool saveToFile (char * filename) {
 	return true;
 }
 
-bool loadFromFile (char * name) {
-	bool adding = false;
-	int numGot = 0, gotX, firstX, firstY;
-
-	FILE * fp = fopen (name, "rb");
-	if (! fp) return false;
-	char c;
-	
-	noFloor ();
-	delete firstPoly;
-	firstPoly = NULL;
-
-	while (! feof (fp)) {
-
-		c = fgetc (fp);
-		if (feof (fp)) c = '\n';
-
-		switch (c) {
-			case '*':
-			adding = true;
-			firstX = -1;
-			addPoly ();
-			numGot = 0;
-			break;
-			
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			if (adding) numGot = numGot * 10 + (c - '0');
-			break;
-			
-			case ',':
-			if (adding) {
-				gotX = numGot;
-				numGot = 0;
-			}
-			break;
-			
-			case '\n':
-			case ';':
-			if (adding) {
-				addVertex (gotX, numGot);
-				if (firstX == -1) {
-					firstX = gotX;
-					firstY = numGot;
-				}
-				if (c == '\n') {
-					addVertex (firstX, firstY);
-					adding = false;
-				}
-				numGot = 0;
-			}
-			break;
-			
-			default:
-			break;
-		}
-	}
-	fclose (fp);
-	return true;
-}
 
 void splitPoly (int x1, int y1, int x2, int y2) {
 
