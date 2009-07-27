@@ -192,15 +192,18 @@ NSModalSession session = nil;
 - (void) setText:(const char*) tx
 			here:(int) where {
 	
+	NSString *s = [NSString stringWithUTF8String: tx];
+	if (!s) return;
+	
 	switch (where) {
 		case COM_PROGTEXT:
-			[compTask setStringValue:[NSString stringWithUTF8String: tx]];
+			[compTask setStringValue:s];
 			break;
 		case COM_FILENAME:
-			[compFile setStringValue:[NSString stringWithUTF8String: tx]];
+			[compFile setStringValue:s];
 			break;
 		case COM_ITEMTEXT:
-			[compItem setStringValue:[NSString stringWithUTF8String: tx]];
+			[compItem setStringValue:s];
 			break;
 	}
 }

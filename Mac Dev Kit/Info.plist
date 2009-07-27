@@ -9,18 +9,32 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
-				<string>slp</string>
+				<string>zbu</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>ProjIcon.icns</string>
+			<string>zIcon.icns</string>
 			<key>CFBundleTypeName</key>
-			<string>SLUDGE Project file</string>
+			<string>SLUDGE zBuffer</string>
 			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
+			<string>None</string>
 			<key>LSTypeIsPackage</key>
 			<false/>
-			<key>NSDocumentClass</key>
-			<string>ProjectDocument</string>
+			<key>NSPersistentStoreTypeKey</key>
+			<string>Binary</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>slu</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>scriptIcon.icns</string>
+			<key>CFBundleTypeName</key>
+			<string>SLUDGE Script</string>
+			<key>CFBundleTypeRole</key>
+			<string>None</string>
+			<key>LSTypeIsPackage</key>
+			<false/>
 			<key>NSPersistentStoreTypeKey</key>
 			<string>Binary</string>
 		</dict>
@@ -59,6 +73,40 @@
 			<key>NSPersistentStoreTypeKey</key>
 			<string>Binary</string>
 		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>slp</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>ProjIcon.icns</string>
+			<key>CFBundleTypeName</key>
+			<string>SLUDGE Project file</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSTypeIsPackage</key>
+			<false/>
+			<key>NSDocumentClass</key>
+			<string>ProjectDocument</string>
+			<key>NSPersistentStoreTypeKey</key>
+			<string>Binary</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>flo</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>floorIcon.icns</string>
+			<key>CFBundleTypeName</key>
+			<string>SLUDGE Floor</string>
+			<key>CFBundleTypeRole</key>
+			<string>None</string>
+			<key>LSTypeIsPackage</key>
+			<false/>
+			<key>NSPersistentStoreTypeKey</key>
+			<string>Binary</string>
+		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
@@ -67,7 +115,7 @@
 	<key>CFBundleHelpBookName</key>
 	<string>SLUDGE Dev Kit Help</string>
 	<key>CFBundleIconFile</key>
-	<string>icon.icns</string>
+	<string>Compiler</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.hungrysoftware.SludgeDevKit</string>
 	<key>CFBundleInfoDictionaryVersion</key>

@@ -87,6 +87,7 @@ bool dumpFiles (FILE * mainFile, stringArray * & theSA) {
 	
 	bool killAfterAdd;
 	while (theSA) {
+		fprintf (stderr, "%s\n", theSA -> string);
 		setCompilerText (COM_FILENAME, theSA -> string);
 		
 		killAfterAdd = false;
@@ -117,7 +118,9 @@ bool dumpFiles (FILE * mainFile, stringArray * & theSA) {
 			}
 			
 			inFile = fopen (theSA -> string, "rb");
-			if (inFile == NULL) return addComment (ERRORTYPE_PROJECTERROR, "Can't read resource file", theSA -> string, NULL);
+			if (inFile == NULL) {
+				return addComment (ERRORTYPE_PROJECTERROR, "Can't read resource file", theSA -> string, NULL);
+			}
 			fseek (inFile, 0, 2);
 			filesize = ftell (inFile);
 			fseek (inFile, 0, 0);

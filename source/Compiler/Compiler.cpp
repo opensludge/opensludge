@@ -379,6 +379,7 @@ void compileEverything (char * project) {
 	destroyAll (typeDefFrom);
 	destroyAll (allKnownFlags);
 	destroyAll (allSourceStrings);
+	destroyAll (allFileHandles);
 	
 	killTempDir();
 }
