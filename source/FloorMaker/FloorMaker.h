@@ -23,6 +23,7 @@ struct polyList {
 };
 
 bool loadFloorFromFile (char * name, struct polyList **firstPoly);
+bool saveFloorToFile (char * filename, struct polyList *firstPoly);
 
 void noFloor (struct polyList **firstPoly);
 struct polyList * addPoly (struct polyList *firstPoly);

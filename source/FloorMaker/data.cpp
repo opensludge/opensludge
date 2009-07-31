@@ -1,14 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "data.h"
-#include "line.h"
 
 #define CLOSENESS 8
-
-extern int HORZ_RES, VERT_RES;
-
-// This is very naughty... prototype for a function in another file
-void alert (char * txt);
 
 void splitLine (int x1, int y1, int x2, int y2) {
 	polyList * pL = firstPoly;
@@ -37,8 +31,6 @@ bool snapToClosest (int & x, int & y) {
 	polyList * pL =  firstPoly;
 	if (x < 4) x = 0;
 	if (y < 4) y = 0;
-	if (x > HORZ_RES - 5) x = HORZ_RES - 1;
-	if (y > VERT_RES - 5) y = VERT_RES - 1;
 	while (pL) {
 		vertexList * vL = pL -> firstVertex;
 		while (vL) {
@@ -163,36 +155,6 @@ bool moveVertices (int x1, int y1, int x2, int y2) {
 	}
 	return true;
 }
-
-
-
-
-
-extern bool markVertices;
-
-
-bool saveToFile (char * filename) {
-	FILE * fp = fopen (filename, "wt");
-	if (! fp) {
-		alert ("Can't open file for writing");
-		return false;
-	}
-	polyList * pL =  firstPoly;
-	while (pL) {
-		vertexList * vL = pL -> firstVertex;
-		if (vL) {
-			fprintf (fp, "* ");
-			while (vL -> next) {
-				fprintf (fp, "%i, %i%s", vL -> x, vL -> y, vL -> next -> next ? "; " : "\n");
-				vL = vL -> next;
-			}
-		}
-		pL = pL -> next;
-	}
-	fclose (fp);
-	return true;
-}
-
 
 void splitPoly (int x1, int y1, int x2, int y2) {
 

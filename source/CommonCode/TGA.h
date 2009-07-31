@@ -20,6 +20,11 @@ struct palCol
 	unsigned char r,g,b;
 };
 
+void grabRGBCompressed (FILE * fp, int bpc, unsigned char & r2, unsigned char & g2, unsigned char & b2, palCol thePalette[]);
+void grabRGB (FILE * fp, int bpc, unsigned char & r, unsigned char & g, unsigned char & b, palCol thePalette[]);
+void grabRGBACompressed (FILE * fp, int bpc, unsigned char & r2, unsigned char & g2, unsigned char & b2, unsigned char & a2, palCol thePalette[]);
+void grabRGBA (FILE * fp, int bpc, unsigned char & r, unsigned char & g, unsigned char & b,unsigned char & a, palCol thePalette[]);
+
 unsigned short int makeColour (unsigned char r, unsigned char g, unsigned char b);
 unsigned short readAColour (FILE * fp, int bpc, palCol thePalette[], int x, int y);
 unsigned short readCompressedColour (FILE * fp, int bpc, palCol thePalette[], int x, int y);

@@ -31,6 +31,13 @@
 	
 	IBOutlet SpriteOpenGLView *spriteView;
 	IBOutlet NSSlider *spriteIndexSlider;
+	
+	IBOutlet NSMatrix *palMode;
+	
+	IBOutlet NSButton *insertButton;
+	IBOutlet NSButton *deleteButton;
+	IBOutlet NSButton *exportButton;
+	IBOutlet NSButton *replaceButton;
 				
 	struct spriteBank sprites;
 	
@@ -40,6 +47,14 @@
 
 - (IBAction)hotSpotCentre:(id)sender;
 - (IBAction)hotSpotBase:(id)sender;
+
+- (IBAction)setModePalOpen:(id)sender;
+- (IBAction)setModePalClosed:(id)sender;
+- (IBAction)setModePalNone:(id)sender;
+- (IBAction)insertSprite:(id)sender;
+- (IBAction)replaceSprite:(id)sender;
+- (IBAction)deleteSprite:(id)sender;
+- (IBAction)exportSprite:(id)sender;
 
 @end
 

@@ -1,38 +1,10 @@
-#import "AppController.h"
-
-//#include "Compiler.hpp"
-#include "Settings.h"
-
-#import <sys/param.h> /* for MAXPATHLEN */
 #import <unistd.h>
 
+#import "AppController.h"
+
+#include "Settings.h"
 #import "SpriteBank.h"
 #import "ProjectDocument.h"
-
-
-extern bool changed;
-
-static NSString *getApplicationName(void)
-{
-    NSDictionary *dict;
-    NSString *appName = 0;
-
-    /* Determine the application name */
-    dict = (NSDictionary *)CFBundleGetInfoDictionary(CFBundleGetMainBundle());
-    if (dict)
-        appName = [dict objectForKey: @"CFBundleName"];
-    
-    if (![appName length])
-        appName = [[NSProcessInfo processInfo] processName];
-
-    return appName;
-}
-
-/* A helper category for NSString */
-@interface NSString (ReplaceSubString)
-- (NSString *)stringByReplacingRange:(NSRange)aRange with:(NSString *)aString;
-@end
-
 
 AppController *aC;
 
@@ -95,10 +67,19 @@ AppController *aC;
 {
 	NSDocumentController *docControl = [NSDocumentController sharedDocumentController];
 	NSError **err;
-	NSDocument *spriteDoc = [docControl makeUntitledDocumentOfType:@"SLUDGE Sprite Bank" error:err];
-	[docControl addDocument: spriteDoc];
-	[spriteDoc makeWindowControllers];
-	[spriteDoc showWindows];
+	NSDocument *doc = [docControl makeUntitledDocumentOfType:@"SLUDGE Sprite Bank" error:err];
+	[docControl addDocument: doc];
+	[doc makeWindowControllers];
+	[doc showWindows];
+}
+- (IBAction)floorNew:(id)sender
+{
+	NSDocumentController *docControl = [NSDocumentController sharedDocumentController];
+	NSError **err;
+	NSDocument *doc = [docControl makeUntitledDocumentOfType:@"SLUDGE Floor" error:err];
+	[docControl addDocument: doc];
+	[doc makeWindowControllers];
+	[doc showWindows];
 }
 
 - (IBAction)compileMenu:(id)sender
@@ -182,26 +163,6 @@ bail: return err;
 }
 
 
-/* Set the working directory to the .app's parent directory */
-- (void) setupWorkingDirectory:(bool)shouldChdir
-{
-    if (shouldChdir)
-    {
-        char parentdir[MAXPATHLEN];
-		CFURLRef url = CFBundleCopyBundleURL(CFBundleGetMainBundle());
-		CFURLRef url2 = CFURLCreateCopyDeletingLastPathComponent(0, url);
-		if (CFURLGetFileSystemRepresentation(url2, true, (UInt8 *)parentdir, MAXPATHLEN)) {
-	        assert ( chdir (parentdir) == 0 );   /* chdir to the binary app's parent */
-		}
-		CFRelease(url);
-		CFRelease(url2);
-	}
-
-}
-
-
-
-
 /* Called when the internal event loop has just started running */
 - (void) applicationDidFinishLaunching: (NSNotification *) note
 {
@@ -227,60 +188,10 @@ bail: return err;
 
 @end
 
-
-void updateFileListing() {
-//	[aC updateFileListing];
-}
-
-
-void updateTitle () {
-}
-
-
 const char * getTempDir () {
 	return [NSTemporaryDirectory() UTF8String];
 }
 
-
-
-@implementation NSString (ReplaceSubString)
-
-- (NSString *)stringByReplacingRange:(NSRange)aRange with:(NSString *)aString
-{
-    unsigned int bufferSize;
-    unsigned int selfLen = [self length];
-    unsigned int aStringLen = [aString length];
-    unichar *buffer;
-    NSRange localRange;
-    NSString *result;
-
-    bufferSize = selfLen + aStringLen - aRange.length;
-    buffer = NSAllocateMemoryPages(bufferSize*sizeof(unichar));
-    
-    /* Get first part into buffer */
-    localRange.location = 0;
-    localRange.length = aRange.location;
-    [self getCharacters:buffer range:localRange];
-    
-    /* Get middle part into buffer */
-    localRange.location = 0;
-    localRange.length = aStringLen;
-    [aString getCharacters:(buffer+aRange.location) range:localRange];
-     
-    /* Get last part into buffer */
-    localRange.location = aRange.location + aRange.length;
-    localRange.length = selfLen - localRange.location;
-    [self getCharacters:(buffer+aRange.location+aStringLen) range:localRange];
-    
-    /* Build output string */
-    result = [NSString stringWithCharacters:buffer length:bufferSize];
-    
-    NSDeallocateMemoryPages(buffer, bufferSize);
-    
-    return result;
-}
-
-@end
 
 bool errorBox (const char * head, const char * msg) {
 	NSRunAlertPanel ([NSString stringWithUTF8String: head], [NSString stringWithUTF8String: msg], NULL, NULL, NULL);

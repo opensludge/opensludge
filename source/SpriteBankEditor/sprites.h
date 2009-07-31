@@ -32,26 +32,29 @@ struct spritePalette {
 
 struct spriteBank {
 	int total;
+	int type;
 	struct sprite * sprites;
 	struct spritePalette myPalette;
 	bool isFont;
 };
 
+bool reserveSpritePal (struct spritePalette * sP, int n);
 void forgetSpriteBank ();
 bool loadSpriteBank (unsigned char * file, struct spriteBank * loadhere);
 bool loadSpriteTextures (struct spriteBank *loadhere);
 bool saveSpriteBank (const char * filename, struct spriteBank *sprites);
 
+void addSprite (int i, struct spriteBank *sprites);
+void deleteSprite (int i, struct spriteBank *sprites);
+
+bool loadSpriteFromTGA (char * file, struct spriteBank *sprites, int index);
+
 void paintPal (HWND h);
 void sortColours (HWND h);
 void optimizePalette ();
 void insertSprite (int);
-void deleteSprite (int);
-bool loadSpriteFromTGA (char * file, int);
 bool saveSpriteToTGA (char * file, int);
 bool trimSprite (int);
-void spriteFit (int);
-void initSpriteBank ();
 
 void pasteSprite (struct sprite * single, const struct spritePalette * fontPal, bool showBox);
 

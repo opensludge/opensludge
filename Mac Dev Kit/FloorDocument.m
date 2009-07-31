@@ -34,7 +34,6 @@
 - (void)windowControllerDidLoadNib:(NSWindowController *) aController
 {
     [super windowControllerDidLoadNib:aController];
-    // Add any code here that needs to be executed once the windowController has loaded the document's window.
 	[floorView connectToDoc: self];
 }
 
@@ -58,16 +57,14 @@
 			ofType:(NSString *)typeName 
 			 error:(NSError **)outError
 {
-	/*
 	if ([typeName isEqualToString:@"SLUDGE Floor"]) {		
 		UInt8 buffer[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
-			if (saveSpriteBank ((char *) buffer, &sprites)) {
+			if (saveFloorToFile ((char *) buffer, firstPoly)) {
 				return YES;
 			}
 		}
 	} 
-	*/
 	*outError = [NSError errorWithDomain:@"Error" code:1 userInfo:nil];
 	return NO;
 }

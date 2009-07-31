@@ -147,6 +147,8 @@ void drawFloor (struct polyList * floor) {
 	struct vertexList * vL;
 	struct vertexList * drawnVertices = NULL;
 	
+	if (! floor) return;
+	
 	while (pL) {
 		vL = pL -> firstVertex;
 		while (vL) {
@@ -227,5 +229,28 @@ void drawFloor (struct polyList * floor) {
 		drawnVertices = drawnVertices -> next;
 		delete k;
 	}
+}
+
+
+bool saveFloorToFile (char * filename, struct polyList *firstPoly) {
+	FILE * fp = fopen (filename, "wt");
+	if (! fp) {
+//		alert ("Can't open file for writing");
+		return false;
+	}
+	polyList * pL =  firstPoly;
+	while (pL) {
+		vertexList * vL = pL -> firstVertex;
+		if (vL) {
+			fprintf (fp, "* ");
+			while (vL -> next) {
+				fprintf (fp, "%i, %i%s", vL -> x, vL -> y, vL -> next -> next ? "; " : "\n");
+				vL = vL -> next;
+			}
+		}
+		pL = pL -> next;
+	}
+	fclose (fp);
+	return true;
 }
 

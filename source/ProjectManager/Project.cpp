@@ -18,8 +18,6 @@
 #include "Project.hpp"
 #include "Interface.h"
 
-bool changed = false;
-
 char *fileList[1000];
 int fileListNum = 0;
 
@@ -31,7 +29,6 @@ void clearFileList() {
 		i++;
 	}
 	fileListNum = 0;
-	updateFileListing();
 }
 
 // Feed this with relative paths for best cross-platform (and cross-computer!) results.
@@ -40,17 +37,10 @@ void addFileToList (char * file) {
 	if (! fileList[fileListNum]) return;
 	strcpy (fileList[fileListNum], file);
 	fileListNum++;
-	updateFileListing();
 }
 
 char * getFileFromList (int index) {
 	return fileList[index];
-}
-
-
-void setChanged (bool newVal) {
-	changed = newVal;
-	updateTitle ();
 }
 
 bool loadProject (const char * filename) {
@@ -81,7 +71,6 @@ bool loadProject (const char * filename) {
 	}
 	
 	fclose (fp);
-	setChanged (false);
 	return true;
 }
 
@@ -105,13 +94,11 @@ bool saveProject (const char * filename) {
 	
 	fclose (fp);
 	
-	setChanged (false);
 	return true;
 }
 
 void closeProject () {
 	clearFileList();
-	updateTitle ();
 }
 
 void doNewProject (const char * filename) {

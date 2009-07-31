@@ -19,6 +19,7 @@
 - (IBAction)projectPrefsMenu:(id)sender;
 
 - (IBAction)spriteBankNew:(id)sender;
+- (IBAction)floorNew:(id)sender;
 
 - (IBAction)prefKeepImagesClick:(id)sender;
 - (IBAction)prefWriteStringsClick:(id)sender;

@@ -24,6 +24,50 @@ bool dither24bitImages = 0;
 
 char ditherArray[4][4] = {{4,12,6,14},{10,0,8,2},{7,15,5,13},{9,3,11,1}};
 
+void grabRGBA (FILE * fp, int bpc, unsigned char & r, unsigned char & g, unsigned char & b, unsigned char & a, palCol thePalette[])
+{
+	int grabbed1, grabbed2;
+	switch (bpc) {
+		case 8:
+			grabbed1 = fgetc (fp);
+			r = thePalette[grabbed1].r;
+			g = thePalette[grabbed1].g;
+			b = thePalette[grabbed1].b;
+			if (r == 255 && g == 0 && b == 255) {
+				r = g = b = a = 0;
+			} else a = 255;
+			break;
+			
+		case 16:
+			grabbed1 = fgetc (fp);
+			grabbed2 = fgetc (fp);
+			r = ((grabbed2 & 127) << 1),
+				g = ((grabbed1 & 224) >> 2) + (grabbed2 << 6);
+			b = ((grabbed1 & 31) << 3);
+			if (r == 255 && g == 0 && b == 255) {
+				r = g = b = a = 0;
+			} else a = 255;
+			break;
+			
+		case 24:
+			b = fgetc (fp);
+			g = fgetc (fp);
+			r = fgetc (fp);
+			if (r == 255 && g == 0 && b == 255) {
+				r = g = b = a = 0;
+			} else a = 255;
+			break;
+			
+		case 32:
+			b = fgetc (fp);
+			g = fgetc (fp);
+			r = fgetc (fp);
+			a = fgetc (fp);
+			break;		
+	}
+}
+
+
 void grabRGB (FILE * fp, int bpc, unsigned char & r, unsigned char & g, unsigned char & b, palCol thePalette[])
 {
 	int grabbed1, grabbed2;
@@ -58,6 +102,78 @@ void grabRGB (FILE * fp, int bpc, unsigned char & r, unsigned char & g, unsigned
 	}
 }
 
+void grabRGBACompressed (FILE * fp, int bpc, unsigned char & r2, unsigned char & g2, unsigned char & b2, unsigned char & a2, palCol thePalette[]) {
+	static unsigned char r, g, b, a;
+	static bool oneCol;
+	unsigned short col;
+	
+	// Do we have to start a new packet?
+	if (countDown == 0) {
+		
+		// Read the packet description thingy
+		col = fgetc (fp);
+		
+		// Is it raw data?
+		if (col >= 128) {
+			oneCol = true;
+			countDown = col - 127;
+			grabRGBA (fp, bpc, r, g, b, a, thePalette);
+			//			fprintf (debugFile, "  %d raw colours...\n", countDown);
+		} else {
+			oneCol = false;
+			countDown = col + 1;
+			//			fprintf (debugFile, "  %d pixels the same colour...\n", countDown);
+		}
+	}
+	
+	countDown --;
+	
+	if (! oneCol) {
+		grabRGBA (fp, bpc, r2, g2, b2, a2, thePalette);
+	} else {
+		r2 = r;
+		g2 = g;
+		b2 = b;
+		a2 = a;
+	}
+}
+
+
+void grabRGBCompressed (FILE * fp, int bpc, unsigned char & r2, unsigned char & g2, unsigned char & b2, palCol thePalette[]) {
+	static unsigned char r, g, b;
+	static bool oneCol;
+	unsigned short col;
+	
+	// Do we have to start a new packet?
+	if (countDown == 0) {
+		
+		// Read the packet description thingy
+		col = fgetc (fp);
+		
+		// Is it raw data?
+		if (col >= 128) {
+			oneCol = true;
+			countDown = col - 127;
+			grabRGB (fp, bpc, r, g, b, thePalette);
+			//			fprintf (debugFile, "  %d raw colours...\n", countDown);
+		} else {
+			oneCol = false;
+			countDown = col + 1;
+			//			fprintf (debugFile, "  %d pixels the same colour...\n", countDown);
+		}
+	}
+	
+	countDown --;
+	
+	if (! oneCol) {
+		grabRGB (fp, bpc, r2, g2, b2, thePalette);
+	} else {
+		r2 = r;
+		g2 = g;
+		b2 = b;
+	}
+}
+
 void addDither (unsigned char & col, const unsigned char add)
 {
 	int tot = col;
@@ -80,48 +196,17 @@ unsigned short readAColour (FILE * fp, int bpc, palCol thePalette[], int x, int 
 }
 
 unsigned short readCompressedColour (FILE * fp, int bpc, palCol thePalette[], int x, int y) {
-	static unsigned char r, g, b;
-	unsigned char r2, g2, b2;
-	static bool oneCol;
-	unsigned short col;
+	unsigned char r,g,b;
+	grabRGBCompressed (fp, bpc, r, g, b, thePalette);
 	
-	// Do we have to start a new packet?
-	if (countDown == 0) {
-			
-		// Read the packet description thingy
-		col = fgetc (fp);
-				
-		// Is it raw data?
-		if (col >= 128) {
-			oneCol = true;
-			countDown = col - 127;
-			grabRGB (fp, bpc, r, g, b, thePalette);
-//			fprintf (debugFile, "  %d raw colours...\n", countDown);
-		} else {
-			oneCol = false;
-			countDown = col + 1;
-//			fprintf (debugFile, "  %d pixels the same colour...\n", countDown);
-		}
-	}
-
-	countDown --;
-
-	if (! oneCol) {
-		grabRGB (fp, bpc, r2, g2, b2, thePalette);
-	} else {
-		r2 = r;
-		g2 = g;
-		b2 = b;
-	}
-
 	if (dither24bitImages)
 	{
-		addDither (r2, ditherArray[x&3][y&3]);
-		addDither (g2, ditherArray[x&3][y&3] / 2);
-		addDither (b2, ditherArray[x&3][y&3]);
+		addDither (r, ditherArray[x&3][y&3]);
+		addDither (g, ditherArray[x&3][y&3] / 2);
+		addDither (b, ditherArray[x&3][y&3]);
 	}
-
-	return makeColour (r2, g2, b2);
+	
+	return makeColour (r, g, b);
 }
 
 char * readTGAHeader (TGAHeader & h, FILE * fp, palCol thePalette[]) {

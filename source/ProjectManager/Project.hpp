@@ -15,8 +15,6 @@ void addFileToList();
 extern int fileListNum;
 char * getFileFromList (int index);	
 	
-void setChanged (bool newVal);
-
 bool loadProject (const char * filename);
 bool saveProject (const char * filename);
 void closeProject ();

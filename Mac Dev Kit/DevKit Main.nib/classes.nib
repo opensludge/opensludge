@@ -3,6 +3,7 @@
         {
             ACTIONS = {
                 compileMenu = id; 
+                floorNew = id; 
                 helpMenu = id; 
                 menuOpen = id; 
                 newProject = id; 

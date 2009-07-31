@@ -5,26 +5,27 @@
 #include "TGA.h"
 #include "Sprites.h"
 #include "MoreIO.h"
+#include "MessBox.h"
 
 void forgetSpriteBank (spriteBank & forgetme) {
 	unsigned int index;
-
-	glDeleteTextures (forgetme.myPalette.numTextures, forgetme.myPalette.tex_names);
-	if (forgetme.isFont) glDeleteTextures (forgetme.myPalette.numTextures, forgetme.myPalette.burnTex_names);
 	
 	for (index = 0; index < forgetme.total; index ++) {
 		delete forgetme.sprites[index].data;
+		glDeleteTextures (1, &forgetme.myPalette.tex_names[index]);
 	}
 	delete forgetme.sprites;
 }
 
-bool reserveSpritePal (spritePalette & sP, int n) {
-	sP.pal = new unsigned short int [n];
-	sP.r = new unsigned char [n];
-	sP.g = new unsigned char [n];
-	sP.b = new unsigned char [n];
-	sP.total = n;
-	return (bool) (sP.pal != NULL) && (sP.r != NULL) && (sP.g != NULL) && (sP.b != NULL);
+bool reserveSpritePal (spritePalette * sP, int n) {
+	if (! sP->pal) {
+		sP->pal = new unsigned short int [256];
+		sP->r = new unsigned char [256];
+		sP->g = new unsigned char [256];
+		sP->b = new unsigned char [256];
+	}
+	sP->total = n;
+	return (bool) (sP->pal != NULL) && (sP->r != NULL) && (sP->g != NULL) && (sP->b != NULL);
 }
 
 
@@ -38,9 +39,18 @@ bool saveSpriteBank (const char * filename, spriteBank *sprites) {
 		return false;
 	}
 	
-	// This is version 2 of the DUC format
-	put2bytes(0, fp);
-	fputc (2, fp);
+	if (sprites->type < 2) {
+		// This is version 2 of the DUC format
+		put2bytes(0, fp);
+		fputc (2, fp);
+	} else {
+		// This is version 3 of the DUC format - in 32-bit glory!
+		put2bytes(0, fp);
+		fputc (3, fp);		
+		errorBox ("Saving error", "32-bit format not yet fully supported. Sorry.");
+		fclose(fp);
+		return false;
+	}
 	
 	put2bytes (sprites->total, fp);
 	
@@ -57,7 +67,7 @@ bool saveSpriteBank (const char * filename, spriteBank *sprites) {
 		unsigned char * data = sprites->sprites[i].data;
 		unsigned char * lookPointer;
 		unsigned int size = sprites->sprites[i].width * sprites->sprites[i].height;
-		fprintf (stderr, "Saving size %d\n", size);
+
 		int lookAhead;
 		int x = 0;
 		while (x < size) {
@@ -116,10 +126,12 @@ bool loadSpriteBank (unsigned char * file, spriteBank *loadhere) {
 			total = get2bytes(&file);
 		}
 	}
-	
+		
 	if (loadSaveMode > 2) return false;//fatal ("Unsupported sprite bank file format");
 		if (total <= 0) return false;//fatal ("No sprites in bank or invalid sprite bank file");
 
+	loadhere->type = 0;
+			
 	loadhere->total = total;
 	loadhere->sprites = new sprite [total];
 	//if (! checkNew (loadhere->sprites)) return false;
@@ -172,7 +184,6 @@ bool loadSpriteBank (unsigned char * file, spriteBank *loadhere) {
 			{
 				unsigned size = picwidth * picheight;
 				unsigned pip = 0;
-				fprintf (stderr, "Loading size %d\n", size);
 				
 				while (pip < size) {
 					unsigned char col = *file++;
@@ -203,7 +214,7 @@ bool loadSpriteBank (unsigned char * file, spriteBank *loadhere) {
 		startIndex = *file++;
 	}
 
-	if (! reserveSpritePal (loadhere->myPalette, howmany + startIndex)) return false;
+	if (! reserveSpritePal (&loadhere->myPalette, howmany + startIndex)) return false;
 
 	for (i = 0; i < howmany; i ++) {
 		loadhere->myPalette.r[i + startIndex] = (unsigned char) *file++;
@@ -245,7 +256,6 @@ bool loadSpriteTextures (spriteBank *loadhere) {
 				}
 			}
 		}
-		//delete loadhere->sprites[i].data;
 		
 		loadhere->sprites[i].texNum = i;
 	
@@ -261,9 +271,263 @@ bool loadSpriteTextures (spriteBank *loadhere) {
 	return true;
 }
 
+bool loadSpriteTexture (spriteBank *loadhere, int index) {
+	int fromhere;
+	unsigned char s;
+	
+	glPixelStorei (GL_UNPACK_ALIGNMENT, 1);	
+	GLubyte tmp[loadhere->sprites[index].width*loadhere->sprites[index].height*4];		
+	
+	if (loadhere->type < 2) {
+		fromhere = 0;
+		for (int y = 0; y < loadhere->sprites[index].height; y ++) {
+			for (int x = 0; x < loadhere->sprites[index].width; x ++) {
+				GLubyte * target = tmp + 4*loadhere->sprites[index].width*y + x*4;
+				s = loadhere->sprites[index].data[fromhere++];
+				if (s) {
+					target[0] = (GLubyte) loadhere->myPalette.r[s];
+					target[1] = (GLubyte) loadhere->myPalette.g[s];
+					target[2] = (GLubyte) loadhere->myPalette.b[s];
+					target[3] = (GLubyte) 255;
+				} else {
+					target[0] = (GLubyte) 0;
+					target[1] = (GLubyte) 0;
+					target[2] = (GLubyte) 0;
+					target[3] = (GLubyte) 0;
+				}
+			}
+		}
+		
+		glBindTexture (GL_TEXTURE_2D, loadhere->myPalette.tex_names[loadhere->sprites[index].texNum]);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, loadhere->sprites[index].width, loadhere->sprites[index].height, 0, GL_RGBA, GL_UNSIGNED_BYTE, tmp);
+	} else {
+		glBindTexture (GL_TEXTURE_2D, loadhere->myPalette.tex_names[loadhere->sprites[index].texNum]);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, loadhere->sprites[index].width, loadhere->sprites[index].height, 0, GL_RGBA, GL_UNSIGNED_BYTE, loadhere->sprites[index].data);
+		
+	}
+		
+	return true;
+}
+
+void addSprite (int i, struct spriteBank *sprites) {
+	sprite * newsprites = new sprite [sprites->total+1];
+	
+	int i1 = sprites->total-1, i2 = sprites->total;
+	if (i == sprites->total) {
+		newsprites [i2].width = 0;
+		newsprites [i2].height = 0;
+		newsprites [i2].xhot = 0;
+		newsprites [i2].yhot = 0;
+		newsprites [i2].tex_x = 0;
+		newsprites [i2].texNum = i2;
+		newsprites [i2].data = NULL;
+		sprites->myPalette.tex_names[i2] = 0;
+		glGenTextures (1, &sprites->myPalette.tex_names[i2]);
+		i2--;
+	}
+	while (i1 >= 0 ) {
+		newsprites [i2].width = sprites->sprites[i1].width;
+		newsprites [i2].height = sprites->sprites[i1].height;
+		newsprites [i2].xhot = sprites->sprites[i1].xhot;
+		newsprites [i2].yhot = sprites->sprites[i1].yhot;
+		newsprites [i2].tex_x = sprites->sprites[i1].tex_x;
+		newsprites [i2].texNum = i2;
+		newsprites [i2].data = sprites->sprites[i1].data;
+		sprites->myPalette.tex_names[i2] = sprites->myPalette.tex_names[i1];
+		i2--;
+		if (i1 == i) {
+			newsprites [i2].width = 0;
+			newsprites [i2].height = 0;
+			newsprites [i2].xhot = 0;
+			newsprites [i2].yhot = 0;
+			newsprites [i2].tex_x = 0;
+			newsprites [i2].texNum = i2;
+			newsprites [i2].data = NULL;
+			sprites->myPalette.tex_names[i2] = 0;
+			glGenTextures (1, &sprites->myPalette.tex_names[i2]);
+			i2--;
+		}
+		i1--;
+	}
+	delete sprites->sprites;
+	sprites->sprites = newsprites;
+	sprites->total++;
+}
+
+
+void deleteSprite (int i, struct spriteBank *sprites) {
+	if (! sprites->total) return;
+	if (i >= sprites->total) return;
+	
+	sprite * newsprites = new sprite [sprites->total-1];
+	
+	int i1 = 0, i2 = 0;
+	while (i1 < sprites->total) {
+		if (i1 != i) {
+			newsprites [i2].width = sprites->sprites[i1].width;
+			newsprites [i2].height = sprites->sprites[i1].height;
+			newsprites [i2].xhot = sprites->sprites[i1].xhot;
+			newsprites [i2].yhot = sprites->sprites[i1].yhot;
+			newsprites [i2].tex_x = sprites->sprites[i1].tex_x;
+			newsprites [i2].texNum = i2;//sprites->sprites[i1].texNum;
+			newsprites [i2].data = sprites->sprites[i1].data;
+			sprites->myPalette.tex_names[i2] = sprites->myPalette.tex_names[i1];
+			i2++;
+		} else {
+			if (sprites->sprites[i1].data) {
+				delete sprites->sprites[i1].data;
+				glDeleteTextures(1, (const GLuint*) &sprites->myPalette.tex_names[i1]);
+			}
+		}
+		i1++;
+	}
+	delete sprites->sprites;
+	sprites->sprites = newsprites;
+	sprites->total--;
+}
+
+unsigned char findClosestPal (spritePalette *searchIn, unsigned char r, unsigned char g, unsigned char b) {
+	if (r == 255 && g == 0 && b == 255) return 0;
+	
+	unsigned char ret = 0;
+	int diff = 200000, diff1;
+	for (int i=1; i < searchIn->total; i++) {
+		diff1 = (searchIn->r[i]-r)*(searchIn->r[i]-r) + (searchIn->g[i]-g)*(searchIn->g[i]-g) + (searchIn->b[i]-b)*(searchIn->b[i]-b);
+		if (! diff1) return i;
+		if (diff1 < diff) {
+			ret = i;
+			diff = diff1;
+		}
+	}
+	return ret;
+}
+
+int findOrAddPal (spritePalette *searchIn, unsigned char r, unsigned char g, unsigned char b) {
+	if (r == 255 && g == 0 && b == 255) return 0;
+	
+	int i;
+	for (i=1; i < searchIn->total; i++) {
+		if (!(searchIn->r[i]-r) && !(searchIn->g[i]-g) && !(searchIn->b[i]-b)) return i;
+	}
+	if (i < 255) {
+		searchIn->total++;
+		searchIn->r[i]=r;
+		searchIn->g[i]=g;
+		searchIn->b[i]=b;
+		return i;
+	}
+	return -1;
+}
+
+
+bool loadSpriteFromTGA (char * file, struct spriteBank *sprites, int index)
+{
+	palCol thePalette[256];
+
+	// Open the file	
+	FILE * fp = fopen (file, "rb");
+	if (fp == NULL) {
+		errorBox ("Can't open TGA file", "The file can't be opened. I don't know why.");
+		return false;
+	}
+		
+	// Grab the header
+	TGAHeader imageHeader;
+	char * errorBack;
+	errorBack = readTGAHeader (imageHeader, fp, thePalette);
+	if (errorBack) {
+		fclose (fp);
+		errorBox ("Can't open TGA file", errorBack);
+		return false;		
+	}
+	fprintf (stderr, "Compressed: %d\n", imageHeader.compressed);
+	fprintf (stderr, "Pixel depth: %d\n", imageHeader.pixelDepth);
+	fprintf (stderr, "Palette: %d\n", imageHeader.numPalColours);
+	
+	unsigned char *data;
+		
+	if (sprites->type < 2) {
+		
+		data = new unsigned char[imageHeader.height * imageHeader.width];
+		if (! data) {
+			fclose (fp);
+			errorBox ("Can't create sprite", "Out of memory.");
+			return false;		
+		}
+		
+		unsigned char palSize = sprites->myPalette.total;
+		unsigned char r,g,b;
+		int c;
+			
+		for (int t2 = imageHeader.height; t2; t2 --) {
+			for (int t1 = 0; t1 < imageHeader.width; t1 ++) {
+				if (! imageHeader.compressed) {
+					grabRGB (fp, imageHeader.pixelDepth, r, g, b, thePalette);
+				} else {
+					grabRGBCompressed (fp, imageHeader.pixelDepth, r, g, b, thePalette);
+				}
+				if (sprites->type == 1)
+					data[t2*imageHeader.width+t1] = findClosestPal (&sprites->myPalette, r, g, b);
+				else {
+					if ((c = findOrAddPal (&sprites->myPalette, r, g, b)) < 0) {
+						fclose(fp);
+						errorBox ("Can't create sprite", "The sprite bank palette doesn't have enough room left to add the colours. Change the palette mode to locked or 32-bit and try again.");
+						sprites->myPalette.total = palSize;
+						delete data;
+						return false;
+					}
+					data[t2*imageHeader.width+t1] = c;
+				}
+			}
+		}
+	} else {
+		data = new unsigned char[imageHeader.height * imageHeader.width * 4];
+		if (! data) {
+			fclose (fp);
+			errorBox ("Can't create sprite", "Out of memory.");
+			return false;		
+		}
+		
+		unsigned char r,g,b,a;
+		
+		for (int t2 = imageHeader.height; t2; t2 --) {
+			for (int t1 = 0; t1 < imageHeader.width; t1 ++) {
+				if (! imageHeader.compressed) {
+					grabRGBA (fp, imageHeader.pixelDepth, r, g, b, a, thePalette);
+				} else {
+					grabRGBACompressed (fp, imageHeader.pixelDepth, r, g, b, a, thePalette);
+				}
+
+				data[t2*imageHeader.width*4+t1*4] = r;
+				data[t2*imageHeader.width*4+t1*4+1] = g;
+				data[t2*imageHeader.width*4+t1*4+2] = b;
+				data[t2*imageHeader.width*4+t1*4+3] = a;
+			}
+		}
+	}
+	fclose (fp);
+	if (sprites->sprites[index].data) delete sprites->sprites[index].data;
+
+	sprites->sprites[index].data = data;
+	sprites->sprites[index].width = imageHeader.width;
+	sprites->sprites[index].height = imageHeader.height;
+	
+	loadSpriteTexture (sprites, index);
+	return true;
+}
+
 void pasteSprite (sprite * single, const spritePalette *fontPal, bool showBox) {
 	
 	if (! single) return;
+	if (single->texNum < 0) return;
 	
 	float tx1 = 0.0;
 	float ty1 = 0.0;
