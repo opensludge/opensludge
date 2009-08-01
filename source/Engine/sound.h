@@ -1,5 +1,7 @@
 #include "variable.h"
-
+#ifdef _WIN32
+#include <windows.h>
+#endif
 #ifndef _WIN32
 #define HWND void *
 #endif

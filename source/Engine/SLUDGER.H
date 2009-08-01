@@ -5,10 +5,13 @@
 #include "csludge.h"
 #include "language.h"
 
+#ifndef _WIN32
 typedef struct _FILETIME {
 	unsigned long dwLowDateTime;
 	unsigned long dwHighDateTime;
 } FILETIME;
+#endif
+
 
 struct eventHandlers {
 	int leftMouseFunction;

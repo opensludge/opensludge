@@ -4,15 +4,20 @@
 #include <math.h>
 #include <unistd.h>
 
+#include <time.h>
+#include <sys/time.h>
 //#include <SDL_opengl.h>
 #include "glee.h"
 #include <SDL.h>
+#include <SDL_syswm.h>
 
 //#ifndef _WIN32
 // For unicode conversion
 #include <iconv.h>
 //#endif
-
+#ifdef _WIN32
+#include "winstuff.h"
+#endif
 #include "language.h"
 #include "stringy.h"
 #include "sludger.h"
@@ -90,7 +95,9 @@ void tick () {
 
 
 extern bool reallyWantToQuit;
-
+#ifdef _WIN32
+#undef main
+#endif
 int main(int argc, char *argv[])
 {
 	/* Dimensions of our window. */
@@ -126,7 +133,7 @@ int main(int argc, char *argv[])
 		if (tester) fclose (tester);
 		else
 #ifdef _WIN32			
-			sludgeFile = grabFileName (hInstance);
+			sludgeFile = grabFileName ();
 #else
 			sludgeFile = grabFileName ();
 #endif
@@ -163,7 +170,7 @@ int main(int argc, char *argv[])
 	// Needed to make menu shortcuts work (on Mac), i.e. Command+Q for quit
 	SDL_putenv("SDL_ENABLEAPPEVENTS=1");
 
-	setGraphicsWindow(gameSettings.userFullScreen, false);
+	setGraphicsWindow(false, false);
 
 	/* Here's a good place to check for graphics capabilities... */
 	if (GLEE_VERSION_2_0 || GLEE_ARB_texture_non_power_of_two) {
@@ -196,7 +203,7 @@ int main(int argc, char *argv[])
 	// Let's convert the game name to Unicode, or we will crash.
 	char * gameNameWin = getNumberedString(1);
 	char * gameName = new char[ 1024];
-	const char **tmp1 = (const char **) &gameNameWin;
+	char **tmp1 = (char **) &gameNameWin;
 	char **tmp2;
 	tmp2 = &gameName;
 	char * nameOrig = gameNameWin;

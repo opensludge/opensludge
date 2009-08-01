@@ -1,11 +1,17 @@
+#ifdef _WIN32
+#include "windef.h"
+#endif
+
 struct floorPolygon {
 	int numVertices;
 	int * vertexID;
 };
 
+#ifndef _WIN32
 struct POINT {
 	int x; int y;
 };
+#endif
 
 struct flor {
 	int originalNum;

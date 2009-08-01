@@ -6,14 +6,18 @@
 
 #include "variable.h"
 #include "newfatal.h"
-#include "moreio.h"
+
 #include "stringy.h"
 #include "objtypes.h"
 #include "people.h"
 #include "fileset.h"
 
 #include <dirent.h>
+#include "moreio.h"
+#ifdef _WIN32
+#include "windows.h"
 
+#endif
 
 char * typeName[] = {"undefined", "number", "user function", "string",
 							"built-in function", "file", "stack",

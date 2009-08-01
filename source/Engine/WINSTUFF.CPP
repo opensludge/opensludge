@@ -1,4 +1,5 @@
 #ifdef _WIN32
+#include <windows.h>
 
 #include "allfiles.h"
 
@@ -17,6 +18,8 @@
 #include "direct.h"
 #include "sound.h"
 #include "colours.h"
+#include "moreio.h"
+#include "stringy.h"
 
 HINSTANCE hInst;  				// Handle of the main instance
 extern HWND hMainWindow;
@@ -26,7 +29,7 @@ extern variableStack * noStack;
 
 // The platform-specific functions - Windows edition.
 
-char * grabFileName (HINSTANCE hInstance) {
+char * grabFileName () {
 	OPENFILENAME ofn;
 	char path[MAX_PATH];
 	char file[MAX_PATH]="";
@@ -34,7 +37,7 @@ char * grabFileName (HINSTANCE hInstance) {
 	memset (& ofn, 0, sizeof (ofn));
 	ofn.lStructSize = sizeof (ofn);
 	ofn.hwndOwner = NULL;
-	ofn.hInstance = hInstance;
+	ofn.hInstance = hInst;
 	ofn.nMaxFile = MAX_PATH;
 	ofn.lpstrInitialDir = path;
 	ofn.Flags = OFN_HIDEREADONLY | OFN_EXPLORER;

@@ -49,8 +49,11 @@
 #include "Graphics.h"
 
 #include "debug.h"
+#ifdef _WIN32
+#include "shellapi.h"
+#endif
 
-int showSetupWindow();
+//int showSetupWindow();
 
 extern personaAnimation * mouseCursorAnim;
 extern spritePalette pastePalette;
@@ -203,8 +206,11 @@ bool initSludge (char * filename) {
 	char * dataFol = (gameVersion >= VERSION(1,3)) ? readString(fp) : joinStrings ("", "");
 	if (dataFol[0]) {
 		if (failSecurityCheck (dataFol)) return false;
+		#ifdef _WIN32
+		mkdir (dataFol);
+		#else
 		mkdir (dataFol, 0000777);
-		
+		#endif
 #ifdef _MSC_VER
 		if (_chdir (dataFol)) return fatal ("This game's data folder is inaccessible!\nI can't access the following directory (maybe there's a file with the same name, or maybe it's read-protected):", dataFol);
 #else
@@ -271,7 +277,7 @@ bool initSludge (char * filename) {
 	if (! checkNew (globalVars)) return false;
 	for (a = 0; a < numGlobals; a ++) initVarNew (globalVars[a]);
 
-	if (! showSetupWindow()) return 0;		
+//	if (! showSetupWindow()) return 0;		
 
 	if (useAAFromIni && gameSettings.antiAlias >= 0)
 	{
