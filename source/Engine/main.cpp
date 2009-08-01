@@ -132,11 +132,7 @@ int main(int argc, char *argv[])
 		
 		if (tester) fclose (tester);
 		else
-#ifdef _WIN32			
 			sludgeFile = grabFileName ();
-#else
-			sludgeFile = grabFileName ();
-#endif
 	}
 	
 	if (! sludgeFile) return 0;
@@ -170,8 +166,8 @@ int main(int argc, char *argv[])
 	// Needed to make menu shortcuts work (on Mac), i.e. Command+Q for quit
 	SDL_putenv("SDL_ENABLEAPPEVENTS=1");
 
-	setGraphicsWindow(false, false);
-
+	setGraphicsWindow(gameSettings.userFullScreen, false);
+	
 	/* Here's a good place to check for graphics capabilities... */
 	if (GLEE_VERSION_2_0 || GLEE_ARB_texture_non_power_of_two) {
 		// Yes! Textures can be any size!
@@ -213,7 +209,7 @@ int main(int argc, char *argv[])
 	size_t len1 = strlen(gameNameWin)+1;
 	size_t len2 = 1023;
 	//size_t numChars = 
-		iconv (convert, tmp1, &len1, tmp2, &len2);
+		iconv (convert, (const char **) tmp1, &len1, tmp2, &len2);
 	iconv_close (convert);
 	
 	gameNameWin = nameOrig;

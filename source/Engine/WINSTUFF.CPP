@@ -26,6 +26,7 @@ extern HWND hMainWindow;
 
 extern variableStack * noStack;
 
+extern settingsStruct gameSettings;
 
 // The platform-specific functions - Windows edition.
 
@@ -48,6 +49,13 @@ char * grabFileName () {
 		return copyString (file);
 	} else {
 		return NULL;
+	}
+}
+
+int showSetupWindow() {
+	gameSettings.userFullScreen = false;
+	if (gameSettings.numLanguages) {
+		gameSettings.languageID = 0;
 	}
 }
 

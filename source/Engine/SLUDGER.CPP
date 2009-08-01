@@ -53,7 +53,7 @@
 #include "shellapi.h"
 #endif
 
-//int showSetupWindow();
+int showSetupWindow();
 
 extern personaAnimation * mouseCursorAnim;
 extern spritePalette pastePalette;
@@ -277,7 +277,7 @@ bool initSludge (char * filename) {
 	if (! checkNew (globalVars)) return false;
 	for (a = 0; a < numGlobals; a ++) initVarNew (globalVars[a]);
 
-//	if (! showSetupWindow()) return 0;		
+	if (! showSetupWindow()) return 0;		
 
 	if (useAAFromIni && gameSettings.antiAlias >= 0)
 	{
