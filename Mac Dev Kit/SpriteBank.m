@@ -77,20 +77,21 @@
 	}
 }
 
-- (BOOL)readFromData:(NSData *) data
-			  ofType:(NSString *)typeName
-			   error:(NSError **)outError
+- (BOOL)readFromURL:(NSURL *)absoluteURL 
+			 ofType:(NSString *)typeName 
+			  error:(NSError **)outError
 {
 	if ([typeName isEqualToString:@"SLUDGE Sprite Bank"]) {		
-		if (loadSpriteBank ((unsigned char *) [data bytes], &sprites))
-		{
-			return YES;
+		UInt8 buffer[1024];
+		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
+			if (loadSpriteBank ((char *) buffer, &sprites)) {
+				return YES;
+			}
 		}
 	} 
 	*outError = [NSError errorWithDomain:@"Error" code:1 userInfo:nil];
 	return NO;
 }
-
 
 - (BOOL)writeToURL:(NSURL *)absoluteURL 
 			ofType:(NSString *)typeName 
@@ -162,14 +163,28 @@
 {
 	sprites.type = 1;
 }
+
+-(void) setPalButton
+{
+	[palMode selectCellWithTag: sprites.type];
+}
+
 - (IBAction)setModePalNone:(id)sender
 {
 	if (sprites.total && sprites.type < 2) {
 		if (! NSRunAlertPanel (@"Convert sprite bank?", @"This will convert your entire sprite bank to 32-bit colour mode. This action can not be reversed. Do you want to proceed?", @"Yes", @"No", NULL) == NSAlertDefaultReturn) {
-			[palMode selectCellWithTag:sprites.type];
+			[self performSelector:@selector(setPalButton)
+						  withObject:nil
+						  afterDelay:0.0];
 			return;
 		}
 		// Convert sprite bank to 32-bit
+		if (! convertSpriteBank8to32 (&sprites)) {
+			[self performSelector:@selector(setPalButton)
+						  withObject:nil
+						  afterDelay:0.0];
+			return;
+		}
 
 		[[palMode cellWithTag: 0] setEnabled:NO];
 		[[palMode cellWithTag: 1] setEnabled:NO];
@@ -180,13 +195,22 @@
 {
 	NSString *path = nil;
 	NSOpenPanel *openPanel = [ NSOpenPanel openPanel ];
-	[openPanel setTitle:@"Load TGA file as sprite"];
-	[openPanel setRequiredFileType:@"tga"];
+	[openPanel setTitle:@"Load file as sprite"];
+	NSArray *files = [NSArray arrayWithObjects:@"tga", @"png", nil];
 	
-	if ( [ openPanel runModalForDirectory:nil file:nil ] ) {
+	if ( [ openPanel runModalForDirectory:nil file:nil types:files] ) {
 		path = [ openPanel filename ];
 		addSprite ([spriteView spriteIndex], &sprites);
-		if (! loadSpriteFromTGA ((char *) [path UTF8String], &sprites, [spriteView spriteIndex])) {
+		bool success = 0;
+		
+		if ([[path pathExtension] isEqualToString: @"png"]) {
+			success = loadSpriteFromPNG ((char *) [path UTF8String], &sprites, [spriteView spriteIndex]);
+		} else if ([[path pathExtension] isEqualToString: @"tga"]) {
+			success = loadSpriteFromTGA ((char *) [path UTF8String], &sprites, [spriteView spriteIndex]);
+		} else {
+			errorBox ("Can't load image", "I don't recognise the file type. TGA and PNG are the supported file types.");
+		}
+		if (! success) {
 			deleteSprite ([spriteView spriteIndex], &sprites);
 		} else {
 			[self setHotSpotX: sprites.sprites[[spriteView spriteIndex]].width / 2];
@@ -203,7 +227,6 @@
 		[spriteView setSpriteIndex:[spriteView spriteIndex]];
 		[spriteView setNeedsDisplay:YES];
 	}	
-
 }
 - (IBAction)replaceSprite:(id)sender
 {
@@ -231,8 +254,18 @@
 	[spriteView setNeedsDisplay:YES];
 	[self updateChangeCount: NSChangeDone];
 }
+
 - (IBAction)exportSprite:(id)sender
 {
+	NSString *path = nil;
+	NSSavePanel *savePanel = [ NSSavePanel savePanel ];
+	[savePanel setTitle:@"Export sprite"];
+	[savePanel setRequiredFileType:@"png"];
+	
+	if ( [ savePanel runModalForDirectory:nil file:nil ] ) {
+		path = [ savePanel filename ];
+		exportToPNG ([path UTF8String], &sprites, [spriteView spriteIndex]);
+	}
 }
 
 

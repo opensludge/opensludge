@@ -1,6 +1,7 @@
 #include <OpenGL/gl.h>
 #include <stdlib.h>
 #include <string.h>
+#include <libpng/png.h>
 
 #include "TGA.h"
 #include "Sprites.h"
@@ -28,7 +29,37 @@ bool reserveSpritePal (spritePalette * sP, int n) {
 	return (bool) (sP->pal != NULL) && (sP->r != NULL) && (sP->g != NULL) && (sP->b != NULL);
 }
 
-
+bool savePNGSprite (FILE * fp, struct spriteBank *sprites, int index, bool sig) {
+	png_structp png_ptr = png_create_write_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+	if (!png_ptr) {
+		fclose (fp);
+		return false;
+	}
+	
+	png_infop info_ptr = png_create_info_struct(png_ptr);
+	if (!info_ptr){
+		png_destroy_write_struct(&png_ptr, (png_infopp)NULL);
+		fclose (fp);
+		return false;
+	}	
+	
+	png_init_io(png_ptr, fp);
+	
+	if (!sig) png_set_sig_bytes(png_ptr, 8);
+	
+	png_set_IHDR(png_ptr, info_ptr, sprites->sprites[index].width, sprites->sprites[index].height,
+				 8, PNG_COLOR_TYPE_RGB_ALPHA, PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);		
+	
+	unsigned char * row_pointers[sprites->sprites[index].height];
+	
+	for (int i = 0; i < sprites->sprites[index].height; i++) {
+		row_pointers[i] = sprites->sprites[index].data + 4*i*sprites->sprites[index].width;
+	}
+	
+	png_set_rows(png_ptr, info_ptr, row_pointers);	
+    png_write_png(png_ptr, info_ptr, PNG_TRANSFORM_IDENTITY, NULL);	
+	return true;
+}
 
 
 bool saveSpriteBank (const char * filename, spriteBank *sprites) {
@@ -47,9 +78,17 @@ bool saveSpriteBank (const char * filename, spriteBank *sprites) {
 		// This is version 3 of the DUC format - in 32-bit glory!
 		put2bytes(0, fp);
 		fputc (3, fp);		
-		errorBox ("Saving error", "32-bit format not yet fully supported. Sorry.");
+
+		put2bytes (sprites->total, fp);
+		
+		for (i = 0; i < sprites->total; i ++) {
+			putSigned (sprites->sprites[i].xhot, fp);
+			putSigned (sprites->sprites[i].yhot, fp);
+			savePNGSprite (fp, sprites, i, false);
+		}
+		
 		fclose(fp);
-		return false;
+		return true;
 	}
 	
 	put2bytes (sprites->total, fp);
@@ -99,7 +138,7 @@ bool saveSpriteBank (const char * filename, spriteBank *sprites) {
 	return true;
 }
 
-
+/*
 unsigned int get2bytes (unsigned char ** fp) {
 	int r = (**fp) * 256 + *(*fp+1);
 	*fp+=2;
@@ -109,26 +148,95 @@ short readSigned (unsigned char **fp) {
 	short f = **((short **) fp);
 	*fp += sizeof(short);
 	return f;
+}*/
+short readSigned (FILE * fp) {
+	short f;
+	fread (& f, sizeof (short), 1, fp);
+	return f;
 }
 
-bool loadSpriteBank (unsigned char * file, spriteBank *loadhere) {
+
+bool loadSpriteBank (const char * filename, spriteBank *loadhere) {
 	int i, total, picwidth, picheight, loadSaveMode = 0, howmany,
 		startIndex;
 	int totalwidth[256], maxheight[256];
 	int numTextures = 0;
-		
-	total = get2bytes(&file);
+
+	// Open the file	
+	FILE * fp = fopen (filename, "rb");
+	if (fp == NULL) {
+		return errorBox ("Can't open PNG file", "The file can't be opened. I don't know why.");
+	}	
+	
+	total = get2bytes(fp);
 	if (! total) {
-		loadSaveMode = *file++;
+		loadSaveMode = fgetc(fp);
 		if (loadSaveMode == 1) {
 			total = 0;
 		} else {
-			total = get2bytes(&file);
+			total = get2bytes(fp);
 		}
 	}
 		
-	if (loadSaveMode > 2) return false;//fatal ("Unsupported sprite bank file format");
-		if (total <= 0) return false;//fatal ("No sprites in bank or invalid sprite bank file");
+	if (loadSaveMode > 3) return errorBox ("Error opening sprite bank", "Unsupported sprite bank file format");
+		if (total <= 0) return errorBox ("Error opening sprite bank", "No sprites in bank or invalid sprite bank file");
+			
+	if (loadSaveMode == 3) {
+		loadhere->type = 2;
+		
+		loadhere->total = total;
+		loadhere->sprites = new sprite [total];		
+		for (int index = 0; index < total; index ++) {
+			loadhere->sprites[index].xhot = readSigned (fp);
+			loadhere->sprites[index].yhot = readSigned (fp);
+
+			png_structp png_ptr = png_create_read_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+			if (!png_ptr) {
+				fclose (fp);
+				return errorBox ("Can't open PNG file", "Error reading the file.");
+			}
+			
+			png_infop info_ptr = png_create_info_struct(png_ptr);
+			if (!info_ptr) {
+				png_destroy_read_struct(&png_ptr, (png_infopp) NULL, (png_infopp) NULL);
+				fclose (fp);
+				return errorBox ("Can't open PNG file", "Error reading the file.");
+			}
+			
+			png_infop end_info = png_create_info_struct(png_ptr);
+			if (!end_info) {
+				png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
+				fclose (fp);
+				return errorBox ("Can't open PNG file", "Error reading the file.");
+			}
+			png_init_io(png_ptr, fp);		// Tell libpng which file to read
+			png_set_sig_bytes(png_ptr, 8);	// No sig
+			
+			png_read_info(png_ptr, info_ptr);
+			
+			png_uint_32 width, height;
+			int bit_depth, color_type, interlace_type, compression_type, filter_method;
+			png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, &interlace_type, &compression_type, &filter_method);
+			
+			int rowbytes = png_get_rowbytes(png_ptr, info_ptr);
+			
+			unsigned char * row_pointers[height];
+			unsigned char * data = new unsigned char [rowbytes*height];
+			for (int i = 0; i<height; i++)
+				row_pointers[i] = data + i*rowbytes;
+			
+			png_read_image(png_ptr, (png_byte **) row_pointers);
+			png_read_end(png_ptr, NULL);
+			png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
+						
+			loadhere->sprites[index].data = data;
+			loadhere->sprites[index].width = width;
+			loadhere->sprites[index].height = height;
+		}
+		fclose(fp);
+			
+		return true;
+	}
 
 	loadhere->type = 0;
 			
@@ -137,7 +245,7 @@ bool loadSpriteBank (unsigned char * file, spriteBank *loadhere) {
 	//if (! checkNew (loadhere->sprites)) return false;
 
 	if (loadSaveMode) {
-		howmany = *file++;
+		howmany = fgetc(fp);
 		startIndex = 1;
 	}
 	
@@ -146,17 +254,17 @@ bool loadSpriteBank (unsigned char * file, spriteBank *loadhere) {
 	for (i = 0; i < total; i ++) {
 		switch (loadSaveMode) {
 			case 2:
-			picwidth = get2bytes((unsigned char**) &file);
-			picheight = get2bytes((unsigned char**) &file);
-			loadhere->sprites[i].xhot = readSigned (&file);
-			loadhere->sprites[i].yhot = readSigned (&file);
+			picwidth = get2bytes(fp);
+			picheight = get2bytes(fp);
+			loadhere->sprites[i].xhot = readSigned (fp);
+			loadhere->sprites[i].yhot = readSigned (fp);
 			break;
 			
 			default:
-			picwidth = (unsigned char) *file++;
-			picheight = (unsigned char) *file++;
-			loadhere->sprites[i].xhot = *file++;
-			loadhere->sprites[i].yhot = *file++;
+			picwidth = (unsigned char) fgetc(fp);
+			picheight = (unsigned char) fgetc(fp);
+			loadhere->sprites[i].xhot = fgetc(fp);
+			loadhere->sprites[i].yhot = fgetc(fp);
 			break;
 		}
 		if (totalwidth[numTextures] + picwidth < 2048) {
@@ -186,12 +294,12 @@ bool loadSpriteBank (unsigned char * file, spriteBank *loadhere) {
 				unsigned pip = 0;
 				
 				while (pip < size) {
-					unsigned char col = *file++;
+					unsigned char col = fgetc(fp);
 					int looper;
 					
 					if (col > howmany) {
 						col -= howmany + 1;
-						looper = (*file++) + 1;
+						looper = fgetc(fp) + 1;
 					} else looper = 1;
 					
 					while (looper --) {
@@ -202,27 +310,27 @@ bool loadSpriteBank (unsigned char * file, spriteBank *loadhere) {
 			break;
 			
 			default:		// RAW DATA
-				memcpy (loadhere->sprites[i].data, file, picwidth * picheight);
-				file += picwidth * picheight;
+				fread (loadhere->sprites[i].data, picwidth, picheight, fp);
 			break;
 		}
 	}
 	numTextures++;
 
 	if (! loadSaveMode) {
-		howmany = *file++;
-		startIndex = *file++;
+		howmany = fgetc(fp);
+		startIndex = fgetc(fp);
 	}
 
 	if (! reserveSpritePal (&loadhere->myPalette, howmany + startIndex)) return false;
 
 	for (i = 0; i < howmany; i ++) {
-		loadhere->myPalette.r[i + startIndex] = (unsigned char) *file++;
-		loadhere->myPalette.g[i + startIndex] = (unsigned char) *file++;
-		loadhere->myPalette.b[i + startIndex] = (unsigned char) *file++;
+		loadhere->myPalette.r[i + startIndex] = (unsigned char) fgetc(fp);
+		loadhere->myPalette.g[i + startIndex] = (unsigned char) fgetc(fp);
+		loadhere->myPalette.b[i + startIndex] = (unsigned char) fgetc(fp);
 		loadhere->myPalette.pal[i + startIndex] = makeColour (loadhere->myPalette.r[i + startIndex], loadhere->myPalette.g[i + startIndex], loadhere->myPalette.b[i + startIndex]);
 	}
 			
+	fclose(fp);
 	return true;
 }
 
@@ -234,39 +342,50 @@ bool loadSpriteTextures (spriteBank *loadhere) {
 	glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
 	glGenTextures (loadhere->total, loadhere->myPalette.tex_names);	
 	
-	GLubyte * tmp[loadhere->total];		
-	
-	for (i = 0; i < loadhere->total; i ++) {
-		tmp[i] = new GLubyte [loadhere->sprites[i].width*loadhere->sprites[i].height*4];
-		fromhere = 0;
-		for (int y = 0; y < loadhere->sprites[i].height; y ++) {
-			for (int x = 0; x < loadhere->sprites[i].width; x ++) {
-				GLubyte * target = tmp[i] + 4*loadhere->sprites[i].width*y + x*4;
-				s = loadhere->sprites[i].data[fromhere++];
-				if (s) {
-					target[0] = (GLubyte) loadhere->myPalette.r[s];
-					target[1] = (GLubyte) loadhere->myPalette.g[s];
-					target[2] = (GLubyte) loadhere->myPalette.b[s];
-					target[3] = (GLubyte) 255;
-				} else {
-					target[0] = (GLubyte) 0;
-					target[1] = (GLubyte) 0;
-					target[2] = (GLubyte) 0;
-					target[3] = (GLubyte) 0;
+	if (loadhere->type < 2) {
+		GLubyte * tmp[loadhere->total];		
+		for (i = 0; i < loadhere->total; i ++) {
+			tmp[i] = new GLubyte [loadhere->sprites[i].width*loadhere->sprites[i].height*4];
+			fromhere = 0;
+			for (int y = 0; y < loadhere->sprites[i].height; y ++) {
+				for (int x = 0; x < loadhere->sprites[i].width; x ++) {
+					GLubyte * target = tmp[i] + 4*loadhere->sprites[i].width*y + x*4;
+					s = loadhere->sprites[i].data[fromhere++];
+					if (s) {
+						target[0] = (GLubyte) loadhere->myPalette.r[s];
+						target[1] = (GLubyte) loadhere->myPalette.g[s];
+						target[2] = (GLubyte) loadhere->myPalette.b[s];
+						target[3] = (GLubyte) 255;
+					} else {
+						target[0] = (GLubyte) 0;
+						target[1] = (GLubyte) 0;
+						target[2] = (GLubyte) 0;
+						target[3] = (GLubyte) 0;
+					}
 				}
 			}
+			
+			loadhere->sprites[i].texNum = i;
+		
+			glBindTexture (GL_TEXTURE_2D, loadhere->myPalette.tex_names[i]);
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, loadhere->sprites[i].width, loadhere->sprites[i].height, 0, GL_RGBA, GL_UNSIGNED_BYTE, tmp[i]);
+			
+			delete tmp[i];		
 		}
-		
-		loadhere->sprites[i].texNum = i;
-	
-		glBindTexture (GL_TEXTURE_2D, loadhere->myPalette.tex_names[i]);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, loadhere->sprites[i].width, loadhere->sprites[i].height, 0, GL_RGBA, GL_UNSIGNED_BYTE, tmp[i]);
-		
-		delete tmp[i];		
+	} else {
+		for (i = 0; i < loadhere->total; i ++) {
+			loadhere->sprites[i].texNum = i;
+			glBindTexture (GL_TEXTURE_2D, loadhere->myPalette.tex_names[loadhere->sprites[i].texNum]);
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, loadhere->sprites[i].width, loadhere->sprites[i].height, 0, GL_RGBA, GL_UNSIGNED_BYTE, loadhere->sprites[i].data);
+		}
 	}
 	return true;
 }
@@ -276,9 +395,10 @@ bool loadSpriteTexture (spriteBank *loadhere, int index) {
 	unsigned char s;
 	
 	glPixelStorei (GL_UNPACK_ALIGNMENT, 1);	
-	GLubyte tmp[loadhere->sprites[index].width*loadhere->sprites[index].height*4];		
 	
 	if (loadhere->type < 2) {
+		GLubyte tmp[loadhere->sprites[index].width*loadhere->sprites[index].height*4];		
+
 		fromhere = 0;
 		for (int y = 0; y < loadhere->sprites[index].height; y ++) {
 			for (int x = 0; x < loadhere->sprites[index].width; x ++) {
@@ -467,7 +587,7 @@ bool loadSpriteFromTGA (char * file, struct spriteBank *sprites, int index)
 		unsigned char r,g,b;
 		int c;
 			
-		for (int t2 = imageHeader.height; t2; t2 --) {
+		for (int t2 = imageHeader.height-1; t2>=0; t2 --) {
 			for (int t1 = 0; t1 < imageHeader.width; t1 ++) {
 				if (! imageHeader.compressed) {
 					grabRGB (fp, imageHeader.pixelDepth, r, g, b, thePalette);
@@ -498,7 +618,7 @@ bool loadSpriteFromTGA (char * file, struct spriteBank *sprites, int index)
 		
 		unsigned char r,g,b,a;
 		
-		for (int t2 = imageHeader.height; t2; t2 --) {
+		for (int t2 = imageHeader.height-1; t2>=0; t2 --) {
 			for (int t1 = 0; t1 < imageHeader.width; t1 ++) {
 				if (! imageHeader.compressed) {
 					grabRGBA (fp, imageHeader.pixelDepth, r, g, b, a, thePalette);
@@ -522,6 +642,160 @@ bool loadSpriteFromTGA (char * file, struct spriteBank *sprites, int index)
 	
 	loadSpriteTexture (sprites, index);
 	return true;
+}
+
+bool loadSpriteFromPNG (char * file, struct spriteBank *sprites, int index)
+{
+	if (sprites->type<2) {
+		return errorBox ("Can't open PNG file", "PNG files currently not supported in palette mode. Change to 32-bit mode and try again.");
+	}
+	
+	// Open the file	
+	FILE * fp = fopen (file, "rb");
+	if (fp == NULL) {
+		return errorBox ("Can't open PNG file", "The file can't be opened. I don't know why.");
+	}
+	
+	char tmp[10];
+	fread(tmp, 1, 8, fp);
+    if (png_sig_cmp((png_byte *) tmp, 0, 8)) {
+		fclose (fp);
+		return errorBox ("Can't open PNG file", "It doesn't appear to be a valid PNG image.");
+    }
+	
+    png_structp png_ptr = png_create_read_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+    if (!png_ptr) {
+		fclose (fp);
+		return errorBox ("Can't open PNG file", "Error reading the file.");
+	}
+	
+    png_infop info_ptr = png_create_info_struct(png_ptr);
+    if (!info_ptr) {
+        png_destroy_read_struct(&png_ptr, (png_infopp) NULL, (png_infopp) NULL);
+		fclose (fp);
+		return errorBox ("Can't open PNG file", "Error reading the file.");
+    }
+	
+    png_infop end_info = png_create_info_struct(png_ptr);
+    if (!end_info) {
+        png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
+		fclose (fp);
+		return errorBox ("Can't open PNG file", "Error reading the file.");
+    }
+    png_init_io(png_ptr, fp);		// Tell libpng which file to read
+    png_set_sig_bytes(png_ptr, 8);	// 8 bytes already read
+	
+	png_read_info(png_ptr, info_ptr);
+	
+	png_uint_32 width, height;
+	int bit_depth, color_type, interlace_type, compression_type, filter_method;
+	png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, &interlace_type, &compression_type, &filter_method);
+	
+    if (bit_depth < 8) png_set_packing(png_ptr);
+	png_set_expand(png_ptr);
+    if (color_type == PNG_COLOR_TYPE_GRAY || color_type == PNG_COLOR_TYPE_GRAY_ALPHA) png_set_gray_to_rgb(png_ptr);	
+	if (bit_depth == 16) png_set_strip_16(png_ptr);
+
+	png_set_add_alpha(png_ptr, 0xff, PNG_FILLER_AFTER);
+	
+	png_read_update_info(png_ptr, info_ptr);
+	png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, &interlace_type, &compression_type, &filter_method);
+
+	fprintf (stderr, "Size: %d %d\n", width, height);
+	fprintf (stderr, "Info: %d %d\n", bit_depth, color_type);
+		
+	int rowbytes = png_get_rowbytes(png_ptr, info_ptr);
+	
+	unsigned char * row_pointers[height];
+	unsigned char * data = new unsigned char [rowbytes*height];
+	for (int i = 0; i<height; i++)
+		row_pointers[i] = data + i*rowbytes;
+	
+	png_read_image(png_ptr, (png_byte **) row_pointers);
+	png_read_end(png_ptr, NULL);
+	png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
+
+	fclose (fp);
+	if (sprites->sprites[index].data) delete sprites->sprites[index].data;
+	
+	sprites->sprites[index].data = data;
+	sprites->sprites[index].width = width;
+	sprites->sprites[index].height = height;
+	
+	loadSpriteTexture (sprites, index);
+	return true;
+}
+
+bool convertSpriteBank8to32 (struct spriteBank *sprites) {
+	if (! sprites->total) return true;
+
+	sprite * newsprites = new sprite [sprites->total];
+	if (! newsprites) {
+		return errorBox ("Can't convert sprite bank", "Out of memory.");
+	}
+	
+	for (int i = 0; i< sprites->total; i++) {
+		unsigned char * data = new unsigned char [sprites->sprites[i].height*sprites->sprites[i].width*4];
+		if (! data) {
+			while (--i >= 0) {
+				delete newsprites[i].data;
+			}
+			delete newsprites;
+			return errorBox ("Can't convert sprite bank", "Out of memory.");
+		}
+		unsigned char s;
+		
+		int fromhere = 0;
+		for (int y = 0; y < sprites->sprites[i].height; y ++) {
+			for (int x = 0; x < sprites->sprites[i].width; x ++) {
+				unsigned char * target = data + 4*sprites->sprites[i].width*y + x*4;
+				s = sprites->sprites[i].data[fromhere++];
+				if (s) {
+					target[0] = sprites->myPalette.r[s];
+					target[1] = sprites->myPalette.g[s];
+					target[2] = sprites->myPalette.b[s];
+					target[3] = 255;
+				} else {
+					target[0] = 0;
+					target[1] = 0;
+					target[2] = 0;
+					target[3] = 0;
+				}
+			}
+		}			
+		newsprites[i].data = data;
+		
+		newsprites [i].width = sprites->sprites[i].width;
+		newsprites [i].height = sprites->sprites[i].height;
+		newsprites [i].xhot = sprites->sprites[i].xhot;
+		newsprites [i].yhot = sprites->sprites[i].yhot;
+		newsprites [i].tex_x = sprites->sprites[i].tex_x;
+		newsprites [i].texNum = sprites->sprites[i].texNum;		
+	}
+	
+	for (int i = 0; i< sprites->total; i++) {
+		delete sprites->sprites[i].data;
+	}
+	delete sprites->sprites;
+	sprites->sprites = newsprites;
+
+	sprites->type = 2;	
+	return true;
+}
+
+bool exportToPNG (char * file, struct spriteBank *sprites, int index) {
+	if (sprites->type < 2) return errorBox ("Export failed", "Sorry - can only export 32-bit pictures at the moment.");
+	
+	FILE *fp = fopen(file, "wb");
+    if (!fp)
+    {
+		return false;
+    }
+		
+	int ret = savePNGSprite (fp, sprites, index, true);
+	
+	fclose(fp);
+	return ret;
 }
 
 void pasteSprite (sprite * single, const spritePalette *fontPal, bool showBox) {

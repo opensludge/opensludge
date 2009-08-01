@@ -21,6 +21,7 @@
 		2F18B7B3100CC25F0009A1CB /* wintext.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA4910FFCEBE6005E5C36 /* wintext.h */; };
 		2F1B9A63100CF81C00BD9739 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 2F1B9A62100CF81C00BD9739 /* Credits.html */; };
 		2F1BD59310172D890014BFBB /* ProjectDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2F1BD59210172D890014BFBB /* ProjectDocument.nib */; };
+		2F21121C102447D100D3D335 /* libpng.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F21121B102447D100D3D335 /* libpng.framework */; };
 		2F373F6F100E0686009F6880 /* Project.hpp in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F373F6D100E0686009F6880 /* Project.hpp */; };
 		2F373F70100E0686009F6880 /* Project.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F373F6E100E0686009F6880 /* Project.cpp */; };
 		2F3AB9CE100D0B7100CD6A13 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D1107310486CEB800E47090 /* Info.plist */; };
@@ -175,6 +176,7 @@
 		2F18B6D5100CC0B40009A1CB /* Sludge Dev Kit Help */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Sludge Dev Kit Help"; path = "../doc/Sludge Dev Kit Help"; sourceTree = SOURCE_ROOT; };
 		2F1B9A62100CF81C00BD9739 /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; name = Credits.html; path = ../doc/Credits.html; sourceTree = SOURCE_ROOT; };
 		2F1BD59210172D890014BFBB /* ProjectDocument.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = ProjectDocument.nib; sourceTree = "<group>"; };
+		2F21121B102447D100D3D335 /* libpng.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libpng.framework; path = /Library/Frameworks/libpng.framework; sourceTree = "<absolute>"; };
 		2F373F6D100E0686009F6880 /* Project.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Project.hpp; sourceTree = "<group>"; };
 		2F373F6E100E0686009F6880 /* Project.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Project.cpp; sourceTree = "<group>"; };
 		2F469899101B4ACA00D451DB /* slx.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = slx.icns; path = ../images/slx.icns; sourceTree = SOURCE_ROOT; };
@@ -285,6 +287,7 @@
 				2FE2CEC40FFD683B000CC795 /* OpenGL.framework in Frameworks */,
 				2F59AFFF100CD9E1004A21BC /* Carbon.framework in Frameworks */,
 				2FE8E966100FC29A009687AA /* AppKit.framework in Frameworks */,
+				2F21121C102447D100D3D335 /* libpng.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,6 +380,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2F21121B102447D100D3D335 /* libpng.framework */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
