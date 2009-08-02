@@ -27,6 +27,7 @@ struct settingsStruct
 	
 	char *finalFile;
 	char *windowName;
+	char *originalLanguage;
 	
 	int winMouseImage;
 	bool ditherImages;

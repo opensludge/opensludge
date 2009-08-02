@@ -15,6 +15,8 @@ extern settingsStruct gameSettings;
 @interface SDLApplication : NSApplication
 @end
 
+extern char **languageName;
+
 
 @implementation StartController
 
@@ -26,6 +28,8 @@ extern settingsStruct gameSettings;
 	return self;
 }
 
+
+
 // Load all the options, and check the boxes that reflect the current settings
 - (void)windowDidLoad
 {
@@ -33,7 +37,11 @@ extern settingsStruct gameSettings;
 	[languageList removeAllItems];
 	if (gameSettings.numLanguages) {
 		for (int i=0; i<= gameSettings.numLanguages; i++) {
-			[languageList addItemWithTitle:[NSString stringWithFormat:@"Language %d", i]];			
+			if (languageName[i]) { 
+				[languageList addItemWithTitle:[NSString stringWithUTF8String:languageName[i]]];	
+			} else {
+				[languageList addItemWithTitle:[NSString stringWithFormat:@"Language %d", i]];	
+			}
 		}
 		[languageList selectItemAtIndex: gameSettings.languageID];
 	} else {

@@ -25,8 +25,6 @@ extern chrRenderingSettingsStruct chrRenderingSettings;
 #include "dialogueBoxInOut.h"
 
 
-//TODO? 
-
 HWND mainWin=NULL;
 HINSTANCE inst;
 HMENU myMenu;
@@ -51,35 +49,6 @@ static bool advancedLoadSaveSetup (HWND hDlg, dlgOperation operation)
 
 LRESULT CALLBACK projectAdvancedFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
-/*
-	switch (message) {
-        case WM_INITDIALOG:
-        {
-        	if (settings.startupInvisible) CheckDlgButton (hDlg, ID_STARTUP_INVISIBLE, BST_CHECKED);
-        	if (settings.startupShowLogo) CheckDlgButton (hDlg, ID_STARTUP_DISPLAY_SLUDGE, BST_CHECKED);
-        	if (settings.startupShowLoading) CheckDlgButton (hDlg, ID_STARTUP_DISPLAY_LOADING, BST_CHECKED);
-			return (true);
-		}
-
-		case WM_COMMAND:
-			switch (LOWORD(wParam)) {
-				case IDOK:
-				{
-					settings.startupInvisible = isChecked (hDlg, ID_STARTUP_INVISIBLE);
-					settings.startupShowLogo = isChecked (hDlg, ID_STARTUP_DISPLAY_SLUDGE);
-					settings.startupShowLoading = isChecked (hDlg, ID_STARTUP_DISPLAY_LOADING);
-					setChanged (true);
-				}
-
-				case IDCANCEL:
-				EndDialog(hDlg, true);
-				return (true);
-			}
-			break;
-	}
-
-    return false;
- */
 	dialogueBoxHandler (hDlg, message, wParam, lParam, advancedLoadSaveSetup);
 }
 

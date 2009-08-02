@@ -4,8 +4,10 @@
 #include "newfatal.h"
 #include "moreio.h"
 #include "language.h"
+#include "version.h"
 
 int *languageTable;
+char **languageName;
 
 unsigned int stringToInt (char * s) {
 	int i = 0;
@@ -112,13 +114,21 @@ void readIniFile (char * filename) {
 		fclose (fp);
 	}
 }
+
+extern int gameVersion;
 	
 void makeLanguageTable (FILE * table)
 {	
 	languageTable = new int[gameSettings.numLanguages];
+	languageName = new char*[gameSettings.numLanguages];
 
 	for (int i = 0; i <= gameSettings.numLanguages; i ++) {
 		languageTable[i] = i ? get2bytes (table) : 0;
+		languageName[i] = 0;
+		if (gameVersion >= VERSION(2,0)) {
+			if (gameSettings.numLanguages)
+				languageName[i] = readString (table);
+		}
 	}
 }
 

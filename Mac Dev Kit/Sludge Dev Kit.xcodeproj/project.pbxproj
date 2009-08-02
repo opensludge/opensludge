@@ -69,7 +69,6 @@
 		2F7EA4ED0FFCEBE6005E5C36 /* dialogueBoxInOut.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA43A0FFCEBE6005E5C36 /* dialogueBoxInOut.h */; };
 		2F7EA4EE0FFCEBE6005E5C36 /* WIN launch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA43B0FFCEBE6005E5C36 /* WIN launch.cpp */; };
 		2F7EA4EF0FFCEBE6005E5C36 /* launch.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA43C0FFCEBE6005E5C36 /* launch.h */; };
-		2F7EA4F00FFCEBE6005E5C36 /* WIN MESSBOX.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA43D0FFCEBE6005E5C36 /* WIN MESSBOX.CPP */; };
 		2F7EA4F60FFCEBE6005E5C36 /* WIN registry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA4430FFCEBE6005E5C36 /* WIN registry.cpp */; };
 		2F7EA5060FFCEBE6005E5C36 /* savedata.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA4550FFCEBE6005E5C36 /* savedata.h */; };
 		2F7EA5070FFCEBE6005E5C36 /* settings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA4560FFCEBE6005E5C36 /* settings.cpp */; };
@@ -94,6 +93,7 @@
 		2FD220B8101B569300F4CA41 /* scriptIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 2FD220B7101B569300F4CA41 /* scriptIcon.icns */; };
 		2FD220BA101B569D00F4CA41 /* Compiler.icns in Resources */ = {isa = PBXBuildFile; fileRef = 2FD220B9101B569D00F4CA41 /* Compiler.icns */; };
 		2FD4CACA1019074900265F6E /* PercBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA4040FFCEBE6005E5C36 /* PercBar.cpp */; };
+		2FDA7B9D1026204F00DC8F16 /* flags.icns in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA7B9C1026204F00DC8F16 /* flags.icns */; };
 		2FE2603B1010A1B0005EF966 /* wintext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA4610FFCEBE6005E5C36 /* wintext.cpp */; };
 		2FE2619F1010BD5D005EF966 /* HSI.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2FE2619E1010BD5D005EF966 /* HSI.H */; };
 		2FE2CEC40FFD683B000CC795 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FE2CEC30FFD683B000CC795 /* OpenGL.framework */; };
@@ -228,7 +228,6 @@
 		2F7EA43A0FFCEBE6005E5C36 /* dialogueBoxInOut.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = dialogueBoxInOut.h; sourceTree = "<group>"; };
 		2F7EA43B0FFCEBE6005E5C36 /* WIN launch.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = "WIN launch.cpp"; sourceTree = "<group>"; };
 		2F7EA43C0FFCEBE6005E5C36 /* launch.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = launch.h; sourceTree = "<group>"; };
-		2F7EA43D0FFCEBE6005E5C36 /* WIN MESSBOX.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = "WIN MESSBOX.CPP"; sourceTree = "<group>"; };
 		2F7EA4430FFCEBE6005E5C36 /* WIN registry.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = "WIN registry.cpp"; sourceTree = "<group>"; };
 		2F7EA4550FFCEBE6005E5C36 /* savedata.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = savedata.h; sourceTree = "<group>"; };
 		2F7EA4560FFCEBE6005E5C36 /* settings.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = settings.cpp; sourceTree = "<group>"; };
@@ -269,6 +268,7 @@
 		2FD220B5101B567700F4CA41 /* zIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = zIcon.icns; path = ../images/zIcon.icns; sourceTree = "<group>"; };
 		2FD220B7101B569300F4CA41 /* scriptIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = scriptIcon.icns; sourceTree = "<group>"; };
 		2FD220B9101B569D00F4CA41 /* Compiler.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Compiler.icns; sourceTree = "<group>"; };
+		2FDA7B9C1026204F00DC8F16 /* flags.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = flags.icns; path = ../images/flags.icns; sourceTree = SOURCE_ROOT; };
 		2FE2619E1010BD5D005EF966 /* HSI.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; path = HSI.H; sourceTree = "<group>"; };
 		2FE2CEC30FFD683B000CC795 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		2FF7AE501012195300F6AF98 /* SpriteBank.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpriteBank.h; sourceTree = "<group>"; };
@@ -358,6 +358,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2FDA7B9C1026204F00DC8F16 /* flags.icns */,
 				2F88701F101DDA9200359D3E /* floorIcon.icns */,
 				2FD220B5101B567700F4CA41 /* zIcon.icns */,
 				2FD220B9101B569D00F4CA41 /* Compiler.icns */,
@@ -478,7 +479,6 @@
 				2F7EA43A0FFCEBE6005E5C36 /* dialogueBoxInOut.h */,
 				2F7EA43B0FFCEBE6005E5C36 /* WIN launch.cpp */,
 				2F7EA43C0FFCEBE6005E5C36 /* launch.h */,
-				2F7EA43D0FFCEBE6005E5C36 /* WIN MESSBOX.CPP */,
 				2F7EA4430FFCEBE6005E5C36 /* WIN registry.cpp */,
 				2F7EA4450FFCEBE6005E5C36 /* resources */,
 				2F7EA4550FFCEBE6005E5C36 /* savedata.h */,
@@ -635,6 +635,7 @@
 				2FD220BA101B569D00F4CA41 /* Compiler.icns in Resources */,
 				2F150638101DD181006F9068 /* Floor.nib in Resources */,
 				2F887020101DDA9200359D3E /* floorIcon.icns in Resources */,
+				2FDA7B9D1026204F00DC8F16 /* flags.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -662,7 +663,6 @@
 				2F7EA4CB0FFCEBE6005E5C36 /* translation.cpp in Sources */,
 				2F7EA4EC0FFCEBE6005E5C36 /* WIN dialogueBoxInOut.cpp in Sources */,
 				2F7EA4EE0FFCEBE6005E5C36 /* WIN launch.cpp in Sources */,
-				2F7EA4F00FFCEBE6005E5C36 /* WIN MESSBOX.CPP in Sources */,
 				2F7EA4F60FFCEBE6005E5C36 /* WIN registry.cpp in Sources */,
 				2F7EA5070FFCEBE6005E5C36 /* settings.cpp in Sources */,
 				2F7EA50E0FFCEBE6005E5C36 /* WINCOMP.CPP in Sources */,

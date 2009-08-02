@@ -14,20 +14,22 @@ int numberOfValidTranslations = 0;
 
 struct translationReg {
 	char * filename;
+	char * name;
 	int ID;
 	translationReg * next;
 };
 
 translationReg * allTranslations = NULL;
 
-enum mode {TM_COMMENTS, TM_ID, TM_DATA};
+enum mode {TM_COMMENTS, TM_ID, TM_DATA, TM_NAME};
 
-bool addNewTraReg (char * filename, int ID) {
+bool addNewTraReg (char * filename, int ID, char * name) {
 	translationReg * newReg = new translationReg;
 	if (newReg) {
 		newReg -> filename = copyString (filename);
 		if (newReg -> filename) {
 			newReg -> ID = ID;
+			newReg -> name = name;
 			newReg -> next = allTranslations;
 			allTranslations = newReg;
 			numberOfValidTranslations ++;
@@ -39,6 +41,8 @@ bool addNewTraReg (char * filename, int ID) {
 }
 
 void registerTranslationFile (char * filename) {
+	char * name = NULL;
+	
 	FILE * fp = fopen (filename, "rt");
 	
 	if (fp == NULL) {
@@ -66,13 +70,18 @@ void registerTranslationFile (char * filename) {
 					theMode = TM_DATA;
 				} else if (strcmp (theLine, "[ID]") == 0) {
 					theMode = TM_ID;
+				} else if (strcmp (theLine, "[NAME]") == 0) {
+					theMode = TM_NAME;
 				} else {
 					addComment (ERRORTYPE_PROJECTERROR, "Found a block type that I don't recognise in a translation file", theLine, NULL);
 				}
 			} else {
 				if (theMode == TM_ID) {
 					ID = stringToInt (theLine, ERRORTYPE_PROJECTERROR);
+				} else if (theMode == TM_NAME) {
+					name = copyString (theLine);
 				}
+				
 			}
 		}
 	} while (theLine && theMode != TM_DATA);
@@ -89,7 +98,7 @@ void registerTranslationFile (char * filename) {
 		return;
 	}
 	
-	addNewTraReg (filename, ID);
+	addNewTraReg (filename, ID, name);
 }
 
 stringArray * transFrom = NULL;
@@ -232,13 +241,24 @@ bool addAllTranslationData (stringArray * theSA, FILE * mainFile) {
 	return true;
 }
 
-void addTranslationIDTable (FILE * mainFile) {
+void addTranslationIDTable (FILE * mainFile, char * name) {
 	translationReg * temp = allTranslations;
 
 	fputc (numberOfValidTranslations, mainFile);
-
+	if (numberOfValidTranslations) {
+		if (name && name[0]) {
+			writeString (name, mainFile);
+		} else {
+			writeString ("No translation", mainFile);
+		}
+	}
+	
 	while (temp) {
 		put2bytes (temp -> ID, mainFile);
+		if (temp->name)
+			writeString (temp->name, mainFile);
+		else
+			writeString ("Unnamed translation", mainFile);
 		temp = temp -> next;
 	}	
 }

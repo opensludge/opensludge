@@ -22,6 +22,7 @@
 	IBOutlet NSTextField *prefData;
 	IBOutlet NSTextField *prefFile;
 	IBOutlet NSTextField *prefName;
+	IBOutlet NSTextField *prefLanguage;
 	IBOutlet NSTextField *prefHeight;
 	IBOutlet NSTextField *prefWidth;
 	IBOutlet NSTextField *prefSpeed;

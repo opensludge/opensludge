@@ -21,6 +21,7 @@
                 prefFile = NSTextField; 
                 prefHeight = NSTextField; 
                 prefIcon = NSTextField; 
+                prefLanguage = NSTextField; 
                 prefName = NSTextField; 
                 prefQuit = NSTextField; 
                 prefSilent = NSButton; 

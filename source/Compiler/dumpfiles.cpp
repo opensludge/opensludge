@@ -87,7 +87,6 @@ bool dumpFiles (FILE * mainFile, stringArray * & theSA) {
 	
 	bool killAfterAdd;
 	while (theSA) {
-		fprintf (stderr, "%s\n", theSA -> string);
 		setCompilerText (COM_FILENAME, theSA -> string);
 		
 		killAfterAdd = false;
@@ -144,12 +143,16 @@ bool dumpFiles (FILE * mainFile, stringArray * & theSA) {
 		percRect (++ i, P_BOTTOM);
 	}
 	
+	setCompilerText (COM_FILENAME, "");	
+	percRect (++ i, P_BOTTOM);
+	
 	fclose (outFile);
 	gotoTempDirectory ();
 	inFile = fopen ("alldata.big", "rb");
 	if (! inFile) return addComment (ERRORTYPE_SYSTEMERROR, "Can't read the file I just wrote", "alldata.big", NULL);
 
 	setCompilerText (COM_PROGTEXT, "Adding look-up table");
+	percRect (i, P_BOTTOM);
 	for (;;) {
 		ch = fgetc (inFile);
 		if (feof (inFile)) break;

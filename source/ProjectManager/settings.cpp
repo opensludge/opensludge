@@ -40,6 +40,8 @@ void noSettings () {
 	settings.finalFile =joinStrings ("untitled", "");
 	if (settings.windowName) delete settings.windowName;
 	settings.windowName = joinStrings ("New SLUDGE Game", "");
+	if (settings.originalLanguage) delete settings.originalLanguage;
+	settings.originalLanguage =joinStrings ("English", "");
 	settings.screenWidth = 640;
 	settings.screenHeight = 480;
 	settings.frameSpeed = 20;
@@ -84,6 +86,10 @@ void readDir (char * t) {
 
 		} else if (strcmp (splitLine -> string, "windowname") == 0) {
 			if (settings.windowName) delete settings.windowName;
+			settings.windowName = joinStrings ("", splitLine -> next -> string);
+			
+		} else if (strcmp (splitLine -> string, "language") == 0) {
+			if (settings.originalLanguage) delete settings.originalLanguage;
 			settings.windowName = joinStrings ("", splitLine -> next -> string);
 			
 		// NEW MOUSE SETTING
@@ -213,6 +219,7 @@ void writeSettings (FILE * fp) {
 		 
 	fprintf 		(fp, "[SETTINGS]\nwindowname=%s\n", settings.windowName);
 	fprintf 		(fp, "finalfile=%s\n", 				settings.finalFile);
+	fprintf 		(fp, "language=%s\n", 				settings.originalLanguage);
 	fprintf 		(fp, "datafolder=%s\n", 			settings.runtimeDataFolder);
 	fprintf 		(fp, "quitmessage=%s\n", 			settings.quitMessage);
 	fprintf 		(fp, "customicon=%s\n", 			settings.customIcon);
@@ -345,7 +352,8 @@ void writeFinalData (FILE * mainFile) {
 	// More bits
 	
 	writeString (settings.runtimeDataFolder, mainFile);
-	addTranslationIDTable (mainFile);
+	
+	addTranslationIDTable (mainFile, settings.originalLanguage);
 	
 	// Max anti-alias settings
 	fputc (chrRenderingSettings.maxReadIni, mainFile);
