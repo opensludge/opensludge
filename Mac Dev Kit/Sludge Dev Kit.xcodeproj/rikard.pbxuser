@@ -149,13 +149,13 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 270932069;
-			PBXWorkspaceStateSaveDate = 270932069;
+			PBXPerProjectTemplateStateSaveDate = 270943300;
+			PBXWorkspaceStateSaveDate = 270943300;
 		};
 		perUserProjectItems = {
-			2FDA7C9D1026390B00DC8F16 /* PBXBookmark */ = 2FDA7C9D1026390B00DC8F16 /* PBXBookmark */;
-			2FDA7CDF10263F2E00DC8F16 /* PBXTextBookmark */ = 2FDA7CDF10263F2E00DC8F16 /* PBXTextBookmark */;
-			2FDA7CF7102643BB00DC8F16 /* PBXTextBookmark */ = 2FDA7CF7102643BB00DC8F16 /* PBXTextBookmark */;
+			2F410FAD102650F400C2D165 /* PBXTextBookmark */ = 2F410FAD102650F400C2D165 /* PBXTextBookmark */;
+			2F410FB2102650F400C2D165 /* PBXTextBookmark */ = 2F410FB2102650F400C2D165 /* PBXTextBookmark */;
+			2F410FB4102650F400C2D165 /* PBXTextBookmark */ = 2F410FB4102650F400C2D165 /* PBXTextBookmark */;
 			2FDA7CF8102643BB00DC8F16 /* PBXTextBookmark */ = 2FDA7CF8102643BB00DC8F16 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 2F776FD60FFCEA5E0085230A /* Source Control */;
@@ -225,6 +225,52 @@
 			sepNavWindowFrame = "{{478, 6}, {775, 714}}";
 		};
 	};
+	2F410FAD102650F400C2D165 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2F410FAE102650F400C2D165 /* FILESET.CPP */;
+		rLen = 0;
+		rLoc = 2147483647;
+		rType = 0;
+	};
+	2F410FAE102650F400C2D165 /* FILESET.CPP */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.cpp.cpp;
+		name = FILESET.CPP;
+		path = /Users/rikard/Documents/SLUDGE/source/Engine/FILESET.CPP;
+		sourceTree = "<absolute>";
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {782, 1932}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRect = "{{0, 693}, {736, 585}}";
+			sepNavWindowFrame = "{{499, 8}, {775, 714}}";
+		};
+	};
+	2F410FB2102650F400C2D165 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2F410FB3102650F400C2D165 /* FILESET.CPP */;
+		name = "(null): 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1230;
+		vrLoc = 1368;
+	};
+	2F410FB3102650F400C2D165 /* FILESET.CPP */ = {
+		isa = PBXFileReference;
+		name = FILESET.CPP;
+		path = /Users/rikard/Documents/SLUDGE/source/Engine/FILESET.CPP;
+		sourceTree = "<absolute>";
+	};
+	2F410FB4102650F400C2D165 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2F9355AE1012670D00099D24 /* ProjectDocument.m */;
+		name = "ProjectDocument.m: 167";
+		rLen = 0;
+		rLoc = 4476;
+		rType = 0;
+		vrLen = 1683;
+		vrLoc = 3111;
+	};
 	2F6092611010729500BC0F94 /* Interface.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {778, 308}}";
@@ -244,7 +290,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {992, 5404}}";
 			sepNavSelRange = "{9520, 9}";
-			sepNavVisRect = "{{0, 4622}, {778, 274}}";
+			sepNavVisRect = "{{0, 4587}, {778, 274}}";
 			sepNavWindowFrame = "{{175, 64}, {775, 714}}";
 		};
 	};
@@ -378,9 +424,9 @@
 	};
 	2F7EA3F50FFCEBE6005E5C36 /* dumpfiles.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {2186, 2870}}";
-			sepNavSelRange = "{4592, 0}";
-			sepNavVisRect = "{{0, 1967}, {736, 585}}";
+			sepNavIntBoundsRect = "{{0, 0}, {2186, 2828}}";
+			sepNavSelRange = "{4336, 0}";
+			sepNavVisRect = "{{0, 1843}, {736, 585}}";
 			sepNavWindowFrame = "{{15, 59}, {775, 714}}";
 		};
 	};
@@ -839,7 +885,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {736, 3640}}";
 			sepNavSelRange = "{4476, 0}";
-			sepNavVisRect = "{{0, 1897}, {736, 585}}";
+			sepNavVisRect = "{{0, 1907}, {736, 585}}";
 			sepNavWindowFrame = "{{421, 31}, {775, 714}}";
 		};
 	};
@@ -849,27 +895,6 @@
 			sepNavSelRange = "{72, 9}";
 			sepNavVisRect = "{{0, 0}, {736, 585}}";
 		};
-	};
-	2FDA7C9D1026390B00DC8F16 /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = 2F9355AE1012670D00099D24 /* ProjectDocument.m */;
-	};
-	2FDA7CDF10263F2E00DC8F16 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 2F7EA3F50FFCEBE6005E5C36 /* dumpfiles.cpp */;
-		rLen = 0;
-		rLoc = 2295;
-		rType = 0;
-	};
-	2FDA7CF7102643BB00DC8F16 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 2F7EA3F50FFCEBE6005E5C36 /* dumpfiles.cpp */;
-		name = "dumpfiles.cpp: 162";
-		rLen = 0;
-		rLoc = 4592;
-		rType = 0;
-		vrLen = 1100;
-		vrLoc = 4075;
 	};
 	2FDA7CF8102643BB00DC8F16 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;

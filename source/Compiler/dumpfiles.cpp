@@ -68,21 +68,30 @@ int getFileType (char * filename) {
 
 bool dumpFiles (FILE * mainFile, stringArray * & theSA) {
 
+	if (! theSA) return true;
+	
 	// Display first...
 
 	setCompilerText (COM_PROGTEXT, "Attaching sprites, images and audio files");
 	setCompilerText (COM_ITEMTEXT, "");
-	clearRect (countElements (theSA), P_BOTTOM);
+	
+	int numFiles = countElements (theSA);
+	
+	clearRect (numFiles, P_BOTTOM);
 
 	// Now the hard work
-	unsigned long remainingIndexSize = countElements (theSA) * 4 - 4;
+	unsigned long remainingIndexSize[numFiles];
+	unsigned long currentRemainingIndex;
 	unsigned long filesize;
-	int i = 0, ch;
-	gotoTempDirectory ();
+	
+	currentRemainingIndex = remainingIndexSize[0] = numFiles * 4 - 4;
+	
+	long lookup = ftell(mainFile);
+	fseek(mainFile, lookup+currentRemainingIndex+4, SEEK_SET);
+	
+	int i = 0;
 
-	FILE * inFile, * outFile = fopen ("alldata.big", "wb");
-	if (outFile == NULL)
-		return addComment (ERRORTYPE_SYSTEMERROR, "Can't write temporary file", "alldata.big", NULL);
+	FILE * inFile;
 	gotoSourceDirectory ();
 	
 	bool killAfterAdd;
@@ -92,10 +101,10 @@ bool dumpFiles (FILE * mainFile, stringArray * & theSA) {
 		killAfterAdd = false;
 		if (! theSA -> string[0]) {
 			// Nothing - used in forceSilent mode to replace audio	
-			put4bytes (0, outFile);
+			put4bytes (0, mainFile);
 
 			// Save the distance from here to the data in the index...
-			put4bytes (remainingIndexSize, mainFile);
+			remainingIndexSize[i] = currentRemainingIndex;
 		} else {
 			switch (getFileType (theSA->string)) {
 				case FILETYPE_TGA:
@@ -125,15 +134,15 @@ bool dumpFiles (FILE * mainFile, stringArray * & theSA) {
 			fseek (inFile, 0, 0);
 			
 			// Save the size at the start of the data...
-			put4bytes (filesize, outFile);
+			put4bytes (filesize, mainFile);
 			
 			// Save the distance from here to the data in the index...
-			put4bytes (remainingIndexSize, mainFile);
+			remainingIndexSize[i] = currentRemainingIndex;
 			
-			remainingIndexSize += filesize;
+			currentRemainingIndex += filesize;
 			
 			while (filesize --) {
-				fputc (fgetc (inFile), outFile);
+				fputc (fgetc (inFile), mainFile);
 			}
 			
 			fclose (inFile);
@@ -142,29 +151,17 @@ bool dumpFiles (FILE * mainFile, stringArray * & theSA) {
 		destroyFirst (theSA);
 		percRect (++ i, P_BOTTOM);
 	}
+	long filePos = ftell(mainFile);
 	
-	setCompilerText (COM_FILENAME, "");	
-	percRect (++ i, P_BOTTOM);
-	
-	fclose (outFile);
-	gotoTempDirectory ();
-	inFile = fopen ("alldata.big", "rb");
-	if (! inFile) return addComment (ERRORTYPE_SYSTEMERROR, "Can't read the file I just wrote", "alldata.big", NULL);
-
 	setCompilerText (COM_PROGTEXT, "Adding look-up table");
-	percRect (i, P_BOTTOM);
-	for (;;) {
-		ch = fgetc (inFile);
-		if (feof (inFile)) break;
-		fputc (ch, mainFile);
+	setCompilerText (COM_FILENAME, "");		
+	percRect (++ i, P_BOTTOM);
+
+	fseek(mainFile, lookup, SEEK_SET);
+	for (i=0;i<numFiles;i++) {
+		put4bytes (remainingIndexSize[i], mainFile);
 	}
-
-	fclose (inFile);
-	unlink ("alldata.big");
-
-//	char showWhenDone[255];
-//	sprintf (showWhenDone, "Added %d resources", howManyFiles);
-//	addComment (showWhenDone);
+	fseek(mainFile, filePos, SEEK_SET);
 	
 	return true;
 }
