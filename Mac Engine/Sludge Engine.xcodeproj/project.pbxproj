@@ -96,6 +96,7 @@
 		2F7BFF610E33880C003F5DC3 /* zbuffer.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF5D0E33880C003F5DC3 /* zbuffer.h */; };
 		2F83725B0E5042FA00CC8352 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F83725A0E5042FA00CC8352 /* OpenGL.framework */; };
 		2F9B3FBC0F557405003B4998 /* Sludge.icns in Resources */ = {isa = PBXBuildFile; fileRef = 2F9B3FBB0F557405003B4998 /* Sludge.icns */; };
+		2FA0F87C1025AD8100319A33 /* libpng.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FA0F87B1025AD8100319A33 /* libpng.framework */; };
 		2FA5507C0FF90CC4006A67ED /* Start.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2FA5507A0FF90CC4006A67ED /* Start.h */; };
 		2FA5507D0FF90CC4006A67ED /* Start.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FA5507B0FF90CC4006A67ED /* Start.m */; };
 		2FA550870FF90E90006A67ED /* Startup.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2FA550860FF90E90006A67ED /* Startup.nib */; };
@@ -268,6 +269,7 @@
 		2F7BFF5D0E33880C003F5DC3 /* zbuffer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = zbuffer.h; path = ../source/Engine/zbuffer.h; sourceTree = SOURCE_ROOT; };
 		2F83725A0E5042FA00CC8352 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		2F9B3FBB0F557405003B4998 /* Sludge.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Sludge.icns; path = ../images/Sludge.icns; sourceTree = SOURCE_ROOT; };
+		2FA0F87B1025AD8100319A33 /* libpng.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libpng.framework; path = /Library/Frameworks/libpng.framework; sourceTree = "<absolute>"; };
 		2FA5507A0FF90CC4006A67ED /* Start.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Start.h; sourceTree = "<group>"; };
 		2FA5507B0FF90CC4006A67ED /* Start.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Start.m; sourceTree = "<group>"; };
 		2FA550860FF90E90006A67ED /* Startup.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = Startup.nib; sourceTree = "<group>"; };
@@ -287,6 +289,7 @@
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				2F6E5C300E49FE33007408A4 /* libbass.dylib in Frameworks */,
 				2F83725B0E5042FA00CC8352 /* OpenGL.framework in Frameworks */,
+				2FA0F87C1025AD8100319A33 /* libpng.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,7 +337,6 @@
 		29B97314FDCFA39411CA2CEA /* SdlSludge */ = {
 			isa = PBXGroup;
 			children = (
-				2F7BFF060E3386A0003F5DC3 /* Headers */,
 				2F7BFEB50E33848B003F5DC3 /* Source Files */,
 				080E96DDFE201D6D7F000001 /* OSX Stuff */,
 				29B97315FDCFA39411CA2CEA /* Common Code */,
@@ -375,6 +377,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2FA0F87B1025AD8100319A33 /* libpng.framework */,
 				2F6E5C2F0E49FE33007408A4 /* libbass.dylib */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
@@ -385,6 +388,45 @@
 		2F7BFEB50E33848B003F5DC3 /* Source Files */ = {
 			isa = PBXGroup;
 			children = (
+				2F7BFF0B0E3386AD003F5DC3 /* ALLFILES.H */,
+				2F7BFF080E3386AD003F5DC3 /* BACKDROP.H */,
+				2F6E5C310E49FE55007408A4 /* bass.h */,
+				2F7BFF070E3386AD003F5DC3 /* bg_effects.h */,
+				2F7BFF090E3386AD003F5DC3 /* BUILTIN.H */,
+				2F7BFF0A0E3386AD003F5DC3 /* COLOURS.H */,
+				2F7BFF0D0E3386AD003F5DC3 /* CSLUDGE.H */,
+				2F7BFF0C0E3386AD003F5DC3 /* CURSORS.H */,
+				2F7BFF160E3386C4003F5DC3 /* debug.h */,
+				2F7BFF190E3386C4003F5DC3 /* errors.h */,
+				2F7BFF180E3386C4003F5DC3 /* FILESET.H */,
+				2F7BFF170E3386C4003F5DC3 /* floor.h */,
+				2F7BFF200E3386E1003F5DC3 /* FONTTEXT.H */,
+				2F7BFF1F0E3386E1003F5DC3 /* FREEZE.H */,
+				2FB1C3C30FAB4C7900718E0C /* Graphics.h */,
+				2F7BFF2A0E338718003F5DC3 /* Language.h */,
+				2F7BFF280E338718003F5DC3 /* line.h */,
+				2F7BFF290E338718003F5DC3 /* LOADSAVE.H */,
+				2F7BFF2B0E338718003F5DC3 /* memwatch.h */,
+				2F7BFF270E338718003F5DC3 /* MOREIO.H */,
+				2F7BFF2C0E338718003F5DC3 /* NEWFATAL.H */,
+				2F7BFF260E338718003F5DC3 /* OBJTYPES.H */,
+				2F7BFF250E338718003F5DC3 /* PEOPLE.H */,
+				2F7BFF350E338736003F5DC3 /* REGION.H */,
+				2F7BFF3A0E338736003F5DC3 /* savedata.h */,
+				2F7BFF380E338736003F5DC3 /* SLUDGER.H */,
+				2F7BFF390E338736003F5DC3 /* sound.h */,
+				2F7BFF470E33877A003F5DC3 /* SPRBANKS.H */,
+				2F7BFF430E33877A003F5DC3 /* sprites.h */,
+				2F7BFF480E33877A003F5DC3 /* Sprites_AA.h */,
+				2F7BFF440E33877A003F5DC3 /* STATUSBA.H */,
+				2F7BFF450E33877A003F5DC3 /* STRINGY.H */,
+				2F7BFF460E33877A003F5DC3 /* TALK.H */,
+				2F7BFF530E3387B4003F5DC3 /* thumbnail.h */,
+				2F7BFF540E3387B4003F5DC3 /* timing.h */,
+				2F7BFF520E3387B4003F5DC3 /* transition.h */,
+				2F7BFF510E3387B4003F5DC3 /* VARIABLE.H */,
+				2F7BFF5C0E33880C003F5DC3 /* WINSTUFF.H */,
+				2F7BFF5D0E33880C003F5DC3 /* zbuffer.h */,
 				2F6F29930FBEFF3D00BC6A67 /* main.cpp */,
 				2F7BFEB60E3384AE003F5DC3 /* BACKDROP.CPP */,
 				2F7BFEB80E3384B8003F5DC3 /* bg_effects.cpp */,
@@ -422,52 +464,6 @@
 				2FB1C3BC0FAB4B5700718E0C /* Graphics.cpp */,
 			);
 			name = "Source Files";
-			sourceTree = "<group>";
-		};
-		2F7BFF060E3386A0003F5DC3 /* Headers */ = {
-			isa = PBXGroup;
-			children = (
-				2F6E5C310E49FE55007408A4 /* bass.h */,
-				2F7BFF070E3386AD003F5DC3 /* bg_effects.h */,
-				2F7BFF080E3386AD003F5DC3 /* BACKDROP.H */,
-				2F7BFF090E3386AD003F5DC3 /* BUILTIN.H */,
-				2F7BFF0A0E3386AD003F5DC3 /* COLOURS.H */,
-				2F7BFF0B0E3386AD003F5DC3 /* ALLFILES.H */,
-				2F7BFF0C0E3386AD003F5DC3 /* CURSORS.H */,
-				2F7BFF0D0E3386AD003F5DC3 /* CSLUDGE.H */,
-				2F7BFF160E3386C4003F5DC3 /* debug.h */,
-				2F7BFF170E3386C4003F5DC3 /* floor.h */,
-				2F7BFF180E3386C4003F5DC3 /* FILESET.H */,
-				2F7BFF190E3386C4003F5DC3 /* errors.h */,
-				2F7BFF1F0E3386E1003F5DC3 /* FREEZE.H */,
-				2F7BFF200E3386E1003F5DC3 /* FONTTEXT.H */,
-				2F7BFF250E338718003F5DC3 /* PEOPLE.H */,
-				2F7BFF260E338718003F5DC3 /* OBJTYPES.H */,
-				2F7BFF270E338718003F5DC3 /* MOREIO.H */,
-				2F7BFF280E338718003F5DC3 /* line.h */,
-				2F7BFF290E338718003F5DC3 /* LOADSAVE.H */,
-				2F7BFF2A0E338718003F5DC3 /* Language.h */,
-				2F7BFF2B0E338718003F5DC3 /* memwatch.h */,
-				2F7BFF2C0E338718003F5DC3 /* NEWFATAL.H */,
-				2F7BFF350E338736003F5DC3 /* REGION.H */,
-				2F7BFF380E338736003F5DC3 /* SLUDGER.H */,
-				2F7BFF390E338736003F5DC3 /* sound.h */,
-				2F7BFF3A0E338736003F5DC3 /* savedata.h */,
-				2F7BFF430E33877A003F5DC3 /* sprites.h */,
-				2F7BFF440E33877A003F5DC3 /* STATUSBA.H */,
-				2F7BFF450E33877A003F5DC3 /* STRINGY.H */,
-				2F7BFF460E33877A003F5DC3 /* TALK.H */,
-				2F7BFF470E33877A003F5DC3 /* SPRBANKS.H */,
-				2F7BFF480E33877A003F5DC3 /* Sprites_AA.h */,
-				2F7BFF510E3387B4003F5DC3 /* VARIABLE.H */,
-				2F7BFF520E3387B4003F5DC3 /* transition.h */,
-				2F7BFF530E3387B4003F5DC3 /* thumbnail.h */,
-				2F7BFF540E3387B4003F5DC3 /* timing.h */,
-				2F7BFF5C0E33880C003F5DC3 /* WINSTUFF.H */,
-				2F7BFF5D0E33880C003F5DC3 /* zbuffer.h */,
-				2FB1C3C30FAB4C7900718E0C /* Graphics.h */,
-			);
-			name = Headers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

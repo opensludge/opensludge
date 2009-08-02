@@ -1,3 +1,4 @@
+#include <libpng/png.h>
 #include "allfiles.h"
 
 #include "fileset.h"
@@ -67,7 +68,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 		}
 	}
 	
-	if (loadSaveMode > 2) return fatal ("Unsupported sprite bank file format");
+	if (loadSaveMode > 3) return fatal ("Unsupported sprite bank file format");
 	if (total <= 0) return fatal ("No sprites in bank or invalid sprite bank file");
 
 	loadhere.total = total;
@@ -75,7 +76,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 	byte ** spriteData = new byte * [total];
 	if (! checkNew (loadhere.sprites)) return false;
 
-	if (loadSaveMode) {
+	if (loadSaveMode && loadSaveMode < 3) {
 		howmany = fgetc (bigDataFile);
 		startIndex = 1;
 	}
@@ -84,6 +85,51 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 
 	for (i = 0; i < total; i ++) {
 		switch (loadSaveMode) {
+			case 3:
+			{
+				loadhere.sprites[i].xhot = readSigned (bigDataFile);
+				loadhere.sprites[i].yhot = readSigned (bigDataFile);
+				
+				png_structp png_ptr = png_create_read_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+				if (!png_ptr) {
+					return fatal ("Can't open sprite bank / font.");
+				}
+					
+				png_infop info_ptr = png_create_info_struct(png_ptr);
+				if (!info_ptr) {
+					png_destroy_read_struct(&png_ptr, (png_infopp) NULL, (png_infopp) NULL);
+					return fatal ("Can't open sprite bank / font.");
+				}
+					
+				png_infop end_info = png_create_info_struct(png_ptr);
+				if (!end_info) {
+					png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
+					return fatal ("Can't open sprite bank / font.");
+				}
+				png_init_io(png_ptr, bigDataFile);		// Tell libpng which file to read
+				png_set_sig_bytes(png_ptr, 8);			// No sig
+				
+				png_read_info(png_ptr, info_ptr);
+				
+				png_uint_32 width, height;
+				int bit_depth, color_type, interlace_type, compression_type, filter_method;
+				png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, &interlace_type, &compression_type, &filter_method);
+				
+				int rowbytes = png_get_rowbytes(png_ptr, info_ptr);
+				
+				unsigned char * row_pointers[height];
+				spriteData[i] = new unsigned char [rowbytes*height];
+				for (int row = 0; row<height; row++)
+					row_pointers[row] = spriteData[i] + row*rowbytes;
+					
+				png_read_image(png_ptr, (png_byte **) row_pointers);
+				png_read_end(png_ptr, NULL);
+				png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
+				
+				picwidth = loadhere.sprites[i].width = width;
+				picheight = loadhere.sprites[i].height = height;
+				break;
+			}
 			case 2:
 			picwidth = get2bytes (bigDataFile);
 			picheight = get2bytes (bigDataFile);
@@ -98,6 +144,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 			loadhere.sprites[i].yhot = fgetc (bigDataFile);
 			break;
 		}
+		
 		if (totalwidth[numTextures] + picwidth < 2048) {
 			loadhere.sprites[i].tex_x = totalwidth[numTextures];
 			totalwidth[numTextures] += (loadhere.sprites[i].width = picwidth);
@@ -111,38 +158,40 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 		}
 		loadhere.sprites[i].texNum = numTextures;
 
-		data = (byte *) new byte [picwidth * (picheight + 1)];
-		if (! checkNew (data)) return false;
-		int ooo = picwidth * picheight;
-		for (int tt = 0; tt < picwidth; tt ++) {
-			data[ooo ++] = 0;
-		}
-		spriteData[i] = data;
-		switch (loadSaveMode) {
-			case 2:			// RUN LENGTH COMPRESSED DATA
-			{
-				unsigned size = picwidth * picheight;
-				unsigned pip = 0;
-				
-				while (pip < size) {
-					byte col = fgetc (bigDataFile);
-					int looper;
+		if (loadSaveMode < 3) {
+			data = (byte *) new byte [picwidth * (picheight + 1)];
+			if (! checkNew (data)) return false;
+			int ooo = picwidth * picheight;
+			for (int tt = 0; tt < picwidth; tt ++) {
+				data[ooo ++] = 0;
+			}
+			spriteData[i] = data;
+			switch (loadSaveMode) {
+				case 2:			// RUN LENGTH COMPRESSED DATA
+				{
+					unsigned size = picwidth * picheight;
+					unsigned pip = 0;
 					
-					if (col > howmany) {
-						col -= howmany + 1;
-						looper = fgetc (bigDataFile) + 1;
-					} else looper = 1;
-					
-					while (looper --) {
-						data[pip ++] = col;
+					while (pip < size) {
+						byte col = fgetc (bigDataFile);
+						int looper;
+						
+						if (col > howmany) {
+							col -= howmany + 1;
+							looper = fgetc (bigDataFile) + 1;
+						} else looper = 1;
+						
+						while (looper --) {
+							data[pip ++] = col;
+						}
 					}
 				}
+				break;
+				
+				default:		// RAW DATA
+				fread (data, picwidth, picheight, bigDataFile);
+				break;
 			}
-			break;
-			
-			default:		// RAW DATA
-			fread (data, picwidth, picheight, bigDataFile);
-			break;
 		}
 	}
 	numTextures++;
@@ -152,13 +201,15 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 		startIndex = fgetc (bigDataFile);
 	}
 
-	if (! reserveSpritePal (loadhere.myPalette, howmany + startIndex)) return false;
+	if (loadSaveMode < 3) {
+		if (! reserveSpritePal (loadhere.myPalette, howmany + startIndex)) return false;
 
-	for (i = 0; i < howmany; i ++) {
-		loadhere.myPalette.r[i + startIndex] = (byte) fgetc (bigDataFile);
-		loadhere.myPalette.g[i + startIndex] = (byte) fgetc (bigDataFile);
-		loadhere.myPalette.b[i + startIndex] = (byte) fgetc (bigDataFile);
-		loadhere.myPalette.pal[i + startIndex] = makeColour (loadhere.myPalette.r[i + startIndex], loadhere.myPalette.g[i + startIndex], loadhere.myPalette.b[i + startIndex]);
+		for (i = 0; i < howmany; i ++) {
+			loadhere.myPalette.r[i + startIndex] = (byte) fgetc (bigDataFile);
+			loadhere.myPalette.g[i + startIndex] = (byte) fgetc (bigDataFile);
+			loadhere.myPalette.b[i + startIndex] = (byte) fgetc (bigDataFile);
+			loadhere.myPalette.pal[i + startIndex] = makeColour (loadhere.myPalette.r[i + startIndex], loadhere.myPalette.g[i + startIndex], loadhere.myPalette.b[i + startIndex]);
+		}
 	}
 	
 	loadhere.myPalette.originalRed = loadhere.myPalette.originalGreen = loadhere.myPalette.originalBlue = 255;
@@ -186,27 +237,34 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 		for (int y = 0; y < loadhere.sprites[i].height; y ++) {
 			for (int x = loadhere.sprites[i].tex_x; x < loadhere.sprites[i].tex_x+loadhere.sprites[i].width; x ++) {
 				GLubyte * target = tmp[loadhere.sprites[i].texNum] + 4*totalwidth[loadhere.sprites[i].texNum]*y + x*4;
-				s = spriteData[i][fromhere++];
-				if (s) {
-					target[0] = (GLubyte) loadhere.myPalette.r[s];
-					target[1] = (GLubyte) loadhere.myPalette.g[s];
-					target[2] = (GLubyte) loadhere.myPalette.b[s];
-					target[3] = (GLubyte) 255;
-				} else {
-					target[0] = (GLubyte) 0;
-					target[1] = (GLubyte) 0;
-					target[2] = (GLubyte) 0;
-					target[3] = (GLubyte) 0;
-				}
-				if (isFont) {
-					target = tmp2[loadhere.sprites[i].texNum] + 4*totalwidth[loadhere.sprites[i].texNum]*y + x*4;
-					target[0] = (GLubyte) 255;
-					target[1] = (GLubyte) 255;
-					target[2] = (GLubyte) 255;
-					if (s)
-						target[3] = (GLubyte) loadhere.myPalette.r[s];
-					else 
+				if (loadSaveMode < 3) {
+					s = spriteData[i][fromhere++];
+					if (s) {
+						target[0] = (GLubyte) loadhere.myPalette.r[s];
+						target[1] = (GLubyte) loadhere.myPalette.g[s];
+						target[2] = (GLubyte) loadhere.myPalette.b[s];
+						target[3] = (GLubyte) 255;
+					} else {
+						target[0] = (GLubyte) 0;
+						target[1] = (GLubyte) 0;
+						target[2] = (GLubyte) 0;
 						target[3] = (GLubyte) 0;
+					}
+					if (isFont) {
+						target = tmp2[loadhere.sprites[i].texNum] + 4*totalwidth[loadhere.sprites[i].texNum]*y + x*4;
+						target[0] = (GLubyte) 255;
+						target[1] = (GLubyte) 255;
+						target[2] = (GLubyte) 255;
+						if (s)
+							target[3] = (GLubyte) loadhere.myPalette.r[s];
+						else 
+							target[3] = (GLubyte) 0;
+					}
+				} else {
+					target[0] = (GLubyte) spriteData[i][fromhere++];
+					target[1] = (GLubyte) spriteData[i][fromhere++];
+					target[2] = (GLubyte) spriteData[i][fromhere++];
+					target[3] = (GLubyte) spriteData[i][fromhere++];
 				}
 			}
 		}

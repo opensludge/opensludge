@@ -47,11 +47,11 @@ bool saveSpriteBank (const char * filename, struct spriteBank *sprites);
 void addSprite (int i, struct spriteBank *sprites);
 void deleteSprite (int i, struct spriteBank *sprites);
 
-bool loadSpriteFromPNG (char * file, struct spriteBank *sprites, int index);
-bool loadSpriteFromTGA (char * file, struct spriteBank *sprites, int index);
+bool loadSpriteFromPNG (const char * file, struct spriteBank *sprites, int index);
+bool loadSpriteFromTGA (const char * file, struct spriteBank *sprites, int index);
 
 bool convertSpriteBank8to32 (struct spriteBank *sprites);
-bool exportToPNG (char * file, struct spriteBank *sprites, int index);
+bool exportToPNG (const char * file, struct spriteBank *sprites, int index);
 
 void paintPal (HWND h);
 void sortColours (HWND h);

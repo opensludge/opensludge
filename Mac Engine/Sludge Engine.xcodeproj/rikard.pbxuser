@@ -175,16 +175,14 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 270847074;
-			PBXWorkspaceStateSaveDate = 270847074;
+			PBXPerProjectTemplateStateSaveDate = 270906461;
+			PBXWorkspaceStateSaveDate = 270906461;
 		};
 		perUserProjectItems = {
-			2F31E55F1024CC4400C1D3C9 /* PBXTextBookmark */ = 2F31E55F1024CC4400C1D3C9 /* PBXTextBookmark */;
-			2F31E5601024CC4400C1D3C9 /* PBXTextBookmark */ = 2F31E5601024CC4400C1D3C9 /* PBXTextBookmark */;
-			2FBE362A1024CD1A005FE1CE /* PBXTextBookmark */ = 2FBE362A1024CD1A005FE1CE /* PBXTextBookmark */;
-			2FBE362B1024CD1A005FE1CE /* PBXTextBookmark */ = 2FBE362B1024CD1A005FE1CE /* PBXTextBookmark */;
-			2FBE362C1024CD1A005FE1CE /* PBXTextBookmark */ = 2FBE362C1024CD1A005FE1CE /* PBXTextBookmark */;
-			2FBE362D1024CD1A005FE1CE /* PBXTextBookmark */ = 2FBE362D1024CD1A005FE1CE /* PBXTextBookmark */;
+			2FA6D6F71025B40D0042B329 /* PBXTextBookmark */ = 2FA6D6F71025B40D0042B329 /* PBXTextBookmark */;
+			2FA6D6F81025B40D0042B329 /* PBXTextBookmark */ = 2FA6D6F81025B40D0042B329 /* PBXTextBookmark */;
+			2FEFE4D51025B7E200AA247A /* PBXTextBookmark */ = 2FEFE4D51025B7E200AA247A /* PBXTextBookmark */;
+			2FEFE4D61025B7E200AA247A /* PBXTextBookmark */ = 2FEFE4D61025B7E200AA247A /* PBXTextBookmark */;
 		};
 		sourceControlManager = 2FAD3C3B0E335871003DEE41 /* Source Control */;
 		userBuildSettings = {
@@ -194,26 +192,6 @@
 		uiCtxt = {
 			sepNavWindowFrame = "{{15, 59}, {775, 714}}";
 		};
-	};
-	2F31E55F1024CC4400C1D3C9 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 2F6F29930FBEFF3D00BC6A67 /* main.cpp */;
-		name = "main.cpp: 168";
-		rLen = 0;
-		rLoc = 3368;
-		rType = 0;
-		vrLen = 1423;
-		vrLoc = 2459;
-	};
-	2F31E5601024CC4400C1D3C9 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 2F7BFEE20E33858E003F5DC3 /* SLUDGER.CPP */;
-		name = "SLUDGER.CPP: 177";
-		rLen = 0;
-		rLoc = 4708;
-		rType = 0;
-		vrLen = 1279;
-		vrLoc = 7437;
 	};
 	2F3AB887100CF97C00CD6A13 /* Credits.html */ = {
 		uiCtxt = {
@@ -243,7 +221,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1304, 4606}}";
 			sepNavSelRange = "{8913, 0}";
-			sepNavVisRect = "{{0, 3666}, {736, 585}}";
+			sepNavVisRect = "{{0, 3668}, {736, 585}}";
 			sepNavWindowFrame = "{{26, 64}, {775, 714}}";
 		};
 	};
@@ -251,7 +229,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {736, 4592}}";
 			sepNavSelRange = "{1177, 0}";
-			sepNavVisRect = "{{0, 565}, {736, 585}}";
+			sepNavVisRect = "{{0, 570}, {736, 585}}";
 			sepNavWindowFrame = "{{15, 64}, {775, 714}}";
 		};
 	};
@@ -400,8 +378,8 @@
 	2F7BFEE20E33858E003F5DC3 /* SLUDGER.CPP */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1280, 15960}}";
-			sepNavSelRange = "{974, 0}";
-			sepNavVisRect = "{{0, 470}, {736, 585}}";
+			sepNavSelRange = "{1159, 0}";
+			sepNavVisRect = "{{0, 0}, {736, 585}}";
 			sepNavWindowFrame = "{{473, 64}, {775, 714}}";
 		};
 	};
@@ -417,16 +395,16 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {977, 728}}";
 			sepNavSelRange = "{213, 0}";
-			sepNavVisRect = "{{0, 0}, {977, 562}}";
+			sepNavVisRect = "{{0, 166}, {977, 562}}";
 			sepNavWindowFrame = "{{-2, 87}, {1016, 691}}";
 		};
 	};
 	2F7BFEE70E3385F8003F5DC3 /* SPRITES.CPP */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1316, 12446}}";
-			sepNavSelRange = "{22399, 11}";
-			sepNavVisRect = "{{0, 9013}, {890, 223}}";
-			sepNavWindowFrame = "{{254, 7}, {1016, 691}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1316, 13258}}";
+			sepNavSelRange = "{4198, 0}";
+			sepNavVisRect = "{{0, 1630}, {977, 562}}";
+			sepNavWindowFrame = "{{283, 75}, {1016, 691}}";
 		};
 	};
 	2F7BFEE80E3385F8003F5DC3 /* Sprites_AA.CPP */ = {
@@ -671,9 +649,9 @@
 	};
 	2F7BFF430E33877A003F5DC3 /* sprites.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1250, 672}}";
-			sepNavSelRange = "{536, 0}";
-			sepNavVisRect = "{{0, 42}, {977, 562}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1250, 686}}";
+			sepNavSelRange = "{501, 0}";
+			sepNavVisRect = "{{0, 84}, {977, 562}}";
 			sepNavWindowFrame = "{{185, 85}, {1016, 691}}";
 		};
 	};
@@ -780,6 +758,26 @@
 			sepNavWindowFrame = "{{36, 45}, {775, 714}}";
 		};
 	};
+	2FA6D6F71025B40D0042B329 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2F7BFEE70E3385F8003F5DC3 /* SPRITES.CPP */;
+		name = "SPRITES.CPP: 195";
+		rLen = 0;
+		rLoc = 7554;
+		rType = 0;
+		vrLen = 858;
+		vrLoc = 5331;
+	};
+	2FA6D6F81025B40D0042B329 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2F7BFF430E33877A003F5DC3 /* sprites.h */;
+		name = "sprites.h: 28";
+		rLen = 0;
+		rLoc = 501;
+		rType = 0;
+		vrLen = 1457;
+		vrLoc = 80;
+	};
 	2FAD3C2C0E33586B003DEE41 /* OpenSLUDGE */ = {
 		isa = PBXExecutable;
 		activeArgIndex = 2147483647;
@@ -805,8 +803,18 @@
 			"/Users/rikard/Documents/SLUDGE/Mac Engine/build/Debug/SLUDGE.app/Contents/MacOS/SLUDGE" = (
 				{
 					display = 1;
+					filename = "/Users/rikard/Documents/SLUDGE/Mac Engine/../source/Engine/Graphics.cpp";
+					name = winWidth;
+				},
+				{
+					display = 1;
+					filename = "/Users/rikard/Documents/SLUDGE/Mac Engine/../source/Engine/Graphics.cpp";
+					name = winHeight;
+				},
+				{
+					display = 1;
 					filename = "/Users/rikard/Documents/SLUDGE/Mac Engine/../source/Engine/SLUDGER.CPP";
-					name = numGlobals;
+					name = gameVersion;
 				},
 				{
 					display = 1;
@@ -816,17 +824,7 @@
 				{
 					display = 1;
 					filename = "/Users/rikard/Documents/SLUDGE/Mac Engine/../source/Engine/SLUDGER.CPP";
-					name = gameVersion;
-				},
-				{
-					display = 1;
-					filename = "/Users/rikard/Documents/SLUDGE/Mac Engine/../source/Engine/Graphics.cpp";
-					name = winHeight;
-				},
-				{
-					display = 1;
-					filename = "/Users/rikard/Documents/SLUDGE/Mac Engine/../source/Engine/Graphics.cpp";
-					name = winWidth;
+					name = numGlobals;
 				},
 			);
 		};
@@ -849,9 +847,9 @@
 	};
 	2FB1C3BC0FAB4B5700718E0C /* Graphics.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {839, 2828}}";
+			sepNavIntBoundsRect = "{{0, 0}, {770, 2828}}";
 			sepNavSelRange = "{1354, 0}";
-			sepNavVisRect = "{{0, 0}, {839, 223}}";
+			sepNavVisRect = "{{0, 2136}, {736, 585}}";
 			sepNavWindowFrame = "{{87, 64}, {775, 714}}";
 		};
 	};
@@ -862,46 +860,6 @@
 			sepNavVisRect = "{{0, 0}, {736, 585}}";
 			sepNavWindowFrame = "{{87, 64}, {775, 714}}";
 		};
-	};
-	2FBE362A1024CD1A005FE1CE /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 2F7BFEE20E33858E003F5DC3 /* SLUDGER.CPP */;
-		name = "SLUDGER.CPP: 56";
-		rLen = 0;
-		rLoc = 974;
-		rType = 0;
-		vrLen = 910;
-		vrLoc = 541;
-	};
-	2FBE362B1024CD1A005FE1CE /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 2F6F29630FBEFE4800BC6A67 /* OSXMain.m */;
-		name = "OSXMain.m: 329";
-		rLen = 0;
-		rLoc = 8913;
-		rType = 0;
-		vrLen = 896;
-		vrLoc = 6875;
-	};
-	2FBE362C1024CD1A005FE1CE /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 2F6F29630FBEFE4800BC6A67 /* OSXMain.m */;
-		name = "OSXMain.m: 329";
-		rLen = 0;
-		rLoc = 8913;
-		rType = 0;
-		vrLen = 1032;
-		vrLoc = 7191;
-	};
-	2FBE362D1024CD1A005FE1CE /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 2F6F29930FBEFF3D00BC6A67 /* main.cpp */;
-		name = "main.cpp: dialogValue";
-		rLen = 0;
-		rLoc = 1177;
-		rType = 0;
-		vrLen = 662;
-		vrLoc = 792;
 	};
 	2FD9F7220E3F2C380083A726 /* XCBreakpointsBucket */ = {
 		isa = XCBreakpointsBucket;
@@ -924,6 +882,26 @@
 			sepNavVisRect = "{{0, 5987}, {736, 585}}";
 			sepNavWindowFrame = "{{348, 40}, {775, 714}}";
 		};
+	};
+	2FEFE4D51025B7E200AA247A /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2F7BFEE70E3385F8003F5DC3 /* SPRITES.CPP */;
+		name = "SPRITES.CPP: 139";
+		rLen = 0;
+		rLoc = 4198;
+		rType = 0;
+		vrLen = 1551;
+		vrLoc = 3441;
+	};
+	2FEFE4D61025B7E200AA247A /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2F7BFF430E33877A003F5DC3 /* sprites.h */;
+		name = "sprites.h: 28";
+		rLen = 0;
+		rLoc = 501;
+		rType = 0;
+		vrLen = 1457;
+		vrLoc = 80;
 	};
 	8D1107260486CEB800E47090 /* OpenSLUDGE */ = {
 		activeExec = 0;

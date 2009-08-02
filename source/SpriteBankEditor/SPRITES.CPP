@@ -30,6 +30,18 @@ bool reserveSpritePal (spritePalette * sP, int n) {
 }
 
 bool savePNGSprite (FILE * fp, struct spriteBank *sprites, int index, bool sig) {
+	if (sprites->sprites[index].width < 1) return errorBox ("Error saving", "Can't save a sprite that has no width.");
+	if (sprites->sprites[index].height < 1) {
+		sprites->sprites[index].height = 1;
+		unsigned char * d = new unsigned char [sprites->sprites[index].width*4];
+		if (!d) return errorBox ("Error saving", "Out of RAM memory.");
+		for (int i = 0; i < sprites->sprites[index].width*4; i++) {
+			d[i] = 0;
+		}
+		delete sprites->sprites[index].data;
+		sprites->sprites[index].data = d;
+	}
+	
 	png_structp png_ptr = png_create_write_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 	if (!png_ptr) {
 		fclose (fp);
@@ -84,7 +96,10 @@ bool saveSpriteBank (const char * filename, spriteBank *sprites) {
 		for (i = 0; i < sprites->total; i ++) {
 			putSigned (sprites->sprites[i].xhot, fp);
 			putSigned (sprites->sprites[i].yhot, fp);
-			savePNGSprite (fp, sprites, i, false);
+			if (!savePNGSprite (fp, sprites, i, false)) {
+				fclose(fp);
+				return false;
+			}
 		}
 		
 		fclose(fp);
@@ -138,17 +153,7 @@ bool saveSpriteBank (const char * filename, spriteBank *sprites) {
 	return true;
 }
 
-/*
-unsigned int get2bytes (unsigned char ** fp) {
-	int r = (**fp) * 256 + *(*fp+1);
-	*fp+=2;
-	return r;
-}
-short readSigned (unsigned char **fp) {
-	short f = **((short **) fp);
-	*fp += sizeof(short);
-	return f;
-}*/
+
 short readSigned (FILE * fp) {
 	short f;
 	fread (& f, sizeof (short), 1, fp);
@@ -165,7 +170,7 @@ bool loadSpriteBank (const char * filename, spriteBank *loadhere) {
 	// Open the file	
 	FILE * fp = fopen (filename, "rb");
 	if (fp == NULL) {
-		return errorBox ("Can't open PNG file", "The file can't be opened. I don't know why.");
+		return errorBox ("Can't open sprite bank", "The file can't be opened. I don't know why.");
 	}	
 	
 	total = get2bytes(fp);
@@ -548,7 +553,7 @@ int findOrAddPal (spritePalette *searchIn, unsigned char r, unsigned char g, uns
 }
 
 
-bool loadSpriteFromTGA (char * file, struct spriteBank *sprites, int index)
+bool loadSpriteFromTGA (const char * file, struct spriteBank *sprites, int index)
 {
 	palCol thePalette[256];
 
@@ -644,7 +649,7 @@ bool loadSpriteFromTGA (char * file, struct spriteBank *sprites, int index)
 	return true;
 }
 
-bool loadSpriteFromPNG (char * file, struct spriteBank *sprites, int index)
+bool loadSpriteFromPNG (const char * file, struct spriteBank *sprites, int index)
 {
 	if (sprites->type<2) {
 		return errorBox ("Can't open PNG file", "PNG files currently not supported in palette mode. Change to 32-bit mode and try again.");
@@ -783,7 +788,7 @@ bool convertSpriteBank8to32 (struct spriteBank *sprites) {
 	return true;
 }
 
-bool exportToPNG (char * file, struct spriteBank *sprites, int index) {
+bool exportToPNG (const char * file, struct spriteBank *sprites, int index) {
 	if (sprites->type < 2) return errorBox ("Export failed", "Sorry - can only export 32-bit pictures at the moment.");
 	
 	FILE *fp = fopen(file, "wb");

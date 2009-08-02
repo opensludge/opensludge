@@ -25,6 +25,7 @@ struct spritePalette {
 
 struct spriteBank {
 	int total;
+	int type;
 	sprite * sprites;
 	spritePalette myPalette;
 	bool isFont;

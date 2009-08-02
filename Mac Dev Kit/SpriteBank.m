@@ -60,7 +60,6 @@
     // Add any code here that needs to be executed once the windowController has loaded the document's window.
 	[spriteView connectToDoc: self];
 	[self setupButtons];
-	fprintf (stderr, "Sprite bank type: %d", sprites.type);
 	if (sprites.total) {
 		[spriteIndexSlider setEnabled:YES];
 		if (sprites.type < 2) {
