@@ -11,7 +11,7 @@
 extern "C" {
 #endif
 		
-	void compileEverything (char * project);
+	void compileEverything (char * project, char **fileList, int *numFiles);
 	
 	
 #ifdef __cplusplus

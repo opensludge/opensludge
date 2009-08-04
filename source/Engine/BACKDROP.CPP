@@ -4,8 +4,6 @@
 #include <stdlib.h>
 
 #include "glee.h"
-//#include <SDL_opengl.h>
-
 
 #include "allfiles.h"
 

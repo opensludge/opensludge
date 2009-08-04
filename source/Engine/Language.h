@@ -1,10 +1,5 @@
 #ifndef __LANGUAGE_H__
 #define __LANGUAGE_H__
-/*
-#if defined(_WIN32)
-#include "windef.h"
-#endif
-*/
 
 struct settingsStruct
 {

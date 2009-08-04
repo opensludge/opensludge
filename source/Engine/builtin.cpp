@@ -944,7 +944,7 @@ builtIn(launch)
 			fatal ("Can't get current directory");
 			return BR_NOCOMMENT;
 		}
-#ifdef _MSC_VER
+#ifdef _WIN32
 		if (gameDir[strlen (gameDir) - 1] != '\\') {
 			gameDir[strlen (gameDir) + 1] = NULL;
 			gameDir[strlen (gameDir)] = '\\';
@@ -1007,21 +1007,22 @@ builtIn(callEvent)
 	return BR_CONTINUE;
 }
 
-builtIn(movieStart)	// TODO(?)
+// The movie functions are deprecated and does nothing.
+builtIn(_rem_movieStart)
 {
 	UNUSEDALL
 	trimStack (fun -> stack);
 	return BR_CONTINUE;
 }
 
-builtIn(movieAbort)
+builtIn(_rem_movieAbort)
 {			
 	UNUSEDALL
 	setVariable (fun -> reg, SVT_INT, 0);				
 	return BR_CONTINUE;
 }
 
-builtIn(moviePlaying)
+builtIn(_rem_moviePlaying)
 {
 	UNUSEDALL
 	setVariable (fun -> reg, SVT_INT, 0);
@@ -2141,8 +2142,8 @@ builtIn(transitionMode)
 			}
 
 			
-			
-builtIn(updateDisplay)
+// Deprecated function - does nothing
+builtIn(_rem_updateDisplay)
 {
 	UNUSEDALL
 			//updateDisplay = getBoolean (fun -> stack -> thisVar);
@@ -2330,33 +2331,14 @@ builtIn(getLanguageID)
 				return BR_CONTINUE;
 			}
 
-builtIn(launchWith)	// TODO - remove?
+// Deprecated function
+builtIn(_rem_launchWith)	
 			{
 	UNUSEDALL
-				char * temp, * programFile, * arguments;
-				
-				temp = getTextFromAnyVar (fun -> stack -> thisVar);
-				arguments = encodeFilename (temp);
-				trimStack (fun -> stack);
-				delete temp;
-				
-				temp = getTextFromAnyVar (fun -> stack -> thisVar);
-				programFile = encodeFilename (temp);
-				trimStack (fun -> stack);
-				delete temp;
-				
-#ifdef WIN32				
-				temp = new char[strlen (arguments) + strlen (programFile) + 5];
-				sprintf (temp, "\"%s\" %s", programFile, arguments);
-				delete arguments;
-				delete programFile;
 
-				setVariable (fun -> reg, SVT_INT, (WinExec (temp, SW_SHOW) > 31));
-				delete temp;
-#else
-				delete arguments;
-				delete programFile;				
-#endif
+				trimStack (fun -> stack);
+				trimStack (fun -> stack);
+				setVariable (fun -> reg, SVT_INT, false);
 
 				return BR_CONTINUE;
 	 
@@ -2446,26 +2428,10 @@ builtIn(bodgeFilenames)
 			return BR_CONTINUE;
 			}
 
-builtIn(registryGetString)	
+// Deprecated - does nothing.
+builtIn(_rem_registryGetString)	
 			{
 	UNUSEDALL
-	/*TODO? (Or leave it disabled.)
-				char * item = getTextFromAnyVar (fun -> stack -> thisVar);
-				trimStack (fun -> stack);
-				char * folder = getTextFromAnyVar (fun -> stack -> thisVar);
-				trimStack (fun -> stack);
-				
-				char * reply = getRegString (folder, item);
-				delete folder;
-				delete item;
-				
-				if (reply) {
-					makeTextVar (fun -> reg, reply);
-					delete reply;
-				} else {
-					setVariable (fun -> reg, SVT_INT, 0);
-				}
-	*/
 				trimStack (fun -> stack);
 				trimStack (fun -> stack);
 				setVariable (fun -> reg, SVT_INT, 0);

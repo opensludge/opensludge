@@ -90,7 +90,7 @@ void readDir (char * t) {
 			
 		} else if (strcmp (splitLine -> string, "language") == 0) {
 			if (settings.originalLanguage) delete settings.originalLanguage;
-			settings.windowName = joinStrings ("", splitLine -> next -> string);
+			settings.originalLanguage = joinStrings ("", splitLine -> next -> string);
 			
 		// NEW MOUSE SETTING
 		} else if (strcmp (splitLine -> string, "mouse") == 0) {

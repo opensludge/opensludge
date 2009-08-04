@@ -13,7 +13,9 @@
 	// Main window
 	IBOutlet NSTabView *tabView;
 	IBOutlet NSTableView *projectFiles;
+	IBOutlet NSTableView *resourceFiles;
 	IBOutlet NSTableView *compilerErrors;
+	IBOutlet NSButton *removeFileButton;
 	
 	// Project Preferences
 	IBOutlet NSWindow *projectPrefs;
@@ -42,7 +44,14 @@
 	IBOutlet NSTextField *compResources;
 	IBOutlet NSButton *closeCompilerButton;
 	
+	int numResources;
+	char *resourceList[1000];
+	
+	char *fileList[1000];
+	int fileListNum;	
 }
+- (IBAction)addFileToProject:(id)sender;
+- (IBAction)removeFileFromProject:(id)sender;
 
 - (bool) compile;
 - (bool)showProjectPrefs;

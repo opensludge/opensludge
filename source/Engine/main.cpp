@@ -6,7 +6,6 @@
 
 #include <time.h>
 #include <sys/time.h>
-//#include <SDL_opengl.h>
 #include "glee.h"
 #include <SDL.h>
 #include <SDL_syswm.h>
@@ -17,6 +16,8 @@
 //#endif
 #ifdef _WIN32
 #include "winstuff.h"
+#else
+char * grabFileName ();
 #endif
 #include "language.h"
 #include "stringy.h"
@@ -46,10 +47,6 @@ extern bool runningFullscreen;
 
 HWND hMainWindow = NULL;
 
-#ifdef _WIN32
-#else
-char * grabFileName ();
-#endif
 
 int realWinWidth = 640, realWinHeight = 480;
 
@@ -175,7 +172,7 @@ int main(int argc, char *argv[])
 	} else {
 		// Workaround needed for lesser graphics cards. Let's hope this works...
 		NPOT_textures = false;
-		fprintf (stderr, "Warning: Old graphics card!\n");
+//		fprintf (stderr, "Warning: Old graphics card!\n");
 	}
 		
 #ifdef _WIN32

@@ -1,9 +1,3 @@
-/*
-struct myBitmapInfo {
-	BITMAPINFOHEADER bmiHeader;
-	DWORD bitMask[3];
-};
-*/
 #ifndef _WIN32
 #ifndef HINSTANCE
 #define HINSTANCE int

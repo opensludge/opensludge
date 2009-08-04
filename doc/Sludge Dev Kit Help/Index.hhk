@@ -241,20 +241,6 @@
 		<param name="Local" value="File_Formats_Used_by_SLUDGE.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value=".AVI file extension">
-		<param name="Name" value="File Formats Used by SLUDGE">
-		<param name="Local" value="File_Formats_Used_by_SLUDGE.html">
-		<param name="Name" value="movieStart">
-		<param name="Local" value="movieStart.html">
-		</OBJECT>
-	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="AVI file extension">
-		<param name="Name" value="File Formats Used by SLUDGE">
-		<param name="Local" value="File_Formats_Used_by_SLUDGE.html">
-		<param name="Name" value="movieStart">
-		<param name="Local" value="movieStart.html">
-		</OBJECT>
-	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value=".TGA file extension">
 		<param name="Name" value="File Formats Used by SLUDGE">
 		<param name="Local" value="File_Formats_Used_by_SLUDGE.html">
@@ -1446,11 +1432,6 @@
 		<param name="Local" value="launch_and_launchWith.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="launchWith">
-		<param name="Name" value="launch and launchWith (built-in function)">
-		<param name="Local" value="launch_and_launchWith.html">
-		</OBJECT>
-	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="lightStatus">
 		<param name="Name" value="lightStatus (built-in function)">
 		<param name="Local" value="lightStatus.html">
@@ -1484,21 +1465,6 @@
 		<param name="Name" value="moveCharacter">
 		<param name="Name" value="moveCharacter (built-in function)">
 		<param name="Local" value="moveCharacter.html">
-		</OBJECT>
-	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="movieAbort">
-		<param name="Name" value="movieAbort (built-in function)">
-		<param name="Local" value="movieAbort.html">
-		</OBJECT>
-	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="moviePlaying">
-		<param name="Name" value="moviePlaying (built-in function)">
-		<param name="Local" value="moviePlaying.html">
-		</OBJECT>
-	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="movieStart">
-		<param name="Name" value="movieStart (built-in function)">
-		<param name="Local" value="movieStart.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="newStack">
@@ -1619,11 +1585,6 @@
 		<param name="Name" value="random">
 		<param name="Name" value="random (built-in function)">
 		<param name="Local" value="random.html">
-		</OBJECT>
-	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="registryGetString">
-		<param name="Name" value="registryGetString (built-in function)">
-		<param name="Local" value="registryGetString.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="removeAllCharacters">
@@ -1969,11 +1930,6 @@
 		<param name="Name" value="unfreeze">
 		<param name="Name" value="unfreeze (built-in function)">
 		<param name="Local" value="unfreeze.html">
-		</OBJECT>
-	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="updateDisplay">
-		<param name="Name" value="updateDisplay (built-in function)">
-		<param name="Local" value="updateDisplay.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="wait">

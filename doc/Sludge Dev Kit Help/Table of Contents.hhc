@@ -345,7 +345,7 @@
 			</UL>
 			<UL>
 				<LI> <OBJECT type="text/sitemap">
-					<param name="Name" value="launch and launchWith">
+					<param name="Name" value="launch">
 					<param name="Local" value="launch_and_launchWith.html">
 					</OBJECT>
 			</UL>
@@ -383,24 +383,6 @@
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="moveCharacter">
 					<param name="Local" value="moveCharacter.html">
-					</OBJECT>
-			</UL>
-			<UL>
-				<LI> <OBJECT type="text/sitemap">
-					<param name="Name" value="movieAbort">
-					<param name="Local" value="movieAbort.html">
-					</OBJECT>
-			</UL>
-			<UL>
-				<LI> <OBJECT type="text/sitemap">
-					<param name="Name" value="moviePlaying">
-					<param name="Local" value="moviePlaying.html">
-					</OBJECT>
-			</UL>
-			<UL>
-				<LI> <OBJECT type="text/sitemap">
-					<param name="Name" value="movieStart">
-					<param name="Local" value="movieStart.html">
 					</OBJECT>
 			</UL>
 			<UL>
@@ -899,12 +881,6 @@
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="unfreeze">
 					<param name="Local" value="unfreeze.html">
-					</OBJECT>
-			</UL>
-			<UL>
-				<LI> <OBJECT type="text/sitemap">
-					<param name="Name" value="updateDisplay">
-					<param name="Local" value="updateDisplay.html">
 					</OBJECT>
 			</UL>
 			<UL>

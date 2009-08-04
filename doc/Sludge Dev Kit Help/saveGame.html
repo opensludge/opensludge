@@ -18,7 +18,7 @@ Creates a file with the name <i>text</i> which contains the current state of the
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
 Your saved game files, as well as containing all the information needed to restore a player's progress at any time, can also (optionally) contain a thumbnail image. The size of the image generated and saved can be set using <b><a href="setThumbnailSize.html">setThumbnailSize</a></b>.<BR>
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-Currently, games cannot be saved while anything is frozen (using the <b><a href="freeze.html">freeze</a></b> command) or when a movie is playing (using the <b><a href="movieStart.html">movieStart</a></b> command).<BR>
+Currently, games cannot be saved while anything is frozen (using the <b><a href="freeze.html">freeze</a></b> command).<BR>
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
 Note that when the loadGame command is called successfully and the engine returns to its state when the file was created, execution will restart after the call to saveGame, <b>not</b> after the call to loadGame. This is because everything - including the function which called the saveGame command - is saved to the file and therefore restored when loadGame is called. You can tell whether you've just loaded or saved a game by looking at the return value.<BR>
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>

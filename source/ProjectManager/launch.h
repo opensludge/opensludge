@@ -4,7 +4,6 @@
 
 enum typeOfFile {FILETYPE_UNKNOWN, FILETYPE_SCRIPT, FILETYPE_CONST, FILETYPE_TRANS};
 
-void gotoSourceRoot ();
 void runProg (char * prog, char * flags, char * filename);
 void editFile (char * me, HWND hDlg);
 void gotoSite (HWND hDlg, char * url);

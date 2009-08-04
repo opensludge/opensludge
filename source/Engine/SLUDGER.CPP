@@ -996,7 +996,7 @@ bool handleInput () {
 		} else {
 			l = 1;
 			unsigned long retVal = 0;
-#ifdef WIN32			
+#ifdef _WIN32			
 			retVal = (unsigned long) ShellExecute (hMainWindow, "open",
 							  									 launchMe, NULL, "C:\\",
 							  									 SW_SHOWNORMAL);

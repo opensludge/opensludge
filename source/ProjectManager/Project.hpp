@@ -10,18 +10,19 @@
 extern "C" {
 #endif
 	
-void clearFileList();
-void addFileToList();
-extern int fileListNum;
-char * getFileFromList (int index);	
-	
-bool loadProject (const char * filename);
-bool saveProject (const char * filename);
-void closeProject ();
-void doNewProject (const char * filename);
+void clearFileList(char **fileList, int *numFiles);
+void addFileToList (char * file, char **fileList, int *numFiles);
+void removeFileFromList (int index, char **resourceList, int *numResources);
 
-void addFileToProject (char * wholeName, char * path);
+bool loadProject (const char * filename, char **fileList, int *numFiles);
+bool saveProject (const char * filename, char **fileList, int *numFiles);
+void closeProject (char **fileList, int *numFiles);
+void doNewProject (const char * filename, char **fileList, int *numFiles);
 
+void addFileToProject (const char * wholeName, char * path, char **fileList, int *numFiles);
+
+char * getFullPath (const char * file);
+void deleteString(char *);
 
 #ifdef __cplusplus
 }

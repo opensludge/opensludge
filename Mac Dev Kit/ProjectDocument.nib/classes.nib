@@ -2,7 +2,12 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {closeCompilerBox = id; endProjectPrefs = id; }; 
+            ACTIONS = {
+                addFileToProject = id; 
+                closeCompilerBox = id; 
+                endProjectPrefs = id; 
+                removeFileFromProject = id; 
+            }; 
             CLASS = ProjectDocument; 
             LANGUAGE = ObjC; 
             OUTLETS = {
@@ -31,6 +36,8 @@
                 progress2 = NSProgressIndicator; 
                 projectFiles = NSTableView; 
                 projectPrefs = NSWindow; 
+                removeFileButton = NSButton; 
+                resourceFiles = NSTableView; 
                 tabView = NSTabView; 
             }; 
             SUPERCLASS = NSDocument; 

@@ -4,25 +4,26 @@
 </head>
 <BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
 <CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>launch and launchWith</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>launch</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
 </center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=20><BR>
 <FONT FACE=arial color=#3A8F8B SIZE=+1><B>Syntax:</B></FONT><BR>
 
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
 <font color=#BB4444 SIZE=+2><TT><B>launch (<i>filename</i>);</B></TT></FONT><BR>
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<font color=#BB4444 SIZE=+2><TT><B>launchWith (<i>program, filename</i>);</B></TT></FONT><BR>
+<font color=#FF8888 SIZE=+2><TT><B>launchWith (<i>program, filename</i>); *removed starting with SLUDGE 2.0</B></TT></FONT><BR>
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
 <FONT FACE=arial color=#3A8F8B SIZE=+1><B>Purpose:</B></FONT><BR>
 
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-Launches a file which isn't contained within the compiled SLUDGE game, such as a help document or an order form. The <i>filename</i> parameter must be a string, <b>not</b> a file handle. The filename given should be relative to the location of the compiled SLUDGE game; that is, if the SLUDGE game is &quot;C:\Games\SLUDGE\Here\My game.SLG&quot;, calling launch with a parameter of &quot;docs\hello.html&quot; would try to run &quot;C:\Games\SLUDGE\Here\docs\hello.html&quot;. This is so that, if you distribute your game, it can be installed anywhere on a machine and the files - so long as they're distributed with the compiled game - can still be found and launched.<BR>
+Launches a file which isn't contained within the compiled SLUDGE game, such as a help document or an order form. 
+The <i>filename</i> parameter must be a string, <b>not</b> a file handle. The filename given should be relative 
+to the location of the compiled SLUDGE game; that is, if the SLUDGE game is &quot;C:\Games\SLUDGE\Here\My game.SLG&quot;, 
+calling launch with a parameter of &quot;docs\hello.html&quot; would try to run &quot;C:\Games\SLUDGE\Here\docs\hello.html&quot;. 
+This is so that, if you distribute your game, it can be installed anywhere on a machine and the files - so long 
+as they're distributed with the compiled game - can still be found and launched.<BR>
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-If you're using the launchWith function, you can also specify what program you want to use to open up a file. For example, you may have a file called "Buy me online.html" which you want to launch in notepad (why you'd want to do this, I'm not sure) rather than the default application on someone's system (which, for an HTML file would probably be Internet Explorer, Opera or Netscape). Simply use the launchWith function, giving the <i>program</i> parameter as "notepad.exe" and the <i>filename </i>parameter as "Buy me online.html".<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-A more realistic use for launchWith is starting a SLUDGE game from within a SLUDGE front-end menu system when you've got a renamed engine in the same folder. Check out the <b><a href="Download_Free_SLUDGE_Examples.html">SLUDGE examples</a></b> for more details of how to do this.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-These functions support filename bodging - for details see the <b><a href="bodgeFilenames.html">bodgeFilenames</A></B> command.<BR>
+This function supports filename bodging - for details see the <b><a href="bodgeFilenames.html">bodgeFilenames</A></B> command.<BR>
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
 <FONT FACE=arial color=#3A8F8B SIZE=+1><B>Return value:</B></FONT><BR>
 

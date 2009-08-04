@@ -125,14 +125,14 @@ void setCompileStep (int a, int totalBits)
 }
 
 
-bool doSingleCompileStep () {
+bool doSingleCompileStep (char **fileList, int *numFiles) {
 	switch (compileStep)
 	{
 		case CSTEP_INIT:
 		numProcessed = 0;
 		setGlobPointer (& globalVarNames);
 
-		if (! fileListNum) {
+		if (! (*numFiles)) {
 			addComment (ERRORTYPE_PROJECTERROR, "No files in project!", NULL);
 			return false;
 		}
@@ -141,16 +141,16 @@ bool doSingleCompileStep () {
 		addToStringArray (allSourceStrings, settings.windowName);
 		addToStringArray (allSourceStrings, settings.quitMessage);
 		clearComments();	
-		setCompileStep (CSTEP_PARSE, fileListNum);
+		setCompileStep (CSTEP_PARSE, *numFiles);
 		setCompilerStats (0, 0, 0, 0, 0);
 		break;
 
 		case CSTEP_PARSE:
 		{
-			if (data1 >= fileListNum) {
+			if (data1 >= *numFiles) {
 				setCompileStep (CSTEP_COMPILEINIT, 1);
 			} else {
-				char * tx = getFileFromList (data1);
+				char * tx = fileList[data1];
 				fixPath(tx, true);
 				setCompilerText (COM_FILENAME, tx);
 				
@@ -351,7 +351,7 @@ bool doSingleCompileStep () {
 	return true;
 }
 
-void compileEverything (char * project) {
+void compileEverything (char * project, char **fileList, int *numFiles) {
 	if (! getSourceDirFromName (project)) {
 		setCompilerText (COM_PROGTEXT, "Error initialising!");
 		setCompilerText (COM_FILENAME, "Could not find the folder for the source files.");
@@ -362,7 +362,7 @@ void compileEverything (char * project) {
 
 	compileStep = CSTEP_INIT;
 	while (compileStep < CSTEP_DONE) {
-		if (! doSingleCompileStep ())
+		if (! doSingleCompileStep (fileList, numFiles))
 		{
 			setCompileStep (CSTEP_ERROR, 1);
 			gotoSourceDirectory ();
