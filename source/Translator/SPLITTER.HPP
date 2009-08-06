@@ -35,8 +35,6 @@ long stringToInt (const char * textNumber, int errorType);
 char * joinStrings (const char * a, const char * b);
 char * joinStrings (const char * a, const char * b, const char * c);
 char * joinStrings (const char * a, const char * b, const char * c, const char * d);
-char * copyString (const char * a);
-
 
 
 //void displayAllInArray (stringArray *);

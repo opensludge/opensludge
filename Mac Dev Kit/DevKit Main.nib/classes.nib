@@ -13,6 +13,7 @@
                 prefsMenu = id; 
                 projectPrefsMenu = id; 
                 spriteBankNew = id; 
+                translationNew = id; 
             }; 
             CLASS = AppController; 
             LANGUAGE = ObjC; 

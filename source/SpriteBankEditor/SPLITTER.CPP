@@ -61,9 +61,12 @@ void addToStringArray (stringArray * & theArray, const char * theString, int sta
 	}
 	addMe[size] = NULL;
 
-	if (trimSpa) trimEdgeSpace (addMe);
+	if (trimSpa) {
+		trimEdgeSpace (addMe);
+	}
 
 	newSection -> string = addMe;
+	
 	newSection -> next = NULL;
 
 	// Add it
@@ -76,23 +79,6 @@ void addToStringArray (stringArray * & theArray, const char * theString, int sta
 	} else {
 		theArray = newSection;
 	}
-}
-
-stringArray * splitString (const char * inString, const char findCharIn, const splitMode howMany) {
-	stringArray * newStringArray = NULL;
-	int a, stringLen = strlen (inString), lastStart = 0;
-	char findChar = findCharIn;
-
-	for (a = 0; a < stringLen; a ++) {
-		if (inString[a] == findChar) {
-			addToStringArray (newStringArray, inString, lastStart, a);
-			lastStart = a + 1;
-			if (howMany == ONCE) findChar = NULL;
-		}
-	}
-	addToStringArray (newStringArray, inString, lastStart, stringLen);
-
-	return newStringArray;
 }
 
 bool destroyFirst (stringArray * & theArray) {

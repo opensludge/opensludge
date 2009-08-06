@@ -8,13 +8,11 @@ TODO
 
 #include "sosfile.h"
 #include "moreio.h"
-#include "messbox.h"
 #include "Splitter.hpp"
 #include "wintext.h"
 #include "winterfa.h"
 #include "wincomp.h"
 
-#define HEADERLINE	"### SLUDGE Translation File ###"
 
 extern HWND				mainWin;
 extern HINSTANCE		inst;
@@ -67,20 +65,6 @@ void setFileName (char * fn, unsigned int languageID) {
 	fixMenus (false);
 }
 
-void newFile () {
-	while (firstTransLine) {
-		selectedTransLine = firstTransLine;
-		firstTransLine = firstTransLine -> next;
-		
-		delete selectedTransLine -> transFrom;
-		delete selectedTransLine -> transTo;
-		delete selectedTransLine;
-	}
-	autoSelectContent (TYPE_TRANS);
-	setFileName (NULL, 0);
-	delete searchString;
-	searchString = false;
-}
 
 unsigned int stringToInt (const char * textNumber) {
 	unsigned long i = 0;
@@ -103,99 +87,7 @@ unsigned int stringToInt (const char * textNumber) {
 	return (unsigned int) i;
 }
 
-transLine * handleLine (char * line, transLine * lastSoFar) {
-	stringArray * pair = splitString (line, '\t', ONCE);
 
-	transLine * nt = new transLine;
-	trimEdgeSpace (pair->string);
-	nt -> transFrom = copyString (pair->string);
-	destroyFirst (pair);
-	if (pair) {
-		trimEdgeSpace (pair->string);
-		if (strcmp (pair -> string, "*\t")) {
-			nt -> transTo = copyString (pair -> string);
-			nt -> type = TYPE_TRANS;
-		} else {
-			nt -> transTo = NULL;
-			nt -> type = TYPE_NEW;
-		}
-		destroyFirst (pair);
-	} else {
-		nt -> transTo = NULL;
-		nt -> type = TYPE_NONE;
-	}
-
-	if (lastSoFar) {
-		lastSoFar -> next = nt;
-	} else {
-		firstTransLine = nt;
-	}
-
-	nt -> next = NULL;		
-	return nt;
-}
-
-enum theMode {MODE_ID, MODE_STRINGS, MODE_UNKNOWN};
-
-void loadFile (char * fileIn) {
-	char * file = copyString (fileIn);
-	char * error = NULL;
-	transLine * lastSoFar = NULL;
-	unsigned int lanID = 0;
-	newFile ();
-	
-	FILE * fp = fopen (file, "rt");
-	if (fp == NULL) {
-		error = "Can't open file for reading";
-	} else {
-		char * line = readText (fp);
-		if (line == NULL) {
-			error = "File is empty";
-		} else if (strcmp (line, HEADERLINE)) {
-			error = "Not a SLUDGE translation file (first line isn't right)";
-		} else {
-			theMode mode = MODE_UNKNOWN;
-			for (;;) {
-				delete line;
-				line = readText (fp);
-				if (line == NULL) break;
-				switch (line[0]) {
-					case NULL:
-					break;
-				
-					case '[':
-					if (strcmp (line, "[ID]") == 0)
-						mode = MODE_ID;
-					else if (strcmp (line, "[DATA]") == 0)
-						mode = MODE_STRINGS;
-					else
-						mode = MODE_UNKNOWN;
-					break;
-
-					default:
-					switch (mode) {
-						case MODE_ID:
-						lanID = stringToInt (line);
-						break;
-						
-						case MODE_STRINGS:
-						lastSoFar = handleLine (line, lastSoFar);
-						break;
-					}
-				}
-			}
-		}
-		delete line;
-	}
-	fclose (fp);
-	if (error) {
-		errorBox (error, file);
-	} else {
-		autoSelectContent (TYPE_TRANS);
-		setFileName (file, lanID);
-	}
-	delete file;
-}
 
 void enableTranslationBox (int level, char * s) {
 	if (s) SendDlgItemMessage (mainWin, ID_ORIGINAL_TEXT, WM_SETTEXT, (WPARAM) 0, (LPARAM) s);
@@ -313,157 +205,6 @@ void autoSelectContent (lineType type) {
 	updateStringList ();
 }
 
-int foundStringInFileDel (char * string) {
-	transLine * hunt = firstTransLine;
-	transLine * lastOne = NULL;
-	
-	trimEdgeSpace (string);
-	
-	while (hunt) {
-		if (strcmp (hunt -> transFrom, string) == 0) return 0;
-		lastOne = hunt;
-		hunt = hunt -> next;
-	}
-//	errorBox ("Found NEW string", string);
-	hunt = handleLine(string, lastOne);
-	hunt->type = TYPE_NEW;
-	delete string;
-	return 1;
-}
 
-int foundStringInFileEscaped (char * string) {
-	stringArray * bits = splitString (string, '\t', REPEAT);
-	char * rebuilt = copyString ("");
-	while (bits) {
-		char * temp = joinStrings (rebuilt, bits->string);
-		delete rebuilt;
-		rebuilt = temp;
-		destroyFirst (bits);
-	}
-//	if (strcmp (string, rebuilt)) errorBox (string, rebuilt);
-	return foundStringInFileDel(rebuilt);
-}
-
-int updateFromSource (char * filename) {
-	int len = strlen (filename);
-	if (len < 4) return 0;
-	char * last4 = filename + len - 4;
-	last4[1] = toupper (last4[1]);
-	last4[2] = toupper (last4[2]);
-	last4[3] = toupper (last4[3]);
-	if (strcmp (last4, ".SLU")) return 0;
-	
-	FILE * source = fopen (filename, "rt");
-	if (source == NULL) {
-		errorBox ("Can't open source file for reading", filename);
-		return 0;
-	}
-	
-	int numChanges = 0;
-	
-	for (;;) {
-		char * wholeLine = readText(source);
-		if (wholeLine == NULL) break;
-		for (int a = 0; wholeLine[a]; a ++) {
-			if (wholeLine[a] == '#') break;	// Comment? Skip it!
-			if (wholeLine[a] == '\"') {
-				while (wholeLine[a+1] == ' ') a ++;	// No spaces at start, please
-				bool escape = false;
-				for (int b = a+1; wholeLine[b]; b ++) {
-					if (wholeLine[b] == '\\') {
-						if (! escape) wholeLine[b] = '\t';		// So we can split the string up on tab later
-						escape = ! escape;
-					} else if (wholeLine[b] == '\"') {
-						if (! escape) {
-							if (b != a + 1) {
-								wholeLine[b] = NULL;
-								numChanges += foundStringInFileEscaped (wholeLine + a + 1);
-								wholeLine[b] = '\"';
-							}
-							a = b;
-							break;
-						}
-						escape = false;
-					} else {
-						escape = false;
-					}
-				}
-			}
-		}
-		delete wholeLine;
-	}
-	
-	fclose (source);
-	return numChanges;
-}
-
-void updateFromProject (char * filename) {
-	FILE * fp = fopen (filename, "rt");
-	int totalNew = 0;
-	if (fp) {
-		char * theLine;
-		for (;;) {
-			theLine = readText (fp);
-			if (theLine == NULL) break;
-			if (strcmp (theLine, "[FILES]") == 0) break;
-			stringArray * bits = splitString (theLine, '=', ONCE);
-			if (bits -> next != NULL) {
-				if (strcmp (bits -> string, "windowname") == 0 ||
-					strcmp (bits -> string, "quitmessage") == 0) {
-					totalNew += foundStringInFileDel (copyString (bits -> next -> string));
-				}
-			}
-			delete theLine;
-		}
-		if (theLine == NULL) {
-			fclose (fp);
-			errorBox ("Not a SLUDGE project file", filename);
-		}
-		while (theLine) {
-			delete theLine;
-			theLine = readText (fp);
-			if (theLine) totalNew += updateFromSource (theLine);
-		}
-	}
-	if (totalNew) {
-		autoSelectContent (TYPE_NEW);
-		fixMenus (true);
-	} else {
-		errorBox ("Found no new strings in the project that I don't already know about. This translation file is up to date! Hooray!\n\nProject file scanned", filename);
-	}
-}
-
-void saveToFile (char * filename, unsigned int lan) {
-
-	FILE * fp = fopen (filename, "wt");
-
-	if (! fp) {
-		errorBox ("Couldn't write to file", filename);
-		return;
-	}
-	
-	fprintf (fp, HEADERLINE"\n\n[ID]\n%i\n\n[DATA]\n", lan);
-	transLine * eachLine = firstTransLine;
-	
-	while (eachLine) {
-		switch (eachLine -> type) {
-			case TYPE_NEW:
-			fprintf (fp, "%s\t*\t\n", eachLine -> transFrom);
-			break;
-
-			case TYPE_TRANS:
-			fprintf (fp, "%s\t%s\n", eachLine -> transFrom, eachLine -> transTo);
-			break;
-			
-			default:
-			fprintf (fp, "%s\n", eachLine -> transFrom);
-			break;
-		}
-		eachLine = eachLine -> next;
-	}
-	
-	fclose (fp);	
-	setFileName (filename, lan);
-}
 
 #endif

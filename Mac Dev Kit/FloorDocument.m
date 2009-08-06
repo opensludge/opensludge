@@ -20,9 +20,17 @@
         // If an error occurs here, send a [self release] message and return nil.
 		firstPoly = 0;
 		noFloor (&firstPoly);
+		
+		backdrop.total=0;
+		backdrop.type=2;
+		if (!reserveSpritePal (&backdrop.myPalette, 0)) {
+			[self release];
+			return nil;
+		}
     }
     return self;
 }
+
 
 - (NSString *)windowNibName
 {
@@ -69,8 +77,50 @@
 	return NO;
 }
 
+- (struct spriteBank *) getBackdrop {
+	return &backdrop;
+}
 - (struct polyList *) getFloor {
 	return firstPoly;
+}
+
+- (IBAction)loadBackdrop:(id)sender
+{
+	NSString *path = nil;
+	NSOpenPanel *openPanel = [ NSOpenPanel openPanel ];
+	[openPanel setTitle:@"Load file as sprite"];
+	NSArray *files = [NSArray arrayWithObjects:@"tga", @"png", nil];
+	
+	if ( [ openPanel runModalForDirectory:nil file:nil types:files] ) {
+		path = [ openPanel filename ];
+		bool success = 0;
+		if ([[path pathExtension] isEqualToString: @"png"]) {
+			success = loadSpriteFromPNG ((char *) [path UTF8String], &backdrop, 0);
+		} else if ([[path pathExtension] isEqualToString: @"tga"]) {
+			success = loadSpriteFromTGA ((char *) [path UTF8String], &backdrop, 0);
+		} else {
+			errorBox ("Can't load image", "I don't recognise the file type. TGA and PNG are the supported file types.");
+		}
+		if (success) {
+			backdrop.sprites[0].height = -backdrop.sprites[0].height;
+			[floorView setNeedsDisplay:YES];
+			//[self updateChangeCount: NSChangeDone];
+		}
+	}	
+}
+
+- (IBAction)setFloorColour:(id)sender 
+{
+	[floorView setFloorColour: [[floorColourWell color] colorUsingColorSpaceName:@"NSDeviceRGBColorSpace"]];
+}
+
+
+- (void)close 
+{
+	forgetSpriteBank (&backdrop);
+	noFloor (&firstPoly);
+	deleteString (firstPoly);
+	[super close];
 }
 
 
@@ -82,6 +132,15 @@
 - (void) connectToDoc: (id) myDoc
 {
 	doc = myDoc;
+	backdrop = [doc getBackdrop];
+}
+
+- (void) setFloorColour: (NSColor *) colour
+{
+	r = [colour redComponent];
+	g = [colour greenComponent];
+	b = [colour blueComponent];
+	[self setNeedsDisplay:YES];
 }
 
 - (void) setCoords {
@@ -148,7 +207,11 @@
 				
 - (void)prepareOpenGL 
 {
+	if (! backdrop->total)
+		addSprite(0, backdrop);
 	z = 1.0;
+	//[doc setFloorColour:nil];
+	r = g = b = 1.0;
 	zmul = (1.0+z/20);
 	[self setCoords];
 }
@@ -169,6 +232,8 @@
     glClearColor(0, 0, 0, 0);
     glClear(GL_COLOR_BUFFER_BIT);
 	
+	pasteSprite (&backdrop->sprites[0], &backdrop->myPalette, false);
+
 	glDisable (GL_TEXTURE_2D);
     glColor3f(1.0f, 0.35f, 0.35f);
     glBegin(GL_LINES);
@@ -180,8 +245,7 @@
     }
     glEnd();
 	
-	glColor3f(1.0f, 1.0f, 1.0f);
-	
+	glColor3f(r, g, b);	
 	drawFloor ([doc getFloor]);
 	
 	glFlush();

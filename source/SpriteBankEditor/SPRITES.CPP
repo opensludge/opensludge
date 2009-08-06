@@ -8,14 +8,22 @@
 #include "MoreIO.h"
 #include "MessBox.h"
 
-void forgetSpriteBank (spriteBank & forgetme) {
+void forgetSpriteBank (spriteBank * forgetme) {
 	unsigned int index;
 	
-	for (index = 0; index < forgetme.total; index ++) {
-		delete forgetme.sprites[index].data;
-		glDeleteTextures (1, &forgetme.myPalette.tex_names[index]);
+	if (forgetme->myPalette.pal)
+		delete forgetme->myPalette.pal;
+	if (forgetme->myPalette.r)
+		delete forgetme->myPalette.r;
+	if (forgetme->myPalette.g)
+		delete forgetme->myPalette.g;
+	if (forgetme->myPalette.b)
+		delete forgetme->myPalette.b;
+	for (index = 0; index < forgetme->total; index ++) {
+		delete forgetme->sprites[index].data;
+		glDeleteTextures (1, &forgetme->myPalette.tex_names[index]);
 	}
-	delete forgetme.sprites;
+	delete forgetme->sprites;
 }
 
 bool reserveSpritePal (spritePalette * sP, int n) {
@@ -573,9 +581,6 @@ bool loadSpriteFromTGA (const char * file, struct spriteBank *sprites, int index
 		errorBox ("Can't open TGA file", errorBack);
 		return false;		
 	}
-	fprintf (stderr, "Compressed: %d\n", imageHeader.compressed);
-	fprintf (stderr, "Pixel depth: %d\n", imageHeader.pixelDepth);
-	fprintf (stderr, "Palette: %d\n", imageHeader.numPalColours);
 	
 	unsigned char *data;
 		
@@ -705,9 +710,6 @@ bool loadSpriteFromPNG (const char * file, struct spriteBank *sprites, int index
 	
 	png_read_update_info(png_ptr, info_ptr);
 	png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, &interlace_type, &compression_type, &filter_method);
-
-	fprintf (stderr, "Size: %d %d\n", width, height);
-	fprintf (stderr, "Info: %d %d\n", bit_depth, color_type);
 		
 	int rowbytes = png_get_rowbytes(png_ptr, info_ptr);
 	

@@ -39,7 +39,7 @@ struct spriteBank {
 };
 
 bool reserveSpritePal (struct spritePalette * sP, int n);
-void forgetSpriteBank ();
+void forgetSpriteBank (struct spriteBank * forgetme);
 bool loadSpriteBank (const char * filename, struct spriteBank * loadhere);
 bool loadSpriteTextures (struct spriteBank *loadhere);
 bool saveSpriteBank (const char * filename, struct spriteBank *sprites);

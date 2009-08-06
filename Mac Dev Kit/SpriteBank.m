@@ -190,6 +190,7 @@
 	}
 	sprites.type = 2;	
 }
+
 - (IBAction)insertSprite:(id)sender
 {
 	NSString *path = nil;
@@ -231,14 +232,23 @@
 {
 	NSString *path = nil;
 	NSOpenPanel *openPanel = [ NSOpenPanel openPanel ];
-	[openPanel setTitle:@"Load TGA file as sprite"];
-	[openPanel setRequiredFileType:@"tga"];
+	[openPanel setTitle:@"Load file as sprite"];
+	NSArray *files = [NSArray arrayWithObjects:@"tga", @"png", nil];
 	
-	if ( [ openPanel runModalForDirectory:nil file:nil ] ) {
+	if ( [ openPanel runModalForDirectory:nil file:nil types:files] ) {
 		path = [ openPanel filename ];
-		loadSpriteFromTGA ((char *) [path UTF8String], &sprites, [spriteView spriteIndex]);
-		[spriteView setNeedsDisplay:YES];
-		[self updateChangeCount: NSChangeDone];
+		bool success = 0;
+		if ([[path pathExtension] isEqualToString: @"png"]) {
+			success = loadSpriteFromPNG ((char *) [path UTF8String], &sprites, [spriteView spriteIndex]);
+		} else if ([[path pathExtension] isEqualToString: @"tga"]) {
+			success = loadSpriteFromTGA ((char *) [path UTF8String], &sprites, [spriteView spriteIndex]);
+		} else {
+			errorBox ("Can't load image", "I don't recognise the file type. TGA and PNG are the supported file types.");
+		}
+		if (success) {
+			[spriteView setNeedsDisplay:YES];
+			[self updateChangeCount: NSChangeDone];
+		}
 	}	
 }
 
@@ -265,6 +275,12 @@
 		path = [ savePanel filename ];
 		exportToPNG ([path UTF8String], &sprites, [spriteView spriteIndex]);
 	}
+}
+
+- (void)close 
+{
+	forgetSpriteBank (&sprites);
+	[super close];
 }
 
 

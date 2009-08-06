@@ -81,6 +81,15 @@ AppController *aC;
 	[doc makeWindowControllers];
 	[doc showWindows];
 }
+- (IBAction)translationNew:(id)sender
+{
+	NSDocumentController *docControl = [NSDocumentController sharedDocumentController];
+	NSError **err;
+	NSDocument *doc = [docControl makeUntitledDocumentOfType:@"SLUDGE Translation file" error:err];
+	[docControl addDocument: doc];
+	[doc makeWindowControllers];
+	[doc showWindows];
+}
 
 - (IBAction)compileMenu:(id)sender
 {

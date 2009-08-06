@@ -8,9 +8,10 @@
             SUPERCLASS = NSDocument; 
         }, 
         {
+            ACTIONS = {loadBackdrop = id; setFloorColour = id; }; 
             CLASS = FloorDocument; 
             LANGUAGE = ObjC; 
-            OUTLETS = {floorView = FloorOpenGLView; }; 
+            OUTLETS = {floorColourWell = NSColorWell; floorView = FloorOpenGLView; }; 
             SUPERCLASS = NSDocument; 
         }, 
         {

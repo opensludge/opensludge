@@ -262,6 +262,7 @@ void chrRenderingSettingsFillDefaults(bool enable)
 bool gotoSourceDirectory () {
 	bool r = chdir (sourceDirectory);
 	if (r) return addComment (ERRORTYPE_SYSTEMERROR, "Can't move to source directory", sourceDirectory, NULL);
+	fprintf (stderr, "Now in: %s\n", sourceDirectory);
 	return true;
 }
 
@@ -368,7 +369,9 @@ void writeFinalData (FILE * mainFile) {
 
 
 
-bool getSourceDirFromName (char * filename) {
+bool getSourceDirFromName (const char * name) {
+	char * filename = joinStrings (name, "");
+	
 	int a, lastSlash = -1;
 	for (a = 0; filename[a]; a ++) {
 		if (filename[a] == '/' || filename[a] == '\\') {

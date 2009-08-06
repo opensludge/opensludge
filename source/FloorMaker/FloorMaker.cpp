@@ -244,6 +244,8 @@ bool saveFloorToFile (char * filename, struct polyList *firstPoly) {
 		if (vL) {
 			fprintf (fp, "* ");
 			while (vL -> next) {
+				if (vL->x < 0) vL->x = 0;
+				if (vL->y < 0) vL->y = 0;
 				fprintf (fp, "%i, %i%s", vL -> x, vL -> y, vL -> next -> next ? "; " : "\n");
 				vL = vL -> next;
 			}

@@ -40,11 +40,17 @@ bool convertFloor (char * filename) {
 	while (knownCo) {
 		splitBits = splitString (knownCo -> string, ',');
 		i = stringToInt (splitBits -> string, ERRORTYPE_PROJECTERROR);
-		if (i < 0) return addComment (ERRORTYPE_PROJECTERROR, "Error processing floor: X co-ordinate is not a positive integer", knownCo -> string, filename);
+		if (i < 0) {
+			addComment (ERRORTYPE_PROJECTWARNING, "Error processing floor: X co-ordinate is not a positive integer. I'm pretending it's a zero.", knownCo -> string, filename);
+			i = 0;
+		}
 		put2bytes (i, outFile);
 		if (! destroyFirst (splitBits)) return addComment (ERRORTYPE_PROJECTERROR, "Error processing floor: No comma in co-ordinate pair", knownCo -> string, filename);
 		i = stringToInt (splitBits -> string, ERRORTYPE_PROJECTERROR);
-		if (i < 0) return addComment (ERRORTYPE_PROJECTERROR, "Error processing floor: Y co-ordinate is not a positive integer", knownCo -> string, filename);
+		if (i < 0) {
+			addComment (ERRORTYPE_PROJECTWARNING, "Error processing floor: Y co-ordinate is not a positive integer. I'm pretending it's a zero.", knownCo -> string, filename);
+			i = 0;
+		}
 		put2bytes (i, outFile);
 		destroyFirst (splitBits);
 		destroyFirst (knownCo);

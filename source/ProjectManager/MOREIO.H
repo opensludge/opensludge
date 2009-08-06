@@ -1,4 +1,6 @@
-#include <stdio.h>
+#ifdef __cplusplus
+extern "C" {
+#endif	#include <stdio.h>
 
 // Input
 
@@ -24,3 +26,8 @@ void putFloat (float f, FILE * fp);
 
 bool newerFile (char * newFileN, char * oldFileN);
 char * copyString (const char * c);
+
+
+#ifdef __cplusplus
+}
+#endif

@@ -67,7 +67,7 @@ void killSettingsStrings ();
 char * newString (const char * a);
 void chrRenderingSettingsFillDefaults(bool enable);
 
-bool getSourceDirFromName (char * filename);
+bool getSourceDirFromName (const char * filename);
 bool gotoSourceDirectory ();
 bool gotoTempDirectory ();
 void killTempDir();
