@@ -262,7 +262,7 @@ void chrRenderingSettingsFillDefaults(bool enable)
 bool gotoSourceDirectory () {
 	bool r = chdir (sourceDirectory);
 	if (r) return addComment (ERRORTYPE_SYSTEMERROR, "Can't move to source directory", sourceDirectory, NULL);
-	fprintf (stderr, "Now in: %s\n", sourceDirectory);
+//	fprintf (stderr, "Now in: %s\n", sourceDirectory);
 	return true;
 }
 

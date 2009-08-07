@@ -24,6 +24,11 @@
 		2F1B9A63100CF81C00BD9739 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 2F1B9A62100CF81C00BD9739 /* Credits.html */; };
 		2F1BD59310172D890014BFBB /* ProjectDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2F1BD59210172D890014BFBB /* ProjectDocument.nib */; };
 		2F21121C102447D100D3D335 /* libpng.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F21121B102447D100D3D335 /* libpng.framework */; };
+		2F2FF54E102C2598005439DA /* zDocument.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F2FF54C102C2598005439DA /* zDocument.h */; };
+		2F2FF54F102C2598005439DA /* zDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F2FF54D102C2598005439DA /* zDocument.m */; };
+		2F2FF564102C25FD005439DA /* zDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2F2FF563102C25FD005439DA /* zDocument.nib */; };
+		2F2FF5BF102C4263005439DA /* zbuffer.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA4A30FFCEBE6005E5C36 /* zbuffer.h */; };
+		2F2FF5C0102C4263005439DA /* zbuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA4A20FFCEBE6005E5C36 /* zbuffer.cpp */; };
 		2F373F6F100E0686009F6880 /* Project.hpp in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F373F6D100E0686009F6880 /* Project.hpp */; };
 		2F373F70100E0686009F6880 /* Project.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F373F6E100E0686009F6880 /* Project.cpp */; };
 		2F3AB9CE100D0B7100CD6A13 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D1107310486CEB800E47090 /* Info.plist */; };
@@ -159,6 +164,8 @@
 				2F15065A101DD528006F9068 /* FloorMaker.h in Copy Frameworks into .app bundle */,
 				2FCE93A81029CA5000315052 /* TranslationDocument.h in Copy Frameworks into .app bundle */,
 				2F03811C102AEF2F00EDBAFB /* Translator.h in Copy Frameworks into .app bundle */,
+				2F2FF54E102C2598005439DA /* zDocument.h in Copy Frameworks into .app bundle */,
+				2F2FF5BF102C4263005439DA /* zbuffer.h in Copy Frameworks into .app bundle */,
 			);
 			name = "Copy Frameworks into .app bundle";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -186,6 +193,9 @@
 		2F1B9A62100CF81C00BD9739 /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; name = Credits.html; path = ../doc/Credits.html; sourceTree = SOURCE_ROOT; };
 		2F1BD59210172D890014BFBB /* ProjectDocument.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = ProjectDocument.nib; sourceTree = "<group>"; };
 		2F21121B102447D100D3D335 /* libpng.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libpng.framework; path = /Library/Frameworks/libpng.framework; sourceTree = "<absolute>"; };
+		2F2FF54C102C2598005439DA /* zDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zDocument.h; sourceTree = "<group>"; };
+		2F2FF54D102C2598005439DA /* zDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = zDocument.m; sourceTree = "<group>"; };
+		2F2FF563102C25FD005439DA /* zDocument.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = zDocument.nib; sourceTree = "<group>"; };
 		2F373F6D100E0686009F6880 /* Project.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Project.hpp; sourceTree = "<group>"; };
 		2F373F6E100E0686009F6880 /* Project.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Project.cpp; sourceTree = "<group>"; };
 		2F469899101B4ACA00D451DB /* slx.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = slx.icns; path = ../images/slx.icns; sourceTree = SOURCE_ROOT; };
@@ -319,6 +329,8 @@
 				2F1505EC101DCDE4006F9068 /* FloorDocument.m */,
 				2FCE93A61029CA5000315052 /* TranslationDocument.h */,
 				2FCE93A71029CA5000315052 /* TranslationDocument.m */,
+				2F2FF54C102C2598005439DA /* zDocument.h */,
+				2F2FF54D102C2598005439DA /* zDocument.m */,
 			);
 			name = "Mac Code";
 			sourceTree = "<group>";
@@ -389,6 +401,7 @@
 				2F1BD59210172D890014BFBB /* ProjectDocument.nib */,
 				2F150637101DD181006F9068 /* Floor.nib */,
 				2FCE93A41029C9C900315052 /* TranslationEditor.nib */,
+				2F2FF563102C25FD005439DA /* zDocument.nib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -646,6 +659,7 @@
 				2F887020101DDA9200359D3E /* floorIcon.icns in Resources */,
 				2FDA7B9D1026204F00DC8F16 /* flags.icns in Resources */,
 				2FCE93A51029C9C900315052 /* TranslationEditor.nib in Resources */,
+				2F2FF564102C25FD005439DA /* zDocument.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -692,6 +706,8 @@
 				2F15065B101DD528006F9068 /* FloorMaker.cpp in Sources */,
 				2FCE93A91029CA5000315052 /* TranslationDocument.m in Sources */,
 				2F03811D102AEF2F00EDBAFB /* Translator.cpp in Sources */,
+				2F2FF54F102C2598005439DA /* zDocument.m in Sources */,
+				2F2FF5C0102C4263005439DA /* zbuffer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

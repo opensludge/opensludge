@@ -71,42 +71,6 @@ bool initBackDrop (int x, int y) {
 	return true;
 }
 
-bool loadBackDrop (char * fileName) {
-	unsigned short int * toScreen;
-	unsigned short int t1, t2;
-	palCol thePalette[256];
-	// Open the file
-	
-	FILE * fp = fopen (fileName, "rb");
-	if (fp == NULL) {
-		alert ("Can't open that image file!");
-		return false;
-	}
-	
-	// Grab the header
-
-	TGAHeader imageHeader;
-	char * errorBack;
-	errorBack = readTGAHeader (imageHeader, fp, thePalette);
-	if (errorBack) {
-		alert (errorBack);
-		return false;		
-	}
-	
-	unsigned short (* readColFunction) (FILE * fp, int bpc, palCol thePalette[], int x, int y) =
-		imageHeader.compressed ? readCompressedColour : readAColour;
-		
-	initBackDrop (imageHeader.width, imageHeader.height);
-
-	for (t2 = imageHeader.height; t2; t2 --) {
-		toScreen = backDropImage[(imageHeader.imageDescriptor & 32) ? (imageHeader.height - t2) : (t2 - 1)];
-		for (t1 = 0; t1 < imageHeader.width; t1 ++) {
-			* (toScreen ++) = readColFunction (fp, imageHeader.pixelDepth, thePalette, 0, 0);
-		}
-	}
-	fclose (fp);
-	return true;
-}
 
 void screenBufferToWindow () {
 	/* TODO

@@ -16,9 +16,11 @@
 			<key>CFBundleTypeName</key>
 			<string>SLUDGE zBuffer</string>
 			<key>CFBundleTypeRole</key>
-			<string>None</string>
+			<string>Editor</string>
 			<key>LSTypeIsPackage</key>
 			<false/>
+			<key>NSDocumentClass</key>
+			<string>zDocument</string>
 			<key>NSPersistentStoreTypeKey</key>
 			<string>Binary</string>
 		</dict>

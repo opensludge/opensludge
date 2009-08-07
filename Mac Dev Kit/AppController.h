@@ -21,6 +21,7 @@
 - (IBAction)spriteBankNew:(id)sender;
 - (IBAction)floorNew:(id)sender;
 - (IBAction)translationNew:(id)sender;
+- (IBAction)zBufferNew:(id)sender;
 
 - (IBAction)prefKeepImagesClick:(id)sender;
 - (IBAction)prefWriteStringsClick:(id)sender;

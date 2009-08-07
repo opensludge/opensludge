@@ -90,6 +90,16 @@ AppController *aC;
 	[doc makeWindowControllers];
 	[doc showWindows];
 }
+- (IBAction)zBufferNew:(id)sender
+{
+	NSDocumentController *docControl = [NSDocumentController sharedDocumentController];
+	NSError **err;
+	NSDocument *doc = [docControl makeUntitledDocumentOfType:@"SLUDGE zBuffer" error:err];
+	[docControl addDocument: doc];
+	[doc makeWindowControllers];
+	[doc showWindows];
+}
+
 
 - (IBAction)compileMenu:(id)sender
 {

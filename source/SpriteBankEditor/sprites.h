@@ -1,3 +1,8 @@
+#ifndef HWND
+#define __SPRITES_H__
+
+#include <OpenGL/gl.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif	
@@ -64,4 +69,6 @@ void pasteSprite (struct sprite * single, const struct spritePalette * fontPal, 
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

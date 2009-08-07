@@ -50,6 +50,7 @@ extern char **languageName;
 	}
 }
 
+extern int *languageTable;
 
 -(IBAction)okButton:(id)sender
 {
@@ -57,6 +58,7 @@ extern char **languageName;
 	if (gameSettings.numLanguages) {
 		gameSettings.languageID = [languageList indexOfSelectedItem];
 		if (gameSettings.languageID < 0) gameSettings.languageID = 0;
+		gameSettings.languageID = languageTable[gameSettings.languageID];
 	}
 	[[SDLApplication sharedApplication] stopModalWithCode:1];
 	[self close];

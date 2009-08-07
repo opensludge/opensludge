@@ -1,14 +1,11 @@
 #include <stdio.h>
-#include "winterface.h"
-#include "zbuffer.h"
+#include "tga.h"
+#include "MessBox.h"
 #include "moreio.h"
-#include "backdrop.h"
+#include "Sprites.h"
+#include "zbuffer.h"
 
-extern unsigned short int * * backDropImage;
-extern int HORZ_RES, VERT_RES;
-zPanel panel[16];
-int numPanels = 0;
-
+/*
 bool processZBufferData () {
 	int n, x, y;
 	numPanels = 0;
@@ -29,10 +26,109 @@ bool processZBufferData () {
 		}
 	}
 	return true;
+}*/
+
+bool loadZBufferFromTGA (const char * fileName, spriteBank *loadhere) {
+	unsigned char * pointer;
+	unsigned short int t1, t2;
+	palCol thePalette[256];
+	int numPanels = 1;
+	int panels[16];
+	int cutoff[16];
+	int color, panel;
+	unsigned char n;
+	unsigned char * data;
+
+	// Open the file
+	
+	FILE * fp = fopen (fileName, "rb");
+	if (fp == NULL) {
+		errorBox ("Error", "Can't open that image file!");
+		return false;
+	}
+	
+	// Grab the header
+	
+	TGAHeader imageHeader;
+	char * errorBack;
+	errorBack = readTGAHeader (imageHeader, fp, thePalette);
+	if (errorBack) {
+		errorBox ("Error reading TGA file", errorBack);
+		return false;		
+	}
+	
+	unsigned short (* readColFunction) (FILE * fp, int bpc, palCol thePalette[], int x, int y) =
+		imageHeader.compressed ? readCompressedColour : readAColour;
+	
+	data = new unsigned char [imageHeader.width * imageHeader.height];
+	panels[0] = cutoff[0] = 0;
+	
+	for (t2 = imageHeader.height; t2; t2 --) {
+		pointer = data + (t2-1)*imageHeader.width;
+		for (t1 = 0; t1 < imageHeader.width; t1 ++) {
+			color = readColFunction (fp, imageHeader.pixelDepth, thePalette, 0, 0);
+			if (color) {
+				for (n = 1; n < numPanels; n ++) {
+					if (panels[n] == color) break;
+				}
+				if (n == numPanels) {
+					if (n < 16) {
+						panels[n] = color;
+						numPanels ++;
+						if (n) cutoff[n] = t2;
+						
+					} else {
+						errorBox ("Error reading TGA file", "Too many colours. Max 16 z-buffers are allowed.");						
+						return false;
+					}
+				}
+				panel = n;
+			} else {
+				panel = 0;
+			}
+			* (pointer ++) = panel;
+		}
+	}
+	fclose (fp);
+	
+	if (numPanels<2) {
+		errorBox ("Error reading TGA file", "Can't find any z-buffers in the file.");						
+		return false;
+	}
+	
+	loadhere->total = numPanels;
+	loadhere->sprites = new sprite [loadhere->total];
+	
+	for (n = 0; n < loadhere->total; n ++) {
+		loadhere->sprites[n].width = imageHeader.width;
+		loadhere->sprites[n].height = -imageHeader.height;
+		loadhere->sprites[n].xhot = 0;
+		loadhere->sprites[n].yhot = 0;
+		loadhere->sprites[n].tex_x = cutoff[n];
+		loadhere->sprites[n].texNum = n;
+		loadhere->myPalette.tex_names[n] = 0;
+		
+		if (n)
+			loadhere->sprites[n].data = new unsigned char [imageHeader.width * imageHeader.height];
+		else
+			loadhere->sprites[n].data = data;
+	}
+		
+	for (int y = 0; y < imageHeader.height; y ++) {
+		for (int x = 0; x < imageHeader.width; x ++) {
+			n = loadhere->sprites[0].data[y*imageHeader.width+x];
+			for (int i = 1; i < loadhere->total; i ++) {
+				loadhere->sprites[i].data[y*imageHeader.width+x] = (n == i) ? 255: 0;
+			}
+		}
+	}	
+	
+	return true;
 }
 
-bool loadZBufferFile (char * name) {
-	int n, x, y, zbWidth, zbHeight;
+
+bool loadZBufferFile (const char * name, spriteBank *loadhere) {
+	int n, i, x, y, zbWidth, zbHeight;
 	unsigned long stillToGo = 0;
 	
 	FILE * fp = fopen (name, "rb");
@@ -56,13 +152,20 @@ bool loadZBufferFile (char * name) {
 		return false;
 	}
 
-	numPanels = fgetc (fp);
-	for (n = 0; n < numPanels; n ++) {
-		panel[n].yCutOff = get2bytes (fp);
-		panel[n].theColour = 0x1111 * n;
+	loadhere->total = fgetc (fp);
+	loadhere->sprites = new sprite [loadhere->total];
+
+	for (n = 0; n < loadhere->total; n ++) {
+		loadhere->sprites[n].width = zbWidth;
+		loadhere->sprites[n].height = -zbHeight;
+		loadhere->sprites[n].xhot = 0;
+		loadhere->sprites[n].yhot = 0;
+		loadhere->sprites[n].tex_x = get2bytes (fp);
+		loadhere->sprites[n].texNum = n;
+		loadhere->myPalette.tex_names[n] = 0;
+		
+		loadhere->sprites[n].data = new unsigned char [zbWidth * zbHeight];
 	}
-	
-	if (! initBackDrop (zbWidth, zbHeight)) return false;
 	
 	for (y = 0; y < zbHeight; y ++) {
 		for (x = 0; x < zbWidth; x ++) {
@@ -73,7 +176,10 @@ bool loadZBufferFile (char * name) {
 				else stillToGo ++;
 				n &= 15;
 			}
-			backDropImage[y][x] = panel[n].theColour;
+			loadhere->sprites[0].data[y*zbWidth+x] = n;
+			for (i = 1; i < loadhere->total; i ++) {
+				loadhere->sprites[i].data[y*zbWidth+x] = (n == i) ? 255: 0;
+			}
 			stillToGo --;
 		}
 	}
@@ -81,6 +187,21 @@ bool loadZBufferFile (char * name) {
 	return true;
 }
 
+void loadZTextures (spriteBank *loadhere){
+	glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
+	glGenTextures (loadhere->total, loadhere->myPalette.tex_names);	
+
+	for (int i = 1; i < loadhere->total; i ++) {
+		loadhere->sprites[i].texNum = i;
+		glBindTexture (GL_TEXTURE_2D, loadhere->myPalette.tex_names[loadhere->sprites[i].texNum]);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexImage2D (GL_TEXTURE_2D, 0, GL_ALPHA8, loadhere->sprites[i].width, -loadhere->sprites[i].height, 0, GL_ALPHA, GL_UNSIGNED_BYTE, loadhere->sprites[i].data);
+	}	
+}	
+/*
 int editLayerNum = 0;
 
 bool setZBufferClick (int x, int y) {
@@ -88,13 +209,12 @@ bool setZBufferClick (int x, int y) {
 		if (panel[editLayerNum].theColour == backDropImage[y][x]) break;
 	}
 	return (editLayerNum < numPanels);
-}
+}*/
 
-void saveZBufferFile (char * name) {
+bool saveZBufferFile (const char * name, spriteBank *buffers) {
 	FILE * fp = fopen (name, "wb");
-	int x, y, n;
-	unsigned long totalPixels = VERT_RES;
-	totalPixels *= HORZ_RES;
+	int n;
+	unsigned long totalPixels = buffers->sprites[0].width * (-buffers->sprites[0].height);
 	unsigned long thisPixel = 0;
 	unsigned long countPixels = 0;
 	unsigned short thisColour;
@@ -103,79 +223,35 @@ void saveZBufferFile (char * name) {
 	fputc ('z', fp);
 	fputc ('b', fp);
 	fputc (1, fp);
-	put2bytes (HORZ_RES, fp);
-	put2bytes (VERT_RES, fp);
-	fputc (numPanels, fp);
-	for (n = 0; n < numPanels; n ++) {
-		put2bytes (panel[n].yCutOff, fp);
+	put2bytes (buffers->sprites[0].width, fp);
+	put2bytes (-buffers->sprites[0].height, fp);
+	fputc (buffers->total, fp);
+	for (n = 0; n < buffers->total; n ++) {
+		put2bytes (buffers->sprites[n].tex_x, fp);
 	}
-	
+		
 	while (thisPixel < totalPixels) {
-		x = thisPixel % HORZ_RES;
-		y = thisPixel / HORZ_RES;
-		thisColour = backDropImage[y][x];
+		thisColour = buffers->sprites[0].data[thisPixel];
 
 		// Find how many pixels of the same colour follow this
-
 		countPixels = thisPixel + 1;
-		while (thisColour == backDropImage[countPixels / HORZ_RES][countPixels % HORZ_RES]) {
+		while (thisColour == buffers->sprites[0].data[countPixels]) {
 			countPixels ++;
 			if (countPixels == totalPixels) break;
 			if (countPixels - thisPixel == 65551) break;
 		}
 		countPixels -= thisPixel;
 		
-		// Find which layer the pixels belong to by colour
-		
-		for (n = 0; n < numPanels; n ++) {
-			if (panel[n].theColour == backDropImage[y][x]) break;
-		}
-		if (n > 15) n = 0;
+		if (thisColour > 15) n = 0;
 		if (countPixels < 16) {
-			fputc (n + ((unsigned char) ((countPixels - 1) << 4)), fp);
+			fputc (thisColour + ((unsigned char) ((countPixels - 1) << 4)), fp);
 		} else {
-			fputc (n + 240, fp);
+			fputc (thisColour + 240, fp);
 			put2bytes (countPixels - 16, fp);
 		}
 		thisPixel += countPixels;
 	}
 	fclose (fp);
+	return true;
 }
 
-#ifdef WIN32
-
-LRESULT CALLBACK LayerSettingsFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
-{
-
-	switch (message) {
-        case WM_INITDIALOG:
-        {
-        	char buff[256];
-			ShowWindow (hDlg, SW_HIDE);
-			sprintf (buff, "There are %i layers...", numPanels);
-		    SetWindowText (GetDlgItem(hDlg, ID_LAYERTOTAL), buff);
-			sprintf (buff, "This is layer %i.", editLayerNum);
-		    SetWindowText (GetDlgItem(hDlg, ID_LAYERNUM), buff);
-			sprintf (buff, "%i", panel[editLayerNum].yCutOff);
-		    SetWindowText (GetDlgItem(hDlg, ID_LAYERCUTOFF), buff);
-			ShowWindow (hDlg, SW_SHOW);
-			return (true);
-		}
-
-		case WM_COMMAND:
-			if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL) {
-				bool worked;
-				int grabbed = GetDlgItemInt (hDlg, ID_LAYERCUTOFF, & worked, false);
-				if (worked) {
-					panel[editLayerNum].yCutOff = grabbed;
-					EndDialog(hDlg, true);
-				}
-				return (true);
-			}
-			break;
-	}
-
-    return false;
-}
-
-#endif

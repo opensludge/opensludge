@@ -19,7 +19,6 @@
 }
 
 - (NSString *)windowNibName {
-    // Implement this to return a nib to load OR implement -makeWindowControllers to manually create your controllers.
     return @"TranslationEditor";
 }
 
@@ -175,7 +174,12 @@
 			}
 			break;
 		case 2:
-			if (line->transTo) deleteString (line->transTo);
+			if (line->transTo) {
+				if (! strcmp(line->transTo, [anObject cStringUsingEncoding: NSISOLatin1StringEncoding]))
+					return;
+				deleteString (line->transTo);
+			} else if (! strlen([anObject cStringUsingEncoding: NSISOLatin1StringEncoding]))
+				return;
 			line->transTo = copyString([anObject cStringUsingEncoding: NSISOLatin1StringEncoding]);
 			if (!strlen(line->transTo)) {
 				if (line->type != TYPE_NONE)
@@ -209,19 +213,54 @@
 	}
 }
 
+- (void)tableViewSelectionDidChange:(NSNotification *)aNotification
+{
+	int c = -1;
+	int row = [listOfStrings selectedRow];
+	if (row >=0 ) {
+		int type = 	[showThese indexOfSelectedItem];
+		struct transLine * line = firstTransLine;
+		while (line && c<row) {
+			switch (type) {
+				case 0:
+					if (line->type == TYPE_NEW) c++; break;
+				case 2:
+					if (line->type == TYPE_TRANS) c++; break;
+				case 3:
+					if (line->type == TYPE_NONE) c++; break;
+				default:
+					c++;
+			}
+			if (c<row)line = line->next;
+		}
+		if (! line) {
+			[originalString setStringValue:@""];
+			return;
+		} 
+		[originalString setStringValue: [NSString stringWithCString: line->transFrom encoding:NSISOLatin1StringEncoding]];
+	} else {
+		[originalString setStringValue:@""];
+	}
+}
+
+
 - (IBAction)changeDone:(id)sender
 {
-	
-	if (strcmp(langName, [[languageName stringValue] cStringUsingEncoding: NSISOLatin1StringEncoding])) {
-		if (langName) deleteString (langName);
+	if (! langName) {
+		if (strlen([[languageName stringValue] cStringUsingEncoding: NSISOLatin1StringEncoding])) {
+			langName = newString ([[languageName stringValue] cStringUsingEncoding: NSISOLatin1StringEncoding]);
+			[self updateChangeCount: NSChangeDone];
+		}
+	} else if (strcmp(langName, [[languageName stringValue] cStringUsingEncoding: NSISOLatin1StringEncoding])) {
+		deleteString (langName);
 		langName = newString ([[languageName stringValue] cStringUsingEncoding: NSISOLatin1StringEncoding]);
 		[self updateChangeCount: NSChangeDone];
 	}
+	
 	if (langID != [languageID intValue]) {
-		[languageID intValue];
+		langID = [languageID intValue];
 		[self updateChangeCount: NSChangeDone];
 	}
-	
 }
 
 @end

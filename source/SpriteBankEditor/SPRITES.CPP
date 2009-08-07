@@ -1,4 +1,3 @@
-#include <OpenGL/gl.h>
 #include <stdlib.h>
 #include <string.h>
 #include <libpng/png.h>
@@ -832,10 +831,8 @@ void pasteSprite (sprite * single, const spritePalette *fontPal, bool showBox) {
 			glVertex3f(x1, -y1-single->height, 0.0);
 		}
 		glEnd();
+		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	}
-	
-    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-	
 	
 	glEnable (GL_TEXTURE_2D);
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); 

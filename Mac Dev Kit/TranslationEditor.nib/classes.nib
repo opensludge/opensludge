@@ -9,6 +9,7 @@
                 languageID = NSTextField; 
                 languageName = NSTextField; 
                 listOfStrings = NSTableView; 
+                originalString = NSTextField; 
                 showThese = NSPopUpButton; 
             }; 
             SUPERCLASS = NSDocument; 

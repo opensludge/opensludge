@@ -1,12 +1,18 @@
-struct zPanel {
-	unsigned short theColour;
-	unsigned short yCutOff;
-};
+#include "sprites.h"
 
-bool processZBufferData ();
-void saveZBufferFile (char * name);
-bool loadZBufferFile (char * name);
-#ifdef WIN32
-LRESULT CALLBACK LayerSettingsFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
+#ifdef __cplusplus
+extern "C" {
+#endif		
+
+//bool processZBufferData ();
+bool saveZBufferFile (const char * name, struct spriteBank *buffers);
+bool loadZBufferFile (const char * name, struct spriteBank *loadhere);
+void loadZTextures (struct spriteBank *loadhere);
+
+bool loadZBufferFromTGA (const char * fileName, struct spriteBank *loadhere);
+
+//bool setZBufferClick (int x, int y);
+
+#ifdef __cplusplus
+}
 #endif
-bool setZBufferClick (int x, int y);

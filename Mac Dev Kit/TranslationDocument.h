@@ -14,6 +14,8 @@
 	IBOutlet NSTextField *languageID;
 	IBOutlet NSTableView *listOfStrings;
 
+	IBOutlet NSTextField *originalString;
+
 	IBOutlet NSPopUpButton *showThese;
 	
 	struct transLine * firstTransLine;
