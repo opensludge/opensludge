@@ -5,28 +5,6 @@
 #include "Sprites.h"
 #include "zbuffer.h"
 
-/*
-bool processZBufferData () {
-	int n, x, y;
-	numPanels = 0;
-
-	for (y = 0; y < VERT_RES; y ++) {
-		for (x = 0; x < HORZ_RES; x ++) {
-			for (n = 0; n < numPanels; n ++) {
-				if (panel[n].theColour == backDropImage[y][x]) break;
-			}
-			if (n == numPanels) {
-				if (n < 16) {
-					panel[n].theColour = backDropImage[y][x];
-					numPanels ++;
-					panel[n].yCutOff = 0;
-				} else return false;
-			}
-			if (panel[n].theColour) panel[n].yCutOff = y;
-		}
-	}
-	return true;
-}*/
 
 bool loadZBufferFromTGA (const char * fileName, spriteBank *loadhere) {
 	unsigned char * pointer;
@@ -40,7 +18,6 @@ bool loadZBufferFromTGA (const char * fileName, spriteBank *loadhere) {
 	unsigned char * data;
 
 	// Open the file
-	
 	FILE * fp = fopen (fileName, "rb");
 	if (fp == NULL) {
 		errorBox ("Error", "Can't open that image file!");
@@ -48,7 +25,6 @@ bool loadZBufferFromTGA (const char * fileName, spriteBank *loadhere) {
 	}
 	
 	// Grab the header
-	
 	TGAHeader imageHeader;
 	char * errorBack;
 	errorBack = readTGAHeader (imageHeader, fp, thePalette);
@@ -78,7 +54,8 @@ bool loadZBufferFromTGA (const char * fileName, spriteBank *loadhere) {
 						if (n) cutoff[n] = t2;
 						
 					} else {
-						errorBox ("Error reading TGA file", "Too many colours. Max 16 z-buffers are allowed.");						
+						delete data;
+						errorBox ("Error reading TGA file", "Too many colours. Max 16 are allowed for making z-buffers. Each separate colour will become a z-buffer. If you need more, use sprites instead.");						
 						return false;
 					}
 				}
@@ -92,6 +69,7 @@ bool loadZBufferFromTGA (const char * fileName, spriteBank *loadhere) {
 	fclose (fp);
 	
 	if (numPanels<2) {
+		delete data;
 		errorBox ("Error reading TGA file", "Can't find any z-buffers in the file.");						
 		return false;
 	}
@@ -201,15 +179,6 @@ void loadZTextures (spriteBank *loadhere){
 		glTexImage2D (GL_TEXTURE_2D, 0, GL_ALPHA8, loadhere->sprites[i].width, -loadhere->sprites[i].height, 0, GL_ALPHA, GL_UNSIGNED_BYTE, loadhere->sprites[i].data);
 	}	
 }	
-/*
-int editLayerNum = 0;
-
-bool setZBufferClick (int x, int y) {
-	for (editLayerNum = 0; editLayerNum < numPanels; editLayerNum ++) {
-		if (panel[editLayerNum].theColour == backDropImage[y][x]) break;
-	}
-	return (editLayerNum < numPanels);
-}*/
 
 bool saveZBufferFile (const char * name, spriteBank *buffers) {
 	FILE * fp = fopen (name, "wb");

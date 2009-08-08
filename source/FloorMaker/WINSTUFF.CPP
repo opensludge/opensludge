@@ -102,7 +102,7 @@ void updateTitle () {
 	}
 	sprintf (buff, "SLUDGE Floor Maker: %s%s", notSaved ? "* " : "",
 		loadedFile ? loadedFile + a : "Untitled");
-	SetWindowText (hMainWindow, buff);
+	//SetWindowText (hMainWindow, buff);
 }
 
 bool InitInstance (HINSTANCE hInstance, int nCmdShow) {

@@ -1,3 +1,5 @@
+#ifdef WIN32
+#include <windows.h>
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -19,8 +21,6 @@ bool keepImages, keepStrings, verboseMode;
 extern chrRenderingSettingsStruct chrRenderingSettings;
 
 
-#ifdef WIN32
-#include <windows.h>
 
 #include "dialogueBoxInOut.h"
 
@@ -212,7 +212,7 @@ LRESULT CALLBACK resourcesBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 			
         	if (searchString) {
 	        	SetDlgItemText (hDlg, IDOK, "Edit");
-				SetWindowText (hDlg, "Search results");
+				//SetWindowText (hDlg, "Search results");
 				if (! programSettings.searchSensitive) upperString (searchString);
         		for (i = 0; i < n; i ++) {
 					tx = getFileFromBox (i);

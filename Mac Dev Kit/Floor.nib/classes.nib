@@ -2,16 +2,14 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            CLASS = Floor; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {floorView = FloorOpenGLView; }; 
-            SUPERCLASS = NSDocument; 
-        }, 
-        {
-            ACTIONS = {loadBackdrop = id; setFloorColour = id; }; 
+            ACTIONS = {changeMode = id; loadBackdrop = id; setFloorColour = id; }; 
             CLASS = FloorDocument; 
             LANGUAGE = ObjC; 
-            OUTLETS = {floorColourWell = NSColorWell; floorView = FloorOpenGLView; }; 
+            OUTLETS = {
+                floorColourWell = NSColorWell; 
+                floorView = FloorOpenGLView; 
+                modeSelector = NSPopUpButton; 
+            }; 
             SUPERCLASS = NSDocument; 
         }, 
         {

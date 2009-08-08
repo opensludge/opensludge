@@ -31,38 +31,36 @@
 }
 
 - (NSString *)windowNibName {
-    // Implement this to return a nib to load OR implement -makeWindowControllers to manually create your controllers.
-    return @"zDocument";
-}
-
-- (void)windowControllerDidLoadNib:(NSWindowController *) aController
-{
-	[zView connectToDoc: self];
-
 	if (! [self fileURL]) {
 		NSString *path = nil;
 		NSOpenPanel *openPanel = [ NSOpenPanel openPanel ];
 		[openPanel setTitle:@"Load file to zBuffer"];
 		NSArray *files = [NSArray arrayWithObjects:@"tga", nil];
-	
+		
 		if ( [ openPanel runModalForDirectory:nil file:nil types:files] ) {
 			path = [ openPanel filename ];
 			bool success = loadZBufferFromTGA ((char *) [path UTF8String], &backdrop);
 			if (! success) {
 				[self close];
-				return;
+				return nil;
 			}
 			[self updateChangeCount: NSChangeDone];
 		} else {
 			[self close];
-			return;
+			return nil;
 		}
 	}
 	
+    return @"zDocument";
+}
+
+- (void)windowControllerDidLoadNib:(NSWindowController *) aController
+{	
     [super windowControllerDidLoadNib:aController];
-	[zBufSlider setMaxValue:backdrop.total];
-	[zBufSlider setNumberOfTickMarks:backdrop.total];
-	[numBuffers setIntValue:backdrop.total];
+	[zView connectToDoc: self];
+	[zBufSlider setMaxValue:backdrop.total-1];
+	[zBufSlider setNumberOfTickMarks:backdrop.total-1];
+	[numBuffers setIntValue:backdrop.total-1];
 	[self setBuffer:1];
 }
 
@@ -112,9 +110,9 @@
 {
 	// Validation shouldn't be done here, but I'm cheating.
 	if (i < 1) i = 1;
-	if (i > backdrop.total) i = backdrop.total;
-	[bufferYTextField setIntValue: backdrop.sprites[i-1].tex_x];
-	if (i > 1)
+	if (i > backdrop.total-1) i = backdrop.total-1;
+	[bufferYTextField setIntValue: backdrop.sprites[i].tex_x];
+	if (i > 0)
 		[bufferYTextField setEnabled:YES];
 	else
 		[bufferYTextField setEnabled:NO];
@@ -124,7 +122,7 @@
 
 - (IBAction)setBufferY:(id)sender
 {
-	backdrop.sprites[buffer-1].tex_x = [bufferYTextField intValue];
+	backdrop.sprites[buffer].tex_x = [bufferYTextField intValue];
 	[zView setNeedsDisplay:YES];
 	[self updateChangeCount: NSChangeDone];
 }
@@ -142,7 +140,8 @@
 - (void) setCoords {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(x+(-w/2)*zmul, x+(w/2)*zmul, y+(h/2)*zmul, y+(-h/2)*zmul, 1.0, -1.0);	
+	//glOrtho(x+(-w/2)*zmul, x+(w/2)*zmul, y+(h/2)*zmul, y+(-h/2)*zmul, 1.0, -1.0);	
+	glOrtho((x-w/2)*zmul, (x+w/2)*zmul, (-y+h/2)*zmul, (-y-h/2)*zmul, 1.0, -1.0);	
 	glMatrixMode(GL_MODELVIEW);	
 }
 
@@ -166,8 +165,8 @@
 				keepOn = NO;
 				// continue
             case NSLeftMouseDragged:
-				x = x1 + (mouseLoc1.x - mouseLoc.x)*zmul;
-				y = y1 + (mouseLoc.y - mouseLoc1.y)*zmul;
+				x = x1 + (mouseLoc1.x - mouseLoc.x);
+				y = y1 - (mouseLoc.y - mouseLoc1.y);
 				[self setCoords];
 				[self setNeedsDisplay:YES];
 				
@@ -184,11 +183,22 @@
 - (void)scrollWheel:(NSEvent *)theEvent
 {
 	
-	z += [theEvent deltaY];
-	if (z > 200.0) z = 200.0;
-	if (z < -16.0) z = -16.0;
-	
-	zmul = (1.0+z/20);
+	if ([theEvent deltaY]) {
+		double x1, y1;
+		NSPoint mouseLoc1 = [theEvent locationInWindow];
+		NSPoint local_point = [self convertPoint:mouseLoc1 fromView:nil];
+		x1 = zmul*(local_point.x-w/2+x);
+		y1 = -zmul*(local_point.y-h/2+y);
+		
+		z += [theEvent deltaY];
+		if (z > 200.0) z = 200.0;
+		if (z < -16.0) z = -16.0;
+		
+		zmul = (1.0+z/20);
+		
+		x = -(local_point.x-w/2)+x1/zmul;
+		y = -(local_point.y-h/2)-y1/zmul;
+	}
 	
 	if ([theEvent deltaX]<0.0)
 		[doc setBuffer: [doc buffer]+1];
@@ -202,12 +212,10 @@
 
 - (void)prepareOpenGL 
 {
-	if (! backdrop) return;
 	if (! backdrop->total) {
 		addSprite(0, backdrop);
 		backdrop->sprites[0].width = 640;
 		backdrop->sprites[0].height = 480;
-		backdrop->sprites[0].yhot = backdrop->sprites[0].height;
 	} else
 		loadZTextures (backdrop);
 
@@ -219,7 +227,7 @@
 - (void)reshape {
 	NSRect bounds = [self bounds];
 	if (! w) x = bounds.size.width / 2;
-	if (! h) y = bounds.size.height / 2;
+	if (! h) y = -bounds.size.height / 2;
 	h = bounds.size.height;
 	w = bounds.size.width;
 	glViewport (bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);	
@@ -228,14 +236,12 @@
 }
 
 -(void) drawRect: (NSRect) bounds
-{	
-	if (! backdrop) return;
-	
+{		
     glClearColor(0, 0, 0, 0);
     glClear(GL_COLOR_BUFFER_BIT);
 	
 	int i;
-	int b = [doc buffer]-1;
+	int b = [doc buffer];
 	
 	if (backdrop->total>1)
 		for (i=1; i< backdrop->total; i++) {

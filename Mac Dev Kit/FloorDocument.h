@@ -21,6 +21,10 @@
 	float r,g,b;
 	float z, zmul;
 	
+	int lit, litX, litY;
+	
+	int selection, selx1, sely1, selx2, sely2;
+	
 }
 - (void) connectToDoc: (id) myDoc;
 - (void) drawRect: (NSRect) bounds;
@@ -30,17 +34,19 @@
 
 @interface FloorDocument : NSDocument {
 	
-	IBOutlet FloorOpenGLView *floorView;
-	
+	IBOutlet FloorOpenGLView *floorView;	
 	IBOutlet NSColorWell *floorColourWell;
+	IBOutlet NSPopUpButton *modeSelector;
 
 	struct spriteBank backdrop;
 	struct polyList * firstPoly;
 	
+	int mode;
 }
 - (struct polyList *) getFloor ;
 
 - (IBAction)loadBackdrop:(id)sender;
 - (IBAction)setFloorColour:(id)sender;
+- (IBAction)changeMode:(id)sender;
 
 @end
