@@ -36,7 +36,12 @@
 	
 	IBOutlet FloorOpenGLView *floorView;	
 	IBOutlet NSColorWell *floorColourWell;
-	IBOutlet NSPopUpButton *modeSelector;
+	
+	IBOutlet NSButton *modeButton1;
+	IBOutlet NSButton *modeButton2;
+	IBOutlet NSButton *modeButton3;
+	IBOutlet NSButton *modeButton4;
+	IBOutlet NSButton *modeButton5;
 
 	struct spriteBank backdrop;
 	struct polyList * firstPoly;

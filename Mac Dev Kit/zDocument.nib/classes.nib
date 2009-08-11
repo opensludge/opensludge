@@ -2,7 +2,6 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {setBufferY = id; }; 
             CLASS = zDocument; 
             LANGUAGE = ObjC; 
             OUTLETS = {

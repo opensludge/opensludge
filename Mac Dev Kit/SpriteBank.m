@@ -279,7 +279,10 @@
 
 - (void)close 
 {
-	forgetSpriteBank (&sprites);
+	if (sprites.total) {
+		forgetSpriteBank (&sprites);
+		sprites.total = 0;
+	}
 	[super close];
 }
 
@@ -287,6 +290,42 @@
 @end
 
 @implementation SpriteOpenGLView
+
+- (void) setCoords {
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho((-w/2+x)*(1.0+z/20), (w/2+x)*(1.0+z/20), (-h/2+y)*(1.0+z/20), (h/2+y)*(1.0+z/20), 1.0, -1.0);	
+	glMatrixMode(GL_MODELVIEW);	
+}
+
+- (void)keyDown:(NSEvent *)theEvent
+{
+	switch ([theEvent keyCode]) {
+		case 123: // Left
+			[self setValue:[NSNumber numberWithInt:spriteIndex-1] forKey:@"spriteIndex"];
+			break;
+		case 124: // Right
+			[self setValue:[NSNumber numberWithInt:spriteIndex+1] forKey:@"spriteIndex"];
+			break;
+		case 125: // down
+			z -= 2;
+			if (z > 10.0) z -= 1;
+			if (z < -16.0) z = -16.0;
+			break;
+		case 126: // Up
+			z += 2;
+			if (z > 10.0) z += 1;
+			if (z > 200.0) z = 200.0;
+			break;
+		default:
+			return;
+	}
+	
+	[self setCoords];
+	[self setNeedsDisplay:YES];
+	
+}
+- (BOOL)acceptsFirstResponder { return YES; }
 
 - (bool) showBox
 {
@@ -319,6 +358,7 @@
 		[doc setHotSpotY:0];
 	}
 	[doc setupButtons];
+	[self setNeedsDisplay:YES];
 }
 
 - (void) connectToDoc: (id) myDoc
@@ -328,12 +368,6 @@
 	spriteIndex = 0;
 }
 
-- (void) setCoords {
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho((-w/2+x)*(1.0+z/20), (w/2+x)*(1.0+z/20), (-h/2+y)*(1.0+z/20), (h/2+y)*(1.0+z/20), 1.0, -1.0);	
-	glMatrixMode(GL_MODELVIEW);	
-}
 
 - (void)mouseDown:(NSEvent *)theEvent {
     BOOL keepOn = YES;

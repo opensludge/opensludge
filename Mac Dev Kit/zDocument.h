@@ -45,10 +45,14 @@
 	IBOutlet NSTextField *bufferYTextField;
 
 	int buffer;
+	int bufferY;
 }
 - (int) buffer;
 - (void) setBuffer: (int)i;
 
-- (IBAction)setBufferY:(id)sender;
+- (int) bufferY;
+- (void) setBufferY: (int)i;
+
+//- (IBAction)setBufferY:(id)sender;
 
 @end

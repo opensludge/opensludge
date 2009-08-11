@@ -111,21 +111,28 @@
 	// Validation shouldn't be done here, but I'm cheating.
 	if (i < 1) i = 1;
 	if (i > backdrop.total-1) i = backdrop.total-1;
-	[bufferYTextField setIntValue: backdrop.sprites[i].tex_x];
 	if (i > 0)
 		[bufferYTextField setEnabled:YES];
 	else
 		[bufferYTextField setEnabled:NO];
 	buffer = i;
-	[zView setNeedsDisplay:YES];
+	[self setBufferY: backdrop.sprites[i].tex_x];
 }
 
-- (IBAction)setBufferY:(id)sender
+- (void)setBufferY:(int)i
 {
-	backdrop.sprites[buffer].tex_x = [bufferYTextField intValue];
+	if (buffer && i != backdrop.sprites[buffer].tex_x) {
+		backdrop.sprites[buffer].tex_x = i;
+		[self updateChangeCount: NSChangeDone];
+	}
 	[zView setNeedsDisplay:YES];
-	[self updateChangeCount: NSChangeDone];
 }
+- (int)bufferY
+{
+	if (! buffer) return 0;
+	return backdrop.sprites[buffer].tex_x;
+}
+
 
 @end
 
@@ -151,32 +158,55 @@
 	NSPoint mouseLoc1;
 	
 	mouseLoc1 = [theEvent locationInWindow];
-	
-	int x1 = x;
-	int y1 = y;
-	
-    while (keepOn) {
-        theEvent = [[self window] nextEventMatchingMask: NSLeftMouseUpMask |
-			NSLeftMouseDraggedMask];
-        mouseLoc = [theEvent locationInWindow];
+	unsigned int flags = [theEvent modifierFlags];
+	if (flags & NSCommandKeyMask || flags & NSControlKeyMask) {
+		int b = [doc buffer];
+		if (b<1) return;
 		
-        switch ([theEvent type]) {
-            case NSLeftMouseUp:
-				keepOn = NO;
-				// continue
-            case NSLeftMouseDragged:
-				x = x1 + (mouseLoc1.x - mouseLoc.x);
-				y = y1 - (mouseLoc.y - mouseLoc1.y);
-				[self setCoords];
-				[self setNeedsDisplay:YES];
-				
-				break;
-            default:
-				/* Ignore any other kind of event. */
-				break;
-        }
-    };
-	
+		int y1 =  backdrop->sprites[b].tex_x;
+		
+		while (keepOn) {
+			theEvent = [[self window] nextEventMatchingMask: NSLeftMouseUpMask | NSLeftMouseDraggedMask];
+			mouseLoc = [theEvent locationInWindow];
+			
+			switch ([theEvent type]) {
+				case NSLeftMouseUp:
+					keepOn = NO;
+					// continue
+				case NSLeftMouseDragged:
+					[doc setBufferY: y1 - (mouseLoc.y - mouseLoc1.y)*zmul];
+					
+					break;
+				default:
+					/* Ignore any other kind of event. */
+					break;
+			}
+		};
+	} else {
+		int x1 = x;
+		int y1 = y;
+		
+		while (keepOn) {
+			theEvent = [[self window] nextEventMatchingMask: NSLeftMouseUpMask | NSLeftMouseDraggedMask];
+			mouseLoc = [theEvent locationInWindow];
+			
+			switch ([theEvent type]) {
+				case NSLeftMouseUp:
+					keepOn = NO;
+					// continue
+				case NSLeftMouseDragged:
+					x = x1 + (mouseLoc1.x - mouseLoc.x);
+					y = y1 - (mouseLoc.y - mouseLoc1.y);
+					[self setCoords];
+					[self setNeedsDisplay:YES];
+					
+					break;
+				default:
+					/* Ignore any other kind of event. */
+					break;
+			}
+		};
+	}
     return;
 }
 

@@ -8,7 +8,11 @@
             OUTLETS = {
                 floorColourWell = NSColorWell; 
                 floorView = FloorOpenGLView; 
-                modeSelector = NSPopUpButton; 
+                modeButton1 = NSButton; 
+                modeButton2 = NSButton; 
+                modeButton3 = NSButton; 
+                modeButton4 = NSButton; 
+                modeButton5 = NSButton; 
             }; 
             SUPERCLASS = NSDocument; 
         }, 

@@ -211,6 +211,12 @@ const char * getTempDir () {
 	return [NSTemporaryDirectory() UTF8String];
 }
 
+bool askAQuestion (const char * head, const char * msg) {
+	if (! NSRunAlertPanel ([NSString stringWithUTF8String: head], [NSString stringWithUTF8String: msg], @"Yes", @"No", NULL) == NSAlertDefaultReturn)
+		return false;
+	return true;
+}
+
 
 bool errorBox (const char * head, const char * msg) {
 	NSRunAlertPanel ([NSString stringWithUTF8String: head], [NSString stringWithUTF8String: msg], NULL, NULL, NULL);

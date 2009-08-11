@@ -21,6 +21,150 @@ bool polyIsComplete (struct polyList *firstPoly) {
 	return firstPoly -> firstVertex -> x == newVertex -> x && firstPoly -> firstVertex -> y == newVertex -> y;
 }
 
+int ccw (struct vertexList *p0, struct vertexList *p1, struct vertexList *p2) {
+	int dx1, dx2, dy1, dy2;
+	dx1 = p1->x - p0->x; dy1 = p1->y - p0->y;
+	dx2 = p2->x - p0->x; dy2 = p2->y - p0->y;
+	if (dx1*dy2 > dy1*dx2) return +1;
+	if (dx1*dy2 < dy1*dx2) return -1;
+	if ((dx1*dx2 < 0) || (dy1*dy2 < 0)) return -1;
+	if ((dx1*dx1+dy1*dy1) < (dx2*dx2+dy2*dy2)) return +1;
+	return 0;
+}
+
+bool intersect(struct vertexList *l1a, struct vertexList *l1b, struct vertexList *l2) {
+	// Check the lines
+	if (! l1a) return true;
+	if (! l1b) return true;
+	if (! l2) return true;
+	if (! l2->next) return true;
+	
+	// Lines sharing a vertex doesn't count...
+	if ((l1a->x == l2->x && l1a->y == l2->y) ||
+		(l1b->x == l2->x && l1b->y == l2->y) ||
+		(l1b->x == l2->next->x && l1b->y == l2->next->y) ||
+		(l1a->x == l2->next->x && l1a->y == l2->next->y)) {
+		return false;
+	}
+		
+	// Check for intersection
+	return ((ccw(l1a, l1b, l2) * ccw(l1a, l1b, l2->next)) <=0)
+		&& ((ccw(l2, l2->next, l1a) * ccw(l2, l2->next, l1b)) <=0);
+}
+
+bool polyIsConvex (struct polyList *firstPoly) {
+	if (firstPoly -> firstVertex == NULL) return false;
+	if (firstPoly -> firstVertex -> next == NULL) return false;
+	if (firstPoly -> firstVertex -> next -> next == NULL) return false;
+	
+	int dir = 0, dir1 = 0;
+	
+	vertexList * newVertex1 = firstPoly -> firstVertex;
+	vertexList * newVertex2 = newVertex1 -> next;
+	vertexList * newVertex3 = newVertex2 -> next;
+	while (newVertex3) {
+		dir1 = ccw(newVertex1, newVertex2, newVertex3);
+		if (dir1) {
+			if (dir && (dir != dir1)) {
+				return false;
+			}
+			dir = dir1;
+		}
+		
+		newVertex1 = newVertex2;
+		newVertex2 = newVertex3;
+		newVertex3 = newVertex3->next;
+	}
+	dir1 = ccw(newVertex1, newVertex2, newVertex3 = firstPoly->firstVertex->next);
+	if (dir1) {
+		if (dir && (dir != dir1)) {
+			return false;
+		}
+		dir = dir1;
+	}
+	dir1 = ccw(newVertex2, newVertex3, newVertex3->next);
+	if (dir1) {
+		if (dir && (dir != dir1)) {
+			return false;
+		}
+		dir = dir1;
+	}
+	return true;
+}
+
+int getPolyDirection (struct polyList *firstPoly) {
+	if (firstPoly -> firstVertex == NULL) return false;
+	if (firstPoly -> firstVertex -> next == NULL) return false;
+	if (firstPoly -> firstVertex -> next -> next == NULL) return false;
+	
+	int dir = 0;
+	
+	vertexList * newVertex1 = firstPoly -> firstVertex;
+	vertexList * newVertex2 = newVertex1 -> next;
+	vertexList * newVertex3 = newVertex2 -> next;
+	while (newVertex3) {
+		dir += ccw(newVertex1, newVertex2, newVertex3);
+
+		newVertex1 = newVertex2;
+		newVertex2 = newVertex3;
+		newVertex3 = newVertex3->next;
+	}
+	dir += ccw(newVertex1, newVertex2, newVertex3 = firstPoly->firstVertex->next);
+	dir += ccw(newVertex2, newVertex3, newVertex3->next);
+	if (dir > 0) return 1;
+	if (dir < 0) return -1;
+	return 0;
+}
+
+struct vertexList * findConcaveVertex (struct polyList *firstPoly, int dir) {
+	if (firstPoly -> firstVertex == NULL) return NULL;
+	if (firstPoly -> firstVertex -> next == NULL) return NULL;
+	if (firstPoly -> firstVertex -> next -> next == NULL) return NULL;
+	if (! dir) return NULL;
+	
+	int dir1 = 0;
+	
+	vertexList * newVertex1 = firstPoly -> firstVertex;
+	vertexList * newVertex2 = newVertex1 -> next;
+	vertexList * newVertex3 = newVertex2 -> next;
+	vertexList * test;
+	while (newVertex3) {
+		dir1 = ccw(newVertex1, newVertex2, newVertex3);
+		if (dir1) {
+			if (dir != dir1) {
+				test = (newVertex3->next) ? newVertex3->next : firstPoly -> firstVertex;
+				dir1 = ccw(newVertex2, newVertex3, test);
+				if (dir == dir1)
+					return newVertex2;
+			}
+		}
+		
+		newVertex1 = newVertex2;
+		newVertex2 = newVertex3;
+		newVertex3 = newVertex3->next;
+	}
+	dir1 = ccw(newVertex1, newVertex2, newVertex3 = firstPoly->firstVertex->next);
+	if (dir1) {
+		if (dir != dir1) {
+			test = (newVertex3->next) ? newVertex3->next : firstPoly -> firstVertex;
+			dir1 = ccw(newVertex2, newVertex3, test);
+			if (dir == dir1)
+				return newVertex2;
+		}
+	}
+	dir1 = ccw(newVertex2, newVertex3, newVertex3->next);
+	if (dir1) {
+		if (dir != dir1) {
+			test = (newVertex3->next->next) ? newVertex3->next->next : firstPoly -> firstVertex;
+			dir1 = ccw(newVertex3, newVertex3->next, test);
+			if (dir == dir1)
+				return newVertex3;
+		}
+	}
+	return NULL;
+}
+
+
 polyList * addPoly (struct polyList *firstPoly) {
 	polyList * newPoly = new polyList;
 	if (newPoly == NULL) return NULL;
@@ -30,7 +174,7 @@ polyList * addPoly (struct polyList *firstPoly) {
 	return newPoly;
 }
 
-#define CLOSENESS 8
+#define CLOSENESS 6
 bool snapToClosest (int *x1, int *y1, polyList * firstPoly) {
 	int x = *x1;
 	int y = *y1;
@@ -68,6 +212,9 @@ int addVertex (int x, int y, struct polyList *firstPoly) {
 	newVertex = new vertexList;
 	if (newVertex == NULL) return 0;
 	
+	if (x<0) x =0 ;
+	if (y<0) y =0;
+	
 	// Wow! Now all we need to do is set the values and update the list!
 	newVertex -> x = x;
 	newVertex -> y = y;
@@ -82,6 +229,9 @@ bool moveVertices (int x1, int y1, int x2, int y2, struct polyList *firstPoly) {
 	polyList * pL;
 	vertexList * vL;
 	bool got1, got2;
+	
+	if (x2<0) x2 = 0;
+	if (y2<0) y2 = 0;
 	
 	// Check we're not doubling up...
 	
@@ -159,11 +309,9 @@ void killVertex (int x, int y, struct polyList **firstPoly) {
 		}
 		
 		// If we're down to 0 corners, destroy the polygon
-		
 		polyList * killMe = ((pL -> firstVertex == NULL) ? pL : NULL);
 		
 		// Or 1 corner, for that matter
-		
 		if (! killMe) {
 			if (pL -> firstVertex -> next == NULL) {
 				delete pL -> firstVertex;
@@ -172,7 +320,6 @@ void killVertex (int x, int y, struct polyList **firstPoly) {
 		}
 		
 		// Or 2 the same...
-		
 		if (! killMe) {
 			if (pL -> firstVertex -> x == pL -> firstVertex -> next -> x &&
 				pL -> firstVertex -> y == pL -> firstVertex -> next -> y) {
@@ -183,7 +330,6 @@ void killVertex (int x, int y, struct polyList **firstPoly) {
 		}
 		
 		// OK, we're done! Next polygon please!
-		
 		pL = pL -> next;
 		if (killMe) removePoly (killMe, firstPoly);
 	}
@@ -350,7 +496,7 @@ bool loadFloorFromFile (char * name, struct polyList **firstPoly) {
 	return true;
 }
 
-void drawFloor (struct polyList * floor) {
+void drawFloor (struct polyList * floor, float r, float g, float b) {
 	struct polyList * pL = floor;
 	
 	struct vertexList * vL;
@@ -359,6 +505,32 @@ void drawFloor (struct polyList * floor) {
 	if (! floor) return;
 	
 	while (pL) {
+		vL = pL -> firstVertex;
+		if (polyIsConvex(pL)) {
+			glColor4f(r, g, b, 0.25);	
+			glBegin(GL_POLYGON);
+			while (vL) {
+				if (vL -> next) {
+					glVertex3f(vL -> x, vL -> y, 0.0);
+					glVertex3f(vL -> next -> x, vL -> next -> y, 0.0);
+				}
+				vL = vL -> next;
+			}
+			glEnd();
+		} else {
+			glColor4f(1.0, 0.0, 0.0, 0.25);	
+			glBegin(GL_POLYGON);
+			while (vL) {
+				if (vL -> next) {
+					glVertex3f(vL -> x, vL -> y, 0.0);
+					glVertex3f(vL -> next -> x, vL -> next -> y, 0.0);
+				}
+				vL = vL -> next;
+			}
+			glEnd();
+		}
+			
+		glColor4f(r, g, b, 1.0);	
 		vL = pL -> firstVertex;
 		while (vL) {
 			
@@ -441,13 +613,64 @@ void drawFloor (struct polyList * floor) {
 }
 
 
-bool saveFloorToFile (char * filename, struct polyList *firstPoly) {
+bool saveFloorToFile (char * filename, struct polyList **firstPoly) {
 	FILE * fp = fopen (filename, "wt");
 	if (! fp) {
 //		alert ("Can't open file for writing");
 		return false;
 	}
-	polyList * pL =  firstPoly;
+
+	int dir;
+	bool fixFloor = false;
+	polyList * pL =  *firstPoly;
+	while (pL) {
+		if (! polyIsConvex (pL)) {
+			if (fixFloor || askAQuestion("Error in floor.", "I found a polygon in the floor that isn't convex. That will most likely cause problems. Do you want me to try and fix it for you?")) {
+				fixFloor = true;
+				// Fix it!
+				if (! (dir = getPolyDirection(pL))) {
+					errorBox ("Error", "I can't fix the error. The floor is too complicated, but I'll save it anyway.");
+					pL = NULL;
+					break;
+				}
+				
+				vertexList * vL1 = findConcaveVertex (pL, dir);
+				if (vL1) {
+					vertexList * vL2;
+					if (vL1->next) vL2 = vL1->next; else vL2 = pL->firstVertex->next;
+					if (vL2->next) vL2 = vL2->next; else vL2 = pL->firstVertex->next;
+					
+					// Check that the line doesn't cross any other lines
+					vertexList * vL = pL -> firstVertex;
+					bool doIt = true;
+					while (vL -> next) {
+						if (intersect (vL1, vL2, vL)) {
+							vL2 = (vL2->next) ? vL2->next : pL -> firstVertex;
+							if (vL2 == vL1) {
+								doIt = false;
+								break;
+							} else {
+								vL = pL -> firstVertex;
+							}
+						} else {
+							vL = vL -> next;
+						}
+					}
+						
+					if (doIt) {
+						splitPoly (vL1->x, vL1->y, vL2->x, vL2->y, firstPoly);
+						pL = *firstPoly;
+						continue;
+					}
+				}
+			} else {
+				break;
+			}
+		}
+		if (pL) pL = pL -> next;
+	}
+	
+	pL =  *firstPoly;
 	while (pL) {
 		vertexList * vL = pL -> firstVertex;
 		if (vL) {

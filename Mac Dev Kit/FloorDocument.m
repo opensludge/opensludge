@@ -16,8 +16,6 @@
 {
     self = [super init];
     if (self) {		
-        // Add your subclass-specific initialization here.
-        // If an error occurs here, send a [self release] message and return nil.
 		firstPoly = 0;
 		noFloor (&firstPoly);
 		
@@ -34,8 +32,6 @@
 
 - (NSString *)windowNibName
 {
-    // If you need to use a subclass of NSWindowController or if your document supports multiple NSWindowControllers,
-	// you should remove this method and override -makeWindowControllers instead.
     return @"Floor";
 }
 
@@ -43,6 +39,15 @@
 {
     [super windowControllerDidLoadNib:aController];
 	[floorView connectToDoc: self];
+	[floorColourWell setToolTip: @"Choose colour for floor outlines"];
+	[modeButton1 setToolTip: @"Define floor borders"];
+	[modeButton2 setToolTip: @"Move vertices"];
+	[modeButton3 setToolTip: @"Delete vertices"];
+	[modeButton4 setToolTip: @"Split line"];
+	[modeButton5 setToolTip: @"Split floor"];
+
+	if ([self fileURL]) 
+		[self changeMode: modeButton2];
 }
 - (void)mouseMoved:(NSEvent *)theEvent
 {
@@ -72,7 +77,8 @@
 	if ([typeName isEqualToString:@"SLUDGE Floor"]) {		
 		UInt8 buffer[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
-			if (saveFloorToFile ((char *) buffer, firstPoly)) {
+			if (saveFloorToFile ((char *) buffer, &firstPoly)) {
+				[floorView setNeedsDisplay:YES];
 				return YES;
 			}
 		}
@@ -126,7 +132,6 @@
 - (void)close 
 {
 	if (backdrop.total) {
-		fprintf (stderr, "\n\n\nCLOSING!\n\n\n");
 		forgetSpriteBank (&backdrop);
 		backdrop.total = 0;
 		noFloor (&firstPoly);
@@ -137,7 +142,44 @@
 
 - (IBAction)changeMode:(id)sender
 {
+	switch (mode) {
+		case 0:
+			[modeButton1 setState:NO];
+			break;
+		case 1:
+			[modeButton2 setState:NO];
+			break;
+		case 2:
+			[modeButton3 setState:NO];
+			break;
+		case 4:
+			[modeButton4 setState:NO];
+			break;
+		case 5:
+			[modeButton5 setState:NO];
+			break;
+	}
+	mode = [sender tag];
+	switch (mode) {
+		case 0:
+			[modeButton1 setState:YES];
+			break;
+		case 1:
+			[modeButton2 setState:YES];
+			break;
+		case 2:
+			[modeButton3 setState:YES];
+			break;
+		case 4:
+			[modeButton4 setState:YES];
+			break;
+		case 5:
+			[modeButton5 setState:YES];
+			break;
+	}
+	/*
 	mode = [modeSelector indexOfSelectedItem];
+	 */
 }
 - (int) mode
 {
@@ -242,12 +284,17 @@
 						keepOn = NO;
 						// continue
 					case NSLeftMouseDragged:
-						xx = (local_point.x+x)*zmul;
-						yy = -(local_point.y+y-h)*zmul;
+						selx2 = xx = (local_point.x+x)*zmul;
+						sely2 = yy = -(local_point.y+y-h)*zmul;
 						
 						lit = snapToClosest(&xx, &yy, [doc getFloor]);
-						selx2 = litX = xx; 
-						sely2 = litY = yy;
+						litX = xx; 
+						litY = yy;
+						
+						if (lit && (xx != selx1 || yy != sely1)) {
+							selx2 = xx;
+							sely2 = yy;
+						}
 						
 						[self setNeedsDisplay:YES];
 						
@@ -271,6 +318,7 @@
 			
 			killVertex (xx, yy, &firstPoly);
 			[doc setFloor: firstPoly];
+			break;
 		case 4: // Split lines
 		case 5: // Split segments
 			if (! snapToClosest(&xx, &yy, [doc getFloor]))
@@ -412,6 +460,7 @@
     glClearColor(0, 0, 0, 0);
     glClear(GL_COLOR_BUFFER_BIT);
 	
+	glColor3f(1.0f, 1.00f, 1.00f);
 	pasteSprite (&backdrop->sprites[0], &backdrop->myPalette, false);
 
 	glDisable (GL_TEXTURE_2D);
@@ -437,8 +486,7 @@
 		glEnd();
 	}
 	
-	glColor3f(r, g, b);	
-	drawFloor ([doc getFloor]);
+	drawFloor ([doc getFloor], r, g, b);
 	
 	if (selection == 1) {
 		glColor3f(1.0f, 0.00f, 1.00f);
