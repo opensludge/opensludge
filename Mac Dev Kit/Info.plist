@@ -150,7 +150,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>102</string>
+	<string>103</string>
 	<key>NSMainNibFile</key>
 	<string>DevKit Main</string>
 	<key>NSPrincipalClass</key>

@@ -70,6 +70,7 @@ void grabRGBA (FILE * fp, int bpc, unsigned char & r, unsigned char & g, unsigne
 
 void grabRGB (FILE * fp, int bpc, unsigned char & r, unsigned char & g, unsigned char & b, palCol thePalette[])
 {
+	int a;
 	int grabbed1, grabbed2;
 	switch (bpc) {
 		case 8:
@@ -97,7 +98,12 @@ void grabRGB (FILE * fp, int bpc, unsigned char & r, unsigned char & g, unsigned
 		b = fgetc (fp);
 		g = fgetc (fp);
 		r = fgetc (fp);
-		fgetc (fp);
+		a = fgetc (fp);
+			if (a < 100) {
+				r = 255;
+				g = 0;
+				b = 255;
+			}
 		break;		
 	}
 }

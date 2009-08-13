@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <libpng/png.h>
+
 #include "moreio.h"
 #include "Splitter.hpp"
 #include "wintext.h"
@@ -9,6 +11,8 @@
 #include "tga.h"
 
 unsigned short int * * backDropImage;
+bool backdrop32;
+unsigned char * backDrop32Image;
 int VERT_RES, HORZ_RES;
 
 bool initBackDropForCompiler (int x, int y) {
@@ -45,17 +49,42 @@ int loadBackDropForCompiler (char * fileName) {
 //		alert (errorBack);
 		return false;		
 	}
-
-	initBackDropForCompiler (imageHeader.width, imageHeader.height);
 	
-	unsigned short (* readColFunction) (FILE *, int, palCol[], int, int) =
-		imageHeader.compressed ? readCompressedColour : readAColour;
+	if (imageHeader.pixelDepth < 24) {
 
-	for (t2 = imageHeader.height; t2; t2 --) {
-		toScreen = backDropImage[(imageHeader.imageDescriptor & 32) ? (imageHeader.height - t2) : (t2 - 1)];
-		for (t1 = 0; t1 < imageHeader.width; t1 ++) {
-			* (toScreen ++) = readColFunction (fp, imageHeader.pixelDepth, thePalette, t1, t2);
+		initBackDropForCompiler (imageHeader.width, imageHeader.height);
+		
+		unsigned short (* readColFunction) (FILE *, int, palCol[], int, int) =
+			imageHeader.compressed ? readCompressedColour : readAColour;
+
+		for (t2 = imageHeader.height; t2; t2 --) {
+			toScreen = backDropImage[(imageHeader.imageDescriptor & 32) ? (imageHeader.height - t2) : (t2 - 1)];
+			for (t1 = 0; t1 < imageHeader.width; t1 ++) {
+				* (toScreen ++) = readColFunction (fp, imageHeader.pixelDepth, thePalette, t1, t2);
+			}
 		}
+	} else {
+		backdrop32 = true;
+
+		backDrop32Image = new unsigned char [imageHeader.height * imageHeader.width * 4];
+		if (! backDrop32Image) return false;
+		
+		unsigned char r,g,b,a;
+		
+		for (int t2 = imageHeader.height-1; t2>=0; t2 --) {
+			for (int t1 = 0; t1 < imageHeader.width; t1 ++) {
+				if (! imageHeader.compressed) {
+					grabRGBA (fp, imageHeader.pixelDepth, r, g, b, a, thePalette);
+				} else {
+					grabRGBACompressed (fp, imageHeader.pixelDepth, r, g, b, a, thePalette);
+				}
+				
+				backDrop32Image[t2*imageHeader.width*4+t1*4] = r;
+				backDrop32Image[t2*imageHeader.width*4+t1*4+1] = g;
+				backDrop32Image[t2*imageHeader.width*4+t1*4+2] = b;
+				backDrop32Image[t2*imageHeader.width*4+t1*4+3] = a;
+			}
+		}		
 	}
 	
 	int i = ftell (fp);
@@ -98,6 +127,42 @@ int saveHSI (char * filename) {
 	return i;
 }
 
+int savePNG (char * filename, int w, int h, unsigned char * data) {
+	FILE * fp = fopen (filename, "wb");
+	if (! fp) return 0;
+	
+	png_structp png_ptr = png_create_write_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+	if (!png_ptr) {
+		fclose (fp);
+		return false;
+	}
+	
+	png_infop info_ptr = png_create_info_struct(png_ptr);
+	if (!info_ptr){
+		png_destroy_write_struct(&png_ptr, (png_infopp)NULL);
+		fclose (fp);
+		return false;
+	}	
+	
+	png_init_io(png_ptr, fp);
+		
+	png_set_IHDR(png_ptr, info_ptr, w, h,
+				 8, PNG_COLOR_TYPE_RGB_ALPHA, PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);		
+	
+	unsigned char * row_pointers[h];
+	
+	for (int i = 0; i < h; i++) {
+		row_pointers[i] = data + 4*i*w;
+	}
+	
+	png_set_rows(png_ptr, info_ptr, row_pointers);	
+    png_write_png(png_ptr, info_ptr, PNG_TRANSFORM_IDENTITY, NULL);	
+
+	int i = ftell (fp);
+	fclose (fp);
+	return i;	
+}
+
 
 bool convertTGA (char * filename) {
 	char * oldName = joinStrings (filename, "");
@@ -107,11 +172,17 @@ bool convertTGA (char * filename) {
 	int i, j;
 
 	if (newerFile (oldName, filename)) {
+		backdrop32 = false;
 		setCompilerText (COM_ITEMTEXT, "Compressing image");
 		i = loadBackDropForCompiler (oldName);
 		if (! i) return false;
-		j = saveHSI (filename);
-		if (! j) return false;
+		if (backdrop32) {
+			j = savePNG (filename, HORZ_RES, VERT_RES, backDrop32Image);
+			delete backDrop32Image;
+			
+			if (! j) return false;
+		} else {
+			j = saveHSI (filename);
 //		{
 //			char blah[255];
 //			sprintf (blah, "Compressed %s...", originalName);
@@ -120,8 +191,11 @@ bool convertTGA (char * filename) {
 //			sprintf (blah, "     From %d to %d bytes (%d%%)", i, j, p);
 //			addComment (blah);
 //		}
-		for (int a = 0; a < VERT_RES; a ++) delete backDropImage[a];
-		delete backDropImage;
+			for (int a = 0; a < VERT_RES; a ++) delete backDropImage[a];
+			delete backDropImage;
+
+			if (! j) return false;
+		}
 		setCompilerText (COM_ITEMTEXT, "");
 	}
 	delete oldName;

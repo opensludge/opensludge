@@ -132,7 +132,7 @@ struct vertexList * findConcaveVertex (struct polyList *firstPoly, int dir) {
 		dir1 = ccw(newVertex1, newVertex2, newVertex3);
 		if (dir1) {
 			if (dir != dir1) {
-				test = (newVertex3->next) ? newVertex3->next : firstPoly -> firstVertex;
+				test = (newVertex3->next) ? newVertex3->next : firstPoly -> firstVertex->next;
 				dir1 = ccw(newVertex2, newVertex3, test);
 				if (dir == dir1)
 					return newVertex2;

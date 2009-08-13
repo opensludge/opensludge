@@ -57,7 +57,8 @@ int getFileType (char * filename) {
 					strcmp (compareMe, ".avi") == 0) {
 			reply = FILETYPE_AUDIO;
 		} else if (	strcmp (compareMe, ".duc") == 0 ||
-					strcmp (compareMe, ".zbu") == 0) {
+					strcmp (compareMe, ".zbu") == 0 ||
+					strcmp (compareMe, ".png") == 0) {
 			reply = FILETYPE_RAW;
 		}
 		delete compareMe;
