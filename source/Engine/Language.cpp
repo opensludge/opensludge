@@ -114,8 +114,6 @@ void readIniFile (char * filename) {
 		fclose (fp);
 	}
 }
-
-extern int gameVersion;
 	
 void makeLanguageTable (FILE * table)
 {	

@@ -8,7 +8,6 @@
 
 objectType * allObjectTypes = NULL;
 extern char * outputDir;
-extern int gameVersion;
 
 #define DEBUG_COMBINATIONS	0
 

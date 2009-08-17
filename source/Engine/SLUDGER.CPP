@@ -20,6 +20,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <libpng/png.h>
+
 #include "version.h"
 #include "sludger.h"
 #include "backdrop.h"
@@ -238,30 +240,104 @@ bool initSludge (char * filename) {
 	if (fgetc (fp)) {
 		// There is an icon - read it!
 		int n;
-		int w = get2bytes(fp);
-		int h = get2bytes(fp);
+		int w, h;
+		
+		long file_pointer = ftell (fp);
+		
+		png_structp png_ptr;
+		png_infop info_ptr, end_info;
+		
+		
+		int fileIsPNG = true;
+		
+		// Is this a PNG file?
+		
+		char tmp[10];
+		fread(tmp, 1, 8, fp);
+		if (png_sig_cmp((png_byte *) tmp, 0, 8)) {
+			// No, it's old-school HSI
+			fileIsPNG = false;
+			fseek(fp, file_pointer, SEEK_SET);
+			
+			w = get2bytes (fp);
+			h = get2bytes (fp);
+		} else {
+			// Read the PNG header
+			
+			png_ptr = png_create_read_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+			if (!png_ptr) {
+				return false;
+			}
+			
+			info_ptr = png_create_info_struct(png_ptr);
+			if (!info_ptr) {
+				png_destroy_read_struct(&png_ptr, (png_infopp) NULL, (png_infopp) NULL);
+				return false;
+			}
+			
+			end_info = png_create_info_struct(png_ptr);
+			if (!end_info) {
+				png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
+				return false;
+			}
+			png_init_io(png_ptr, fp);		// Tell libpng which file to read
+			png_set_sig_bytes(png_ptr, 8);	// 8 bytes already read
+			
+			png_read_info(png_ptr, info_ptr);
+			
+			png_uint_32 width, height;
+			int bit_depth, color_type, interlace_type, compression_type, filter_method;
+			png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, &interlace_type, &compression_type, &filter_method);
+			
+			w = width;
+			h = height;
+			
+			if (bit_depth < 8) png_set_packing(png_ptr);
+			png_set_expand(png_ptr);
+			if (color_type == PNG_COLOR_TYPE_GRAY || color_type == PNG_COLOR_TYPE_GRAY_ALPHA) png_set_gray_to_rgb(png_ptr);	
+			if (bit_depth == 16) png_set_strip_16(png_ptr);
+			
+			png_set_add_alpha(png_ptr, 0xff, PNG_FILLER_AFTER);
+			
+			png_read_update_info(png_ptr, info_ptr);
+			png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, &interlace_type, &compression_type, &filter_method);
+			
+		}
+		
 		
 		if (SDL_Surface * programIcon = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 32, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000)) {
 			signed long transCol = 63519;			
 			SDL_LockSurface(programIcon);
 			Uint8 *p = (Uint8 *) programIcon->pixels;
-			for (int t2 = 0; t2 < h; t2 ++) {
-				int t1 = 0;
-				while (t1 < w) {
-					unsigned short c = (unsigned short) get2bytes (fp);
-					if (c & 32) {
-						n = fgetc (fp) + 1;
-						c -= 32;
-					} else {
-						n = 1;
-					}
-					while (n --) {
-						*p++ = (Uint8) redValue(c);
-						*p++ = (Uint8) greenValue(c);
-						*p++ = (Uint8) blueValue(c);
-						*p++ = (Uint8) (c == transCol) ? 0 : 255;
-						
-						t1++;
+
+			if (fileIsPNG) {
+				unsigned char * row_pointers[h];
+				for (int i = 0; i<h; i++)
+					row_pointers[i] = p + 4*i*w;
+				
+				png_read_image(png_ptr, (png_byte **) row_pointers);
+				png_read_end(png_ptr, NULL);
+				png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
+			} else {
+					
+				for (int t2 = 0; t2 < h; t2 ++) {
+					int t1 = 0;
+					while (t1 < w) {
+						unsigned short c = (unsigned short) get2bytes (fp);
+						if (c & 32) {
+							n = fgetc (fp) + 1;
+							c -= 32;
+						} else {
+							n = 1;
+						}
+						while (n --) {
+							*p++ = (Uint8) redValue(c);
+							*p++ = (Uint8) greenValue(c);
+							*p++ = (Uint8) blueValue(c);
+							*p++ = (Uint8) (c == transCol) ? 0 : 255;
+							
+							t1++;
+						}
 					}
 				}
 			}

@@ -7,13 +7,12 @@
 #include "allfiles.h"
 #include "backdrop.h"
 #include "colours.h"
+#include "Graphics.h"
 #include "newfatal.h"
 #include "moreio.h"
 
-#define DEBUG_MATRIX_EFFECTS	0
-#define DEBUG_MATRIX_CREATE		0
-
 //extern unsigned short int * * backDropImage;
+extern GLuint backdropTextureName;
 
 #if 0
 // Raised
@@ -146,11 +145,6 @@ bool blur_createSettings (int numParams, variableStack * & stack)
 {
 	bool createNullThing = true;
 	const char * error = NULL;
-
-#if DEBUG_MATRIX_CREATE
-	FILE * debugFp = fopen ("matrixDebug.txt", "at");
-	fprintf (debugFp, "blur_createSettings: %d param(s)\n", numParams);
-#endif
 		
 	if (numParams >= 3)
 	{
@@ -198,11 +192,7 @@ bool blur_createSettings (int numParams, variableStack * & stack)
 		{
 			s_matrixEffectWidth = width;
 			s_matrixEffectHeight = height;
-		
-#if DEBUG_MATRIX_CREATE
-			fprintf (debugFp, "No errors so far, stack params seem to be OK!\neffect width = %d, effect height = %d\n", s_matrixEffectWidth, s_matrixEffectHeight);
-#endif
-			
+					
 			if (blur_allocateMemoryForEffect())
 			{
 				for (int y = height - 1; y >= 0; y --)
@@ -220,9 +210,6 @@ bool blur_createSettings (int numParams, variableStack * & stack)
 								break;
 							}
 							eachNumber=eachNumber->next;
-#if DEBUG_MATRIX_CREATE
-							fprintf (debugFp, "  Value[%d,%d] = array[%d] = %d\n", x, y, arraySlot, s_matrixEffectData[arraySlot]);
-#endif
 						}
 						trimStack (stack);
 					}
@@ -235,9 +222,6 @@ bool blur_createSettings (int numParams, variableStack * & stack)
 				trimStack (stack);
 				if (! error)
 				{
-#if DEBUG_MATRIX_CREATE
-					fprintf (debugFp, "COOL! It worked!\nDivide = %d\nBase = %d\n", s_matrixEffectDivide, s_matrixEffectBase);
-#endif
 					if (s_matrixEffectDivide)
 					{
 						createNullThing = false;
@@ -262,10 +246,6 @@ bool blur_createSettings (int numParams, variableStack * & stack)
 		}
 	}
 	
-#if DEBUG_MATRIX_CREATE
-	fprintf (debugFp, "createNullThing = %d\n", createNullThing);
-#endif
-		
 	if (createNullThing)
 	{
 		s_matrixEffectDivide = 0;
@@ -275,15 +255,9 @@ bool blur_createSettings (int numParams, variableStack * & stack)
 		delete s_matrixEffectData;
 		s_matrixEffectData = NULL;
 	}
-
-#if DEBUG_MATRIX_CREATE
-	fprintf (debugFp, "error = '%s'\n\n", error ? error : "none!");
-	fclose (debugFp);
-#endif
 			
 	if (error && error[0])
 	{
-//		warning (error);
 		fatal (error);
 	}
 	
@@ -295,90 +269,84 @@ static inline int clampi (int i, int min, int max)
 	return (i >= max) ? max : ((i <= min) ? min : i);
 }
 
-static inline void blur_createSourceLine (unsigned short int * createLine, unsigned short int * fromLine, int overlapOnLeft)
+static inline void blur_createSourceLine (unsigned char * createLine, unsigned char * fromLine, int overlapOnLeft, int width)
 {
 	int miniX;
-	memcpy (createLine + overlapOnLeft, fromLine, sizeof (unsigned short int) * sceneWidth);
+	memcpy (createLine + overlapOnLeft*4, fromLine, width*4);
 	
 	for (miniX = 0; miniX < overlapOnLeft; miniX ++)
 	{
-		createLine[miniX] = fromLine[0];
+		createLine[miniX*4] = fromLine[0];
+		createLine[miniX*4+1] = fromLine[1];
+		createLine[miniX*4+2] = fromLine[2];
 	}
 	
-	for (miniX = sceneWidth + overlapOnLeft; miniX < sceneWidth + s_matrixEffectWidth - 1; miniX ++)
+	for (miniX = width + overlapOnLeft; miniX < width + s_matrixEffectWidth - 1; miniX ++)
 	{
-		createLine[miniX] = fromLine[sceneWidth - 1];
+		createLine[miniX*4] = fromLine[width*4 - 4];
+		createLine[miniX*4+1] = fromLine[width*4 - 3];
+		createLine[miniX*4+2] = fromLine[width*4 - 2];
 	}
 }
 
 bool blurScreen () {
-	/*TODO
 	if (s_matrixEffectWidth && s_matrixEffectHeight && s_matrixEffectDivide && s_matrixEffectData)
 	{
-		unsigned short int * thisLine;
+		unsigned char * thisLine;
 		int y, x;
 		bool ok = true;
 		int overlapOnLeft = s_matrixEffectWidth / 2;
 		int overlapAbove  = s_matrixEffectHeight / 2;
 		
-		unsigned short int ** sourceLine = new unsigned short int * [s_matrixEffectHeight];
+		unsigned char ** sourceLine = new unsigned char * [s_matrixEffectHeight];
 		checkNew (sourceLine);
 		if (! sourceLine)
 			return false;
+
+		int picWidth = sceneWidth;
+		int picHeight = sceneHeight;
+		
+		if (! NPOT_textures) {
+			picWidth = getNextPOT(sceneWidth);
+			picHeight = getNextPOT(sceneHeight);
+		}			
+		
+		// Retrieve the texture
+		glBindTexture (GL_TEXTURE_2D, backdropTextureName);			
+		glGetTexImage (GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture);
 	
 		for (y = 0; y < s_matrixEffectHeight; y ++)
 		{
-			sourceLine[y] = new unsigned short int[s_matrixEffectWidth - 1 + sceneWidth];
+			sourceLine[y] = new unsigned char[(s_matrixEffectWidth - 1 + sceneWidth)*4];
 			ok &= (sourceLine[y] != NULL);
 		}
 		
-	#if DEBUG_MATRIX_EFFECTS
-		FILE * debugFp = fopen ("matrixDebug.txt", "at");
-		fprintf (debugFp, "matrix dimensions = %d x %d\noverlapOnLeft = %d\noverlapAbove = %d\n",
-				 s_matrixEffectWidth, s_matrixEffectHeight, overlapOnLeft, overlapAbove);
-	#endif
-		
-		if (ok)
-		{
+		if (ok) {
 			for (y = 0; y < s_matrixEffectHeight; y ++)
 			{
 				int miniY = clampi (y - overlapAbove - 1, 0, sceneHeight - 1);
 	
-	#if DEBUG_MATRIX_EFFECTS
-				fprintf (debugFp, "Initial contents of buffer line %d taken from screen line %d\n",
-				 		 y, miniY);
-	#endif
-				
-				blur_createSourceLine (sourceLine[y], backDropImage[miniY], overlapOnLeft);
+				blur_createSourceLine (sourceLine[y], backdropTexture + miniY*picWidth*4, overlapOnLeft, picWidth);
 			}
 	
 			for (y = 0; y < sceneHeight; y ++) {
-				thisLine = backDropImage[y];
+				thisLine = backdropTexture + y*picWidth*4;
 				
 				//-------------------------
 				// Scroll source lines
 				//-------------------------
-				unsigned short int * tempLine = sourceLine[0];
+				unsigned char * tempLine = sourceLine[0];
 				for (int miniY = 0; miniY < s_matrixEffectHeight - 1; miniY ++)
 				{
 					sourceLine[miniY] = sourceLine[miniY + 1];
-	#if DEBUG_MATRIX_EFFECTS
-					fprintf (debugFp, "Copied sourceLine[%d] over sourceLine[%d]\n", miniY + 1, miniY);
-	#endif
 				}
 				sourceLine[s_matrixEffectHeight - 1] = tempLine;
 				{
 					int h = s_matrixEffectHeight - 1;
 					int miniY = clampi (y + (s_matrixEffectHeight - overlapAbove - 1), 0, sceneHeight - 1);
 
-	#if DEBUG_MATRIX_EFFECTS
-					fprintf (debugFp, "Getting sourceLine[%d] from backdrop line %d\n", h, miniY);
-	#endif
-					blur_createSourceLine (sourceLine[h], backDropImage[miniY], overlapOnLeft);
+					blur_createSourceLine (sourceLine[h], backdropTexture + miniY*picWidth*4, overlapOnLeft, picWidth);
 				}
-	#if DEBUG_MATRIX_EFFECTS
-				fprintf (debugFp, "Using sourceLine array to blur background line %d\n", y);
-	#endif
 				for (x = 0; x < sceneWidth; x ++) {
 					int totalRed = 0;
 					int totalGreen = 0;
@@ -386,15 +354,15 @@ bool blurScreen () {
 					int * matrixElement = s_matrixEffectData;
 					for (int miniY = 0; miniY < s_matrixEffectHeight; ++ miniY)
 					{
-						unsigned short int * pixel = & sourceLine[miniY][x];
+						unsigned char * pixel = & sourceLine[miniY][x*4];
 						for (int miniX = 0; miniX < s_matrixEffectWidth; ++ miniX)
 						{
 							
-							totalRed 	+= (int)redValue(*pixel) 	* * matrixElement;
-							totalGreen 	+= (int)greenValue(*pixel) 	* * matrixElement;
-							totalBlue 	+= (int)blueValue(*pixel) 	* * matrixElement;
+							totalRed 	+= pixel[0] 	* * matrixElement;
+							totalGreen 	+= pixel[1] 	* * matrixElement;
+							totalBlue 	+= pixel[2] 	* * matrixElement;
 							++ matrixElement;
-							++ pixel;
+							pixel+=4;
 						}
 					}
 					totalRed = (totalRed + s_matrixEffectDivide / 2) / s_matrixEffectDivide + s_matrixEffectBase;
@@ -406,7 +374,13 @@ bool blurScreen () {
 					totalBlue = (totalBlue + s_matrixEffectDivide / 2) / s_matrixEffectDivide + s_matrixEffectBase;
 					totalBlue = (totalBlue < 0) ? 0 : ((totalBlue > 255) ? 255 : totalBlue);
 					
-					* thisLine = (makeColour(totalRed, totalGreen, totalBlue));
+					* thisLine = totalRed;
+					++ thisLine;
+					* thisLine = totalGreen;
+					++ thisLine;
+					* thisLine = totalBlue;
+					++ thisLine;
+//					* thisLine = totalAlpha;
 					++ thisLine;
 				}
 			}
@@ -414,21 +388,12 @@ bool blurScreen () {
 		
 		for (y = 0; y < s_matrixEffectHeight; y ++)
 		{
-	#if DEBUG_MATRIX_EFFECTS
-			fprintf (debugFp, "delete sourceLine[%d]\n", y);
-	#endif
-				
 			delete sourceLine[y];
 		}
 		delete sourceLine;
-		
-	#if DEBUG_MATRIX_EFFECTS
-		fprintf (debugFp, "\n");
-		fclose (debugFp);
-	#endif
-	
+			
+		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture);
 		return true;
 	}
-	*/
 	return false;
 }

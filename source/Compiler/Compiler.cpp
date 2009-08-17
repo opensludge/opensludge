@@ -236,11 +236,19 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 			setCompilerText (COM_FILENAME, settings.customIcon);
 			setCompilerText (COM_ITEMTEXT, "");
 			char * iconFile = joinStrings (settings.customIcon, "");
-			convertTGA (iconFile);
-			fputc (1, projectFile);
-			if (! dumpFileInto (projectFile, iconFile)) {
-				fclose (projectFile);
-				return addComment (ERRORTYPE_PROJECTERROR, "Error adding custom icon (file not found or not a valid TGA file)", settings.customIcon, NULL);
+			if (getFileType (iconFile) == FILETYPE_TGA) {
+				convertTGA (iconFile);
+				fputc (1, projectFile);
+				if (! dumpFileInto (projectFile, iconFile)) {
+					fclose (projectFile);
+					return addComment (ERRORTYPE_PROJECTERROR, "Error adding custom icon (file not found or not a valid TGA file)", settings.customIcon, NULL);
+				}
+			} else {
+				fputc (1, projectFile);
+				if (! dumpFileInto (projectFile, iconFile)) {
+					fclose (projectFile);
+					return addComment (ERRORTYPE_PROJECTERROR, "Error adding custom icon", settings.customIcon, NULL);
+				}
 			}
 			delete iconFile;
 		} else {
@@ -352,6 +360,7 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 }
 
 void compileEverything (char * project, char **fileList, int *numFiles) {
+	clearTranslations ();
 	if (! getSourceDirFromName (project)) {
 		setCompilerText (COM_PROGTEXT, "Error initialising!");
 		setCompilerText (COM_FILENAME, "Could not find the folder for the source files.");
@@ -380,6 +389,6 @@ void compileEverything (char * project, char **fileList, int *numFiles) {
 	destroyAll (allKnownFlags);
 	destroyAll (allSourceStrings);
 	destroyAll (allFileHandles);
-	
+		
 	killTempDir();
 }

@@ -40,6 +40,18 @@ bool addNewTraReg (char * filename, int ID, char * name) {
 	return addComment (ERRORTYPE_INTERNALERROR, "Out of memory adding translation data", filename, NULL);
 }
 
+void clearTranslations ()
+{
+	translationReg * oldReg;
+	while (oldReg = allTranslations) {
+		allTranslations = allTranslations->next;
+		delete oldReg->filename;
+		delete oldReg->name;
+		delete oldReg;
+	}
+	numberOfValidTranslations = 0;
+}
+
 void registerTranslationFile (char * filename) {
 	char * name = NULL;
 	

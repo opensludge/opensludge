@@ -22,6 +22,8 @@
 #include "line.h"
 #include "sprites_AA.h"
 
+#include "version.h"
+
 bool freeze ();
 void unfreeze (bool);	// Because freeze.h needs a load of other includes
 
@@ -961,8 +963,72 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 
 bool mixHSI (FILE * fp, int x, int y) {
 	int realPicWidth, realPicHeight;
-	int picWidth = realPicWidth = get2bytes (fp);
-	int picHeight = realPicHeight = get2bytes (fp);
+	int picWidth;
+	int picHeight;
+
+	long file_pointer = ftell (fp);
+	
+	png_structp png_ptr;
+	png_infop info_ptr, end_info;
+	
+	
+	int fileIsPNG = true;
+	
+	// Is this a PNG file?
+	
+	char tmp[10];
+	fread(tmp, 1, 8, fp);
+    if (png_sig_cmp((png_byte *) tmp, 0, 8)) {
+		// No, it's old-school HSI
+		fileIsPNG = false;
+		fseek(fp, file_pointer, SEEK_SET);
+		
+		picWidth = realPicWidth = get2bytes (fp);
+		picHeight = realPicHeight = get2bytes (fp);
+	} else {
+		// Read the PNG header
+		
+		png_ptr = png_create_read_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+		if (!png_ptr) {
+			return false;
+		}
+		
+		info_ptr = png_create_info_struct(png_ptr);
+		if (!info_ptr) {
+			png_destroy_read_struct(&png_ptr, (png_infopp) NULL, (png_infopp) NULL);
+			return false;
+		}
+		
+		end_info = png_create_info_struct(png_ptr);
+		if (!end_info) {
+			png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
+			return false;
+		}
+		png_init_io(png_ptr, fp);		// Tell libpng which file to read
+		png_set_sig_bytes(png_ptr, 8);	// 8 bytes already read
+		
+		png_read_info(png_ptr, info_ptr);
+		
+		png_uint_32 width, height;
+		int bit_depth, color_type, interlace_type, compression_type, filter_method;
+		png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, &interlace_type, &compression_type, &filter_method);
+		
+		picWidth = realPicWidth = width;
+		picHeight = realPicHeight = height;
+		
+		if (bit_depth < 8) png_set_packing(png_ptr);
+		png_set_expand(png_ptr);
+		if (color_type == PNG_COLOR_TYPE_GRAY || color_type == PNG_COLOR_TYPE_GRAY_ALPHA) png_set_gray_to_rgb(png_ptr);	
+		if (bit_depth == 16) png_set_strip_16(png_ptr);
+		
+		png_set_add_alpha(png_ptr, 0xff, PNG_FILLER_AFTER);
+		
+		png_read_update_info(png_ptr, info_ptr);
+		png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, &interlace_type, &compression_type, &filter_method);
+		
+		//int rowbytes = png_get_rowbytes(png_ptr, info_ptr);
+		
+	}
 
 	if (x == IN_THE_CENTRE) x = (sceneWidth - realPicWidth) >> 1;
 	if (y == IN_THE_CENTRE) y = (sceneHeight - realPicHeight) >> 1;
@@ -978,30 +1044,40 @@ bool mixHSI (FILE * fp, int x, int y) {
 	signed long transCol = 63519;
 	
 	
-	for (t2 = 0; t2 < realPicHeight; t2 ++) {
-		t1 = 0;
-		while (t1 < realPicWidth) {
-			c = (unsigned short) get2bytes (fp);
-			if (c & 32) {
-				n = fgetc (fp) + 1;
-				c -= 32;
-			} else {
-				n = 1;
-			}
-			while (n --) {
-				target = backdropTexture + 4*picWidth*t2 + t1*4;
-				if (c == transCol) {
-					target[0] = (GLubyte) 255;
-					target[1] = (GLubyte) 255;
-					target[2] = (GLubyte) 255;
-					target[3] = (GLubyte) 0;
+	if (fileIsPNG) {
+		unsigned char * row_pointers[realPicHeight];
+		for (int i = 0; i<realPicHeight; i++)
+			row_pointers[i] = backdropTexture + 4*i*picWidth;
+		
+		png_read_image(png_ptr, (png_byte **) row_pointers);
+		png_read_end(png_ptr, NULL);
+		png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
+	} else {
+		for (t2 = 0; t2 < realPicHeight; t2 ++) {
+			t1 = 0;
+			while (t1 < realPicWidth) {
+				c = (unsigned short) get2bytes (fp);
+				if (c & 32) {
+					n = fgetc (fp) + 1;
+					c -= 32;
 				} else {
-					target[0] = (GLubyte) redValue(c);
-					target[1] = (GLubyte) greenValue(c);
-					target[2] = (GLubyte) blueValue(c);
-					target[3] = (GLubyte) 127;
+					n = 1;
 				}
-				t1++;
+				while (n --) {
+					target = backdropTexture + 4*picWidth*t2 + t1*4;
+					if (c == transCol || c == 2015) {
+						target[0] = (GLubyte) 0;
+						target[1] = (GLubyte) 0;
+						target[2] = (GLubyte) 0;
+						target[3] = (GLubyte) 0;
+					} else {
+						target[0] = (GLubyte) redValue(c);
+						target[1] = (GLubyte) greenValue(c);
+						target[2] = (GLubyte) blueValue(c);
+						target[3] = (GLubyte) 255;
+					}
+					t1++;
+				}
 			}
 		}
 	}
@@ -1079,6 +1155,47 @@ bool mixHSI (FILE * fp, int x, int y) {
 	return true;
 }
 
+void saveCorePNG  (FILE * writer, GLuint texture, int w, int h) {
+	GLint texw, texh;
+	
+	glBindTexture (GL_TEXTURE_2D, texture);
+	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &texw);
+	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &texh);
+				
+	GLubyte* image = new GLubyte [texw*texh*3];
+	glPixelStorei (GL_PACK_ALIGNMENT, 1);
+	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+	
+	png_structp png_ptr = png_create_write_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+	if (!png_ptr) {
+		fatal ("Error saving image!");
+		return;
+	}
+	
+	png_infop info_ptr = png_create_info_struct(png_ptr);
+	if (!info_ptr){
+		png_destroy_write_struct(&png_ptr, (png_infopp)NULL);
+		fatal ("Error saving image!");		
+		return;
+	}	
+	
+	png_init_io(png_ptr, writer);
+	
+	png_set_IHDR(png_ptr, info_ptr, w, h,
+				 8, PNG_COLOR_TYPE_RGB, PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);		
+	
+	unsigned char * row_pointers[h];
+	
+	for (int i = 0; i < h; i++) {
+		row_pointers[i] = image + 3*i*w;
+	}
+	
+	png_set_rows(png_ptr, info_ptr, row_pointers);	
+    png_write_png(png_ptr, info_ptr, PNG_TRANSFORM_IDENTITY, NULL);	
+	
+	delete image;
+}
+
 void saveCoreHSI (FILE * writer, GLuint texture, int w, int h) {
 
 	GLint texw, texh;
@@ -1086,12 +1203,11 @@ void saveCoreHSI (FILE * writer, GLuint texture, int w, int h) {
 	glBindTexture (GL_TEXTURE_2D, texture);
 	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &texw);
 	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &texh);
-				
+						
 	GLushort* image = new GLushort [texw*texh];
-	
 	glPixelStorei (GL_PACK_ALIGNMENT, 1);
 	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, image);
-	
+
 	int x, y, lookAhead;
 	unsigned short int * fromHere, * lookPointer;
 
@@ -1118,10 +1234,14 @@ void saveCoreHSI (FILE * writer, GLuint texture, int w, int h) {
 			x = lookAhead;
 		}
 	}
+	delete image;
 }
 
 void saveHSI (FILE * writer) {
-	saveCoreHSI (writer, backdropTextureName, sceneWidth, sceneHeight);
+	if (gameVersion >= VERSION(2,0))
+		saveCorePNG  (writer, backdropTextureName, sceneWidth, sceneHeight);
+	else
+		saveCoreHSI (writer, backdropTextureName, sceneWidth, sceneHeight);
 }
 
 bool getRGBIntoStack (unsigned int x, unsigned int y, stackHandler * sH) {
@@ -1133,6 +1253,7 @@ bool getRGBIntoStack (unsigned int x, unsigned int y, stackHandler * sH) {
 	
 	newValue.varType = SVT_NULL;
 	
+	glBindTexture (GL_TEXTURE_2D, backdropTextureName);			
 	glGetTexImage (GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture);
 	
 	GLubyte * target;

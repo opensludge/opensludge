@@ -7,3 +7,5 @@
 #define COPYRIGHT_TEXT "\251 Hungry Software and contributors 2000-2009"
 
 #define VERSION(a,b)	(a * 256 + b)
+
+extern int gameVersion;
