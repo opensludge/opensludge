@@ -31,8 +31,6 @@ extern int cameraX, cameraY;
 screenRegion personRegion;
 extern screenRegion * lastRegion;
 extern flor * currentFloor;
-extern GLubyte * lightMapTexture;
-extern GLuint lightMapTextureName;
 
 extern inputType input;
 onScreenPerson * allPeople = NULL;

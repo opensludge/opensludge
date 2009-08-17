@@ -22,8 +22,6 @@ extern screenRegion * overRegion;
 extern speechStruct * speech;
 extern inputType input;
 extern GLuint backdropTextureName;
-extern GLubyte * lightMapTexture;
-extern GLuint lightMapTextureName;
 extern parallaxLayer * parallaxStuff;
 extern int lightMapNumber, zBufferNumber;
 extern eventHandlers * currentEvents;
@@ -57,11 +55,11 @@ bool freeze () {
 	newFreezer -> cameraX = cameraX;
 	newFreezer -> cameraY = cameraY;
 
-	newFreezer -> lightMapTexture = lightMapTexture;
-	newFreezer -> lightMapTextureName = lightMapTextureName;
+	newFreezer -> lightMapTexture = lightMap.data;
+	newFreezer -> lightMapTextureName = lightMap.name;
 	newFreezer -> lightMapNumber = lightMapNumber;
-	lightMapTexture = NULL;
-	lightMapTextureName = NULL;
+	lightMap.data = NULL;
+	lightMap.name = NULL;
 
 	newFreezer -> parallaxStuff = parallaxStuff;
 	parallaxStuff = NULL;
@@ -88,13 +86,13 @@ bool freeze () {
 					newFreezer -> parallaxStuff);
 
 	// Put the lightmap and z-buffer back JUST for drawing the people...
-	lightMapTexture = newFreezer -> lightMapTexture;
-	lightMapTextureName = newFreezer -> lightMapTextureName;
+	lightMap.data = newFreezer -> lightMapTexture;
+	lightMap.name = newFreezer -> lightMapTextureName;
 	zBuffer.tex = newFreezer -> zBufferImage;
 	zBuffer.numPanels = newFreezer -> zPanels;
 	fixPeople (newFreezer -> cameraX, newFreezer -> cameraY);
-	lightMapTexture = NULL;
-	lightMapTextureName = NULL;
+	lightMap.data = NULL;
+	lightMap.name = NULL;
 	zBuffer.tex = NULL;
 	zBuffer.numPanels = 0;
 
@@ -173,11 +171,11 @@ void unfreeze (bool killImage) {
 	allScreenRegions = frozenStuff -> allScreenRegions;
 
 	killLightMap ();
-	lightMapTexture = frozenStuff -> lightMapTexture;
-	lightMapTextureName = frozenStuff -> lightMapTextureName;
+	lightMap.data = frozenStuff -> lightMapTexture;
+	lightMap.name = frozenStuff -> lightMapTextureName;
 	lightMapNumber = frozenStuff -> lightMapNumber;
 	if (lightMapNumber) {
-		lightMapTextureName = 0;
+		lightMap.name = 0;
 		loadLightMap(lightMapNumber);
 	}
 	

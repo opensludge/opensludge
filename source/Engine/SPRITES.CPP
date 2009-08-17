@@ -697,7 +697,7 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 		z = -0.5;	
 	}
 	
-	if (light && lightMapTexture) {
+	if (light && lightMap.data) {
 		if (lightMapMode == LIGHTMAPMODE_HOTSPOT) {
 			int lx=x+cameraX;
 			int ly=y+cameraY;
@@ -706,9 +706,9 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 			} else {
 				GLubyte *target;
 				if (! NPOT_textures) {
-					target = lightMapTexture + (ly*getNextPOT(sceneWidth) + lx)*4;
+					target = lightMap.data + (ly*getNextPOT(sceneWidth) + lx)*4;
 				} else {
-					target = lightMapTexture + (ly*sceneWidth + lx)*4;
+					target = lightMap.data + (ly*sceneWidth + lx)*4;
 				}
 				curLight[0] = target[0];
 				curLight[1] = target[1];
@@ -718,7 +718,7 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 			curLight[0] = curLight[1] = curLight[2] = 255;
 			glActiveTexture(GL_TEXTURE1);
 			glEnable(GL_TEXTURE_2D);
-			glBindTexture (GL_TEXTURE_2D, lightMapTextureName);
+			glBindTexture (GL_TEXTURE_2D, lightMap.name);
 			glActiveTexture(GL_TEXTURE0);
 		}
 	} else {
@@ -741,20 +741,17 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 	
 	glBegin(GL_QUADS);
 
-	float ltx1;
-	float ltx2;
-	float lty1;
-	float lty2;
+	float ltx1, ltx2, lty1, lty2;
 	if (! NPOT_textures) {
-		ltx1 = (float) (x1+cameraX) / getNextPOT(sceneWidth);
-		ltx2 = (float) (x2+cameraX) / getNextPOT(sceneWidth);
-		 lty1 = (float) (y1+cameraY) / getNextPOT(sceneHeight);
-		 lty2 = (float) (y2+cameraY) / getNextPOT(sceneHeight);
+		ltx1 = lightMap.texW * (x1+cameraX) / sceneWidth;
+		ltx2 = lightMap.texW * (x2+cameraX) / sceneWidth;
+		lty1 = lightMap.texH * (y1+cameraY) / sceneHeight;
+		lty2 = lightMap.texH * (y2+cameraY) / sceneHeight;
 	} else {
-		 ltx1 = (float) (x1+cameraX) / sceneWidth;
-		 ltx2 = (float) (x2+cameraX) / sceneWidth;
-		 lty1 = (float) (y1+cameraY) / sceneHeight;
-		 lty2 = (float) (y2+cameraY) / sceneHeight;
+		ltx1 = (float) (x1+cameraX) / sceneWidth;
+		ltx2 = (float) (x2+cameraX) / sceneWidth;
+		lty1 = (float) (y1+cameraY) / sceneHeight;
+		lty2 = (float) (y2+cameraY) / sceneHeight;
 	}
 	
 	
@@ -825,14 +822,14 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 		z = -0.5;	
 	}
 	
-	if (light && lightMapTexture) {
+	if (light && lightMap.data) {
 		if (lightMapMode == LIGHTMAPMODE_HOTSPOT) {
 			int lx=x+cameraX;
 			int ly=y+cameraY;
 			if (lx<0 || ly<0 || lx>=sceneWidth || ly>=sceneHeight) {
 				curLight[0] = curLight[1] = curLight[2] = 255;
 			} else {
-				GLubyte *target = lightMapTexture + (ly*sceneWidth + lx)*4;
+				GLubyte *target = lightMap.data + (ly*sceneWidth + lx)*4;
 				curLight[0] = target[0];
 				curLight[1] = target[1];
 				curLight[2] = target[2];
@@ -841,18 +838,28 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 			curLight[0] = curLight[1] = curLight[2] = 255;
 			glActiveTexture(GL_TEXTURE1);
 			glEnable(GL_TEXTURE_2D);
-			glBindTexture (GL_TEXTURE_2D, lightMapTextureName);
+			glBindTexture (GL_TEXTURE_2D, lightMap.name);
 			glActiveTexture(GL_TEXTURE0);
 		}
 	} else {
 		curLight[0] = curLight[1] = curLight[2] = 255;
 	}
-	
-	float ltx1 = (float) x1 / sceneWidth;
-	float ltx2 = (float) (x1+spriteWidth) / sceneWidth;
-	float lty1 = (float) y1 / sceneHeight;
-	float lty2 = (float) (y1+spriteHeight) / sceneHeight;
-	
+
+	float ltx1;
+	float ltx2;
+	float lty1;
+	float lty2;
+	if (! NPOT_textures) {
+		ltx1 = lightMap.texW * x1 / sceneWidth;
+		ltx2 = lightMap.texW * (x1+spriteWidth) / sceneWidth;
+		lty1 = lightMap.texH * y1 / sceneHeight;
+		lty2 = lightMap.texH * (y1+spriteHeight) / sceneHeight;
+	} else {
+		ltx1 = (float) x1 / sceneWidth;
+		ltx2 = (float) (x1+spriteWidth) / sceneWidth;
+		lty1 = (float) y1 / sceneHeight;
+		lty2 = (float) (y1+spriteHeight) / sceneHeight;
+	}
 	
 	glEnable (GL_TEXTURE_2D);
 	setPixelCoords (true);

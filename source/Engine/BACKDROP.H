@@ -1,4 +1,5 @@
 #include "variable.h"
+#include "Graphics.h"
 
 //#include <SDL_opengl.h>
 #include "glee.h"
@@ -45,8 +46,7 @@ bool getRGBIntoStack (unsigned int x, unsigned int y, stackHandler * sH);
 void killLightMap ();
 bool loadLightMap (int v);
 
-extern GLubyte * lightMapTexture;
-extern GLuint lightMapTextureName;
+extern texture lightMap;
 
 
 // And background parallax scrolling

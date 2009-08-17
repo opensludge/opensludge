@@ -11,6 +11,14 @@
 
 #include "glee.h"
 
+struct texture {
+	GLubyte * data;
+	GLuint name;
+	int w, h;
+	double texW, texH;
+};
+
+
 // From Backdrop.cpp, but they're here anyway
 extern GLubyte * backdropTexture;
 extern double backdropTexW, backdropTexH;

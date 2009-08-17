@@ -38,8 +38,7 @@ extern byte fontTable[256];							// "	"	"
 extern spriteBank theFont;							// "	"	"
 extern FILETIME fileTime;							// In sludger.cpp
 extern int speechMode;								// "	"	"
-extern GLubyte * lightMapTexture;					// In backdrop.cpp
-extern GLuint snapshotTextureName;
+extern GLuint snapshotTextureName;					// In backdrop.cpp
 extern int lightMapNumber;							// "	"	"
 extern int sceneWidth, sceneHeight;					// "	"	"
 extern int cameraX, cameraY;						// "	"	"
@@ -448,7 +447,7 @@ bool saveGame (char * fname) {
 		put2bytes (zBuffer.originalNum, fp);
 	} else fputc (0, fp);
 
-	if (lightMapTexture) {
+	if (lightMap.data) {
 		fputc (1, fp);
 		put2bytes (lightMapNumber, fp);
 	} else fputc (0, fp);

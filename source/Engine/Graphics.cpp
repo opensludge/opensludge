@@ -7,7 +7,7 @@
 #include "sprbanks.h"
 #include "zbuffer.h"
 #include "backdrop.h"
- 
+
 int winWidth, winHeight;
 int viewportHeight, viewportWidth;
 int viewportOffsetX = 0, viewportOffsetY = 0;
@@ -19,7 +19,6 @@ extern int specialSettings;
 extern GLuint backdropTextureName;
 extern int sceneWidth, sceneHeight;
 extern zBufferData zBuffer;
-extern GLuint lightMapTextureName;
 extern int lightMapNumber;
 
 
@@ -177,7 +176,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 		if (zBuffer.numPanels) {
 			setZBuffer (zBuffer.originalNum);
 		}
-		lightMapTextureName = 0;
+		lightMap.name = 0;
 		if (lightMapNumber) {
 			loadLightMap(lightMapNumber);
 		}

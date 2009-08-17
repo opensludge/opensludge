@@ -33,8 +33,7 @@ bool backdropExists = false;
 double backdropTexW = 1.0;
 double backdropTexH = 1.0;
 
-GLubyte * lightMapTexture = NULL;
-GLuint lightMapTextureName = NULL;
+texture lightMap;
 
 GLuint snapshotTextureName = 0;
 
@@ -114,29 +113,6 @@ bool restoreSnapshot (FILE * fp) {
 	return true;
 }
 
-bool reserveNewLightMap () {
-	int picWidth, picHeight;
-	glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
-	
-	if (lightMapTexture) delete lightMapTexture;
-	picWidth = sceneWidth;
-	picHeight = sceneHeight;
-	if (! NPOT_textures) {
-		picWidth = getNextPOT(picWidth);
-		picHeight = getNextPOT(picHeight);
-	}	
-	lightMapTexture = new GLubyte [picWidth*picHeight*4];
-	
-	if (! lightMapTextureName) glGenTextures (1, &lightMapTextureName);
-	glBindTexture (GL_TEXTURE_2D, lightMapTextureName);
-	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, lightMapTexture);
-
-	return true;
-}
 
 void killBackDrop () {
 	glDeleteTextures (1, &backdropTextureName);
@@ -145,11 +121,11 @@ void killBackDrop () {
 }
 
 void killLightMap () {
-	glDeleteTextures (1, &lightMapTextureName);
-	lightMapTextureName = 0;
-	if (lightMapTexture) {
-		delete lightMapTexture;
-		lightMapTexture = NULL;
+	glDeleteTextures (1, &lightMap.name);
+	lightMap.name = 0;
+	if (lightMap.data) {
+		delete lightMap.data;
+		lightMap.data = NULL;
 	}
 	lightMapNumber = 0;
 }
@@ -554,31 +530,42 @@ bool loadLightMap (int v) {
 	setResourceForFatal (v);
 	if (! openFileFromNum (v)) return fatal ("Can't open light map.");
 
-	int picWidth = get2bytes (bigDataFile);
-	int picHeight = get2bytes (bigDataFile);
+	int newPicWidth = lightMap.w = get2bytes (bigDataFile);
+	int newPicHeight = lightMap.h = get2bytes (bigDataFile);
 	
-	if (picWidth != sceneWidth || picHeight != sceneHeight) {
-		return fatal ("Light map width and height don't match scene width and height.");
+	if (lightMapMode == LIGHTMAPMODE_HOTSPOT) {
+		if (lightMap.w != sceneWidth || lightMap.h != sceneHeight) {
+			return fatal ("Light map width and height don't match scene width and height. That is required for lightmaps in HOTSPOT mode.");
+		}
 	}
-	int realPicWidth = picWidth;
-	int realPicHeight = picHeight;
 	if (! NPOT_textures) {
-		picWidth = getNextPOT(realPicWidth);
-		picHeight = getNextPOT(realPicHeight);
-	}	
+		newPicWidth = getNextPOT(lightMap.w);
+		newPicHeight = getNextPOT(lightMap.h);
+		lightMap.texW = (double) lightMap.w / newPicWidth;
+		lightMap.texH = (double) lightMap.h / newPicHeight;
+	} else {
+		lightMap.texW = 1.0;
+		lightMap.texH = 1.0;
+	}
 	
 	killLightMap ();
 	lightMapNumber = v;
-	if (! reserveNewLightMap ()) {
+	
+	glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
+	
+	if (lightMap.data) delete lightMap.data;
+
+	lightMap.data = new GLubyte [newPicWidth*newPicHeight*4];
+	if (! lightMap.data) {
 		return fatal ("Out of memory loading light map.");
 	}
-
+	
 	int t1, t2, n;
 	unsigned short c;
 	GLubyte * target;
-	for (t2 = 0; t2 < realPicHeight; t2 ++) {
+	for (t2 = 0; t2 < lightMap.h; t2 ++) {
 		t1 = 0;
-		while (t1 < realPicWidth) {
+		while (t1 < lightMap.w) {
 			c = (unsigned short) get2bytes (bigDataFile);
 			if (c & 32) {
 				n = fgetc (bigDataFile) + 1;
@@ -587,7 +574,7 @@ bool loadLightMap (int v) {
 				n = 1;
 			}
 			while (n --) {
-				target = lightMapTexture + 4*picWidth*t2 + t1*4;
+				target = lightMap.data + 4*newPicWidth*t2 + t1*4;
 				target[0] = (GLubyte) redValue(c);
 				target[1] = (GLubyte) greenValue(c);
 				target[2] = (GLubyte) blueValue(c);
@@ -597,13 +584,13 @@ bool loadLightMap (int v) {
 		}
 	}
 	
-	if (! lightMapTextureName) glGenTextures (1, &lightMapTextureName);
-	glBindTexture(GL_TEXTURE_2D, lightMapTextureName);
+	if (! lightMap.name) glGenTextures (1, &lightMap.name);
+	glBindTexture(GL_TEXTURE_2D, lightMap.name);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, lightMapTexture);
+	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, newPicWidth, newPicHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, lightMap.data);
 	
 	finishAccess ();
 	setResourceForFatal (-1);

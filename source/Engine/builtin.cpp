@@ -65,8 +65,6 @@ extern inputType input;
 extern char * loadNow;
 extern byte fontTable[256];
 
-extern GLubyte * lightMapTexture;
-extern GLuint lightMapTextureName;
 extern GLuint backdropTextureName;
 
 

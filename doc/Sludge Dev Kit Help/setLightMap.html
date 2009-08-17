@@ -16,7 +16,7 @@
 <FONT FACE=arial color=#3A8F8B SIZE=+1><B>Purpose:</B></FONT><BR>
 
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-Sets a new light-map, loading it from the <i>imageFile</i> file. Each pixel of the light-map corresponds to a pixel of the background image. With a light-map loaded, every character's red, green and blue colour values will be multiplied by the red, green and blue values of the pixel in the <i>imageFile</i> at the corresponding location. The <i>imageFile</i> image must be the same width and height as the current scene dimensions, as set by the most recent call to the <b><a href="setSceneDimensions.html">setSceneDimensions</a></b> function.<BR>
+Sets a new light-map, loading it from the <i>imageFile</i> file. Each pixel of the light-map corresponds to a pixel of the background image. With a light-map loaded, every character's red, green and blue colour values will be multiplied by the red, green and blue values of the pixel in the <i>imageFile</i> at the corresponding location.<BR>
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
 The light-map arithmetic is applied before a character's draw mode (set using the <b><a href="setCharacterDrawMode.html">setCharacterDrawMode</a></b> function) is taken into consideration. This means that light-maps behave as expected even when dealing with transparent characters, but may not give you the results you expect when using FOGGY1 to FOGGY4.<BR>
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
@@ -24,9 +24,9 @@ If <i>imageFile</i> is NULL (or anything other than a file handle) the current l
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
 If you specify a <i>lightMapMode</i> the current method for applying a light map to characters will be changed. If you don't specify this parameter, the current method for applying a light map will stay the same. The default method is PERPIXEL. Valid values for the <i>lightMapMode</i> parameter are:<BR>
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<B>PERPIXEL</B>: Each pixel of a character is multiplied by the light map colour in the same position - i.e. one character will have many different colours applied to it in different places.<BR>
+<B>PERPIXEL</B>: Each pixel of a character is multiplied by the light map colour in the same position - i.e. one character will have many different colours applied to it in different places. In this mode, the light map is stretched to fill the entire scene, regardless of actual size in pixels. You can keep the lightmaps smaller to save memory and still get good results.<BR>
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<B>HOTSPOT</B>: Each pixel of a character is multipled by the light map colour at the character's hotspot (base point) - i.e. each character will only have one colour applied to it, determined by where it is currently positioned.<BR>
+<B>HOTSPOT</B>: Each pixel of a character is multipled by the light map colour at the character's hotspot (base point) - i.e. each character will only have one colour applied to it, determined by where it is currently positioned. In HOTSPOT mode, the <i>imageFile</i> image must be the same width and height as the current scene dimensions, as set by the most recent call to the <b><a href="setSceneDimensions.html">setSceneDimensions</a></b> function.<BR>
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
 Characters whose extra properties - set using <b><a href="setCharacterExtra.html">setCharacterExtra</a></b> - include the NOLIGHTMAP option are not affected by light-maps.<BR>
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>

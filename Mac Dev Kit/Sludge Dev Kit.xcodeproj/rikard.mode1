@@ -253,10 +253,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>2F7157391039CC2100AC174D</string>
+						<string>2F80EED81039CE570056DFAD</string>
 						<key>history</key>
 						<array>
-							<string>2F7156431039CB5000AC174D</string>
+							<string>2FF7D5731039CDEC00A0EE6B</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -293,11 +293,11 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>2F71573A1039CC2100AC174D</string>
+						<string>2F80EED91039CE570056DFAD</string>
 						<key>history</key>
 						<array>
 							<string>2FB722061034867F00100CE2</string>
-							<string>2F7156441039CB5000AC174D</string>
+							<string>2FF7D5741039CDEC00A0EE6B</string>
 						</array>
 						<key>prevStack</key>
 						<array>
@@ -339,11 +339,11 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>2F71573B1039CC2100AC174D</string>
+						<string>2F80EEDA1039CE570056DFAD</string>
 						<key>history</key>
 						<array>
 							<string>2F62B2521039C51D00D4A4C3</string>
-							<string>2F7156451039CB5000AC174D</string>
+							<string>2FF7D5751039CDEC00A0EE6B</string>
 						</array>
 						<key>prevStack</key>
 						<array>
@@ -385,10 +385,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>2F71573C1039CC2100AC174D</string>
+						<string>2F80EEDB1039CE570056DFAD</string>
 						<key>history</key>
 						<array>
-							<string>2F7156461039CB5000AC174D</string>
+							<string>2FF7D5761039CDEC00A0EE6B</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -425,10 +425,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>2F71573D1039CC2100AC174D</string>
+						<string>2F80EEDC1039CE570056DFAD</string>
 						<key>history</key>
 						<array>
-							<string>2F7156471039CB5000AC174D</string>
+							<string>2FF7D5771039CDEC00A0EE6B</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -465,10 +465,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>2F71573E1039CC2100AC174D</string>
+						<string>2F80EEDD1039CE570056DFAD</string>
 						<key>history</key>
 						<array>
-							<string>2F7156481039CB5000AC174D</string>
+							<string>2FF7D5781039CDEC00A0EE6B</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -669,9 +669,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>2F7157371039CC2100AC174D</string>
+				<string>2F80EED61039CE570056DFAD</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>2F7157381039CC2100AC174D</string>
+				<string>2F80EED71039CE570056DFAD</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -799,7 +799,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>272223150.37047398</real>
+	<real>272223831.92969698</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>1</integer>
 	<key>ToolbarIsVisible</key>
@@ -814,15 +814,15 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>1C530D57069F1CE1000CFCEE</string>
+		<string>2F776FD20FFCEA5E0085230A</string>
 		<string>2FB722011034867F00100CE2</string>
 		<string>2FB721FB1034867F00100CE2</string>
 		<string>2FB721FE1034867F00100CE2</string>
 		<string>2F62B2501039C51D00D4A4C3</string>
 		<string>/Users/rikard/Documents/SLUDGE/Mac Dev Kit/Sludge Dev Kit.xcodeproj</string>
 		<string>2FB722041034867F00100CE2</string>
-		<string>1C0AD2B3069F1EA900FABCE6</string>
 		<string>2F62B24D1039C51D00D4A4C3</string>
+		<string>1C0AD2B3069F1EA900FABCE6</string>
 	</array>
 	<key>WindowString</key>
 	<string>596 316 690 397 0 0 1280 778 </string>
@@ -841,14 +841,12 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>Compiler.cpp</string>
+								<string></string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -904,7 +902,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>2F776FD20FFCEA5E0085230A</string>
-				<string>2F7156401039CAC600AC174D</string>
+				<string>2F80EEDE1039CE570056DFAD</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -915,7 +913,7 @@
 			<key>WindowToolGUID</key>
 			<string>2F776FD20FFCEA5E0085230A</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>
@@ -1266,9 +1264,9 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C0AD2B3069F1EA900FABCE6</string>
-				<string>2F7157351039CBCA00AC174D</string>
+				<string>2F80EEDF1039CE570056DFAD</string>
 				<string>1CD0528B0623707200166675</string>
-				<string>2F7157361039CBCA00AC174D</string>
+				<string>2F80EEE01039CE570056DFAD</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.run</string>
