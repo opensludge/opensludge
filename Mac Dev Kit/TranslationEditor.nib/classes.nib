@@ -8,12 +8,13 @@
             OUTLETS = {
                 languageID = NSTextField; 
                 languageName = NSTextField; 
-                listOfStrings = NSTableView; 
+                listOfStrings = stringTable; 
                 originalString = NSTextField; 
                 showThese = NSPopUpButton; 
             }; 
             SUPERCLASS = NSDocument; 
-        }
+        }, 
+        {CLASS = stringTable; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }
     ); 
     IBVersion = 1; 
 }

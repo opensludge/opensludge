@@ -12,6 +12,41 @@
 #include "MoreIO.h"
 #include "Settings.h"
 
+
+@implementation stringTable
+
+// We override this function to make the Return key work properly even though
+// we remove rows from the list when they're edited. (NSTableView doesn't expect that.)
+- (void)textDidEndEditing:(NSNotification *)aNotification
+{	
+	int move = [[[aNotification userInfo] valueForKey: @"NSTextMovement"] intValue];
+		
+	if ((type == 0 || type == 3) && move == NSReturnTextMovement) {
+		int rowIndex = [self selectedRow];
+		
+		[super textDidEndEditing: [NSNotification notificationWithName:[aNotification name] object:[aNotification object]]];
+		int numRows = [[self dataSource] numberOfRowsInTableView:self];
+		if (numRows > rowIndex) {
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"NSTableViewSelectionDidChangeNotification" object:self];
+			[self editColumn:2 row:rowIndex withEvent:nil select:YES];
+		} else if (numRows) {
+			[self selectRowIndexes: [NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
+			[self editColumn:2 row:0 withEvent:nil select:YES];
+		}
+	} else 
+		[super textDidEndEditing: aNotification];
+}
+
+- (void) setType:(int)i
+{
+	type = i;
+}
+- (int) type
+{
+	return type;
+}
+@end
+
 @implementation TranslationDocument
 
 -(void) countRows
@@ -66,14 +101,16 @@
 }
 
 -(IBAction) showTheseChanged:(id)sender {
+	[listOfStrings reloadData];	// This is done first, in case a row is being edited.
+	[listOfStrings setType: [showThese indexOfSelectedItem]];
 	[listOfStrings noteNumberOfRowsChanged];
 }
 
 // This is the project file list!
-- (int)numberOfRowsInTableView:(NSTableView *)tv
+- (int)numberOfRowsInTableView:(stringTable *)tv
 {
 	int c = 0;
-	int type = 	[showThese indexOfSelectedItem];
+	int type = 	[tv type];
 	struct transLine * line = firstTransLine;
 	while (line) {
 		switch (type) {
@@ -90,13 +127,13 @@
 	}
 	return c;
 }
-- (id)tableView:(NSTableView *)tv
+- (id)tableView:(stringTable *)tv
 	objectValueForTableColumn:(NSTableColumn *)tableColumn
 			row:(int)row
 {
 	int c = -1;
 	int col = [[tableColumn identifier] intValue];
-	int type = 	[showThese indexOfSelectedItem];
+	int type = 	[tv type];
 	struct transLine * line = firstTransLine;
 	while (line && c<row) {
 		switch (type) {
@@ -134,13 +171,13 @@
 	return @"";
 }
 
-- (void)tableView:(NSTableView *)aTableView 
+- (void)tableView:(stringTable *)aTableView 
    setObjectValue:(id)anObject 
    forTableColumn:(NSTableColumn *)tableColumn 
 			  row:(int)row
 {
 	int c = -1;
-	int type = 	[showThese indexOfSelectedItem];
+	int type = 	[aTableView type];
 	struct transLine * line = firstTransLine;
 	while (line && c<row) {
 		switch (type) {
@@ -213,12 +250,14 @@
 	}
 }
 
+
+
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification
 {
 	int c = -1;
 	int row = [listOfStrings selectedRow];
 	if (row >=0 ) {
-		int type = 	[showThese indexOfSelectedItem];
+		int type = (int) [[aNotification object] type];
 		struct transLine * line = firstTransLine;
 		while (line && c<row) {
 			switch (type) {

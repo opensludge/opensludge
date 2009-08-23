@@ -93,6 +93,9 @@
 		2F9355991012656700099D24 /* spriteIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 2F9355981012656700099D24 /* spriteIcon.icns */; };
 		2F9355AF1012670D00099D24 /* ProjectDocument.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F9355AD1012670D00099D24 /* ProjectDocument.h */; };
 		2F9355B01012670D00099D24 /* ProjectDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9355AE1012670D00099D24 /* ProjectDocument.m */; };
+		2F981B9D10414BF00097177B /* ScriptDocument.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F981B9B10414BF00097177B /* ScriptDocument.h */; };
+		2F981B9E10414BF00097177B /* ScriptDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F981B9C10414BF00097177B /* ScriptDocument.m */; };
+		2F981BC610414D120097177B /* ScriptDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2F981BC510414D120097177B /* ScriptDocument.nib */; };
 		2F9DDF75100CC7DA0067DE50 /* Sludge Dev Kit Help in Resources */ = {isa = PBXBuildFile; fileRef = 2F18B6D5100CC0B40009A1CB /* Sludge Dev Kit Help */; };
 		2F9DE047100CC7ED0067DE50 /* DevKit Main.nib in Resources */ = {isa = PBXBuildFile; fileRef = 002F3AF009D08F1000EBEB88 /* DevKit Main.nib */; };
 		2F9DE048100CC7FA0067DE50 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165DFE840E0CC02AAC07 /* InfoPlist.strings */; };
@@ -173,6 +176,7 @@
 				2F03811C102AEF2F00EDBAFB /* Translator.h in Copy Frameworks into .app bundle */,
 				2F2FF54E102C2598005439DA /* zDocument.h in Copy Frameworks into .app bundle */,
 				2F2FF5BF102C4263005439DA /* zbuffer.h in Copy Frameworks into .app bundle */,
+				2F981B9D10414BF00097177B /* ScriptDocument.h in Copy Frameworks into .app bundle */,
 			);
 			name = "Copy Frameworks into .app bundle";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -280,6 +284,9 @@
 		2F9355981012656700099D24 /* spriteIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = spriteIcon.icns; path = ../images/spriteIcon.icns; sourceTree = SOURCE_ROOT; };
 		2F9355AD1012670D00099D24 /* ProjectDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectDocument.h; sourceTree = "<group>"; };
 		2F9355AE1012670D00099D24 /* ProjectDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectDocument.m; sourceTree = "<group>"; };
+		2F981B9B10414BF00097177B /* ScriptDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScriptDocument.h; sourceTree = "<group>"; };
+		2F981B9C10414BF00097177B /* ScriptDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptDocument.m; sourceTree = "<group>"; };
+		2F981BC510414D120097177B /* ScriptDocument.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = ScriptDocument.nib; sourceTree = "<group>"; };
 		2FA3510E10148E2800979809 /* MOREIO.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; path = MOREIO.H; sourceTree = "<group>"; };
 		2FCE93A41029C9C900315052 /* TranslationEditor.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = TranslationEditor.nib; sourceTree = "<group>"; };
 		2FCE93A61029CA5000315052 /* TranslationDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TranslationDocument.h; sourceTree = "<group>"; };
@@ -333,6 +340,8 @@
 				2FCE93A71029CA5000315052 /* TranslationDocument.m */,
 				2F2FF54C102C2598005439DA /* zDocument.h */,
 				2F2FF54D102C2598005439DA /* zDocument.m */,
+				2F981B9B10414BF00097177B /* ScriptDocument.h */,
+				2F981B9C10414BF00097177B /* ScriptDocument.m */,
 			);
 			name = "Mac Code";
 			sourceTree = "<group>";
@@ -409,6 +418,7 @@
 				2FDE2F361030DEDE00FAAA65 /* floormodeicon3.png */,
 				2FDE2F381030DEE200FAAA65 /* floormodeicon4.png */,
 				2FDE2F3A1030DEE700FAAA65 /* floormodeicon5.png */,
+				2F981BC510414D120097177B /* ScriptDocument.nib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -662,6 +672,7 @@
 				2FDE2F371030DEDE00FAAA65 /* floormodeicon3.png in Resources */,
 				2FDE2F391030DEE200FAAA65 /* floormodeicon4.png in Resources */,
 				2FDE2F3B1030DEE700FAAA65 /* floormodeicon5.png in Resources */,
+				2F981BC610414D120097177B /* ScriptDocument.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -710,6 +721,7 @@
 				2F03811D102AEF2F00EDBAFB /* Translator.cpp in Sources */,
 				2F2FF54F102C2598005439DA /* zDocument.m in Sources */,
 				2F2FF5C0102C4263005439DA /* zbuffer.cpp in Sources */,
+				2F981B9E10414BF00097177B /* ScriptDocument.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

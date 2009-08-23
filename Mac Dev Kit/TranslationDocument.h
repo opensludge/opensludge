@@ -9,10 +9,16 @@
 #import <Cocoa/Cocoa.h>
 
 
+@interface stringTable : NSTableView {
+	int type;
+}
+- (void) setType:(int)i;
+@end
+
 @interface TranslationDocument : NSDocument {
 	IBOutlet NSTextField *languageName;
 	IBOutlet NSTextField *languageID;
-	IBOutlet NSTableView *listOfStrings;
+	IBOutlet stringTable *listOfStrings;
 
 	IBOutlet NSTextField *originalString;
 
@@ -22,8 +28,8 @@
 	char * langName;
 	unsigned int langID;
 	
-//	int *needsTranslation;
-//	struct transLine ** translation;
+	//	int *needsTranslation;
+	//	struct transLine ** translation;
 }
 - (IBAction)loadStrings:(id)sender;
 -(IBAction) showTheseChanged:(id)sender;
