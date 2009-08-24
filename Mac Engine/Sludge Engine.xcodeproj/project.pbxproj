@@ -339,9 +339,9 @@
 		29B97314FDCFA39411CA2CEA /* SdlSludge */ = {
 			isa = PBXGroup;
 			children = (
+				29B97315FDCFA39411CA2CEA /* Common Code */,
 				2F7BFEB50E33848B003F5DC3 /* Source Files */,
 				080E96DDFE201D6D7F000001 /* OSX Stuff */,
-				29B97315FDCFA39411CA2CEA /* Common Code */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,

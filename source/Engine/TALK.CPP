@@ -118,6 +118,7 @@ int wrapSpeechXY (char * theText, int x, int y, int wrap, int sampleFile) {
 	y -= fontHeight;
 
 	if (y < 0) speech -> speechY -= y;
+	else if (speech -> speechY > cameraY + winHeight - fontHeight/3) speech -> speechY = cameraY + winHeight - fontHeight/3;
 
 	if (offset) {
 		speechLine * viewLine = speech -> allSpeech;

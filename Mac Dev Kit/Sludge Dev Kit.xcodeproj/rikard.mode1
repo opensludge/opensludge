@@ -253,11 +253,11 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>2FDB1083104186E2001F9BEE</string>
+						<string>2F508F671041D082008EE245</string>
 						<key>history</key>
 						<array>
 							<string>2F981BCB10414E4C0097177B</string>
-							<string>2F936CD4104174C900B300CD</string>
+							<string>2FDB1083104186E2001F9BEE</string>
 						</array>
 						<key>prevStack</key>
 						<array>
@@ -299,11 +299,11 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>2FDB1084104186E2001F9BEE</string>
+						<string>2F508F681041D082008EE245</string>
 						<key>history</key>
 						<array>
 							<string>2F936CD7104174C900B300CD</string>
-							<string>2F936CDA104174C900B300CD</string>
+							<string>2FDB1084104186E2001F9BEE</string>
 						</array>
 						<key>prevStack</key>
 						<array>
@@ -344,10 +344,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>2FDB1085104186E2001F9BEE</string>
+						<string>2F508F691041D082008EE245</string>
 						<key>history</key>
 						<array>
-							<string>2F936CDB104174C900B300CD</string>
+							<string>2FDB1085104186E2001F9BEE</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -399,6 +399,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -512,8 +514,6 @@
 							<string>0pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -550,9 +550,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>2FDB101A10417BDB001F9BEE</string>
+				<string>2F508F5F1041CE97008EE245</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>2FDB101B10417BDB001F9BEE</string>
+				<string>2F508F601041CE97008EE245</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -680,7 +680,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>272729826.36526603</real>
+	<real>272748674.951599</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>1</integer>
 	<key>ToolbarIsVisible</key>
@@ -695,12 +695,11 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>1C530D57069F1CE1000CFCEE</string>
+		<string>2F776FD20FFCEA5E0085230A</string>
 		<string>2FB721FE1034867F00100CE2</string>
 		<string>2F936CD5104174C900B300CD</string>
 		<string>2F981BB910414C4B0097177B</string>
 		<string>/Users/rikard/Documents/SLUDGE/Mac Dev Kit/Sludge Dev Kit.xcodeproj</string>
-		<string>2F776FD20FFCEA5E0085230A</string>
 		<string>1C0AD2B3069F1EA900FABCE6</string>
 	</array>
 	<key>WindowString</key>
@@ -725,7 +724,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>&lt;No Editor&gt;</string>
+								<string></string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -781,7 +780,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>2F776FD20FFCEA5E0085230A</string>
-				<string>2FDB101110417B7D001F9BEE</string>
+				<string>2F508F641041CE97008EE245</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -792,7 +791,7 @@
 			<key>WindowToolGUID</key>
 			<string>2F776FD20FFCEA5E0085230A</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>
@@ -1141,9 +1140,9 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C0AD2B3069F1EA900FABCE6</string>
-				<string>2FDB101510417B7D001F9BEE</string>
+				<string>2F508F651041CE97008EE245</string>
 				<string>1CD0528B0623707200166675</string>
-				<string>2FDB101610417B7D001F9BEE</string>
+				<string>2F508F661041CE97008EE245</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.run</string>
