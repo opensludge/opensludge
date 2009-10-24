@@ -112,6 +112,7 @@ void setCompileStep (int a, int totalBits)
 	data1 = 0;
 	
 	setCompilerText (COM_PROGTEXT, stageName[a]);
+	fprintf (stderr, "%d\n", stageName[a]);
 	
 	if (a <= CSTEP_DONE)
 	{

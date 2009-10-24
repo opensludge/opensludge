@@ -11,6 +11,8 @@
 
 @interface ScriptDocument : NSDocument {
 	IBOutlet NSTextView *text;
+
+	NSString*						sourceCode;				// Temp. storage for data from file until NIB has been read.
 }
 
 @end

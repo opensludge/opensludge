@@ -117,9 +117,11 @@ bool createObjectType (char * code, const char * fName, stringArray * & globalVa
 					writeString (newFuncName, objFile);
 					if (! destroyFirst (getBitInsides)) return addComment (ERRORTYPE_PROJECTERROR, "No code for event", newFuncName, fName);
 
-					defineFunction (newFuncName,					// Name of function
-						 "",										// Args without ()
-						 getBitInsides -> string, false, false, fName);	// Code without {}
+					if (
+						defineFunction (newFuncName,					// Name of function
+								"",										// Args without ()
+						getBitInsides -> string, false, false, fName)	// Code without {}
+					< 0 ) return false;
 
 					setCompilerText (COM_ITEMTEXT, displayName);
 					destroyAll (getBitInsides);

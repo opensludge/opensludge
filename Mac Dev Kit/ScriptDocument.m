@@ -12,18 +12,35 @@
 @implementation ScriptDocument
 
 - (NSString *)windowNibName {
-    // Implement this to return a nib to load OR implement -makeWindowControllers to manually create your controllers.
     return @"ScriptDocument";
 }
 
-- (NSData *)dataRepresentationOfType:(NSString *)type {
-    // Implement to provide a persistent data representation of your document OR remove this and implement the file-wrapper or file path based save methods.
-    return nil;
+-(void)	windowControllerDidLoadNib: (NSWindowController*)aController
+{
+    [super windowControllerDidLoadNib:aController];
+		
+	if( sourceCode != nil )
+	{
+		[text setString: sourceCode];
+		[sourceCode release];
+		sourceCode = nil;
+	}
+}	
+	
+-(NSData*)	dataRepresentationOfType: (NSString*)aType
+{
+    return [[text string] dataUsingEncoding: NSISOLatin1StringEncoding];
 }
 
-- (BOOL)loadDataRepresentation:(NSData *)data ofType:(NSString *)type {
-    // Implement to load a persistent data representation of your document OR remove this and implement the file-wrapper or file path based load methods.
-    return YES;
+-(BOOL)	loadDataRepresentation: (NSData*)data ofType: (NSString*)aType
+{
+	if(sourceCode) {
+		[sourceCode release];
+		sourceCode = nil;
+	}
+	sourceCode = [[NSString alloc] initWithData:data encoding: NSISOLatin1StringEncoding];
+		
+	return YES;
 }
 
 @end

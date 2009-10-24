@@ -23,6 +23,9 @@ struct errorLinkToFile
 	struct errorLinkToFile * next;
 };
 
+extern char * errorTypeStrings[];
+
+
 extern struct errorLinkToFile * errorList;
 extern int numErrors;
 
@@ -58,6 +61,8 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 	[resourceFiles setTarget:self];
 	[projectFiles setDoubleAction:@selector(openProjectFile:)];
 	[projectFiles setTarget:self];
+	[compilerErrors setDoubleAction:@selector(openError:)];
+	[compilerErrors setTarget:self];
 	
 	UInt8 project[1024];
 	if (! CFURLGetFileSystemRepresentation((CFURLRef) [self fileURL], true, project, 1023))
@@ -191,6 +196,30 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 	char *file = getFullPath (fileList[row]);
 	[[NSWorkspace sharedWorkspace] openFile: [NSString stringWithUTF8String:file]];
 	deleteString (file);
+}
+
+- (void)openError:(id)sender
+{
+	int row = [compilerErrors clickedRow];
+	if (row == -1) 
+		return;
+	
+	struct errorLinkToFile * index = errorList;
+	if (! index) return;
+	int i = numErrors-1;
+	while (i>row) {
+		if (! (index = index->next)) return;
+		i--;
+	}
+
+	if (! index-> filename) {
+		errorBox (errorTypeStrings[index->errorType], index->overview);
+		return;
+	}
+	char *file = getFullPath (index->filename);
+	[[NSWorkspace sharedWorkspace] openFile: [NSString stringWithUTF8String:file]];
+	deleteString (file);
+	//if (index->lineNumber) 
 }
 
 - (void)openItem:(id)sender

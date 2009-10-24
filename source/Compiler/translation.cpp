@@ -37,7 +37,7 @@ bool addNewTraReg (char * filename, int ID, char * name) {
 		}
 		delete newReg;
 	}
-	return addComment (ERRORTYPE_INTERNALERROR, "Out of memory adding translation data", filename, NULL);
+	return addComment (ERRORTYPE_INTERNALERROR, "Out of memory adding translation data", NULL, filename);
 }
 
 void clearTranslations ()
@@ -58,14 +58,14 @@ void registerTranslationFile (char * filename) {
 	FILE * fp = fopen (filename, "rt");
 	
 	if (fp == NULL) {
-		addComment (ERRORTYPE_PROJECTERROR, "Can't open translation file for reading", filename, NULL);
+		addComment (ERRORTYPE_PROJECTERROR, "Can't open translation file for reading", NULL, filename);
 		return;
 	}
 	
 	char * theLine = readText (fp);
 	if (strcmp (theLine, "### SLUDGE Translation File ###")) {
 		fclose (fp);
-		addComment (ERRORTYPE_PROJECTERROR, "Not a valid SLUDGE translation file", filename, NULL);
+		addComment (ERRORTYPE_PROJECTERROR, "Not a valid SLUDGE translation file", NULL, filename);
 		return;
 	}
 	
@@ -85,7 +85,7 @@ void registerTranslationFile (char * filename) {
 				} else if (strcmp (theLine, "[NAME]") == 0) {
 					theMode = TM_NAME;
 				} else {
-					addComment (ERRORTYPE_PROJECTERROR, "Found a block type that I don't recognise in a translation file", theLine, NULL);
+					addComment (ERRORTYPE_PROJECTERROR, "Found a block type that I don't recognise in a translation file", theLine, filename);
 				}
 			} else {
 				if (theMode == TM_ID) {
@@ -101,12 +101,12 @@ void registerTranslationFile (char * filename) {
 	fclose (fp);
 	
 	if (theMode != TM_DATA) {
-		addComment (ERRORTYPE_PROJECTERROR, "This translation file doesn't seem to contain any translation data", filename, NULL);
+		addComment (ERRORTYPE_PROJECTERROR, "This translation file doesn't seem to contain any translation data", NULL, filename);
 		return;
 	}
 	
 	if (ID < 0 || ID > 0xFFFF) {
-		addComment (ERRORTYPE_PROJECTERROR, "This translation file doesn't have a valid ID (either no ID is specified or the ID given is too high a number, negative or non-numerical)", filename, NULL);
+		addComment (ERRORTYPE_PROJECTERROR, "This translation file doesn't have a valid ID (either no ID is specified or the ID given is too high a number, negative or non-numerical)", NULL, filename);
 		return;
 	}
 	
@@ -119,7 +119,7 @@ stringArray * transTo = NULL;
 bool cacheTranslationData (char * f) {
 	if (! gotoSourceDirectory ()) return false;
 	FILE * fp = fopen (f, "rt");
-	if (! fp) return addComment (ERRORTYPE_PROJECTERROR, "Translation file has suddenly gone missing", f, NULL);
+	if (! fp) return addComment (ERRORTYPE_PROJECTERROR, "Translation file has suddenly gone missing", NULL, f);
 	
 	bool unfinished = false;
 
@@ -129,7 +129,7 @@ bool cacheTranslationData (char * f) {
 		theLine = readText (fp);
 	} while (theLine && strcmp (theLine, "[DATA]"));
 	
-	if (! theLine) return addComment (ERRORTYPE_PROJECTERROR, "No [DATA] all of a sudden in file", f, NULL);
+	if (! theLine) return addComment (ERRORTYPE_PROJECTERROR, "No [DATA] all of a sudden in file", NULL, f);
 	delete theLine;
 
 	do {
@@ -142,7 +142,7 @@ bool cacheTranslationData (char * f) {
 			} else if (strcmp (pair->next->string, "*\t") == 0) {
 				// Unfinished file
 				if (unfinished == false) {
-					addComment (ERRORTYPE_PROJECTWARNING, "This translation file isn't finished - there are still strings in the \"YET TO BE TRANSLATED\" category", f, NULL);
+					addComment (ERRORTYPE_PROJECTWARNING, "This translation file isn't finished - there are still strings in the \"YET TO BE TRANSLATED\" category", NULL, f);
 					unfinished = true;
 				}
 			} else {
@@ -163,7 +163,7 @@ bool cacheTranslationData (char * f) {
 	return true;
 }
 
-char * translateMe (char * originalIn) {
+char * translateMe (char * originalIn, char * filename) {
 	char * original = copyString (originalIn);
 
 	if (! original[0]) return original;
@@ -180,7 +180,7 @@ char * translateMe (char * originalIn) {
 		trans = copyString (returnElement (transTo, locInArray));
 		delete original;
 	} else {
-		if (original[0]) addComment (ERRORTYPE_PROJECTWARNING, "No translation for", original, NULL);
+		if (original[0]) addComment (ERRORTYPE_PROJECTWARNING, "No translation for", original, filename);
 		trans = original;
 	}
 	
@@ -217,7 +217,7 @@ bool addTranslationData (translationReg * trans, stringArray * theSA, FILE * mai
 
 	while (theSA) {
 		put4bytes ((ftell (projectFile) + indexSize), indexFile);
-		char * translation = translateMe (theSA -> string);
+		char * translation = translateMe (theSA -> string, trans->filename);
 		writeString (translation, projectFile);
 		delete translation;
 		theSA = theSA -> next;
