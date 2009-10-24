@@ -253,10 +253,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>2FDC0B871093B8B0001C0F92</string>
+						<string>2F656ECE1093BFC70068D57A</string>
 						<key>history</key>
 						<array>
-							<string>2FDC0B491093B2E9001C0F92</string>
+							<string>2FC29F991093BA4300B6A3E6</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -293,10 +293,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>2FDC0B881093B8B0001C0F92</string>
+						<string>2F656ECF1093BFC70068D57A</string>
 						<key>history</key>
 						<array>
-							<string>2F0293FF108A35DC00A85761</string>
+							<string>2FC29F9A1093BA4300B6A3E6</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -333,11 +333,11 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>2FDC0B891093B8B0001C0F92</string>
+						<string>2F656ED01093BFC70068D57A</string>
 						<key>history</key>
 						<array>
 							<string>2F936CD7104174C900B300CD</string>
-							<string>2F029401108A35DC00A85761</string>
+							<string>2FC29F9B1093BA4300B6A3E6</string>
 						</array>
 						<key>prevStack</key>
 						<array>
@@ -378,10 +378,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>2FDC0B8A1093B8B0001C0F92</string>
+						<string>2F656ED11093BFC70068D57A</string>
 						<key>history</key>
 						<array>
-							<string>2FDC0B041093AE2B001C0F92</string>
+							<string>2FC29F9C1093BA4300B6A3E6</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -418,11 +418,11 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>2FDC0B8B1093B8B0001C0F92</string>
+						<string>2F656ED21093BFC70068D57A</string>
 						<key>history</key>
 						<array>
 							<string>2F144A9F10432D2500C07B23</string>
-							<string>2F0293FE108A35DC00A85761</string>
+							<string>2FC29F9D1093BA4300B6A3E6</string>
 						</array>
 						<key>prevStack</key>
 						<array>
@@ -464,11 +464,11 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>2FDC0B8C1093B8B0001C0F92</string>
+						<string>2F656ED31093BFC70068D57A</string>
 						<key>history</key>
 						<array>
 							<string>2F144A511043281F00C07B23</string>
-							<string>2F029400108A35DC00A85761</string>
+							<string>2FC29F9E1093BA4300B6A3E6</string>
 						</array>
 						<key>prevStack</key>
 						<array>
@@ -525,6 +525,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -636,8 +638,6 @@
 							<string>0pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -674,9 +674,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>2FDC0ACB1093AC7A001C0F92</string>
+				<string>2F656E9C1093BDA10068D57A</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>2FDC0ACC1093AC7A001C0F92</string>
+				<string>2F656E9D1093BDA10068D57A</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -804,7 +804,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>278116528.06265301</real>
+	<real>278118343.48829699</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>1</integer>
 	<key>ToolbarIsVisible</key>
@@ -819,21 +819,20 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>2FDC0AF01093AD69001C0F92</string>
-		<string>2FDC0AF11093AD69001C0F92</string>
-		<string>2F373F1B100DFBB2009F6880</string>
-		<string>1CD10A99069EF8BA00B06720</string>
-		<string>2FDC0AEE1093AD69001C0F92</string>
 		<string>2F776FD20FFCEA5E0085230A</string>
+		<string>2F656EB81093BE030068D57A</string>
+		<string>2F656EB91093BE030068D57A</string>
+		<string>2F373F1B100DFBB2009F6880</string>
+		<string>2F656EAA1093BDA10068D57A</string>
 		<string>2F981BB910414C4B0097177B</string>
 		<string>2F144A6F10432B1F00C07B23</string>
 		<string>2FDC0B061093AF60001C0F92</string>
 		<string>2F936CD5104174C900B300CD</string>
 		<string>2F144A9310432C0E00C07B23</string>
-		<string>1C0AD2B3069F1EA900FABCE6</string>
 		<string>/Users/rikard/Documents/SLUDGE/Mac Dev Kit/Sludge Dev Kit.xcodeproj</string>
-		<string>1C530D57069F1CE1000CFCEE</string>
 		<string>2FDC0ADB1093AD49001C0F92</string>
+		<string>1C0AD2B3069F1EA900FABCE6</string>
+		<string>1CD10A99069EF8BA00B06720</string>
 	</array>
 	<key>WindowString</key>
 	<string>597 316 690 397 0 0 1280 778 </string>
@@ -913,7 +912,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>2F776FD20FFCEA5E0085230A</string>
-				<string>2FDC0AD11093AC7A001C0F92</string>
+				<string>2F656EB61093BE030068D57A</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -955,8 +954,8 @@
 										<string>yes</string>
 										<key>sizes</key>
 										<array>
-											<string>{{0, 0}, {248, 300}}</string>
-											<string>{{248, 0}, {500, 300}}</string>
+											<string>{{0, 0}, {245, 300}}</string>
+											<string>{{245, 0}, {503, 300}}</string>
 										</array>
 									</dict>
 									<key>VerticalSplitView</key>
@@ -1019,14 +1018,14 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1CD10A99069EF8BA00B06720</string>
-				<string>2FDC0AE81093AD69001C0F92</string>
+				<string>2F656EA41093BDA10068D57A</string>
 				<string>1C162984064C10D400B95A72</string>
-				<string>2FDC0AE91093AD69001C0F92</string>
-				<string>2FDC0AEA1093AD69001C0F92</string>
-				<string>2FDC0AEB1093AD69001C0F92</string>
-				<string>2FDC0AEC1093AD69001C0F92</string>
-				<string>2FDC0AED1093AD69001C0F92</string>
-				<string>2FDC0AEE1093AD69001C0F92</string>
+				<string>2F656EA51093BDA10068D57A</string>
+				<string>2F656EA61093BDA10068D57A</string>
+				<string>2F656EA71093BDA10068D57A</string>
+				<string>2F656EA81093BDA10068D57A</string>
+				<string>2F656EA91093BDA10068D57A</string>
+				<string>2F656EAA1093BDA10068D57A</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debug</string>
@@ -1035,7 +1034,7 @@
 			<key>WindowToolGUID</key>
 			<string>1CD10A99069EF8BA00B06720</string>
 			<key>WindowToolIsVisible</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>
@@ -1180,7 +1179,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>2F373F1B100DFBB2009F6880</string>
-				<string>2FDC0AEF1093AD69001C0F92</string>
+				<string>2F656EB71093BE030068D57A</string>
 				<string>1C78EAAC065D492600B07095</string>
 			</array>
 			<key>WindowString</key>
@@ -1275,9 +1274,9 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C0AD2B3069F1EA900FABCE6</string>
-				<string>2FDC0AD21093AC7A001C0F92</string>
+				<string>2F656EAB1093BDA10068D57A</string>
 				<string>1CD0528B0623707200166675</string>
-				<string>2FDC0AD31093AC7A001C0F92</string>
+				<string>2F656EAC1093BDA10068D57A</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.run</string>

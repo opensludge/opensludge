@@ -47,7 +47,8 @@ AppController *aC;
 	
 	if ( [ savePanel runModalForDirectory:nil file:nil ] ) {
 		path = [ savePanel filename ];
-		doNewProject ([path UTF8String]);
+		int numFiles = 0;
+		doNewProject ([path UTF8String], 0, &numFiles);
 	}
 	
 	if (path) {	
