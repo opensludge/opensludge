@@ -81,7 +81,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 		startIndex = 1;
 	}
 	
-	totalwidth[0] = maxheight[0] = 0;
+	totalwidth[0] = maxheight[0] = 1;
 
 	for (i = 0; i < total; i ++) {
 		switch (loadSaveMode) {
@@ -145,10 +145,10 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 			break;
 		}
 		
-		if (totalwidth[numTextures] + picwidth < 2048) {
+		if (totalwidth[numTextures] + picwidth < 2047) {
 			loadhere.sprites[i].tex_x = totalwidth[numTextures];
-			totalwidth[numTextures] += (loadhere.sprites[i].width = picwidth);
-			if ((loadhere.sprites[i].height = picheight) > maxheight[numTextures]) maxheight[numTextures] = picheight;
+			totalwidth[numTextures] += (loadhere.sprites[i].width = picwidth) + 1;
+			if ((loadhere.sprites[i].height = picheight)+2 > maxheight[numTextures]) maxheight[numTextures] = picheight+2;
 		} else {
 			numTextures++;
 			if (numTextures > 255) return fatal ("Can't open sprite bank / font - it's too big.");
@@ -223,7 +223,11 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 			maxheight[tex_num] = getNextPOT(maxheight[tex_num]);
 		}		
 		tmp[tex_num] = new GLubyte [maxheight[tex_num]*totalwidth[tex_num]*4];
-		if (isFont) tmp2[tex_num] = new GLubyte [maxheight[tex_num]*totalwidth[tex_num]*4];
+		memset (tmp[tex_num], 0, maxheight[tex_num]*totalwidth[tex_num]*4);
+		if (isFont) {
+			tmp2[tex_num] = new GLubyte [maxheight[tex_num]*totalwidth[tex_num]*4];
+			memset (tmp2[tex_num], 0, maxheight[tex_num]*totalwidth[tex_num]*4);
+		}
 		loadhere.myPalette.tex_w[tex_num] = totalwidth[tex_num];
 		loadhere.myPalette.tex_h[tex_num] = maxheight[tex_num];
 	}
@@ -234,7 +238,15 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 
 	for (i = 0; i < total; i ++) {
 		fromhere = 0;
-		for (int y = 0; y < loadhere.sprites[i].height; y ++) {
+		/*
+		for (int x = loadhere.sprites[i].tex_x; x < loadhere.sprites[i].tex_x+loadhere.sprites[i].width; x ++) {
+			GLubyte * target = tmp[loadhere.sprites[i].texNum] + x*4;
+			target[0] = (GLubyte) 0;
+			target[1] = (GLubyte) 0;
+			target[2] = (GLubyte) 0;
+			target[3] = (GLubyte) 0;
+		}*/
+		for (int y = 1; y < 1 + loadhere.sprites[i].height; y ++) {
 			for (int x = loadhere.sprites[i].tex_x; x < loadhere.sprites[i].tex_x+loadhere.sprites[i].width; x ++) {
 				GLubyte * target = tmp[loadhere.sprites[i].texNum] + 4*totalwidth[loadhere.sprites[i].texNum]*y + x*4;
 				if (loadSaveMode < 3) {
@@ -244,12 +256,12 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 						target[1] = (GLubyte) loadhere.myPalette.g[s];
 						target[2] = (GLubyte) loadhere.myPalette.b[s];
 						target[3] = (GLubyte) 255;
-					} else {
+					} /*else {
 						target[0] = (GLubyte) 0;
 						target[1] = (GLubyte) 0;
 						target[2] = (GLubyte) 0;
 						target[3] = (GLubyte) 0;
-					}
+					}*/
 					if (isFont) {
 						target = tmp2[loadhere.sprites[i].texNum] + 4*totalwidth[loadhere.sprites[i].texNum]*y + x*4;
 						target[0] = (GLubyte) 255;
@@ -257,8 +269,8 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 						target[2] = (GLubyte) 255;
 						if (s)
 							target[3] = (GLubyte) loadhere.myPalette.r[s];
-						else 
-							target[3] = (GLubyte) 0;
+						/*else 
+							target[3] = (GLubyte) 0;*/
 					}
 				} else {
 					target[0] = (GLubyte) spriteData[i][fromhere++];
@@ -313,13 +325,13 @@ void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette
 	float tx1 = (float)(single.tex_x + 0.5) / fontPal.tex_w[single.texNum];
 	float ty1 = 0.0;
 	float tx2 = (float)(single.tex_x + single.width - 0.5) / fontPal.tex_w[single.texNum];
-	float ty2 = (float)(single.height)/fontPal.tex_h[single.texNum];
+	float ty2 = (float)(single.height+2)/fontPal.tex_h[single.texNum];
 
-	int diffX = single.width;
-	int diffY = single.height;	
+	int diffX = single.width+1;
+	int diffY = single.height+2;	
 	
 	x1 -= single.xhot;
-	y1 -= single.yhot;
+	y1 -= single.yhot-1;
 	
 	if (x1 < 0) diffX += x1;
 	if (y1 < 0) diffY += y1;
@@ -393,16 +405,16 @@ void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette 
 	/*pasteSpriteToBackDrop (x1, y1, single, fontPal);
 	return;*/
 
-	float tx1 = (float)(single.tex_x + 0.5) / fontPal.tex_w[single.texNum];
+	float tx1 = (float)(single.tex_x - 0.5) / fontPal.tex_w[single.texNum];
 	float ty1 = 0.0;
-	float tx2 = (float)(single.tex_x + single.width - 0.5) / fontPal.tex_w[single.texNum];
-	float ty2 = (float)(single.height)/fontPal.tex_h[single.texNum];
+	float tx2 = (float)(single.tex_x + single.width + 0.5) / fontPal.tex_w[single.texNum];
+	float ty2 = (float)(single.height+2)/fontPal.tex_h[single.texNum];
 	
-	int diffX = single.width;
-	int diffY = single.height;	
+	int diffX = single.width+1;
+	int diffY = single.height+2;	
 	
 	x1 -= single.xhot;
-	y1 -= single.yhot;
+	y1 -= single.yhot-1;
 	
 	if (x1 < 0) diffX += x1;
 	if (y1 < 0) diffY += y1;
@@ -475,15 +487,15 @@ extern GLuint backdropTextureName;
 
 void fontSprite (int x, int y, sprite & single, const spritePalette & fontPal) {
 
-	float tx1 = (float)(single.tex_x + 0.5) / fontPal.tex_w[single.texNum];
+	float tx1 = (float)(single.tex_x-0.5) / fontPal.tex_w[single.texNum];
 	float ty1 = 0.0;
-	float tx2 = (float)(single.tex_x + single.width - 0.5) / fontPal.tex_w[single.texNum];
-	float ty2 = (float)(single.height)/fontPal.tex_h[single.texNum];
+	float tx2 = (float)(single.tex_x + single.width+0.5) / fontPal.tex_w[single.texNum];
+	float ty2 = (float)(single.height+2)/fontPal.tex_h[single.texNum];
 	
-	int x1 = x - single.xhot;
-	int y1 = y - single.yhot;
-	int x2 = x1 + single.width;
-	int y2 = y1 + single.height;
+	float x1 = x - single.xhot-0.5;
+	float y1 = y - single.yhot-0.5;
+	float x2 = x1 + single.width+1.0;
+	float y2 = y1 + single.height+1.0;
 	
 	glEnable (GL_TEXTURE_2D);
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // GL_MODULATE instead of decal mixes the colours!
@@ -506,15 +518,15 @@ void fontSprite (int x, int y, sprite & single, const spritePalette & fontPal) {
 
 void flipFontSprite (int x, int y, sprite & single, const spritePalette & fontPal) {
 
-	float tx1 = (float)(single.tex_x + 0.5) / fontPal.tex_w[single.texNum];
+	float tx1 = (float)(single.tex_x-0.5) / fontPal.tex_w[single.texNum];
 	float ty1 = 0.0;
-	float tx2 = (float)(single.tex_x + single.width - 0.5) / fontPal.tex_w[single.texNum];
-	float ty2 = (float)(single.height)/fontPal.tex_h[single.texNum];
-
-	int x1 = x - single.xhot;
-	int y1 = y - single.yhot;
-	int x2 = x1 + single.width;
-	int y2 = y1 + single.height;
+	float tx2 = (float)(single.tex_x + single.width+1.0) / fontPal.tex_w[single.texNum];
+	float ty2 = (float)(single.height+2)/fontPal.tex_h[single.texNum];
+	
+	int x1 = x - single.xhot-0.5;
+	int y1 = y - single.yhot-0.5;
+	int x2 = x1 + single.width+1.0;
+	int y2 = y1 + single.height+1.0;
 	
 	glEnable (GL_TEXTURE_2D);
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // GL_MODULATE instead of decal mixes the colours!
@@ -670,15 +682,15 @@ bool checkColourChange (bool reset);
 bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, float scale, unsigned int drawMode, int floaty, bool useZB, bool light, bool mirror, bool boundingBoxCollision, aaSettingsStruct * aa) {
 	if (scale <= 0.05) return false;
 		
-	float tx1 = (float)(single.tex_x + 0.5) / fontPal.tex_w[single.texNum];
+	float tx1 = (float)(single.tex_x - 0.5) / fontPal.tex_w[single.texNum];
 	float ty1 = 0.0;
-	float tx2 = (float)(single.tex_x + single.width - 0.5) / fontPal.tex_w[single.texNum];
-	float ty2 = (float)(single.height)/fontPal.tex_h[single.texNum];
+	float tx2 = (float)(single.tex_x + single.width + 0.5) / fontPal.tex_w[single.texNum];
+	float ty2 = (float)(single.height+2)/fontPal.tex_h[single.texNum];
 	
-	int diffX = single.width * scale + 0.5;
-	int diffY = single.height * scale + 0.5;
-	float x1 = x - (mirror ? (single.width - (single.xhot + 1)) : single.xhot) * scale - 0.325;
-	float y1 = y - (single.yhot - floaty) * scale - 0.325;
+	float diffX = (float)(single.width+1) * scale + 0.5;
+	float diffY = (float)(single.height+2) * scale + 0.5;
+	float x1 = (float) x - (mirror ? (single.width - (single.xhot + 1.5)) : single.xhot+0.5) * scale - 0.325;
+	float y1 = (float) y - (single.yhot +1 - floaty) * scale - 0.325;
 	float x2 = x1 + diffX + 0.325;
 	float y2 = y1 + diffY + 0.825;
 	
@@ -789,17 +801,17 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, float scale, unsigned int drawMode, int floaty, bool useZB, bool light, int camX, int camY, bool mirror, aaSettingsStruct * aa) {
 	if (scale <= 0.05) return;
 		
-	float tx1 = (float)(single.tex_x + 0.5) / fontPal.tex_w[single.texNum];
+	float tx1 = (float)(single.tex_x - 0.5) / fontPal.tex_w[single.texNum];
 	float ty1 = 0.0;
-	float tx2 = (float)(single.tex_x + single.width - 0.5) / fontPal.tex_w[single.texNum];
-	float ty2 = (float)(single.height)/fontPal.tex_h[single.texNum];
+	float tx2 = (float)(single.tex_x + single.width + 0.5) / fontPal.tex_w[single.texNum];
+	float ty2 = (float)(single.height+2)/fontPal.tex_h[single.texNum];
 	
-	int diffX = single.width * scale + 0.5;
-	int diffY = single.height * scale + 0.5;
-	int spriteWidth = diffX;
-	int spriteHeight = diffY;
-	int x1 = x - (mirror ? (single.width - (single.xhot + 1)) : single.xhot) * scale;
-	int y1 = y - (single.yhot - floaty) * scale;
+	float diffX = (float)(single.width+1) * scale + 0.5;
+	float diffY = (float)(single.height+2) * scale + 0.5;
+	float spriteWidth = diffX;
+	float spriteHeight = diffY;
+	float x1 = (float)x - (mirror ? (single.width - (single.xhot + 1.5)) : single.xhot+0.5) * scale;
+	float y1 = (float)y - (single.yhot + 1 - floaty) * scale;
 	if (x1 < 0) diffX += x1;
 	if (y1 < 0) diffY += y1;
 	if (x1 + diffX > sceneWidth) diffX = sceneWidth - x1;
