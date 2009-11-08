@@ -293,7 +293,7 @@
 		2FCE93A71029CA5000315052 /* TranslationDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TranslationDocument.m; sourceTree = "<group>"; };
 		2FD220B5101B567700F4CA41 /* zIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = zIcon.icns; path = ../images/zIcon.icns; sourceTree = "<group>"; };
 		2FD220B7101B569300F4CA41 /* scriptIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = scriptIcon.icns; sourceTree = "<group>"; };
-		2FD220B9101B569D00F4CA41 /* Compiler.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Compiler.icns; sourceTree = "<group>"; };
+		2FD220B9101B569D00F4CA41 /* Compiler.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Compiler.icns; path = ../images/Compiler.icns; sourceTree = "<group>"; };
 		2FDA7B9C1026204F00DC8F16 /* flags.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = flags.icns; path = ../images/flags.icns; sourceTree = SOURCE_ROOT; };
 		2FDE2F321030DEBE00FAAA65 /* floormodeicon1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = floormodeicon1.png; path = ../images/floormodeicon1.png; sourceTree = SOURCE_ROOT; };
 		2FDE2F341030DED900FAAA65 /* floormodeicon2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = floormodeicon2.png; path = ../images/floormodeicon2.png; sourceTree = SOURCE_ROOT; };

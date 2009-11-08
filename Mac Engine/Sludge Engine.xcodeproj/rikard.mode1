@@ -239,28 +239,43 @@
 			<key>Content</key>
 			<dict>
 				<key>PBXProjectModuleGUID</key>
-				<string>2FC748D910947B900077A057</string>
+				<string>2F18653210A60EAB006DC143</string>
 				<key>PBXProjectModuleLabel</key>
-				<string>SPRITES.CPP</string>
+				<string>BACKDROP.CPP</string>
 				<key>PBXSplitModuleInNavigatorKey</key>
 				<dict>
 					<key>Split0</key>
 					<dict>
 						<key>PBXProjectModuleGUID</key>
-						<string>2FC748E610947E310077A057</string>
+						<string>2F18653310A60EAB006DC143</string>
 						<key>PBXProjectModuleLabel</key>
-						<string>SPRITES.CPP</string>
+						<string>BACKDROP.CPP</string>
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>2F341C2A1094807300E54EB4</string>
+						<string>2FAF145710A70C920028FE31</string>
 						<key>history</key>
 						<array>
-							<string>2FC748EC10947F620077A057</string>
+							<string>2F18653410A60EAB006DC143</string>
+						</array>
+					</dict>
+					<key>Split1</key>
+					<dict>
+						<key>PBXProjectModuleGUID</key>
+						<string>2FAF145810A70C920028FE31</string>
+						<key>PBXProjectModuleLabel</key>
+						<string>BACKDROP.CPP</string>
+						<key>_historyCapacity</key>
+						<integer>0</integer>
+						<key>bookmark</key>
+						<string>2FAF145A10A70C920028FE31</string>
+						<key>history</key>
+						<array>
+							<string>2FAF145910A70C920028FE31</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
-					<string>1</string>
+					<string>2</string>
 				</dict>
 				<key>StatusBarVisibility</key>
 				<true/>
@@ -268,11 +283,11 @@
 			<key>Geometry</key>
 			<dict>
 				<key>Frame</key>
-				<string>{{0, 20}, {1016, 594}}</string>
+				<string>{{0, 20}, {1021, 647}}</string>
 				<key>PBXModuleWindowStatusBarHidden2</key>
 				<false/>
 				<key>RubberWindowFrame</key>
-				<string>41 121 1016 635 0 0 1280 778 </string>
+				<string>226 90 1021 688 0 0 1280 778 </string>
 			</dict>
 		</dict>
 	</array>
@@ -456,9 +471,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>2F341C281094807300E54EB4</string>
+				<string>2FAF145510A70C920028FE31</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>2F341C291094807300E54EB4</string>
+				<string>2FAF145610A70C920028FE31</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -577,7 +592,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>278167667.61044502</real>
+	<real>279383186.18758601</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>1</integer>
 	<key>ToolbarIsVisible</key>
@@ -592,10 +607,10 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>2FD9F6F00E3F2B1F0083A726</string>
 		<string>/Users/rikard/Documents/SLUDGE/Mac Engine/Sludge Engine.xcodeproj</string>
+		<string>2FD9F6F00E3F2B1F0083A726</string>
+		<string>2F18653210A60EAB006DC143</string>
 		<string>1C0AD2B3069F1EA900FABCE6</string>
-		<string>2FC748D910947B900077A057</string>
 	</array>
 	<key>WindowString</key>
 	<string>574 378 690 397 0 0 1280 778 </string>
@@ -614,12 +629,14 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string></string>
+								<string>BACKDROP.CPP</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -675,7 +692,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>2FD9F6F00E3F2B1F0083A726</string>
-				<string>2F341C2B1094807300E54EB4</string>
+				<string>2FAF145B10A70C920028FE31</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -686,7 +703,7 @@
 			<key>WindowToolGUID</key>
 			<string>2FD9F6F00E3F2B1F0083A726</string>
 			<key>WindowToolIsVisible</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>
@@ -820,7 +837,7 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CDD528C0622207200134675</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>zbuffer.cpp</string>
+										<string>people.cpp</string>
 										<key>StatusBarVisibility</key>
 										<true/>
 									</dict>
@@ -878,8 +895,8 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C530D57069F1CE1000CFCEE</string>
-				<string>2FB8BB9A1039F1FB006185B2</string>
-				<string>2FB8BB9B1039F1FB006185B2</string>
+				<string>2FD4271F10965C9C00EAAC77</string>
+				<string>2FD4272010965C9C00EAAC77</string>
 				<string>1CDD528C0622207200134675</string>
 				<string>1CD0528E0623707200166675</string>
 			</array>
@@ -1037,9 +1054,9 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C0AD2B3069F1EA900FABCE6</string>
-				<string>2F341C2C1094807300E54EB4</string>
+				<string>2FAF145C10A70C920028FE31</string>
 				<string>1CD0528B0623707200166675</string>
-				<string>2F341C2D1094807300E54EB4</string>
+				<string>2FAF145D10A70C920028FE31</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.run</string>

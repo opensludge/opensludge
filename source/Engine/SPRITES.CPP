@@ -913,6 +913,7 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 			// Then the sprite
 			setDrawMode (drawMode);			
 			glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

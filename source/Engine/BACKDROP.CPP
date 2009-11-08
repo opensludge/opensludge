@@ -527,11 +527,76 @@ void drawBackDrop () {
 }
 
 bool loadLightMap (int v) {
+	int newPicWidth, newPicHeight;
+	
 	setResourceForFatal (v);
 	if (! openFileFromNum (v)) return fatal ("Can't open light map.");
+	
+	long file_pointer = ftell (bigDataFile);
+	
+	png_structp png_ptr;
+	png_infop info_ptr, end_info;
+	
+	
+	int fileIsPNG = true;
+	
+	// Is this a PNG file?
+	
+	char tmp[10];
+	fread(tmp, 1, 8, bigDataFile);
+    if (png_sig_cmp((png_byte *) tmp, 0, 8)) {
+		// No, it's old-school HSI
+		fileIsPNG = false;
+		fseek(bigDataFile, file_pointer, SEEK_SET);
+		
+		newPicWidth = lightMap.w = get2bytes (bigDataFile);
+		newPicHeight = lightMap.h = get2bytes (bigDataFile);
+	} else {
+		// Read the PNG header
+		
+		png_ptr = png_create_read_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+		if (!png_ptr) {
+			return false;
+		}
+		
+		info_ptr = png_create_info_struct(png_ptr);
+		if (!info_ptr) {
+			png_destroy_read_struct(&png_ptr, (png_infopp) NULL, (png_infopp) NULL);
+			return false;
+		}
+		
+		end_info = png_create_info_struct(png_ptr);
+		if (!end_info) {
+			png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
+			return false;
+		}
+		png_init_io(png_ptr, bigDataFile);		// Tell libpng which file to read
+		png_set_sig_bytes(png_ptr, 8);	// 8 bytes already read
+		
+		png_read_info(png_ptr, info_ptr);
+		
+		png_uint_32 width, height;
+		int bit_depth, color_type, interlace_type, compression_type, filter_method;
+		png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, &interlace_type, &compression_type, &filter_method);
+		
+		newPicWidth = lightMap.w = width;
+		newPicHeight = lightMap.h = height;
+		
+		if (bit_depth < 8) png_set_packing(png_ptr);
+		png_set_expand(png_ptr);
+		if (color_type == PNG_COLOR_TYPE_GRAY || color_type == PNG_COLOR_TYPE_GRAY_ALPHA) png_set_gray_to_rgb(png_ptr);	
+		if (bit_depth == 16) png_set_strip_16(png_ptr);
+		
+		png_set_add_alpha(png_ptr, 0xff, PNG_FILLER_AFTER);
+		
+		png_read_update_info(png_ptr, info_ptr);
+		png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, &interlace_type, &compression_type, &filter_method);
+		
+		//int rowbytes = png_get_rowbytes(png_ptr, info_ptr);
+		
+	}
+	
 
-	int newPicWidth = lightMap.w = get2bytes (bigDataFile);
-	int newPicHeight = lightMap.h = get2bytes (bigDataFile);
 	
 	if (lightMapMode == LIGHTMAPMODE_HOTSPOT) {
 		if (lightMap.w != sceneWidth || lightMap.h != sceneHeight) {
@@ -563,23 +628,35 @@ bool loadLightMap (int v) {
 	int t1, t2, n;
 	unsigned short c;
 	GLubyte * target;
-	for (t2 = 0; t2 < lightMap.h; t2 ++) {
-		t1 = 0;
-		while (t1 < lightMap.w) {
-			c = (unsigned short) get2bytes (bigDataFile);
-			if (c & 32) {
-				n = fgetc (bigDataFile) + 1;
-				c -= 32;
-			} else {
-				n = 1;
-			}
-			while (n --) {
-				target = lightMap.data + 4*newPicWidth*t2 + t1*4;
-				target[0] = (GLubyte) redValue(c);
-				target[1] = (GLubyte) greenValue(c);
-				target[2] = (GLubyte) blueValue(c);
-				target[3] = (GLubyte) 255;
-				t1++;
+
+	if (fileIsPNG) {
+		unsigned char * row_pointers[lightMap.h];
+		for (int i = 0; i<lightMap.h; i++)
+			row_pointers[i] = lightMap.data + 4*i*newPicWidth;
+		
+		png_read_image(png_ptr, (png_byte **) row_pointers);
+		png_read_end(png_ptr, NULL);
+		png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
+	} else {
+		
+		for (t2 = 0; t2 < lightMap.h; t2 ++) {
+			t1 = 0;
+			while (t1 < lightMap.w) {
+				c = (unsigned short) get2bytes (bigDataFile);
+				if (c & 32) {
+					n = fgetc (bigDataFile) + 1;
+					c -= 32;
+				} else {
+					n = 1;
+				}
+				while (n --) {
+					target = lightMap.data + 4*newPicWidth*t2 + t1*4;
+					target[0] = (GLubyte) redValue(c);
+					target[1] = (GLubyte) greenValue(c);
+					target[2] = (GLubyte) blueValue(c);
+					target[3] = (GLubyte) 255;
+					t1++;
+				}
 			}
 		}
 	}
