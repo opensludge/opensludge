@@ -17,12 +17,12 @@ bool openSubSlice (int num) {
 //	FILE * dbug = fopen ("debuggy.txt", "at");
 
 //	fprintf (dbug, "\nTrying to open sub %i\n", num);
-	
+
 	if (sliceBusy) {
 		fatal ("Can't read from data file", "I'm already reading something");
 		return false;
 	}
-	
+
 //	fprintf (dbug, "Going to position %li\n", startOfSubIndex + (num << 2));
 	fseek (bigDataFile, startOfSubIndex + (num << 2), 0);
 	fseek (bigDataFile, get4bytes (bigDataFile), 0);
@@ -35,12 +35,12 @@ bool openObjectSlice (int num) {
 //	FILE * dbug = fopen ("debuggy.txt", "at");
 
 //	fprintf (dbug, "\nTrying to open object %i\n", num);
-	
+
 	if (sliceBusy) {
 		fatal ("Can't read from data file", "I'm already reading something");
 		return false;
 	}
-	
+
 //	fprintf (dbug, "Going to position %li\n", startOfObjectIndex + (num << 2));
 	fseek (bigDataFile, startOfObjectIndex + (num << 2), 0);
 	fseek (bigDataFile, get4bytes (bigDataFile), 0);
@@ -54,9 +54,9 @@ unsigned int openFileFromNum (int num) {
 
 	if (sliceBusy) {
 		fatal ("Can't read from data file", "I'm already reading something");
-		return NULL;
+		return 0;
 	}
-	
+
 //	fprintf (dbug, "\nTrying to open file %i\n", num);
 //	fprintf (dbug, "Jumping to %li (for index) \n", startOfDataIndex + (num << 2));
 	fseek (bigDataFile, startOfDataIndex + (num << 2), 0);
@@ -76,7 +76,7 @@ char * getNumberedString (int value) {
 		fatal ("Can't read from data file", "I'm already reading something");
 		return NULL;
 	}
-	
+
 	fseek (bigDataFile, (value << 2) + startOfTextIndex, 0);
 	value = get4bytes (bigDataFile);
 	//debugOut ("FILSET: getNumberedString - Seeking: %i\n", value);
@@ -102,10 +102,10 @@ void setFileIndices (FILE * fp, int numLanguages, unsigned int skipBefore) {
 	} else {
 		// No file pointer - this means that we reuse the bigDataFile
 		fp = bigDataFile;
-		fseek (fp, startIndex, 0);	
+		fseek (fp, startIndex, 0);
 	}
 	sliceBusy = false;
-		
+
 	if (skipBefore > numLanguages) {
 		warning ("Not a valid language ID! Using default instead.");
 		skipBefore = 0;
@@ -114,7 +114,7 @@ void setFileIndices (FILE * fp, int numLanguages, unsigned int skipBefore) {
 	// STRINGS
 	int skipAfter = numLanguages - skipBefore;
 	while (skipBefore) {
-		fseek (fp, get4bytes (fp), 0);	
+		fseek (fp, get4bytes (fp), 0);
 		skipBefore --;
 	}
 	startOfTextIndex = ftell (fp) + 4;
@@ -125,7 +125,7 @@ void setFileIndices (FILE * fp, int numLanguages, unsigned int skipBefore) {
 		fseek (fp, get4bytes (fp), 0);
 		skipAfter --;
 	}
-		
+
 	startOfSubIndex = ftell (fp) + 4;
 	fseek (fp, get4bytes (fp), 1);
 

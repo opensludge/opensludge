@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="SLUDGE Engine" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin\Debug\SLUDGE Engine" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Debug\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="..\..\..\Glee" />
+					<Add directory="..\..\source\CommonCode" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin\Release\SLUDGE Engine" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Release\" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add directory="..\..\..\Glee" />
+					<Add directory="..\..\source\CommonCode" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add directory="..\..\..\SDL\include\SDL" />
+			<Add directory="..\..\..\GnuWin32\include" />
+			<Add directory="..\..\..\Bass\c" />
+		</Compiler>
+		<Linker>
+			<Add library="gdi32" />
+			<Add library="user32" />
+			<Add library="kernel32" />
+			<Add library="comdlg32" />
+			<Add library="..\..\..\libpng\libpng.a" />
+			<Add library="..\..\..\zlib\libz.a" />
+			<Add library="..\..\..\SDL\lib\libSDL.dll.a" />
+			<Add library="..\..\..\GnuWin32\lib\libiconv.dll.a" />
+			<Add library="..\..\..\Bass\c\bass.lib" />
+			<Add library="C:\MinGW\lib\libopengl32.a" />
+		</Linker>
+		<Unit filename="..\..\..\Glee\GLee.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\..\Glee\GLee.h" />
+		<Unit filename="resource.h" />
+		<Unit filename="resource.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
+		<Unit filename="..\..\source\CommonCode\TGA.cpp" />
+		<Unit filename="..\..\source\CommonCode\TGA.h" />
+		<Unit filename="..\..\source\CommonCode\functionList.h" />
+		<Unit filename="..\..\source\CommonCode\specialSettings.h" />
+		<Unit filename="..\..\source\CommonCode\version.h" />
+		<Unit filename="..\..\source\Engine\ALLFILES.H" />
+		<Unit filename="..\..\source\Engine\BACKDROP.CPP" />
+		<Unit filename="..\..\source\Engine\BACKDROP.H" />
+		<Unit filename="..\..\source\Engine\BUILTIN.H" />
+		<Unit filename="..\..\source\Engine\COLOURS.H" />
+		<Unit filename="..\..\source\Engine\CSLUDGE.H" />
+		<Unit filename="..\..\source\Engine\CURSORS.CPP" />
+		<Unit filename="..\..\source\Engine\CURSORS.H" />
+		<Unit filename="..\..\source\Engine\FILESET.CPP" />
+		<Unit filename="..\..\source\Engine\FILESET.H" />
+		<Unit filename="..\..\source\Engine\FONTTEXT.CPP" />
+		<Unit filename="..\..\source\Engine\FONTTEXT.H" />
+		<Unit filename="..\..\source\Engine\FREEZE.CPP" />
+		<Unit filename="..\..\source\Engine\FREEZE.H" />
+		<Unit filename="..\..\source\Engine\Graphics.cpp" />
+		<Unit filename="..\..\source\Engine\Graphics.h" />
+		<Unit filename="..\..\source\Engine\LOADSAVE.CPP" />
+		<Unit filename="..\..\source\Engine\LOADSAVE.H" />
+		<Unit filename="..\..\source\Engine\Language.cpp" />
+		<Unit filename="..\..\source\Engine\Language.h" />
+		<Unit filename="..\..\source\Engine\MOREIO.CPP" />
+		<Unit filename="..\..\source\Engine\MOREIO.H" />
+		<Unit filename="..\..\source\Engine\NEWFATAL.CPP" />
+		<Unit filename="..\..\source\Engine\NEWFATAL.H" />
+		<Unit filename="..\..\source\Engine\OBJTYPES.CPP" />
+		<Unit filename="..\..\source\Engine\OBJTYPES.H" />
+		<Unit filename="..\..\source\Engine\PEOPLE.H" />
+		<Unit filename="..\..\source\Engine\REGION.CPP" />
+		<Unit filename="..\..\source\Engine\REGION.H" />
+		<Unit filename="..\..\source\Engine\SLUDGER.CPP" />
+		<Unit filename="..\..\source\Engine\SLUDGER.H" />
+		<Unit filename="..\..\source\Engine\SPRBANKS.CPP" />
+		<Unit filename="..\..\source\Engine\SPRBANKS.H" />
+		<Unit filename="..\..\source\Engine\SPRITES.CPP" />
+		<Unit filename="..\..\source\Engine\STATUSBA.CPP" />
+		<Unit filename="..\..\source\Engine\STATUSBA.H" />
+		<Unit filename="..\..\source\Engine\STRINGY.CPP" />
+		<Unit filename="..\..\source\Engine\STRINGY.H" />
+		<Unit filename="..\..\source\Engine\Sprites_AA.CPP" />
+		<Unit filename="..\..\source\Engine\Sprites_AA.h" />
+		<Unit filename="..\..\source\Engine\TALK.CPP" />
+		<Unit filename="..\..\source\Engine\TALK.H" />
+		<Unit filename="..\..\source\Engine\VARIABLE.CPP" />
+		<Unit filename="..\..\source\Engine\VARIABLE.H" />
+		<Unit filename="..\..\source\Engine\WINSTUFF.CPP" />
+		<Unit filename="..\..\source\Engine\WINSTUFF.H" />
+		<Unit filename="..\..\source\Engine\bg_effects.cpp" />
+		<Unit filename="..\..\source\Engine\bg_effects.h" />
+		<Unit filename="..\..\source\Engine\builtin.cpp" />
+		<Unit filename="..\..\source\Engine\debug.cpp" />
+		<Unit filename="..\..\source\Engine\debug.h" />
+		<Unit filename="..\..\source\Engine\errors.h" />
+		<Unit filename="..\..\source\Engine\floor.cpp" />
+		<Unit filename="..\..\source\Engine\floor.h" />
+		<Unit filename="..\..\source\Engine\line.cpp" />
+		<Unit filename="..\..\source\Engine\line.h" />
+		<Unit filename="..\..\source\Engine\main.cpp" />
+		<Unit filename="..\..\source\Engine\memwatch.cpp" />
+		<Unit filename="..\..\source\Engine\memwatch.h" />
+		<Unit filename="..\..\source\Engine\people.cpp" />
+		<Unit filename="..\..\source\Engine\savedata.cpp" />
+		<Unit filename="..\..\source\Engine\savedata.h" />
+		<Unit filename="..\..\source\Engine\sound.h" />
+		<Unit filename="..\..\source\Engine\sound_bass.cpp" />
+		<Unit filename="..\..\source\Engine\sound_nosound.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="..\..\source\Engine\sprites.h" />
+		<Unit filename="..\..\source\Engine\thumbnail.cpp" />
+		<Unit filename="..\..\source\Engine\thumbnail.h" />
+		<Unit filename="..\..\source\Engine\timing.cpp" />
+		<Unit filename="..\..\source\Engine\timing.h" />
+		<Unit filename="..\..\source\Engine\transition.cpp" />
+		<Unit filename="..\..\source\Engine\transition.h" />
+		<Unit filename="..\..\source\Engine\vid.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="..\..\source\Engine\vid.h" />
+		<Unit filename="..\..\source\Engine\zbuffer.cpp" />
+		<Unit filename="..\..\source\Engine\zbuffer.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

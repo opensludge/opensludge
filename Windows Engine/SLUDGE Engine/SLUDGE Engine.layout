@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="..\..\..\Glee\GLee.c" open="0" top="0" tabpos="0">
+		<Cursor position="2134" topLine="41" />
+	</File>
+	<File name="..\..\source\CommonCode\TGA.h" open="0" top="0" tabpos="2">
+		<Cursor position="1681" topLine="0" />
+	</File>
+	<File name="..\..\source\CommonCode\functionList.h" open="0" top="0" tabpos="0">
+		<Cursor position="46" topLine="0" />
+	</File>
+	<File name="..\..\source\Engine\BACKDROP.CPP" open="0" top="0" tabpos="1">
+		<Cursor position="15912" topLine="528" />
+	</File>
+	<File name="..\..\source\Engine\CSLUDGE.H" open="0" top="0" tabpos="11">
+		<Cursor position="812" topLine="0" />
+	</File>
+	<File name="..\..\source\Engine\FILESET.CPP" open="0" top="0" tabpos="13">
+		<Cursor position="1947" topLine="38" />
+	</File>
+	<File name="..\..\source\Engine\FONTTEXT.CPP" open="1" top="0" tabpos="6">
+		<Cursor position="2460" topLine="84" />
+	</File>
+	<File name="..\..\source\Engine\FONTTEXT.H" open="0" top="0" tabpos="0">
+		<Cursor position="480" topLine="0" />
+	</File>
+	<File name="..\..\source\Engine\FREEZE.CPP" open="0" top="0" tabpos="0">
+		<Cursor position="6955" topLine="202" />
+	</File>
+	<File name="..\..\source\Engine\FREEZE.H" open="0" top="0" tabpos="0">
+		<Cursor position="613" topLine="0" />
+	</File>
+	<File name="..\..\source\Engine\Graphics.cpp" open="0" top="0" tabpos="8">
+		<Cursor position="1396" topLine="40" />
+	</File>
+	<File name="..\..\source\Engine\Graphics.h" open="0" top="0" tabpos="4">
+		<Cursor position="704" topLine="0" />
+	</File>
+	<File name="..\..\source\Engine\LOADSAVE.CPP" open="0" top="0" tabpos="0">
+		<Cursor position="7772" topLine="277" />
+	</File>
+	<File name="..\..\source\Engine\Language.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="2694" topLine="105" />
+	</File>
+	<File name="..\..\source\Engine\MOREIO.CPP" open="0" top="0" tabpos="0">
+		<Cursor position="1170" topLine="33" />
+	</File>
+	<File name="..\..\source\Engine\NEWFATAL.CPP" open="0" top="0" tabpos="0">
+		<Cursor position="1832" topLine="50" />
+	</File>
+	<File name="..\..\source\Engine\NEWFATAL.H" open="0" top="0" tabpos="3">
+		<Cursor position="393" topLine="0" />
+	</File>
+	<File name="..\..\source\Engine\OBJTYPES.H" open="0" top="0" tabpos="0">
+		<Cursor position="629" topLine="0" />
+	</File>
+	<File name="..\..\source\Engine\SLUDGER.CPP" open="1" top="0" tabpos="2">
+		<Cursor position="16133" topLine="544" />
+	</File>
+	<File name="..\..\source\Engine\SPRBANKS.H" open="0" top="0" tabpos="10">
+		<Cursor position="201" topLine="0" />
+	</File>
+	<File name="..\..\source\Engine\SPRITES.CPP" open="1" top="1" tabpos="7">
+		<Cursor position="1594" topLine="44" />
+	</File>
+	<File name="..\..\source\Engine\STRINGY.CPP" open="1" top="0" tabpos="5">
+		<Cursor position="260" topLine="0" />
+	</File>
+	<File name="..\..\source\Engine\VARIABLE.CPP" open="1" top="0" tabpos="4">
+		<Cursor position="14543" topLine="549" />
+	</File>
+	<File name="..\..\source\Engine\WINSTUFF.CPP" open="0" top="0" tabpos="0">
+		<Cursor position="1005" topLine="36" />
+	</File>
+	<File name="..\..\source\Engine\bg_effects.h" open="0" top="0" tabpos="0">
+		<Cursor position="163" topLine="0" />
+	</File>
+	<File name="..\..\source\Engine\builtin.cpp" open="1" top="0" tabpos="3">
+		<Cursor position="21915" topLine="811" />
+	</File>
+	<File name="..\..\source\Engine\debug.h" open="0" top="0" tabpos="12">
+		<Cursor position="102" topLine="0" />
+	</File>
+	<File name="..\..\source\Engine\line.h" open="0" top="0" tabpos="6">
+		<Cursor position="48" topLine="0" />
+	</File>
+	<File name="..\..\source\Engine\main.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="1456" topLine="77" />
+	</File>
+	<File name="..\..\source\Engine\sound_bass.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="1951" topLine="67" />
+	</File>
+	<File name="..\..\source\Engine\sound_nosound.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="423" topLine="0" />
+	</File>
+	<File name="..\..\source\Engine\sprites.h" open="0" top="0" tabpos="9">
+		<Cursor position="1546" topLine="12" />
+	</File>
+	<File name="..\..\source\Engine\vid.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="4359" topLine="199" />
+	</File>
+	<File name="..\..\source\Engine\zbuffer.h" open="0" top="0" tabpos="5">
+		<Cursor position="327" topLine="0" />
+	</File>
+</CodeBlocks_layout_file>

@@ -50,12 +50,12 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 	int totalwidth[256], maxheight[256];
 	int numTextures = 0;
 	byte * data;
-	
-	//debugOut ("loadSpriteBank: Loading new sprite bank... \n");
+
+	fprintf (stderr, "loadSpriteBank: Loading new sprite bank... \n");
 
 	setResourceForFatal (fileNum);
 	if (! openFileFromNum (fileNum)) return fatal ("Can't open sprite bank / font");
-	
+
 	loadhere.isFont = isFont;
 
 	total = get2bytes (bigDataFile);
@@ -67,9 +67,12 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 			total = get2bytes (bigDataFile);
 		}
 	}
-	
-	if (loadSaveMode > 3) return fatal ("Unsupported sprite bank file format");
+
 	if (total <= 0) return fatal ("No sprites in bank or invalid sprite bank file");
+	if (loadSaveMode > 3) return fatal ("Unsupported sprite bank file format");
+
+	fprintf (stderr, "loadSpriteBank - loadSaveMode: %d\n", loadSaveMode);
+	fflush (stderr);
 
 	loadhere.total = total;
 	loadhere.sprites = new sprite [total];
@@ -80,8 +83,10 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 		howmany = fgetc (bigDataFile);
 		startIndex = 1;
 	}
-	
+
 	totalwidth[0] = maxheight[0] = 1;
+	fprintf (stderr, "loadSpriteBank - halfway point b\n");
+	fflush (stderr);
 
 	for (i = 0; i < total; i ++) {
 		switch (loadSaveMode) {
@@ -89,18 +94,18 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 			{
 				loadhere.sprites[i].xhot = readSigned (bigDataFile);
 				loadhere.sprites[i].yhot = readSigned (bigDataFile);
-				
+
 				png_structp png_ptr = png_create_read_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 				if (!png_ptr) {
 					return fatal ("Can't open sprite bank / font.");
 				}
-					
+
 				png_infop info_ptr = png_create_info_struct(png_ptr);
 				if (!info_ptr) {
 					png_destroy_read_struct(&png_ptr, (png_infopp) NULL, (png_infopp) NULL);
 					return fatal ("Can't open sprite bank / font.");
 				}
-					
+
 				png_infop end_info = png_create_info_struct(png_ptr);
 				if (!end_info) {
 					png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
@@ -108,24 +113,24 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 				}
 				png_init_io(png_ptr, bigDataFile);		// Tell libpng which file to read
 				png_set_sig_bytes(png_ptr, 8);			// No sig
-				
+
 				png_read_info(png_ptr, info_ptr);
-				
+
 				png_uint_32 width, height;
 				int bit_depth, color_type, interlace_type, compression_type, filter_method;
 				png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, &interlace_type, &compression_type, &filter_method);
-				
+
 				int rowbytes = png_get_rowbytes(png_ptr, info_ptr);
-				
+
 				unsigned char * row_pointers[height];
 				spriteData[i] = new unsigned char [rowbytes*height];
 				for (int row = 0; row<height; row++)
 					row_pointers[row] = spriteData[i] + row*rowbytes;
-					
+
 				png_read_image(png_ptr, (png_byte **) row_pointers);
 				png_read_end(png_ptr, NULL);
 				png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
-				
+
 				picwidth = loadhere.sprites[i].width = width;
 				picheight = loadhere.sprites[i].height = height;
 				break;
@@ -136,7 +141,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 			loadhere.sprites[i].xhot = readSigned (bigDataFile);
 			loadhere.sprites[i].yhot = readSigned (bigDataFile);
 			break;
-			
+
 			default:
 			picwidth = (byte) fgetc (bigDataFile);
 			picheight = (byte) fgetc (bigDataFile);
@@ -144,7 +149,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 			loadhere.sprites[i].yhot = fgetc (bigDataFile);
 			break;
 		}
-		
+
 		if (totalwidth[numTextures] + picwidth < 2047) {
 			loadhere.sprites[i].tex_x = totalwidth[numTextures];
 			totalwidth[numTextures] += (loadhere.sprites[i].width = picwidth) + 1;
@@ -171,23 +176,23 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 				{
 					unsigned size = picwidth * picheight;
 					unsigned pip = 0;
-					
+
 					while (pip < size) {
 						byte col = fgetc (bigDataFile);
 						int looper;
-						
+
 						if (col > howmany) {
 							col -= howmany + 1;
 							looper = fgetc (bigDataFile) + 1;
 						} else looper = 1;
-						
+
 						while (looper --) {
 							data[pip ++] = col;
 						}
 					}
 				}
 				break;
-				
+
 				default:		// RAW DATA
 				fread (data, picwidth, picheight, bigDataFile);
 				break;
@@ -195,6 +200,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 		}
 	}
 	numTextures++;
+
 
 	if (! loadSaveMode) {
 		howmany = fgetc (bigDataFile);
@@ -211,7 +217,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 			loadhere.myPalette.pal[i + startIndex] = makeColour (loadhere.myPalette.r[i + startIndex], loadhere.myPalette.g[i + startIndex], loadhere.myPalette.b[i + startIndex]);
 		}
 	}
-	
+
 	loadhere.myPalette.originalRed = loadhere.myPalette.originalGreen = loadhere.myPalette.originalBlue = 255;
 
 	loadhere.myPalette.numTextures = numTextures;
@@ -221,7 +227,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 		if (! NPOT_textures) {
 			totalwidth[tex_num] = getNextPOT(totalwidth[tex_num]);
 			maxheight[tex_num] = getNextPOT(maxheight[tex_num]);
-		}		
+		}
 		tmp[tex_num] = new GLubyte [maxheight[tex_num]*totalwidth[tex_num]*4];
 		memset (tmp[tex_num], 0, maxheight[tex_num]*totalwidth[tex_num]*4);
 		if (isFont) {
@@ -269,7 +275,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 						target[2] = (GLubyte) 255;
 						if (s)
 							target[3] = (GLubyte) loadhere.myPalette.r[s];
-						/*else 
+						/*else
 							target[3] = (GLubyte) 0;*/
 					}
 				} else {
@@ -283,26 +289,28 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 		delete spriteData[i];
 	}
 	delete spriteData;
-	
+
+
+
 	glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
-	
+
 	glGenTextures (numTextures, loadhere.myPalette.tex_names);
 	if (isFont)
 		glGenTextures (numTextures, loadhere.myPalette.burnTex_names);
-	
+
 	for (tex_num = 0; tex_num < numTextures; tex_num++) {
-	
+
 		glBindTexture (GL_TEXTURE_2D, loadhere.myPalette.tex_names[tex_num]);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, totalwidth[tex_num], maxheight[tex_num], 0, GL_RGBA, GL_UNSIGNED_BYTE, tmp[tex_num]);
-	
+
 		//fprintf (stderr, "%s w:%d h:%d %d\n", resourceNameFromNum(fileNum), totalwidth[tex_num], maxheight[tex_num], loadhere.myPalette.tex_names[tex_num]);
 
 		delete tmp[tex_num];
-		
+
 		if (isFont) {
 			glBindTexture (GL_TEXTURE_2D, loadhere.myPalette.burnTex_names[tex_num]);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -310,83 +318,87 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, totalwidth[tex_num], maxheight[tex_num], 0, GL_RGBA, GL_UNSIGNED_BYTE, tmp2[tex_num]);
-						
+
 			delete tmp2[tex_num];
 		}
 	}
-		
+
 	finishAccess ();
 	setResourceForFatal (-1);
+
+	fprintf (stderr, "loadSpriteBank: Done. \n");
+	fflush (stderr);
+
 	return true;
 }
 
 void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette & fontPal) {
-	
+
 	float tx1 = (float)(single.tex_x + 0.5) / fontPal.tex_w[single.texNum];
 	float ty1 = 0.0;
 	float tx2 = (float)(single.tex_x + single.width - 0.5) / fontPal.tex_w[single.texNum];
 	float ty2 = (float)(single.height+2)/fontPal.tex_h[single.texNum];
 
 	int diffX = single.width+1;
-	int diffY = single.height+2;	
-	
+	int diffY = single.height+2;
+
 	x1 -= single.xhot;
 	y1 -= single.yhot-1;
-	
+
 	if (x1 < 0) diffX += x1;
 	if (y1 < 0) diffY += y1;
 	if (x1 + diffX > sceneWidth) diffX = sceneWidth - x1;
 	if (y1 + diffY > sceneHeight) diffY = sceneHeight - y1;
 	if (diffX < 0) return;
 	if (diffY < 0) return;
-	
+
 	glEnable (GL_TEXTURE_2D);
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // GL_MODULATE instead of decal mixes the colours!
 	glColor3ub (fontPal.originalRed, fontPal.originalGreen, fontPal.originalBlue);
 	glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
 	setPixelCoords (true);
-	
+
 	int xoffset = 0;
 	while (xoffset < diffX) {
 		int w = (diffX-xoffset < viewportWidth) ? diffX-xoffset : viewportWidth;
-		
+
 		int yoffset = 0;
 		while (yoffset < diffY) {
 			int h = (diffY-yoffset < viewportHeight) ? diffY-yoffset : viewportHeight;
-			
+
 			// Render the scene - first the old backdrop
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-			
+
 			glBegin(GL_QUADS);
 			glTexCoord2f(0.0, 0.0); glVertex3f(0.325-x1-xoffset, 0.325-y1+yoffset, 0.0);
 			glTexCoord2f(backdropTexW, 0.0); glVertex3f(sceneWidth-0.325-x1-xoffset, 0.325-y1+yoffset, 0.0);
 			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(sceneWidth-0.325-x1-xoffset, sceneHeight-0.325-y1+yoffset, 0.0);
 			glTexCoord2f(0.0, backdropTexH); glVertex3f(0.325-x1-xoffset, sceneHeight-0.325-y1+yoffset, 0.0);
-			glEnd();	
-			
+			glEnd();
+
 			// Then the sprite
 			glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
 			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			
-			glBegin(GL_QUADS);			
+
+			glBegin(GL_QUADS);
 			glTexCoord2f(tx1, ty1);	glVertex3f(0.325-xoffset, 0.325-yoffset, 0.0);
 			glTexCoord2f(tx2, ty1);	glVertex3f(single.width-0.325-xoffset,0.325 -yoffset, 0.0);
 			glTexCoord2f(tx2, ty2);	glVertex3f(single.width-0.325-xoffset, -yoffset+single.height-0.325, 0.0);
 			glTexCoord2f(tx1, ty2);	glVertex3f(0.325-xoffset, -yoffset+single.height-0.325, 0.0);
 			glEnd();
 			glDisable(GL_BLEND);
-	
+
 			// Copy Our ViewPort To The Texture
 			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
 			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, (x1<0) ? xoffset : x1+xoffset, (y1<0) ? yoffset: y1+yoffset, viewportOffsetX, viewportOffsetY, w, h);
-			
+
 			yoffset += viewportHeight;
-		}		
+		}
 		xoffset += viewportWidth;
 	}
 	setPixelCoords (false);
@@ -396,12 +408,12 @@ void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette
 	} else {
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	}			
-	
+	}
+
 }
 
 void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette & fontPal) {
-	
+
 	/*pasteSpriteToBackDrop (x1, y1, single, fontPal);
 	return;*/
 
@@ -409,78 +421,78 @@ void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette 
 	float ty1 = 0.0;
 	float tx2 = (float)(single.tex_x + single.width + 0.5) / fontPal.tex_w[single.texNum];
 	float ty2 = (float)(single.height+2)/fontPal.tex_h[single.texNum];
-	
+
 	int diffX = single.width+1;
-	int diffY = single.height+2;	
-	
+	int diffY = single.height+2;
+
 	x1 -= single.xhot;
 	y1 -= single.yhot-1;
-	
+
 	if (x1 < 0) diffX += x1;
 	if (y1 < 0) diffY += y1;
 	if (x1 + diffX > sceneWidth) diffX = sceneWidth - x1;
 	if (y1 + diffY > sceneHeight) diffY = sceneHeight - y1;
 	if (diffX < 0) return;
 	if (diffY < 0) return;
-	
+
 	setPixelCoords (true);
 	glEnable (GL_TEXTURE_2D);
 	glColor3ub (currentBurnR, currentBurnG, currentBurnB);
 //	glColor4ub (255, 0, 0, 255);
-	
+
 	int xoffset = 0;
 	while (xoffset < diffX) {
 		int w = (diffX-xoffset < viewportWidth) ? diffX-xoffset : viewportWidth;
-		
+
 		int yoffset = 0;
 		while (yoffset < diffY) {
 			int h = (diffY-yoffset < viewportHeight) ? diffY-yoffset : viewportHeight;
-			
+
 			// Render the scene - first the old backdrop
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-			
+
 			glBegin(GL_QUADS);
 			glTexCoord2f(0.0, 0.0); glVertex3f(0.325-x1-xoffset, 0.325-y1+yoffset, 0.0);
 			glTexCoord2f(backdropTexW, 0.0); glVertex3f(sceneWidth-0.325-x1-xoffset, 0.325-y1+yoffset, 0.0);
 			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(sceneWidth-0.325-x1-xoffset, sceneHeight-0.325-y1+yoffset, 0.0);
 			glTexCoord2f(0.0, backdropTexH); glVertex3f(0.325-x1-xoffset, sceneHeight-0.325-y1+yoffset, 0.0);
-			glEnd();	
-			
+			glEnd();
+
 			// Then the sprite
 			glEnable(GL_BLEND);
 			glBindTexture (GL_TEXTURE_2D, fontPal.burnTex_names[single.texNum]);
 			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // GL_MODULATE instead of decal mixes the colours!
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			
-			glBegin(GL_QUADS);			
+
+			glBegin(GL_QUADS);
 			glTexCoord2f(tx1, ty1);	glVertex3f(0.325-xoffset, 0.325-yoffset, 0.0);
 			glTexCoord2f(tx2, ty1);	glVertex3f(single.width-0.325-xoffset, 0.325-yoffset, 0.0);
 			glTexCoord2f(tx2, ty2);	glVertex3f(single.width-0.325-xoffset, single.height-0.325-yoffset, 0.0);
 			glTexCoord2f(tx1, ty2);	glVertex3f(0.325-xoffset, single.height-0.325-yoffset, 0.0);
 			glEnd();
 			glDisable(GL_BLEND);
-			
+
 			// Copy Our ViewPort To The Texture
 			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
 			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, (x1<0) ? xoffset : x1+xoffset, (y1<0) ? yoffset: y1+yoffset, viewportOffsetX, viewportOffsetY, w, h);
-			
+
 			yoffset += viewportHeight;
-		}		
+		}
 		xoffset += viewportWidth;
 	}
-	setPixelCoords (false);	
+	setPixelCoords (false);
 	if (maxAntiAliasSettings.useMe) {
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	} else {
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	}			
-	
+	}
+
 }
 
 extern GLuint backdropTextureName;
@@ -491,22 +503,22 @@ void fontSprite (int x, int y, sprite & single, const spritePalette & fontPal) {
 	float ty1 = 0.0;
 	float tx2 = (float)(single.tex_x + single.width+0.5) / fontPal.tex_w[single.texNum];
 	float ty2 = (float)(single.height+2)/fontPal.tex_h[single.texNum];
-	
+
 	float x1 = x - single.xhot-0.5;
 	float y1 = y - single.yhot-0.5;
 	float x2 = x1 + single.width+1.0;
 	float y2 = y1 + single.height+1.0;
-	
+
 	glEnable (GL_TEXTURE_2D);
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // GL_MODULATE instead of decal mixes the colours!
 	glColor3ub (fontPal.originalRed, fontPal.originalGreen, fontPal.originalBlue);
 	glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
-	
+
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	
+
 	glBegin(GL_QUADS);
-	
+
 	glTexCoord2f(tx1, ty1);	glVertex3f(x1, y1, 0.0);
 	glTexCoord2f(tx2, ty1);	glVertex3f(x2, y1, 0.0);
 	glTexCoord2f(tx2, ty2);	glVertex3f(x2, y2, 0.0);
@@ -522,30 +534,30 @@ void flipFontSprite (int x, int y, sprite & single, const spritePalette & fontPa
 	float ty1 = 0.0;
 	float tx2 = (float)(single.tex_x + single.width+1.0) / fontPal.tex_w[single.texNum];
 	float ty2 = (float)(single.height+2)/fontPal.tex_h[single.texNum];
-	
+
 	int x1 = x - single.xhot-0.5;
 	int y1 = y - single.yhot-0.5;
 	int x2 = x1 + single.width+1.0;
 	int y2 = y1 + single.height+1.0;
-	
+
 	glEnable (GL_TEXTURE_2D);
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // GL_MODULATE instead of decal mixes the colours!
 	glColor3ub (fontPal.originalRed, fontPal.originalGreen, fontPal.originalBlue);
 	glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
-	
+
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	
+
 	glBegin(GL_QUADS);
-	
+
 	glTexCoord2f(tx1, ty1);	glVertex3f(x2, y1, 0.0);
 	glTexCoord2f(tx2, ty1);	glVertex3f(x1, y1, 0.0);
 	glTexCoord2f(tx2, ty2);	glVertex3f(x1, y2, 0.0);
 	glTexCoord2f(tx1, ty2);	glVertex3f(x2, y2, 0.0);
-	
+
 	glEnd();
 	glDisable(GL_BLEND);
-	
+
 }
 
 
@@ -681,19 +693,19 @@ bool checkColourChange (bool reset);
 
 bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, float scale, unsigned int drawMode, int floaty, bool useZB, bool light, bool mirror, bool boundingBoxCollision, aaSettingsStruct * aa) {
 	if (scale <= 0.05) return false;
-		
+
 	float tx1 = (float)(single.tex_x - 0.5) / fontPal.tex_w[single.texNum];
 	float ty1 = 0.0;
 	float tx2 = (float)(single.tex_x + single.width + 0.5) / fontPal.tex_w[single.texNum];
 	float ty2 = (float)(single.height+2)/fontPal.tex_h[single.texNum];
-	
+
 	float diffX = (float)(single.width+1) * scale + 0.5;
 	float diffY = (float)(single.height+2) * scale + 0.5;
 	float x1 = (float) x - (mirror ? (single.width - (single.xhot + 1.5)) : single.xhot+0.5) * scale - 0.325;
 	float y1 = (float) y - (single.yhot +1 - floaty) * scale - 0.325;
 	float x2 = x1 + diffX + 0.325;
 	float y2 = y1 + diffY + 0.825;
-	
+
 	double z;
 
 	if (useZB && zBuffer.numPanels) {
@@ -706,9 +718,9 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 		}
 		z = 0.999 - (double) i * (1.0 / 128.0);
 	} else {
-		z = -0.5;	
+		z = -0.5;
 	}
-	
+
 	if (light && lightMap.data) {
 		if (lightMapMode == LIGHTMAPMODE_HOTSPOT) {
 			int lx=x+cameraX;
@@ -736,21 +748,21 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 	} else {
 		curLight[0] = curLight[1] = curLight[2] = 255;
 	}
-	
-	
+
+
 	glEnable (GL_TEXTURE_2D);
-	
+
 	setDrawMode (drawMode);
-			
+
 	glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
 	if (aa->useMe && maxAntiAliasSettings.useMe)
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	else
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	
+
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	
+
 	glBegin(GL_QUADS);
 
 	float ltx1, ltx2, lty1, lty2;
@@ -765,8 +777,8 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 		lty1 = (float) (y1+cameraY) / sceneHeight;
 		lty2 = (float) (y2+cameraY) / sceneHeight;
 	}
-	
-	
+
+
 	if (! mirror) {
 		glTexCoord2f(tx1, ty1); glMultiTexCoord2f(GL_TEXTURE1, ltx1, lty1); glVertex3f(x1, y1, z);
 		glTexCoord2f(tx2, ty1);	glMultiTexCoord2f(GL_TEXTURE1, ltx2, lty1); glVertex3f(x2, y1, z);
@@ -781,15 +793,15 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 
 	glEnd();
 	glDisable(GL_BLEND);
-	
+
 	if (light && lightMapMode == LIGHTMAPMODE_PIXEL) {
 		glActiveTexture(GL_TEXTURE1);
 		glDisable(GL_TEXTURE_2D);
 		glActiveTexture(GL_TEXTURE0);
 	}
 	glDisable(GL_COLOR_SUM);
-	
-	// Are we pointing at the sprite?	
+
+	// Are we pointing at the sprite?
 	if (input.mouseX >= x1 && input.mouseX <= x2 && input.mouseY >= y1 && input.mouseY <= y2) {
 		if (boundingBoxCollision) return true;
 		return checkColourChange (false);
@@ -797,15 +809,15 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 	return false;
 }
 
-// Paste a scaled sprite onto the backdrop 
+// Paste a scaled sprite onto the backdrop
 void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, float scale, unsigned int drawMode, int floaty, bool useZB, bool light, int camX, int camY, bool mirror, aaSettingsStruct * aa) {
 	if (scale <= 0.05) return;
-		
+
 	float tx1 = (float)(single.tex_x - 0.5) / fontPal.tex_w[single.texNum];
 	float ty1 = 0.0;
 	float tx2 = (float)(single.tex_x + single.width + 0.5) / fontPal.tex_w[single.texNum];
 	float ty2 = (float)(single.height+2)/fontPal.tex_h[single.texNum];
-	
+
 	float diffX = (float)(single.width+1) * scale + 0.5;
 	float diffY = (float)(single.height+2) * scale + 0.5;
 	float spriteWidth = diffX;
@@ -820,7 +832,7 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 	if (diffY < 0) return;
 
 	double z;
-	
+
 	if (useZB && zBuffer.numPanels) {
 		int i;
 		for (i = 1; i<zBuffer.numPanels; i++) {
@@ -831,9 +843,9 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 		}
 		z = 0.999 - (double) i * (1.0 / 128.0);
 	} else {
-		z = -0.5;	
+		z = -0.5;
 	}
-	
+
 	if (light && lightMap.data) {
 		if (lightMapMode == LIGHTMAPMODE_HOTSPOT) {
 			int lx=x+cameraX;
@@ -872,17 +884,17 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 		lty1 = (float) y1 / sceneHeight;
 		lty2 = (float) (y1+spriteHeight) / sceneHeight;
 	}
-	
+
 	glEnable (GL_TEXTURE_2D);
 	setPixelCoords (true);
 	int xoffset = 0;
 	while (xoffset < diffX) {
 		int w = (diffX-xoffset < viewportWidth) ? diffX-xoffset : viewportWidth;
-		
+
 		int yoffset = 0;
 		while (yoffset < diffY) {
 			int h = (diffY-yoffset < viewportHeight) ? diffY-yoffset : viewportHeight;
-			
+
 			if (useZB) {
 				glDepthMask (GL_TRUE);
 				glClear(GL_DEPTH_BUFFER_BIT);
@@ -891,7 +903,7 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 				glDepthMask (GL_FALSE);
 				glEnable(GL_DEPTH_TEST);
 			}
-			
+
 			// Render the scene - first the old backdrop
 			glTexEnvi (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
@@ -902,19 +914,19 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 				glDisable(GL_TEXTURE_2D);
 				glActiveTexture(GL_TEXTURE0);
 			}
-			
+
 			glBegin(GL_QUADS);
 			glTexCoord2f(0.0, 0.0); glVertex3f(0.325-x1-xoffset, 0.325-y1+yoffset, 0.0);
 			glTexCoord2f(backdropTexW, 0.0); glVertex3f(sceneWidth-0.325-x1-xoffset, 0.325-y1+yoffset, 0.0);
 			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(sceneWidth-0.325-x1-xoffset, sceneHeight-0.325-y1+yoffset, 0.0);
 			glTexCoord2f(0.0, backdropTexH); glVertex3f(0.325-x1-xoffset, sceneHeight-0.325-y1+yoffset, 0.0);
-			glEnd();	
+			glEnd();
 
 			// Then the sprite
-			setDrawMode (drawMode);			
+			setDrawMode (drawMode);
 			glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			
+
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			if (light && lightMapMode == LIGHTMAPMODE_PIXEL) {
@@ -922,8 +934,8 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 				glEnable(GL_TEXTURE_2D);
 				glActiveTexture(GL_TEXTURE0);
 			}
-			
-			glBegin(GL_QUADS);			
+
+			glBegin(GL_QUADS);
 			if (! mirror) {
 				glTexCoord2f(tx2, ty1); glMultiTexCoord2f(GL_TEXTURE1, ltx2, lty1); 	glVertex3f(spriteWidth-0.325-xoffset, 0.325-yoffset, z);
 				glTexCoord2f(tx1, ty1); glMultiTexCoord2f(GL_TEXTURE1, ltx1, lty1); 	glVertex3f(0.325-xoffset, 0.325-yoffset, z);
@@ -938,16 +950,16 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 			glEnd();
 			glDisable(GL_BLEND);
 			glDisable(GL_COLOR_SUM);
-			
+
 			// Copy Our ViewPort To The Texture
 			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
 			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, (x1<0) ? xoffset: x1+xoffset, (y1<0) ? yoffset: y1+yoffset, (x1<0) ?viewportOffsetX-x1:viewportOffsetX, (y1<0) ?viewportOffsetY-y1:viewportOffsetY, w, h);
-			
+
 			yoffset += viewportHeight;
-		}		
+		}
 		xoffset += viewportWidth;
 	}
-	
+
 	setPixelCoords (false);
 	if (maxAntiAliasSettings.useMe) {
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -955,12 +967,12 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 	} else {
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	}			
-	
+	}
+
 	if (light && lightMapMode == LIGHTMAPMODE_PIXEL) {
 		glActiveTexture(GL_TEXTURE1);
 		glDisable(GL_TEXTURE_2D);
 		glActiveTexture(GL_TEXTURE0);
 	}
-		
+
 }

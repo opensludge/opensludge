@@ -4,7 +4,7 @@ struct frozenStuffStruct {
 	GLubyte * backdropTexture;
 	GLuint backdropTextureName;
 	GLuint lightMapTextureName;
-	GLubyte * lightMapTexture;	
+	GLubyte * lightMapTexture;
 	GLubyte * zBufferImage;
 	int zPanels;
 	parallaxLayer * parallaxStuff;

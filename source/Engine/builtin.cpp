@@ -149,7 +149,7 @@ static builtReturn sayCore (int numParams, loadedFunction * fun, bool sayIt)
 		if (! getValueType (fileNum, SVT_FILE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 		trimStack (fun -> stack);
 		// No break; here
-		
+
 		case 2:
 		newText = getTextFromAnyVar (fun -> stack -> thisVar);
 		if (! newText) return BR_NOCOMMENT;
@@ -216,7 +216,7 @@ builtIn(setCursor)
 }
 
 builtIn(getMouseX)
-{	
+{
 	 UNUSEDALL
 	setVariable (fun -> reg, SVT_INT, input.mouseX + cameraX);
 	return BR_CONTINUE;
@@ -257,7 +257,7 @@ builtIn(getMatchingFiles)
 				if (! newText) return BR_NOCOMMENT;
 				trimStack (fun -> stack);
 				unlinkVar (fun -> reg);
-	
+
 				// Return value
 				fun -> reg.varType = SVT_STACK;
 				fun -> reg.varData.theStack = new stackHandler;
@@ -268,33 +268,33 @@ builtIn(getMatchingFiles)
 				if (! getSavedGamesStack (fun -> reg.varData.theStack, newText)) return BR_NOCOMMENT;
 				delete newText;
 			return BR_CONTINUE;
-}			
+}
 
 builtIn(saveGame)
 {
 	 UNUSEDALL
-				
+
 				if (frozenStuff) {
 					fatal ("Can't save game state while the engine is frozen");
 				}
-				
+
 				loadNow = getTextFromAnyVar (fun -> stack -> thisVar);
 				trimStack (fun -> stack);
 
 				char * aaaaa = encodeFilename (loadNow);
 				delete loadNow;
 				if (failSecurityCheck (aaaaa)) return BR_NOCOMMENT;		// Won't fail if encoded, how cool is that? OK, not very.
-				
+
 				loadNow = joinStrings (":", aaaaa);
 				delete aaaaa;
-				
+
 				setVariable (fun -> reg, SVT_INT, 0);
 				saverFunc = fun;
 				return BR_KEEP_AND_PAUSE;
 }
 
 builtIn(fileExists)
-{	
+{
 	 UNUSEDALL
 				loadNow = getTextFromAnyVar (fun -> stack -> thisVar);
 				trimStack (fun -> stack);
@@ -321,7 +321,7 @@ builtIn(loadGame)
 				if (frozenStuff) {
 					fatal ("Can't load a saved game while the engine is frozen");
 				}
-				
+
 				if (failSecurityCheck (loadNow)) return BR_NOCOMMENT;
 				FILE * fp = fopen (loadNow, "rb");
 				if (fp) {
@@ -336,7 +336,7 @@ builtIn(loadGame)
 			//-----------------------------
 			// BACKGROUND IMAGE - Painting
 			//-----------------------------
-	
+
 builtIn(blankScreen)
 {
 	 UNUSEDALL
@@ -345,7 +345,7 @@ builtIn(blankScreen)
 }
 
 builtIn(blankArea)
-{	
+{
 	 UNUSEDALL
 				int x1, y1, x2, y2;
 				if (! getValueType (y2, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
@@ -366,7 +366,7 @@ builtIn(darkBackground)
 			darkScreen ();
 //			blurScreen ();
 			return BR_CONTINUE;
-}	
+}
 
 builtIn(addOverlay)
 {
@@ -407,15 +407,15 @@ builtIn(pasteImage)
 				personaAnimation * pp = getAnimationFromVar (fun -> stack -> thisVar);
 				trimStack (fun -> stack);
 				if (pp == NULL) return BR_CONTINUE;
-	
+
 				pasteCursor (x, y, pp);
 				return BR_CONTINUE;
 			}
-	
+
 			//------------------------------
 			// BACKGROUND IMAGE - Scrolling
 			//------------------------------
-	
+
 builtIn(setSceneDimensions)
 {
 	 UNUSEDALL
@@ -428,10 +428,10 @@ builtIn(setSceneDimensions)
 					blankScreen (0, 0, x, y);
 					return BR_CONTINUE;
 				}
-				fatal ("Out of memory creating new backdrop.");			
+				fatal ("Out of memory creating new backdrop.");
 				return BR_NOCOMMENT;
 			}
-	
+
 builtIn(aimCamera)
 			{
 	 UNUSEDALL
@@ -439,21 +439,21 @@ builtIn(aimCamera)
 				trimStack (fun -> stack);
 				if (! getValueType (cameraX, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 				trimStack (fun -> stack);
-				
+
 				cameraX -= winWidth >> 1;
 				cameraY -= winHeight >> 1;
-				
+
 				if (cameraX < 0) cameraX = 0;
 				else if (cameraX > sceneWidth - winWidth) cameraX = sceneWidth - winWidth;
 				if (cameraY < 0) cameraY = 0;
 				else if (cameraY > sceneHeight - winHeight) cameraY = sceneHeight - winHeight;
 				return BR_CONTINUE;
 			}
-			
+
 			//----------------------
 			// VARIABLES - Anything
 			//----------------------
-	
+
 			builtIn(pickOne)
 			{
 	 UNUSEDALL
@@ -462,7 +462,7 @@ builtIn(aimCamera)
 					return BR_NOCOMMENT;
 				}
 				int i = rand() % numParams;
-	
+
 				// Return value
 				while (numParams --) {
 					if (i == numParams) copyVariable (fun -> stack -> thisVar, fun -> reg);
@@ -475,7 +475,7 @@ builtIn(aimCamera)
 			//---------------------
 			// VARIABLES - Strings
 			//---------------------
-	
+
 builtIn(substring)
 {
 	 UNUSEDALL
@@ -503,7 +503,7 @@ builtIn(substring)
 	}
 
 	for (a = 0; a < length; a ++) newString[a] = wholeString[start ++];
-	
+
 	newString[length] = NULL;
 	makeTextVar (fun -> reg, newString);
 	delete newString;
@@ -512,7 +512,7 @@ builtIn(substring)
 }
 
 builtIn(stringLength)
-{	
+{
 	 UNUSEDALL
 	char * newText = getTextFromAnyVar (fun -> stack -> thisVar);
 	trimStack (fun -> stack);
@@ -525,7 +525,7 @@ builtIn(newStack)
 {
 	 UNUSEDALL
 			unlinkVar (fun -> reg);
-	
+
 			// Return value
 			fun -> reg.varType = SVT_STACK;
 			fun -> reg.varData.theStack = new stackHandler;
@@ -544,7 +544,7 @@ builtIn(newStack)
 }
 
 // wait is exactly the same function, but limited to 2 parameters
-#define builtIn_wait builtIn_newStack	
+#define builtIn_wait builtIn_newStack
 
 builtIn(stackSize)
 {
@@ -567,7 +567,7 @@ builtIn(stackSize)
 }
 
 builtIn(copyStack)
-{	
+{
 	 UNUSEDALL
 			if (fun -> stack -> thisVar.varType != SVT_STACK) {
 				fatal ("Parameter isn't a stack.");
@@ -589,10 +589,10 @@ builtIn(pushToStack)
 
 	if (! addVarToStack (fun -> stack -> thisVar, fun -> stack -> next -> thisVar.varData.theStack -> first))
 		return BR_NOCOMMENT;
-		
+
 	if (fun -> stack -> next -> thisVar.varData.theStack -> first -> next == NULL)
 		fun -> stack -> next -> thisVar.varData.theStack -> last = fun -> stack -> next -> thisVar.varData.theStack -> first;
-	
+
 	trimStack (fun -> stack);
 	trimStack (fun -> stack);
 	return BR_CONTINUE;
@@ -610,7 +610,7 @@ builtIn(enqueue)
 	{
 		if (! addVarToStack (fun -> stack -> thisVar, fun -> stack -> next -> thisVar.varData.theStack -> first))
 				return BR_NOCOMMENT;
-			
+
 		fun -> stack -> next -> thisVar.varData.theStack -> last = fun -> stack -> next -> thisVar.varData.theStack -> first;
 	}
 	else
@@ -620,7 +620,7 @@ builtIn(enqueue)
 				return BR_NOCOMMENT;
 		fun -> stack -> next -> thisVar.varData.theStack -> last = fun -> stack -> next -> thisVar.varData.theStack -> last -> next;
 	}
-	
+
 	trimStack (fun -> stack);
 	trimStack (fun -> stack);
 	return BR_CONTINUE;
@@ -643,7 +643,7 @@ builtIn(deleteFromStack)
 	fun->stack->next->thisVar.varData.theStack->last = stackFindLast (fun->stack->next->thisVar.varData.theStack->first);
 
 	trimStack (fun -> stack);
-	trimStack (fun -> stack);				
+	trimStack (fun -> stack);
 	return BR_CONTINUE;
 }
 
@@ -664,7 +664,7 @@ builtIn(deleteAllFromStack)
 	fun->stack->next->thisVar.varData.theStack->last = stackFindLast (fun->stack->next->thisVar.varData.theStack->first);
 
 	trimStack (fun -> stack);
-	trimStack (fun -> stack);				
+	trimStack (fun -> stack);
 	return BR_CONTINUE;
 }
 
@@ -703,7 +703,7 @@ builtIn(peekStart)
 	copyVariable (fun -> stack -> thisVar.varData.theStack -> first -> thisVar, fun -> reg);
 	trimStack (fun -> stack);
 	return BR_CONTINUE;
-}	
+}
 
 builtIn(peekEnd)
 {
@@ -716,21 +716,21 @@ builtIn(peekEnd)
 					fatal ("The stack's empty.");
 					return BR_NOCOMMENT;
 				}
-	
+
 				// Return value
 				copyVariable (fun -> stack -> thisVar.varData.theStack -> last -> thisVar, fun -> reg);
 				trimStack (fun -> stack);
 				return BR_CONTINUE;
 }
-			
+
 builtIn(random)
 {
 	 UNUSEDALL
 				int num;
-				
+
 				if (! getValueType (num, SVT_INT, fun -> stack -> thisVar))
 					return BR_NOCOMMENT;
-					
+
 				trimStack (fun -> stack);
 				if (num <= 0) num = 1;
 				setVariable (fun -> reg, SVT_INT, rand() % num);
@@ -749,7 +749,7 @@ static bool getRGBParams(int & red, int & green, int & blue, loadedFunction * fu
 }
 
 builtIn (setStatusColour)
-{	
+{
 	 UNUSEDALL
 	int red, green, blue;
 
@@ -761,7 +761,7 @@ builtIn (setStatusColour)
 }
 
 builtIn (setLitStatusColour)
-{	
+{
 	 UNUSEDALL
 	int red, green, blue;
 
@@ -773,7 +773,7 @@ builtIn (setLitStatusColour)
 }
 
 builtIn (setPasteColour)
-{	
+{
 	 UNUSEDALL
 	int red, green, blue;
 
@@ -785,7 +785,7 @@ builtIn (setPasteColour)
 }
 
 builtIn (setBlankColour)
-{	
+{
 	 UNUSEDALL
 	int red, green, blue;
 
@@ -798,7 +798,7 @@ builtIn (setBlankColour)
 }
 
 builtIn (setBurnColour)
-{	
+{
 	 UNUSEDALL
 	int red, green, blue;
 
@@ -811,12 +811,13 @@ builtIn (setBurnColour)
 	setVariable (fun -> reg, SVT_INT, 1);
 	return BR_CONTINUE;
 }
-			
+
 
 builtIn(setFont)
 {
 	 UNUSEDALL
 				int fileNumber, newHeight;
+	fprintf (stderr, "setFont... \n");
 				if (! getValueType (newHeight, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 //				newDebug ("  Height:", newHeight);
 				trimStack (fun -> stack);
@@ -830,9 +831,11 @@ builtIn(setFont)
 				if (! loadFont (fileNumber, newText, newHeight)) return BR_NOCOMMENT;
 //				newDebug ("  Done!");
 				delete newText;
+
+	fprintf (stderr, "setFont: Done \n");
 				return BR_CONTINUE;
 }
-			
+
 builtIn(inFont)
 {
 	 UNUSEDALL
@@ -855,13 +858,13 @@ builtIn(pasteString)
 				trimStack (fun -> stack);
 				if (! getValueType (x, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 				trimStack (fun -> stack);
-				if (x == IN_THE_CENTRE) x = (winWidth - stringWidth (newText)) >> 1; 
+				if (x == IN_THE_CENTRE) x = (winWidth - stringWidth (newText)) >> 1;
 				fixFont (pastePalette);
 				pasteStringToBackdrop (newText, x, y, pastePalette);
 				delete newText;
 				return BR_CONTINUE;
-}	
-		
+}
+
 builtIn(anim)
 {
 	 UNUSEDALL
@@ -885,10 +888,10 @@ builtIn(anim)
 
 	// Return value
 	newAnimationVariable (fun -> reg, ba);
-	
+
 	return BR_CONTINUE;
 }
-		
+
 builtIn(costume)
 {
 	UNUSEDALL
@@ -911,7 +914,7 @@ builtIn(costume)
 	newCostumeVariable (fun -> reg, newPersona);
 	return BR_CONTINUE;
 }
-		
+
 builtIn(launch)
 {
 	UNUSEDALL
@@ -927,7 +930,7 @@ builtIn(launch)
 		newText[2] == 't' &&
 		newText[3] == 'p' &&
 		newText[4] == ':') {
-		
+
 		// IT'S A WEBSITE!
 		launchMe = newText;
 //					fatal (launchMe);
@@ -960,7 +963,7 @@ builtIn(launch)
 	setGraphicsWindow(false);
 	setVariable (fun -> reg, SVT_INT, 1);
 	launchResult = &fun->reg;
-	
+
 	return BR_KEEP_AND_PAUSE;
 }
 
@@ -1014,9 +1017,9 @@ builtIn(_rem_movieStart)
 }
 
 builtIn(_rem_movieAbort)
-{			
+{
 	UNUSEDALL
-	setVariable (fun -> reg, SVT_INT, 0);				
+	setVariable (fun -> reg, SVT_INT, 0);
 	return BR_CONTINUE;
 }
 
@@ -1059,7 +1062,7 @@ builtIn(startMusic)
 	return BR_CONTINUE;
 }
 
-builtIn(stopMusic)	
+builtIn(stopMusic)
 {
 	UNUSEDALL
 	int v;
@@ -1081,7 +1084,7 @@ builtIn(setMusicVolume)
 	return BR_CONTINUE;
 }
 
-builtIn(setDefaultMusicVolume)	
+builtIn(setDefaultMusicVolume)
 {
 	UNUSEDALL
 	int v;
@@ -1090,7 +1093,7 @@ builtIn(setDefaultMusicVolume)
 	setDefaultMusicVolume (v);
 	return BR_CONTINUE;
 }
-	
+
 builtIn(playSound)
 {
 	UNUSEDALL
@@ -1119,7 +1122,7 @@ builtIn(stopSound)
 				huntKillSound (v);
 				return BR_CONTINUE;
 			}
-			
+
 builtIn(setDefaultSoundVolume)
 			{
 	UNUSEDALL
@@ -1129,7 +1132,7 @@ builtIn(setDefaultSoundVolume)
 				setDefaultSoundVolume (v);
 				return BR_CONTINUE;
 			}
-			
+
 builtIn(setSoundVolume)
 			{
 	UNUSEDALL
@@ -1142,7 +1145,7 @@ builtIn(setSoundVolume)
 				return BR_CONTINUE;
 			}
 
-	
+
 builtIn(setSoundLoopPoints)
 			{
 	UNUSEDALL
@@ -1156,11 +1159,11 @@ builtIn(setSoundLoopPoints)
 				setSoundLoop (musChan, theStart, theEnd);
 				return BR_CONTINUE;
 			}
-	
+
 			//-------------------------
 			// EXTRA ROOM BITS - Floor
 			//-------------------------
-			
+
 builtIn(setFloor)
 {
 	UNUSEDALL
@@ -1177,7 +1180,7 @@ builtIn(setFloor)
 }
 
 builtIn(showFloor)
-{	
+{
 	UNUSEDALL
 			drawFloor ();
 			return BR_CONTINUE;
@@ -1188,7 +1191,7 @@ builtIn(showFloor)
 			//----------------------------
 
 builtIn(setZBuffer)
-{	
+{
 	UNUSEDALL
 			if (fun -> stack -> thisVar.varType == SVT_FILE) {
 				int v;
@@ -1199,12 +1202,12 @@ builtIn(setZBuffer)
 				trimStack (fun -> stack);
 				killZBuffer ();
 			}
-			return BR_CONTINUE;	
+			return BR_CONTINUE;
 }
-	
+
 				//-----------------------------------------
 			// OBJECTS - Screen regions AND characters
-			//-----------------------------------------		
+			//-----------------------------------------
 
 builtIn(setSpeechMode)
 {
@@ -1222,7 +1225,7 @@ builtIn(somethingSpeaking)
 {
 	UNUSEDALL
 				int i = isThereAnySpeechGoingOn ();
-				if (i == -1) {		
+				if (i == -1) {
 					setVariable (fun -> reg, SVT_INT, 0);
 				} else {
 					setVariable (fun -> reg, SVT_OBJTYPE, i);
@@ -1231,7 +1234,7 @@ builtIn(somethingSpeaking)
 }
 
 builtIn(skipSpeech)
-{	
+{
 	UNUSEDALL
 			killSpeechTimers ();
 			return BR_CONTINUE;
@@ -1250,7 +1253,7 @@ builtIn(getOverObject)
 }
 
 builtIn(rename)
-{	
+{
 	UNUSEDALL
 				char * newText = getTextFromAnyVar (fun -> stack -> thisVar);
 				int objT;
@@ -1263,14 +1266,14 @@ builtIn(rename)
 				o -> screenName = newText;
 				return BR_CONTINUE;
 }
-			
+
 builtIn (getObjectX)
 {
 	UNUSEDALL
 	int objectNumber;
 	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 	trimStack (fun -> stack);
-	
+
 	onScreenPerson * pers = findPerson (objectNumber);
 	if (pers) {
 		setVariable (fun -> reg, SVT_INT, pers -> x);
@@ -1291,7 +1294,7 @@ builtIn (getObjectY)
 	int objectNumber;
 	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 	trimStack (fun -> stack);
-	
+
 	onScreenPerson * pers = findPerson (objectNumber);
 	if (pers) {
 		setVariable (fun -> reg, SVT_INT, pers -> y);
@@ -1305,7 +1308,7 @@ builtIn (getObjectY)
 	}
 	return BR_CONTINUE;
 }
-			
+
 
 builtIn(addScreenRegion)
 {
@@ -1341,27 +1344,27 @@ builtIn(removeScreenRegion)
 				removeScreenRegion (objectNumber);
 				return BR_CONTINUE;
 }
-	
+
 builtIn(showBoxes)
 {
 			UNUSEDALL
 	showBoxes ();
 			return BR_CONTINUE;
 }
-	
+
 builtIn(removeAllScreenRegions)
 {
 			UNUSEDALL
 	killAllRegions ();
 			return BR_CONTINUE;
-}	
+}
 
 builtIn(addCharacter)
 {
 	UNUSEDALL
 				persona * p;
 				int x, y, objectNumber;
-	
+
 				p = getCostumeFromVar (fun -> stack -> thisVar);
 				if (p == NULL) return BR_NOCOMMENT;
 
@@ -1377,7 +1380,7 @@ builtIn(addCharacter)
 }
 
 builtIn(hideCharacter)
-{	
+{
 		UNUSEDALL
 int objectNumber;
 	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
@@ -1385,9 +1388,9 @@ int objectNumber;
 	setShown (false, objectNumber);
 	return BR_CONTINUE;
 }
-	
+
 builtIn(showCharacter)
-{	
+{
 	UNUSEDALL
 	int objectNumber;
 	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
@@ -1397,12 +1400,12 @@ builtIn(showCharacter)
 }
 
 builtIn(removeAllCharacters)
-{	
+{
 	UNUSEDALL
 			killSpeechTimers ();
 			killMostPeople ();
 			return BR_CONTINUE;
-}	
+}
 
 builtIn(setCharacterDrawMode)
 {
@@ -1434,19 +1437,19 @@ builtIn(stopCharacter)
 				int obj;
 				if (! getValueType (obj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 				trimStack (fun -> stack);
-	
+
 				// Return value
 				setVariable (fun -> reg, SVT_INT, stopPerson (obj));
 				return BR_CONTINUE;
 }
 
 builtIn(pasteCharacter)
-{	
+{
 	UNUSEDALL
 				int obj;
 				if (! getValueType (obj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 				trimStack (fun -> stack);
-	
+
 				onScreenPerson * thisPerson = findPerson (obj);
 				if (thisPerson) {
 					personaAnimation * myAnim;
@@ -1465,7 +1468,7 @@ builtIn(pasteCharacter)
 				}
 				return BR_CONTINUE;
 }
-	
+
 builtIn(animate)
 {
 	UNUSEDALL
@@ -1474,8 +1477,8 @@ builtIn(animate)
 				if (pp == NULL) return BR_NOCOMMENT;
 				trimStack (fun -> stack);
 				if (! getValueType (obj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
-				trimStack (fun -> stack);		
-				animatePerson (obj, pp);		
+				trimStack (fun -> stack);
+				animatePerson (obj, pp);
 				setVariable (fun -> reg, SVT_INT, timeForAnim (pp));
 				return BR_CONTINUE;
 }
@@ -1492,7 +1495,7 @@ builtIn(setCostume)
 				animatePerson (obj, pp);
 				return BR_CONTINUE;
 }
-	
+
 builtIn(floatCharacter)
 			{
 	UNUSEDALL
@@ -1516,7 +1519,7 @@ builtIn(setCharacterWalkSpeed)
 				setVariable (fun -> reg, SVT_INT, setCharacterWalkSpeed (di, obj));
 				return BR_CONTINUE;
 			}
-	
+
 builtIn(turnCharacter)
 {
 	UNUSEDALL
@@ -1540,7 +1543,7 @@ builtIn(setCharacterExtra)
 				setVariable (fun -> reg, SVT_INT, setPersonExtra (obj, di));
 				return BR_CONTINUE;
 			}
-	
+
 builtIn(removeCharacter)
 			{
 	UNUSEDALL
@@ -1550,21 +1553,21 @@ builtIn(removeCharacter)
 				removeOneCharacter (objectNumber);
 				return BR_CONTINUE;
 			}
-	
+
 static builtReturn moveChr(int numParams, loadedFunction * fun, bool force, bool immediate)
 {
 			switch (numParams) {
 				case 3:
 				{
 					int x, y, objectNumber;
-	
+
 					if (! getValueType (y, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 					trimStack (fun -> stack);
 					if (! getValueType (x, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 					trimStack (fun -> stack);
 					if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 					trimStack (fun -> stack);
-	
+
 					if (force) {
 						if (forceWalkingPerson (x, y, objectNumber, fun, -1)) return BR_PAUSE;
 					} else if (immediate) {
@@ -1574,23 +1577,23 @@ static builtReturn moveChr(int numParams, loadedFunction * fun, bool force, bool
 					}
 					return BR_CONTINUE;
 				}
-	
+
 				case 2:
 				{
 					int toObj, objectNumber;
 					screenRegion * reggie;
-	
+
 					if (! getValueType (toObj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 					trimStack (fun -> stack);
 					if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 					trimStack (fun -> stack);
 					reggie = getRegionForObject (toObj);
 					if (reggie == NULL) return BR_CONTINUE;
-	
+
 					if (force)
 					{
 						if (forceWalkingPerson (reggie -> sX, reggie -> sY,	objectNumber, fun, reggie -> di)) return BR_PAUSE;
-					} 
+					}
 					else if (immediate)
 					{
 						jumpPerson (reggie -> sX, reggie -> sY,	objectNumber);
@@ -1601,7 +1604,7 @@ static builtReturn moveChr(int numParams, loadedFunction * fun, bool force, bool
 					}
 					return BR_CONTINUE;
 				}
-	
+
 				default:
 				fatal ("Built-in function must have either 2 or 3 parameters.");
 				return BR_NOCOMMENT;
@@ -1645,7 +1648,7 @@ builtIn(addStatus)
 	UNUSEDALL
 			addStatusBar ();
 			return BR_CONTINUE;
-}	
+}
 
 builtIn(statusText)
 {
@@ -1658,7 +1661,7 @@ builtIn(statusText)
 				return BR_CONTINUE;
 			}
 
-builtIn(lightStatus)	
+builtIn(lightStatus)
 			{
 	UNUSEDALL
 				int val;
@@ -1688,20 +1691,20 @@ builtIn(alignStatus)
 				trimStack (fun -> stack);
 				nowStatus -> alignStatus = (short) val;
 				return BR_CONTINUE;
-}		
-	
+}
+
 static bool getFuncNumForCallback(int numParams, loadedFunction * fun, int & functionNum)
 {
 				switch (numParams) {
 					case 0:
 					functionNum = 0;
 					break;
-	
+
 					case 1:
 					if (! getValueType (functionNum, SVT_FUNC, fun -> stack -> thisVar)) return false;
 					trimStack (fun -> stack);
 					break;
-	
+
 					default:
 					fatal ("Too many parameters.");
 					return false;
@@ -1836,19 +1839,19 @@ builtIn(stringWidth)
 }
 
 builtIn(hardScroll)
-{	
+{
 	UNUSEDALL
 			int v;
 			if (! getValueType (v, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 			trimStack (fun -> stack);
 			hardScroll (v);
 			return BR_CONTINUE;
-}		
+}
 
 			//----------------------------
 			// EXTRA ROOM BITS - Lightmap
 			//----------------------------
-			
+
 builtIn(setLightMap)
 {
 	UNUSEDALL
@@ -1858,7 +1861,7 @@ builtIn(setLightMap)
 				trimStack (fun -> stack);
 				lightMapMode %= LIGHTMAPMODE_NUM;
 				// No break;
-				
+
 				case 1:
 				if (fun -> stack -> thisVar.varType == SVT_FILE) {
 					int v;
@@ -1872,13 +1875,13 @@ builtIn(setLightMap)
 					setVariable (fun -> reg, SVT_INT, 0);
 				}
 				break;
-				
+
 				default:
 				fatal ("Function should have either 2 or 3 parameters");
 				return BR_NOCOMMENT;
 			}
 			return BR_CONTINUE;
-}			
+}
 
 builtIn(isScreenRegion)
 			{
@@ -1900,7 +1903,7 @@ builtIn(setSpeechSpeed)
 				setVariable (fun -> reg, SVT_INT, 1);
 				return BR_CONTINUE;
 			}
-			
+
 builtIn(setFontSpacing)
 			{
 	UNUSEDALL
@@ -1911,7 +1914,7 @@ builtIn(setFontSpacing)
 				setVariable (fun -> reg, SVT_INT, 1);
 				return BR_CONTINUE;
 			}
-			
+
 builtIn(transitionLevel)
 			{
 	UNUSEDALL
@@ -1930,7 +1933,7 @@ builtIn(transitionLevel)
 				return BR_CONTINUE;
 			}
 
-builtIn(captureAllKeys)	
+builtIn(captureAllKeys)
 			{
 	UNUSEDALL
 				captureAllKeys = getBoolean (fun -> stack -> thisVar);
@@ -1938,7 +1941,7 @@ builtIn(captureAllKeys)
 				setVariable (fun -> reg, SVT_INT, captureAllKeys);
 				return BR_CONTINUE;
 			}
-			
+
 
 builtIn(spinCharacter)
 			{
@@ -1948,7 +1951,7 @@ builtIn(spinCharacter)
 				trimStack (fun -> stack);
 				if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 				trimStack (fun -> stack);
-				
+
 				onScreenPerson * thisPerson = findPerson (objectNumber);
 				if (thisPerson) {
 					thisPerson -> wantAngle = number;
@@ -1960,7 +1963,7 @@ builtIn(spinCharacter)
 					setVariable (fun -> reg, SVT_INT, 0);
 					return BR_CONTINUE;
 				}
-}			
+}
 
 builtIn(getCharacterDirection)
 {
@@ -2029,9 +2032,9 @@ builtIn(fetchEvent)
 				trimStack (fun -> stack);
 				if (! getValueType (obj1, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 				trimStack (fun -> stack);
-	
+
 				int fNum = getCombinationFunction (obj1, obj2);
-	
+
 				// Return value
 				if (fNum) {
 					setVariable (fun -> reg, SVT_FUNC, fNum);
@@ -2052,7 +2055,7 @@ builtIn(deleteFile)
 				if (failSecurityCheck (nam)) return BR_NOCOMMENT;
 				setVariable (fun -> reg, SVT_INT, remove (nam));
 				delete nam;
-	 
+
 				return BR_CONTINUE;
 			}
 
@@ -2077,11 +2080,11 @@ builtIn(renameFile)
 				delete nam;
 				delete newnam;
 
-				
+
 			return BR_CONTINUE;
 			}
 
-builtIn(cacheSound)	
+builtIn(cacheSound)
 			{
 	UNUSEDALL
 				int fileNumber;
@@ -2101,13 +2104,13 @@ builtIn(burnString)
 				trimStack (fun -> stack);
 				if (! getValueType (x, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 				trimStack (fun -> stack);
-				if (x == IN_THE_CENTRE) x = (winWidth - stringWidth (newText)) >> 1; 
+				if (x == IN_THE_CENTRE) x = (winWidth - stringWidth (newText)) >> 1;
 				fixFont (pastePalette);
 				burnStringToBackdrop (newText, x, y, pastePalette);
 				delete newText;
 				return BR_CONTINUE;
 			}
-			
+
 builtIn(setCharacterSpinSpeed)
 			{
 	UNUSEDALL
@@ -2116,9 +2119,9 @@ builtIn(setCharacterSpinSpeed)
 				trimStack (fun -> stack);
 				if (! getValueType (who, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 				trimStack (fun -> stack);
-				
+
 				onScreenPerson * thisPerson = findPerson (who);
-				
+
 				if (thisPerson) {
 					thisPerson -> spinSpeed = speed;
 					setVariable (fun -> reg, SVT_INT, 1);
@@ -2139,7 +2142,7 @@ builtIn(transitionMode)
 				return BR_CONTINUE;
 			}
 
-			
+
 // Deprecated function - does nothing
 builtIn(_rem_updateDisplay)
 {
@@ -2148,7 +2151,7 @@ builtIn(_rem_updateDisplay)
 			trimStack (fun -> stack);
 			setVariable (fun -> reg, SVT_INT, true /*updateDisplay*/);
 			return BR_CONTINUE;
-}			
+}
 
 builtIn(getSoundCache)
 {
@@ -2163,20 +2166,20 @@ builtIn(getSoundCache)
 			return BR_CONTINUE;
 			}
 
-builtIn(saveCustomData)			
+builtIn(saveCustomData)
 
 			{
 	UNUSEDALL
-				// saveCustomData (thisStack, fileName);				
+				// saveCustomData (thisStack, fileName);
 				char * fileNameB = getTextFromAnyVar (fun -> stack -> thisVar);
 				if (! checkNew (fileNameB)) return BR_NOCOMMENT;
-				
+
 				char * fileName = encodeFilename (fileNameB);
 				delete fileNameB;
 
 				if (failSecurityCheck (fileName)) return BR_NOCOMMENT;
 				trimStack (fun -> stack);
-				
+
 				if (fun -> stack -> thisVar.varType != SVT_STACK) {
 					fatal ("First parameter isn't a stack");
 					return BR_NOCOMMENT;
@@ -2222,7 +2225,7 @@ builtIn(setCustomEncoding)
 				return BR_CONTINUE;
 			}
 
-builtIn(freeSound)	
+builtIn(freeSound)
 			{
 	UNUSEDALL
 				int v;
@@ -2233,7 +2236,7 @@ builtIn(freeSound)
 			}
 
 builtIn(parallaxAdd)
-{			
+{
 	UNUSEDALL
 			if (frozenStuff) {
 				fatal ("Can't set background parallax image while frozen");
@@ -2246,7 +2249,7 @@ builtIn(parallaxAdd)
 				trimStack (fun -> stack);
 				if (! getValueType (v, SVT_FILE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 				trimStack (fun -> stack);
-				
+
 				if (! loadParallax (v, wrapX, wrapY)) return BR_NOCOMMENT;
 				setVariable (fun -> reg, SVT_INT, 1);
 			}
@@ -2259,7 +2262,7 @@ builtIn(parallaxClear)
 			killParallax ();
 			setVariable (fun -> reg, SVT_INT, 1);
 			return BR_CONTINUE;
-}			
+}
 
 builtIn(getPixelColour)
 			{
@@ -2293,26 +2296,26 @@ builtIn(makeFastArray)
 						return success ? BR_CONTINUE : BR_NOCOMMENT;
 					}
 					break;
-					
+
 					case SVT_INT:
 					{
 						int i = fun -> stack -> thisVar.varData.intValue;
 						trimStack (fun -> stack);
 						return makeFastArraySize (fun -> reg, i) ? BR_CONTINUE : BR_NOCOMMENT;
 					}
-					break;					
+					break;
 				}
 				fatal ("Parameter must be a number or a stack.");
 				return BR_NOCOMMENT;
 			}
-			
+
 builtIn(getCharacterScale)
 {
 	UNUSEDALL
 				int objectNumber;
 				if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 				trimStack (fun -> stack);
-				
+
 				onScreenPerson * pers = findPerson (objectNumber);
 				if (pers) {
 					setVariable (fun -> reg, SVT_INT, pers -> scale * 100);
@@ -2322,7 +2325,7 @@ builtIn(getCharacterScale)
 				return BR_CONTINUE;
 }
 
-builtIn(getLanguageID)			
+builtIn(getLanguageID)
 			{
 	UNUSEDALL
 				setVariable (fun -> reg, SVT_INT, gameSettings.languageID);
@@ -2330,7 +2333,7 @@ builtIn(getLanguageID)
 			}
 
 // Deprecated function
-builtIn(_rem_launchWith)	
+builtIn(_rem_launchWith)
 			{
 	UNUSEDALL
 
@@ -2339,9 +2342,9 @@ builtIn(_rem_launchWith)
 				setVariable (fun -> reg, SVT_INT, false);
 
 				return BR_CONTINUE;
-	 
+
 			}
-			
+
 builtIn(getFramesPerSecond)
 			{
 	UNUSEDALL
@@ -2350,14 +2353,14 @@ builtIn(getFramesPerSecond)
 			}
 
 builtIn(showThumbnail)
-{			
+{
 	UNUSEDALL
 				int x, y;
 				if (! getValueType (y, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 				trimStack (fun -> stack);
 				if (! getValueType (x, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 				trimStack (fun -> stack);
-				
+
 				// Encode the name! Encode the name!
 				char * aaaaa = getTextFromAnyVar (fun -> stack -> thisVar);
 //				deb ("Got name:", aaaaa;)
@@ -2404,7 +2407,7 @@ builtIn(hasFlag)
 			}
 
 builtIn(snapshotGrab)
-{			
+{
 	UNUSEDALL
 			return snapshot () ? BR_CONTINUE : BR_NOCOMMENT;
 }
@@ -2414,7 +2417,7 @@ builtIn(snapshotClear)
 	UNUSEDALL
 			nosnapshot ();
 			return BR_CONTINUE;
-}			
+}
 
 builtIn(bodgeFilenames)
 			{
@@ -2427,17 +2430,17 @@ builtIn(bodgeFilenames)
 			}
 
 // Deprecated - does nothing.
-builtIn(_rem_registryGetString)	
+builtIn(_rem_registryGetString)
 			{
 	UNUSEDALL
 				trimStack (fun -> stack);
 				trimStack (fun -> stack);
 				setVariable (fun -> reg, SVT_INT, 0);
-	
+
 				return BR_CONTINUE;
 			}
-	
-builtIn(quitWithFatalError)	
+
+builtIn(quitWithFatalError)
 {
 	UNUSEDALL
 	char * mess = getTextFromAnyVar (fun -> stack -> thisVar);
@@ -2449,17 +2452,17 @@ builtIn(quitWithFatalError)
 builtIn(setCharacterAntiAliasing)
 {
 	UNUSEDALL
-	
+
 	int who;
 	aaSettingsStruct tempSettings;
-	
+
 	if (aaGetFromStack (& tempSettings, fun))
-	{		
+	{
 		if (! getValueType (who, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 		trimStack (fun -> stack);
-		
+
 		onScreenPerson * thisPerson = findPerson (who);
-		
+
 		if (thisPerson) {
 			aaCopy (& thisPerson->aaSettings, & tempSettings);
 			setVariable (fun -> reg, SVT_INT, 1);
@@ -2472,12 +2475,12 @@ builtIn(setCharacterAntiAliasing)
 	{
 		return BR_NOCOMMENT;
 	}
-}	
+}
 
 builtIn(setMaximumAntiAliasing)
 {
 	UNUSEDALL
-	
+
 	if (aaGetFromStack (& maxAntiAliasSettings, fun))
 	{
 		glBindTexture(GL_TEXTURE_2D, backdropTextureName);
@@ -2487,14 +2490,14 @@ builtIn(setMaximumAntiAliasing)
 		} else {
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		}			
+		}
 		return BR_CONTINUE;
 	}
 	else
 	{
 		return BR_NOCOMMENT;
 	}
-}	
+}
 
 builtIn(setBackgroundEffect)
 {
@@ -2502,7 +2505,7 @@ builtIn(setBackgroundEffect)
 	bool done = blur_createSettings(numParams, fun->stack);
 	setVariable (fun -> reg, SVT_INT, done ? 1 : 0);
 	return BR_CONTINUE;
-}	
+}
 
 builtIn(doBackgroundEffect)
 {
@@ -2510,19 +2513,19 @@ builtIn(doBackgroundEffect)
 	bool done = blurScreen ();
 	setVariable (fun -> reg, SVT_INT, done ? 1 : 0);
 	return BR_CONTINUE;
-}	
+}
 
 
 //-------------------------------------
 
-#define FUNC(special,name)		{builtIn_ ## name}, 
+#define FUNC(special,name)		{builtIn_ ## name},
 static builtInFunctionData builtInFunctionArray[] =
 {
 	#include "functionList.h"
 };
 #undef FUNC
 
-#define FUNC(special,name)		{#name}, 
+#define FUNC(special,name)		{#name},
 char builtInFunctionNames[][25] =
 {
 #include "functionList.h"
@@ -2578,19 +2581,19 @@ builtReturn callBuiltIn (int whichFunc, int numParams, loadedFunction * fun) {
 				sprintf (buff, "Built in function must have %i parameter%s",
 							paramNum[whichFunc],
 							(paramNum[whichFunc] == 1) ? "" : "s");
-	
+
 				fatal (copyString (buff));
 				return BR_NOCOMMENT;
 			}
 		}
 	}
-	
+
 	if (builtInFunctionArray[whichFunc].func)
 	{
 		//fprintf (stderr, "Calling %i: %s\n", whichFunc, builtInFunctionNames[whichFunc]);
 		return builtInFunctionArray[whichFunc].func (numParams, fun);
 	}
-	
+
 	fatal ("Unknown / unimplemented built-in function.");
 	return BR_NOCOMMENT;
 }

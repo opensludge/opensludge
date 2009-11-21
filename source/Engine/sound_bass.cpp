@@ -76,12 +76,12 @@ bool initSoundStuff (HWND hwnd) {
 		warning (WARNING_BASS_WRONG_VERSION);
 		return false;
 	}
-	
-	if (!BASS_Init(1,44100,0,hwnd,NULL)) {
-		warning (WARNING_BASS_FAIL); 
+
+	if (!BASS_Init(-1,44100,0,0,NULL)) { // Note 0 instead of hwnd... Is this bad?
+		warning (WARNING_BASS_FAIL);
 		return false;
 	}
-	
+
 	int a;
 	for (a = 0; a < MAX_SAMPLES; a ++) {
 		soundCache[a].sample = NULL;
@@ -105,22 +105,22 @@ void killSoundStuff () {
 
 bool playMOD (int f, int a, int fromTrack) {
 	if (soundOK) {
-				
+
 		stopMOD (a);
-	
+
 		setResourceForFatal (f);
 		unsigned long length = openFileFromNum (f);
 		if (length == 0) return NULL;
 
-		char * memImage;	
+		char * memImage;
 		memImage = loadEntireFileToMemory (bigDataFile, length);
 		if (! memImage) return fatal (ERROR_MUSIC_MEMORY_LOW);
-		
+
 		mod[a] = BASS_MusicLoad (true, memImage, 0, length, BASS_MUSIC_LOOP|BASS_MUSIC_RAMP/*|BASS_MUSIC_PRESCAN needed too if we're going to set the position in bytes*/, 0);
 		delete memImage;
-		
+
 		if (! mod[a]) {
-		
+
 		}
 		else
 		{
@@ -130,7 +130,7 @@ bool playMOD (int f, int a, int fromTrack) {
 				fprintf(stderr, "playMOD: Error %d!\n", BASS_ErrorGetCode());
 
 			BASS_ChannelSetPosition (mod[a], MAKELONG(fromTrack, 0), BASS_POS_MUSIC_ORDER);
-			BASS_ChannelFlags(mod[a], BASS_SAMPLE_LOOP|BASS_MUSIC_RAMP, BASS_SAMPLE_LOOP|BASS_MUSIC_RAMP);			
+			BASS_ChannelFlags(mod[a], BASS_SAMPLE_LOOP|BASS_MUSIC_RAMP, BASS_SAMPLE_LOOP|BASS_MUSIC_RAMP);
 		}
 		setResourceForFatal (-1);
 	}
@@ -181,7 +181,7 @@ void setSoundLoop (int a, int s, int e) {
 //			int en = FSOUND_Sample_GetLength (soundCache[ch].sample);
 //			if (e < 1 || e >= en) e = en - 1;
 //			if (s < 0 || s >= e) s = 0;
-//	
+//
 //			FSOUND_Sample_SetLoopPoints (soundCache[ch].sample, s, e);
 //		}
 //	}
@@ -209,7 +209,7 @@ int findEmptySoundSlot () {
 		emptySoundSlot %= MAX_SAMPLES;
 		if (! soundCache[emptySoundSlot].looping) return emptySoundSlot;
 	}
-	
+
 	// Holy crap, they're all looping! What's this twat playing at?
 
 	emptySoundSlot ++;
@@ -235,7 +235,7 @@ bool forceRemoveSound () {
 			return 1;
 		}
 	}
-	
+
 	for (int a = 0; a < 8; a ++) {
 		if (soundCache[a].fileLoaded != -1) {
 //			soundWarning ("Deleting playing sound", a);
@@ -260,11 +260,11 @@ int cacheSound (int f) {
 
 	unsigned long length = openFileFromNum (f);
 	if (! length) return -1;
-	
+
 	char * memImage;
 
 	bool tryAgain = true;
-	
+
 	while (tryAgain) {
 		memImage = loadEntireFileToMemory (bigDataFile, length);
 		tryAgain = memImage == NULL;
@@ -275,7 +275,7 @@ int cacheSound (int f) {
 			}
 		}
 	}
-	
+
 	for (;;) {
 //		soundWarning ("  Trying to load sound into slot", a);
 		soundCache[a].sample = BASS_SampleLoad(true, memImage, 0, length, 65535, 0);
@@ -286,7 +286,7 @@ int cacheSound (int f) {
 			setResourceForFatal (-1);
 			return a;
 		}
-		
+
 		fatal (ERROR_SOUND_ODDNESS);
 		return -1;
 	}
@@ -296,10 +296,10 @@ bool startSound (int f, bool loopy) {
 	if (soundOK) {
 		int a = cacheSound (f);
 		if (a == -1) return false;
-		
+
 		soundCache[a].looping = loopy;
 		soundCache[a].vol = defSoundVol;
-		
+
 		soundCache[a].mostRecentChannel = BASS_SampleGetChannel (soundCache[a].sample, false);
 		if (soundCache[a].mostRecentChannel)
 		{
@@ -346,13 +346,13 @@ void saveSounds (FILE * fp) {
 
 void loadSounds (FILE * fp) {
 	for (int i = 0; i < MAX_SAMPLES; i ++) freeSound (i);
-	
+
 	while (fgetc (fp)) {
 		int fileLoaded = get2bytes (fp);
 		defSoundVol = get2bytes (fp);
 		startSound (fileLoaded, 1);
 	}
-	
+
 	defSoundVol = get2bytes (fp);
 	defVol = get2bytes (fp);
 }
@@ -360,14 +360,14 @@ void loadSounds (FILE * fp) {
 bool getSoundCacheStack (stackHandler * sH) {
 	variable newFileHandle;
 	newFileHandle.varType = SVT_NULL;
-		
+
 	for (int a = 0; a < MAX_SAMPLES; a ++) {
 		if (soundCache[a].fileLoaded != -1) {
 			setVariable (newFileHandle, SVT_FILE, soundCache[a].fileLoaded);
 			if (! addVarToStackQuick (newFileHandle, sH -> first)) return false;
 			if (sH -> last == NULL) sH -> last = sH -> first;
 		}
-	}			
+	}
 	return true;
 }
 

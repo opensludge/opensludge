@@ -22,13 +22,13 @@ void createFontPalette (spritePalette & sP) {
 	sP.pal = NULL;
 	sP.originalRed = 0;
 	sP.originalBlue = 0;
-	sP.originalGreen = 0;	
+	sP.originalGreen = 0;
 }
 
 int stringWidth (char * theText) {
 	int a;
 	int xOff = 0;
-	
+
 	if (! fontLoaded) return 0;
 
 	for (a = 0; theText[a]; a ++) {
@@ -41,7 +41,7 @@ int stringWidth (char * theText) {
 void pasteString (char * theText, int xOff, int y, spritePalette & thePal) {
 	sprite * mySprite;
 	int a;
-	
+
 	if (! fontLoaded) return;
 
 	xOff += fontSpace >> 1;
@@ -99,6 +99,7 @@ void setFontColour (spritePalette & sP, byte r, byte g, byte b) {
 
 bool loadFont (int filenum, const char * charOrder, int h) {
 	int a;
+	fprintf (stderr, "loadFont \n");
 
 	loadedFontNum = filenum;
 
@@ -114,7 +115,7 @@ bool loadFont (int filenum, const char * charOrder, int h) {
 		return false;
 	}
 
-	numFontColours = theFont.myPalette.total;	
+	numFontColours = theFont.myPalette.total;
 	fontHeight = h;
 	fontLoaded = true;
 	return true;

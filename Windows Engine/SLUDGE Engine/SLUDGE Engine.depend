@@ -1,0 +1,783 @@
+# depslib dependency file v1.0
+1193991332 source:c:\programmering\sludge\windows engine\sludge engine\resource.rc
+	"resource.h"
+
+1193991332 c:\programmering\sludge\windows engine\sludge engine\resource.h
+	<windows.h>
+
+1258802901 source:c:\programmering\sludge\source\commoncode\tga.cpp
+	<stdio.h>
+	"TGA.h"
+
+1258804650 c:\programmering\sludge\source\commoncode\tga.h
+	<stdio.h>
+
+1258804768 source:c:\programmering\glee\glee.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"GLee.h"
+	<Carbon/Carbon.h>
+
+1258804768 c:\programmering\glee\glee.h
+	<windows.h>
+	<GL/gl.h>
+	<OpenGL/gl.h>
+	<GL/gl.h>
+	<GL/glx.h>
+	<stddef.h>
+
+1258805587 source:c:\programmering\sludge\source\engine\backdrop.cpp
+	<complex>
+	<stdlib.h>
+	<libpng/png.h>
+	"glee.h"
+	"allfiles.h"
+	"winstuff.h"
+	"newfatal.h"
+	"colours.h"
+	"fileset.h"
+	"cursors.h"
+	"backdrop.h"
+	"moreio.h"
+	"variable.h"
+	"zbuffer.h"
+	"Graphics.h"
+	"line.h"
+	"sprites_AA.h"
+	"version.h"
+
+1258802903 c:\programmering\sludge\source\engine\allfiles.h
+	<stdio.h>
+
+1258802903 c:\programmering\sludge\source\engine\winstuff.h
+
+1258804993 c:\programmering\sludge\source\engine\newfatal.h
+	"errors.h"
+
+1258802902 c:\programmering\sludge\source\engine\errors.h
+
+1258802903 c:\programmering\sludge\source\engine\colours.h
+
+1258802902 c:\programmering\sludge\source\engine\fileset.h
+
+1258802902 c:\programmering\sludge\source\engine\cursors.h
+
+1258802902 c:\programmering\sludge\source\engine\backdrop.h
+	"variable.h"
+	"Graphics.h"
+	"glee.h"
+
+1258802902 c:\programmering\sludge\source\engine\variable.h
+
+1258804993 c:\programmering\sludge\source\engine\graphics.h
+	"glee.h"
+
+1258802902 c:\programmering\sludge\source\engine\moreio.h
+
+1258804994 c:\programmering\sludge\source\engine\zbuffer.h
+	"glee.h"
+
+1258804994 c:\programmering\sludge\source\engine\line.h
+
+1258804993 c:\programmering\sludge\source\engine\sprites_aa.h
+	<stdio.h>
+
+1258802901 c:\programmering\sludge\source\commoncode\version.h
+
+1258802903 source:c:\programmering\sludge\source\engine\cursors.cpp
+	"glee.h"
+	"allfiles.h"
+	"cursors.h"
+	"colours.h"
+	"sprites.h"
+	"sprbanks.h"
+	"people.h"
+	"sludger.h"
+
+1258810535 c:\programmering\sludge\source\engine\sprites.h
+	"glee.h"
+
+1258810535 c:\programmering\sludge\source\engine\sprbanks.h
+	"sprites.h"
+
+1258802903 c:\programmering\sludge\source\engine\people.h
+	"sprites_AA.h"
+
+1258802903 c:\programmering\sludge\source\engine\sludger.h
+	"variable.h"
+	"csludge.h"
+	"language.h"
+
+1258810534 c:\programmering\sludge\source\engine\csludge.h
+
+1258802903 c:\programmering\sludge\source\engine\language.h
+
+1258816896 source:c:\programmering\sludge\source\engine\fonttext.cpp
+	"debug.h"
+	"allfiles.h"
+	"sprites.h"
+	"colours.h"
+	"fonttext.h"
+	"newfatal.h"
+	"moreio.h"
+
+1258810534 c:\programmering\sludge\source\engine\debug.h
+
+1258810880 c:\programmering\sludge\source\engine\fonttext.h
+
+1258810880 source:c:\programmering\sludge\source\engine\freeze.cpp
+	<string.h>
+	"allfiles.h"
+	"Graphics.h"
+	"newfatal.h"
+	"sprites.h"
+	"sprbanks.h"
+	"people.h"
+	"sludger.h"
+	"objtypes.h"
+	"region.h"
+	"backdrop.h"
+	"talk.h"
+	"fonttext.h"
+	"statusba.h"
+	"freeze.h"
+	"zbuffer.h"
+
+1258810880 c:\programmering\sludge\source\engine\objtypes.h
+	"sprites_aa.h"
+
+1258802903 c:\programmering\sludge\source\engine\region.h
+
+1258802902 c:\programmering\sludge\source\engine\talk.h
+	"sprites.h"
+
+1258802903 c:\programmering\sludge\source\engine\statusba.h
+
+1258810880 c:\programmering\sludge\source\engine\freeze.h
+
+1258810533 source:c:\programmering\sludge\source\engine\fileset.cpp
+	"debug.h"
+	"allfiles.h"
+	"moreio.h"
+	"newfatal.h"
+
+1258802903 source:c:\programmering\sludge\source\engine\loadsave.cpp
+	"allfiles.h"
+	"sprites.h"
+	"newfatal.h"
+	"variable.h"
+	"version.h"
+	"moreio.h"
+	"sludger.h"
+	"people.h"
+	"talk.h"
+	"objtypes.h"
+	"backdrop.h"
+	"region.h"
+	"floor.h"
+	"zbuffer.h"
+	"cursors.h"
+	"statusba.h"
+	"sound.h"
+	"thumbnail.h"
+	"bg_effects.h"
+	"fileset.h"
+
+1258802902 c:\programmering\sludge\source\engine\floor.h
+	"windef.h"
+
+1258802903 c:\programmering\sludge\source\engine\sound.h
+	"variable.h"
+	<windows.h>
+
+1258802902 c:\programmering\sludge\source\engine\thumbnail.h
+
+1258811419 c:\programmering\sludge\source\engine\bg_effects.h
+
+1258802902 source:c:\programmering\sludge\source\engine\moreio.cpp
+	<string.h>
+	"allfiles.h"
+	"moreio.h"
+	"newfatal.h"
+	"stringy.h"
+	"debug.h"
+
+1258802903 c:\programmering\sludge\source\engine\stringy.h
+
+1258802903 source:c:\programmering\sludge\source\engine\newfatal.cpp
+	"SDL.h"
+	"allfiles.h"
+	"version.h"
+	<string.h>
+	<stdlib.h>
+	"sound.h"
+	"stringy.h"
+	"errors.h"
+
+1255796849 c:\programmering\sdl\include\sdl\sdl.h
+	"SDL_main.h"
+	"SDL_stdinc.h"
+	"SDL_audio.h"
+	"SDL_cdrom.h"
+	"SDL_cpuinfo.h"
+	"SDL_endian.h"
+	"SDL_error.h"
+	"SDL_events.h"
+	"SDL_loadso.h"
+	"SDL_mutex.h"
+	"SDL_rwops.h"
+	"SDL_thread.h"
+	"SDL_timer.h"
+	"SDL_video.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255796850 c:\programmering\sdl\include\sdl\sdl_main.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255796850 c:\programmering\sdl\include\sdl\sdl_stdinc.h
+	"SDL_config.h"
+	<sys/types.h>
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<stdarg.h>
+	<stdlib.h>
+	<malloc.h>
+	<stddef.h>
+	<stdarg.h>
+	<memory.h>
+	<string.h>
+	<strings.h>
+	<inttypes.h>
+	<stdint.h>
+	<ctype.h>
+	<iconv.h>
+	"begin_code.h"
+	<alloca.h>
+	<malloc.h>
+	<malloc.h>
+	<malloc.h>
+	<stdlib.h>
+	"close_code.h"
+
+1255796864 c:\programmering\sdl\include\sdl\sdl_config.h
+	"SDL_platform.h"
+	<stdarg.h>
+
+1255796850 c:\programmering\sdl\include\sdl\sdl_platform.h
+
+1096741816 c:\programmering\gnuwin32\include\iconv.h
+	"iconv.h"
+	<stddef.h>
+	<errno.h>
+
+1255796850 c:\programmering\sdl\include\sdl\begin_code.h
+
+1255796850 c:\programmering\sdl\include\sdl\close_code.h
+
+1255796849 c:\programmering\sdl\include\sdl\sdl_audio.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_endian.h"
+	"SDL_mutex.h"
+	"SDL_thread.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255796849 c:\programmering\sdl\include\sdl\sdl_error.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255796849 c:\programmering\sdl\include\sdl\sdl_endian.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255796850 c:\programmering\sdl\include\sdl\sdl_mutex.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255796850 c:\programmering\sdl\include\sdl\sdl_thread.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_mutex.h"
+	"begin_code.h"
+	<process.h>
+	"close_code.h"
+
+1255796850 c:\programmering\sdl\include\sdl\sdl_rwops.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255796849 c:\programmering\sdl\include\sdl\sdl_cdrom.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255796849 c:\programmering\sdl\include\sdl\sdl_cpuinfo.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255796849 c:\programmering\sdl\include\sdl\sdl_events.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_active.h"
+	"SDL_keyboard.h"
+	"SDL_mouse.h"
+	"SDL_joystick.h"
+	"SDL_quit.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255796849 c:\programmering\sdl\include\sdl\sdl_active.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255796849 c:\programmering\sdl\include\sdl\sdl_keyboard.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_keysym.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255796850 c:\programmering\sdl\include\sdl\sdl_keysym.h
+
+1255796850 c:\programmering\sdl\include\sdl\sdl_mouse.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255796850 c:\programmering\sdl\include\sdl\sdl_video.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255796849 c:\programmering\sdl\include\sdl\sdl_joystick.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255796850 c:\programmering\sdl\include\sdl\sdl_quit.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+
+1255796850 c:\programmering\sdl\include\sdl\sdl_loadso.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255796850 c:\programmering\sdl\include\sdl\sdl_timer.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255796850 c:\programmering\sdl\include\sdl\sdl_version.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1258802903 source:c:\programmering\sludge\source\engine\objtypes.cpp
+	"allfiles.h"
+	"objtypes.h"
+	"variable.h"
+	"newfatal.h"
+	"moreio.h"
+	"fileset.h"
+	"version.h"
+
+1258802903 source:c:\programmering\sludge\source\engine\region.cpp
+	"allfiles.h"
+	"objtypes.h"
+	"region.h"
+	"newfatal.h"
+	"sludger.h"
+	"moreio.h"
+	"backdrop.h"
+
+1258802903 source:c:\programmering\sludge\source\engine\sludger.cpp
+	"allfiles.h"
+	"SDL.h"
+	<sys/types.h>
+	<sys/stat.h>
+	"glee.h"
+	<shellapi.h>
+	<direct.h>
+	<unistd.h>
+	<stdlib.h>
+	<string.h>
+	<libpng/png.h>
+	"version.h"
+	"sludger.h"
+	"backdrop.h"
+	"cursors.h"
+	"colours.h"
+	"objtypes.h"
+	"region.h"
+	"sprites.h"
+	"sprbanks.h"
+	"people.h"
+	"talk.h"
+	"newfatal.h"
+	"stringy.h"
+	"moreio.h"
+	"statusba.h"
+	"builtin.h"
+	"fonttext.h"
+	"freeze.h"
+	"floor.h"
+	"zbuffer.h"
+	"sound.h"
+	"loadsave.h"
+	"fileset.h"
+	"transition.h"
+	"language.h"
+	"specialSettings.h"
+	"Graphics.h"
+	"debug.h"
+	"shellapi.h"
+
+1258802903 c:\programmering\sludge\source\engine\builtin.h
+
+1258802903 c:\programmering\sludge\source\engine\loadsave.h
+
+1258802903 c:\programmering\sludge\source\engine\transition.h
+
+1258802901 c:\programmering\sludge\source\commoncode\specialsettings.h
+
+1258802902 source:c:\programmering\sludge\source\engine\sprbanks.cpp
+	"allfiles.h"
+	"sprites.h"
+	"sprbanks.h"
+	"newfatal.h"
+	"debug.h"
+
+1258817530 source:c:\programmering\sludge\source\engine\sprites.cpp
+	<libpng/png.h>
+	"allfiles.h"
+	"fileset.h"
+	"sprites.h"
+	"sprites_AA.h"
+	"moreio.h"
+	"newfatal.h"
+	"colours.h"
+	"backdrop.h"
+	"sludger.h"
+	"zbuffer.h"
+	"debug.h"
+	"Graphics.h"
+
+1258802902 source:c:\programmering\sludge\source\engine\statusba.cpp
+	"allfiles.h"
+	"backdrop.h"
+	"colours.h"
+	"sprites.h"
+	"fonttext.h"
+	"moreio.h"
+	"stringy.h"
+	"newfatal.h"
+	"statusba.h"
+
+1258802903 source:c:\programmering\sludge\source\engine\stringy.cpp
+	"allfiles.h"
+	<string.h>
+	"newfatal.h"
+
+1258802902 source:c:\programmering\sludge\source\engine\sprites_aa.cpp
+	"allfiles.h"
+	"fileset.h"
+	"sprites.h"
+	"moreio.h"
+	"newfatal.h"
+	"colours.h"
+	"backdrop.h"
+	"sludger.h"
+	"zbuffer.h"
+	"sprites_AA.h"
+
+1258802903 source:c:\programmering\sludge\source\engine\talk.cpp
+	"allfiles.h"
+	<string.h>
+	"backdrop.h"
+	"sprites.h"
+	"sludger.h"
+	"objtypes.h"
+	"region.h"
+	"sprbanks.h"
+	"people.h"
+	"talk.h"
+	"sound.h"
+	"fonttext.h"
+	"newfatal.h"
+	"stringy.h"
+	"moreio.h"
+
+1258802903 source:c:\programmering\sludge\source\engine\variable.cpp
+	<string.h>
+	"debug.h"
+	"allfiles.h"
+	"variable.h"
+	"newfatal.h"
+	"stringy.h"
+	"objtypes.h"
+	"people.h"
+	"fileset.h"
+	<dirent.h>
+	"moreio.h"
+	"windows.h"
+
+1258802902 source:c:\programmering\sludge\source\engine\winstuff.cpp
+	<windows.h>
+	"allfiles.h"
+	"winstuff.h"
+	"newfatal.h"
+	"sprites.h"
+	"sprbanks.h"
+	"fonttext.h"
+	"backdrop.h"
+	"sludger.h"
+	"cursors.h"
+	"objtypes.h"
+	"region.h"
+	"people.h"
+	"talk.h"
+	"direct.h"
+	"sound.h"
+	"colours.h"
+	"moreio.h"
+	"stringy.h"
+
+1258802903 source:c:\programmering\sludge\source\engine\bg_effects.cpp
+	<stdlib.h>
+	<string.h>
+	<malloc.h>
+	"allfiles.h"
+	"backdrop.h"
+	"colours.h"
+	"Graphics.h"
+	"newfatal.h"
+	"moreio.h"
+
+1258816962 source:c:\programmering\sludge\source\engine\builtin.cpp
+	"debug.h"
+	"allfiles.h"
+	"SDL.h"
+	<stdlib.h>
+	<string.h>
+	<complex>
+	<direct.h>
+	<unistd.h>
+	<stdio.h>
+	"sludger.h"
+	"builtin.h"
+	"stringy.h"
+	"newfatal.h"
+	"cursors.h"
+	"statusba.h"
+	"loadsave.h"
+	"backdrop.h"
+	"bg_effects.h"
+	"sprites.h"
+	"fonttext.h"
+	"sprbanks.h"
+	"people.h"
+	"sound.h"
+	"objtypes.h"
+	"floor.h"
+	"zbuffer.h"
+	"talk.h"
+	"region.h"
+	"moreio.h"
+	"savedata.h"
+	"freeze.h"
+	"colours.h"
+	"language.h"
+	"thumbnail.h"
+	"Graphics.h"
+	"functionList.h"
+	"functionList.h"
+
+1258802903 c:\programmering\sludge\source\engine\savedata.h
+
+1258802901 c:\programmering\sludge\source\commoncode\functionlist.h
+
+1258802903 source:c:\programmering\sludge\source\engine\debug.cpp
+	<stdarg.h>
+	"allfiles.h"
+	"debug.h"
+
+1258802902 source:c:\programmering\sludge\source\engine\floor.cpp
+	"allfiles.h"
+	"newfatal.h"
+	"fileset.h"
+	"moreio.h"
+	"floor.h"
+	"line.h"
+
+1258802902 source:c:\programmering\sludge\source\engine\line.cpp
+	"glee.h"
+	<stdlib.h>
+	"Graphics.h"
+	"sprites_AA.h"
+	"allfiles.h"
+
+1258811418 source:c:\programmering\sludge\source\engine\graphics.cpp
+	"glee.h"
+	"specialSettings.h"
+	<SDL.h>
+	"Graphics.h"
+	"sprites_AA.h"
+	"sprbanks.h"
+	"zbuffer.h"
+	"backdrop.h"
+
+1258811419 source:c:\programmering\sludge\source\engine\language.cpp
+	<stdio.h>
+	<string.h>
+	"stringy.h"
+	"newfatal.h"
+	"moreio.h"
+	"language.h"
+	"version.h"
+
+1258802903 source:c:\programmering\sludge\source\engine\main.cpp
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<unistd.h>
+	<time.h>
+	<sys/time.h>
+	"glee.h"
+	<SDL.h>
+	<SDL_syswm.h>
+	<iconv.h>
+	"winstuff.h"
+	"language.h"
+	"stringy.h"
+	"sludger.h"
+	"backdrop.h"
+	"newfatal.h"
+	"people.h"
+	"floor.h"
+	"objtypes.h"
+	"talk.h"
+	"statusba.h"
+	"transition.h"
+	"specialSettings.h"
+	"timing.h"
+	"sound.h"
+	"Sludger.h"
+	"Graphics.h"
+
+1255796850 c:\programmering\sdl\include\sdl\sdl_syswm.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_version.h"
+	"begin_code.h"
+	<X11/Xlib.h>
+	<X11/Xatom.h>
+	<microwin/nano-X.h>
+	<windows.h>
+	<sys/neutrino.h>
+	<Ph.h>
+	"close_code.h"
+
+1258802902 c:\programmering\sludge\source\engine\timing.h
+
+1258802903 source:c:\programmering\sludge\source\engine\memwatch.cpp
+	<stdlib.h>
+	"allfiles.h"
+
+1258802902 source:c:\programmering\sludge\source\engine\people.cpp
+	"allfiles.h"
+	<math.h>
+	<stdlib.h>
+	"version.h"
+	"sprites.h"
+	"sprites_aa.h"
+	"sprbanks.h"
+	"sludger.h"
+	"objtypes.h"
+	"region.h"
+	"people.h"
+	"talk.h"
+	"newfatal.h"
+	"variable.h"
+	"moreio.h"
+	"loadsave.h"
+	"floor.h"
+	"zbuffer.h"
+
+1258802902 source:c:\programmering\sludge\source\engine\savedata.cpp
+	<string.h>
+	"allfiles.h"
+	"variable.h"
+	"newfatal.h"
+	"moreio.h"
+
+1258813789 source:c:\programmering\sludge\source\engine\sound_bass.cpp
+	"allfiles.h"
+	"newfatal.h"
+	"bass.h"
+	"sound.h"
+	"moreio.h"
+	"fileset.h"
+
+1241779456 c:\programmering\bass\c\bass.h
+	<wtypes.h>
+	<stdint.h>
+
+1258802902 source:c:\programmering\sludge\source\engine\thumbnail.cpp
+	"allfiles.h"
+	"errors.h"
+	"moreio.h"
+	"version.h"
+	"sludger.h"
+	"colours.h"
+	"backdrop.h"
+	"Graphics.h"
+	"sprites_AA.h"
+	"newfatal.h"
+
+1258802903 source:c:\programmering\sludge\source\engine\timing.cpp
+	"SDL.h"
+
+1258802902 source:c:\programmering\sludge\source\engine\transition.cpp
+	<string.h>
+	"allfiles.h"
+	"colours.h"
+	"backdrop.h"
+	"Graphics.h"
+
+1258802902 source:c:\programmering\sludge\source\engine\zbuffer.cpp
+	"allfiles.h"
+	"zbuffer.h"
+	"fileset.h"
+	"moreio.h"
+	"newfatal.h"
+	"Graphics.h"
+

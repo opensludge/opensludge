@@ -25,17 +25,17 @@ unsigned int stringToInt (char * s) {
 char * getPrefsFilename (char * filename) {
 	// Yes, this trashes the original string, but
 	// sod it, we don't use it afterwards...
-	
+
 	int n;
-	
+
 	n = strlen (filename);
-/*	
+/*
 	if (n > 4 && filename[n-4] == '.') {
 		filename[n] = NULL;
 	}
 */
 	char * joined = joinStrings (filename, ".ini");
-	
+
 	delete filename;
 	return joined;
 }
@@ -60,7 +60,7 @@ void readIniFile (char * filename) {
 		char readChar = ' ';
 		bool keepGoing = true;
 		bool doingSecond = false;
-		
+
 		do {
 			readChar = fgetc (fp);
 			if (feof (fp)) {
@@ -90,33 +90,33 @@ void readIniFile (char * filename) {
 				}
 				here = 0;
 				doingSecond = false;
-				lineSoFar[0] = NULL;
-				secondSoFar[0] = NULL;
+				lineSoFar[0] = 0;
+				secondSoFar[0] = 0;
 				break;
-				
+
 				case '=':
 				doingSecond = true;
 				here = 0;
 				break;
-				
+
 				default:
 				if (doingSecond) {
 					secondSoFar[here ++] = readChar;
-					secondSoFar[here] = NULL;
+					secondSoFar[here] = 0;
 				} else {
 					lineSoFar[here ++] = readChar;
-					lineSoFar[here] = NULL;
+					lineSoFar[here] = 0;
 				}
 				break;
 			}
 		} while (keepGoing);
-		
+
 		fclose (fp);
 	}
 }
-	
+
 void makeLanguageTable (FILE * table)
-{	
+{
 	languageTable = new int[gameSettings.numLanguages];
 	languageName = new char*[gameSettings.numLanguages];
 
@@ -133,10 +133,10 @@ void makeLanguageTable (FILE * table)
 int getLanguageForFileB ()
 {
 	int indexNum = -1;
-			
+
 	for (int i = 0; i <= gameSettings.numLanguages; i ++) {
 		if (languageTable[i] == gameSettings.languageID) indexNum = i;
 	}
-	
+
 	return indexNum;
 }

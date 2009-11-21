@@ -34,13 +34,13 @@ void setPixelCoords (bool pixels) {
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		glOrtho(0, viewportWidth-1, 0, viewportHeight-1, 1.0, -1.0);
-		
+
 		glMatrixMode(GL_MODELVIEW);
 	} else {
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		glOrtho(0, winWidth-1, winHeight-1, 0, 1.0, -1.0);
-		
+
 		glMatrixMode(GL_MODELVIEW);
 	}
 }
@@ -51,12 +51,12 @@ bool runningFullscreen = false;
 // This is for setting windowed or fullscreen graphics.
 // Used for switching, and for initial window creation.
 void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
-	
+
 	Uint32 videoflags = 0;
 
 	if (! desktopW) {
 		// Get video hardware information
-		const SDL_VideoInfo* videoInfo = SDL_GetVideoInfo();	
+		const SDL_VideoInfo* videoInfo = SDL_GetVideoInfo();
 		desktopW = videoInfo->current_w;
 		desktopH = videoInfo->current_h;
 	} else if (restoreGraphics && fullscreen == runningFullscreen) return;
@@ -76,80 +76,80 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 				picHeight = getNextPOT(picHeight);
 			}
 			backdropTexture = new GLubyte [picHeight*picWidth*4];
-			
-			glBindTexture (GL_TEXTURE_2D, backdropTextureName);			
+
+			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
 			glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture);
 		}
 	}
-	
+
 	/*
 	 * Set the graphics mode
 	 */
-	float winAspect = (float) winWidth / winHeight;	
-	
+	float winAspect = (float) winWidth / winHeight;
+
 	if (fullscreen) {
 		specialSettings &= ~SPECIAL_INVISIBLE;
 		videoflags = SDL_OPENGL | SDL_FULLSCREEN;
-		
+
 		realWinWidth = desktopW;
 		realWinHeight = desktopH;
-		
+
 		float realAspect = (float) realWinWidth / realWinHeight;
-		
+
 		if (realAspect > winAspect) {
 			viewportHeight = realWinHeight;
-			viewportWidth = realWinHeight * winAspect;
+			viewportWidth = (int) (realWinHeight * winAspect);
 			viewportOffsetY = 0;
 			viewportOffsetX = (realWinWidth-viewportWidth)/2;
 		} else {
 			viewportWidth = realWinWidth;
-			viewportHeight = (float) realWinWidth / winAspect;
+			viewportHeight = (int)((float) realWinWidth / winAspect);
 			viewportOffsetY = (realWinHeight-viewportHeight)/2;
 			viewportOffsetX = 0;
 		}
-		
+
 	} else {
 		videoflags = SDL_OPENGL;
-		
+
 		realWinHeight = desktopH*3/4;
-		realWinWidth = realWinHeight * winAspect;
-		
+		realWinWidth = (int) (realWinHeight * winAspect);
+
 		if (realWinWidth > desktopW) {
 			realWinWidth = desktopW;
-			realWinHeight = (float) realWinWidth / winAspect;
+			realWinHeight = (int) ((float) realWinWidth / winAspect);
 		}
-		
+
 		viewportHeight = realWinHeight;
 		viewportWidth = realWinWidth;
 		viewportOffsetY = 0;
 		viewportOffsetX = 0;
-		
+
 	}
-	
+
 	if( SDL_SetVideoMode( realWinWidth, realWinHeight, 32, videoflags ) == 0 ) {
 		msgBox("Startup Error: Couldn't set video mode.", SDL_GetError());
 		SDL_Quit();
 		exit(2);
-	}	
-		
-	glViewport (viewportOffsetX, viewportOffsetY, viewportWidth, viewportHeight);	
+	}
+
+	glViewport (viewportOffsetX, viewportOffsetY, viewportWidth, viewportHeight);
 
 	/*
 	 * Set up OpenGL for 2D rendering.
 	 */
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
-	
+
 	setPixelCoords (false);
-	
+
 	glLoadIdentity();
-	glTranslatef(0.0f, 0.0f, 0.0f);	
-	
+	glTranslatef(0.0f, 0.0f, 0.0f);
+
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	
+
 	if (restoreGraphics) {
-		/* 
-		 * Restore the textures 
+		/*
+		 * Restore the textures
 		 */
 		if (backdropTextureName) {
 			if (!glIsTexture(backdropTextureName)) {
@@ -167,9 +167,9 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 			}
 			// Restore the backdrop
 			glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, sceneWidth, sceneHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture);
-			
+
 		}
-		
+
 		reloadSpriteTextures ();
 		reloadParallaxTextures ();
 		zBuffer.texName = 0;
@@ -180,9 +180,9 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 		if (lightMapNumber) {
 			loadLightMap(lightMapNumber);
 		}
-		
+
 		sludgeDisplay ();
-	}	
+	}
 }
 
 

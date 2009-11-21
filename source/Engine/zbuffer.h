@@ -10,7 +10,7 @@ struct zBufferData {
 	int numPanels;
 	int panel[16];
 	int originalNum;
-	
+
 	GLubyte * tex;
 	GLuint texName;
 };
@@ -19,4 +19,4 @@ bool setZBuffer (int y);
 void killZBuffer ();
 void drawZBuffer(int x, int y, bool upsidedown);
 
-#endif 
+#endif
