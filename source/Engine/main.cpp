@@ -60,11 +60,11 @@ int dialogValue = 0;
 
 void fixDir (char * f) {
 	int got = -1, a;
-	
+
 	for (a = 0; f[a]; a ++) {
 		if (f[a] == '\\' || f[a] == '/') got = a;
 	}
-	
+
 	if (got != -1) {
 		f[got] = NULL;
 #ifdef _MSC_VER
@@ -81,9 +81,9 @@ void fixDir (char * f) {
 }
 
 
-void tick () {	
+void tick () {
 	walkAllPeople ();
-//	if (! 
+//	if (!
 		handleInput ()
 		//) return
 			;
@@ -100,24 +100,24 @@ int main(int argc, char *argv[])
 	/* Dimensions of our window. */
     winWidth = 640;
     winHeight = 480;
-	
-	static bool fakeRightclick = false;	
-	
+
+	static bool fakeRightclick = false;
+
 	int    done;
 	SDL_Event event;
 
 	char * sludgeFile;
-	
+
 	time_t t;
 	srand((unsigned) time(&t));
-	
-	
+
+
 	if (argc > 1) {
 		sludgeFile = argv[1];
 	} else {
 		char exeFolder[MAX_PATH+1];
 		strcpy (exeFolder, argv[0]);
-		
+
 		int lastSlash = -1;
 		for (int i = 0; exeFolder[i]; i ++) {
 			if (exeFolder[i] == '\\' || exeFolder[i] == '/') lastSlash = i;
@@ -126,25 +126,27 @@ int main(int argc, char *argv[])
 		sludgeFile = joinStrings (exeFolder, "gamedata");
 	//	fprintf(stderr, "%s", sludgeFile);
 		FILE * tester = fopen (sludgeFile, "rb");
-		
+
 		if (tester) fclose (tester);
 		else
 			sludgeFile = grabFileName ();
 	}
-	
+
 	if (! sludgeFile) return 0;
-	
+
 	fixDir (sludgeFile);
-		
+
 	/* Initialize the SDL library */
 	if ( SDL_Init(SDL_INIT_VIDEO) < 0 ) {
 		msgBox("Startup Error: Couldn't initialize SDL.", SDL_GetError());
 		exit(1);
 	}
-	
+
 	// OK, so we DO want to start up, then...
+	fprintf (stderr, "Hello 1!\n");
 	if (! initSludge (sludgeFile)) return 0;
-	
+	fprintf (stderr, "Hello 2!\n");
+
 	/*
 	 * Now, we want to setup our requested window attributes for our OpenGL window.
 	 * We want *at least* 8 bits of red, green and blue. We also want at least a 16-bit
@@ -159,12 +161,12 @@ int main(int argc, char *argv[])
 	SDL_GL_SetAttribute( SDL_GL_ALPHA_SIZE, 8);
 	SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 );
 	SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
-		
+
 	// Needed to make menu shortcuts work (on Mac), i.e. Command+Q for quit
 	SDL_putenv("SDL_ENABLEAPPEVENTS=1");
 
 	setGraphicsWindow(gameSettings.userFullScreen, false);
-	
+
 	/* Here's a good place to check for graphics capabilities... */
 	if (GLEE_VERSION_2_0 || GLEE_ARB_texture_non_power_of_two) {
 		// Yes! Textures can be any size!
@@ -174,16 +176,17 @@ int main(int argc, char *argv[])
 		NPOT_textures = false;
 //		fprintf (stderr, "Warning: Old graphics card!\n");
 	}
-		
+
 #ifdef _WIN32
 	SDL_SysWMinfo wmInfo;
+	SDL_VERSION(&wmInfo.version);
 	SDL_GetWMInfo(&wmInfo);
 	hMainWindow = wmInfo.window;
 #endif
-	
-	registerWindowForFatal ();	
-	
-	
+
+	registerWindowForFatal ();
+
+
 	if (! resizeBackdrop (winWidth, winHeight)) return fatal ("Couldn't allocate memory for backdrop");
 	blankScreen (0, 0, winWidth, winHeight);
 	if (! initPeople ()) return fatal ("Couldn't initialise people stuff");
@@ -201,33 +204,35 @@ int main(int argc, char *argv[])
 	tmp2 = &gameName;
 	char * nameOrig = gameNameWin;
 	char * gameNameOrig = gameName;
-	
+
 	iconv_t convert = iconv_open ("UTF-8", "CP1252");
 	size_t len1 = strlen(gameNameWin)+1;
 	size_t len2 = 1023;
-	//size_t numChars = 
+	//size_t numChars =
 		iconv (convert, (const char **) tmp1, &len1, tmp2, &len2);
 	iconv_close (convert);
-	
+
 	gameNameWin = nameOrig;
 	gameName = gameNameOrig;
-	
+
 	delete gameNameWin;
-	
-	
+
+
 	SDL_WM_SetCaption(gameName, gameName);
-	if ( (specialSettings & (SPECIAL_MOUSE_1 | SPECIAL_MOUSE_2)) == SPECIAL_MOUSE_1) 
+	if ( (specialSettings & (SPECIAL_MOUSE_1 | SPECIAL_MOUSE_2)) == SPECIAL_MOUSE_1)
 		SDL_ShowCursor(SDL_DISABLE);
 
 	if (! (specialSettings & SPECIAL_SILENT)) {
 		initSoundStuff (hMainWindow);
 	}
-	
-	startNewFunctionNum (0, 0, NULL, noStack);		
-	Init_Timer();	
+
+	startNewFunctionNum (0, 0, NULL, noStack);
+	Init_Timer();
 
 	SDL_EnableUNICODE(1);
-	
+
+
+
 	done = 0;
 	while ( !done ) {
 
@@ -240,18 +245,18 @@ int main(int argc, char *argv[])
 					realWinHeight = event.resize.h;
 					//setupRenderWindow(realWinWidth, realWinHeight);
 
-					glViewport (viewportOffsetX, viewportOffsetY, viewportWidth, viewportHeight);	
+					glViewport (viewportOffsetX, viewportOffsetY, viewportWidth, viewportHeight);
 					setPixelCoords (false);
-					
+
 					break;
 */
 				case SDL_MOUSEMOTION:
 					input.justMoved = true;
 					input.mouseX = event.motion.x * winWidth / realWinWidth;
-					input.mouseY = event.motion.y * winHeight / realWinHeight;					
+					input.mouseY = event.motion.y * winHeight / realWinHeight;
 					break;
 				case SDL_MOUSEBUTTONDOWN:
-					if (event.button.button == SDL_BUTTON_LEFT) 
+					if (event.button.button == SDL_BUTTON_LEFT)
 						if (SDL_GetModState() & KMOD_CTRL) {
 							input.rightClick = true;
 							fakeRightclick = true;
@@ -261,8 +266,8 @@ int main(int argc, char *argv[])
 						}
 					if (event.button.button == SDL_BUTTON_RIGHT) input.rightClick = true;
 					input.mouseX = event.motion.x * winWidth / realWinWidth;
-					input.mouseY = event.motion.y * winHeight / realWinHeight;					
-						
+					input.mouseY = event.motion.y * winHeight / realWinHeight;
+
 					break;
 				case SDL_MOUSEBUTTONUP:
 					if (event.button.button == SDL_BUTTON_LEFT) {
@@ -272,10 +277,10 @@ int main(int argc, char *argv[])
 						} else {
 							input.leftRelease = true;
 						}
-					}	
+					}
 					if (event.button.button == SDL_BUTTON_RIGHT) input.rightRelease = true;
 					input.mouseX = event.motion.x * winWidth / realWinWidth;
-					input.mouseY = event.motion.y * winHeight / realWinHeight;					
+					input.mouseY = event.motion.y * winHeight / realWinHeight;
 					break;
 				case SDL_KEYDOWN:
 					// Ignore Command keypresses - they're for the OS to handle.
@@ -310,15 +315,17 @@ int main(int argc, char *argv[])
 					break;
 			}
 		}
-		tick ();			
+		tick ();
 		Wait_Frame();
 
 	}
 
+	fprintf (stderr, "Bye!");
+
 	killSoundStuff ();
-	
+
 	/* Clean up the SDL library */
 	SDL_Quit();
-	displayFatal ();	
+	displayFatal ();
 	return(0);
 }

@@ -34,7 +34,7 @@ char * grabFileName () {
 	OPENFILENAME ofn;
 	char path[MAX_PATH];
 	char file[MAX_PATH]="";
-	
+
 	memset (& ofn, 0, sizeof (ofn));
 	ofn.lStructSize = sizeof (ofn);
 	ofn.hwndOwner = NULL;
@@ -44,7 +44,7 @@ char * grabFileName () {
 	ofn.Flags = OFN_HIDEREADONLY | OFN_EXPLORER;
 	ofn.lpstrFilter = "SLUDGE games (*.SLG)\0*.slg\0\0";
 	ofn.lpstrFile = file;
-	
+
 	if (GetOpenFileName (& ofn)) {
 		return copyString (file);
 	} else {
@@ -57,6 +57,7 @@ int showSetupWindow() {
 	if (gameSettings.numLanguages) {
 		gameSettings.languageID = 0;
 	}
+	return true;
 }
 
 void msgBox (const char * head, const char * msg) {

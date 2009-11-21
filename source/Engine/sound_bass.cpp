@@ -77,7 +77,7 @@ bool initSoundStuff (HWND hwnd) {
 		return false;
 	}
 
-	if (!BASS_Init(-1,44100,0,0,NULL)) { // Note 0 instead of hwnd... Is this bad?
+	if (!BASS_Init(-1,44100,0,hwnd,NULL)) {
 		warning (WARNING_BASS_FAIL);
 		return false;
 	}

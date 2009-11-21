@@ -1,18 +1,18 @@
 #include <windows.h>
-#include "version.h"
+#include "..\source\CommonCode\version.h"
 
 #define ICON_1		105
 #define INVISIBLE	2195
 
-ICON_1 ICON "resources/sludge.ico"
-999 ICON "resources/gameIcon.ico"
+ICON_1 ICON "sludge.ico"
+999 ICON "gameIcon.ico"
 
-106	BITMAP "resources/sludge.bmp"
-107	BITMAP "resources/loading.bmp"
+106	BITMAP "sludge.bmp"
+107	BITMAP "loading.bmp"
 
-INVISIBLE CURSOR "resources/invis.cur"
-2196 CURSOR "resources/cross.cur"
-2197 CURSOR "resources/BigArrow.cur"
+INVISIBLE CURSOR "invis.cur"
+2196 CURSOR "cross.cur"
+2197 CURSOR "BigArrow.cur"
 
 100 DIALOG 60, 60, 200, 140
 STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
@@ -27,8 +27,8 @@ BEGIN
 END
 
 1 VERSIONINFO
- FILEVERSION 0,1,0,0
- PRODUCTVERSION 0,1,0,0
+ FILEVERSION 2,0,0,0
+ PRODUCTVERSION 2,0,0,0
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN

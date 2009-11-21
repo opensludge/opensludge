@@ -418,7 +418,7 @@
 	"moreio.h"
 	"backdrop.h"
 
-1258802903 source:c:\programmering\sludge\source\engine\sludger.cpp
+1258830652 source:c:\programmering\sludge\source\engine\sludger.cpp
 	"allfiles.h"
 	"SDL.h"
 	<sys/types.h>
@@ -549,7 +549,7 @@
 	"moreio.h"
 	"windows.h"
 
-1258802902 source:c:\programmering\sludge\source\engine\winstuff.cpp
+1258830642 source:c:\programmering\sludge\source\engine\winstuff.cpp
 	<windows.h>
 	"allfiles.h"
 	"winstuff.h"
@@ -663,7 +663,7 @@
 	"language.h"
 	"version.h"
 
-1258802903 source:c:\programmering\sludge\source\engine\main.cpp
+1258830390 source:c:\programmering\sludge\source\engine\main.cpp
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -739,7 +739,7 @@
 	"newfatal.h"
 	"moreio.h"
 
-1258813789 source:c:\programmering\sludge\source\engine\sound_bass.cpp
+1258830014 source:c:\programmering\sludge\source\engine\sound_bass.cpp
 	"allfiles.h"
 	"newfatal.h"
 	"bass.h"
@@ -780,4 +780,8 @@
 	"moreio.h"
 	"newfatal.h"
 	"Graphics.h"
+
+1258831863 source:c:\programmering\sludge\images\sludge.rc
+	<windows.h>
+	"..\source\CommonCode\version.h"
 

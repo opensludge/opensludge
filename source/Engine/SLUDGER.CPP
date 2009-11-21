@@ -172,7 +172,7 @@ bool initSludge (char * filename) {
 	int a = 0;
 	mouseCursorAnim = makeNullAnim ();
 	createFontPalette (pastePalette);
-	
+
 	FILE * fp = openAndVerify (filename, 'G', 'E', ERROR_BAD_HEADER, gameVersion);
 	if (! fp) return false;
 
@@ -195,13 +195,13 @@ bool initSludge (char * filename) {
 				allResourceNames[fn] = readString (fp);
 			}
 		}
-	}			
+	}
 	winWidth = get2bytes (fp);
 	winHeight = get2bytes (fp);
 	specialSettings = fgetc (fp);
-	
+
 	desiredfps = 1000/fgetc (fp);
-			
+
 	delete readString (fp); // Unused - was used for registration purposes.
 	fread (& fileTime, sizeof (FILETIME), 1, fp);
 
@@ -218,63 +218,64 @@ bool initSludge (char * filename) {
 #else
 		if (chdir (dataFol)) return fatal ("This game's data folder is inaccessible!\nI can't access the following directory (maybe there's a file with the same name, or maybe it's read-protected):", dataFol);
 #endif
-	}	
+	}
 
 	readIniFile (filename);
-	
+
 	gameSettings.numLanguages = (gameVersion >= VERSION(1,3)) ? (fgetc (fp)) : 0;
 	makeLanguageTable (fp);
-	
+
 	bool useAAFromIni = true;
 	if (gameVersion >= VERSION(1,6))
 	{
 		useAAFromIni = fgetc(fp);
 		aaLoad(maxAntiAliasSettings, fp);
-	}	
-	
+	}
+
 	char * checker = readString (fp);
-	
+
 	if (strcmp (checker, "okSoFar")) return fatal (ERROR_BAD_HEADER, filename);
 	delete checker;
-	
+
+
 	if (fgetc (fp)) {
 		// There is an icon - read it!
 		int n;
 		int w, h;
-		
+
 		long file_pointer = ftell (fp);
-		
+
 		png_structp png_ptr;
 		png_infop info_ptr, end_info;
-		
-		
+
+
 		int fileIsPNG = true;
-		
+
 		// Is this a PNG file?
-		
+
 		char tmp[10];
 		fread(tmp, 1, 8, fp);
 		if (png_sig_cmp((png_byte *) tmp, 0, 8)) {
 			// No, it's old-school HSI
 			fileIsPNG = false;
 			fseek(fp, file_pointer, SEEK_SET);
-			
+
 			w = get2bytes (fp);
 			h = get2bytes (fp);
 		} else {
 			// Read the PNG header
-			
+
 			png_ptr = png_create_read_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 			if (!png_ptr) {
 				return false;
 			}
-			
+
 			info_ptr = png_create_info_struct(png_ptr);
 			if (!info_ptr) {
 				png_destroy_read_struct(&png_ptr, (png_infopp) NULL, (png_infopp) NULL);
 				return false;
 			}
-			
+
 			end_info = png_create_info_struct(png_ptr);
 			if (!end_info) {
 				png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
@@ -282,31 +283,31 @@ bool initSludge (char * filename) {
 			}
 			png_init_io(png_ptr, fp);		// Tell libpng which file to read
 			png_set_sig_bytes(png_ptr, 8);	// 8 bytes already read
-			
+
 			png_read_info(png_ptr, info_ptr);
-			
+
 			png_uint_32 width, height;
 			int bit_depth, color_type, interlace_type, compression_type, filter_method;
 			png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, &interlace_type, &compression_type, &filter_method);
-			
+
 			w = width;
 			h = height;
-			
+
 			if (bit_depth < 8) png_set_packing(png_ptr);
 			png_set_expand(png_ptr);
-			if (color_type == PNG_COLOR_TYPE_GRAY || color_type == PNG_COLOR_TYPE_GRAY_ALPHA) png_set_gray_to_rgb(png_ptr);	
+			if (color_type == PNG_COLOR_TYPE_GRAY || color_type == PNG_COLOR_TYPE_GRAY_ALPHA) png_set_gray_to_rgb(png_ptr);
 			if (bit_depth == 16) png_set_strip_16(png_ptr);
-			
+
 			png_set_add_alpha(png_ptr, 0xff, PNG_FILLER_AFTER);
-			
+
 			png_read_update_info(png_ptr, info_ptr);
 			png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, &interlace_type, &compression_type, &filter_method);
-			
+
 		}
-		
-		
+
+
 		if (SDL_Surface * programIcon = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 32, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000)) {
-			signed long transCol = 63519;			
+			signed long transCol = 63519;
 			SDL_LockSurface(programIcon);
 			Uint8 *p = (Uint8 *) programIcon->pixels;
 
@@ -314,12 +315,12 @@ bool initSludge (char * filename) {
 				unsigned char * row_pointers[h];
 				for (int i = 0; i<h; i++)
 					row_pointers[i] = p + 4*i*w;
-				
+
 				png_read_image(png_ptr, (png_byte **) row_pointers);
 				png_read_end(png_ptr, NULL);
 				png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
 			} else {
-					
+
 				for (int t2 = 0; t2 < h; t2 ++) {
 					int t1 = 0;
 					while (t1 < w) {
@@ -335,7 +336,7 @@ bool initSludge (char * filename) {
 							*p++ = (Uint8) greenValue(c);
 							*p++ = (Uint8) blueValue(c);
 							*p++ = (Uint8) (c == transCol) ? 0 : 255;
-							
+
 							t1++;
 						}
 					}
@@ -344,8 +345,9 @@ bool initSludge (char * filename) {
 			SDL_UnlockSurface (programIcon);
 			SDL_WM_SetIcon(programIcon, NULL);
 			SDL_FreeSurface(programIcon);
-		}		
+		}
 	}
+	fprintf (stderr, "initSludge 1\n");
 
  	numGlobals = get2bytes (fp);
 
@@ -353,7 +355,11 @@ bool initSludge (char * filename) {
 	if (! checkNew (globalVars)) return false;
 	for (a = 0; a < numGlobals; a ++) initVarNew (globalVars[a]);
 
-	if (! showSetupWindow()) return 0;		
+	fprintf (stderr, "initSludge 2\n");
+	if (! showSetupWindow()) return 0;
+
+	fprintf (stderr, "initSludge 3\n");
+
 
 	if (useAAFromIni && gameSettings.antiAlias >= 0)
 	{
@@ -373,7 +379,7 @@ extern int cameraX, cameraY;
 bool checkColourChange (bool reset) {
 	static GLuint oldPixel;
 	static GLuint pixel;
-	
+
 	glReadPixels(viewportOffsetX+input.mouseX*viewportWidth/winWidth, viewportOffsetY+(winHeight - input.mouseY)*viewportHeight/winHeight, 1, 1, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8, &pixel);
 
 	if (reset || oldPixel != pixel) {
@@ -389,25 +395,25 @@ void sludgeDisplay () {
 	glDepthMask (GL_TRUE);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear The Screen
 	glDepthMask (GL_FALSE);
-	drawBackDrop ();				// Draw the room	
-	
+	drawBackDrop ();				// Draw the room
+
 	drawZBuffer(cameraX, cameraY, false);
-		
+
 	checkColourChange (true);
-	
+
 	glEnable(GL_DEPTH_TEST);
 	drawPeople ();					// Then add any moving characters...
 	glDisable(GL_DEPTH_TEST);
 	viewSpeech ();					// ...and anything being said
 	drawStatusBar ();
-	
+
 	if (brightnessLevel < 255) fixBrightness ();	// This is for transitionLevel special effects
 
 	displayCursor ();
-	
+
 	glFlush();
 	SDL_GL_SwapBuffers();
-	
+
 }
 
 void pauseFunction (loadedFunction * fun) {
@@ -477,7 +483,7 @@ void abortFunction (loadedFunction * fun) {
 int cancelAFunction (int funcNum, loadedFunction * myself, bool & killedMyself) {
 	int n = 0;
 	killedMyself = false;
-	
+
 	loadedFunction * fun = allRunningFunctions;
 	while (fun) {
 		if (fun -> originalNumber == funcNum) {
@@ -520,7 +526,7 @@ bool continueFunction (loadedFunction * fun) {
 	bool advanceNow;
 	unsigned int param;
 	sludgeCommand com;
-	
+
 	if (fun -> cancelMe) {
 		abortFunction (fun);
 		return true;
@@ -543,7 +549,7 @@ bool continueFunction (loadedFunction * fun) {
 //				(com < numSludgeCommands) ? sludgeText[com] : "Unknown SLUDGE machine code",
 //				param);
 		}
-		
+
 		//debugOut ("SLUDGER: continueFunction - in da loop: %s\n", sludgeText[com]);
 
 		switch (com) {
@@ -568,7 +574,7 @@ bool continueFunction (loadedFunction * fun) {
 				if (numBIFNames) setFatalInfo (
 					(fun -> originalNumber < numUserFunc) ? allUserFunc[fun -> originalNumber] : "Unknown user function",
 					(fun -> reg.varData.intValue < numUserFunc) ? allUserFunc[fun -> reg.varData.intValue] : "Unknown user function");
-			
+
 				if (! startNewFunctionNum (fun -> reg.varData.intValue, param, fun, fun -> stack)) return false;
 				fun = allRunningFunctions;
 				advanceNow = false;		// So we don't do anything else with "fun"
@@ -590,10 +596,10 @@ bool continueFunction (loadedFunction * fun) {
 					case BR_KEEP_AND_PAUSE:
 					keepLooping = false;
 					break;
-					
+
 					case BR_ALREADY_GONE:
 					keepLooping = false;
-					advanceNow = false;					
+					advanceNow = false;
 					break;
 
 					case BR_CALLAFUNC:
@@ -680,7 +686,7 @@ bool continueFunction (loadedFunction * fun) {
 					return fatal (ERROR_INCDEC_UNKNOWN);
 				}
 				break;
-				
+
 				case SVT_FASTARRAY:
 				case SVT_STACK:
 				if (fun -> stack -> thisVar.varData.theStack -> first == NULL) {
@@ -692,9 +698,9 @@ bool continueFunction (loadedFunction * fun) {
 						fastArrayGetByIndex (fun -> stack -> thisVar.varData.fastArray, ii)
 							:
 						stackGetByIndex (fun -> stack -> thisVar.varData.theStack -> first, ii);
-						
+
 					trimStack (fun -> stack);
-					
+
 					if (! grab) {
 						setVariable (fun -> reg, SVT_NULL, 0);
 					} else {
@@ -705,13 +711,13 @@ bool continueFunction (loadedFunction * fun) {
 							setVariable (fun -> reg, SVT_INT, ii);
 							grab -> varData.intValue = ii + 1;
 							break;
-							
+
 							case SLU_DECREMENT_INDEX:
 							if (! getValueType (ii, SVT_INT, * grab)) return false;
 							setVariable (fun -> reg, SVT_INT, ii);
 							grab -> varData.intValue = ii - 1;
 							break;
-							
+
 							default:
 							if (! copyVariable (* grab, fun -> reg)) return false;
 						}
@@ -739,7 +745,7 @@ bool continueFunction (loadedFunction * fun) {
 					trimStack (fun -> stack);
 				}
 				break;
-				
+
 				case SVT_FASTARRAY:
 				{
 					int ii;
@@ -751,7 +757,7 @@ bool continueFunction (loadedFunction * fun) {
 					trimStack (fun -> stack);
 				}
 				break;
-							
+
 				default:
 				return fatal (ERROR_INDEX_NONSTACK);
 			}
@@ -977,11 +983,11 @@ bool runSludge () {
 			setVariable (saverFunc -> reg, SVT_INT, 1);
 		} else {
 			if (! loadGame (loadNow)) return false;
-		}			
+		}
 		delete loadNow;
 		loadNow = NULL;
 	}
-	
+
 	return true;
 }
 
@@ -1055,7 +1061,7 @@ int lastSeconds = 0;
 bool handleInput () {
 	static int l = 0;
 	static Uint32 theTime;
-	
+
 	theTime = SDL_GetTicks() / 1000;
 	if (lastSeconds != theTime) {
 		lastSeconds = theTime;
@@ -1065,14 +1071,14 @@ bool handleInput () {
 		thisFramesPerSecond ++;
 	}
 //	lastFramesPerSecond = theTime.wSecond;
-	
+
 	if (launchMe) {
 		if (l) {
 			// Still paused because of spawned thingy...
 		} else {
 			l = 1;
 			unsigned long retVal = 0;
-#ifdef _WIN32			
+#ifdef _WIN32
 			retVal = (unsigned long) ShellExecute (hMainWindow, "open",
 							  									 launchMe, NULL, "C:\\",
 							  									 SW_SHOWNORMAL);
@@ -1082,10 +1088,10 @@ bool handleInput () {
 				launchMe[2] == 't' &&
 				launchMe[3] == 'p' &&
 				launchMe[4] == ':') {
-				
+
 				// IT'S A WEBSITE!
 				[[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString: [NSString stringWithUTF8String: launchMe]]];
-				
+
 			} else {
 				[[NSWorkspace sharedWorkspace] openFile: [NSString stringWithUTF8String: launchMe]];
 			}
@@ -1181,7 +1187,7 @@ bool handleInput () {
 			case 63245:	tempString = copyString ("F10");		break;
 			case 63246:	tempString = copyString ("F11");		break;
 			case 63247:	tempString = copyString ("F12");		break;
-			
+
 			default:
 			if (input.keyPressed >= 256) {
 				//if (captureAllKeys) {
@@ -1193,7 +1199,7 @@ bool handleInput () {
 				tempString[0] = input.keyPressed;
 			}
 		}
-		
+
 		if (tempString) {
 			variableStack * tempStack = new variableStack;
 			if (! checkNew (tempStack)) return false;
