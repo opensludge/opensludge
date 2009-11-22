@@ -581,7 +581,7 @@
 	"newfatal.h"
 	"moreio.h"
 
-1258816962 source:c:\programmering\sludge\source\engine\builtin.cpp
+1258837058 source:c:\programmering\sludge\source\engine\builtin.cpp
 	"debug.h"
 	"allfiles.h"
 	"SDL.h"
@@ -663,7 +663,7 @@
 	"language.h"
 	"version.h"
 
-1258830390 source:c:\programmering\sludge\source\engine\main.cpp
+1258898855 source:c:\programmering\sludge\source\engine\main.cpp
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -781,7 +781,7 @@
 	"newfatal.h"
 	"Graphics.h"
 
-1258831863 source:c:\programmering\sludge\images\sludge.rc
+1258832351 source:c:\programmering\sludge\images\sludge.rc
 	<windows.h>
 	"..\source\CommonCode\version.h"
 

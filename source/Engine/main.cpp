@@ -231,11 +231,10 @@ int main(int argc, char *argv[])
 
 	SDL_EnableUNICODE(1);
 
-
-
 	done = 0;
 	while ( !done ) {
 
+        fprintf (stderr, "Polling for events... ");
 		/* Check for events */
 		while ( SDL_PollEvent(&event) ) {
 			switch (event.type) {
@@ -315,6 +314,7 @@ int main(int argc, char *argv[])
 					break;
 			}
 		}
+		fprintf (stderr, "tick.\n");
 		tick ();
 		Wait_Frame();
 

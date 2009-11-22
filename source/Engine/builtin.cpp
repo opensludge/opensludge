@@ -253,6 +253,7 @@ builtIn(getStatusText)
 builtIn(getMatchingFiles)
 {
 	 UNUSEDALL
+				fprintf (stderr, "getMatchingFiles - start\n");
 				char * newText = getTextFromAnyVar (fun -> stack -> thisVar);
 				if (! newText) return BR_NOCOMMENT;
 				trimStack (fun -> stack);
@@ -267,6 +268,7 @@ builtIn(getMatchingFiles)
 				fun -> reg.varData.theStack -> timesUsed = 1;
 				if (! getSavedGamesStack (fun -> reg.varData.theStack, newText)) return BR_NOCOMMENT;
 				delete newText;
+				fprintf (stderr, "getMatchingFiles - end\n");
 			return BR_CONTINUE;
 }
 
@@ -1212,12 +1214,15 @@ builtIn(setZBuffer)
 builtIn(setSpeechMode)
 {
 	UNUSEDALL
+        fprintf (stderr, "setSpeechMode start\n");
+        fflush (stderr);
 				if (! getValueType (speechMode, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 				trimStack (fun -> stack);
 				if (speechMode < 0 || speechMode > 2) {
 					fatal ("Valid parameters are be SPEECHANDTEXT, SPEECHONLY or TEXTONLY");
 					return BR_NOCOMMENT;
 				}
+        fprintf (stderr, "setSpeechMode end\n");
 				return BR_CONTINUE;
 }
 
@@ -2557,6 +2562,8 @@ void builtInDebugTick()
 
 
 builtReturn callBuiltIn (int whichFunc, int numParams, loadedFunction * fun) {
+    fprintf (stderr, "Calling function %d: %s\n", whichFunc, builtInFunctionNames[whichFunc]);
+    fflush (stderr);
 	if (numBIFNames) {
 
 //		deb ("IN:", (fun -> originalNumber < numUserFunc) ? allUserFunc[fun -> originalNumber] : "Unknown user function");
