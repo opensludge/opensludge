@@ -236,4 +236,5 @@ void unfreeze (bool killImage) {
 
 	overRegion = NULL;
 	delete killMe;
+	killMe = NULL;
 }

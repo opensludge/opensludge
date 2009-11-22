@@ -236,6 +236,7 @@ bool initSludge (char * filename) {
 
 	if (strcmp (checker, "okSoFar")) return fatal (ERROR_BAD_HEADER, filename);
 	delete checker;
+	checker = NULL;
 
 
 	if (fgetc (fp)) {
@@ -347,7 +348,6 @@ bool initSludge (char * filename) {
 			SDL_FreeSurface(programIcon);
 		}
 	}
-	fprintf (stderr, "initSludge 1\n");
 
  	numGlobals = get2bytes (fp);
 
@@ -355,11 +355,7 @@ bool initSludge (char * filename) {
 	if (! checkNew (globalVars)) return false;
 	for (a = 0; a < numGlobals; a ++) initVarNew (globalVars[a]);
 
-	fprintf (stderr, "initSludge 2\n");
 	if (! showSetupWindow()) return 0;
-
-	fprintf (stderr, "initSludge 3\n");
-
 
 	if (useAAFromIni && gameSettings.antiAlias >= 0)
 	{
@@ -465,6 +461,7 @@ void finishFunction (loadedFunction * fun) {
 	delete fun -> localVars;
 	unlinkVar (fun -> reg);
 	delete fun;
+	fun = NULL;
 }
 
 void abortFunction (loadedFunction * fun) {
@@ -478,6 +475,7 @@ void abortFunction (loadedFunction * fun) {
 	unlinkVar (fun -> reg);
 	if (fun -> calledBy) abortFunction (fun -> calledBy);
 	delete fun;
+	fun = NULL;
 }
 
 int cancelAFunction (int funcNum, loadedFunction * myself, bool & killedMyself) {
@@ -540,6 +538,8 @@ bool continueFunction (loadedFunction * fun) {
 		advanceNow = true;
 		param = fun -> compiledLines[fun -> runThisLine].param;
 		com = fun -> compiledLines[fun -> runThisLine].theCommand;
+//		fprintf (stderr, "com: %d param: %d (%s)\n", com, param,
+//				(com < numSludgeCommands) ? sludgeText[com] : ERROR_UNKNOWN_MCODE); fflush(stderr);
 
 		if (numBIFNames) {
 			setFatalInfo (
@@ -570,6 +570,7 @@ bool continueFunction (loadedFunction * fun) {
 			case SLU_CALLIT:
 			switch (fun -> reg.varType) {
 				case SVT_FUNC:
+				fprintf (stderr, "Calling something.\n"); fflush (stderr);
 				pauseFunction (fun);
 				if (numBIFNames) setFatalInfo (
 					(fun -> originalNumber < numUserFunc) ? allUserFunc[fun -> originalNumber] : "Unknown user function",
@@ -583,6 +584,8 @@ bool continueFunction (loadedFunction * fun) {
 				case SVT_BUILT:
 					{
 					builtReturn br = callBuiltIn (fun -> reg.varData.intValue, param, fun);
+				    fprintf (stderr, "Function returned. \n");    fflush (stderr);
+
 				//debugOut ("built - %i\n", br);
 
 				switch (br) {
@@ -934,6 +937,8 @@ bool continueFunction (loadedFunction * fun) {
 
 		//debugOut ("AdvanceNow is %i\n", advanceNow);
 		if (advanceNow) fun -> runThisLine ++;
+//		fprintf (stderr, ".\n"); fflush (stderr);
+
 	}
 //	fprintf (debuggy, "I think I've dropped out of this thread successfully!\n");
 	return true;
@@ -995,7 +1000,9 @@ bool loadFunctionCode (loadedFunction * newFunc) {
 	unsigned int numLines, numLinesRead;
 	int a;
 
+	fprintf (stderr, "loadFunctionCode\n"); fflush (stderr);
 	if (! openSubSlice (newFunc -> originalNumber)) return false;
+
 
 	newFunc -> unfreezable	= fgetc (bigDataFile);
 	numLines				= get2bytes (bigDataFile);
@@ -1022,6 +1029,7 @@ bool loadFunctionCode (loadedFunction * newFunc) {
 }
 
 int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, loadedFunction * calledBy, variableStack * & vStack, bool returnSommet) {
+	fprintf (stderr, "startNewFunctionNum\n"); fflush (stderr);
 	loadedFunction * newFunc = new loadedFunction;
 	checkNew (newFunc);
 	newFunc -> originalNumber = funcNum;
@@ -1051,6 +1059,7 @@ int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, l
 	initVarNew (newFunc -> reg);
 
 	restartFunction (newFunc);
+	fprintf (stderr, "startNewFunctionNum - Done\n"); fflush (stderr);
 	return 1;
 }
 
@@ -1206,6 +1215,7 @@ bool handleInput () {
 			initVarNew (tempStack -> thisVar);
 			makeTextVar (tempStack -> thisVar, tempString);
 			delete tempString;
+			tempString = NULL;
 			tempStack -> next = NULL;
 			if (! startNewFunctionNum (currentEvents -> spaceFunction, 1, NULL, tempStack)) return false;
 		}

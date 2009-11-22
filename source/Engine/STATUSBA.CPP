@@ -73,11 +73,11 @@ void drawStatusBar () {
 			case IN_THE_CENTRE:
 			pasteString (stat -> text, (winWidth - stringWidth (stat -> text)) >> 1, y, (n ++ == nowStatus -> litStatus) ? litVerbLinePalette : verbLinePalette);
 			break;
-			
+
 			case 1001:
 			pasteString (stat -> text, (winWidth - stringWidth (stat -> text)) - nowStatus -> statusX, y, (n ++ == nowStatus -> litStatus) ? litVerbLinePalette : verbLinePalette);
 			break;
-			
+
 			default:
 			pasteString (stat -> text, nowStatus -> statusX, y, (n ++ == nowStatus -> litStatus) ? litVerbLinePalette : verbLinePalette);
 		}
@@ -116,10 +116,10 @@ statusStuff * copyStatusBarStuff (statusStuff * here) {
 	// Things we want to clear
 	here -> litStatus = -1;
 	here -> firstStatusBar = NULL;
-	
+
 	statusStuff * old = nowStatus;
 	nowStatus = here;
-	
+
 	return old;
 }
 
@@ -158,7 +158,7 @@ void saveStatusBars (FILE * fp) {
 	putSigned (nowStatus -> litStatus, fp);
 	put2bytes (nowStatus -> statusX, fp);
 	put2bytes (nowStatus -> statusY, fp);
-	
+
 	fputc (nowStatus -> statusR, fp);
 	fputc (nowStatus -> statusG, fp);
 	fputc (nowStatus -> statusB, fp);
@@ -182,7 +182,7 @@ bool loadStatusBars (FILE * fp) {
 	nowStatus -> litStatus = readSigned (fp);
 	nowStatus -> statusX = get2bytes (fp);
 	nowStatus -> statusY = get2bytes (fp);
-	
+
 	nowStatus -> statusR = fgetc (fp);
 	nowStatus -> statusG = fgetc (fp);
 	nowStatus -> statusB = fgetc (fp);

@@ -33,6 +33,7 @@ void forgetSpriteBank (spriteBank & forgetme) {
 	}*/
 
 	delete forgetme.sprites;
+	forgetme.sprites = NULL;
 }
 
 bool reserveSpritePal (spritePalette & sP, int n) {
@@ -45,13 +46,12 @@ bool reserveSpritePal (spritePalette & sP, int n) {
 }
 
 bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
-	int i, tex_num, total, picwidth, picheight, loadSaveMode = 0, howmany,
-		startIndex;
+	int i, tex_num, total, picwidth, picheight, loadSaveMode = 0, howmany=0, startIndex=0;
 	int totalwidth[256], maxheight[256];
 	int numTextures = 0;
 	byte * data;
 
-	fprintf (stderr, "loadSpriteBank: Loading new sprite bank... \n");
+	fprintf (stderr, "loadSpriteBank: Loading new sprite bank... \n"); fflush (stderr);
 
 	setResourceForFatal (fileNum);
 	if (! openFileFromNum (fileNum)) return fatal ("Can't open sprite bank / font");
@@ -71,8 +71,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 	if (total <= 0) return fatal ("No sprites in bank or invalid sprite bank file");
 	if (loadSaveMode > 3) return fatal ("Unsupported sprite bank file format");
 
-	fprintf (stderr, "loadSpriteBank - loadSaveMode: %d\n", loadSaveMode);
-	fflush (stderr);
+	fprintf (stderr, "loadSpriteBank - loadSaveMode: %d\n", loadSaveMode);fflush (stderr);
 
 	loadhere.total = total;
 	loadhere.sprites = new sprite [total];
@@ -85,8 +84,6 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 	}
 
 	totalwidth[0] = maxheight[0] = 1;
-	fprintf (stderr, "loadSpriteBank - halfway point b\n");
-	fflush (stderr);
 
 	for (i = 0; i < total; i ++) {
 		switch (loadSaveMode) {
@@ -124,7 +121,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 
 				unsigned char * row_pointers[height];
 				spriteData[i] = new unsigned char [rowbytes*height];
-				for (int row = 0; row<height; row++)
+				for (unsigned int row = 0; row<height; row++)
 					row_pointers[row] = spriteData[i] + row*rowbytes;
 
 				png_read_image(png_ptr, (png_byte **) row_pointers);
@@ -228,16 +225,16 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 			totalwidth[tex_num] = getNextPOT(totalwidth[tex_num]);
 			maxheight[tex_num] = getNextPOT(maxheight[tex_num]);
 		}
-		tmp[tex_num] = new GLubyte [maxheight[tex_num]*totalwidth[tex_num]*4];
+		tmp[tex_num] = new GLubyte [(maxheight[tex_num]+1)*totalwidth[tex_num]*4];
 		memset (tmp[tex_num], 0, maxheight[tex_num]*totalwidth[tex_num]*4);
 		if (isFont) {
-			tmp2[tex_num] = new GLubyte [maxheight[tex_num]*totalwidth[tex_num]*4];
+			tmp2[tex_num] = new GLubyte [(maxheight[tex_num]+1)*totalwidth[tex_num]*4];
 			memset (tmp2[tex_num], 0, maxheight[tex_num]*totalwidth[tex_num]*4);
+			fprintf (stderr, "tmp2 new (%d)\n", tmp2[tex_num]);
 		}
 		loadhere.myPalette.tex_w[tex_num] = totalwidth[tex_num];
 		loadhere.myPalette.tex_h[tex_num] = maxheight[tex_num];
 	}
-
 
 	int fromhere;
 	unsigned char s;
@@ -289,7 +286,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 		delete spriteData[i];
 	}
 	delete spriteData;
-
+	spriteData = NULL;
 
 
 	glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
@@ -297,6 +294,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 	glGenTextures (numTextures, loadhere.myPalette.tex_names);
 	if (isFont)
 		glGenTextures (numTextures, loadhere.myPalette.burnTex_names);
+
 
 	for (tex_num = 0; tex_num < numTextures; tex_num++) {
 
@@ -310,6 +308,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 		//fprintf (stderr, "%s w:%d h:%d %d\n", resourceNameFromNum(fileNum), totalwidth[tex_num], maxheight[tex_num], loadhere.myPalette.tex_names[tex_num]);
 
 		delete tmp[tex_num];
+		tmp[tex_num] = NULL;
 
 		if (isFont) {
 			glBindTexture (GL_TEXTURE_2D, loadhere.myPalette.burnTex_names[tex_num]);
@@ -320,14 +319,14 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 			glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, totalwidth[tex_num], maxheight[tex_num], 0, GL_RGBA, GL_UNSIGNED_BYTE, tmp2[tex_num]);
 
 			delete tmp2[tex_num];
+			tmp2[tex_num] = NULL;
 		}
 	}
 
 	finishAccess ();
 	setResourceForFatal (-1);
 
-	fprintf (stderr, "loadSpriteBank: Done. \n");
-	fflush (stderr);
+	fprintf (stderr, "loadSpriteBank: Done. \n");fflush (stderr);
 
 	return true;
 }
@@ -535,10 +534,10 @@ void flipFontSprite (int x, int y, sprite & single, const spritePalette & fontPa
 	float tx2 = (float)(single.tex_x + single.width+1.0) / fontPal.tex_w[single.texNum];
 	float ty2 = (float)(single.height+2)/fontPal.tex_h[single.texNum];
 
-	int x1 = x - single.xhot-0.5;
-	int y1 = y - single.yhot-0.5;
-	int x2 = x1 + single.width+1.0;
-	int y2 = y1 + single.height+1.0;
+	int x1 = (int) (x - single.xhot-0.5);
+	int y1 = (int) (y - single.yhot-0.5);
+	int x2 = (int) (x1 + single.width+1.0);
+	int y2 = (int) (y1 + single.height+1.0);
 
 	glEnable (GL_TEXTURE_2D);
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // GL_MODULATE instead of decal mixes the colours!
@@ -889,16 +888,16 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 	setPixelCoords (true);
 	int xoffset = 0;
 	while (xoffset < diffX) {
-		int w = (diffX-xoffset < viewportWidth) ? diffX-xoffset : viewportWidth;
+		int w = (diffX-xoffset < viewportWidth) ? (int) (diffX-xoffset) : viewportWidth;
 
 		int yoffset = 0;
 		while (yoffset < diffY) {
-			int h = (diffY-yoffset < viewportHeight) ? diffY-yoffset : viewportHeight;
+			int h = (diffY-yoffset < viewportHeight) ? (int) (diffY-yoffset) : viewportHeight;
 
 			if (useZB) {
 				glDepthMask (GL_TRUE);
 				glClear(GL_DEPTH_BUFFER_BIT);
-				drawZBuffer(x1+xoffset+camX, y1+yoffset+camY, false);
+				drawZBuffer((int) (x1+xoffset+camX), (int) (y1+yoffset+camY), false);
 
 				glDepthMask (GL_FALSE);
 				glEnable(GL_DEPTH_TEST);
@@ -953,7 +952,7 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 
 			// Copy Our ViewPort To The Texture
 			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
-			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, (x1<0) ? xoffset: x1+xoffset, (y1<0) ? yoffset: y1+yoffset, (x1<0) ?viewportOffsetX-x1:viewportOffsetX, (y1<0) ?viewportOffsetY-y1:viewportOffsetY, w, h);
+			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, (int) ((x1<0) ? xoffset: x1+xoffset), (int) ((y1<0) ? yoffset: y1+yoffset), (int) ((x1<0) ?viewportOffsetX-x1:viewportOffsetX), (int) ((y1<0) ?viewportOffsetY-y1:viewportOffsetY), w, h);
 
 			yoffset += viewportHeight;
 		}

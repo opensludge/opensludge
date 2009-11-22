@@ -99,7 +99,6 @@ void setFontColour (spritePalette & sP, byte r, byte g, byte b) {
 
 bool loadFont (int filenum, const char * charOrder, int h) {
 	int a;
-	fprintf (stderr, "loadFont \n");
 
 	loadedFontNum = filenum;
 

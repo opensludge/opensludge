@@ -114,7 +114,7 @@ variableStack * loadStack (FILE * fp, variableStack ** last) {
 		(* changeMe) = nS;
 		changeMe = & (nS -> next);
 	}
-	
+
 	return first;
 }
 
@@ -243,7 +243,7 @@ bool saveVariable (variable * from, FILE * fp)
 		case SVT_ANIM:
 		saveAnim (from -> varData.animHandler, fp);
 		return false;
-		
+
 		case SVT_NULL:
 		return false;
 
@@ -382,12 +382,12 @@ bool saveGame (char * fname) {
 	fputc (MINOR_VERSION, fp);
 
 	if (! saveThumbnail (fp)) return false;
-	
+
 	fwrite (& fileTime, sizeof (FILETIME), 1, fp);
 
 	// DON'T ADD ANYTHING NEW BEFORE THIS POINT!
 
-	fputc (allowAnyFilename, fp);	
+	fputc (allowAnyFilename, fp);
 	fputc (captureAllKeys, fp);
 	fputc (true, fp); // updateDisplay
 	fputc (fontLoaded, fp);
@@ -400,7 +400,7 @@ bool saveGame (char * fname) {
 		}
 	}
 	putSigned (fontSpace, fp);
-	
+
 	// Save backdrop
 	put2bytes (cameraX, fp);
 	put2bytes (cameraY, fp);
@@ -412,7 +412,7 @@ bool saveGame (char * fname) {
 
 	// Save regions
 	saveRegions (fp);
-	
+
 	saveAnim (mouseCursorAnim, fp);
 	put2bytes (mouseCursorFrameNum, fp);
 
@@ -460,7 +460,7 @@ bool saveGame (char * fname) {
 	saveSounds (fp);
 
 	put2bytes (saveEncoding, fp);
-	
+
 	aaSave(maxAntiAliasSettings, fp);
 	blur_saveSettings(fp);
 
@@ -468,7 +468,7 @@ bool saveGame (char * fname) {
 	fputc (currentBurnR, fp);
 	fputc (currentBurnG, fp);
 	fputc (currentBurnB, fp);
-	
+
 	saveParallaxRecursive (parallaxStuff, fp);
 	fputc (0, fp);
 
@@ -480,7 +480,7 @@ bool saveGame (char * fname) {
 	} else {
 		fputc (0, fp);
 	}
-	
+
 	fclose (fp);
 	clearStackLib ();
 	return true;
@@ -497,7 +497,7 @@ bool loadGame (char * fname) {
 	FILE * fp;
 	FILETIME savedGameTime;
 	int a;
-	
+
 	while (allRunningFunctions) finishFunction (allRunningFunctions);
 
 	fp = openAndVerify (fname, 'S', 'A', ERROR_GAME_LOAD_NO, ssgVersion);
@@ -506,14 +506,14 @@ bool loadGame (char * fname) {
 	if (ssgVersion >= VERSION(1,4)) {
 		if (! skipThumbnail (fp)) return fatal (ERROR_GAME_LOAD_CORRUPT, fname);
 	}
-	
+
 	fread (& savedGameTime, sizeof (FILETIME), 1, fp);
 
 	if (savedGameTime.dwLowDateTime != fileTime.dwLowDateTime ||
 		savedGameTime.dwHighDateTime != fileTime.dwHighDateTime) {
 		return fatal (ERROR_GAME_LOAD_WRONG, fname);
 	}
-	
+
 	// DON'T ADD ANYTHING NEW BEFORE THIS POINT!
 
 	if (ssgVersion >= VERSION(1,4)) {
@@ -524,7 +524,7 @@ bool loadGame (char * fname) {
 
 	fontLoaded = fgetc (fp);
 	forgetSpriteBank (theFont);
-		
+
 	if (fontLoaded) {
 		loadedFontNum = get2bytes (fp);
 		loadSpriteBank (loadedFontNum, theFont, true);
@@ -532,7 +532,7 @@ bool loadGame (char * fname) {
 		for (int a = 0; a < 256; a ++) fontTable[a] = fgetc (fp);
 	}
 	fontSpace = readSigned (fp);
-	
+
 	killAllPeople ();
 	killAllRegions ();
 
@@ -566,8 +566,8 @@ bool loadGame (char * fname) {
 	}
 
 	loadPeople (fp, ssgVersion);
-	
-	
+
+
 	if (fgetc (fp)) {
 		if (! setFloor (get2bytes (fp))) return false;
 	} else setFloorNull ();
@@ -575,23 +575,23 @@ bool loadGame (char * fname) {
 	if (fgetc (fp)) {
 		if (! setZBuffer (get2bytes (fp))) return false;
 	}
-	
+
 	if (fgetc (fp)) {
 		if (! loadLightMap (get2bytes (fp))) return false;
 	}
-	
+
 	if (ssgVersion >= VERSION(1,4)) {
 		lightMapMode = fgetc (fp) % 3;
 	}
-	
+
 	speechMode = fgetc (fp);
 	fadeMode = fgetc (fp);
 	loadSpeech (speech, fp);
 	loadStatusBars (fp);
 	loadSounds (fp);
-	
+
 	saveEncoding = get2bytes (fp);
-	
+
 	if (ssgVersion >= VERSION(1,6))
 	{
 		aaLoad(maxAntiAliasSettings, fp);
@@ -603,25 +603,25 @@ bool loadGame (char * fname) {
 		currentBurnR = fgetc (fp);
 		currentBurnG = fgetc (fp);
 		currentBurnB = fgetc (fp);
-		
+
 		// Read parallax layers
 		while (fgetc (fp)) {
 			int im = get2bytes (fp);
 			int fx = get2bytes (fp);
 			int fy = get2bytes (fp);
-			
+
 			if (! loadParallax (im, fx, fy)) return false;
 		}
-		
+
 		int selectedLanguage = fgetc (fp);
-		if (selectedLanguage != languageNum) 
+		if (selectedLanguage != languageNum)
 			//return fatal ("Sorry - this game was saved when the program was running in a different language!");
 		{
 			languageNum = selectedLanguage;
 			setFileIndices (NULL, gameSettings.numLanguages, languageNum);
 		}
 	}
-	
+
 	nosnapshot ();
 	if (ssgVersion >= VERSION(1,4)) {
 		if (fgetc (fp)) {
@@ -631,7 +631,7 @@ bool loadGame (char * fname) {
 
 	fclose (fp);
 	clearStackLib ();
-	
+
 	cameraX = camerX;
 	cameraY = camerY;
 

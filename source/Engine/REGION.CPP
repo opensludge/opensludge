@@ -34,6 +34,7 @@ void removeScreenRegion (int objectNum) {
 			removeObjectType (killMe -> thisType);
 			if (killMe == overRegion) overRegion = NULL;
 			delete killMe;
+			killMe = NULL;
 //			input.checkRegion = true;
 		} else {
 			huntRegion = & ((* huntRegion) -> next);

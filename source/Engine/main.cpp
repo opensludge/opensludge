@@ -4,6 +4,9 @@
 #include <math.h>
 #include <unistd.h>
 
+#include <iostream>
+#include <stdexcept>
+
 #include <time.h>
 #include <sys/time.h>
 #include "glee.h"
@@ -95,7 +98,7 @@ extern bool reallyWantToQuit;
 #ifdef _WIN32
 #undef main
 #endif
-int main(int argc, char *argv[])
+int main(int argc, char *argv[]) try
 {
 	/* Dimensions of our window. */
     winWidth = 640;
@@ -143,9 +146,7 @@ int main(int argc, char *argv[])
 	}
 
 	// OK, so we DO want to start up, then...
-	fprintf (stderr, "Hello 1!\n");
 	if (! initSludge (sludgeFile)) return 0;
-	fprintf (stderr, "Hello 2!\n");
 
 	/*
 	 * Now, we want to setup our requested window attributes for our OpenGL window.
@@ -174,7 +175,7 @@ int main(int argc, char *argv[])
 	} else {
 		// Workaround needed for lesser graphics cards. Let's hope this works...
 		NPOT_textures = false;
-//		fprintf (stderr, "Warning: Old graphics card!\n");
+		fprintf (stderr, "Warning: Old graphics card!\n");
 	}
 
 #ifdef _WIN32
@@ -216,6 +217,7 @@ int main(int argc, char *argv[])
 	gameName = gameNameOrig;
 
 	delete gameNameWin;
+	gameNameWin = NULL;
 
 
 	SDL_WM_SetCaption(gameName, gameName);
@@ -234,7 +236,7 @@ int main(int argc, char *argv[])
 	done = 0;
 	while ( !done ) {
 
-        fprintf (stderr, "Polling for events... ");
+        fprintf (stderr, "Polling for events... "); fflush (stderr);
 		/* Check for events */
 		while ( SDL_PollEvent(&event) ) {
 			switch (event.type) {
@@ -314,13 +316,13 @@ int main(int argc, char *argv[])
 					break;
 			}
 		}
-		fprintf (stderr, "tick.\n");
+		fprintf (stderr, "tick.\n"); fflush (stderr);
 		tick ();
 		Wait_Frame();
 
 	}
 
-	fprintf (stderr, "Bye!");
+	fprintf (stderr, "Bye!"); fflush (stderr);
 
 	killSoundStuff ();
 
@@ -329,3 +331,17 @@ int main(int argc, char *argv[])
 	displayFatal ();
 	return(0);
 }
+
+catch (std::exception & ex) //NOTE by reference, not value
+{
+    std::cerr << "std::exception caught: " << ex.what() << std::endl;
+    return -1;
+}
+catch (...)
+{
+    std::cerr << "Unknown exception was never caught" << std::endl;
+    return -2;
+}
+
+
+

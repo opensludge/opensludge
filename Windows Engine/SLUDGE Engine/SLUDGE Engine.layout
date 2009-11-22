@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Release" />
-	<File name="..\..\..\Glee\GLee.c" open="0" top="0" tabpos="11">
-		<Cursor position="2005" topLine="34" />
+	<File name="..\..\..\Glee\GLee.c" open="1" top="0" tabpos="9">
+		<Cursor position="73896" topLine="1394" />
 	</File>
 	<File name="..\..\images\SLUDGE.RC" open="0" top="0" tabpos="10">
 		<Cursor position="175" topLine="0" />
@@ -11,13 +11,16 @@
 		<Cursor position="1681" topLine="0" />
 	</File>
 	<File name="..\..\source\CommonCode\functionList.h" open="0" top="0" tabpos="0">
-		<Cursor position="46" topLine="0" />
+		<Cursor position="3676" topLine="124" />
 	</File>
 	<File name="..\..\source\Engine\ALLFILES.H" open="0" top="0" tabpos="12">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="..\..\source\Engine\BACKDROP.CPP" open="0" top="0" tabpos="1">
-		<Cursor position="15912" topLine="528" />
+	<File name="..\..\source\Engine\BACKDROP.CPP" open="1" top="0" tabpos="4">
+		<Cursor position="19985" topLine="666" />
+	</File>
+	<File name="..\..\source\Engine\BUILTIN.H" open="1" top="0" tabpos="7">
+		<Cursor position="172" topLine="0" />
 	</File>
 	<File name="..\..\source\Engine\CSLUDGE.H" open="0" top="0" tabpos="11">
 		<Cursor position="812" topLine="0" />
@@ -25,74 +28,92 @@
 	<File name="..\..\source\Engine\FILESET.CPP" open="0" top="0" tabpos="13">
 		<Cursor position="1947" topLine="38" />
 	</File>
-	<File name="..\..\source\Engine\FONTTEXT.CPP" open="0" top="0" tabpos="6">
-		<Cursor position="2460" topLine="84" />
+	<File name="..\..\source\Engine\FONTTEXT.CPP" open="1" top="0" tabpos="5">
+		<Cursor position="2433" topLine="83" />
 	</File>
 	<File name="..\..\source\Engine\FONTTEXT.H" open="0" top="0" tabpos="0">
 		<Cursor position="480" topLine="0" />
 	</File>
-	<File name="..\..\source\Engine\FREEZE.CPP" open="0" top="0" tabpos="0">
-		<Cursor position="6955" topLine="202" />
+	<File name="..\..\source\Engine\FREEZE.CPP" open="1" top="0" tabpos="10">
+		<Cursor position="6968" topLine="202" />
 	</File>
 	<File name="..\..\source\Engine\FREEZE.H" open="0" top="0" tabpos="0">
 		<Cursor position="613" topLine="0" />
 	</File>
 	<File name="..\..\source\Engine\Graphics.cpp" open="0" top="0" tabpos="8">
-		<Cursor position="1396" topLine="40" />
+		<Cursor position="1715" topLine="52" />
 	</File>
 	<File name="..\..\source\Engine\Graphics.h" open="0" top="0" tabpos="4">
 		<Cursor position="704" topLine="0" />
 	</File>
 	<File name="..\..\source\Engine\LOADSAVE.CPP" open="0" top="0" tabpos="0">
-		<Cursor position="7772" topLine="277" />
+		<Cursor position="7347" topLine="261" />
 	</File>
-	<File name="..\..\source\Engine\Language.cpp" open="0" top="0" tabpos="10">
-		<Cursor position="355" topLine="33" />
+	<File name="..\..\source\Engine\Language.cpp" open="1" top="1" tabpos="15">
+		<Cursor position="1036" topLine="38" />
 	</File>
 	<File name="..\..\source\Engine\MOREIO.CPP" open="0" top="0" tabpos="0">
 		<Cursor position="1170" topLine="33" />
 	</File>
 	<File name="..\..\source\Engine\NEWFATAL.CPP" open="1" top="0" tabpos="3">
-		<Cursor position="1664" topLine="77" />
+		<Cursor position="1897" topLine="62" />
 	</File>
 	<File name="..\..\source\Engine\NEWFATAL.H" open="0" top="0" tabpos="3">
 		<Cursor position="393" topLine="0" />
 	</File>
+	<File name="..\..\source\Engine\OBJTYPES.CPP" open="0" top="0" tabpos="0">
+		<Cursor position="3876" topLine="126" />
+	</File>
 	<File name="..\..\source\Engine\OBJTYPES.H" open="0" top="0" tabpos="0">
 		<Cursor position="629" topLine="0" />
 	</File>
-	<File name="..\..\source\Engine\SLUDGER.CPP" open="1" top="0" tabpos="1">
-		<Cursor position="6285" topLine="180" />
+	<File name="..\..\source\Engine\REGION.CPP" open="0" top="0" tabpos="0">
+		<Cursor position="1138" topLine="17" />
 	</File>
-	<File name="..\..\source\Engine\SLUDGER.H" open="0" top="0" tabpos="13">
-		<Cursor position="110" topLine="0" />
+	<File name="..\..\source\Engine\SLUDGER.CPP" open="1" top="0" tabpos="1">
+		<Cursor position="977" topLine="39" />
+	</File>
+	<File name="..\..\source\Engine\SLUDGER.H" open="1" top="0" tabpos="8">
+		<Cursor position="445" topLine="15" />
+	</File>
+	<File name="..\..\source\Engine\SPRBANKS.CPP" open="0" top="0" tabpos="0">
+		<Cursor position="1556" topLine="15" />
 	</File>
 	<File name="..\..\source\Engine\SPRBANKS.H" open="0" top="0" tabpos="10">
 		<Cursor position="201" topLine="0" />
 	</File>
-	<File name="..\..\source\Engine\SPRITES.CPP" open="0" top="0" tabpos="7">
-		<Cursor position="1778" topLine="44" />
+	<File name="..\..\source\Engine\SPRITES.CPP" open="1" top="0" tabpos="6">
+		<Cursor position="10715" topLine="300" />
+	</File>
+	<File name="..\..\source\Engine\STATUSBA.CPP" open="1" top="0" tabpos="11">
+		<Cursor position="3313" topLine="111" />
 	</File>
 	<File name="..\..\source\Engine\STRINGY.CPP" open="0" top="0" tabpos="5">
 		<Cursor position="260" topLine="0" />
 	</File>
-	<File name="..\..\source\Engine\VARIABLE.CPP" open="0" top="0" tabpos="4">
-		<Cursor position="2931" topLine="112" />
+	<File name="..\..\source\Engine\VARIABLE.CPP" open="1" top="0" tabpos="12">
+		<Cursor position="13547" topLine="528" />
 	</File>
-	<File name="..\..\source\Engine\WINSTUFF.CPP" open="0" top="0" tabpos="9">
-		<Cursor position="0" topLine="0" />
+	<File name="..\..\source\Engine\WINSTUFF.CPP" open="1" top="0" tabpos="16">
+		<Cursor position="1148" topLine="37" />
 	</File>
 	<File name="..\..\source\Engine\WINSTUFF.H" open="0" top="0" tabpos="14">
 		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="..\..\source\Engine\bg_effects.cpp" open="1" top="0" tabpos="13">
+		<Cursor position="10362" topLine="362" />
 	</File>
 	<File name="..\..\source\Engine\bg_effects.h" open="0" top="0" tabpos="0">
 		<Cursor position="163" topLine="0" />
 	</File>
 	<File name="..\..\source\Engine\builtin.cpp" open="0" top="0" tabpos="3">
-		<Cursor position="25729" topLine="931" />
+		<Cursor position="57141" topLine="2186" />
 	</File>
 	<File name="..\..\source\Engine\debug.h" open="0" top="0" tabpos="12">
 		<Cursor position="102" topLine="0" />
+	</File>
+	<File name="..\..\source\Engine\floor.cpp" open="1" top="0" tabpos="14">
+		<Cursor position="5592" topLine="185" />
 	</File>
 	<File name="..\..\source\Engine\floor.h" open="0" top="0" tabpos="15">
 		<Cursor position="103" topLine="0" />
@@ -100,14 +121,20 @@
 	<File name="..\..\source\Engine\line.h" open="0" top="0" tabpos="6">
 		<Cursor position="48" topLine="0" />
 	</File>
-	<File name="..\..\source\Engine\main.cpp" open="1" top="1" tabpos="2">
-		<Cursor position="5257" topLine="216" />
+	<File name="..\..\source\Engine\main.cpp" open="1" top="0" tabpos="2">
+		<Cursor position="5589" topLine="222" />
+	</File>
+	<File name="..\..\source\Engine\people.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="22862" topLine="788" />
+	</File>
+	<File name="..\..\source\Engine\savedata.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="2999" topLine="109" />
 	</File>
 	<File name="..\..\source\Engine\sound.h" open="0" top="0" tabpos="8">
 		<Cursor position="22" topLine="0" />
 	</File>
 	<File name="..\..\source\Engine\sound_bass.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="3699" topLine="144" />
+		<Cursor position="6173" topLine="266" />
 	</File>
 	<File name="..\..\source\Engine\sound_nosound.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="423" topLine="0" />
@@ -115,8 +142,14 @@
 	<File name="..\..\source\Engine\sprites.h" open="0" top="0" tabpos="9">
 		<Cursor position="1546" topLine="12" />
 	</File>
+	<File name="..\..\source\Engine\thumbnail.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="4193" topLine="110" />
+	</File>
 	<File name="..\..\source\Engine\vid.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="4359" topLine="199" />
+		<Cursor position="2946" topLine="92" />
+	</File>
+	<File name="..\..\source\Engine\zbuffer.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="493" topLine="3" />
 	</File>
 	<File name="..\..\source\Engine\zbuffer.h" open="0" top="0" tabpos="5">
 		<Cursor position="327" topLine="0" />

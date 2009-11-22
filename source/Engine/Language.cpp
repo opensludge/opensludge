@@ -37,6 +37,7 @@ char * getPrefsFilename (char * filename) {
 	char * joined = joinStrings (filename, ".ini");
 
 	delete filename;
+	filename = NULL;
 	return joined;
 }
 
@@ -44,7 +45,7 @@ extern settingsStruct gameSettings;
 
 void readIniFile (char * filename) {
 	char * langName = getPrefsFilename (copyString (filename));
-	FILE * fp = fopen (langName, "rt");
+	FILE * fp = fopen (langName, "rb");
 
 	gameSettings.languageID = 0;
 	gameSettings.userFullScreen = true;
@@ -52,6 +53,7 @@ void readIniFile (char * filename) {
 	gameSettings.antiAlias = -1;
 
 	delete langName;
+	langName = NULL;
 
 	if (fp) {
 		char lineSoFar[257] = "";

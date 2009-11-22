@@ -19,11 +19,11 @@ bool pointInFloorPolygon (floorPolygon & floorPoly, int x, int y) {
 		yp_i = currentFloor -> vertex[floorPoly.vertexID[i]].y;
 		xp_j = currentFloor -> vertex[floorPoly.vertexID[j]].x;
 		yp_j = currentFloor -> vertex[floorPoly.vertexID[j]].y;
-		
+
 		if ((((yp_i <= y) && (y < yp_j)) ||
 			 ((yp_j <= y) && (y < yp_i))) &&
 			(x < (xp_j - xp_i) * (y - yp_i) / (yp_j - yp_i) + xp_i)) {
-			 
+
 			c = !c;
 		}
 	}
@@ -85,8 +85,11 @@ void killFloor () {
 		delete currentFloor -> matrix[i];
 	}
 	delete currentFloor -> polygon;
+	currentFloor -> polygon = NULL;
 	delete currentFloor -> vertex;
+	currentFloor -> vertex = NULL;
 	delete currentFloor -> matrix;
+	currentFloor -> matrix = NULL;
 }
 
 void setFloorNull () {
@@ -98,24 +101,24 @@ bool setFloor (int fileNum) {
 	int i, j;
 
 	killFloor ();
-	
+
 	setResourceForFatal (fileNum);
-	
+
 	if (! openFileFromNum (fileNum)) return false;
-	
+
 	// Find out how many polygons there are and reserve memory
 
 	currentFloor -> originalNum = fileNum;
 	currentFloor -> numPolygons = fgetc (bigDataFile);
 	currentFloor -> polygon = new floorPolygon[currentFloor -> numPolygons];
 	if (! checkNew (currentFloor -> polygon)) return false;
-	
+
 	// Read in each polygon
-	
+
 	for (i = 0; i < currentFloor -> numPolygons; i ++) {
 
 		// Find out how many vertex IDs there are and reserve memory
-		
+
 		currentFloor -> polygon[i].numVertices = fgetc (bigDataFile);
 		currentFloor -> polygon[i].vertexID = new int[currentFloor -> polygon[i].numVertices];
 		if (! checkNew (currentFloor -> polygon[i].vertexID)) return false;
@@ -132,21 +135,21 @@ bool setFloor (int fileNum) {
 	i = get2bytes (bigDataFile);
 	currentFloor -> vertex = new POINT[i];
 	if (! checkNew (currentFloor -> vertex)) return false;
-	
+
 	for (j = 0; j < i; j ++) {
 		currentFloor -> vertex[j].x = get2bytes (bigDataFile);
 		currentFloor -> vertex[j].y = get2bytes (bigDataFile);
 	}
-	
+
 	finishAccess ();
-	
+
 	// Now build the movement martix
 
 	currentFloor -> matrix = new int * [currentFloor -> numPolygons];
 	int * * distanceMatrix = new int * [currentFloor -> numPolygons];
 
 	if (! checkNew (currentFloor -> matrix)) return false;
-	
+
 	for (i = 0; i < currentFloor -> numPolygons; i ++) {
 		currentFloor -> matrix[i] = new int [currentFloor -> numPolygons];
 		distanceMatrix        [i] = new int [currentFloor -> numPolygons];
@@ -156,7 +159,7 @@ bool setFloor (int fileNum) {
 			distanceMatrix        [i][j] = 10000;
 		}
 	}
-	
+
 	for (i = 0; i < currentFloor -> numPolygons; i ++) {
 		for (j = 0; j < currentFloor -> numPolygons; j ++) {
 			if (i != j) {
@@ -188,7 +191,7 @@ bool setFloor (int fileNum) {
 							if (currentFloor -> matrix[i][d] == d &&
 								currentFloor -> matrix[d][j] >= 0 &&
 								distanceMatrix        [d][j] <= lookForDistance) {
-								
+
 								 currentFloor -> matrix[i][j] = d;
 								 distanceMatrix		  [i][j] = lookForDistance + 1;
 								 madeChange = true;
@@ -199,13 +202,14 @@ bool setFloor (int fileNum) {
 			}
 		}
 	} while (madeChange);
-	
+
 	for (i = 0; i < currentFloor -> numPolygons; i ++) {
 		delete distanceMatrix [i];
 	}
 
 	delete distanceMatrix;
-	
+	distanceMatrix = NULL;
+
 	setResourceForFatal (-1);
 
 	return true;
@@ -233,7 +237,7 @@ void drawFloor () {
 
 int inFloor (int x, int y) {
 	int i, r = -1;
-	
+
 	for (i = 0; i < currentFloor -> numPolygons; i ++)
 		if (pointInFloorPolygon (currentFloor -> polygon[i], x, y))
 			r = i;
@@ -244,10 +248,10 @@ int inFloor (int x, int y) {
 bool closestPointOnLine (int & closestX, int & closestY, int x1, int y1, int x2, int y2, int xP, int yP) {
 	int xDiff = x2 - x1;
 	int yDiff = y2 - y1;
-	
+
 	double m = xDiff * (xP - x1) + yDiff * (yP - y1);
 	m /= (xDiff * xDiff) + (yDiff * yDiff);
-	
+
 	if (m < 0) {
 		closestX = x1;
 		closestY = y1;

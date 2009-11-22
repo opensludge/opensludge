@@ -68,6 +68,7 @@ bool getStream (DWORD type, timStream & intoHere) {
 
 void killStream (timStream & intoHere) {
 	delete intoHere.chunk;
+	intoHere.chunk = NULL;
 }
 
 /*
@@ -85,13 +86,13 @@ void handleAudio () {
 
 	LPBYTE pBuffer = new BYTE[totalSize];
 	if (!pBuffer) return;
-	
+
 	memcpy (pBuffer, wavHeader, WAVHEADERSIZE);
 	pBuffer[4] = (char) (aSize);
 	pBuffer[5] = (char) (aSize >> 8);
 	memcpy (pBuffer + WAVHEADERSIZE, audio.chunk, audio.chunkSize);
 	memcpy (pBuffer + WAVHEADERSIZE + audio.chunkSize, "data", 4);
-	
+
 	if(! AVIStreamRead (audio.got, 0, AVISTREAMREAD_CONVENIENT, pBuffer + audio.chunkSize + WAVHEADERSIZE + 4, aSize, NULL, NULL)) {
 		FILE * fp = fopen ("test.wav", "wb");
 		if (fp) {
@@ -101,7 +102,7 @@ void handleAudio () {
 		int i = fakeCacheSoundForVideo ((char *) pBuffer, totalSize);
 		if (i != -1) startSound (i, false);
 	}
-	
+
 	delete pBuffer;
 }
 */
@@ -163,17 +164,17 @@ bool startVideo (int fileNum) {
 		return fatal (ERROR_AVI_FILE_ERROR);
 
 	AVIFileInfo(pAviFile, &info, sizeof(info));
-		
+
 	if (! getStream (streamtypeAUDIO, audio)) return false;
 	if (! getStream (streamtypeVIDEO, video)) return false;
 
 	if (! video.got) return fatal (ERROR_AVI_NO_STREAM);
-		
+
 //	if (audio.got) handleAudio ();
 
 	pgf = AVIStreamGetFrameOpen(video.got, NULL);
 	if (!pgf) return fatal (ERROR_AVI_ARGH);
-	
+
 	LPBITMAPINFO pInfo = (LPBITMAPINFO) (video.chunk);
 	vidBytesPerPixel = pInfo -> bmiHeader.biBitCount / 8;
 	biSize = pInfo -> bmiHeader.biSize;
@@ -194,7 +195,7 @@ bool nextVideoFrame () {
 		finishVideo ();
 		return false;
 	}
-	
+
 	BYTE * pData = (((BYTE *) lpbi) + lpbi->biSize);
 
 	int xOff = (winWidth - vidWidth) >> 1;
@@ -209,7 +210,7 @@ bool nextVideoFrame () {
 				case 1:
 				(* toHere) = makeGrey (*pData);
 				break;
-				
+
 				case 3:
 				case 4:
 				(* toHere) = makeColour (*(pData+2), *(pData+1), *pData);

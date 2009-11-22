@@ -53,9 +53,9 @@ char * grabFileName () {
 }
 
 int showSetupWindow() {
-	gameSettings.userFullScreen = false;
+	//gameSettings.userFullScreen = false;
 	if (gameSettings.numLanguages) {
-		gameSettings.languageID = 0;
+		//gameSettings.languageID = 0;
 	}
 	return true;
 }

@@ -33,7 +33,7 @@ void loadSaveDebug (int com) {
 
 void writeStringEncoded (char * s, FILE * fp) {
 	int a, len = strlen (s);
-	
+
 	put2bytes (len, fp);
 //	loadSaveDebug ("WRITE: length");
 //	loadSaveDebug (len);
@@ -63,14 +63,16 @@ char * readStringEncoded (FILE * fp) {
 }
 
 char * readTextPlain (FILE * fp) {
-	fpos_t startPos;
+	long startPos;
 
 	int stringSize = 0;
 	bool keepGoing = true;
 	char gotChar;
 	char * reply;
 
-	fgetpos (fp, & startPos);
+	startPos = ftell (fp);
+	//fgetpos (fp, & startPos);
+
 	while (keepGoing) {
 		gotChar = (char) fgetc (fp);
 		if ((gotChar == '\n') || (feof (fp))) {
@@ -83,12 +85,14 @@ char * readTextPlain (FILE * fp) {
 	if ((stringSize == 0) && (feof (fp))) {
 		return NULL;
 	} else {
-		fseek (fp, startPos, 0);
+		//fsetpos (fp, &startPos);
+		fseek (fp, startPos, SEEK_SET);
 		reply = new char[stringSize + 1];
 		if (reply == NULL) return NULL;
 		fread (reply, stringSize, 1, fp);
 		fgetc (fp); // Skip the newline character
 		reply[stringSize] = NULL;
+		fprintf (stderr, "%s (%d)\n", reply, stringSize);
 	}
 
 	return reply;
@@ -99,12 +103,12 @@ bool fileToStack (char * filename, stackHandler * sH) {
 	stringVar.varType = SVT_NULL;
 	const char * checker = saveEncoding ? "[Custom data (encoded)]\r\n" : "[Custom data (ASCII)]\n";
 
-	FILE * fp = fopen (filename, saveEncoding ? "rb" : "rt");
+	FILE * fp = fopen (filename, "rb");
 	if (! fp) return fatal ("No such file", filename);
 
 	encode1 = (unsigned char) saveEncoding & 255;
 	encode2 = (unsigned char) (saveEncoding >> 8);
-		
+
 	while (* checker) {
 		if (fgetc (fp) != * checker) {
 			fclose (fp);
@@ -121,12 +125,14 @@ bool fileToStack (char * filename, stackHandler * sH) {
 			return fatal (LOAD_ERROR "The current file encoding setting does not match the encoding setting used when this file was created:", filename);
 		}
 		delete checker;
+		checker = NULL;
 	}
-	
+
 
 	for (;;) {
 		if (saveEncoding) {
 			char i = fgetc (fp) ^ encode1;
+
 			if (feof (fp)) break;
 //			loadSaveDebug ("READ: type");
 //			loadSaveDebug (i);
@@ -138,7 +144,7 @@ bool fileToStack (char * filename, stackHandler * sH) {
 					delete g;
 				}
 				break;
-				
+
 				case 1:
 				setVariable (stringVar, SVT_INT, get4bytes (fp));
 				break;
@@ -157,7 +163,7 @@ bool fileToStack (char * filename, stackHandler * sH) {
 			if (! line) break;
 			makeTextVar (stringVar, line);
 		}
-		
+
 		if (sH -> first == NULL) {
 			// Adds to the TOP of the array... oops!
 			if (! addVarToStackQuick (stringVar, sH -> first)) return false;
@@ -180,14 +186,14 @@ bool stackToFile (char * filename, const variable & from) {
 
 	encode1 = (unsigned char) saveEncoding & 255;
 	encode2 = (unsigned char) (saveEncoding >> 8);
-		
+
 	if (saveEncoding) {
 		fprintf (fp, "[Custom data (encoded)]\r\n");
 		writeStringEncoded ("UN£LOåCKED", fp);
 	} else {
 		fprintf (fp, "[Custom data (ASCII)]\n");
 	}
-	
+
 	while (hereWeAre) {
 		if (saveEncoding) {
 			switch (hereWeAre -> thisVar.varType) {
@@ -195,7 +201,7 @@ bool stackToFile (char * filename, const variable & from) {
 				fputc (encode1, fp);
 				writeStringEncoded (hereWeAre -> thisVar.varData.theString, fp);
 				break;
-				
+
 				case SVT_INT:
 				// Small enough to be stored as a char
 				if (hereWeAre -> thisVar.varData.intValue >= 0 && hereWeAre -> thisVar.varData.intValue < 256) {
@@ -206,7 +212,7 @@ bool stackToFile (char * filename, const variable & from) {
 					put4bytes (hereWeAre -> thisVar.varData.intValue, fp);
 				}
 				break;
-				
+
 				default:
 				fatal ("Can't create an encoded custom data file containing anything other than numbers and strings", filename);
 				fclose (fp);
@@ -218,7 +224,7 @@ bool stackToFile (char * filename, const variable & from) {
 			fprintf (fp, "%s\n", makeSureItsText);
 			delete makeSureItsText;
 		}
-		
+
 		hereWeAre = hereWeAre -> next;
 	}
 //	fprintf (fp, "Done!\n");

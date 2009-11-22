@@ -118,7 +118,7 @@ personaAnimation * copyAnim (personaAnimation * orig) {
 	} else {
 		newAnim -> frames = NULL;
 	}
-	
+
 	return newAnim;
 }
 
@@ -140,6 +140,7 @@ void deleteAnim (personaAnimation * orig) {
 		}
 	//	deleting (orig);
 		delete orig;
+		orig = NULL;
 	}
 }
 
@@ -167,7 +168,7 @@ bool initPeople () {
 		fprintf (debug, "%i:\t%i\t%i\n", e, dummy.angle, dummy.direction);
 	}
 	fclose (debug);		*/
-	
+
 	return true;
 }
 
@@ -185,7 +186,7 @@ void spinStep (onScreenPerson * thisPerson) {
 	} else {
 		turnMeAngle (thisPerson, thisPerson -> wantAngle);
 		thisPerson -> spinning = false;
-	}	
+	}
 
 /*
 //----------------------------------------------------------------------
@@ -273,13 +274,13 @@ void shufflePeople () {
 
 	if (! allPeople) return;
 
-	while ((* thisReference) -> next) { 
+	while ((* thisReference) -> next) {
 		float y1 = (* thisReference) -> y;
 		if ((* thisReference) -> extra & EXTRA_FRONT) y1 += 1000;
-		
+
 		float y2 = (* thisReference) -> next -> y;
 		if ((* thisReference) -> next -> extra & EXTRA_FRONT) y2 += 1000;
-		
+
 		if (y1 > y2) {
 			A = (* thisReference);
 			B = (* thisReference) -> next;
@@ -309,7 +310,7 @@ void fixPeople (int oldX, int oldY) {
 			int fNumSign = myAnim -> frames[thisPerson -> frameNum].frameNum;
 			int m = fNumSign < 0;
 			int fNum = abs (fNumSign);
-			
+
 			if (fNum >= myAnim -> theSprites -> bank.total) {
 				fNum = 0;
 				m = 2 - m;
@@ -392,10 +393,10 @@ bool handleClosestPoint (int & setX, int & setY, int & setPoly) {
 	int gotX = 320, gotY = 200, gotPoly = -1, i, j, xTest1, yTest1,
 		xTest2, yTest2, closestX, closestY, oldJ, currentDistance = 0xFFFFF,
 		thisDistance;
-		
+
 //	FILE * dbug = fopen ("debug_closest.txt", "at");
 //	fprintf (dbug, "\nGetting closest point to %i, %i\n", setX, setY);
-	
+
 	for (i = 0; i < currentFloor -> numPolygons; i ++) {
 		oldJ = currentFloor -> polygon[i].numVertices - 1;
 		for (j = 0; j < currentFloor -> polygon[i].numVertices; j ++) {
@@ -410,10 +411,10 @@ bool handleClosestPoint (int & setX, int & setY, int & setPoly) {
 			yTest1 = setY - closestY;
 			thisDistance = xTest1 * xTest1 + yTest1 * yTest1;
 //			fprintf (dbug, "Distance squared %i\n", thisDistance);
-			
+
 			if (thisDistance < currentDistance) {
 //				fprintf (dbug, "** We have a new winner! **\n");
-				
+
 				currentDistance = thisDistance;
 				gotX = closestX;
 				gotY = closestY;
@@ -428,7 +429,7 @@ bool handleClosestPoint (int & setX, int & setY, int & setPoly) {
 	setX = gotX;
 	setY = gotY;
 	setPoly = gotPoly;
-	
+
 	return true;
 }
 
@@ -441,15 +442,15 @@ bool doBorderStuff (onScreenPerson * moveMe) {
 		// The section in which we need to be next...
 		int newPoly = currentFloor -> matrix[moveMe -> inPoly][moveMe -> walkToPoly];
 		if (newPoly == -1) return false;
-		
+
 		// Grab the index of the second matching corner...
 		int ID, ID2;
 		if (! getMatchingCorners (currentFloor -> polygon[moveMe -> inPoly], currentFloor -> polygon[newPoly], ID, ID2))
 			return fatal ("Not a valid floor plan!");
-		
+
 		// Remember that we're walking to the new polygon...
 		moveMe -> inPoly = newPoly;
-		
+
 		// Calculate the destination position on the coincidantal line...
 		int x1 = moveMe -> x, y1 = moveMe -> y;
 		int x2 = moveMe -> walkToX, y2 = moveMe -> walkToY;
@@ -465,24 +466,24 @@ bool doBorderStuff (onScreenPerson * moveMe) {
 
 		double m = (yAB * (x3 - x1) - xAB * (y3 - y1));
 		m /= ((xAB * yCD) - (yAB * xCD));
-		
+
 		if (m > 0 && m < 1) {
 			moveMe -> thisStepX = x3 + m * xCD;
-			moveMe -> thisStepY = y3 + m * yCD;			
+			moveMe -> thisStepY = y3 + m * yCD;
 		} else {
 			int dx13 = x1-x3, dx14 = x1-x4, dx23 = x2-x3, dx24 = x2-x4;
 			int dy13 = y1-y3, dy14 = y1-y4, dy23 = y2-y3, dy24 = y2-y4;
-			
+
 			dx13 *= dx13; dx14 *= dx14; dx23 *= dx23; dx24 *= dx24;
 			dy13 *= dy13; dy14 *= dy14; dy23 *= dy23; dy24 *= dy24;
-						
+
 			if (sqrt((double) dx13 + dy13) + sqrt((double) dx23 + dy23) <
 				sqrt((double) dx14 + dy14) + sqrt((double) dx24 + dy24)) {
 				moveMe -> thisStepX = x3;
-				moveMe -> thisStepY = y3;			
+				moveMe -> thisStepY = y3;
 			} else {
 				moveMe -> thisStepX = x4;
-				moveMe -> thisStepY = y4;			
+				moveMe -> thisStepY = y4;
 			}
 		}
 	}
@@ -493,20 +494,20 @@ bool doBorderStuff (onScreenPerson * moveMe) {
 		moveMe -> wantAngle = 180 + ANGLEFIX * atan2(xDiff, yDiff * 2);
 		moveMe -> spinning = true;
 	}
-	
+
 	setFrames (* moveMe, ANI_WALK);
 	return true;
 }
 
 bool walkMe (onScreenPerson * thisPerson) {
 	float xDiff, yDiff, maxDiff, s;
-	
+
 	for (;;) {
 		xDiff = thisPerson -> thisStepX - thisPerson -> x;
 		yDiff = (thisPerson -> thisStepY - thisPerson -> y) * 2;
 		s = thisPerson -> scale * thisPerson -> walkSpeed;
 		if (s < 0.2) s = 0.2;
-		
+
 		maxDiff = (TF_abs (xDiff) >= TF_abs (yDiff)) ? TF_abs (xDiff) : TF_abs (yDiff);
 
 		if (TF_abs (maxDiff) > s) {
@@ -533,7 +534,7 @@ bool walkMe (onScreenPerson * thisPerson) {
 		}
 		if (! doBorderStuff (thisPerson)) break;
 	}
-	
+
 	thisPerson -> walking = false;
 	setFrames (* thisPerson, ANI_STAND);
 	moveAndScale (* thisPerson,
@@ -547,25 +548,25 @@ bool makeWalkingPerson (int x, int y, int objNum, loadedFunction * func, int di)
 	if (currentFloor -> numPolygons == 0) return false;
 	onScreenPerson * moveMe = findPerson (objNum);
 	if (! moveMe) return false;
-	
+
 	if (moveMe -> continueAfterWalking) abortFunction (moveMe -> continueAfterWalking);
 	moveMe -> continueAfterWalking = NULL;
 	moveMe -> walking = true;
 	moveMe -> directionWhenDoneWalking = di;
-	
+
 	moveMe -> walkToX = x;
 	moveMe -> walkToY = y;
 	moveMe -> walkToPoly = inFloor (x, y);
 	if (moveMe -> walkToPoly == -1) {
 		if (! handleClosestPoint (moveMe -> walkToX, moveMe -> walkToY, moveMe -> walkToPoly)) return false;
 	}
-	
+
 	moveMe -> inPoly = inFloor (moveMe -> x, moveMe -> y);
 	if (moveMe -> inPoly == -1) {
 		int xxx = moveMe -> x, yyy = moveMe -> y;
 		if (! handleClosestPoint (xxx, yyy, moveMe -> inPoly)) return false;
 	}
-	
+
 	doBorderStuff (moveMe);
 	if (walkMe (moveMe) || moveMe -> spinning) {
 		moveMe -> continueAfterWalking = func;
@@ -577,7 +578,7 @@ bool makeWalkingPerson (int x, int y, int objNum, loadedFunction * func, int di)
 
 bool stopPerson (int o) {
 	onScreenPerson * moveMe = findPerson (o);
-	if (moveMe) 	
+	if (moveMe)
 		if (moveMe -> continueAfterWalking) {
 			abortFunction (moveMe -> continueAfterWalking);
 			moveMe -> continueAfterWalking = NULL;
@@ -593,15 +594,15 @@ bool forceWalkingPerson (int x, int y, int objNum, loadedFunction * func, int di
 	if (x == 0 && y == 0) return false;
 	onScreenPerson * moveMe = findPerson (objNum);
 	if (! moveMe) return false;
-	
+
 	if (moveMe -> continueAfterWalking) abortFunction (moveMe -> continueAfterWalking);
 	moveMe -> walking = true;
 	moveMe -> continueAfterWalking = NULL;
 	moveMe -> directionWhenDoneWalking = di;
-	
+
 	moveMe -> walkToX = x;
 	moveMe -> walkToY = y;
-	
+
 	// Let's pretend the start and end points are both in the same
 	// polygon (which one isn't important)
 	moveMe -> inPoly = 0;
@@ -767,16 +768,16 @@ void killAllPeople () {
 void killMostPeople () {
 	onScreenPerson * killPeople;
 	onScreenPerson * * lookyHere = & allPeople;
-	
+
 	while (* lookyHere) {
 		if ((* lookyHere) -> extra & EXTRA_NOREMOVE) {
 			lookyHere = & (* lookyHere) -> next;
 		} else {
 			killPeople = (* lookyHere);
-			
+
 			// Change last pointer to NEXT in the list instead
 			(* lookyHere) = killPeople -> next;
-	
+
 			// Gone from the list... now free some memory
 			if (killPeople -> continueAfterWalking) abortFunction (killPeople -> continueAfterWalking);
 			killPeople -> continueAfterWalking = NULL;
@@ -788,20 +789,20 @@ void killMostPeople () {
 
 void removeOneCharacter (int i) {
 	onScreenPerson * p = findPerson (i);
-	
+
 	if (p) {
 		if (overRegion == &personRegion && overRegion->thisType == p->thisType) {
 			overRegion = NULL;
 		}
-		
+
 		if (p -> continueAfterWalking) abortFunction (p -> continueAfterWalking);
 		p -> continueAfterWalking = NULL;
 		onScreenPerson * * killPeople;
-		
+
 		for (killPeople = & allPeople;
 			* killPeople != p;
 			killPeople = & ((* killPeople) -> next)) {;}
-			
+
 		* killPeople = p -> next;
 		removeObjectType (p -> thisType);
 		delete p;
@@ -933,7 +934,7 @@ bool savePeople (FILE * fp) {
 		putSigned (me -> inPoly, fp);
 		putSigned (me -> walkToPoly, fp);
 		put2bytes (me -> drawMode, fp);
-		
+
 		saveObjectRef (me -> thisType, fp);
 
 		// Anti-aliasing settings
@@ -950,7 +951,7 @@ bool loadPeople (FILE * fp, int ssgVersion) {
 
 	scaleHorizon = readSigned (fp);
 	scaleDivide = readSigned (fp);
-/*	
+/*
 //----------------------------------------------------------------------
 	FILE * debu = fopen ("debuTURN.txt", "at");
 	fprintf (debu, "LOADING SAVED GAME!\n\n");

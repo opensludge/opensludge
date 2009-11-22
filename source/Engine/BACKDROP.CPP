@@ -109,6 +109,7 @@ bool restoreSnapshot (FILE * fp) {
 	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, snapshotTexture);
 
 	delete snapshotTexture;
+	snapshotTexture = NULL;
 
 	return true;
 }
@@ -140,6 +141,7 @@ void killParallax () {
 		glDeleteTextures (1, &k -> textureName);
 		delete k -> texture;
 		delete k;
+		k = NULL;
 	}
 }
 
@@ -1258,6 +1260,7 @@ void saveCorePNG  (FILE * writer, GLuint texture, int w, int h) {
     png_write_png(png_ptr, info_ptr, PNG_TRANSFORM_IDENTITY, NULL);
 
 	delete image;
+	image = NULL;
 }
 
 void saveCoreHSI (FILE * writer, GLuint texture, int w, int h) {
@@ -1299,6 +1302,7 @@ void saveCoreHSI (FILE * writer, GLuint texture, int w, int h) {
 		}
 	}
 	delete image;
+	image = NULL;
 }
 
 void saveHSI (FILE * writer) {

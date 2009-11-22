@@ -22,13 +22,14 @@
 char * typeName[] = {"undefined", "number", "user function", "string",
 							"built-in function", "file", "stack",
 							"object type", "animation", "costume"};
-							
+
 extern char * outputDir;
 
 void unlinkVar (variable & thisVar) {
 	switch (thisVar.varType) {
 		case SVT_STRING:
 		delete thisVar.varData.theString;
+		thisVar.varData.theString = NULL;
 		break;
 
 		case SVT_STACK:
@@ -36,17 +37,19 @@ void unlinkVar (variable & thisVar) {
 		if (thisVar.varData.theStack -> timesUsed <= 0) {
 			while (thisVar.varData.theStack -> first) trimStack (thisVar.varData.theStack -> first);
 			delete thisVar.varData.theStack;
+			thisVar.varData.theStack = NULL;
 		}
 		break;
-		
+
 		case SVT_FASTARRAY:
 		thisVar.varData.fastArray -> timesUsed --;
 		if (thisVar.varData.theStack -> timesUsed <= 0) {
 			delete thisVar.varData.fastArray -> fastVariables;
 			delete thisVar.varData.fastArray;
+			thisVar.varData.fastArray = NULL;
 		}
 		break;
-		
+
 		case SVT_ANIM:
 		deleteAnim (thisVar.varData.animHandler);
 		break;
@@ -84,7 +87,7 @@ void newCostumeVariable (variable & thisVar, persona * i) {
 
 persona * getCostumeFromVar (variable & thisVar) {
 	persona * p = NULL;
-	
+
 	switch (thisVar.varType) {
 		case SVT_ANIM:
 		p = new persona;
@@ -97,15 +100,15 @@ persona * getCostumeFromVar (variable & thisVar) {
 			p -> animation[iii] = copyAnim (thisVar.varData.animHandler);
 
 		break;
-		
+
 		case SVT_COSTUME:
 		return thisVar.varData.costumeHandler;
 		break;
-		
+
 		default:
 		fatal ("Expecting an animation variable; found variable of type", typeName[thisVar.varType]);
 	}
-	
+
 	return p;
 }
 
@@ -124,13 +127,13 @@ bool getSavedGamesStack (stackHandler * sH, char * ext) {
 	if (! pattern) return false;
 
 	variable newName;
-	newName.varType = SVT_NULL;	
-	
-#ifdef _WIN32	
-	
+	newName.varType = SVT_NULL;
+
+#ifdef _WIN32
+
 	WIN32_FIND_DATA theData;
 	HANDLE handle = FindFirstFile (pattern, & theData);
-		
+
 	if (handle != INVALID_HANDLE_VALUE) {
 		bool keepGoing;
 		do {
@@ -145,11 +148,11 @@ bool getSavedGamesStack (stackHandler * sH, char * ext) {
 		FindClose (handle);
 	}
 
-#else	
-	
+#else
+
 		DIR * dir = opendir (".");
 		if (! dir) return false;
-				
+
 		struct dirent *d = readdir (dir);
 		while (d != NULL) {
 			if (! strcmp(d->d_name + strlen (d->d_name) - strlen (ext), ext)) {
@@ -160,16 +163,17 @@ bool getSavedGamesStack (stackHandler * sH, char * ext) {
 				if (! addVarToStack (newName, sH -> first)) return false;
 				if (sH -> last == NULL) sH -> last = sH -> first;
 			}
-			
+
 			d = readdir (dir);
 		}
-		
-		
+
+
 		closedir (dir);
-	
+
 #endif
-	
+
 	delete pattern;
+	pattern = NULL;
 	return true;
 }
 
@@ -216,8 +220,8 @@ bool copyStack (const variable & from, variable & to) {
 		char * str = getTextFromAnyVar(to);
 		stackDebug((stackfp, "finished copy, got %s\n", str));
 		delete str;
-		stackDebug((stackfp, "first = %p\n", to.varData.theStack->first));		
-		stackDebug((stackfp, "last = %p\n", to.varData.theStack->last));		
+		stackDebug((stackfp, "first = %p\n", to.varData.theStack->first));
+		stackDebug((stackfp, "last = %p\n", to.varData.theStack->last));
 	}
 #endif
 	return true;
@@ -254,7 +258,7 @@ int compareVars (const variable & var1, const variable & var2) {
 			case SVT_NULL:
 			re = 1;
 			break;
-			
+
 			case SVT_COSTUME:
 			re = (var1.varData.costumeHandler == var2.varData.costumeHandler);
 			break;
@@ -307,7 +311,7 @@ char * getTextFromAnyVar (const variable & from) {
 			char * builder = copyString ("FAST:");
 			char * builder2;
 			char * grabText;
-			
+
 			for (int i = 0; i < from.varData.fastArray -> size; i ++) {
 				builder2 = joinStrings (builder, " ");
 				if (! builder2) return NULL;
@@ -316,7 +320,9 @@ char * getTextFromAnyVar (const variable & from) {
 				builder = joinStrings (builder2, grabText);
 				if (! builder) return NULL;
 				delete grabText;
+				grabText = NULL;
 				delete builder2;
+				builder2 = NULL;
 			}
 			return builder;
 		}
@@ -337,7 +343,9 @@ char * getTextFromAnyVar (const variable & from) {
 				builder = joinStrings (builder2, grabText);
 				if (! builder) return NULL;
 				delete grabText;
+				grabText = NULL;
 				delete builder2;
+				builder2 = NULL;
 				stacky = stacky -> next;
 			}
 			return builder;
@@ -390,7 +398,7 @@ bool getBoolean (const variable & from) {
 
 		case SVT_STRING:
 		return (bool) (from.varData.theString[0] != 0);
-		
+
 		case SVT_FASTARRAY:
 		return (bool) (from.varData.fastArray -> size != 0);
 	}
@@ -410,7 +418,7 @@ bool copyMain (const variable & from, variable & to) {
 		to.varData.intValue = from.varData.intValue;
 //		debug ("Value", to.varData.intValue);
 		return true;
-		
+
 		case SVT_FASTARRAY:
 		to.varData.fastArray = from.varData.fastArray;
 		to.varData.fastArray -> timesUsed ++;
@@ -559,10 +567,10 @@ int deleteVarFromStack (const variable & va, variableStack * & thisStack, bool a
 variableStack * stackFindLast (variableStack * hunt) {
 	if (hunt == NULL)
 		return NULL;
-		
+
 	while (hunt->next)
 		hunt = hunt->next;
-		
+
 	return hunt;
 }
 

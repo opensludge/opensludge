@@ -41,11 +41,13 @@ void reloadSpriteTextures () {
 	while (spriteBank) {
 		//fprintf (stderr, "Reloading bank %d: %s.\n", spriteBank->ID, resourceNameFromNum (spriteBank->ID));
 		delete spriteBank-> bank.sprites;
+		spriteBank-> bank.sprites = NULL;
 		loadSpriteBank (spriteBank->ID, spriteBank->bank, false);
 		spriteBank = spriteBank -> next;
 	}
 	if (fontLoaded) {
 		delete theFont.sprites;
+		theFont.sprites = NULL;
 		loadSpriteBank (loadedFontNum, theFont, true);
 	}
 }
