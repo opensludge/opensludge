@@ -549,7 +549,7 @@
 	"moreio.h"
 	"windows.h"
 
-1258912975 source:c:\programmering\sludge\source\engine\winstuff.cpp
+1258936871 source:c:\programmering\sludge\source\engine\winstuff.cpp
 	<windows.h>
 	"allfiles.h"
 	"winstuff.h"
@@ -654,7 +654,7 @@
 	"zbuffer.h"
 	"backdrop.h"
 
-1258912498 source:c:\programmering\sludge\source\engine\language.cpp
+1258913201 source:c:\programmering\sludge\source\engine\language.cpp
 	<stdio.h>
 	<string.h>
 	"stringy.h"
@@ -663,7 +663,7 @@
 	"language.h"
 	"version.h"
 
-1258908008 source:c:\programmering\sludge\source\engine\main.cpp
+1258924843 source:c:\programmering\sludge\source\engine\main.cpp
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -783,7 +783,11 @@
 	"newfatal.h"
 	"Graphics.h"
 
-1258832351 source:c:\programmering\sludge\images\sludge.rc
+1258936479 source:c:\programmering\sludge\images\sludge.rc
 	<windows.h>
-	"..\source\CommonCode\version.h"
+	<commctrl.h>
+	<richedit.h>
+	"resource.h"
+
+1258934267 c:\programmering\sludge\images\resource.h
 

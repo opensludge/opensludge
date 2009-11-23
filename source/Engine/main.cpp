@@ -296,6 +296,12 @@ int main(int argc, char *argv[]) try
 						if (SDLK_RETURN == event.key.keysym.sym) {
 							setGraphicsWindow(! runningFullscreen);
 						}
+						// Allow Alt+F4 to quit
+						if (SDLK_F4 ==  event.key.keysym.sym) {
+						    SDL_Event event;
+						    event.type = SDL_QUIT;
+						    SDL_PushEvent(&event);
+						}
 						break;
 					}
 					input.keyPressed = event.key.keysym.unicode;

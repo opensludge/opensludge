@@ -35,6 +35,8 @@ char * grabFileName () {
 	char path[MAX_PATH];
 	char file[MAX_PATH]="";
 
+	hInst = GetModuleHandle(NULL);
+
 	memset (& ofn, 0, sizeof (ofn));
 	ofn.lStructSize = sizeof (ofn);
 	ofn.hwndOwner = NULL;
@@ -52,12 +54,63 @@ char * grabFileName () {
 	}
 }
 
+extern char ** languageName;
+extern int * languageTable;
+
+BOOL CALLBACK setupDlgProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+{
+    switch (message) {
+    case WM_INITDIALOG:
+        if (gameSettings.userFullScreen)
+            CheckDlgButton (hDlg, 1000, BST_CHECKED);
+        else
+            CheckDlgButton (hDlg, 1000, BST_UNCHECKED);
+
+        if (gameSettings.numLanguages) {
+          char text[20];
+          for (unsigned int i = 0; i<=gameSettings.numLanguages; i++) {
+                if (languageName[i])
+                    SendDlgItemMessage(hDlg, 1001, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>((LPCTSTR)languageName[i]));
+                else {
+                    sprintf(text, "Language %d", i);
+                    SendDlgItemMessage(hDlg, 1001, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>((LPCTSTR)text));
+                }
+          }
+          SendDlgItemMessage(hDlg, 1001, CB_SETCURSEL, gameSettings.languageID, 0);
+       } else {
+            const char * text = "No translations available";
+            SendDlgItemMessage(hDlg, 1001, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>((LPCTSTR)text));
+            SendDlgItemMessage(hDlg, 1001, CB_SETCURSEL, 0, 0);
+            EnableWindow(GetDlgItem(hDlg, 1001), false);
+        }
+
+        return true;
+
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+            case IDOK:
+
+            gameSettings.userFullScreen = (IsDlgButtonChecked(hDlg, 1000) == BST_CHECKED);
+            if (gameSettings.numLanguages) {
+                gameSettings.languageID = SendDlgItemMessage(hDlg, 1001, CB_GETCURSEL, 0, 0);
+                if (gameSettings.languageID < 0) gameSettings.languageID = 0;
+                gameSettings.languageID = languageTable[gameSettings.languageID];
+            }
+            EndDialog (hDlg, true);
+            return TRUE;
+
+            case IDCANCEL:
+            EndDialog (hDlg, false);
+            return TRUE;
+        }
+        break;
+    }
+    return false;
+}
+
 int showSetupWindow() {
-	//gameSettings.userFullScreen = false;
-	if (gameSettings.numLanguages) {
-		//gameSettings.languageID = 0;
-	}
-	return true;
+    if (DialogBox (hInst, "SetupWindow", NULL, setupDlgProc)) return true;
+    return false;
 }
 
 void msgBox (const char * head, const char * msg) {
