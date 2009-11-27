@@ -1,0 +1,5 @@
+* Fix the pasting bug.
+* Save settings made in the setup window to the ini file. (And include a setting not to show the setup window.)
+* Let games replace the logo in the setup window?
+* Allow launching of a SLUDGE game from within another.
+* Movie support (this is one for the future - not planned for SLUDGE 2.0)

@@ -29,13 +29,13 @@ char * getPrefsFilename (char * filename) {
 	int n;
 
 	n = strlen (filename);
-/*
-	if (n > 4 && filename[n-4] == '.') {
-		filename[n] = NULL;
-	}
-*/
-	char * joined = joinStrings (filename, ".ini");
 
+	if (n > 4 && filename[n-4] == '.') {
+		filename[n-4] = NULL;
+	}
+	
+	char * joined = joinStrings (filename, ".ini");
+	
 	delete filename;
 	filename = NULL;
 	return joined;
