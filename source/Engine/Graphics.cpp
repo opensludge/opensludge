@@ -30,13 +30,25 @@ void setPixelCoords (bool pixels) {
 	static int current = -1;
 //	if (current == pixels) return;
 	current = pixels;
+
+	glBindTexture (GL_TEXTURE_2D, backdropTextureName);
+	
 	if (pixels) {
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		glOrtho(0, viewportWidth-1, 0, viewportHeight-1, 1.0, -1.0);
 
 		glMatrixMode(GL_MODELVIEW);
 	} else {
+		if (maxAntiAliasSettings.useMe) {
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); //GL_NEAREST
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		} else {
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		}
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		glOrtho(0, winWidth-1, winHeight-1, 0, 1.0, -1.0);

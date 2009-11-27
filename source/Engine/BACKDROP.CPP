@@ -427,6 +427,8 @@ void copyToBackDrop (GLuint fromHere, int orW, int orH, int orX, int orY, parall
 					ps -> cameraY = sortOutPCamera (orY, ps -> fractionY, orH - h, ps -> height - winHeight);
 
 					glBindTexture (GL_TEXTURE_2D, ps->textureName);
+					glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+					glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 					glBegin(GL_QUADS);
 
 					float texw = (ps->wrapS) ? (float) orW / ps->width: 1.0;
@@ -448,6 +450,8 @@ void copyToBackDrop (GLuint fromHere, int orW, int orH, int orX, int orY, parall
 
 			// Render the backdrop
 			glBindTexture (GL_TEXTURE_2D, fromHere);
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			glColor4f(1.0, 1.0, 1.0, 1.0);
 
 			glBegin(GL_QUADS);
@@ -457,6 +461,14 @@ void copyToBackDrop (GLuint fromHere, int orW, int orH, int orX, int orY, parall
 			glTexCoord2f(0.0, backdropTexH); glVertex3f(0.325-orX-xoffset, orH-0.325-orY-yoffset, 0);
 			glEnd();
 
+			if (maxAntiAliasSettings.useMe) {
+				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); //GL_NEAREST
+				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			} else {
+				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			}
+			
 			// Copy Our ViewPort To The Texture
 			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
 			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0+xoffset, 0+yoffset, viewportOffsetX, viewportOffsetY, w, h);
