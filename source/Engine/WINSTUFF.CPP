@@ -109,6 +109,7 @@ BOOL CALLBACK setupDlgProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
 }
 
 int showSetupWindow() {
+ 	hInst = GetModuleHandle(NULL);
     if (DialogBox (hInst, "SetupWindow", NULL, setupDlgProc)) return true;
     return false;
 }

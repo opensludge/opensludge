@@ -549,7 +549,7 @@
 	"moreio.h"
 	"windows.h"
 
-1258936871 source:c:\programmering\sludge\source\engine\winstuff.cpp
+1259010268 source:c:\programmering\sludge\source\engine\winstuff.cpp
 	<windows.h>
 	"allfiles.h"
 	"winstuff.h"
@@ -783,7 +783,7 @@
 	"newfatal.h"
 	"Graphics.h"
 
-1258936479 source:c:\programmering\sludge\images\sludge.rc
+1258936889 source:c:\programmering\sludge\images\sludge.rc
 	<windows.h>
 	<commctrl.h>
 	<richedit.h>

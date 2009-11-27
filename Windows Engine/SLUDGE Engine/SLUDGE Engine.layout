@@ -4,7 +4,7 @@
 	<File name="..\..\..\Glee\GLee.c" open="1" top="0" tabpos="8">
 		<Cursor position="73896" topLine="1394" />
 	</File>
-	<File name="..\..\images\SLUDGE.RC" open="1" top="1" tabpos="16">
+	<File name="..\..\images\SLUDGE.RC" open="0" top="0" tabpos="16">
 		<Cursor position="1072" topLine="0" />
 	</File>
 	<File name="..\..\source\CommonCode\TGA.h" open="0" top="0" tabpos="2">
@@ -94,8 +94,8 @@
 	<File name="..\..\source\Engine\VARIABLE.CPP" open="1" top="0" tabpos="11">
 		<Cursor position="13547" topLine="528" />
 	</File>
-	<File name="..\..\source\Engine\WINSTUFF.CPP" open="1" top="0" tabpos="15">
-		<Cursor position="743" topLine="19" />
+	<File name="..\..\source\Engine\WINSTUFF.CPP" open="1" top="1" tabpos="15">
+		<Cursor position="3631" topLine="91" />
 	</File>
 	<File name="..\..\source\Engine\WINSTUFF.H" open="0" top="0" tabpos="14">
 		<Cursor position="0" topLine="0" />
@@ -121,7 +121,7 @@
 	<File name="..\..\source\Engine\line.h" open="0" top="0" tabpos="6">
 		<Cursor position="48" topLine="0" />
 	</File>
-	<File name="..\..\source\Engine\main.cpp" open="1" top="0" tabpos="17">
+	<File name="..\..\source\Engine\main.cpp" open="1" top="0" tabpos="16">
 		<Cursor position="7445" topLine="84" />
 	</File>
 	<File name="..\..\source\Engine\people.cpp" open="0" top="0" tabpos="0">
