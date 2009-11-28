@@ -194,6 +194,8 @@ void unfreeze (bool killImage) {
 
 	if (killImage) killBackDrop ();
 	backdropTextureName = frozenStuff -> backdropTextureName;
+	if (backdropTexture) delete backdropTexture;
+	backdropTexture = frozenStuff -> backdropTexture;
 	backdropExists = true;
 	if (backdropTextureName) {
 		backdropTextureName = 0;

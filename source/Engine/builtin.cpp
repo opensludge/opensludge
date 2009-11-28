@@ -2193,7 +2193,6 @@ builtIn(saveCustomData)
 builtIn(loadCustomData)
 			{
 	UNUSEDALL
-        fprintf (stderr, "loadCustomData\n");
 
 				char * newTextA = getTextFromAnyVar (fun -> stack -> thisVar);
 				if (! checkNew (newTextA)) return BR_NOCOMMENT;
@@ -2211,10 +2210,8 @@ builtIn(loadCustomData)
 				fun -> reg.varData.theStack -> first = NULL;
 				fun -> reg.varData.theStack -> last = NULL;
 				fun -> reg.varData.theStack -> timesUsed = 1;
-        fprintf (stderr, "loadCustomData c\n");
 				if (! fileToStack (newText, fun -> reg.varData.theStack)) return BR_NOCOMMENT;
 				delete newText;
-        fprintf (stderr, "loadCustomData done\n");
 			return BR_CONTINUE;
 			}
 

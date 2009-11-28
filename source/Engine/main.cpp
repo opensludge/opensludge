@@ -236,7 +236,6 @@ int main(int argc, char *argv[]) try
 	done = 0;
 	while ( !done ) {
 
-        fprintf (stderr, "Polling for events... "); fflush (stderr);
 		/* Check for events */
 		while ( SDL_PollEvent(&event) ) {
 			switch (event.type) {
@@ -322,7 +321,6 @@ int main(int argc, char *argv[]) try
 					break;
 			}
 		}
-		fprintf (stderr, "tick.\n"); fflush (stderr);
 		tick ();
 		Wait_Frame();
 

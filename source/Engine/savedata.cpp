@@ -92,7 +92,6 @@ char * readTextPlain (FILE * fp) {
 		fread (reply, stringSize, 1, fp);
 		fgetc (fp); // Skip the newline character
 		reply[stringSize] = NULL;
-		fprintf (stderr, "%s (%d)\n", reply, stringSize);
 	}
 
 	return reply;

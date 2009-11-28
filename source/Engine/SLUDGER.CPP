@@ -188,7 +188,6 @@ bool initSludge (char * filename) {
 			allUserFunc[fn] = readString (fp);
 		}
 		if (gameVersion >= VERSION(1,3)) {
-//			return fatal ("New version", filename);
 			numResourceNames = get2bytes (fp);
 			allResourceNames = new char * [numResourceNames];
 			for (int fn = 0; fn < numResourceNames; fn ++) {
@@ -570,7 +569,6 @@ bool continueFunction (loadedFunction * fun) {
 			case SLU_CALLIT:
 			switch (fun -> reg.varType) {
 				case SVT_FUNC:
-				fprintf (stderr, "Calling something.\n"); fflush (stderr);
 				pauseFunction (fun);
 				if (numBIFNames) setFatalInfo (
 					(fun -> originalNumber < numUserFunc) ? allUserFunc[fun -> originalNumber] : "Unknown user function",
@@ -1000,7 +998,6 @@ bool loadFunctionCode (loadedFunction * newFunc) {
 	unsigned int numLines, numLinesRead;
 	int a;
 
-	fprintf (stderr, "loadFunctionCode\n"); fflush (stderr);
 	if (! openSubSlice (newFunc -> originalNumber)) return false;
 
 
@@ -1029,7 +1026,6 @@ bool loadFunctionCode (loadedFunction * newFunc) {
 }
 
 int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, loadedFunction * calledBy, variableStack * & vStack, bool returnSommet) {
-	fprintf (stderr, "startNewFunctionNum\n"); fflush (stderr);
 	loadedFunction * newFunc = new loadedFunction;
 	checkNew (newFunc);
 	newFunc -> originalNumber = funcNum;
@@ -1059,7 +1055,6 @@ int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, l
 	initVarNew (newFunc -> reg);
 
 	restartFunction (newFunc);
-	fprintf (stderr, "startNewFunctionNum - Done\n"); fflush (stderr);
 	return 1;
 }
 
