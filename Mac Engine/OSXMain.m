@@ -88,7 +88,7 @@ static NSString *getApplicationName(void)
 		CFRelease(url);
 		CFRelease(url2);
 	}
-
+	
 }
 
 /* Fix menu to contain the real app name instead of "SDL App" */

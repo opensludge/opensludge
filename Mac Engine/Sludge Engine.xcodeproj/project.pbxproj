@@ -13,6 +13,8 @@
 		2F3AB888100CF97C00CD6A13 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 2F3AB887100CF97C00CD6A13 /* Credits.html */; };
 		2F59E738102E230800008746 /* libpng.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F59E737102E230800008746 /* libpng.framework */; };
 		2F59E748102E246100008746 /* libpng.framework in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F59E737102E230800008746 /* libpng.framework */; };
+		2F6274FC10EA337700BBDEDF /* shaders.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F6274FA10EA337700BBDEDF /* shaders.h */; };
+		2F6274FD10EA337700BBDEDF /* shaders.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F6274FB10EA337700BBDEDF /* shaders.cpp */; };
 		2F684E1A0FFEAF6700EED6FE /* gameicon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 2F684E190FFEAF6700EED6FE /* gameicon.icns */; };
 		2F695B78100D0BD1008A8DC1 /* SDLMain.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2F6F29820FBEFEB000BC6A67 /* SDLMain.nib */; };
 		2F6E5C300E49FE33007408A4 /* libbass.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F6E5C2F0E49FE33007408A4 /* libbass.dylib */; };
@@ -163,6 +165,7 @@
 				2F6F29610FBEFE3C00BC6A67 /* OSXMain.h in Copy Frameworks into .app bundle */,
 				2FA5507C0FF90CC4006A67ED /* Start.h in Copy Frameworks into .app bundle */,
 				2FEFC49D10073ADA004C66F1 /* GLee.h in Copy Frameworks into .app bundle */,
+				2F6274FC10EA337700BBDEDF /* shaders.h in Copy Frameworks into .app bundle */,
 			);
 			name = "Copy Frameworks into .app bundle";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -188,6 +191,8 @@
 		2F2538240FFEB72800A12579 /* sludge.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; name = sludge.bmp; path = ../images/sludge.bmp; sourceTree = SOURCE_ROOT; };
 		2F3AB887100CF97C00CD6A13 /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; name = Credits.html; path = ../doc/Credits.html; sourceTree = SOURCE_ROOT; };
 		2F59E737102E230800008746 /* libpng.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libpng.framework; path = "../../libpng-1.2.38/projects/xcode/build/Release/libpng.framework"; sourceTree = SOURCE_ROOT; };
+		2F6274FA10EA337700BBDEDF /* shaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = shaders.h; path = ../source/Engine/shaders.h; sourceTree = SOURCE_ROOT; };
+		2F6274FB10EA337700BBDEDF /* shaders.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = shaders.cpp; path = ../source/Engine/shaders.cpp; sourceTree = SOURCE_ROOT; };
 		2F684E190FFEAF6700EED6FE /* gameicon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = gameicon.icns; path = ../images/gameicon.icns; sourceTree = SOURCE_ROOT; };
 		2F6E5C2F0E49FE33007408A4 /* libbass.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbass.dylib; path = "../bass24-osx/libbass.dylib"; sourceTree = SOURCE_ROOT; };
 		2F6E5C310E49FE55007408A4 /* bass.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = bass.h; path = "../bass24-osx/bass.h"; sourceTree = SOURCE_ROOT; };
@@ -415,6 +420,7 @@
 				2F7BFF250E338718003F5DC3 /* PEOPLE.H */,
 				2F7BFF350E338736003F5DC3 /* REGION.H */,
 				2F7BFF3A0E338736003F5DC3 /* savedata.h */,
+				2F6274FA10EA337700BBDEDF /* shaders.h */,
 				2F7BFF380E338736003F5DC3 /* SLUDGER.H */,
 				2F7BFF390E338736003F5DC3 /* sound.h */,
 				2F7BFF470E33877A003F5DC3 /* SPRBANKS.H */,
@@ -429,7 +435,6 @@
 				2F7BFF510E3387B4003F5DC3 /* VARIABLE.H */,
 				2F7BFF5C0E33880C003F5DC3 /* WINSTUFF.H */,
 				2F7BFF5D0E33880C003F5DC3 /* zbuffer.h */,
-				2F6F29930FBEFF3D00BC6A67 /* main.cpp */,
 				2F7BFEB60E3384AE003F5DC3 /* BACKDROP.CPP */,
 				2F7BFEB80E3384B8003F5DC3 /* bg_effects.cpp */,
 				2F7BFEBA0E3384BE003F5DC3 /* builtin.cpp */,
@@ -439,9 +444,11 @@
 				2F7BFEC40E33850F003F5DC3 /* floor.cpp */,
 				2F7BFEC60E338513003F5DC3 /* FONTTEXT.CPP */,
 				2F7BFEC80E33851E003F5DC3 /* FREEZE.CPP */,
+				2FB1C3BC0FAB4B5700718E0C /* Graphics.cpp */,
 				2F7BFECA0E338529003F5DC3 /* Language.cpp */,
 				2F7BFECC0E338535003F5DC3 /* line.cpp */,
 				2F7BFECE0E33853B003F5DC3 /* LOADSAVE.CPP */,
+				2F6F29930FBEFF3D00BC6A67 /* main.cpp */,
 				2F7BFED00E338542003F5DC3 /* memwatch.cpp */,
 				2F7BFED20E338547003F5DC3 /* MOREIO.CPP */,
 				2F7BFED40E338555003F5DC3 /* NEWFATAL.CPP */,
@@ -449,21 +456,21 @@
 				2F7BFED80E338563003F5DC3 /* people.cpp */,
 				2F7BFEDA0E33856C003F5DC3 /* REGION.CPP */,
 				2F7BFEE00E338583003F5DC3 /* savedata.cpp */,
+				2F6274FB10EA337700BBDEDF /* shaders.cpp */,
 				2F7BFEE20E33858E003F5DC3 /* SLUDGER.CPP */,
 				2F7BFEE40E3385B3003F5DC3 /* sound_bass.cpp */,
 				2F7BFEE60E3385F8003F5DC3 /* SPRBANKS.CPP */,
 				2F7BFEE70E3385F8003F5DC3 /* SPRITES.CPP */,
 				2F7BFEE80E3385F8003F5DC3 /* Sprites_AA.CPP */,
+				2F7BFEF20E338627003F5DC3 /* STATUSBA.CPP */,
+				2F7BFEEE0E338627003F5DC3 /* STRINGY.CPP */,
 				2F7BFEEC0E338627003F5DC3 /* transition.cpp */,
 				2F7BFEED0E338627003F5DC3 /* timing.cpp */,
 				2F7BFEF10E338627003F5DC3 /* thumbnail.cpp */,
-				2F7BFEF20E338627003F5DC3 /* STATUSBA.CPP */,
-				2F7BFEEE0E338627003F5DC3 /* STRINGY.CPP */,
 				2F7BFEEF0E338627003F5DC3 /* TALK.CPP */,
 				2F7BFEF00E338627003F5DC3 /* VARIABLE.CPP */,
 				2F7BFEFB0E338649003F5DC3 /* zbuffer.cpp */,
 				2F7BFEFE0E338649003F5DC3 /* WINSTUFF.CPP */,
-				2FB1C3BC0FAB4B5700718E0C /* Graphics.cpp */,
 			);
 			name = "Source Files";
 			sourceTree = "<group>";
@@ -566,6 +573,7 @@
 				2F6F29940FBEFF3D00BC6A67 /* main.cpp in Sources */,
 				2FA5507D0FF90CC4006A67ED /* Start.m in Sources */,
 				2FEFC49C10073ADA004C66F1 /* GLee.c in Sources */,
+				2F6274FD10EA337700BBDEDF /* shaders.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

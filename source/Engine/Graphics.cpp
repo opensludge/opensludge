@@ -7,6 +7,9 @@
 #include "sprbanks.h"
 #include "zbuffer.h"
 #include "backdrop.h"
+#include "shaders.h"
+
+#include "language.h" // for settings
 
 int winWidth, winHeight;
 int viewportHeight, viewportWidth;
@@ -15,6 +18,7 @@ int viewportOffsetX = 0, viewportOffsetY = 0;
 bool NPOT_textures = true;
 
 extern int specialSettings;
+extern settingsStruct gameSettings;
 
 extern GLuint backdropTextureName;
 extern int sceneWidth, sceneHeight;
@@ -24,6 +28,7 @@ extern int lightMapNumber;
 
 void msgBox (const char * head, const char * msg);
 void sludgeDisplay ();
+
 
 // This is for swapping settings between rendering to texture or to the screen
 void setPixelCoords (bool pixels) {
@@ -38,9 +43,11 @@ void setPixelCoords (bool pixels) {
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(0, viewportWidth-1, 0, viewportHeight-1, 1.0, -1.0);
+		glOrtho(0, viewportWidth, 0, viewportHeight, 1.0, -1.0);
 
 		glMatrixMode(GL_MODELVIEW);
+		
+		glClear(GL_COLOR_BUFFER_BIT);
 	} else {
 		if (maxAntiAliasSettings.useMe) {
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); //GL_NEAREST
@@ -51,7 +58,7 @@ void setPixelCoords (bool pixels) {
 		}
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(0, winWidth-1, winHeight-1, 0, 1.0, -1.0);
+		glOrtho(0, winWidth, winHeight, 0, 1.0, -1.0);
 
 		glMatrixMode(GL_MODELVIEW);
 	}
@@ -106,6 +113,9 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 		realWinWidth = desktopW;
 		realWinHeight = desktopH;
 
+//		realWinWidth = 640;
+//		realWinHeight = 480;
+		
 		float realAspect = (float) realWinWidth / realWinHeight;
 
 		if (realAspect > winAspect) {
@@ -125,7 +135,10 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 
 		realWinHeight = desktopH*3/4;
 		realWinWidth = (int) (realWinHeight * winAspect);
-
+ 
+//		realWinWidth = 640;
+//		realWinHeight = 480;
+		
 		if (realWinWidth > desktopW) {
 			realWinWidth = desktopW;
 			realWinHeight = (int) ((float) realWinWidth / winAspect);
@@ -195,6 +208,108 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 
 		sludgeDisplay ();
 	}
+	
+	
+
+}
+
+void setupOpenGLStuff() {
+	
+	/*
+	 * Time to setup our requested window attributes for our OpenGL window.
+	 * We want *at least* 8 bits of red, green and blue. We also want at least a 16-bit
+	 * depth buffer.
+	 *
+	 * The last thing we do is request a double buffered window. '1' turns on double
+	 * buffering, '0' turns it off.
+	 */
+	SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 8);
+	SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 8);
+	SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 8);
+	SDL_GL_SetAttribute( SDL_GL_ALPHA_SIZE, 8);
+	SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 );
+	SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
+	
+	setGraphicsWindow(gameSettings.userFullScreen, false);
+	
+	/* Check for graphics capabilities... */
+	if (GLEE_VERSION_2_0) {
+		// Yes! Textures can be any size!
+		NPOT_textures = true;
+		fprintf (stderr, "OpenGL 2.0! All is good.\n");
+	} else {
+		if (GLEE_VERSION_1_5) {
+			fprintf (stderr, "OpenGL 1.5!\n");
+		}
+		else if (GLEE_VERSION_1_4) {
+			fprintf (stderr, "OpenGL 1.4!\n");
+		}
+		else if (GLEE_VERSION_1_3) {
+			fprintf (stderr, "OpenGL 1.3!\n");
+		}
+		else if (GLEE_VERSION_1_2) {
+			fprintf (stderr, "OpenGL 1.2!\n");
+		}
+		if (GLEE_ARB_texture_non_power_of_two) {
+			// Yes! Textures can be any size!
+			NPOT_textures = true;
+		} else {
+			// Workaround needed for lesser graphics cards. Let's hope this works...
+			NPOT_textures = false;
+			fprintf (stderr, "Warning: Old graphics card! GLEE_ARB_texture_non_power_of_two not supported.\n");
+		}
+		
+		if (GLEE_ARB_shading_language_100) {
+			fprintf (stderr, "ARB_shading_language_100 supported.\n");
+		} else {
+			fprintf (stderr, "Warning: Old graphics card! ARB_shading_language_100 not supported. Try updating your drivers.\n");
+		}
+		if (GLEE_ARB_shader_objects) {
+			fprintf (stderr, "ARB_shader_objects supported.\n");
+		} else {
+			fprintf (stderr, "Warning: Old graphics card! ARB_shader_objects not supported.\n");
+		}
+		if (GLEE_ARB_vertex_shader) {
+			fprintf (stderr, "ARB_vertex_shader supported.\n");
+		} else {
+			fprintf (stderr, "Warning: Old graphics card! ARB_vertex_shader not supported.\n");
+		}
+		if (GLEE_ARB_fragment_shader) {
+			fprintf (stderr, "ARB_fragment_shader supported.\n");
+		} else {
+			fprintf (stderr, "Warning: Old graphics card! ARB_fragment_shader not supported.\n"); 
+		}
+	}
+
+	 const GLchar brickVertex[] = 
+		"void main() {"
+		"	gl_TexCoord[0] = gl_MultiTexCoord0;"
+		"	gl_TexCoord[1] = gl_MultiTexCoord1;"
+		"	gl_TexCoord[2] = gl_MultiTexCoord2;"
+		"	gl_FrontColor = gl_Color;"
+		"	gl_Position = ftransform();"
+		"}";	 
+	 const GLchar *brickFragment = 
+		"uniform sampler2D tex0;"
+		"void main()"
+		"{"
+		"	vec4 texture = texture2D (tex0, gl_TexCoord[0].xy);"	
+		"	vec3 col = mix(gl_Color.rgb, texture.rgb, texture.a);"
+		"	gl_FragColor = vec4 (col, gl_Color.a * texture.a);"
+		"}";
+	 
+	 	 
+	 GLuint prog = buildShaders (brickVertex, brickFragment); 
+	 fprintf (stderr, "Built shader program: %d\n", prog);
+	 glUseProgram(prog);
+	 GLint texture = glGetUniformLocation(prog, "tex0");
+	 if (texture >= 0) glUniform1i(texture, 0);
+	 texture = glGetUniformLocation(prog, "tex1");
+	 if (texture >= 0) glUniform1i(texture, 1);
+	 texture = glGetUniformLocation(prog, "tex2");
+	 if (texture >= 0) glUniform1i(texture, 2);
+	 glUseProgram(0);
+	
 }
 
 

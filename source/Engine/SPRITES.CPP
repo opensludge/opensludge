@@ -13,6 +13,8 @@
 #include "debug.h"
 #include "Graphics.h"
 
+#include "shaders.h"
+
 extern zBufferData zBuffer;
 extern GLuint backdropTextureName;
 
@@ -20,6 +22,7 @@ extern inputType input;
 extern int cameraX, cameraY;
 
 unsigned char currentBurnR = 0, currentBurnG = 0, currentBurnB = 0;
+
 
 void forgetSpriteBank (spriteBank & forgetme) {
 	//unsigned int index;
@@ -50,8 +53,6 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 	int totalwidth[256], maxheight[256];
 	int numTextures = 0;
 	byte * data;
-
-	fprintf (stderr, "loadSpriteBank: Loading new sprite bank... \n"); fflush (stderr);
 
 	setResourceForFatal (fileNum);
 	if (! openFileFromNum (fileNum)) return fatal ("Can't open sprite bank / font");
@@ -246,6 +247,20 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 			target[2] = (GLubyte) 0;
 			target[3] = (GLubyte) 0;
 		}*/
+		
+		int transColour = -1;
+		if (loadSaveMode < 3) {
+			int size = loadhere.sprites[i].height * loadhere.sprites[i].width;
+			while (fromhere < size) {
+				s = spriteData[i][fromhere++];
+				if (s) {
+					transColour = s;
+					break;
+				}
+			}
+			fromhere = 0;
+		}
+		
 		for (int y = 1; y < 1 + loadhere.sprites[i].height; y ++) {
 			for (int x = loadhere.sprites[i].tex_x; x < loadhere.sprites[i].tex_x+loadhere.sprites[i].width; x ++) {
 				GLubyte * target = tmp[loadhere.sprites[i].texNum] + 4*totalwidth[loadhere.sprites[i].texNum]*y + x*4;
@@ -256,12 +271,13 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 						target[1] = (GLubyte) loadhere.myPalette.g[s];
 						target[2] = (GLubyte) loadhere.myPalette.b[s];
 						target[3] = (GLubyte) 255;
-					} /*else {
-						target[0] = (GLubyte) 0;
-						target[1] = (GLubyte) 0;
-						target[2] = (GLubyte) 0;
+						transColour = s;
+					} else if (transColour >=0) {
+						target[0] = (GLubyte) loadhere.myPalette.r[transColour];
+						target[1] = (GLubyte) loadhere.myPalette.g[transColour];
+						target[2] = (GLubyte) loadhere.myPalette.b[transColour];
 						target[3] = (GLubyte) 0;
-					}*/
+					}
 					if (isFont) {
 						target = tmp2[loadhere.sprites[i].texNum] + 4*totalwidth[loadhere.sprites[i].texNum]*y + x*4;
 						target[0] = (GLubyte) 255;
@@ -328,16 +344,16 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 
 void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette & fontPal) {
 
-	float tx1 = (float)(single.tex_x + 0.5) / fontPal.tex_w[single.texNum];
+	float tx1 = (float)(single.tex_x) / fontPal.tex_w[single.texNum];
 	float ty1 = 0.0;
-	float tx2 = (float)(single.tex_x + single.width - 0.5) / fontPal.tex_w[single.texNum];
+	float tx2 = (float)(single.tex_x + single.width) / fontPal.tex_w[single.texNum];
 	float ty2 = (float)(single.height+2)/fontPal.tex_h[single.texNum];
 
 	int diffX = single.width+1;
 	int diffY = single.height+2;
 
 	x1 -= single.xhot;
-	y1 -= single.yhot-1;
+	y1 -= single.yhot+1;
 
 	if (x1 < 0) diffX += x1;
 	if (y1 < 0) diffY += y1;
@@ -347,9 +363,6 @@ void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette
 	if (diffY < 0) return;
 
 	glEnable (GL_TEXTURE_2D);
-	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // GL_MODULATE instead of decal mixes the colours!
-	glColor3ub (fontPal.originalRed, fontPal.originalGreen, fontPal.originalBlue);
-	glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
 	setPixelCoords (true);
 
 	int xoffset = 0;
@@ -361,29 +374,31 @@ void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette
 			int h = (diffY-yoffset < viewportHeight) ? diffY-yoffset : viewportHeight;
 
 			// Render the scene - first the old backdrop
+			glColor4ub (255, 255, 255, 255);
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
 			glBegin(GL_QUADS);
-			glTexCoord2f(0.0, 0.0); glVertex3f(0.325-x1-xoffset, 0.325-y1+yoffset, 0.0);
-			glTexCoord2f(backdropTexW, 0.0); glVertex3f(sceneWidth-0.325-x1-xoffset, 0.325-y1+yoffset, 0.0);
-			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(sceneWidth-0.325-x1-xoffset, sceneHeight-0.325-y1+yoffset, 0.0);
-			glTexCoord2f(0.0, backdropTexH); glVertex3f(0.325-x1-xoffset, sceneHeight-0.325-y1+yoffset, 0.0);
+			glTexCoord2f(0.0, 0.0); glVertex3f(-x1-xoffset, -y1+yoffset, 0.0);
+			glTexCoord2f(backdropTexW, 0.0); glVertex3f(sceneWidth-x1-xoffset, -y1+yoffset, 0.0);
+			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(sceneWidth-x1-xoffset, sceneHeight-y1+yoffset, 0.0);
+			glTexCoord2f(0.0, backdropTexH); glVertex3f(-x1-xoffset, sceneHeight-y1+yoffset, 0.0);
 			glEnd();
 
 			// Then the sprite
+			glColor4ub (fontPal.originalRed, fontPal.originalGreen, fontPal.originalBlue, 255);
 			glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
 			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 			glBegin(GL_QUADS);
-			glTexCoord2f(tx1, ty1);	glVertex3f(0.325-xoffset, 0.325-yoffset, 0.0);
-			glTexCoord2f(tx2, ty1);	glVertex3f(single.width-0.325-xoffset,0.325 -yoffset, 0.0);
-			glTexCoord2f(tx2, ty2);	glVertex3f(single.width-0.325-xoffset, -yoffset+single.height-0.325, 0.0);
-			glTexCoord2f(tx1, ty2);	glVertex3f(0.325-xoffset, -yoffset+single.height-0.325, 0.0);
+			glTexCoord2f(tx1, ty1);	glVertex3f(-xoffset, -yoffset, 0.0);
+			glTexCoord2f(tx2, ty1);	glVertex3f(single.width-xoffset, -yoffset, 0.0);
+			glTexCoord2f(tx2, ty2);	glVertex3f(single.width-xoffset, -yoffset+single.height+2, 0.0);
+			glTexCoord2f(tx1, ty2);	glVertex3f(-xoffset, -yoffset+single.height+2, 0.0);
 			glEnd();
 			glDisable(GL_BLEND);
 
@@ -450,10 +465,10 @@ void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette 
 			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
 			glBegin(GL_QUADS);
-			glTexCoord2f(0.0, 0.0); glVertex3f(0.325-x1-xoffset, 0.325-y1+yoffset, 0.0);
-			glTexCoord2f(backdropTexW, 0.0); glVertex3f(sceneWidth-0.325-x1-xoffset, 0.325-y1+yoffset, 0.0);
-			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(sceneWidth-0.325-x1-xoffset, sceneHeight-0.325-y1+yoffset, 0.0);
-			glTexCoord2f(0.0, backdropTexH); glVertex3f(0.325-x1-xoffset, sceneHeight-0.325-y1+yoffset, 0.0);
+			glTexCoord2f(0.0, 0.0); glVertex3f(-x1-xoffset, -y1+yoffset, 0.0);
+			glTexCoord2f(backdropTexW, 0.0); glVertex3f(sceneWidth-1-x1-xoffset, -y1+yoffset, 0.0);
+			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(sceneWidth-1-x1-xoffset, sceneHeight-1-y1+yoffset, 0.0);
+			glTexCoord2f(0.0, backdropTexH); glVertex3f(-x1-xoffset, sceneHeight-1-y1+yoffset, 0.0);
 			glEnd();
 
 			// Then the sprite
@@ -463,10 +478,10 @@ void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette 
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 			glBegin(GL_QUADS);
-			glTexCoord2f(tx1, ty1);	glVertex3f(0.325-xoffset, 0.325-yoffset, 0.0);
-			glTexCoord2f(tx2, ty1);	glVertex3f(single.width-0.325-xoffset, 0.325-yoffset, 0.0);
-			glTexCoord2f(tx2, ty2);	glVertex3f(single.width-0.325-xoffset, single.height-0.325-yoffset, 0.0);
-			glTexCoord2f(tx1, ty2);	glVertex3f(0.325-xoffset, single.height-0.325-yoffset, 0.0);
+			glTexCoord2f(tx1, ty1);	glVertex3f(-xoffset, -yoffset, 0.0);
+			glTexCoord2f(tx2, ty1);	glVertex3f(single.width-1-xoffset, -yoffset, 0.0);
+			glTexCoord2f(tx2, ty2);	glVertex3f(single.width-1-xoffset, single.height-1-yoffset, 0.0);
+			glTexCoord2f(tx1, ty2);	glVertex3f(-xoffset, single.height-1-yoffset, 0.0);
 			glEnd();
 			glDisable(GL_BLEND);
 
@@ -690,16 +705,21 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 
 	float tx1 = (float)(single.tex_x - 0.5) / fontPal.tex_w[single.texNum];
 	float ty1 = 0.0;
-	float tx2 = (float)(single.tex_x + single.width + 0.5) / fontPal.tex_w[single.texNum];
+	float tx2 = (float)(single.tex_x + single.width+0.5) / fontPal.tex_w[single.texNum];
 	float ty2 = (float)(single.height+2)/fontPal.tex_h[single.texNum];
 
-	float diffX = (float)(single.width+1) * scale + 0.5;
-	float diffY = (float)(single.height+2) * scale + 0.5;
-	float x1 = (float) x - (mirror ? (single.width - (single.xhot + 1.5)) : single.xhot+0.5) * scale - 0.325;
-	float y1 = (float) y - (single.yhot +1 - floaty) * scale - 0.325;
-	float x2 = x1 + diffX + 0.325;
-	float y2 = y1 + diffY + 0.825;
+	int diffX = ((float)single.width+0.5) * scale;
+	int diffY = ((float)single.height+2.0) * scale;
 
+	int x1;
+	if (single.xhot < 0)
+		x1 = x - (mirror ? (float) (single.width - single.xhot) : (float)(single.xhot+1) ) * scale;
+	else
+		x1 = x - (mirror ? (float) (single.width - (single.xhot+1)) : (float)single.xhot ) * scale;
+	int y1 = y - (single.yhot +1 - floaty) * scale;
+	int x2 = x1 + diffX;
+	int y2 = y1 + diffY;
+	
 	double z;
 
 	if (useZB && zBuffer.numPanels) {
@@ -807,19 +827,22 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, float scale, unsigned int drawMode, int floaty, bool useZB, bool light, int camX, int camY, bool mirror, aaSettingsStruct * aa) {
 	if (scale <= 0.05) return;
 	
+	light = false;
+	
 	float tx1 = (float)(single.tex_x - 0.5) / fontPal.tex_w[single.texNum];
 	float ty1 = 0.0;
 	float tx2 = (float)(single.tex_x + single.width + 0.5) / fontPal.tex_w[single.texNum];
 	float ty2 = (float)(single.height+2)/fontPal.tex_h[single.texNum];
 	
-	float diffX = (float)(single.width+1) * scale + 0.5;
-	float diffY = (float)(single.height+2) * scale + 0.5;
-	int x1 = x - ((float)(mirror ? (single.width - (single.xhot + 1.5)) : single.xhot+0.5) * scale - 0.325);
-	int y1 = y - ((float)(single.yhot +1 - floaty) * scale - 0.325);
+	int diffX = ((float)single.width+0.5) * scale;
+	int diffY = ((float)single.height+2.0) * scale;
+	int x1;
+	if (single.xhot < 0)
+		x1 = x - (mirror ? (float) (single.width - single.xhot) : (float)(single.xhot+1) ) * scale;
+	else
+		x1 = x - (mirror ? (float) (single.width - (single.xhot+1)) : (float)single.xhot ) * scale;
+	int y1 = y - (single.yhot +1 - floaty) * scale;
 	
-	diffX += 0.325;
-	diffY += 0.825;
-
 	float spriteWidth = diffX;
 	float spriteHeight = diffY;
 	if (x1 < 0) diffX += x1;
@@ -915,12 +938,12 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 			glDisable(GL_BLEND);
 
 			glBegin(GL_QUADS);
-			glTexCoord2f(0.0, 0.0); glVertex3f(-x1-xoffset, -y1+yoffset, 0.0);
-			glTexCoord2f(backdropTexW, 0.0); glVertex3f(sceneWidth-x1-xoffset, -y1+yoffset, 0.0);
-			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(sceneWidth-x1-xoffset, sceneHeight-y1+yoffset, 0.0);
-			glTexCoord2f(0.0, backdropTexH); glVertex3f(-x1-xoffset, sceneHeight-y1+yoffset, 0.0);
+			glTexCoord2f(0.0, 0.0); glVertex3f(-x1-xoffset, -y1-yoffset, 0.0);
+			glTexCoord2f(backdropTexW, 0.0); glVertex3f(sceneWidth-x1-xoffset, -y1-yoffset, 0.0);
+			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(sceneWidth-x1-xoffset, sceneHeight-y1-yoffset, 0.0);
+			glTexCoord2f(0.0, backdropTexH); glVertex3f(-x1-xoffset, sceneHeight-y1-yoffset, 0.0);
 			glEnd();
-
+			
 			// Then the sprite
 			setDrawMode (drawMode);
 			glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
@@ -936,15 +959,15 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 
 			glBegin(GL_QUADS);
 			if (! mirror) {
-				glTexCoord2f(tx2, ty1); glMultiTexCoord2f(GL_TEXTURE1, ltx2, lty1); 	glVertex3f(spriteWidth-0.325-xoffset, 0.325-yoffset, z);
-				glTexCoord2f(tx1, ty1); glMultiTexCoord2f(GL_TEXTURE1, ltx1, lty1); 	glVertex3f(0.325-xoffset, 0.325-yoffset, z);
-				glTexCoord2f(tx1, ty2); glMultiTexCoord2f(GL_TEXTURE1, ltx1, lty2); 	glVertex3f(0.325-xoffset, spriteHeight-0.325-yoffset, z);
-				glTexCoord2f(tx2, ty2); glMultiTexCoord2f(GL_TEXTURE1, ltx2, lty2); 	glVertex3f(spriteWidth-0.325-xoffset, spriteHeight-0.325-yoffset, z);
+				glTexCoord2f(tx1, ty1); glMultiTexCoord2f(GL_TEXTURE1, ltx1, lty1); 	glVertex3f(-xoffset, -yoffset, z);
+				glTexCoord2f(tx2, ty1); glMultiTexCoord2f(GL_TEXTURE1, ltx2, lty1); 	glVertex3f(spriteWidth-xoffset, -yoffset, z);
+				glTexCoord2f(tx2, ty2); glMultiTexCoord2f(GL_TEXTURE1, ltx2, lty2); 	glVertex3f(spriteWidth-xoffset, spriteHeight-yoffset, z);
+				glTexCoord2f(tx1, ty2); glMultiTexCoord2f(GL_TEXTURE1, ltx1, lty2); 	glVertex3f(-xoffset, spriteHeight-yoffset, z);
 			} else {
-				glTexCoord2f(tx1, ty1); glMultiTexCoord2f(GL_TEXTURE1, ltx2, lty1); 	glVertex3f(spriteWidth-0.325-xoffset, 0.325-yoffset, z);
-				glTexCoord2f(tx2, ty1); glMultiTexCoord2f(GL_TEXTURE1, ltx1, lty1); 	glVertex3f(0.325-xoffset, 0.325-yoffset, z);
-				glTexCoord2f(tx2, ty2); glMultiTexCoord2f(GL_TEXTURE1, ltx1, lty2); 	glVertex3f(0.325-xoffset, spriteHeight-0.325-yoffset, z);
-				glTexCoord2f(tx1, ty2); glMultiTexCoord2f(GL_TEXTURE1, ltx2, lty2); 	glVertex3f(spriteWidth-0.325-xoffset, spriteHeight-0.325-yoffset, z);
+				glTexCoord2f(tx2, ty1); glMultiTexCoord2f(GL_TEXTURE1, ltx1, lty1); 	glVertex3f(-xoffset, -yoffset, z);
+				glTexCoord2f(tx1, ty1); glMultiTexCoord2f(GL_TEXTURE1, ltx2, lty1); 	glVertex3f(spriteWidth-xoffset, -yoffset, z);
+				glTexCoord2f(tx1, ty2); glMultiTexCoord2f(GL_TEXTURE1, ltx2, lty2); 	glVertex3f(spriteWidth-xoffset, spriteHeight-yoffset, z);
+				glTexCoord2f(tx2, ty2); glMultiTexCoord2f(GL_TEXTURE1, ltx1, lty2); 	glVertex3f(-xoffset, spriteHeight-yoffset, z);
 			}
 			glEnd();
 			glDisable(GL_BLEND);

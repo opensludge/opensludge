@@ -22,6 +22,7 @@ unsigned int stringToInt (char * s) {
 	}
 }
 
+
 char * getPrefsFilename (char * filename) {
 	// Yes, this trashes the original string, but
 	// sod it, we don't use it afterwards...

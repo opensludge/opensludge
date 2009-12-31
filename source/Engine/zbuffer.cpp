@@ -143,15 +143,15 @@ void drawZBuffer(int x, int y, bool upsidedown) {
 		glAlphaFunc (GL_GREATER, 0.0625*i-0.03);
 		glBegin(GL_QUADS);
 		if (upsidedown) {
-			glTexCoord2f(0.0, 0.0); glVertex3f(0.325-x, zBuffer.height-y-0.325, z);
-			glTexCoord2f(backdropTexW, 0.0); glVertex3f(zBuffer.width-x-0.325, zBuffer.height-y-0.325, z);
-			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(zBuffer.width-x-0.325, 0.325-y, z);
-			glTexCoord2f(0.0, backdropTexH); glVertex3f(0.325-x, 0.325-y, z);
+			glTexCoord2f(0.0, 0.0); glVertex3f(-x, zBuffer.height-y, z);
+			glTexCoord2f(backdropTexW, 0.0); glVertex3f(zBuffer.width-x, zBuffer.height-y, z);
+			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(zBuffer.width-x, -y, z);
+			glTexCoord2f(0.0, backdropTexH); glVertex3f(-x, -y, z);
 		} else {
-			glTexCoord2f(0.0, 0.0); glVertex3f(0.225-x, 0.325-y, z);
-			glTexCoord2f(backdropTexW, 0.0); glVertex3f(zBuffer.width-x, 0.325-y, z);
-			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(zBuffer.width-x, zBuffer.height-y-0.325, z);
-			glTexCoord2f(0.0, backdropTexH); glVertex3f(0.225-x, zBuffer.height-y-0.325, z);
+			glTexCoord2f(0.0, 0.0); glVertex3f(-x, -y, z);
+			glTexCoord2f(backdropTexW, 0.0); glVertex3f(zBuffer.width-x, -y, z);
+			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(zBuffer.width-x, zBuffer.height-y, z);
+			glTexCoord2f(0.0, backdropTexH); glVertex3f(-x, zBuffer.height-y, z);
 		}
 		glEnd();
 	}

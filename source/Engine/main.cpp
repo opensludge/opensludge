@@ -13,10 +13,9 @@
 #include <SDL.h>
 #include <SDL_syswm.h>
 
-//#ifndef _WIN32
 // For unicode conversion
 #include <iconv.h>
-//#endif
+
 #ifdef _WIN32
 #include "winstuff.h"
 #else
@@ -93,6 +92,7 @@ void tick () {
 	sludgeDisplay ();
 }
 
+void saveHSI (FILE * writer);
 
 extern bool reallyWantToQuit;
 #ifdef _WIN32
@@ -110,6 +110,7 @@ int main(int argc, char *argv[]) try
 	SDL_Event event;
 
 	char * sludgeFile;
+	FILE * tester;
 
 	time_t t;
 	srand((unsigned) time(&t));
@@ -126,18 +127,24 @@ int main(int argc, char *argv[]) try
 			if (exeFolder[i] == '\\' || exeFolder[i] == '/') lastSlash = i;
 		}
 		exeFolder[lastSlash+1] = NULL;
-		sludgeFile = joinStrings (exeFolder, "gamedata");
-	//	fprintf(stderr, "%s", sludgeFile);
-		FILE * tester = fopen (sludgeFile, "rb");
+		sludgeFile = joinStrings (exeFolder, "gamedata.slg");
+//		fprintf(stderr, "%s", sludgeFile);
+		tester = fopen (sludgeFile, "rb");
 
-		if (tester) fclose (tester);
+		if (! tester) {
+			delete sludgeFile;
+			sludgeFile = joinStrings (exeFolder, "gamedata");
+			tester = fopen (sludgeFile, "rb");
+		}
+		if (tester) 
+			fclose (tester);
 		else
 			sludgeFile = grabFileName ();
 	}
 
 	if (! sludgeFile) return 0;
 
-	fixDir (sludgeFile);
+//	fixDir (sludgeFile);
 
 	/* Initialize the SDL library */
 	if ( SDL_Init(SDL_INIT_VIDEO) < 0 ) {
@@ -148,35 +155,12 @@ int main(int argc, char *argv[]) try
 	// OK, so we DO want to start up, then...
 	if (! initSludge (sludgeFile)) return 0;
 
-	/*
-	 * Now, we want to setup our requested window attributes for our OpenGL window.
-	 * We want *at least* 8 bits of red, green and blue. We also want at least a 16-bit
-	 * depth buffer.
-	 *
-	 * The last thing we do is request a double buffered window. '1' turns on double
-	 * buffering, '0' turns it off.
-	 */
-	SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 8);
-	SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 8);
-	SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 8);
-	SDL_GL_SetAttribute( SDL_GL_ALPHA_SIZE, 8);
-	SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 );
-	SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
-
 	// Needed to make menu shortcuts work (on Mac), i.e. Command+Q for quit
 	SDL_putenv("SDL_ENABLEAPPEVENTS=1");
 
-	setGraphicsWindow(gameSettings.userFullScreen, false);
+	setupOpenGLStuff();
 
-	/* Here's a good place to check for graphics capabilities... */
-	if (GLEE_VERSION_2_0 || GLEE_ARB_texture_non_power_of_two) {
-		// Yes! Textures can be any size!
-		NPOT_textures = true;
-	} else {
-		// Workaround needed for lesser graphics cards. Let's hope this works...
-		NPOT_textures = false;
-		fprintf (stderr, "Warning: Old graphics card!\n");
-	}
+
 
 #ifdef _WIN32
 	SDL_SysWMinfo wmInfo;
@@ -310,6 +294,12 @@ int main(int argc, char *argv[]) try
 						// The game file has requested that we quit
 						done = 1;
 					} else {
+/*
+						FILE *s = fopen ("screenshot.png", "wb");
+						saveHSI (s);
+						fclose(s);
+*/	
+						
 						// The request is from elsewhere - ask for confirmation.
 						setGraphicsWindow(false);
 						if (msgBoxQuestion (gameName, getNumberedString(2))) {

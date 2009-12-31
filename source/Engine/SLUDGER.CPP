@@ -7,6 +7,7 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <iconv.h>
 
 #include "glee.h"
 //#include <SDL_opengl.h>
@@ -204,20 +205,8 @@ bool initSludge (char * filename) {
 	delete readString (fp); // Unused - was used for registration purposes.
 	fread (& fileTime, sizeof (FILETIME), 1, fp);
 
+
 	char * dataFol = (gameVersion >= VERSION(1,3)) ? readString(fp) : joinStrings ("", "");
-	if (dataFol[0]) {
-		if (failSecurityCheck (dataFol)) return false;
-		#ifdef _WIN32
-		mkdir (dataFol);
-		#else
-		mkdir (dataFol, 0000777);
-		#endif
-#ifdef _MSC_VER
-		if (_chdir (dataFol)) return fatal ("This game's data folder is inaccessible!\nI can't access the following directory (maybe there's a file with the same name, or maybe it's read-protected):", dataFol);
-#else
-		if (chdir (dataFol)) return fatal ("This game's data folder is inaccessible!\nI can't access the following directory (maybe there's a file with the same name, or maybe it's read-protected):", dataFol);
-#endif
-	}
 
 	readIniFile (filename);
 
@@ -363,9 +352,67 @@ bool initSludge (char * filename) {
 
 	languageNum = getLanguageForFileB ();
 	if (languageNum < 0) return fatal ("Can't find the translation data specified!");
-	setFileIndices (fp, gameSettings.numLanguages, languageNum);
- 	positionStatus (10, winHeight - 15);
 
+	// Get the original name of the game and convert it to Unicode.
+	setFileIndices (fp, gameSettings.numLanguages, 0);	
+	char * gameNameWin = getNumberedString(1);
+	char * gameName = new char[ 1024];
+	char **tmp1 = (char **) &gameNameWin;
+	char **tmp2 = &gameName;
+	char * nameOrig = gameNameWin;
+	char * gameNameOrig = gameName;
+	
+	iconv_t convert = iconv_open ("UTF-8", "CP1252");
+	size_t len1 = strlen(gameNameWin)+1;
+	size_t len2 = 1023;
+	iconv (convert, (const char **) tmp1, &len1, tmp2, &len2);
+	iconv_close (convert);
+	
+	gameName = encodeFilename (gameNameOrig);	
+	
+	delete nameOrig;
+	delete gameNameOrig;
+
+	// Now set file indices properly to the chosen language.
+	setFileIndices (NULL, gameSettings.numLanguages, languageNum);
+	
+#ifdef __APPLE__
+	char appsupport_path[1024];
+	FSRef foundRef;
+	
+	// Find the Application Support Folder  (or should it be kPreferencesFolderType?) and go there
+	FSFindFolder (kUserDomain, kApplicationSupportFolderType , kDontCreateFolder, &foundRef);	
+	FSRefMakePath( &foundRef, (Uint8 *) appsupport_path, 1024);
+	chdir (appsupport_path);
+#endif	
+	
+#ifdef _WIN32
+	mkdir (gameName);
+#else
+	mkdir (gameName, 0000777);
+#endif
+#ifdef _MSC_VER
+	if (_chdir (gameName)) return fatal ("This game's data folder is inaccessible!\nI can't access the following directory (maybe there's a file with the same name, or maybe it's read-protected):", gameName);
+#else
+	if (chdir (gameName)) return fatal ("This game's data folder is inaccessible!\nI can't access the following directory (maybe there's a file with the same name, or maybe it's read-protected):", gameName);
+#endif
+	if (dataFol[0]) {
+		char *dataFolder = encodeFilename(dataFol);
+#ifdef _WIN32
+		mkdir (dataFolder);
+#else
+		mkdir (dataFolder, 0000777);
+#endif
+#ifdef _MSC_VER
+		if (_chdir (dataFolder)) return fatal ("This game's data folder is inaccessible!\nI can't access the following directory (maybe there's a file with the same name, or maybe it's read-protected):", dataFolder);
+#else
+		if (chdir (dataFolder)) return fatal ("This game's data folder is inaccessible!\nI can't access the following directory (maybe there's a file with the same name, or maybe it's read-protected):", dataFolder);
+#endif
+		delete dataFolder;
+	}
+	
+ 	positionStatus (10, winHeight - 15);	
+	
 	return true;
 }
 
@@ -378,7 +425,6 @@ bool checkColourChange (bool reset) {
 	glReadPixels(viewportOffsetX+input.mouseX*viewportWidth/winWidth, viewportOffsetY+(winHeight - input.mouseY)*viewportHeight/winHeight, 1, 1, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8, &pixel);
 
 	if (reset || oldPixel != pixel) {
-//		fprintf (stderr, "%d %d %d %d\n", input.mouseX, viewportOffsetX+input.mouseX*viewportWidth/winWidth, input.mouseY, viewportOffsetY+(winHeight - input.mouseY)*viewportHeight/winHeight);
 		oldPixel = pixel;
 		return true;
 	}
@@ -388,8 +434,21 @@ bool checkColourChange (bool reset) {
 void sludgeDisplay () {
 
 	glDepthMask (GL_TRUE);
+	//glClearColor(0.5, 0.5, 1.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear The Screen
 	glDepthMask (GL_FALSE);
+/*
+	glDisable (GL_TEXTURE_2D);
+
+	glColor4i(100, 100, 255, 255);
+	glBegin(GL_QUADS);
+	glVertex3f(0.0, 0.0, 0);
+	glVertex3f(800.0, 0.0, 0);
+	glVertex3f(800.0, 800.0, 0);
+	glVertex3f(0.0, 800.0, 0);
+	glEnd();*/
+	
+	
 	drawBackDrop ();				// Draw the room
 
 	drawZBuffer(cameraX, cameraY, false);
@@ -401,11 +460,10 @@ void sludgeDisplay () {
 	glDisable(GL_DEPTH_TEST);
 	viewSpeech ();					// ...and anything being said
 	drawStatusBar ();
-
-	if (brightnessLevel < 255) fixBrightness ();	// This is for transitionLevel special effects
-
 	displayCursor ();
-
+	
+	if (brightnessLevel < 255) fixBrightness ();	// This is for transitionLevel special effects
+	
 	glFlush();
 	SDL_GL_SwapBuffers();
 
@@ -582,7 +640,7 @@ bool continueFunction (loadedFunction * fun) {
 				case SVT_BUILT:
 					{
 					builtReturn br = callBuiltIn (fun -> reg.varData.intValue, param, fun);
-				    fprintf (stderr, "Function returned. \n");    fflush (stderr);
+				    //fprintf (stderr, "Function returned. \n");    fflush (stderr);
 
 				//debugOut ("built - %i\n", br);
 

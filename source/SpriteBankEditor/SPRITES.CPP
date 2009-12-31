@@ -36,7 +36,69 @@ bool reserveSpritePal (spritePalette * sP, int n) {
 	return (bool) (sP->pal != NULL) && (sP->r != NULL) && (sP->g != NULL) && (sP->b != NULL);
 }
 
+/*
 bool savePNGSprite (FILE * fp, struct spriteBank *sprites, int index, bool sig) {
+		
+	png_structp png_ptr = png_create_write_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+	if (!png_ptr) {
+		fclose (fp);
+		return false;
+	}
+	
+	png_infop info_ptr = png_create_info_struct(png_ptr);
+	if (!info_ptr){
+		png_destroy_write_struct(&png_ptr, (png_infopp)NULL);
+		fclose (fp);
+		return false;
+	}	
+	
+	png_init_io(png_ptr, fp);
+	
+	if (!sig) png_set_sig_bytes(png_ptr, 8);
+	
+	const int h = 21, w = 21;
+	
+	png_set_IHDR(png_ptr, info_ptr, w, h,
+				 8, PNG_COLOR_TYPE_RGB_ALPHA, PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);		
+	
+	unsigned char * row_pointers[h];
+
+	unsigned char data[w*h*4];
+	
+	for (int i = 0; i < h; i++) {
+		row_pointers[i] = data + 4 * i * w;
+		if (!(i % 20) || (i > (h-2))) {
+			for (int x = 0; x < w; x++) {
+				*(unsigned char *)(row_pointers[i]+x*4) = 255;
+				*(unsigned char *)(row_pointers[i]+x*4+1) = 0;
+				*(unsigned char *)(row_pointers[i]+x*4+2) = 
+				*(unsigned char *)(row_pointers[i]+x*4+3) = 255;
+			}			
+		} else {
+			for (int x = 0; x < w; x++) {
+				if (x % 20 && x < (w-1)) {
+					*(unsigned char *)(row_pointers[i]+x*4) =
+					*(unsigned char *)(row_pointers[i]+x*4+1) =
+					*(unsigned char *)(row_pointers[i]+x*4+2) = 0;
+					*(unsigned char *)(row_pointers[i]+x*4+3) = 0;
+				} else {
+					*(unsigned char *)(row_pointers[i]+x*4) = 255;
+					*(unsigned char *)(row_pointers[i]+x*4+1) = 0;
+					*(unsigned char *)(row_pointers[i]+x*4+2) = 255;
+					*(unsigned char *)(row_pointers[i]+x*4+3) = 255;
+				}
+			}
+		}			
+	}
+
+	
+	png_set_rows(png_ptr, info_ptr, row_pointers);	
+    png_write_png(png_ptr, info_ptr, PNG_TRANSFORM_IDENTITY, NULL);	
+	return true;
+}
+*/
+bool savePNGSprite (FILE * fp, struct spriteBank *sprites, int index, bool sig) {
+	
 	if (sprites->sprites[index].width < 1) return errorBox ("Error saving", "Can't save a sprite that has no width.");
 	if (sprites->sprites[index].height < 1) {
 		sprites->sprites[index].height = 1;
