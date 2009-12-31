@@ -25,17 +25,24 @@ unsigned int stringToInt (char * s) {
 
 char * getPrefsFilename (char * filename) {
 	// Yes, this trashes the original string, but
-	// sod it, we don't use it afterwards...
+	// we also free it at the end (warning!)...
 
-	int n;
+	int n, i;
 
 	n = strlen (filename);
+	
 
 	if (n > 4 && filename[n-4] == '.') {
 		filename[n-4] = NULL;
 	}
+
+	char * f = filename;
+	for (i = 0; i<n; i++) {
+		if (filename[i] == '/' || filename[i] == '\\')
+			f = filename + i + 1;
+	}
 	
-	char * joined = joinStrings (filename, ".ini");
+	char * joined = joinStrings (f, ".ini");
 	
 	delete filename;
 	filename = NULL;
@@ -117,6 +124,17 @@ void readIniFile (char * filename) {
 		fclose (fp);
 	}
 }
+
+void saveIniFile (char * filename) {
+	char * langName = getPrefsFilename (copyString (filename));
+	FILE * fp = fopen (langName, "wb");
+	delete langName;
+
+	fprintf (fp, "LANGUAGE=%d\n", gameSettings.languageID);
+	fprintf (fp, "WINDOW=%d\n", ! gameSettings.userFullScreen);
+	fprintf (fp, "ANTIALIAS=%d\n", gameSettings.antiAlias);
+	fclose (fp);
+}	
 
 void makeLanguageTable (FILE * table)
 {

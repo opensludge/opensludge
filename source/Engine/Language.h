@@ -11,6 +11,7 @@ struct settingsStruct
 };
 
 void readIniFile (char * filename);
+void saveIniFile (char * filename);
 int getLanguageForFileB ();
 void makeLanguageTable (FILE * table);
 

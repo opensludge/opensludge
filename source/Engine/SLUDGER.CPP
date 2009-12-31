@@ -208,8 +208,6 @@ bool initSludge (char * filename) {
 
 	char * dataFol = (gameVersion >= VERSION(1,3)) ? readString(fp) : joinStrings ("", "");
 
-	readIniFile (filename);
-
 	gameSettings.numLanguages = (gameVersion >= VERSION(1,3)) ? (fgetc (fp)) : 0;
 	makeLanguageTable (fp);
 
@@ -343,17 +341,8 @@ bool initSludge (char * filename) {
 	if (! checkNew (globalVars)) return false;
 	for (a = 0; a < numGlobals; a ++) initVarNew (globalVars[a]);
 
-	if (! showSetupWindow()) return 0;
-
-	if (useAAFromIni && gameSettings.antiAlias >= 0)
-	{
-		maxAntiAliasSettings.useMe = (gameSettings.antiAlias != 0);
-	}
-
-	languageNum = getLanguageForFileB ();
-	if (languageNum < 0) return fatal ("Can't find the translation data specified!");
-
-	// Get the original name of the game and convert it to Unicode.
+	// Get the original (untranslated) name of the game and convert it to Unicode.
+	// We use this to find saved preferences and saved games.
 	setFileIndices (fp, gameSettings.numLanguages, 0);	
 	char * gameNameWin = getNumberedString(1);
 	char * gameName = new char[ 1024];
@@ -371,11 +360,8 @@ bool initSludge (char * filename) {
 	gameName = encodeFilename (gameNameOrig);	
 	
 	delete nameOrig;
-	delete gameNameOrig;
+	delete gameNameOrig;	
 
-	// Now set file indices properly to the chosen language.
-	setFileIndices (NULL, gameSettings.numLanguages, languageNum);
-	
 #ifdef __APPLE__
 	char appsupport_path[1024];
 	FSRef foundRef;
@@ -392,10 +378,24 @@ bool initSludge (char * filename) {
 	mkdir (gameName, 0000777);
 #endif
 #ifdef _MSC_VER
-	if (_chdir (gameName)) return fatal ("This game's data folder is inaccessible!\nI can't access the following directory (maybe there's a file with the same name, or maybe it's read-protected):", gameName);
+	if (_chdir (gameName)) return fatal ("This game's preference folder is inaccessible!\nI can't access the following directory (maybe there's a file with the same name, or maybe it's read-protected):", gameName);
 #else
-	if (chdir (gameName)) return fatal ("This game's data folder is inaccessible!\nI can't access the following directory (maybe there's a file with the same name, or maybe it's read-protected):", gameName);
+	if (chdir (gameName)) return fatal ("This game's preference folder is inaccessible!\nI can't access the following directory (maybe there's a file with the same name, or maybe it's read-protected):", gameName);
 #endif
+	
+	// Get user settings
+	readIniFile (filename);
+	if (! showSetupWindow()) return 0;
+	saveIniFile (filename);
+
+	if (useAAFromIni && gameSettings.antiAlias >= 0)
+		maxAntiAliasSettings.useMe = (gameSettings.antiAlias != 0);
+	
+	// Now set file indices properly to the chosen language.
+	languageNum = getLanguageForFileB ();
+	if (languageNum < 0) return fatal ("Can't find the translation data specified!");
+	setFileIndices (NULL, gameSettings.numLanguages, languageNum);
+	
 	if (dataFol[0]) {
 		char *dataFolder = encodeFilename(dataFol);
 #ifdef _WIN32
