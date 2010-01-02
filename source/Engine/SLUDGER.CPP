@@ -371,6 +371,11 @@ bool initSludge (char * filename) {
 	FSRefMakePath( &foundRef, (Uint8 *) appsupport_path, 1024);
 	chdir (appsupport_path);
 #endif	
+#ifdef _WIN32
+	TCHAR szAppData[MAX_PATH];
+	hr = SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, szAppData);
+	_chdir(szAppData);
+#endif
 	
 #ifdef _WIN32
 	mkdir (gameName);

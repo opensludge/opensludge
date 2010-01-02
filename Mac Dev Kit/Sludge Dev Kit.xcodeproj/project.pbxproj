@@ -77,7 +77,6 @@
 		2F7EA4ED0FFCEBE6005E5C36 /* dialogueBoxInOut.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA43A0FFCEBE6005E5C36 /* dialogueBoxInOut.h */; };
 		2F7EA4EE0FFCEBE6005E5C36 /* WIN launch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA43B0FFCEBE6005E5C36 /* WIN launch.cpp */; };
 		2F7EA4EF0FFCEBE6005E5C36 /* launch.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA43C0FFCEBE6005E5C36 /* launch.h */; };
-		2F7EA4F60FFCEBE6005E5C36 /* WIN registry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA4430FFCEBE6005E5C36 /* WIN registry.cpp */; };
 		2F7EA5060FFCEBE6005E5C36 /* savedata.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA4550FFCEBE6005E5C36 /* savedata.h */; };
 		2F7EA5070FFCEBE6005E5C36 /* settings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA4560FFCEBE6005E5C36 /* settings.cpp */; };
 		2F7EA5080FFCEBE6005E5C36 /* settings.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA4570FFCEBE6005E5C36 /* settings.h */; };
@@ -255,7 +254,6 @@
 		2F7EA43A0FFCEBE6005E5C36 /* dialogueBoxInOut.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = dialogueBoxInOut.h; sourceTree = "<group>"; };
 		2F7EA43B0FFCEBE6005E5C36 /* WIN launch.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = "WIN launch.cpp"; sourceTree = "<group>"; };
 		2F7EA43C0FFCEBE6005E5C36 /* launch.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = launch.h; sourceTree = "<group>"; };
-		2F7EA4430FFCEBE6005E5C36 /* WIN registry.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = "WIN registry.cpp"; sourceTree = "<group>"; };
 		2F7EA4550FFCEBE6005E5C36 /* savedata.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = savedata.h; sourceTree = "<group>"; };
 		2F7EA4560FFCEBE6005E5C36 /* settings.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = settings.cpp; sourceTree = "<group>"; };
 		2F7EA4570FFCEBE6005E5C36 /* settings.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = settings.h; sourceTree = "<group>"; };
@@ -521,7 +519,6 @@
 				2F7EA43A0FFCEBE6005E5C36 /* dialogueBoxInOut.h */,
 				2F7EA43B0FFCEBE6005E5C36 /* WIN launch.cpp */,
 				2F7EA43C0FFCEBE6005E5C36 /* launch.h */,
-				2F7EA4430FFCEBE6005E5C36 /* WIN registry.cpp */,
 				2F7EA4450FFCEBE6005E5C36 /* resources */,
 				2F7EA4550FFCEBE6005E5C36 /* savedata.h */,
 				2F7EA4560FFCEBE6005E5C36 /* settings.cpp */,
@@ -692,7 +689,6 @@
 				2F7EA4CB0FFCEBE6005E5C36 /* translation.cpp in Sources */,
 				2F7EA4EC0FFCEBE6005E5C36 /* WIN dialogueBoxInOut.cpp in Sources */,
 				2F7EA4EE0FFCEBE6005E5C36 /* WIN launch.cpp in Sources */,
-				2F7EA4F60FFCEBE6005E5C36 /* WIN registry.cpp in Sources */,
 				2F7EA5070FFCEBE6005E5C36 /* settings.cpp in Sources */,
 				2F7EA50E0FFCEBE6005E5C36 /* WINCOMP.CPP in Sources */,
 				2F18B65F100CB9C20009A1CB /* GLee.c in Sources */,
