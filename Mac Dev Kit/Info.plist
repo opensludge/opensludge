@@ -136,7 +136,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleHelpBookFolder</key>
-	<string>SLUDGE Dev Kit Help</string>
+	<string>SLUDGEDevKitHelp</string>
 	<key>CFBundleHelpBookName</key>
 	<string>SLUDGE Dev Kit Help</string>
 	<key>CFBundleIconFile</key>

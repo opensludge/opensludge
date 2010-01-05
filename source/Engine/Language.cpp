@@ -11,12 +11,18 @@ char **languageName;
 
 unsigned int stringToInt (char * s) {
 	int i = 0;
+	bool negative = false;
 	for (;;) {
 		if (*s >= '0' && *s <= '9') {
 			i *= 10;
 			i += *s - '0';
 			s ++;
+		} else if (*s == '-') {
+			negative = ! negative;
+			s++;
 		} else {
+			if (negative)
+				return -i;
 			return i;
 		}
 	}

@@ -112,7 +112,6 @@ AppController *aC;
 }
 
 
-
 /*
 OSStatus RegisterMyHelpBook(void)
 {
@@ -138,33 +137,48 @@ OSStatus RegisterMyHelpBook(void)
 					
 bail: return err;
 
-}
-*/
+}*/
 
 OSStatus MyGotoHelpPage (CFStringRef pagePath, CFStringRef anchorName)
 {
     CFBundleRef myApplicationBundle = NULL;
     CFStringRef myBookName = NULL;
+    CFURLRef myBundleURL;
+    FSRef myBundleRef;
     OSStatus err = noErr;
 	
-    myApplicationBundle = CFBundleGetMainBundle();// 1
-		if (myApplicationBundle == NULL) {err = fnfErr; goto bail;}// 2
+    myApplicationBundle = CFBundleGetMainBundle();
+	if (myApplicationBundle == NULL) {
+		err = fnfErr; goto bail;
+	}
 		
-		
-		
-		myBookName = CFBundleGetValueForInfoDictionaryKey(// 3
-														  myApplicationBundle,
+	myBundleURL = CFBundleCopyBundleURL(myApplicationBundle);
+	if (myBundleURL == NULL) {
+		err = fnfErr; goto bail;
+	}
+	
+	if (!CFURLGetFSRef(myBundleURL, &myBundleRef)) {
+		err = fnfErr; goto bail;
+	}
+	
+	err = AHRegisterHelpBook(&myBundleRef);
+	if (err != noErr) {
+		fprintf (stderr, "Error registering help book. %d", err);
+		goto bail;
+	}
+							
+	myBookName = CFBundleGetValueForInfoDictionaryKey(myApplicationBundle,
 														  CFSTR("CFBundleHelpBookName"));
-		if (myBookName == NULL) {err = fnfErr; goto bail;}
+	if (myBookName == NULL) {
+		err = fnfErr; goto bail;
+	}
 				
-		if (CFGetTypeID(myBookName) != CFStringGetTypeID()) {// 4
-			err = paramErr;
-		}
-		
-		if (err == noErr)
-			err = AHGotoPage (myBookName, pagePath, anchorName);// 5
-			return err;
-			
+	if (CFGetTypeID(myBookName) != CFStringGetTypeID()) {
+		err = paramErr; goto bail;
+	}
+
+	err = AHGotoPage (myBookName, pagePath, anchorName);
+					
 bail: return err;
 			
 }

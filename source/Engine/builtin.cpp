@@ -97,7 +97,8 @@ int paramNum[] = {-1, 0, 1, 1, -1, -1, 1, 3, 4, 1, 0, 0, 8, -1,		// SAY -> MOVEM
 						0, 2, 0,									// getLanguage, launchWith, getFramesPerSecond
 						3, 2, 2, 0, 0, 1,							// readThumbnail, setThumbnailSize, hasFlag, snapshot, clearSnapshot, anyFilename
 						2, 1,										// regGet, fatal
-						4, 3, -1, 0									// chr AA, max AA, setBackgroundEffect, doBackgroundEffect
+						4, 3, -1, 0,								// chr AA, max AA, setBackgroundEffect, doBackgroundEffect
+						2											// setCharacterAngleOffset
 };
 
 bool failSecurityCheck (char * fn) {
@@ -2130,6 +2131,27 @@ builtIn(setCharacterSpinSpeed)
 				}
 				return BR_CONTINUE;
 			}
+
+builtIn(setCharacterAngleOffset)
+{
+	UNUSEDALL
+				int angle, who;
+				if (! getValueType (angle, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+				trimStack (fun -> stack);
+				if (! getValueType (who, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+				trimStack (fun -> stack);
+				
+				onScreenPerson * thisPerson = findPerson (who);
+				
+				if (thisPerson) {
+					thisPerson -> angleOffset = angle;
+					setVariable (fun -> reg, SVT_INT, 1);
+				} else {
+					setVariable (fun -> reg, SVT_INT, 0);
+				}
+				return BR_CONTINUE;
+}
+
 
 builtIn(transitionMode)
 			{

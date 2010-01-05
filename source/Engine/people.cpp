@@ -147,7 +147,7 @@ void deleteAnim (personaAnimation * orig) {
 void turnMeAngle (onScreenPerson * thisPerson, int direc) {
 	int d = thisPerson -> myPersona -> numDirections;
 	thisPerson -> angle = direc;
-	direc += (180 / d) + 180;
+	direc += (180 / d) + 180 + thisPerson -> angleOffset;
 	while (direc >= 360) direc -= 360;
 	thisPerson -> direction = (direc * d) / 360;
 }
@@ -157,17 +157,6 @@ bool initPeople () {
 	personRegion.sY = 0;
 	personRegion.di = -1;
 	allScreenRegions = NULL;
-
-/*	onScreenPerson dummy;
-	persona dummyPersona;
-	dummyPersona.numDirections = 4;
-	dummy.myPersona = & dummyPersona;
-	FILE * debug = fopen ("Debugging.txt", "wt");
-	for (int e = -180; e < 360; e ++) {
-		turnMeAngle (& dummy, e);
-		fprintf (debug, "%i:\t%i\t%i\n", e, dummy.angle, dummy.direction);
-	}
-	fclose (debug);		*/
 
 	return true;
 }
@@ -187,22 +176,11 @@ void spinStep (onScreenPerson * thisPerson) {
 		turnMeAngle (thisPerson, thisPerson -> wantAngle);
 		thisPerson -> spinning = false;
 	}
-
-/*
-//----------------------------------------------------------------------
-	FILE * debu = fopen ("spinning.txt", "at");
-	fprintf (debu, "New angle:  %i\nNew index:  %i\n\n",
-		thisPerson -> angle,
-		thisPerson -> direction);
-
-	fclose (debu);
-//----------------------------------------------------------------------*/
-
 }
 
 void rethinkAngle (onScreenPerson * thisPerson) {
 	int d = thisPerson -> myPersona -> numDirections;
-	int direc = thisPerson -> angle + (180 / d) + 180;
+	int direc = thisPerson -> angle + (180 / d) + 180 + thisPerson -> angleOffset;
 	while (direc >= 360) direc -= 360;
 	thisPerson -> direction = (direc * d) / 360;
 }
@@ -685,6 +663,7 @@ bool addPerson (int x, int y, int objNum, persona * p) {
 	newPerson -> direction = 0;
 	newPerson -> angle = 180;
 	newPerson -> wantAngle = 180;
+	newPerson -> angleOffset = 0;
 	newPerson -> floaty = 0;
 	newPerson -> walkSpeed = newPerson -> thisType -> walkSpeed;
 	newPerson -> myAnim = NULL;
@@ -929,6 +908,7 @@ bool savePeople (FILE * fp) {
 		}
 		put2bytes (me -> direction, fp);
 		put2bytes (me -> angle, fp);
+		put2bytes (me -> angleOffset, fp);
 		put2bytes (me -> wantAngle, fp);
 		putSigned (me -> directionWhenDoneWalking, fp);
 		putSigned (me -> inPoly, fp);
@@ -951,12 +931,6 @@ bool loadPeople (FILE * fp, int ssgVersion) {
 
 	scaleHorizon = readSigned (fp);
 	scaleDivide = readSigned (fp);
-/*
-//----------------------------------------------------------------------
-	FILE * debu = fopen ("debuTURN.txt", "at");
-	fprintf (debu, "LOADING SAVED GAME!\n\n");
-	fclose (debu);
-//----------------------------------------------------------------------*/
 
 	int countPeople = get2bytes (fp);
 	int a;
@@ -997,26 +971,25 @@ bool loadPeople (FILE * fp, int ssgVersion) {
 		me -> thisStepY = get2bytes (fp);
 		me -> frameNum = get2bytes (fp);
 		me -> frameTick = get2bytes (fp);
-//		fprintf (debug, "\n  Frame num: %d", me -> frameNum);
-//		fprintf (debug, "\n  FrameTick: %d", me -> frameTick);
 		me -> walkSpeed = get2bytes (fp);
 		me -> spinSpeed = get2bytes (fp);
 		me -> floaty = readSigned (fp);
-//		db ("Got floaty");
-//		fprintf (debug, "\n  Floaty:    %d", me -> floaty);
 		me -> show = fgetc (fp);
 		me -> walking = fgetc (fp);
 		me -> spinning = fgetc (fp);
 		if (fgetc (fp)) {
 			me -> continueAfterWalking = loadFunction (fp);
 			if (! me -> continueAfterWalking) return false;
-//			db ("Got continueAfterWalking");
 		} else {
 			me -> continueAfterWalking = NULL;
-//			db ("No continueAfterWalking");
 		}
 		me -> direction = get2bytes(fp);
 		me -> angle = get2bytes(fp);
+		if (ssgVersion >= VERSION(2,0)) {
+			me -> angleOffset = get2bytes(fp);
+		} else {
+			me -> angleOffset = 0;
+		}	
 		me -> wantAngle = get2bytes(fp);
 		me -> directionWhenDoneWalking = readSigned(fp);
 		me -> inPoly = readSigned(fp);
@@ -1028,9 +1001,7 @@ bool loadPeople (FILE * fp, int ssgVersion) {
 		if (ssgVersion >= VERSION(1,6))
 		{
 			aaLoad (me -> aaSettings, fp);
-		}
-		else
-		{
+		} else {
 			aaCopy (& me->aaSettings, &me->thisType->antiAliasingSettings);
 		}
 

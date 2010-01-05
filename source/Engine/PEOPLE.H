@@ -37,7 +37,7 @@ struct onScreenPerson {
 	personaAnimation * myAnim;
 	personaAnimation * lastUsedAnim;
 	persona * myPersona;
-	int frameNum, frameTick, angle, wantAngle;
+	int frameNum, frameTick, angle, wantAngle, angleOffset;
 	bool show;
 	int direction, directionWhenDoneWalking;
 	struct objectType * thisType;

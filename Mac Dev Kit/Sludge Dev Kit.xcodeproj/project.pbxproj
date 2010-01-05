@@ -95,7 +95,7 @@
 		2F981B9D10414BF00097177B /* ScriptDocument.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F981B9B10414BF00097177B /* ScriptDocument.h */; };
 		2F981B9E10414BF00097177B /* ScriptDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F981B9C10414BF00097177B /* ScriptDocument.m */; };
 		2F981BC610414D120097177B /* ScriptDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2F981BC510414D120097177B /* ScriptDocument.nib */; };
-		2F9DDF75100CC7DA0067DE50 /* Sludge Dev Kit Help in Resources */ = {isa = PBXBuildFile; fileRef = 2F18B6D5100CC0B40009A1CB /* Sludge Dev Kit Help */; };
+		2F9DDF75100CC7DA0067DE50 /* SLUDGEDevKitHelp in Resources */ = {isa = PBXBuildFile; fileRef = 2F18B6D5100CC0B40009A1CB /* SLUDGEDevKitHelp */; };
 		2F9DE047100CC7ED0067DE50 /* DevKit Main.nib in Resources */ = {isa = PBXBuildFile; fileRef = 002F3AF009D08F1000EBEB88 /* DevKit Main.nib */; };
 		2F9DE048100CC7FA0067DE50 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165DFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		2FA3510F10148E2800979809 /* MOREIO.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2FA3510E10148E2800979809 /* MOREIO.H */; };
@@ -199,7 +199,7 @@
 		2F150659101DD528006F9068 /* FloorMaker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FloorMaker.cpp; sourceTree = "<group>"; };
 		2F18B65D100CB9C20009A1CB /* GLee.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = GLee.c; path = ../GLee/GLee.c; sourceTree = SOURCE_ROOT; };
 		2F18B65E100CB9C20009A1CB /* GLee.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GLee.h; path = ../GLee/GLee.h; sourceTree = SOURCE_ROOT; };
-		2F18B6D5100CC0B40009A1CB /* Sludge Dev Kit Help */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Sludge Dev Kit Help"; path = "../doc/Sludge Dev Kit Help"; sourceTree = SOURCE_ROOT; };
+		2F18B6D5100CC0B40009A1CB /* SLUDGEDevKitHelp */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SLUDGEDevKitHelp; path = ../doc/SLUDGEDevKitHelp; sourceTree = SOURCE_ROOT; };
 		2F1B9A62100CF81C00BD9739 /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; name = Credits.html; path = ../doc/Credits.html; sourceTree = SOURCE_ROOT; };
 		2F1BD59210172D890014BFBB /* ProjectDocument.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = ProjectDocument.nib; sourceTree = "<group>"; };
 		2F2FF54C102C2598005439DA /* zDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zDocument.h; sourceTree = "<group>"; };
@@ -374,7 +374,7 @@
 		29B97314FDCFA39411CA2CEA /* Sludge Dev Kit */ = {
 			isa = PBXGroup;
 			children = (
-				2F18B6D5100CC0B40009A1CB /* Sludge Dev Kit Help */,
+				2F18B6D5100CC0B40009A1CB /* SLUDGEDevKitHelp */,
 				2F7EA3DC0FFCEBCF005E5C36 /* CommonCode */,
 				2F7EA4380FFCEBE6005E5C36 /* ProjectManager */,
 				2F7EA3ED0FFCEBE6005E5C36 /* Compiler */,
@@ -639,7 +639,7 @@
 			files = (
 				2F9DE048100CC7FA0067DE50 /* InfoPlist.strings in Resources */,
 				2F9DE047100CC7ED0067DE50 /* DevKit Main.nib in Resources */,
-				2F9DDF75100CC7DA0067DE50 /* Sludge Dev Kit Help in Resources */,
+				2F9DDF75100CC7DA0067DE50 /* SLUDGEDevKitHelp in Resources */,
 				2F1B9A63100CF81C00BD9739 /* Credits.html in Resources */,
 				2F3AB9CE100D0B7100CD6A13 /* Info.plist in Resources */,
 				2F695C72100D138D008A8DC1 /* icon.icns in Resources */,
