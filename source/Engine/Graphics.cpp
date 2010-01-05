@@ -287,6 +287,10 @@ void setupOpenGLStuff() {
 			fprintf (stderr, "Warning: Old graphics card! ARB_fragment_shader not supported.\n");
 		}
 	}
+	
+	int n;
+	glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, (GLint *) &n);
+	fprintf (stderr, "Max texture image units: %d\n", n);
 
 	 const GLchar brickVertex[] =
 		"void main() {"

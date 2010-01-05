@@ -318,8 +318,6 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, totalwidth[tex_num], maxheight[tex_num], 0, GL_RGBA, GL_UNSIGNED_BYTE, tmp[tex_num]);
 
-		//fprintf (stderr, "%s w:%d h:%d %d\n", resourceNameFromNum(fileNum), totalwidth[tex_num], maxheight[tex_num], loadhere.myPalette.tex_names[tex_num]);
-
 		delete tmp[tex_num];
 		tmp[tex_num] = NULL;
 

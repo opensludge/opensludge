@@ -9,6 +9,7 @@ struct settingsStruct
 	unsigned int refreshRate;
 	int antiAlias;
 	bool fixedPixels;
+	bool noStartWindow;
 };
 
 void readIniFile (char * filename);

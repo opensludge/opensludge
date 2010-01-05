@@ -391,8 +391,11 @@ bool initSludge (char * filename) {
 
 	// Get user settings
 	readIniFile (filename);
-	if (! showSetupWindow()) return 0;
-	saveIniFile (filename);
+	
+	if (! gameSettings.noStartWindow) {
+		if (! showSetupWindow()) return 0;
+		saveIniFile (filename);
+	}
 
 	if (useAAFromIni && gameSettings.antiAlias >= 0)
 		maxAntiAliasSettings.useMe = (gameSettings.antiAlias != 0);
@@ -647,8 +650,6 @@ bool continueFunction (loadedFunction * fun) {
 					{
 					builtReturn br = callBuiltIn (fun -> reg.varData.intValue, param, fun);
 				    //fprintf (stderr, "Function returned. \n");    fflush (stderr);
-
-				//debugOut ("built - %i\n", br);
 
 				switch (br) {
 					case BR_NOCOMMENT:
@@ -998,12 +999,9 @@ bool continueFunction (loadedFunction * fun) {
 			return fatal (ERROR_UNKNOWN_CODE);
 		}
 
-		//debugOut ("AdvanceNow is %i\n", advanceNow);
 		if (advanceNow) fun -> runThisLine ++;
-//		fprintf (stderr, ".\n"); fflush (stderr);
 
 	}
-//	fprintf (debuggy, "I think I've dropped out of this thread successfully!\n");
 	return true;
 }
 
@@ -1269,8 +1267,6 @@ bool handleInput () {
 			}
 		}
 
-		fprintf (stderr, "tempString: %s\n", tempString);
-	
 		if (tempString) {
 			variableStack * tempStack = new variableStack;
 			if (! checkNew (tempStack)) return false;

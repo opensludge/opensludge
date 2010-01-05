@@ -128,7 +128,6 @@ int main(int argc, char *argv[]) try
 		}
 		exeFolder[lastSlash+1] = NULL;
 		sludgeFile = joinStrings (exeFolder, "gamedata.slg");
-//		fprintf(stderr, "%s", sludgeFile);
 		tester = fopen (sludgeFile, "rb");
 
 		if (! tester) {
