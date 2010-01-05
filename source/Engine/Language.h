@@ -8,6 +8,7 @@ struct settingsStruct
 	bool userFullScreen;
 	unsigned int refreshRate;
 	int antiAlias;
+	bool fixedPixels;
 };
 
 void readIniFile (char * filename);

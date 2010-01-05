@@ -27,7 +27,7 @@
 	<GL/glx.h>
 	<stddef.h>
 
-1258907074 source:c:\programmering\sludge\source\engine\backdrop.cpp
+1262699807 source:c:\programmering\sludge\source\engine\backdrop.cpp
 	<complex>
 	<stdlib.h>
 	<libpng/png.h>
@@ -70,7 +70,7 @@
 
 1258802902 c:\programmering\sludge\source\engine\variable.h
 
-1258804993 c:\programmering\sludge\source\engine\graphics.h
+1262699807 c:\programmering\sludge\source\engine\graphics.h
 	"glee.h"
 
 1258802902 c:\programmering\sludge\source\engine\moreio.h
@@ -111,7 +111,7 @@
 
 1258810534 c:\programmering\sludge\source\engine\csludge.h
 
-1258802903 c:\programmering\sludge\source\engine\language.h
+1262701461 c:\programmering\sludge\source\engine\language.h
 
 1258908008 source:c:\programmering\sludge\source\engine\fonttext.cpp
 	"debug.h"
@@ -126,7 +126,7 @@
 
 1258810880 c:\programmering\sludge\source\engine\fonttext.h
 
-1258907074 source:c:\programmering\sludge\source\engine\freeze.cpp
+1259410699 source:c:\programmering\sludge\source\engine\freeze.cpp
 	<string.h>
 	"allfiles.h"
 	"Graphics.h"
@@ -418,11 +418,12 @@
 	"moreio.h"
 	"backdrop.h"
 
-1258908008 source:c:\programmering\sludge\source\engine\sludger.cpp
+1262701136 source:c:\programmering\sludge\source\engine\sludger.cpp
 	"allfiles.h"
 	"SDL.h"
 	<sys/types.h>
 	<sys/stat.h>
+	<iconv.h>
 	"glee.h"
 	<shellapi.h>
 	<direct.h>
@@ -458,7 +459,8 @@
 	"specialSettings.h"
 	"Graphics.h"
 	"debug.h"
-	"shellapi.h"
+	<shellapi.h>
+	<shlobj.h>
 
 1258802903 c:\programmering\sludge\source\engine\builtin.h
 
@@ -475,7 +477,7 @@
 	"newfatal.h"
 	"debug.h"
 
-1258908008 source:c:\programmering\sludge\source\engine\sprites.cpp
+1262699807 source:c:\programmering\sludge\source\engine\sprites.cpp
 	<libpng/png.h>
 	"allfiles.h"
 	"fileset.h"
@@ -489,6 +491,7 @@
 	"zbuffer.h"
 	"debug.h"
 	"Graphics.h"
+	"shaders.h"
 
 1258907074 source:c:\programmering\sludge\source\engine\statusba.cpp
 	"allfiles.h"
@@ -581,7 +584,7 @@
 	"newfatal.h"
 	"moreio.h"
 
-1258908347 source:c:\programmering\sludge\source\engine\builtin.cpp
+1262699807 source:c:\programmering\sludge\source\engine\builtin.cpp
 	"debug.h"
 	"allfiles.h"
 	"SDL.h"
@@ -637,14 +640,14 @@
 	"floor.h"
 	"line.h"
 
-1258802902 source:c:\programmering\sludge\source\engine\line.cpp
+1262699807 source:c:\programmering\sludge\source\engine\line.cpp
 	"glee.h"
 	<stdlib.h>
 	"Graphics.h"
 	"sprites_AA.h"
 	"allfiles.h"
 
-1258811418 source:c:\programmering\sludge\source\engine\graphics.cpp
+1262699807 source:c:\programmering\sludge\source\engine\graphics.cpp
 	"glee.h"
 	"specialSettings.h"
 	<SDL.h>
@@ -653,8 +656,10 @@
 	"sprbanks.h"
 	"zbuffer.h"
 	"backdrop.h"
+	"shaders.h"
+	"language.h"
 
-1258913201 source:c:\programmering\sludge\source\engine\language.cpp
+1262700334 source:c:\programmering\sludge\source\engine\language.cpp
 	<stdio.h>
 	<string.h>
 	"stringy.h"
@@ -663,7 +668,7 @@
 	"language.h"
 	"version.h"
 
-1258924843 source:c:\programmering\sludge\source\engine\main.cpp
+1262699807 source:c:\programmering\sludge\source\engine\main.cpp
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -734,7 +739,7 @@
 	"floor.h"
 	"zbuffer.h"
 
-1258912701 source:c:\programmering\sludge\source\engine\savedata.cpp
+1259410699 source:c:\programmering\sludge\source\engine\savedata.cpp
 	<string.h>
 	"allfiles.h"
 	"variable.h"
@@ -753,7 +758,7 @@
 	<wtypes.h>
 	<stdint.h>
 
-1258907075 source:c:\programmering\sludge\source\engine\thumbnail.cpp
+1262699807 source:c:\programmering\sludge\source\engine\thumbnail.cpp
 	"allfiles.h"
 	"errors.h"
 	"moreio.h"
@@ -775,7 +780,7 @@
 	"backdrop.h"
 	"Graphics.h"
 
-1258802902 source:c:\programmering\sludge\source\engine\zbuffer.cpp
+1262699807 source:c:\programmering\sludge\source\engine\zbuffer.cpp
 	"allfiles.h"
 	"zbuffer.h"
 	"fileset.h"
@@ -790,4 +795,11 @@
 	"resource.h"
 
 1258934267 c:\programmering\sludge\images\resource.h
+
+1262699807 c:\programmering\sludge\source\engine\shaders.h
+	"glee.h"
+
+1262699807 source:c:\programmering\sludge\source\engine\shaders.cpp
+	<stdio.h>
+	"shaders.h"
 

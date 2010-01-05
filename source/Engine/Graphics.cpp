@@ -37,7 +37,7 @@ void setPixelCoords (bool pixels) {
 	current = pixels;
 
 	glBindTexture (GL_TEXTURE_2D, backdropTextureName);
-	
+
 	if (pixels) {
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -46,7 +46,7 @@ void setPixelCoords (bool pixels) {
 		glOrtho(0, viewportWidth, 0, viewportHeight, 1.0, -1.0);
 
 		glMatrixMode(GL_MODELVIEW);
-		
+
 		glClear(GL_COLOR_BUFFER_BIT);
 	} else {
 		if (maxAntiAliasSettings.useMe) {
@@ -110,45 +110,52 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 		specialSettings &= ~SPECIAL_INVISIBLE;
 		videoflags = SDL_OPENGL | SDL_FULLSCREEN;
 
-		realWinWidth = desktopW;
-		realWinHeight = desktopH;
+        if (gameSettings.fixedPixels) {
+            viewportHeight = realWinWidth = winWidth;
+            viewportWidth = realWinHeight = winHeight;
+            viewportOffsetY = 0;
+            viewportOffsetX = 0;
+        } else {
+            realWinWidth = desktopW;
+            realWinHeight = desktopH;
 
-//		realWinWidth = 640;
-//		realWinHeight = 480;
-		
-		float realAspect = (float) realWinWidth / realWinHeight;
+            float realAspect = (float) realWinWidth / realWinHeight;
 
-		if (realAspect > winAspect) {
-			viewportHeight = realWinHeight;
-			viewportWidth = (int) (realWinHeight * winAspect);
-			viewportOffsetY = 0;
-			viewportOffsetX = (realWinWidth-viewportWidth)/2;
-		} else {
-			viewportWidth = realWinWidth;
-			viewportHeight = (int)((float) realWinWidth / winAspect);
-			viewportOffsetY = (realWinHeight-viewportHeight)/2;
-			viewportOffsetX = 0;
-		}
+            if (realAspect > winAspect) {
+                viewportHeight = realWinHeight;
+                viewportWidth = (int) (realWinHeight * winAspect);
+                viewportOffsetY = 0;
+                viewportOffsetX = (realWinWidth-viewportWidth)/2;
+            } else {
+                viewportWidth = realWinWidth;
+                viewportHeight = (int)((float) realWinWidth / winAspect);
+                viewportOffsetY = (realWinHeight-viewportHeight)/2;
+                viewportOffsetX = 0;
+            }
+        }
 
 	} else {
 		videoflags = SDL_OPENGL;
 
-		realWinHeight = desktopH*3/4;
-		realWinWidth = (int) (realWinHeight * winAspect);
- 
-//		realWinWidth = 640;
-//		realWinHeight = 480;
-		
-		if (realWinWidth > desktopW) {
-			realWinWidth = desktopW;
-			realWinHeight = (int) ((float) realWinWidth / winAspect);
-		}
+        if (gameSettings.fixedPixels) {
+            viewportHeight = realWinWidth = winWidth;
+            viewportWidth = realWinHeight = winHeight;
+            viewportOffsetY = 0;
+            viewportOffsetX = 0;
+        } else {
+            realWinHeight = desktopH*3/4;
+            realWinWidth = (int) (realWinHeight * winAspect);
 
-		viewportHeight = realWinHeight;
-		viewportWidth = realWinWidth;
-		viewportOffsetY = 0;
-		viewportOffsetX = 0;
+            if (realWinWidth > desktopW) {
+                realWinWidth = desktopW;
+                realWinHeight = (int) ((float) realWinWidth / winAspect);
+            }
 
+            viewportHeight = realWinHeight;
+            viewportWidth = realWinWidth;
+            viewportOffsetY = 0;
+            viewportOffsetX = 0;
+        }
 	}
 
 	if( SDL_SetVideoMode( realWinWidth, realWinHeight, 32, videoflags ) == 0 ) {
@@ -208,13 +215,13 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 
 		sludgeDisplay ();
 	}
-	
-	
+
+
 
 }
 
 void setupOpenGLStuff() {
-	
+
 	/*
 	 * Time to setup our requested window attributes for our OpenGL window.
 	 * We want *at least* 8 bits of red, green and blue. We also want at least a 16-bit
@@ -229,9 +236,9 @@ void setupOpenGLStuff() {
 	SDL_GL_SetAttribute( SDL_GL_ALPHA_SIZE, 8);
 	SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 );
 	SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
-	
+
 	setGraphicsWindow(gameSettings.userFullScreen, false);
-	
+
 	/* Check for graphics capabilities... */
 	if (GLEE_VERSION_2_0) {
 		// Yes! Textures can be any size!
@@ -258,7 +265,7 @@ void setupOpenGLStuff() {
 			NPOT_textures = false;
 			fprintf (stderr, "Warning: Old graphics card! GLEE_ARB_texture_non_power_of_two not supported.\n");
 		}
-		
+
 		if (GLEE_ARB_shading_language_100) {
 			fprintf (stderr, "ARB_shading_language_100 supported.\n");
 		} else {
@@ -277,29 +284,29 @@ void setupOpenGLStuff() {
 		if (GLEE_ARB_fragment_shader) {
 			fprintf (stderr, "ARB_fragment_shader supported.\n");
 		} else {
-			fprintf (stderr, "Warning: Old graphics card! ARB_fragment_shader not supported.\n"); 
+			fprintf (stderr, "Warning: Old graphics card! ARB_fragment_shader not supported.\n");
 		}
 	}
 
-	 const GLchar brickVertex[] = 
+	 const GLchar brickVertex[] =
 		"void main() {"
 		"	gl_TexCoord[0] = gl_MultiTexCoord0;"
 		"	gl_TexCoord[1] = gl_MultiTexCoord1;"
 		"	gl_TexCoord[2] = gl_MultiTexCoord2;"
 		"	gl_FrontColor = gl_Color;"
 		"	gl_Position = ftransform();"
-		"}";	 
-	 const GLchar *brickFragment = 
+		"}";
+	 const GLchar *brickFragment =
 		"uniform sampler2D tex0;"
 		"void main()"
 		"{"
-		"	vec4 texture = texture2D (tex0, gl_TexCoord[0].xy);"	
+		"	vec4 texture = texture2D (tex0, gl_TexCoord[0].xy);"
 		"	vec3 col = mix(gl_Color.rgb, texture.rgb, texture.a);"
 		"	gl_FragColor = vec4 (col, gl_Color.a * texture.a);"
 		"}";
-	 
-	 	 
-	 GLuint prog = buildShaders (brickVertex, brickFragment); 
+
+
+	 GLuint prog = buildShaders (brickVertex, brickFragment);
 	 fprintf (stderr, "Built shader program: %d\n", prog);
 	 glUseProgram(prog);
 	 GLint texture = glGetUniformLocation(prog, "tex0");
@@ -309,7 +316,7 @@ void setupOpenGLStuff() {
 	 texture = glGetUniformLocation(prog, "tex2");
 	 if (texture >= 0) glUniform1i(texture, 2);
 	 glUseProgram(0);
-	
+
 }
 
 

@@ -30,10 +30,10 @@ char * getPrefsFilename (char * filename) {
 	int n, i;
 
 	n = strlen (filename);
-	
+
 
 	if (n > 4 && filename[n-4] == '.') {
-		filename[n-4] = NULL;
+		filename[n-4] = 0;
 	}
 
 	char * f = filename;
@@ -41,9 +41,9 @@ char * getPrefsFilename (char * filename) {
 		if (filename[i] == '/' || filename[i] == '\\')
 			f = filename + i + 1;
 	}
-	
+
 	char * joined = joinStrings (f, ".ini");
-	
+
 	delete filename;
 	filename = NULL;
 	return joined;
@@ -59,6 +59,7 @@ void readIniFile (char * filename) {
 	gameSettings.userFullScreen = true;
 	gameSettings.refreshRate = 0;
 	gameSettings.antiAlias = -1;
+    gameSettings.fixedPixels = false;
 
 	delete langName;
 	langName = NULL;
@@ -89,13 +90,17 @@ void readIniFile (char * filename) {
 					{
 						gameSettings.userFullScreen = ! stringToInt (secondSoFar);
 					}
-					if (strcmp (lineSoFar, "REFRESH") == 0)
+					else if (strcmp (lineSoFar, "REFRESH") == 0)
 					{
 						gameSettings.refreshRate = stringToInt (secondSoFar);
 					}
-					if (strcmp (lineSoFar, "ANTIALIAS") == 0)
+					else if (strcmp (lineSoFar, "ANTIALIAS") == 0)
 					{
 						gameSettings.antiAlias = stringToInt (secondSoFar);
+					}
+					else if (strcmp (lineSoFar, "FIXEDPIXELS") == 0)
+					{
+						gameSettings.fixedPixels = stringToInt (secondSoFar);
 					}
 				}
 				here = 0;
@@ -133,15 +138,17 @@ void saveIniFile (char * filename) {
 	fprintf (fp, "LANGUAGE=%d\n", gameSettings.languageID);
 	fprintf (fp, "WINDOW=%d\n", ! gameSettings.userFullScreen);
 	fprintf (fp, "ANTIALIAS=%d\n", gameSettings.antiAlias);
+	fprintf (fp, "FIXEDPIXELS=%d\n", gameSettings.fixedPixels);
+
 	fclose (fp);
-}	
+}
 
 void makeLanguageTable (FILE * table)
 {
 	languageTable = new int[gameSettings.numLanguages];
 	languageName = new char*[gameSettings.numLanguages];
 
-	for (int i = 0; i <= gameSettings.numLanguages; i ++) {
+	for (unsigned int i = 0; i <= gameSettings.numLanguages; i ++) {
 		languageTable[i] = i ? get2bytes (table) : 0;
 		languageName[i] = 0;
 		if (gameVersion >= VERSION(2,0)) {
@@ -155,7 +162,7 @@ int getLanguageForFileB ()
 {
 	int indexNum = -1;
 
-	for (int i = 0; i <= gameSettings.numLanguages; i ++) {
+	for (unsigned int i = 0; i <= gameSettings.numLanguages; i ++) {
 		if (languageTable[i] == gameSettings.languageID) indexNum = i;
 	}
 

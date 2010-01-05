@@ -44,6 +44,7 @@
 			<Add library="user32" />
 			<Add library="kernel32" />
 			<Add library="comdlg32" />
+			<Add library="SHfolder" />
 			<Add library="..\..\..\libpng\libpng.a" />
 			<Add library="..\..\..\zlib\libz.a" />
 			<Add library="..\..\..\SDL\lib\libSDL.dll.a" />
@@ -125,6 +126,8 @@
 		<Unit filename="..\..\source\Engine\people.cpp" />
 		<Unit filename="..\..\source\Engine\savedata.cpp" />
 		<Unit filename="..\..\source\Engine\savedata.h" />
+		<Unit filename="..\..\source\Engine\shaders.cpp" />
+		<Unit filename="..\..\source\Engine\shaders.h" />
 		<Unit filename="..\..\source\Engine\sound.h" />
 		<Unit filename="..\..\source\Engine\sound_bass.cpp" />
 		<Unit filename="..\..\source\Engine\sound_nosound.cpp">

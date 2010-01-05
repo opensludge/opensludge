@@ -53,7 +53,8 @@
 
 #include "debug.h"
 #ifdef _WIN32
-#include "shellapi.h"
+#include <shellapi.h>
+#include <shlobj.h> // For SHGetFolderPath
 #endif
 
 int showSetupWindow();
@@ -343,40 +344,40 @@ bool initSludge (char * filename) {
 
 	// Get the original (untranslated) name of the game and convert it to Unicode.
 	// We use this to find saved preferences and saved games.
-	setFileIndices (fp, gameSettings.numLanguages, 0);	
+	setFileIndices (fp, gameSettings.numLanguages, 0);
 	char * gameNameWin = getNumberedString(1);
 	char * gameName = new char[ 1024];
 	char **tmp1 = (char **) &gameNameWin;
 	char **tmp2 = &gameName;
 	char * nameOrig = gameNameWin;
 	char * gameNameOrig = gameName;
-	
+
 	iconv_t convert = iconv_open ("UTF-8", "CP1252");
 	size_t len1 = strlen(gameNameWin)+1;
 	size_t len2 = 1023;
 	iconv (convert, (const char **) tmp1, &len1, tmp2, &len2);
 	iconv_close (convert);
-	
-	gameName = encodeFilename (gameNameOrig);	
-	
+
+	gameName = encodeFilename (gameNameOrig);
+
 	delete nameOrig;
-	delete gameNameOrig;	
+	delete gameNameOrig;
 
 #ifdef __APPLE__
 	char appsupport_path[1024];
 	FSRef foundRef;
-	
+
 	// Find the Application Support Folder  (or should it be kPreferencesFolderType?) and go there
-	FSFindFolder (kUserDomain, kApplicationSupportFolderType , kDontCreateFolder, &foundRef);	
+	FSFindFolder (kUserDomain, kApplicationSupportFolderType , kDontCreateFolder, &foundRef);
 	FSRefMakePath( &foundRef, (Uint8 *) appsupport_path, 1024);
 	chdir (appsupport_path);
-#endif	
+#endif
 #ifdef _WIN32
 	TCHAR szAppData[MAX_PATH];
-	hr = SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, szAppData);
+	/*hr = */SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, szAppData);
 	_chdir(szAppData);
 #endif
-	
+
 #ifdef _WIN32
 	mkdir (gameName);
 #else
@@ -387,7 +388,7 @@ bool initSludge (char * filename) {
 #else
 	if (chdir (gameName)) return fatal ("This game's preference folder is inaccessible!\nI can't access the following directory (maybe there's a file with the same name, or maybe it's read-protected):", gameName);
 #endif
-	
+
 	// Get user settings
 	readIniFile (filename);
 	if (! showSetupWindow()) return 0;
@@ -395,12 +396,12 @@ bool initSludge (char * filename) {
 
 	if (useAAFromIni && gameSettings.antiAlias >= 0)
 		maxAntiAliasSettings.useMe = (gameSettings.antiAlias != 0);
-	
+
 	// Now set file indices properly to the chosen language.
 	languageNum = getLanguageForFileB ();
 	if (languageNum < 0) return fatal ("Can't find the translation data specified!");
 	setFileIndices (NULL, gameSettings.numLanguages, languageNum);
-	
+
 	if (dataFol[0]) {
 		char *dataFolder = encodeFilename(dataFol);
 #ifdef _WIN32
@@ -415,9 +416,9 @@ bool initSludge (char * filename) {
 #endif
 		delete dataFolder;
 	}
-	
- 	positionStatus (10, winHeight - 15);	
-	
+
+ 	positionStatus (10, winHeight - 15);
+
 	return true;
 }
 
@@ -452,8 +453,8 @@ void sludgeDisplay () {
 	glVertex3f(800.0, 800.0, 0);
 	glVertex3f(0.0, 800.0, 0);
 	glEnd();*/
-	
-	
+
+
 	drawBackDrop ();				// Draw the room
 
 	drawZBuffer(cameraX, cameraY, false);
@@ -466,9 +467,9 @@ void sludgeDisplay () {
 	viewSpeech ();					// ...and anything being said
 	drawStatusBar ();
 	displayCursor ();
-	
+
 	if (brightnessLevel < 255) fixBrightness ();	// This is for transitionLevel special effects
-	
+
 	glFlush();
 	SDL_GL_SwapBuffers();
 
@@ -679,6 +680,7 @@ bool continueFunction (loadedFunction * fun) {
 						advanceNow = false;		// So we don't do anything else with "fun"
 					}
 					break;
+
 				}
 				}
 				break;
