@@ -18,6 +18,8 @@
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
 The saveCustomData function creates a file with the name <i>filenameString</i> and stores the contents of the variable <i>thisStack</i> (which must, as you probably guessed, be a stack) in the file. The loadCustomData function loads data back from a file that has been created using saveCustomData.<BR>
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+Please note that you can't store custom data in <a href="ini.html">the main .ini file</a>. Use another name for your custom settings .ini file.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
 The method by which loadCustomData and saveCustomData treat the files they act upon and the types of data which can be stored are determined by the current custom encoding setting - see <b><a href="setCustomEncoding.html">setCustomEncoding</a></b> for details. If a game attempts to read a file with a different custom encoding setting than the one which was used when the file was created then a fatal error will occur, in order to stop others reading your custom data files unless they know the setting you used.<BR>
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
 <FONT FACE=arial color=#3A8F8B SIZE=+1><B>Return value:</B></FONT><BR>

@@ -12,7 +12,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {914, 4984}}";
 			sepNavSelRange = "{5210, 0}";
-			sepNavVisRect = "{{0, 2564}, {913, 615}}";
+			sepNavVisRect = "{{0, 2562}, {913, 615}}";
 			sepNavWindowFrame = "{{178, 34}, {952, 744}}";
 		};
 	};
@@ -150,14 +150,14 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 284121119;
-			PBXWorkspaceStateSaveDate = 284121119;
+			PBXPerProjectTemplateStateSaveDate = 284397863;
+			PBXWorkspaceStateSaveDate = 284397863;
 		};
 		perUserProjectItems = {
-			2F42FD9210EF597F0063D6CB /* PBXBookmark */ = 2F42FD9210EF597F0063D6CB /* PBXBookmark */;
-			2F42FDEE10EF5EB60063D6CB /* PBXTextBookmark */ = 2F42FDEE10EF5EB60063D6CB /* PBXTextBookmark */;
-			2F42FE0310EF5FA30063D6CB /* PBXTextBookmark */ = 2F42FE0310EF5FA30063D6CB /* PBXTextBookmark */;
-			2F42FE0410EF5FA30063D6CB /* PBXTextBookmark */ = 2F42FE0410EF5FA30063D6CB /* PBXTextBookmark */;
+			2F4F1EB510F393D1000DC600 /* PBXTextBookmark */ = 2F4F1EB510F393D1000DC600 /* PBXTextBookmark */;
+			2F4F1EB610F393D1000DC600 /* PBXTextBookmark */ = 2F4F1EB610F393D1000DC600 /* PBXTextBookmark */;
+			2FFA6F9E10F390E000446FEE /* PBXTextBookmark */ = 2FFA6F9E10F390E000446FEE /* PBXTextBookmark */;
+			2FFA6F9F10F390E000446FEE /* PBXTextBookmark */ = 2FFA6F9F10F390E000446FEE /* PBXTextBookmark */;
 		};
 		sourceControlManager = 2F776FD60FFCEA5E0085230A /* Source Control */;
 		userBuildSettings = {
@@ -257,36 +257,24 @@
 			sepNavWindowFrame = "{{478, 6}, {775, 714}}";
 		};
 	};
-	2F42FD9210EF597F0063D6CB /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = 2F7EA4560FFCEBE6005E5C36 /* settings.cpp */;
-	};
-	2F42FDEE10EF5EB60063D6CB /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		comments = "warning: pointer targets in passing argument 1 of 'chdir' differ in signedness";
-		fRef = 002F3A2C09D0888800EBEB88 /* AppController.m */;
-		rLen = 1;
-		rLoc = 199;
-		rType = 1;
-	};
-	2F42FE0310EF5FA30063D6CB /* PBXTextBookmark */ = {
+	2F4F1EB510F393D1000DC600 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 002F3A2C09D0888800EBEB88 /* AppController.m */;
 		name = "AppController.m: 200";
 		rLen = 0;
 		rLoc = 5210;
 		rType = 0;
-		vrLen = 1230;
+		vrLen = 1229;
 		vrLoc = 4796;
 	};
-	2F42FE0410EF5FA30063D6CB /* PBXTextBookmark */ = {
+	2F4F1EB610F393D1000DC600 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 2F7EA4560FFCEBE6005E5C36 /* settings.cpp */;
 		name = wintext.h;
 		rLen = 9;
 		rLoc = 299;
 		rType = 0;
-		vrLen = 2022;
+		vrLen = 2021;
 		vrLoc = 7123;
 	};
 	2F6092611010729500BC0F94 /* Interface.h */ = {
@@ -625,7 +613,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1274, 6188}}";
 			sepNavSelRange = "{299, 9}";
-			sepNavVisRect = "{{0, 2964}, {736, 585}}";
+			sepNavVisRect = "{{0, 2954}, {736, 585}}";
 			sepNavWindowFrame = "{{468, 47}, {775, 714}}";
 		};
 	};
@@ -917,6 +905,26 @@
 			sepNavVisRect = "{{0, 3563}, {736, 585}}";
 			sepNavWindowFrame = "{{446, 25}, {775, 714}}";
 		};
+	};
+	2FFA6F9E10F390E000446FEE /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 002F3A2C09D0888800EBEB88 /* AppController.m */;
+		name = "AppController.m: 200";
+		rLen = 0;
+		rLoc = 5210;
+		rType = 0;
+		vrLen = 1229;
+		vrLoc = 4796;
+	};
+	2FFA6F9F10F390E000446FEE /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2F7EA4560FFCEBE6005E5C36 /* settings.cpp */;
+		name = wintext.h;
+		rLen = 9;
+		rLoc = 299;
+		rType = 0;
+		vrLen = 2021;
+		vrLoc = 7123;
 	};
 	8D1107260486CEB800E47090 /* SLUDGE Dev Kit */ = {
 		activeExec = 0;

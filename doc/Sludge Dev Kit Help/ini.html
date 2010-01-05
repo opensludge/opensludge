@@ -6,7 +6,9 @@
 <CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
 <TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>.ini Files for Compiled SLUDGE Games</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
 </center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-When a game is launched, the SLUDGE engine also attempts to read a file of initialisation settings. This file must have the same name as your compiled game file, but with the extension ".ini". For example, if the compiler builds you a compiled game file called "Turnip Quest VI.slg" your settings file would be called "Turnip Quest VI.ini". If you're going to rename your file so that it's called "mygame" or "mygame.dat" or "mygame.001" or something, your settings should be in a file called "mygame.ini". (If no matching file is found, that's fine... the game will run with the default settings.)<BR>
+When a game is launched, the SLUDGE engine also attempts to read a file of initialisation settings. On Windows, SLUDGE puts settings and saved games in the AppData folder, and on Mac it's ~/Library/Application Support. In that folder, SLUDGE looks for (or makes) a folder with the name of the game.  That's where the file with the initialisation settings should be. The file must have the same name as your compiled game file, but with the extension ".ini". For example, if the compiler builds you a compiled game file called "Turnip Quest VI.slg" your settings file would be called "Turnip Quest VI.ini". If you're going to rename your file so that it's called "mygame" or "mygame.dat" or "mygame.001" or something, your settings should be in a file called "mygame.ini". (If no matching file is found, that's fine... the game will run with the default settings.)<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+SLUDGE will write the current settings to that file after the startup window so that they'll be remembered.<BR>
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
 So, what can go in an .ini file? Well, the list is growing.<BR>
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
@@ -27,29 +29,26 @@ If no such line exists, or the .ini file does not exist, the default language ID
 If the game's .ini file contains a line which starts with "WINDOW=" the rest of the line defines whether the game should be run in a forced to run in a window. A non-zero number (for example, 1) means the game should be forced to run in a window. A value of "0" or anything else means it shouldn't. (Note that if the compiled game isn't meant to run full screen, this value won't force it to run full screen. It will have no effect.)<BR>
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
 If no such line exists, or the .ini file does not exist, the default is 0. The game won't be forced to run in a window.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Full screen refresh rate</B></FONT><BR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<B>REFRESH=</B><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-If the SLUDGE game's .ini file contains a line which starts with "REFRESH=" the rest of the line is used as the refresh rate if and when the game tries to run full screen. The engine will try and run full screen at a refresh rate matching or higher than the value specified.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-If no such line exists, or the .ini file does not exist, the default value is 0 - the screen's current refresh rate is used instead.<BR>
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
 <FONT FACE=arial color=#3A8F8B SIZE=+1><B>Anti-aliasing</B></FONT><BR>
-
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
 <B>ANTIALIAS=</B><BR>
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
 In the <b><a href="About_the_SLUDGE_Project_Manager.html">project manager</a></b> you can specify whether <b><a href="antialiasing.html">anti-aliasing of characters</a></b> is enabled when a game starts. You can also specify whether to look in the game's .ini file for a value which will override this. If this option is selected and the SLUDGE game's .ini file contains a line which starts with "ANTIALIAS=" the rest of the line specifies whether anti-aliasing is enabled. This way, you can have an option in your installer or a windowed menu program to turn anti-aliasing on or off if you'd rather handle it there than in the game. "ANTIALIAS=0" turns anti-aliasing off. "ANTIALIAS=1" turns anti-alising on. If no such line exists, or the .ini file does not exist, the default value is the setting specified in the <b><a href="About_the_SLUDGE_Project_Manager.html">project manager</a></b>.<BR>
+
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Disable scaling</B></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<B>FIXEDPIXELS=</B><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+If the FIXEDPIXELS setting is non-zero, the engine disables the scaling of the game and simply creates a window with the exact size specified by the game.<BR>
+
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
 <FONT FACE=arial color=#3A8F8B SIZE=+1><B>Other lines in the .ini file</B></FONT><BR>
 
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-You can store any additional data that you like in the file along with the above data. This will not produce any errors or warnings. Therefore, it's entirely reasonable to store your own settings in the .ini file, and then read them using your own code using <b><a href="loadCustomData_and_saveCustomData.html">loadCustomData</a></b>.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-If you'd like your players to be able to change any of the above settings without having to edit the .ini file by hand, you can provide an accompanying menu program which writes the player's language and video selections to the .ini file using <b><a href="loadCustomData_and_saveCustomData.html">saveCustomData</a></b> and then launches the game proper. (It's also possible to write a new settings file from within your game itself - but the changes will not take effect until the next time the game is launched.) An example of such a menu program can be found online. Where? Why, <b><a href="Download_Free_SLUDGE_Examples.html">here.</a></b><BR>
+You may not store any additional data in the file along with the above data, since anything else will get overwritten. Instead, you can store your own settings in another .ini file, and then read them using your own code using <b><a href="loadCustomData_and_saveCustomData.html">loadCustomData</a></b>.<BR>
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
 <B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
