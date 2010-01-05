@@ -287,7 +287,59 @@ int main(int argc, char *argv[]) try
 						}
 						break;
 					}
-					input.keyPressed = event.key.keysym.unicode;
+					switch (event.key.keysym.sym) {
+						case SDLK_BACKSPACE:
+							input.keyPressed = 127; break;
+						case SDLK_TAB:
+							input.keyPressed = 9; break;
+						case SDLK_RETURN:
+							input.keyPressed = 13; break;
+						case SDLK_ESCAPE:
+							input.keyPressed = 27; break;
+						case SDLK_PAGEUP:
+							input.keyPressed = 63276; break;
+						case SDLK_PAGEDOWN:
+							input.keyPressed = 63277; break;
+						case SDLK_END:
+							input.keyPressed = 63275; break;
+						case SDLK_HOME:
+							input.keyPressed = 63273; break;
+						case SDLK_LEFT:
+							input.keyPressed = 63234; break;
+						case SDLK_UP:
+							input.keyPressed = 63232; break;
+						case SDLK_RIGHT:
+							input.keyPressed = 63235; break;
+						case SDLK_DOWN:
+							input.keyPressed = 63233; break;
+						case SDLK_F1:
+							input.keyPressed = 63236; break;
+						case SDLK_F2:
+							input.keyPressed = 63237; break;
+						case SDLK_F3:
+							input.keyPressed = 63238; break;
+						case SDLK_F4:
+							input.keyPressed = 63239; break;
+						case SDLK_F5:
+							input.keyPressed = 63240; break;
+						case SDLK_F6:
+							input.keyPressed = 63241; break;
+						case SDLK_F7:
+							input.keyPressed = 63242; break;
+						case SDLK_F8:
+							input.keyPressed = 63243; break;
+						case SDLK_F9:
+							input.keyPressed = 63244; break;
+						case SDLK_F10:
+							input.keyPressed = 63245; break;
+						case SDLK_F11:
+							input.keyPressed = 63246; break;
+						case SDLK_F12:
+							input.keyPressed = 63247; break;
+						default:
+						input.keyPressed = event.key.keysym.unicode;
+						break;
+					}
 					break;
 				case SDL_QUIT:
 					if (reallyWantToQuit) {

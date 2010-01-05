@@ -1269,6 +1269,8 @@ bool handleInput () {
 			}
 		}
 
+		fprintf (stderr, "tempString: %s\n", tempString);
+	
 		if (tempString) {
 			variableStack * tempStack = new variableStack;
 			if (! checkNew (tempStack)) return false;
