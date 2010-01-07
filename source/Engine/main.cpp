@@ -135,7 +135,7 @@ int main(int argc, char *argv[]) try
 			sludgeFile = joinStrings (exeFolder, "gamedata");
 			tester = fopen (sludgeFile, "rb");
 		}
-		if (tester) 
+		if (tester)
 			fclose (tester);
 		else
 			sludgeFile = grabFileName ();
@@ -349,8 +349,8 @@ int main(int argc, char *argv[]) try
 						FILE *s = fopen ("screenshot.png", "wb");
 						saveHSI (s);
 						fclose(s);
-*/	
-						
+*/
+
 						// The request is from elsewhere - ask for confirmation.
 						setGraphicsWindow(false);
 						if (msgBoxQuestion (gameName, getNumberedString(2))) {

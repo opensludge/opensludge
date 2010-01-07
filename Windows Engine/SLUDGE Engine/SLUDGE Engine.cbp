@@ -51,6 +51,7 @@
 			<Add library="..\..\..\GnuWin32\lib\libiconv.dll.a" />
 			<Add library="..\..\..\Bass\c\bass.lib" />
 			<Add library="C:\MinGW\lib\libopengl32.a" />
+			<Add library="C:\MinGW\lib\libglu32.a" />
 		</Linker>
 		<Unit filename="..\..\..\Glee\GLee.c">
 			<Option compilerVar="CC" />

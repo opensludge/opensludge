@@ -70,7 +70,7 @@
 
 1258802902 c:\programmering\sludge\source\engine\variable.h
 
-1262699807 c:\programmering\sludge\source\engine\graphics.h
+1262884800 c:\programmering\sludge\source\engine\graphics.h
 	"glee.h"
 
 1258802902 c:\programmering\sludge\source\engine\moreio.h
@@ -101,7 +101,7 @@
 1258810535 c:\programmering\sludge\source\engine\sprbanks.h
 	"sprites.h"
 
-1258802903 c:\programmering\sludge\source\engine\people.h
+1262730695 c:\programmering\sludge\source\engine\people.h
 	"sprites_AA.h"
 
 1258802903 c:\programmering\sludge\source\engine\sludger.h
@@ -111,7 +111,7 @@
 
 1258810534 c:\programmering\sludge\source\engine\csludge.h
 
-1262701461 c:\programmering\sludge\source\engine\language.h
+1262884800 c:\programmering\sludge\source\engine\language.h
 
 1258908008 source:c:\programmering\sludge\source\engine\fonttext.cpp
 	"debug.h"
@@ -418,7 +418,7 @@
 	"moreio.h"
 	"backdrop.h"
 
-1262701136 source:c:\programmering\sludge\source\engine\sludger.cpp
+1262884800 source:c:\programmering\sludge\source\engine\sludger.cpp
 	"allfiles.h"
 	"SDL.h"
 	<sys/types.h>
@@ -477,7 +477,7 @@
 	"newfatal.h"
 	"debug.h"
 
-1262699807 source:c:\programmering\sludge\source\engine\sprites.cpp
+1262884800 source:c:\programmering\sludge\source\engine\sprites.cpp
 	<libpng/png.h>
 	"allfiles.h"
 	"fileset.h"
@@ -584,7 +584,7 @@
 	"newfatal.h"
 	"moreio.h"
 
-1262699807 source:c:\programmering\sludge\source\engine\builtin.cpp
+1262730695 source:c:\programmering\sludge\source\engine\builtin.cpp
 	"debug.h"
 	"allfiles.h"
 	"SDL.h"
@@ -625,7 +625,7 @@
 
 1258802903 c:\programmering\sludge\source\engine\savedata.h
 
-1258802901 c:\programmering\sludge\source\commoncode\functionlist.h
+1262730695 c:\programmering\sludge\source\commoncode\functionlist.h
 
 1258802903 source:c:\programmering\sludge\source\engine\debug.cpp
 	<stdarg.h>
@@ -647,7 +647,7 @@
 	"sprites_AA.h"
 	"allfiles.h"
 
-1262699807 source:c:\programmering\sludge\source\engine\graphics.cpp
+1262884800 source:c:\programmering\sludge\source\engine\graphics.cpp
 	"glee.h"
 	"specialSettings.h"
 	<SDL.h>
@@ -659,7 +659,7 @@
 	"shaders.h"
 	"language.h"
 
-1262700334 source:c:\programmering\sludge\source\engine\language.cpp
+1262884800 source:c:\programmering\sludge\source\engine\language.cpp
 	<stdio.h>
 	<string.h>
 	"stringy.h"
@@ -668,7 +668,7 @@
 	"language.h"
 	"version.h"
 
-1262699807 source:c:\programmering\sludge\source\engine\main.cpp
+1262884800 source:c:\programmering\sludge\source\engine\main.cpp
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -719,7 +719,7 @@
 	<stdlib.h>
 	"allfiles.h"
 
-1258907075 source:c:\programmering\sludge\source\engine\people.cpp
+1262730695 source:c:\programmering\sludge\source\engine\people.cpp
 	"allfiles.h"
 	<math.h>
 	<stdlib.h>
@@ -796,10 +796,12 @@
 
 1258934267 c:\programmering\sludge\images\resource.h
 
-1262699807 c:\programmering\sludge\source\engine\shaders.h
+1262884997 c:\programmering\sludge\source\engine\shaders.h
 	"glee.h"
 
-1262699807 source:c:\programmering\sludge\source\engine\shaders.cpp
+1262885067 source:c:\programmering\sludge\source\engine\shaders.cpp
 	<stdio.h>
 	"shaders.h"
+	<GL\glu.h>
+	<OpenGL/glu.h>
 
