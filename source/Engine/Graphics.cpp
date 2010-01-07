@@ -25,6 +25,7 @@ extern int sceneWidth, sceneHeight;
 extern zBufferData zBuffer;
 extern int lightMapNumber;
 
+GLuint shaderFixScaleSprite = 0;
 
 void msgBox (const char * head, const char * msg);
 void sludgeDisplay ();
@@ -164,6 +165,43 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 		exit(2);
 	}
 
+	const GLchar brickVertex[] =
+		"void main() {"
+		"	gl_TexCoord[0] = gl_MultiTexCoord0;"
+		"	gl_TexCoord[1] = gl_MultiTexCoord1;"
+		"	gl_TexCoord[2] = gl_MultiTexCoord2;"
+		"	gl_FrontColor = gl_Color;"
+		"	gl_FrontSecondaryColor = gl_SecondaryColor;"
+		"	gl_Position = ftransform();"
+		"}";
+	const GLchar *brickFragment =
+		"uniform sampler2D tex0;"
+		"uniform sampler2D tex1;"
+		"uniform sampler2D tex2;"
+		"void main()"
+		"{"
+		"	vec4 texture = texture2D (tex0, gl_TexCoord[0].xy);"
+		"	vec4 texture2 = texture2D (tex2, gl_TexCoord[2].xy);"
+		"	vec3 col = gl_Color.rgb * texture.rgb;"
+		"	col += vec3(gl_SecondaryColor);"
+		"	vec4 color = vec4 (col, gl_Color.a * texture.a);"
+		"	col = mix (texture2.rgb, color.rgb, color.a);"
+		"	gl_FragColor = vec4 (col, max(texture.a, texture2.a));"
+		"}";
+	
+	shaderFixScaleSprite = buildShaders (brickVertex, brickFragment);
+	fprintf (stderr, "Built shader program: %d\n", shaderFixScaleSprite);
+	glUseProgram(shaderFixScaleSprite);
+	GLint texture = glGetUniformLocation(shaderFixScaleSprite, "tex0");
+	if (texture >= 0) glUniform1i(texture, 0);
+	texture = glGetUniformLocation(shaderFixScaleSprite, "tex1");
+	if (texture >= 0) glUniform1i(texture, 1);
+	texture = glGetUniformLocation(shaderFixScaleSprite, "tex2");
+	if (texture >= 0) glUniform1i(texture, 2);
+	glUseProgram(0);
+	
+	
+	
 	glViewport (viewportOffsetX, viewportOffsetY, viewportWidth, viewportHeight);
 
 	/*
@@ -292,34 +330,6 @@ void setupOpenGLStuff() {
 	glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, (GLint *) &n);
 	fprintf (stderr, "Max texture image units: %d\n", n);
 
-	 const GLchar brickVertex[] =
-		"void main() {"
-		"	gl_TexCoord[0] = gl_MultiTexCoord0;"
-		"	gl_TexCoord[1] = gl_MultiTexCoord1;"
-		"	gl_TexCoord[2] = gl_MultiTexCoord2;"
-		"	gl_FrontColor = gl_Color;"
-		"	gl_Position = ftransform();"
-		"}";
-	 const GLchar *brickFragment =
-		"uniform sampler2D tex0;"
-		"void main()"
-		"{"
-		"	vec4 texture = texture2D (tex0, gl_TexCoord[0].xy);"
-		"	vec3 col = mix(gl_Color.rgb, texture.rgb, texture.a);"
-		"	gl_FragColor = vec4 (col, gl_Color.a * texture.a);"
-		"}";
-
-
-	 GLuint prog = buildShaders (brickVertex, brickFragment);
-	 fprintf (stderr, "Built shader program: %d\n", prog);
-	 glUseProgram(prog);
-	 GLint texture = glGetUniformLocation(prog, "tex0");
-	 if (texture >= 0) glUniform1i(texture, 0);
-	 texture = glGetUniformLocation(prog, "tex1");
-	 if (texture >= 0) glUniform1i(texture, 1);
-	 texture = glGetUniformLocation(prog, "tex2");
-	 if (texture >= 0) glUniform1i(texture, 2);
-	 glUseProgram(0);
 
 }
 

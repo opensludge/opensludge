@@ -19,6 +19,8 @@ Creates a costume containing an animation for standing still, talking and walkin
 The number of directions (let's call it n for the time being) represented by the costume is the total number of parameters divided by 3. The first n animations (or NULLs) specify how a character will look while standing still. The next n specify how the character will look while walking. The final n determine how a character will appear while talking.<BR>
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
 In each of these three groups, the directions are specified in the same order - clockwise from facing the camera. Therefore, if the costume has 6 parameters, the costume will represent 2 different directions and the parameters will be interpreted as: standing still facing south, standing still facing north, walking south, walking north, talking facing south, talking facing north. If the costume has 12 parameters, the costume will have 4 different directions and the parameters will be interpreted as: standing still facing south, standing still facing west, standing still facing north, standing still facing east, walking south, walking west, walking north, walking east, talking facing south, talking facing west, talking facing north, talking facing east.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+You can also specify an offset with <a href="setCharacterAngleOffset.html">setCharacterAngleOffset</a> to add to the calculations when selecting direction.<BR>
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
 <FONT FACE=arial color=#3A8F8B SIZE=+1><B>Return value:</B></FONT><BR>
 

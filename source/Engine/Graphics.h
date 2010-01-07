@@ -30,6 +30,7 @@ extern int viewportOffsetX, viewportOffsetY;
 extern int realWinWidth, realWinHeight;
 
 extern bool NPOT_textures;
+extern GLuint shaderFixScaleSprite;
 
 void setPixelCoords (bool pixels);
 void setGraphicsWindow(bool fullscreen, bool restoreGraphics = true);

@@ -1,4 +1,18 @@
+Engine:
+
 * Fix the pasting bug.
 * Let games replace the logo in the setup window?
-* Allow launching of a SLUDGE game from within another.
+* Allow launching of one SLUDGE game from within another.
 * Movie support (this is one for the future - not planned for SLUDGE 2.0)
+
+Dev Kit:
+
+* Fontify
+
+Wish list:
+
+* Multi-line comments.
+* SVG?
+* Added control of animations. (Nonlooping)
+* Lip sync
+* Smoother setCharacterDrawMode (numerical rather than constants)

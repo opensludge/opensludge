@@ -597,6 +597,12 @@
 			</UL>
 			<UL>
 				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="setCharacterAngleOffset">
+					<param name="Local" value="setCharacterAngleOffset.html">
+					</OBJECT>
+			</UL>
+			<UL>
+				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="setCharacterAntiAliasing">
 					<param name="Local" value="setCharacterAntiAliasing.html">
 					</OBJECT>
