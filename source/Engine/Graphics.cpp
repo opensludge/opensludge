@@ -178,11 +178,18 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 		"uniform sampler2D tex0;"
 		"uniform sampler2D tex1;"
 		"uniform sampler2D tex2;"
+		"uniform bool useLightTexture;"
 		"void main()"
 		"{"
 		"	vec4 texture = texture2D (tex0, gl_TexCoord[0].xy);"
 		"	vec4 texture2 = texture2D (tex2, gl_TexCoord[2].xy);"
-		"	vec3 col = gl_Color.rgb * texture.rgb;"
+		"	vec3 col;"
+		"	if (useLightTexture) {"
+		"		vec4 texture1 = texture2D (tex1, gl_TexCoord[1].xy);"
+		"		col = texture1.rgb * texture.rgb;"
+		"	} else {"
+		"		col = gl_Color.rgb * texture.rgb;"
+		"	}"
 		"	col += vec3(gl_SecondaryColor);"
 		"	vec4 color = vec4 (col, gl_Color.a * texture.a);"
 		"	col = mix (texture2.rgb, color.rgb, color.a);"
@@ -192,12 +199,14 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 	shaderFixScaleSprite = buildShaders (brickVertex, brickFragment);
 	fprintf (stderr, "Built shader program: %d\n", shaderFixScaleSprite);
 	glUseProgram(shaderFixScaleSprite);
-	GLint texture = glGetUniformLocation(shaderFixScaleSprite, "tex0");
-	if (texture >= 0) glUniform1i(texture, 0);
-	texture = glGetUniformLocation(shaderFixScaleSprite, "tex1");
-	if (texture >= 0) glUniform1i(texture, 1);
-	texture = glGetUniformLocation(shaderFixScaleSprite, "tex2");
-	if (texture >= 0) glUniform1i(texture, 2);
+	GLint uniform = glGetUniformLocation(shaderFixScaleSprite, "tex0");
+	if (uniform >= 0) glUniform1i(uniform, 0);
+	uniform = glGetUniformLocation(shaderFixScaleSprite, "tex1");
+	if (uniform >= 0) glUniform1i(uniform, 1);
+	uniform = glGetUniformLocation(shaderFixScaleSprite, "tex2");
+	if (uniform >= 0) glUniform1i(uniform, 2);
+	uniform = glGetUniformLocation(shaderFixScaleSprite, "useLightTexture");
+	if (uniform >= 0) glUniform1i(uniform, 0);
 	glUseProgram(0);
 	
 	
