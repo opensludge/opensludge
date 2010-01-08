@@ -1,14 +1,14 @@
 #include <libpng/png.h>
-#include "allfiles.h"
+#include "ALLFILES.H"
 
-#include "fileset.h"
+#include "FILESET.H"
 #include "sprites.h"
-#include "sprites_AA.h"
-#include "moreio.h"
-#include "newfatal.h"
-#include "colours.h"
-#include "backdrop.h"
-#include "sludger.h"
+#include "Sprites_AA.h"
+#include "MOREIO.H"
+#include "NEWFATAL.H"
+#include "COLOURS.H"
+#include "BACKDROP.H"
+#include "SLUDGER.H"
 #include "zbuffer.h"
 #include "debug.h"
 #include "Graphics.h"
@@ -766,7 +766,7 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 	glEnable (GL_TEXTURE_2D);
 
 	setDrawMode (drawMode);
-
+	
 	glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
 	if (aa->useMe && maxAntiAliasSettings.useMe)
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

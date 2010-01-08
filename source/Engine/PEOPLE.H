@@ -1,4 +1,4 @@
-#include "sprites_AA.h"
+#include "Sprites_AA.h"
 
 struct animFrame {
 	int frameNum, howMany;

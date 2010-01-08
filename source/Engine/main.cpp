@@ -9,7 +9,7 @@
 
 #include <time.h>
 #include <sys/time.h>
-#include "glee.h"
+#include "GLee.h"
 #include <SDL.h>
 #include <SDL_syswm.h>
 
@@ -17,25 +17,25 @@
 #include <iconv.h>
 
 #ifdef _WIN32
-#include "winstuff.h"
+#include "WINSTUFF.H"
 #else
 char * grabFileName ();
 #endif
-#include "language.h"
-#include "stringy.h"
-#include "sludger.h"
-#include "backdrop.h"
-#include "newfatal.h"
-#include "people.h"
+#include "Language.h"
+#include "STRINGY.H"
+#include "SLUDGER.H"
+#include "BACKDROP.H"
+#include "NEWFATAL.H"
+#include "PEOPLE.H"
 #include "floor.h"
-#include "objtypes.h"
-#include "talk.h"
-#include "statusba.h"
+#include "OBJTYPES.H"
+#include "TALK.H"
+#include "STATUSBA.H"
 #include "transition.h"
 #include "specialSettings.h"
 #include "timing.h"
 #include "sound.h"
-#include "Sludger.h"
+#include "SLUDGER.H"
 #include "Graphics.h"
 
 void msgBox (const char * head, const char * msg);

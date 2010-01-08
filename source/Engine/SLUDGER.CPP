@@ -1,4 +1,4 @@
-#include "allfiles.h"
+#include "ALLFILES.H"
 #include "SDL.h"
 
 #ifdef __APPLE__
@@ -9,7 +9,7 @@
 #include <sys/stat.h>
 #include <iconv.h>
 
-#include "glee.h"
+#include "GLee.h"
 //#include <SDL_opengl.h>
 
 #ifdef _MSC_VER
@@ -24,30 +24,30 @@
 #include <libpng/png.h>
 
 #include "version.h"
-#include "sludger.h"
-#include "backdrop.h"
-#include "cursors.h"
-#include "colours.h"
-#include "objtypes.h"
-#include "region.h"
+#include "SLUDGER.H"
+#include "BACKDROP.H"
+#include "CURSORS.H"
+#include "COLOURS.H"
+#include "OBJTYPES.H"
+#include "REGION.H"
 #include "sprites.h"
-#include "sprbanks.h"
-#include "people.h"
-#include "talk.h"
-#include "newfatal.h"
-#include "stringy.h"
-#include "moreio.h"
-#include "statusba.h"
-#include "builtin.h"
-#include "fonttext.h"
-#include "freeze.h"
+#include "SPRBANKS.H"
+#include "PEOPLE.H"
+#include "TALK.H"
+#include "NEWFATAL.H"
+#include "STRINGY.H"
+#include "MOREIO.H"
+#include "STATUSBA.H"
+#include "BUILTIN.H"
+#include "FONTTEXT.H"
+#include "FREEZE.H"
 #include "floor.h"
 #include "zbuffer.h"
 #include "sound.h"
-#include "loadsave.h"
-#include "fileset.h"
+#include "LOADSAVE.H"
+#include "FILESET.H"
 #include "transition.h"
-#include "language.h"
+#include "Language.h"
 #include "specialSettings.h"
 #include "Graphics.h"
 

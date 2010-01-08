@@ -2,7 +2,7 @@
 #define _ZBUFFER_H_
 
 //#include <SDL_opengl.h>
-#include "glee.h"
+#include "GLee.h"
 
 struct zBufferData {
 	int width, height;

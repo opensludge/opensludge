@@ -9,7 +9,7 @@
 #ifndef __SLUDGE_GRAPHICS_H__
 #define __SLUDGE_GRAPHICS_H__
 
-#include "glee.h"
+#include "GLee.h"
 
 struct texture {
 	GLubyte * data;

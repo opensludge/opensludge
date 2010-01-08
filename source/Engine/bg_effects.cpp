@@ -4,12 +4,12 @@
 #include <malloc.h>
 #endif
 
-#include "allfiles.h"
-#include "backdrop.h"
-#include "colours.h"
+#include "ALLFILES.H"
+#include "BACKDROP.H"
+#include "COLOURS.H"
 #include "Graphics.h"
-#include "newfatal.h"
-#include "moreio.h"
+#include "NEWFATAL.H"
+#include "MOREIO.H"
 
 //extern unsigned short int * * backDropImage;
 extern GLuint backdropTextureName;

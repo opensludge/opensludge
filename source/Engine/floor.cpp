@@ -1,7 +1,7 @@
-#include "allfiles.h"
-#include "newfatal.h"
-#include "fileset.h"
-#include "moreio.h"
+#include "ALLFILES.H"
+#include "NEWFATAL.H"
+#include "FILESET.H"
+#include "MOREIO.H"
 #include "floor.h"
 #include "line.h"
 

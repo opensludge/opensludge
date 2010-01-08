@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "allfiles.h"
+#include "ALLFILES.H"
 
 void * allKnownMem[3000];
 int allKnownNum = 0;

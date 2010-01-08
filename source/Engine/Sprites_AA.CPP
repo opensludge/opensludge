@@ -1,14 +1,14 @@
-#include "allfiles.h"
+#include "ALLFILES.H"
 
-#include "fileset.h"
+#include "FILESET.H"
 #include "sprites.h"
-#include "moreio.h"
-#include "newfatal.h"
-#include "colours.h"
-#include "backdrop.h"
-#include "sludger.h"
+#include "MOREIO.H"
+#include "NEWFATAL.H"
+#include "COLOURS.H"
+#include "BACKDROP.H"
+#include "SLUDGER.H"
 #include "zbuffer.h"
-#include "sprites_AA.h"
+#include "Sprites_AA.h"
 
 extern zBufferData zBuffer;
 extern inputType input;

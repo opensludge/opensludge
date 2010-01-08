@@ -1,13 +1,13 @@
-#include "allfiles.h"
+#include "ALLFILES.H"
 
-#include "backdrop.h"
-#include "colours.h"
+#include "BACKDROP.H"
+#include "COLOURS.H"
 #include "sprites.h"
-#include "fonttext.h"
-#include "moreio.h"
-#include "stringy.h"
-#include "newfatal.h"
-#include "statusba.h"
+#include "FONTTEXT.H"
+#include "MOREIO.H"
+#include "STRINGY.H"
+#include "NEWFATAL.H"
+#include "STATUSBA.H"
 
 spritePalette verbLinePalette;
 spritePalette litVerbLinePalette;

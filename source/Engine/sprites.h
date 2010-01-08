@@ -2,7 +2,7 @@
 #define SPRITE_H
 
 //#include <SDL_opengl.h>
-#include "glee.h"
+#include "GLee.h"
 
 struct sprite {
 	int width, height, xhot, yhot;

@@ -8,7 +8,7 @@
 #import <sys/param.h> /* for MAXPATHLEN */
 #import <unistd.h>
 
-#include "stringy.h"
+#include "STRINGY.H"
 
 #import "Start.h"
 

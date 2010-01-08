@@ -1,11 +1,11 @@
 #include "debug.h"
-#include "allfiles.h"
+#include "ALLFILES.H"
 
 #include "sprites.h"
-#include "colours.h"
-#include "fonttext.h"
-#include "newfatal.h"
-#include "moreio.h"
+#include "COLOURS.H"
+#include "FONTTEXT.H"
+#include "NEWFATAL.H"
+#include "MOREIO.H"
 
 spriteBank theFont;
 bool fontLoaded = false;

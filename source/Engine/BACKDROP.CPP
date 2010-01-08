@@ -5,27 +5,27 @@
 
 #include <libpng/png.h>
 
-#include "glee.h"
+#include "GLee.h"
 
-#include "allfiles.h"
+#include "ALLFILES.H"
 
-#include "winstuff.h"
-#include "newfatal.h"
-#include "colours.h"
-#include "fileset.h"
-#include "cursors.h"
-#include "backdrop.h"
-#include "moreio.h"
-#include "variable.h"
+#include "WINSTUFF.H"
+#include "NEWFATAL.H"
+#include "COLOURS.H"
+#include "FILESET.H"
+#include "CURSORS.H"
+#include "BACKDROP.H"
+#include "MOREIO.H"
+#include "VARIABLE.H"
 #include "zbuffer.h"
 #include "Graphics.h"
 #include "line.h"
-#include "sprites_AA.h"
+#include "Sprites_AA.h"
 
 #include "version.h"
 
 bool freeze ();
-void unfreeze (bool);	// Because freeze.h needs a load of other includes
+void unfreeze (bool);	// Because FREEZE.H needs a load of other includes
 
 GLubyte * backdropTexture = NULL;
 GLuint backdropTextureName = 0;

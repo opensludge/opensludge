@@ -1,15 +1,15 @@
 //#include <SDL_opengl.h>
-#include "glee.h"
+#include "GLee.h"
 #include "specialSettings.h"
 #include <SDL.h>
 #include "Graphics.h"
-#include "sprites_AA.h"
-#include "sprbanks.h"
+#include "Sprites_AA.h"
+#include "SPRBANKS.H"
 #include "zbuffer.h"
-#include "backdrop.h"
+#include "BACKDROP.H"
 #include "shaders.h"
 
-#include "language.h" // for settings
+#include "Language.h" // for settings
 
 int winWidth, winHeight;
 int viewportHeight, viewportWidth;
@@ -165,7 +165,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 		exit(2);
 	}
 
-	const GLchar brickVertex[] =
+	const GLchar VertexFixScaleSprite[] =
 		"void main() {"
 		"	gl_TexCoord[0] = gl_MultiTexCoord0;"
 		"	gl_TexCoord[1] = gl_MultiTexCoord1;"
@@ -174,7 +174,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 		"	gl_FrontSecondaryColor = gl_SecondaryColor;"
 		"	gl_Position = ftransform();"
 		"}";
-	const GLchar *brickFragment =
+	const GLchar FragmentFixScaleSprite[] =
 		"uniform sampler2D tex0;"
 		"uniform sampler2D tex1;"
 		"uniform sampler2D tex2;"
@@ -196,7 +196,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 		"	gl_FragColor = vec4 (col, max(texture.a, texture2.a));"
 		"}";
 	
-	shaderFixScaleSprite = buildShaders (brickVertex, brickFragment);
+	shaderFixScaleSprite = buildShaders (VertexFixScaleSprite, FragmentFixScaleSprite);
 	fprintf (stderr, "Built shader program: %d\n", shaderFixScaleSprite);
 	glUseProgram(shaderFixScaleSprite);
 	GLint uniform = glGetUniformLocation(shaderFixScaleSprite, "tex0");
@@ -206,7 +206,8 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 	uniform = glGetUniformLocation(shaderFixScaleSprite, "tex2");
 	if (uniform >= 0) glUniform1i(uniform, 2);
 	uniform = glGetUniformLocation(shaderFixScaleSprite, "useLightTexture");
-	if (uniform >= 0) glUniform1i(uniform, 0);
+	if (uniform >= 0) glUniform1i(uniform, 0);	
+	
 	glUseProgram(0);
 	
 	

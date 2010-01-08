@@ -1,8 +1,8 @@
-#include "allfiles.h"
+#include "ALLFILES.H"
 #include "zbuffer.h"
-#include "fileset.h"
-#include "moreio.h"
-#include "newfatal.h"
+#include "FILESET.H"
+#include "MOREIO.H"
+#include "NEWFATAL.H"
 #include "Graphics.h"
 
 zBufferData zBuffer;

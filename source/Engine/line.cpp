@@ -1,11 +1,11 @@
 
 //#include <SDL_opengl.h>
-#include "glee.h"
+#include "GLee.h"
 #include <stdlib.h>
 #include "Graphics.h"
-#include "sprites_AA.h"
+#include "Sprites_AA.h"
 
-#include "allfiles.h"
+#include "ALLFILES.H"
 
 extern int sceneWidth, sceneHeight;
 extern GLuint backdropTextureName;

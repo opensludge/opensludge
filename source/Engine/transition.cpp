@@ -1,8 +1,8 @@
 #include <string.h>
 
-#include "allfiles.h"
-#include "colours.h"
-#include "backdrop.h"
+#include "ALLFILES.H"
+#include "COLOURS.H"
+#include "BACKDROP.H"
 #include "Graphics.h"
 
 extern GLuint snapshotTextureName;

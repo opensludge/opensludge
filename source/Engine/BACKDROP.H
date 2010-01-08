@@ -1,8 +1,8 @@
-#include "variable.h"
+#include "VARIABLE.H"
 #include "Graphics.h"
 
 //#include <SDL_opengl.h>
-#include "glee.h"
+#include "GLee.h"
 
 enum {
 	LIGHTMAPMODE_NONE		= -1,

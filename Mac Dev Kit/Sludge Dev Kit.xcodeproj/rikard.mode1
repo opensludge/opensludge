@@ -253,10 +253,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>2F038F7010F3E4B8008E4913</string>
+						<string>2F66309310F7C7620098F1EF</string>
 						<key>history</key>
 						<array>
-							<string>2F038F5B10F3E27F008E4913</string>
+							<string>2F038F7010F3E4B8008E4913</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -293,10 +293,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>2F038F7110F3E4B8008E4913</string>
+						<string>2F66309410F7C7620098F1EF</string>
 						<key>history</key>
 						<array>
-							<string>2F1AF17A10F3BAE100DC750B</string>
+							<string>2F038F7110F3E4B8008E4913</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -333,10 +333,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>2F038F7410F3E4B8008E4913</string>
+						<string>2F66309510F7C7620098F1EF</string>
 						<key>history</key>
 						<array>
-							<string>2F038F5710F3E246008E4913</string>
+							<string>2F038F7410F3E4B8008E4913</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -538,9 +538,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>2F038F6C10F3E4B8008E4913</string>
+				<string>2F66308910F7C7570098F1EF</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>2F038F6D10F3E4B8008E4913</string>
+				<string>2F66308A10F7C7570098F1EF</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -668,7 +668,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>284419256.82119399</real>
+	<real>284673890.16999602</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>1</integer>
 	<key>ToolbarIsVisible</key>
@@ -684,14 +684,11 @@
 	<key>WindowOrderList</key>
 	<array>
 		<string>2F776FD20FFCEA5E0085230A</string>
-		<string>1CD10A99069EF8BA00B06720</string>
-		<string>2F038F7C10F3E4B8008E4913</string>
 		<string>2F038F7210F3E4B8008E4913</string>
-		<string>1C530D57069F1CE1000CFCEE</string>
 		<string>/Users/rikard/Documents/SLUDGE/Mac Dev Kit/Sludge Dev Kit.xcodeproj</string>
-		<string>1C0AD2B3069F1EA900FABCE6</string>
 		<string>2F42FDCE10EF5D590063D6CB</string>
 		<string>2F038F6E10F3E4B8008E4913</string>
+		<string>1C0AD2B3069F1EA900FABCE6</string>
 	</array>
 	<key>WindowString</key>
 	<string>597 316 690 397 0 0 1280 778 </string>
@@ -771,7 +768,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>2F776FD20FFCEA5E0085230A</string>
-				<string>2F038F7510F3E4B8008E4913</string>
+				<string>2F66308E10F7C7570098F1EF</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -1133,9 +1130,9 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C0AD2B3069F1EA900FABCE6</string>
-				<string>2F038F7F10F3E4B8008E4913</string>
+				<string>2F66308F10F7C7570098F1EF</string>
 				<string>1CD0528B0623707200166675</string>
-				<string>2F038F8010F3E4B8008E4913</string>
+				<string>2F66309010F7C7570098F1EF</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.run</string>

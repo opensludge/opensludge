@@ -8,6 +8,6 @@
  */
 
 
-#include "glee.h"
+#include "GLee.h"
 
 int buildShaders (const GLchar *vertexShader, const GLchar *fragmentShader);

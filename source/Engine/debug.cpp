@@ -1,6 +1,6 @@
 #include <stdarg.h>
 
-#include "allfiles.h"
+#include "ALLFILES.H"
 #include "debug.h"
 
 #if DEBUGGING
