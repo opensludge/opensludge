@@ -10,8 +10,15 @@
 #include <time.h>
 #include <sys/time.h>
 #include "GLee.h"
+#ifdef __linux__
+#include <SDL/SDL.h>
+#include <SDL/SDL_syswm.h>
+#else
 #include <SDL.h>
 #include <SDL_syswm.h>
+#endif
+
+#include <getopt.h>
 
 // For unicode conversion
 #include <iconv.h>
@@ -95,6 +102,11 @@ void tick () {
 void saveHSI (FILE * writer);
 
 extern bool reallyWantToQuit;
+
+void printCmdlineUsage() {
+	fprintf(stderr, "Help text\n");
+}
+
 #ifdef _WIN32
 #undef main
 #endif
@@ -117,7 +129,39 @@ int main(int argc, char *argv[]) try
 
 
 	if (argc > 1) {
-		sludgeFile = argv[1];
+		sludgeFile = argv[argc - 1];
+
+		while (1)
+		{
+			static struct option long_options[] =
+			{
+				{"fullscreen",	no_argument,	   0, 'f' },
+				{"window",	no_argument,	   0, 'w' },
+				{"language",	required_argument, 0, 'l' },
+				{"help",	no_argument,	   0, 'h' },
+				{0,0,0,0} /* This is a filler for -1 */
+			};
+			int option_index = 0;
+			char c = getopt_long (argc, argv, "f:w:l:h:", long_options, &option_index);
+			if (c == -1) break;
+
+			switch (c) {
+			case 'f':
+				gameSettings.userFullScreen = true;
+				break;
+			case 'w':
+				gameSettings.userFullScreen = false;
+				break;
+			case 'l':
+				gameSettings.languageID = atoi(optarg);
+				break;
+			case 'h':
+			default:
+				printCmdlineUsage();
+				return 0;
+				break;
+			}
+		}
 	} else {
 		char exeFolder[MAX_PATH+1];
 		strcpy (exeFolder, argv[0]);
@@ -141,7 +185,13 @@ int main(int argc, char *argv[]) try
 			sludgeFile = grabFileName ();
 	}
 
-	if (! sludgeFile) return 0;
+	tester = fopen (sludgeFile, "rb");
+	if (tester) {
+		fclose (tester);
+	} else { //found no game file
+		printCmdlineUsage();
+		return 0;
+	}
 
 //	fixDir (sludgeFile);
 
@@ -193,7 +243,7 @@ int main(int argc, char *argv[]) try
 	size_t len1 = strlen(gameNameWin)+1;
 	size_t len2 = 1023;
 	//size_t numChars =
-		iconv (convert, (const char **) tmp1, &len1, tmp2, &len2);
+		iconv (convert, (char **) tmp1, &len1, tmp2, &len2);
 	iconv_close (convert);
 
 	gameNameWin = nameOrig;

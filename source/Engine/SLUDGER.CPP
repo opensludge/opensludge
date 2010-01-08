@@ -1,5 +1,11 @@
 #include "ALLFILES.H"
+#ifdef __linux__
+//#include <SDL/SDL_opengl.h>
+#include <SDL/SDL.h>
+#else
+//#include <SDL_opengl.h>
 #include "SDL.h"
+#endif
 
 #ifdef __APPLE__
 #import <Cocoa/Cocoa.h>
@@ -10,7 +16,6 @@
 #include <iconv.h>
 
 #include "GLee.h"
-//#include <SDL_opengl.h>
 
 #ifdef _MSC_VER
 #include <shellapi.h>
@@ -355,7 +360,7 @@ bool initSludge (char * filename) {
 	iconv_t convert = iconv_open ("UTF-8", "CP1252");
 	size_t len1 = strlen(gameNameWin)+1;
 	size_t len2 = 1023;
-	iconv (convert, (const char **) tmp1, &len1, tmp2, &len2);
+	iconv (convert, (char **) tmp1, &len1, tmp2, &len2);
 	iconv_close (convert);
 
 	gameName = encodeFilename (gameNameOrig);
@@ -376,6 +381,11 @@ bool initSludge (char * filename) {
 	TCHAR szAppData[MAX_PATH];
 	/*hr = */SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, szAppData);
 	_chdir(szAppData);
+#endif
+#ifdef __linux__
+	chdir (getenv ("HOME"));
+	mkdir (".sludge", 0000777);
+	chdir (".sludge");
 #endif
 
 #ifdef _WIN32
@@ -1149,7 +1159,7 @@ bool handleInput () {
 			retVal = (unsigned long) ShellExecute (hMainWindow, "open",
 							  									 launchMe, NULL, "C:\\",
 							  									 SW_SHOWNORMAL);
-#else
+#elif defined __APPLE__
 			if (launchMe[0] == 'h' &&
 				launchMe[1] == 't' &&
 				launchMe[2] == 't' &&

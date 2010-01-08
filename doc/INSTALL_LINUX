@@ -1,0 +1,34 @@
+Install SDL and libpng developer packages (on Ubuntu: libsdl1.2-dev and libpng12-dev)
+and GLee (homepage: http://elf-stone.com/glee.php, Ubuntu-PPA: https://launchpad.net/~miry/+archive/ppa).
+After installing GLee, there should be the files
+/usr/include/GLee.h and some libglee library in /usr/lib.
+Get the linux version of BASS from http://www.un4seen.com.
+Copy  bass.h to /usr/include and libbass.so to /usr/lib.
+
+Then go to the "source" directory and run
+
+make
+
+When that doesn't stop with an error, do (with root rights):
+
+make install
+
+You can clean the source directory with
+
+make clean
+
+and revert the installation with 
+
+make remove
+
+You can start games now with 
+
+sludge_engine gamedata.slg
+
+When you get no sound, close all applications that access your soundcard, especially soundservers like PulseAudio. You can kill PulseAudio with
+
+pulseaudio -k
+
+Right now, the engine works only on 32bit.
+
+- Tobias Hansen <tobias.han@gmx.de>

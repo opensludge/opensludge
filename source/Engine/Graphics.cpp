@@ -1,7 +1,12 @@
+#ifdef __linux__
+//#include <SDL/SDL_opengl.h>
+#include <SDL/SDL.h>
+#else
 //#include <SDL_opengl.h>
+#include <SDL.h>
+#endif
 #include "GLee.h"
 #include "specialSettings.h"
-#include <SDL.h>
 #include "Graphics.h"
 #include "Sprites_AA.h"
 #include "SPRBANKS.H"

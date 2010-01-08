@@ -1,11 +1,10 @@
 #include "allfiles.h"
 #include "newfatal.h"
-#include "fmod.h"
 #include "sound.h"
 #include "moreio.h"
 #include "fileset.h"
 
-BOOL soundOK = FALSE;
+bool soundOK = false;
 
 int defVol = 128;
 int defSoundVol = 255;
@@ -38,17 +37,17 @@ void huntKillFreeSound (int filenum) {
 //#pragma unused(filenum)
 }
 
-BOOL initSoundStuff (HWND hwnd) {
+bool initSoundStuff (HWND hwnd) {
 //	#pragma unused(hwnd)
-	return FALSE;
+	return false;
 }
 
 void killSoundStuff () {
 }
 
-BOOL playMOD (int f, int a, int fromTrack) {
+bool playMOD (int f, int a, int fromTrack) {
 //#pragma unused (f,a,fromTrack)
-    return TRUE;
+    return true;
 }
 
 void setMusicVolume (int a, int v) {
@@ -63,9 +62,9 @@ void setSoundVolume (int a, int v) {
 //#pragma unused (a,v)
 }
 
-BOOL stillPlayingSound (int ch) {
+bool stillPlayingSound (int ch) {
 //#pragma unused (ch)
-	return FALSE;
+	return false;
 }
 
 void setSoundLoop (int a, int s, int e) {
@@ -85,9 +84,9 @@ int cacheSound (int f) {
 	return 0;
 }
 
-BOOL startSound (int f, BOOL loopy) {	
+bool startSound (int f, bool loopy) {	
 //#pragma unused (f,loopy)
-	return TRUE;
+	return true;
 }
 
 void saveSounds (FILE * fp) {
@@ -106,7 +105,7 @@ void loadSounds (FILE * fp) {
 	defVol = get2bytes (fp);
 }
 
-BOOL getSoundCacheStack (stackHandler * sH) {
+bool getSoundCacheStack (stackHandler * sH) {
 //#pragma unused (sH)
-	return TRUE;
+	return true;
 }

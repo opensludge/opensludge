@@ -1,4 +1,8 @@
+#ifdef __linux__
+#include <SDL/SDL.h>
+#else
 #include "SDL.h"
+#endif
 
 int desiredfps = 300;				//holds desired frames per second
 Uint32 starttime,endtime;

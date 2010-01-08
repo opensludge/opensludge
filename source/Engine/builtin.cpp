@@ -1,6 +1,10 @@
 #include "debug.h"
 #include "ALLFILES.H"
+#ifdef __linux
+#include <SDL/SDL.h>
+#else
 #include "SDL.h"
+#endif
 
 #include <stdlib.h>
 #include <string.h>
