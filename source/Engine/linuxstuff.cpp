@@ -3,12 +3,23 @@
 #include <iostream>
 #include <fstream>
 
+#include "Language.h" // for settings
+
+extern settingsStruct gameSettings;
+extern cmdlineSettingsStruct cmdlineSettings;
+
 char * grabFileName () {
 	return NULL;
 }
 
 int showSetupWindow() {
-	return true;
+	if (cmdlineSettings.languageSet) {
+		gameSettings.languageID = cmdlineSettings.languageID;
+	}
+	if (cmdlineSettings.fullscreenSet) {
+		gameSettings.userFullScreen = cmdlineSettings.userFullScreen;
+	}
+	return 1;
 }
 
 void msgBox (const char * head, const char * msg) {
@@ -16,7 +27,7 @@ void msgBox (const char * head, const char * msg) {
 }
 
 int msgBoxQuestion (const char * head, const char * msg) {
-	return true;
+	return 1;
 }
 
 #endif

@@ -16,3 +16,4 @@ Wish list:
 * Added control of animations. (Nonlooping)
 * Lip sync
 * Smoother setCharacterDrawMode (numerical rather than constants)
+* 64bit support

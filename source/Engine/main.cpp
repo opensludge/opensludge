@@ -13,12 +13,11 @@
 #ifdef __linux__
 #include <SDL/SDL.h>
 #include <SDL/SDL_syswm.h>
+#include <getopt.h>
 #else
 #include <SDL.h>
 #include <SDL_syswm.h>
 #endif
-
-#include <getopt.h>
 
 // For unicode conversion
 #include <iconv.h>
@@ -64,6 +63,7 @@ extern inputType input;
 extern variableStack * noStack;
 
 settingsStruct gameSettings;
+cmdlineSettingsStruct cmdlineSettings;
 
 int dialogValue = 0;
 
@@ -104,7 +104,13 @@ void saveHSI (FILE * writer);
 extern bool reallyWantToQuit;
 
 void printCmdlineUsage() {
-	fprintf(stderr, "Help text\n");
+	fprintf(stderr, "OpenSLUDGE\n");
+	fprintf(stderr, "Usage: sludge_engine [options] <gamefile name>\n\n");
+	fprintf(stderr, "Options:\n");
+	fprintf(stderr, "-f,		--fullscreen		Set display mode to fullscreen\n");
+	fprintf(stderr, "-w,		--window		Set display mode to windowed\n");
+	fprintf(stderr, "-l<number>,	--language=<number>	Set language to <number> (>=0)\n\n");
+	fprintf(stderr, "Options are safed, so you don't need to specify them every time.\n");
 }
 
 #ifdef _WIN32
@@ -130,7 +136,9 @@ int main(int argc, char *argv[]) try
 
 	if (argc > 1) {
 		sludgeFile = argv[argc - 1];
-
+#ifdef __linux__
+		cmdlineSettings.fullscreenSet = false;
+		cmdlineSettings.languageSet = false;
 		while (1)
 		{
 			static struct option long_options[] =
@@ -147,13 +155,16 @@ int main(int argc, char *argv[]) try
 
 			switch (c) {
 			case 'f':
-				gameSettings.userFullScreen = true;
+				cmdlineSettings.fullscreenSet = true;
+				cmdlineSettings.userFullScreen = true;
 				break;
 			case 'w':
-				gameSettings.userFullScreen = false;
+				cmdlineSettings.fullscreenSet = true;
+				cmdlineSettings.userFullScreen = false;
 				break;
 			case 'l':
-				gameSettings.languageID = atoi(optarg);
+				cmdlineSettings.languageSet = true;
+				cmdlineSettings.languageID = atoi(optarg);
 				break;
 			case 'h':
 			default:
@@ -162,6 +173,7 @@ int main(int argc, char *argv[]) try
 				break;
 			}
 		}
+#endif
 	} else {
 		char exeFolder[MAX_PATH+1];
 		strcpy (exeFolder, argv[0]);
@@ -184,7 +196,7 @@ int main(int argc, char *argv[]) try
 		else
 			sludgeFile = grabFileName ();
 	}
-
+#ifdef __linux__
 	tester = fopen (sludgeFile, "rb");
 	if (tester) {
 		fclose (tester);
@@ -192,6 +204,9 @@ int main(int argc, char *argv[]) try
 		printCmdlineUsage();
 		return 0;
 	}
+#else
+	if (! sludgeFile) return 0;
+#endif
 
 //	fixDir (sludgeFile);
 

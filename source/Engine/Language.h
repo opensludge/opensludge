@@ -12,6 +12,14 @@ struct settingsStruct
 	bool noStartWindow;
 };
 
+struct cmdlineSettingsStruct
+{
+	bool languageSet;
+	unsigned int languageID;
+	bool fullscreenSet;
+	bool userFullScreen;
+};
+
 void readIniFile (char * filename);
 void saveIniFile (char * filename);
 int getLanguageForFileB ();
