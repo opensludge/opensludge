@@ -247,7 +247,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 			target[2] = (GLubyte) 0;
 			target[3] = (GLubyte) 0;
 		}*/
-		
+
 		int transColour = -1;
 		if (loadSaveMode < 3) {
 			int size = loadhere.sprites[i].height * loadhere.sprites[i].width;
@@ -260,7 +260,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 			}
 			fromhere = 0;
 		}
-		
+
 		for (int y = 1; y < 1 + loadhere.sprites[i].height; y ++) {
 			for (int x = loadhere.sprites[i].tex_x; x < loadhere.sprites[i].tex_x+loadhere.sprites[i].width; x ++) {
 				GLubyte * target = tmp[loadhere.sprites[i].texNum] + 4*totalwidth[loadhere.sprites[i].texNum]*y + x*4;
@@ -718,7 +718,7 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 	int y1 = y - (single.yhot +1 - floaty) * scale;
 	int x2 = x1 + diffX;
 	int y2 = y1 + diffY;
-	
+
 	double z;
 
 	if (useZB && zBuffer.numPanels) {
@@ -766,7 +766,7 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 	glEnable (GL_TEXTURE_2D);
 
 	setDrawMode (drawMode);
-	
+
 	glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
 	if (aa->useMe && maxAntiAliasSettings.useMe)
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -825,12 +825,12 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 // Paste a scaled sprite onto the backdrop
 void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, float scale, unsigned int drawMode, int floaty, bool useZB, bool light, int camX, int camY, bool mirror, aaSettingsStruct * aa) {
 	if (scale <= 0.05) return;
-	
+
 	float tx1 = (float)(single.tex_x - 0.5) / fontPal.tex_w[single.texNum];
 	float ty1 = 0.0;
 	float tx2 = (float)(single.tex_x + single.width + 0.5) / fontPal.tex_w[single.texNum];
 	float ty2 = (float)(single.height+2)/fontPal.tex_h[single.texNum];
-	
+
 	int diffX = ((float)single.width+0.5) * scale;
 	int diffY = ((float)single.height+2.0) * scale;
 	int x1;
@@ -839,7 +839,7 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 	else
 		x1 = x - (mirror ? (float) (single.width - (single.xhot+1)) : (float)single.xhot ) * scale;
 	int y1 = y - (single.yhot +1 - floaty) * scale;
-	
+
 	float spriteWidth = diffX;
 	float spriteHeight = diffY;
 	if (x1 < 0) diffX += x1;
@@ -851,7 +851,7 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 
 	double z;
 
-	
+
 	if (useZB && zBuffer.numPanels) {
 		int i;
 		for (i = 1; i<zBuffer.numPanels; i++) {
@@ -888,7 +888,7 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 	glActiveTexture(GL_TEXTURE2);
 	glBindTexture (GL_TEXTURE_2D, backdropTextureName);
 	glActiveTexture(GL_TEXTURE0);
-	
+
 	float ltx1, btx1;
 	float ltx2, btx2;
 	float lty1, bty1;
@@ -925,7 +925,7 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			
+
 			glBegin(GL_QUADS);
 			glTexCoord2f(0.0, 0.0); glVertex3f(-x1-xoffset, -y1-yoffset, 0.0);
 			glTexCoord2f(backdropTexW, 0.0); glVertex3f(sceneWidth-x1-xoffset, -y1-yoffset, 0.0);
@@ -942,9 +942,9 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 				glDepthMask (GL_FALSE);
 				glEnable(GL_DEPTH_TEST);
 			}
-			
+
 			// Then the sprite
-			glUseProgram(shaderFixScaleSprite);	
+			glUseProgram(shaderFixScaleSprite);
 			GLint uniform = glGetUniformLocation(shaderFixScaleSprite, "useLightTexture");
 			if (uniform >= 0) glUniform1i(uniform, light && lightMapMode == LIGHTMAPMODE_PIXEL && lightMap.data);
 			setDrawMode (drawMode);
@@ -968,7 +968,7 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 
 			glSecondaryColor3ub (0, 0, 0);
 			glDisable(GL_COLOR_SUM);
-			
+
 			// Copy Our ViewPort To The Texture
 			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
 			glUseProgram(0);
@@ -997,14 +997,14 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 // Paste a scaled sprite onto the backdrop
 void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, float scale, unsigned int drawMode, int floaty, bool useZB, bool light, int camX, int camY, bool mirror, aaSettingsStruct * aa) {
 	if (scale <= 0.05) return;
-	
+
 	light = false;
-	
+
 	float tx1 = (float)(single.tex_x - 0.5) / fontPal.tex_w[single.texNum];
 	float ty1 = 0.0;
 	float tx2 = (float)(single.tex_x + single.width + 0.5) / fontPal.tex_w[single.texNum];
 	float ty2 = (float)(single.height+2)/fontPal.tex_h[single.texNum];
-	
+
 	int diffX = ((float)single.width+0.5) * scale;
 	int diffY = ((float)single.height+2.0) * scale;
 	int x1;
@@ -1013,7 +1013,7 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 	else
 		x1 = x - (mirror ? (float) (single.width - (single.xhot+1)) : (float)single.xhot ) * scale;
 	int y1 = y - (single.yhot +1 - floaty) * scale;
-	
+
 	float spriteWidth = diffX;
 	float spriteHeight = diffY;
 	if (x1 < 0) diffX += x1;
@@ -1022,11 +1022,11 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 	if (y1 + diffY > sceneHeight) diffY = sceneHeight - y1;
 	if (diffX < 0) return;
 	if (diffY < 0) return;
-	
+
 	double z;
-	
-	
-	
+
+
+
 	if (useZB && zBuffer.numPanels) {
 		int i;
 		for (i = 1; i<zBuffer.numPanels; i++) {
@@ -1039,7 +1039,7 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 	} else {
 		z = -0.5;
 	}
-	
+
 	if (light && lightMap.data) {
 		if (lightMapMode == LIGHTMAPMODE_HOTSPOT) {
 			int lx=x+cameraX;
@@ -1062,7 +1062,7 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 	} else {
 		curLight[0] = curLight[1] = curLight[2] = 255;
 	}
-	
+
 	float ltx1;
 	float ltx2;
 	float lty1;
@@ -1078,18 +1078,18 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 		lty1 = (float) y1 / sceneHeight;
 		lty2 = (float) (y1+spriteHeight) / sceneHeight;
 	}
-	
+
 	glEnable (GL_TEXTURE_2D);
 	setPixelCoords (true);
 	int xoffset = 0;
 	while (xoffset < diffX) {
 		int w = (diffX-xoffset < viewportWidth) ? (int) (diffX-xoffset) : viewportWidth;
-		
+
 		int yoffset = 0;
 		while (yoffset < diffY) {
 			int h = (diffY-yoffset< viewportHeight) ? (int) (diffY-yoffset) : viewportHeight;
-			
-			
+
+
 			// Render the scene - first the old backdrop
 			glTexEnvi (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
@@ -1101,7 +1101,7 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 				glActiveTexture(GL_TEXTURE0);
 			}
 			glDisable(GL_BLEND);
-			
+
 			glBegin(GL_QUADS);
 			glTexCoord2f(0.0, 0.0); glVertex3f(-x1-xoffset, -y1-yoffset, 0.0);
 			glTexCoord2f(backdropTexW, 0.0); glVertex3f(sceneWidth-x1-xoffset, -y1-yoffset, 0.0);
@@ -1113,16 +1113,16 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 				glDepthMask (GL_TRUE);
 				glClear(GL_DEPTH_BUFFER_BIT);
 				drawZBuffer((int) (x1+xoffset+camX), (int) (y1+yoffset+camY), false);
-				
+
 				glDepthMask (GL_FALSE);
 				glEnable(GL_DEPTH_TEST);
 			}
-			
+
 			// Then the sprite
 			setDrawMode (drawMode);
 			glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			
+
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			if (light && lightMapMode == LIGHTMAPMODE_PIXEL) {
@@ -1130,7 +1130,7 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 				glEnable(GL_TEXTURE_2D);
 				glActiveTexture(GL_TEXTURE0);
 			}
-			
+
 			glBegin(GL_QUADS);
 			if (! mirror) {
 				glTexCoord2f(tx1, ty1); glMultiTexCoord2f(GL_TEXTURE1, ltx1, lty1); 	glVertex3f(-xoffset, -yoffset, z);
@@ -1151,19 +1151,19 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 				glDisable(GL_TEXTURE_2D);
 				glActiveTexture(GL_TEXTURE0);
 			}
-			
+
 			// Copy Our ViewPort To The Texture
 			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
-			
+
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, (int) ((x1<0) ? xoffset: x1+xoffset), (int) ((y1<0) ? yoffset: y1+yoffset), (int) ((x1<0) ?viewportOffsetX-x1:viewportOffsetX), (int) ((y1<0) ?viewportOffsetY-y1:viewportOffsetY), w, h);
-			
+
 			yoffset += viewportHeight;
 		}
 		xoffset += viewportWidth;
 	}
-	
+
 	setPixelCoords (false);
 	if (maxAntiAliasSettings.useMe) {
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -1172,7 +1172,7 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	}
-	
-	
+
+
 }
 */

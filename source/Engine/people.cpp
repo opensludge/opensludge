@@ -935,12 +935,8 @@ bool loadPeople (FILE * fp, int ssgVersion) {
 	int countPeople = get2bytes (fp);
 	int a;
 
-//	newDebug ("People  =", countPeople);
-
 	allPeople = NULL;
 	for (a = 0; a < countPeople; a ++) {
-//		db ("Loading a person...");
-//		fprintf (debug, "\n  LOADING PERSON %d of %d", a, countPeople);
 		me = new onScreenPerson;
 		if (! checkNew (me)) return false;
 
@@ -953,11 +949,8 @@ bool loadPeople (FILE * fp, int ssgVersion) {
 		me -> x = readFloat (fp);
 		me -> y = readFloat (fp);
 
-//		db ("About to load stuff");
 		loadCostume (me -> myPersona, fp);
-//		db ("Loaded costume");
 		loadAnim (me -> myAnim, fp);
-//		db ("Loaded current anim");
 
 		me -> lastUsedAnim = fgetc (fp) ? me -> myAnim : NULL;
 
@@ -989,7 +982,7 @@ bool loadPeople (FILE * fp, int ssgVersion) {
 			me -> angleOffset = get2bytes(fp);
 		} else {
 			me -> angleOffset = 0;
-		}	
+		}
 		me -> wantAngle = get2bytes(fp);
 		me -> directionWhenDoneWalking = readSigned(fp);
 		me -> inPoly = readSigned(fp);

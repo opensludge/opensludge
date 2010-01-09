@@ -468,7 +468,7 @@ void copyToBackDrop (GLuint fromHere, int orW, int orH, int orX, int orY, parall
 				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			}
-			
+
 			// Copy Our ViewPort To The Texture
 			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
 			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0+xoffset, 0+yoffset, viewportOffsetX, viewportOffsetY, w, h);
@@ -903,9 +903,6 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 
 	}
 
-	if (x == IN_THE_CENTRE) x = (sceneWidth - realPicWidth) >> 1;
-	if (y == IN_THE_CENTRE) y = (sceneHeight - realPicHeight) >> 1;
-	if (x < 0 || x + realPicWidth > sceneWidth || y < 0 || y + realPicHeight > sceneHeight) return false;
 
 	double texCoordW = 1.0;
 	double texCoordH = 1.0;
@@ -917,8 +914,12 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 	}
 
 	if (reserve) {
-		if (! resizeBackdrop (sceneWidth, sceneHeight)) return false;
+		if (! resizeBackdrop (realPicWidth, realPicHeight)) return false;
 	}
+
+	if (x == IN_THE_CENTRE) x = (sceneWidth - realPicWidth) >> 1;
+	if (y == IN_THE_CENTRE) y = (sceneHeight - realPicHeight) >> 1;
+	if (x < 0 || x + realPicWidth > sceneWidth || y < 0 || y + realPicHeight > sceneHeight) return false;
 
 	if (fileIsPNG) {
 		unsigned char * row_pointers[realPicHeight];
@@ -1012,7 +1013,7 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 			glTexCoord2f(texCoordW, texCoordH); glVertex3f(realPicWidth-xoffset, -yoffset+realPicHeight, 0.0);
 			glTexCoord2f(0.0, texCoordH); glVertex3f(-xoffset, -yoffset+realPicHeight, 0.0);
 			glEnd();
-			
+
 			glDisable (GL_BLEND);
 
 			// Copy Our ViewPort To The Texture

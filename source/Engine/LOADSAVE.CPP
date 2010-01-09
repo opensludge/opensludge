@@ -552,6 +552,7 @@ bool loadGame (char * fname) {
 	loadedFunction * rFunc;
 	loadedFunction * * buildList = & allRunningFunctions;
 
+
 	int countFunctions = get2bytes (fp);
 	while (countFunctions --) {
 		rFunc = loadFunction (fp);

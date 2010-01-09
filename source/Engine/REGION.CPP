@@ -67,6 +67,7 @@ void saveRegions (FILE * fp) {
 
 void loadRegions (FILE * fp) {
 	int numRegions = get2bytes (fp);
+
 	screenRegion * newRegion;
 	screenRegion * * pointy = & allScreenRegions;
 
