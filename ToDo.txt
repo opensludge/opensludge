@@ -1,6 +1,5 @@
 Engine:
 
-* Fix the pasting bug.
 * Let games replace the logo in the setup window?
 * Allow launching of one SLUDGE game from within another.
 * Movie support (this is one for the future - not planned for SLUDGE 2.0)

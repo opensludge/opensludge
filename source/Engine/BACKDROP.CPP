@@ -1200,8 +1200,9 @@ bool mixHSI (FILE * fp, int x, int y) {
 			glBindTexture(GL_TEXTURE_2D, tmpTex);
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
-			glColor3f(1.0, 0.0, 0.0);
+			glColor4f(1.0, 1.0, 1.0, 0.5);
 			glBegin(GL_QUADS);
 			glTexCoord2f(0.0, 0.0); glVertex3f(-xoffset, -yoffset, 0.0);
 			glTexCoord2f(backdropTexW, 0.0); glVertex3f(picWidth-xoffset, -yoffset, 0.0);
