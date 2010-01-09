@@ -1,5 +1,7 @@
-Install SDL and libpng developer packages (on Ubuntu: libsdl1.2-dev and libpng12-dev)
-and GLee (homepage: http://elf-stone.com/glee.php, Ubuntu-PPA: https://launchpad.net/~miry/+archive/ppa).
+Install SDL, libGLU and libpng developer packages
+(on Ubuntu: libsdl1.2-dev libglu1-mesa-dev and libpng12-dev)
+and GLee
+(homepage: http://elf-stone.com/glee.php, Ubuntu-PPA: https://launchpad.net/~miry/+archive/ppa).
 After installing GLee, there should be the files
 /usr/include/GLee.h and some libglee library in /usr/lib.
 Get the linux version of BASS from http://www.un4seen.com.

@@ -4,8 +4,8 @@ VERSION = 2.0b
 CC      = /usr/bin/g++
 PREFIX  = /usr/local
 CFLAGS  = -Wall -g -D_REENTRANT -DVERSION=\"$(VERSION)\"
-LDFLAGS = -lGL -lglee -lSDL -lpng -lbass
-# LDFLAGS = -lGL -lglee -lSDL -lpng
+LDFLAGS = -lGL -lGLU -lglee -lSDL -lpng -lbass
+# LDFLAGS = -lGL -lGLU -lglee -lSDL -lpng
 
 OB = BACKDROP.o bg_effects.o builtin.o CURSORS.o debug.o FILESET.o floor.o FONTTEXT.o FREEZE.o Graphics.o Language.o line.o linuxstuff.o LOADSAVE.o main.o memwatch.o MOREIO.o NEWFATAL.o OBJTYPES.o people.o REGION.o savedata.o shaders.o SLUDGER.o SPRBANKS.o SPRITES.o Sprites_AA.o STATUSBA.o STRINGY.o TALK.o thumbnail.o timing.o transition.o VARIABLE.o WINSTUFF.o zbuffer.o
 
