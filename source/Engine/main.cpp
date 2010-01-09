@@ -258,7 +258,11 @@ int main(int argc, char *argv[]) try
 	size_t len1 = strlen(gameNameWin)+1;
 	size_t len2 = 1023;
 	//size_t numChars =
-		iconv (convert, (char **) tmp1, &len1, tmp2, &len2);
+#ifdef __linux__
+	iconv (convert,(char **) tmp1, &len1, tmp2, &len2);
+#else
+	iconv (convert,(const char **) tmp1, &len1, tmp2, &len2);
+#endif
 	iconv_close (convert);
 
 	gameNameWin = nameOrig;

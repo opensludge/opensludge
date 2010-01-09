@@ -352,7 +352,7 @@ bool initSludge (char * filename) {
 	setFileIndices (fp, gameSettings.numLanguages, 0);
 	char * gameNameWin = getNumberedString(1);
 	char * gameName = new char[ 1024];
-	char **tmp1 = (char **) &gameNameWin;
+	char **tmp1 = &gameNameWin;
 	char **tmp2 = &gameName;
 	char * nameOrig = gameNameWin;
 	char * gameNameOrig = gameName;
@@ -360,7 +360,11 @@ bool initSludge (char * filename) {
 	iconv_t convert = iconv_open ("UTF-8", "CP1252");
 	size_t len1 = strlen(gameNameWin)+1;
 	size_t len2 = 1023;
-	iconv (convert, (char **) tmp1, &len1, tmp2, &len2);
+#ifdef __linux__
+	iconv (convert,(char **) tmp1, &len1, tmp2, &len2);
+#else
+	iconv (convert,(const char **) tmp1, &len1, tmp2, &len2);
+#endif
 	iconv_close (convert);
 
 	gameName = encodeFilename (gameNameOrig);

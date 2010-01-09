@@ -175,12 +175,34 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 284680094;
-			PBXWorkspaceStateSaveDate = 284680094;
+			PBXPerProjectTemplateStateSaveDate = 284728408;
+			PBXWorkspaceStateSaveDate = 284728408;
+		};
+		perUserProjectItems = {
+			2F1A7D2B10F89EF700C310A9 /* PBXTextBookmark */ = 2F1A7D2B10F89EF700C310A9 /* PBXTextBookmark */;
+			2F1A7D6610F8A38A00C310A9 /* PBXTextBookmark */ = 2F1A7D6610F8A38A00C310A9 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 2FAD3C3B0E335871003DEE41 /* Source Control */;
 		userBuildSettings = {
 		};
+	};
+	2F1A7D2B10F89EF700C310A9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "error: invalid conversion from 'char**' to 'const char**'";
+		fRef = 2F7BFEE20E33858E003F5DC3 /* SLUDGER.CPP */;
+		rLen = 1;
+		rLoc = 363;
+		rType = 1;
+	};
+	2F1A7D6610F8A38A00C310A9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2F7BFEE20E33858E003F5DC3 /* SLUDGER.CPP */;
+		name = "SLUDGER.CPP: 363";
+		rLen = 142;
+		rLoc = 9770;
+		rType = 0;
+		vrLen = 1297;
+		vrLoc = 9084;
 	};
 	2F2538240FFEB72800A12579 /* sludge.bmp */ = {
 		uiCtxt = {
@@ -236,9 +258,9 @@
 	};
 	2F6F29930FBEFF3D00BC6A67 /* main.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {839, 5502}}";
-			sepNavSelRange = "{8741, 6}";
-			sepNavVisRect = "{{0, 5062}, {839, 223}}";
+			sepNavIntBoundsRect = "{{0, 0}, {890, 6468}}";
+			sepNavSelRange = "{5619, 0}";
+			sepNavVisRect = "{{0, 3552}, {890, 223}}";
 			sepNavWindowFrame = "{{13, 42}, {775, 714}}";
 		};
 	};
@@ -261,8 +283,8 @@
 	2F7BFEBA0E3384BE003F5DC3 /* builtin.cpp */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {2102, 36750}}";
-			sepNavSelRange = "{288, 0}";
-			sepNavVisRect = "{{0, 298}, {890, 223}}";
+			sepNavSelRange = "{22944, 11}";
+			sepNavVisRect = "{{0, 11910}, {703, 242}}";
 			sepNavWindowFrame = "{{84, 19}, {1016, 691}}";
 		};
 	};
@@ -300,9 +322,9 @@
 	};
 	2F7BFEC60E338513003F5DC3 /* FONTTEXT.CPP */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {890, 1708}}";
-			sepNavSelRange = "{124, 0}";
-			sepNavVisRect = "{{0, 0}, {890, 223}}";
+			sepNavIntBoundsRect = "{{0, 0}, {703, 1708}}";
+			sepNavSelRange = "{1122, 21}";
+			sepNavVisRect = "{{0, 752}, {703, 242}}";
 			sepNavWindowFrame = "{{304, 25}, {1016, 691}}";
 		};
 	};
@@ -386,10 +408,10 @@
 	};
 	2F7BFEE20E33858E003F5DC3 /* SLUDGER.CPP */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1316, 18060}}";
-			sepNavSelRange = "{12511, 0}";
-			sepNavVisRect = "{{0, 5897}, {736, 585}}";
-			sepNavWindowFrame = "{{396, 46}, {775, 714}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1316, 18256}}";
+			sepNavSelRange = "{9770, 142}";
+			sepNavVisRect = "{{0, 4783}, {736, 585}}";
+			sepNavWindowFrame = "{{22, 61}, {775, 714}}";
 		};
 	};
 	2F7BFEE40E3385B3003F5DC3 /* sound_bass.cpp */ = {
@@ -411,8 +433,8 @@
 	2F7BFEE70E3385F8003F5DC3 /* SPRITES.CPP */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1436, 16492}}";
-			sepNavSelRange = "{27247, 0}";
-			sepNavVisRect = "{{0, 10946}, {977, 562}}";
+			sepNavSelRange = "{11298, 0}";
+			sepNavVisRect = "{{0, 4718}, {977, 562}}";
 			sepNavWindowFrame = "{{41, 65}, {1016, 691}}";
 		};
 	};
@@ -513,9 +535,9 @@
 	};
 	2F7BFF080E3386AD003F5DC3 /* BACKDROP.H */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {839, 868}}";
-			sepNavSelRange = "{83, 0}";
-			sepNavVisRect = "{{0, 0}, {839, 223}}";
+			sepNavIntBoundsRect = "{{0, 0}, {703, 924}}";
+			sepNavSelRange = "{45, 17}";
+			sepNavVisRect = "{{0, 0}, {703, 242}}";
 			sepNavWindowFrame = "{{195, 71}, {1016, 691}}";
 		};
 	};
