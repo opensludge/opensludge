@@ -11,7 +11,7 @@ Then go to the "source" directory and run
 
 make
 
-When that doesn't stop with an error, do (with root rights):
+If that doesn't stop with an error, do (with root rights):
 
 make install
 
@@ -27,10 +27,12 @@ You can start games now with
 
 sludge_engine gamedata.slg
 
-When you get no sound, close all applications that access your soundcard, especially soundservers like PulseAudio. You can kill PulseAudio with
+Or view the help text with
+
+sludge_engine --help
+
+If you get no sound, close all applications that access your soundcard, especially soundservers like PulseAudio. You can kill PulseAudio with
 
 pulseaudio -k
-
-Right now, the engine works only on 32bit.
 
 - Tobias Hansen <tobias.han@gmx.de>
