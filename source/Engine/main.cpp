@@ -200,7 +200,8 @@ int main(int argc, char *argv[]) try
 	tester = fopen (sludgeFile, "rb");
 	if (tester) {
 		fclose (tester);
-	} else { //found no game file
+	} else {
+		fprintf(stderr, "Game file not found.\n");
 		printCmdlineUsage();
 		return 0;
 	}

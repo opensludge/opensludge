@@ -1,14 +1,16 @@
 #ifndef SLUDGER_H
 #define SLUDGER_H
 
+#include <stdint.h>
+
 #include "VARIABLE.H"
 #include "CSLUDGE.H"
 #include "Language.h"
 
 #ifndef _WIN32
 typedef struct _FILETIME {
-	unsigned long dwLowDateTime;
-	unsigned long dwHighDateTime;
+	uint32_t dwLowDateTime;
+	uint32_t dwHighDateTime;
 } FILETIME;
 #endif
 

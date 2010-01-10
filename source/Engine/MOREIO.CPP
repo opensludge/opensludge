@@ -1,4 +1,5 @@
 #include <string.h>
+#include <stdint.h>
 
 #include "ALLFILES.H"
 #include "MOREIO.H"
@@ -15,9 +16,8 @@ int get2bytes (FILE * fp) {
 
 	f1 = fgetc (fp);
 	f2 = fgetc (fp);
-	
+
 	return (f1 * 256 + f2);
-//	return (fgetc (fp) * 256 + fgetc (fp));
 }
 
 void put2bytes (int numtoput, FILE * fp) {
@@ -70,7 +70,7 @@ void putSigned (short f, FILE * fp) {
 	fwrite (& f, sizeof (short), 1, fp);
 }
 
-long get4bytes (FILE * fp) {
+int32_t get4bytes (FILE * fp) {
 /*	int f1, f2, f3, f4;
 
 	f1 = fgetc (fp);
@@ -84,13 +84,13 @@ long get4bytes (FILE * fp) {
 
 */
 
-	long f;
-	fread (& f, sizeof (long), 1, fp);
+	int32_t f;
+	fread (& f, sizeof (int32_t), 1, fp);
 	return f;
 }
 
-void put4bytes (long f, FILE * fp) {
-	fwrite (& f, sizeof (long), 1, fp);
+void put4bytes (int32_t f, FILE * fp) {
+	fwrite (& f, sizeof (int32_t), 1, fp);
 }
 
 void debug(char * c, char * c2) {
