@@ -1,9 +1,9 @@
 #include <stdio.h>
-#include "Splitter.hpp"
+#include "SPLITTER.HPP"
 
 enum halfCode {HALF_FIND, HALF_MARKER, HALF_DONE};
 
-#include "csludge.h"
+#include "CSLUDGE.H"
 
 struct compilationSpace {
 	int numMarkers;

@@ -10,7 +10,7 @@
 #include "Project.hpp"
 
 #include "settings.h"
-#include "WInterfa.h"
+#include "WINTERFA.H"
 
 // -- These are from "MessBox.h"
 struct errorLinkToFile

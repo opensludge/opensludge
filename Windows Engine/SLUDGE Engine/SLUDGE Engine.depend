@@ -9,7 +9,7 @@
 	<stdio.h>
 	"TGA.h"
 
-1258804650 c:\programmering\sludge\source\commoncode\tga.h
+1258804650 c:\programmering\sludge\source\commoncode\TGA.h
 	<stdio.h>
 
 1258804768 source:c:\programmering\glee\glee.c
@@ -73,7 +73,7 @@
 1262988959 c:\programmering\sludge\source\engine\graphics.h
 	"GLee.h"
 
-1258802902 c:\programmering\sludge\source\engine\moreio.h
+1258802902 c:\programmering\sludge\source\engine\MOREIO.H
 
 1262988960 c:\programmering\sludge\source\engine\zbuffer.h
 	"GLee.h"
@@ -109,7 +109,7 @@
 	"CSLUDGE.H"
 	"Language.h"
 
-1258810534 c:\programmering\sludge\source\engine\csludge.h
+1258810534 c:\programmering\sludge\source\engine\CSLUDGE.H
 
 1262884800 c:\programmering\sludge\source\engine\language.h
 
@@ -468,7 +468,7 @@
 
 1258802903 c:\programmering\sludge\source\engine\transition.h
 
-1258802901 c:\programmering\sludge\source\commoncode\specialsettings.h
+1258802901 c:\programmering\sludge\source\commoncode\specialSettings.h
 
 1262988959 source:c:\programmering\sludge\source\engine\sprbanks.cpp
 	"ALLFILES.H"

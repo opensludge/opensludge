@@ -5,13 +5,13 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include "winterfa.h"
-#include "moreio.h"
-#include "messbox.h"
+#include "WINTERFA.H"
+#include "MOREIO.H"
+#include "MessBox.h"
 #include "wincomp.h"
 #include "wintext.h"
 #include "settings.h"
-#include "Splitter.hpp"
+#include "SPLITTER.HPP"
 #include "launch.h"
 
 enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};

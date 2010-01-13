@@ -1,5 +1,5 @@
 #include <windows.h>
-#include "winterfa.h"
+#include "WINTERFA.H"
 #include "version.h"
 
 500 DIALOG 11, 17, 312, 237

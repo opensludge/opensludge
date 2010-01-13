@@ -3,9 +3,9 @@
 #include <windows.h>
 #include <string.h>
 #include <stdio.h>
-#include "winterfa.h"
-#include "messbox.h"
-#include "Splitter.hpp"
+#include "WINTERFA.H"
+#include "MessBox.h"
+#include "SPLITTER.HPP"
 
 extern HWND warningWindowH;
 extern HWND compWin;

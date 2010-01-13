@@ -11,7 +11,7 @@
 
 #include "MessBox.h"
 #include "MoreIO.h"
-#include "Splitter.hpp"
+#include "SPLITTER.HPP"
 
 
 char * errorTypeStrings[ERRORTYPE_NUM] =

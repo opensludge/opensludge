@@ -7,7 +7,7 @@
 //
 
 #import "zDocument.h"
-#include "zBuffer.h"
+#include "zbuffer.h"
 
 @implementation zDocument
 

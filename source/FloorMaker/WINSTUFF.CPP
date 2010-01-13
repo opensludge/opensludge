@@ -6,7 +6,7 @@
 #include "backdrop.h"
 #include "line.h"
 #include "data.h"
-#include "moreio.h"
+#include "MOREIO.H"
 
 int getRegInt (char * complete, int def) {
 	HKEY gotcha;

@@ -5,12 +5,12 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include "winterfa.h"
-#include "moreio.h"
-#include "messbox.h"
+#include "WINTERFA.H"
+#include "MOREIO.H"
+#include "MessBox.h"
 #include "wincomp.h"
 #include "wintext.h"
-#include "Splitter.hpp"
+#include "SPLITTER.HPP"
 #include "sosfile.h"
 
 HWND mainWin=NULL;

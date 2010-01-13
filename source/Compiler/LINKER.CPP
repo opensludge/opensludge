@@ -2,13 +2,13 @@
 #include <unistd.h>
 #include <string.h>
 
-#include "moreio.h"
-#include "Splitter.hpp"
-#include "SLUDGE_Functions.h"
+#include "MOREIO.H"
+#include "SPLITTER.HPP"
+#include "SLUDGE_Functions.H"
 #include "settings.h"
-#include "messbox.h"
-#include "linker.h"
-#include "winterfa.h"
+#include "MessBox.h"
+#include "LINKER.H"
+#include "WINTERFA.H"
 #include "wintext.h"
 #include "checkUsed.h"
 

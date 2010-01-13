@@ -2,10 +2,10 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "typedef.h"
-#include "Splitter.hpp"
-#include "moreio.h"
-#include "messbox.h"
+#include "TYPEDEF.H"
+#include "SPLITTER.HPP"
+#include "MOREIO.H"
+#include "MessBox.h"
 #include "wintext.h"
 #include "settings.h"
 #include "dumpfiles.h"

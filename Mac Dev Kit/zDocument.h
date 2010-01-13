@@ -20,7 +20,7 @@
 #import <Cocoa/Cocoa.h>
 
 #include <OpenGL/gl.h>
-#include "Sprites.h"
+#include "SPRITES.H"
 
 @interface zOpenGLView : NSOpenGLView
 {

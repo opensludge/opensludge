@@ -10,7 +10,7 @@
 #include <OpenGL/gl.h>
 
 #include "FloorMaker.h"
-#include "Sprites.h"
+#include "SPRITES.H"
 
 @interface FloorOpenGLView : NSOpenGLView
 {

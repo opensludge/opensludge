@@ -1,8 +1,8 @@
 #include <stdio.h>
-#include "tga.h"
+#include "TGA.h"
 #include "MessBox.h"
-#include "moreio.h"
-#include "Sprites.h"
+#include "MOREIO.H"
+#include "SPRITES.H"
 #include "zbuffer.h"
 
 

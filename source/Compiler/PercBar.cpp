@@ -1,8 +1,8 @@
 #ifdef WIN32
 
-#include "percbar.h"
+#include "PercBar.h"
 #include "wintext.h"
-#include "winterfa.h"
+#include "WINTERFA.H"
 
 #define BOXX		13
 #define BOXWIDTH	280

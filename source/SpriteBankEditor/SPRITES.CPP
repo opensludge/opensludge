@@ -3,7 +3,7 @@
 #include <libpng/png.h>
 
 #include "TGA.h"
-#include "Sprites.h"
+#include "SPRITES.H"
 #include "MoreIO.h"
 #include "MessBox.h"
 

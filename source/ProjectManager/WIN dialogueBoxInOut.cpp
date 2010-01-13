@@ -5,14 +5,14 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include "winterfa.h"
-#include "moreio.h"
-#include "messbox.h"
+#include "WINTERFA.H"
+#include "MOREIO.H"
+#include "MessBox.h"
 #include "wincomp.h"
 #include "wintext.h"
 #include "registry.h"
 #include "settings.h"
-#include "Splitter.hpp"
+#include "SPLITTER.HPP"
 #include "regbox.h"
 #include "launch.h"
 #include "dialogueBoxInOut.h"

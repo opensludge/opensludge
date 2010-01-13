@@ -11,9 +11,9 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "Settings.h"
+#include "settings.h"
 #include "MoreIO.h"
-#include "Splitter.hpp"
+#include "SPLITTER.HPP"
 #include "MessBox.h"
 #include "Project.hpp"
 #include "Interface.h"

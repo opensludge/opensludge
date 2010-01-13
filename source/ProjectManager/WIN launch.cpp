@@ -5,10 +5,10 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include "messbox.h"
-#include "Splitter.hpp"
+#include "MessBox.h"
+#include "SPLITTER.HPP"
 #include "launch.h"
-#include "winterfa.h"
+#include "WINTERFA.H"
 #include "registry.h"
 
 extern char * editor;

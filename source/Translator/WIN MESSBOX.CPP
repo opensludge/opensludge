@@ -3,7 +3,7 @@
 #include <windows.h>
 #include <string.h>
 #include <stdio.h>
-#include "messbox.h"
+#include "MessBox.h"
 
 extern HWND mainWin;
 

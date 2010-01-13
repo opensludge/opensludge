@@ -1,11 +1,11 @@
 #include <stdio.h>
 
-#include "typedef.h"
-#include "Splitter.hpp"
-#include "moreio.h"
+#include "TYPEDEF.H"
+#include "SPLITTER.HPP"
+#include "MOREIO.H"
 #include "settings.h"
-#include "messbox.h"
-#include "winbox.h"
+#include "MessBox.h"
+#include "WINBOX.H"
 #include "dumpfiles.h"
 
 #define numDoubleCharTypes 13

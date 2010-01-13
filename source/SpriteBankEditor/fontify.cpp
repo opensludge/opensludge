@@ -1,9 +1,9 @@
 //#include <windows.h>
 
 #include "sprites.h"
-#include "messbox.h"
-#include "tga.h"
-#include "winterfa.h"
+#include "MessBox.h"
+#include "TGA.h"
+#include "WINTERFA.H"
 
 extern unsigned short int * * backDropImage;
 extern int VERT_RES, HORZ_RES;

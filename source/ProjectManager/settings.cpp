@@ -7,12 +7,12 @@
 #include <sys/stat.h>
 
 
-#include "SLUDGE_Functions.h"
-#include "Splitter.hpp"
+#include "SLUDGE_Functions.H"
+#include "SPLITTER.HPP"
 #include "settings.h"
-#include "Translation.h"
-#include "winterfa.h"
-#include "moreio.h"
+#include "translation.h"
+#include "WINTERFA.H"
+#include "MOREIO.H"
 #include "wintext.h"
 #include "MessBox.h"
 #include "version.h"

@@ -1,16 +1,16 @@
 #include <stdio.h>
 #include <unistd.h>
 
-//#include "typedef.h"
-#include "Splitter.hpp"
-#include "SLUDGE_Functions.h"
-#include "moreio.h"
-#include "tokens.h"
-#include "objtype.h"
-#include "messbox.h"
+//#include "TYPEDEF.H"
+#include "SPLITTER.HPP"
+#include "SLUDGE_Functions.H"
+#include "MOREIO.H"
+#include "TOKENS.H"
+#include "OBJTYPE.H"
+#include "MessBox.h"
 #include "wintext.h"
-#include "winterfa.h"
-#include "allknown.h"
+#include "WINTERFA.H"
+#include "ALLKNOWN.H"
 
 int subNum = 0;
 //extern HWND compWin;

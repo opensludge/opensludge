@@ -10,7 +10,7 @@
 #include "Translator.h"
 
 #include "MoreIO.h"
-#include "Settings.h"
+#include "settings.h"
 
 
 @implementation stringTable

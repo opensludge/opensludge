@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "messbox.h"
+#include "MessBox.h"
 #define MAXINT 32767
 
-#include "Splitter.hpp"
+#include "SPLITTER.HPP"
 
 stringArray * nullArray = NULL;
 

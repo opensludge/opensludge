@@ -2,15 +2,15 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "Splitter.hpp"
-#include "SLUDGE_Functions.h"
+#include "SPLITTER.HPP"
+#include "SLUDGE_Functions.H"
 #include "settings.h"
-#include "allknown.h"
-#include "moreio.h"
-#include "realproc.h"
-#include "messbox.h"
+#include "ALLKNOWN.H"
+#include "MOREIO.H"
+#include "REALPROC.H"
+#include "MessBox.h"
 #include "wintext.h"
-#include "winterfa.h"
+#include "WINTERFA.H"
 #include "wintext.h"
 #include "checkUsed.h"
 

@@ -1,6 +1,6 @@
 #include <string.h>
 
-#include "tokens.h"
+#include "TOKENS.H"
 
 char * tokText[] = {"", "sub", "var", "objectType", "if", "!", "else", "return",
 					"loop", "while", "for", "unfreezable", "debug", "flag","flags"};

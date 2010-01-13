@@ -2,7 +2,7 @@
 
 #import "AppController.h"
 
-#include "Settings.h"
+#include "settings.h"
 #import "SpriteBank.h"
 #import "ProjectDocument.h"
 

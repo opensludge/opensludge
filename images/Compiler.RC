@@ -1,6 +1,6 @@
 #include <windows.h>
 #include "version.h"
-#include "winterfa.h"
+#include "WINTERFA.H"
 
 DIALOG_1 DIALOG 100, 80, 229, 186
 STYLE WS_CAPTION | WS_VISIBLE

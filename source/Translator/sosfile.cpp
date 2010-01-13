@@ -7,10 +7,10 @@ TODO
 #include <time.h>
 
 #include "sosfile.h"
-#include "moreio.h"
-#include "Splitter.hpp"
+#include "MOREIO.H"
+#include "SPLITTER.HPP"
 #include "wintext.h"
-#include "winterfa.h"
+#include "WINTERFA.H"
 #include "wincomp.h"
 
 
