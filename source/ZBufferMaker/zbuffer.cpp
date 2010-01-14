@@ -2,7 +2,7 @@
 #include "TGA.h"
 #include "MessBox.h"
 #include "MOREIO.H"
-#include "SPRITES.H"
+#include "sprites.h"
 #include "zbuffer.h"
 
 

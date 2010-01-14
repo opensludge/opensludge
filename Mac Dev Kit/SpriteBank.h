@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 #include <OpenGL/gl.h>
-#include "SPRITES.H"
+#include "sprites.h"
 
 @interface SpriteOpenGLView : NSOpenGLView
 {
