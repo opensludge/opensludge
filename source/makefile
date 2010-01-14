@@ -1,6 +1,6 @@
 # GNU make makefile for OpenSLUDGE by Tobias Hansen
 
-.PHONY: all clean install remove
+.PHONY: clean install remove
 
 all: Engine CommonCode
 	$(MAKE) -C Engine

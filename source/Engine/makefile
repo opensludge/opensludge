@@ -4,6 +4,7 @@ VERSION = 2.0b
 CC      = /usr/bin/g++
 PREFIX  = /usr/local
 CFLAGS  = -Wall -g -D_REENTRANT -DVERSION=\"$(VERSION)\"
+IFLAGS  = -I `pwd`/../CommonCode
 LDFLAGS = -lGL -lGLU -lglee -lSDL -lpng -lbass
 # LDFLAGS = -lGL -lGLU -lglee -lSDL -lpng
 
@@ -14,22 +15,19 @@ OBJ = $(OB) sound_bass.o
 
 BIN = sludge_engine
 
-.PHONY: catch_headers clean install remove
+.PHONY: clean install remove
 
-sludge_engine: catch_headers $(OBJ)
-	$(CC) $(CFLAGS) -o sludge_engine $(OBJ) $(LDFLAGS)
-
-catch_headers:
-	cp -t `pwd` ../CommonCode/functionList.h ../CommonCode/specialSettings.h ../CommonCode/version.h 
+sludge_engine: $(OBJ)
+	$(CC) $(CFLAGS) -o sludge_engine $(OBJ) $(IFLAGS) $(LDFLAGS)
 
 %.o: %.cpp
-	$(CC) $(CFLAGS) -c $<
+	$(CC) $(CFLAGS) -c $< $(IFLAGS)
 
 %.o: %.CPP
-	$(CC) $(CFLAGS) -c $<
+	$(CC) $(CFLAGS) -c $< $(IFLAGS)
 
 clean:
-	rm -rf $(BIN) $(OBJ) functionList.h specialSettings.h version.h
+	rm -rf $(BIN) $(OBJ)
 
 install: $(BIN) $(OBJ)
 	mkdir -p $(PREFIX)/bin

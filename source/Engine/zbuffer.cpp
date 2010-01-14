@@ -56,20 +56,20 @@ bool setZBuffer (int y) {
 	switch (fgetc (bigDataFile)) {
 		case 0:
 		zBuffer.width = 640;
-		zbuffer.height = 480;
+		zBuffer.height = 480;
 		break;
 		
 		case 1:
 		zBuffer.width = get2bytes (bigDataFile);
-		zbuffer.height = get2bytes (bigDataFile);
+		zBuffer.height = get2bytes (bigDataFile);
 		break;
 		
 		default:
 		return fatal ("Extended Z-buffer format not supported in this version of the SLUDGE engine");
 	}
-	if (zBuffer.width != sceneWidth || zbuffer.height != sceneHeight) {
+	if (zBuffer.width != sceneWidth || zBuffer.height != sceneHeight) {
 		char tmp[256];
-		sprintf (tmp, "Z-w: %d Z-h:%d w: %d, h:%d", zBuffer.width, zbuffer.height, sceneWidth, sceneHeight);
+		sprintf (tmp, "Z-w: %d Z-h:%d w: %d, h:%d", zBuffer.width, zBuffer.height, sceneWidth, sceneHeight);
 		return fatal ("Z-buffer width and height don't match scene width and height", tmp);
 	}
 		
@@ -143,15 +143,15 @@ void drawZBuffer(int x, int y, bool upsidedown) {
 		glAlphaFunc (GL_GREATER, 0.0625*i-0.03);
 		glBegin(GL_QUADS);
 		if (upsidedown) {
-			glTexCoord2f(0.0, 0.0); glVertex3f(-x, zbuffer.height-y, z);
-			glTexCoord2f(backdropTexW, 0.0); glVertex3f(zBuffer.width-x, zbuffer.height-y, z);
+			glTexCoord2f(0.0, 0.0); glVertex3f(-x, zBuffer.height-y, z);
+			glTexCoord2f(backdropTexW, 0.0); glVertex3f(zBuffer.width-x, zBuffer.height-y, z);
 			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(zBuffer.width-x, -y, z);
 			glTexCoord2f(0.0, backdropTexH); glVertex3f(-x, -y, z);
 		} else {
 			glTexCoord2f(0.0, 0.0); glVertex3f(-x, -y, z);
 			glTexCoord2f(backdropTexW, 0.0); glVertex3f(zBuffer.width-x, -y, z);
-			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(zBuffer.width-x, zbuffer.height-y, z);
-			glTexCoord2f(0.0, backdropTexH); glVertex3f(-x, zbuffer.height-y, z);
+			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(zBuffer.width-x, zBuffer.height-y, z);
+			glTexCoord2f(0.0, backdropTexH); glVertex3f(-x, zBuffer.height-y, z);
 		}
 		glEnd();
 	}
