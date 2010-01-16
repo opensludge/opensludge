@@ -9,9 +9,9 @@
 
 #include <stdio.h>
 
-#include "MessBox.h"
-#include "MoreIO.h"
-#include "SPLITTER.HPP"
+#include "messbox.h"
+#include "moreio.h"
+#include "splitter.h"
 
 
 char * errorTypeStrings[ERRORTYPE_NUM] =

@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #include <OpenGL/gl.h>
 
-#include "FloorMaker.h"
+#include "floormaker.h"
 #include "sprites.h"
 
 @interface FloorOpenGLView : NSOpenGLView

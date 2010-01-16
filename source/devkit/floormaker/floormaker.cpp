@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <OpenGL/gl.h>
 
-#include "FloorMaker.h"
+#include "floormaker.h"
 
 bool polyIsComplete (struct polyList *firstPoly) {
 	if (firstPoly -> firstVertex == NULL) return false;

@@ -5,13 +5,13 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include "WINTERFA.H"
-#include "MOREIO.H"
-#include "MessBox.h"
+#include "winterfa.h"
+#include "moreio.h"
+#include "messbox.h"
 #include "wincomp.h"
 #include "wintext.h"
 #include "settings.h"
-#include "SPLITTER.HPP"
+#include "splitter.h"
 #include "launch.h"
 
 enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
@@ -22,7 +22,7 @@ extern chrRenderingSettingsStruct chrRenderingSettings;
 
 
 
-#include "dialogueBoxInOut.h"
+#include "dialogueboxinout.h"
 
 
 HWND mainWin=NULL;

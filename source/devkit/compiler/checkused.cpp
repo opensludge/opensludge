@@ -1,7 +1,7 @@
 #include <string.h>
-#include "SPLITTER.HPP"
-#include "MessBox.h"
-#include "checkUsed.h"
+#include "splitter.h"
+#include "messbox.h"
+#include "checkused.h"
 
 static bool * flagUsed[CHECKUSED_NUM];
 

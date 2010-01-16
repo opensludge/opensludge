@@ -1,17 +1,17 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "TYPEDEF.H"
-#include "SPLITTER.HPP"
-#include "SLUDGE_Functions.H"
+#include "typedef.h"
+#include "splitter.h"
+#include "sludge_functions.h"
 #include "settings.h"
-#include "TOKENS.H"
-#include "MOREIO.H"
-#include "MessBox.h"
-#include "WINTERFA.H"
-#include "PercBar.h"
+#include "tokens.h"
+#include "moreio.h"
+#include "messbox.h"
+#include "winterfa.h"
+#include "percbar.h"
 #include "wintext.h"
-#include "ALLKNOWN.H"
+#include "allknown.h"
 
 extern char * inThisClass;
 

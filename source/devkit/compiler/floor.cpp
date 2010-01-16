@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "MOREIO.H"
-#include "SPLITTER.HPP"
+#include "moreio.h"
+#include "splitter.h"
 #include "wintext.h"
-#include "WINTERFA.H"
-#include "MessBox.h"
+#include "winterfa.h"
+#include "messbox.h"
 
 bool convertFloor (char * filename) {
 	char * wholeFile = grabWholeFile (filename);

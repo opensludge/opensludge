@@ -4,7 +4,7 @@
 //#include <io.h>
 
 //#include "fatal.h"
-#include "MOREIO.H"
+#include "moreio.h"
 
 #define MOVETEXT 1
 

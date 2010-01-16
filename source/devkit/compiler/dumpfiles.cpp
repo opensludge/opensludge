@@ -2,14 +2,14 @@
 #include <unistd.h>
 #include <string.h>
 
-#include "SPLITTER.HPP"
-#include "PercBar.h"
+#include "splitter.h"
+#include "percbar.h"
 #include "wintext.h"
-#include "WINTERFA.H"
+#include "winterfa.h"
 #include "settings.h"
-#include "HSI.H"
-#include "MessBox.h"
-#include "MOREIO.H"
+#include "hsi.h"
+#include "messbox.h"
+#include "moreio.h"
 #include "floor.h"
 #include "translation.h"
 #include "dumpfiles.h"

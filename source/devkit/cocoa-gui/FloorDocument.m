@@ -8,7 +8,7 @@
 
 #import "FloorDocument.h"
 
-#import "FloorMaker.h"
+#import "floormaker.h"
 
 @implementation FloorDocument
 

@@ -7,12 +7,12 @@
 //
 
 #import "ProjectDocument.h"
-#include "Project.hpp"
+#include "project.h"
 
 #include "settings.h"
-#include "WINTERFA.H"
+#include "winterfa.h"
 
-// -- These are from "MessBox.h"
+// -- These are from "messbox.h"
 struct errorLinkToFile
 {
 	int errorType;

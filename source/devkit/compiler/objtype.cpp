@@ -2,17 +2,17 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "SPLITTER.HPP"
-#include "SLUDGE_Functions.H"
+#include "splitter.h"
+#include "sludge_functions.h"
 #include "settings.h"
-#include "ALLKNOWN.H"
-#include "MOREIO.H"
-#include "REALPROC.H"
-#include "MessBox.h"
+#include "allknown.h"
+#include "moreio.h"
+#include "realproc.h"
+#include "messbox.h"
 #include "wintext.h"
-#include "WINTERFA.H"
+#include "winterfa.h"
 #include "wintext.h"
-#include "checkUsed.h"
+#include "checkused.h"
 
 stringArray * objectTypeNames = NULL;
 extern stringArray * functionNames;

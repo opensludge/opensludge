@@ -7,9 +7,9 @@
 //
 
 #import "TranslationDocument.h"
-#include "Translator.h"
+#include "translator.h"
 
-#include "MoreIO.h"
+#include "moreio.h"
 #include "settings.h"
 
 

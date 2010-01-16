@@ -1,6 +1,6 @@
 #ifdef WIN32
 
-#include "SPLITTER.HPP"
+#include "splitter.h"
 
 #include <windows.h>
 

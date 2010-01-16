@@ -1,4 +1,4 @@
-#include "SPLITTER.HPP"
+#include "splitter.h"
 
 bool checkNotKnown (const char * thisName, const char * filename);
 bool checkNotKnown2 (const char * thisName, const char * filename);	// Locals can override globals, function names & objectTypes

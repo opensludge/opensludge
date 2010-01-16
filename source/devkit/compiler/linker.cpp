@@ -2,15 +2,15 @@
 #include <unistd.h>
 #include <string.h>
 
-#include "MOREIO.H"
-#include "SPLITTER.HPP"
-#include "SLUDGE_Functions.H"
+#include "moreio.h"
+#include "splitter.h"
+#include "sludge_functions.h"
 #include "settings.h"
-#include "MessBox.h"
-#include "LINKER.H"
-#include "WINTERFA.H"
+#include "messbox.h"
+#include "linker.h"
+#include "winterfa.h"
 #include "wintext.h"
-#include "checkUsed.h"
+#include "checkused.h"
 
 extern stringArray * functionNames;
 extern stringArray * allKnownFlags;

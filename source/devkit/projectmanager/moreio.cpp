@@ -5,7 +5,7 @@
 #include <time.h>
 
 
-#include "MOREIO.H"
+#include "moreio.h"
 
 #define MOVETEXT 1
 

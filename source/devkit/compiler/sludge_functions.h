@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "SPLITTER.HPP"
+#include "splitter.h"
 
 enum halfCode {HALF_FIND, HALF_MARKER, HALF_DONE};
 

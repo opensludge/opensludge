@@ -5,17 +5,17 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include "WINTERFA.H"
-#include "MOREIO.H"
-#include "MessBox.h"
+#include "winterfa.h"
+#include "moreio.h"
+#include "messbox.h"
 #include "wincomp.h"
 #include "wintext.h"
 #include "registry.h"
 #include "settings.h"
-#include "SPLITTER.HPP"
+#include "splitter.h"
 #include "regbox.h"
 #include "launch.h"
-#include "dialogueBoxInOut.h"
+#include "dialogueboxinout.h"
 
 // NASTY!
 void setChanged (bool newVal);

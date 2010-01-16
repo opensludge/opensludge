@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "TGA.h"
+#include "tga.h"
 
 //FILE * debugFile = fopen ("TGAdebug.txt", "wt");
 

@@ -1,5 +1,5 @@
-#include "MessBox.h"
-#include "SPLITTER.HPP"
+#include "messbox.h"
+#include "splitter.h"
 
 extern stringArray * functionNames;
 extern stringArray * builtInFunc;
