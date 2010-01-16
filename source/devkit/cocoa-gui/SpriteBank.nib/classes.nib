@@ -1,0 +1,37 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                deleteSprite = id; 
+                exportSprite = id; 
+                hotSpotBase = id; 
+                hotSpotCentre = id; 
+                insertSprite = id; 
+                replaceSprite = id; 
+                setModePalClosed = id; 
+                setModePalNone = id; 
+                setModePalOpen = id; 
+            }; 
+            CLASS = SpriteBank; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                deleteButton = NSButton; 
+                exportButton = NSButton; 
+                insertButton = NSButton; 
+                palMode = NSMatrix; 
+                replaceButton = NSButton; 
+                spriteIndexSlider = NSSlider; 
+                spriteView = SpriteOpenGLView; 
+            }; 
+            SUPERCLASS = NSDocument; 
+        }, 
+        {
+            CLASS = SpriteOpenGLView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {doc = id; }; 
+            SUPERCLASS = NSOpenGLView; 
+        }
+    ); 
+    IBVersion = 1; 
+}

@@ -1,0 +1,20 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {changeDone = id; loadStrings = id; showTheseChanged = id; }; 
+            CLASS = TranslationDocument; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                languageID = NSTextField; 
+                languageName = NSTextField; 
+                listOfStrings = stringTable; 
+                originalString = NSTextField; 
+                showThese = NSPopUpButton; 
+            }; 
+            SUPERCLASS = NSDocument; 
+        }, 
+        {CLASS = stringTable; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }
+    ); 
+    IBVersion = 1; 
+}

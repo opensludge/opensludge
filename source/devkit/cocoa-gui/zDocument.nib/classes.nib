@@ -1,0 +1,23 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = zDocument; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                bufferYTextField = NSTextField; 
+                numBuffers = NSTextField; 
+                zBufSlider = NSSlider; 
+                zView = zOpenGLView; 
+            }; 
+            SUPERCLASS = NSDocument; 
+        }, 
+        {
+            CLASS = zOpenGLView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {doc = id; }; 
+            SUPERCLASS = NSOpenGLView; 
+        }
+    ); 
+    IBVersion = 1; 
+}
