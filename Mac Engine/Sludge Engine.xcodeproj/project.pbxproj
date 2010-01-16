@@ -108,6 +108,7 @@
 		2FEFC49C10073ADA004C66F1 /* GLee.c in Sources */ = {isa = PBXBuildFile; fileRef = 2FEFC49A10073ADA004C66F1 /* GLee.c */; };
 		2FEFC49D10073ADA004C66F1 /* GLee.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2FEFC49B10073ADA004C66F1 /* GLee.h */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		E836739F1101D9E2001449BC /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E836739E1101D9E2001449BC /* Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -285,6 +286,7 @@
 		2FEFC49A10073ADA004C66F1 /* GLee.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = GLee.c; path = ../GLee/GLee.c; sourceTree = SOURCE_ROOT; };
 		2FEFC49B10073ADA004C66F1 /* GLee.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GLee.h; path = ../GLee/GLee.h; sourceTree = SOURCE_ROOT; };
 		8D1107320486CEB800E47090 /* SLUDGE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SLUDGE.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E836739E1101D9E2001449BC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -371,6 +373,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E836739E1101D9E2001449BC /* Info.plist */,
 				2F3AB887100CF97C00CD6A13 /* Credits.html */,
 				2F684E190FFEAF6700EED6FE /* gameicon.icns */,
 				2FA550860FF90E90006A67ED /* Startup.nib */,
@@ -504,9 +507,11 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Sludge Engine" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 29B97314FDCFA39411CA2CEA /* SdlSludge */;
 			projectDirPath = "";
+			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* OpenSLUDGE */,
 			);
@@ -524,6 +529,7 @@
 				2F684E1A0FFEAF6700EED6FE /* gameicon.icns in Resources */,
 				2F2538250FFEB72800A12579 /* sludge.bmp in Resources */,
 				2F3AB888100CF97C00CD6A13 /* Credits.html in Resources */,
+				E836739F1101D9E2001449BC /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -609,10 +615,8 @@
 		C01FCF4C08A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
@@ -641,6 +645,7 @@
 					"$(FRAMEWORK_SEARCH_PATHS)",
 				);
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_VERSION = 4.0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
@@ -662,12 +667,15 @@
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(HOME)/Library/Frameworks",
 					/Library/Frameworks,
 					"$(FRAMEWORK_SEARCH_PATHS)",
 				);
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_VERSION = 4.0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
