@@ -19,7 +19,12 @@
 
 #import <Cocoa/Cocoa.h>
 
+#ifdef __linux__
+#import <GL/gl.h>
+#else
 #include <OpenGL/gl.h>
+#endif
+
 #include "sprites.h"
 
 @interface zOpenGLView : NSOpenGLView

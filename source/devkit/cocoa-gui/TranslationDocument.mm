@@ -6,11 +6,14 @@
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
+#import <stdint.h>
+
 #import "TranslationDocument.h"
 #include "translator.h"
 
 #include "moreio.h"
 #include "settings.h"
+#import "project.h"
 
 
 @implementation stringTable
@@ -71,8 +74,9 @@
 			 ofType:(NSString *)typeName 
 			  error:(NSError **)outError
 {
+#ifndef GNUSTEP
 	if ([typeName isEqualToString:@"SLUDGE Translation file"]) {	
-		UInt8 buffer[1024];
+		uint8_t buffer[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
 			if (loadTranslationFile ((char *) buffer, &firstTransLine, &langName, &langID)) {
 				[listOfStrings noteNumberOfRowsChanged];
@@ -80,6 +84,7 @@
 			}
 		}
 	} 
+#endif
 	*outError = [NSError errorWithDomain:@"Error" code:1 userInfo:nil];
 	return NO;
 }
@@ -88,14 +93,16 @@
 			ofType:(NSString *)typeName 
 			 error:(NSError **)outError
 {
+#ifndef GNUSTEP
 	if ([typeName isEqualToString:@"SLUDGE Translation file"]) {		
-		UInt8 buffer[1024];
+		uint8_t buffer[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
 			if (saveTranslationFile ((char *) buffer, firstTransLine, langName, langID)) {
 				return YES;
 			}
 		}
 	} 
+#endif
 	*outError = [NSError errorWithDomain:@"Error" code:1 userInfo:nil];
 	return NO;
 }
@@ -257,7 +264,7 @@
 	int c = -1;
 	int row = [listOfStrings selectedRow];
 	if (row >=0 ) {
-		int type = (int) [[aNotification object] type];
+		int64_t type = (int64_t) [[aNotification object] type];
 		struct transLine * line = firstTransLine;
 		while (line && c<row) {
 			switch (type) {

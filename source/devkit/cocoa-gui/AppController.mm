@@ -2,6 +2,7 @@
 
 #import "AppController.h"
 
+#include "project.h"
 #include "settings.h"
 #import "SpriteBank.h"
 #import "ProjectDocument.h"
@@ -139,6 +140,7 @@ bail: return err;
 
 }*/
 
+#ifndef GNUSTEP
 OSStatus MyGotoHelpPage (CFStringRef pagePath, CFStringRef anchorName)
 {
     CFBundleRef myApplicationBundle = NULL;
@@ -182,10 +184,13 @@ OSStatus MyGotoHelpPage (CFStringRef pagePath, CFStringRef anchorName)
 bail: return err;
 			
 }
+#endif
 
 - (IBAction)helpMenu:(id)sender
 {
+#ifndef GNUSTEP
 	MyGotoHelpPage(NULL, NULL);
+#endif
 }
 
 - (BOOL)validateMenuItem:(id <NSMenuItem>)menuItem {
@@ -205,6 +210,7 @@ bail: return err;
 }
 
 void saveIniFile() {
+#ifndef GNUSTEP
 	unsigned char appsupport_path[1024];
 	FSRef foundRef;
 	
@@ -222,6 +228,7 @@ void saveIniFile() {
 	fprintf (fp, "Verbose=%d\n", programSettings.compilerVerbose);
 	fprintf (fp, "SearchSensitive=%d\n", programSettings.searchSensitive);
 	fclose (fp);
+#endif
 }
 
 - (IBAction)prefKeepImagesClick:(id)sender
@@ -273,6 +280,7 @@ unsigned int stringToInt (char * s) {
 }
 
 void readIniFile () {
+#ifndef GNUSTEP
 	unsigned char appsupport_path[1024];
 	FSRef foundRef;
 
@@ -357,6 +365,7 @@ void readIniFile () {
 		
 		fclose (fp);
 	}
+#endif
 }
 
 

@@ -6,8 +6,11 @@
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
+#import <stdint.h>
+
 #import "SpriteBank.h"
 
+#import "AppController.h"
 
 
 @implementation SpriteBank
@@ -80,14 +83,16 @@
 			 ofType:(NSString *)typeName 
 			  error:(NSError **)outError
 {
+#ifndef GNUSTEP
 	if ([typeName isEqualToString:@"SLUDGE Sprite Bank"]) {		
-		UInt8 buffer[1024];
+		uint8_t buffer[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
 			if (loadSpriteBank ((char *) buffer, &sprites)) {
 				return YES;
 			}
 		}
 	} 
+#endif
 	*outError = [NSError errorWithDomain:@"Error" code:1 userInfo:nil];
 	return NO;
 }
@@ -96,15 +101,16 @@
 			ofType:(NSString *)typeName 
 			 error:(NSError **)outError
 {
+#ifndef GNUSTEP
 	if ([typeName isEqualToString:@"SLUDGE Sprite Bank"]) {		
-		UInt8 buffer[1024];
+		uint8_t buffer[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
 			if (saveSpriteBank ((char *) buffer, &sprites)) {
 				return YES;
 			}
 		}
 	} 
-	
+#endif
 	*outError = [NSError errorWithDomain:@"Error" code:1 userInfo:nil];
 	return NO;
 }

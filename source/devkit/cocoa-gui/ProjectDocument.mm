@@ -6,8 +6,13 @@
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
+#import <stdint.h>
+
 #import "ProjectDocument.h"
 #include "project.h"
+
+#import "compiler.h"
+#import "AppController.h"
 
 #include "settings.h"
 #include "winterfa.h"
@@ -32,7 +37,7 @@ extern int numErrors;
 // --
 
 ProjectDocument * me;
-NSModalSession session = nil;
+NSModalSession session = NULL;
 
 enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 
@@ -64,9 +69,11 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 	[compilerErrors setDoubleAction:@selector(openError:)];
 	[compilerErrors setTarget:self];
 	
-	UInt8 project[1024];
+	uint8_t project[1024];
+#ifndef GNUSTEP
 	if (! CFURLGetFileSystemRepresentation((CFURLRef) [self fileURL], true, project, 1023))
 		return;
+#endif
 	getSourceDirFromName ((char *) project);
 }	
 
@@ -74,8 +81,9 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 			 ofType:(NSString *)typeName 
 			  error:(NSError **)outError
 {
+#ifndef GNUSTEP
 	if ([typeName isEqualToString:@"SLUDGE Project file"]) {	
-		UInt8 buffer[1024];
+		uint8_t buffer[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
 			if (loadProject ((char *) buffer, fileList, &fileListNum)) {
 				[projectFiles noteNumberOfRowsChanged];
@@ -83,6 +91,7 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 			}
 		}
 	} 
+#endif
 	*outError = [NSError errorWithDomain:@"Error" code:1 userInfo:nil];
 	return NO;
 }
@@ -91,14 +100,16 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 			ofType:(NSString *)typeName 
 			 error:(NSError **)outError
 {
+#ifndef GNUSTEP
 	if ([typeName isEqualToString:@"SLUDGE Project file"]) {	
-		UInt8 buffer[1024];
+		uint8_t buffer[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
 			if (saveProject ((char *) buffer, fileList, &fileListNum)) {
 				return YES;
 			}
 		}
 	} 
+#endif
 	*outError = [NSError errorWithDomain:@"Error" code:1 userInfo:nil];
 	return NO;
 }
@@ -118,9 +129,11 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 			
       		char * tx;
 			clearFileList (resourceList, &numResources);
-			UInt8 project[1024];
+			uint8_t project[1024];
+#ifndef GNUSTEP
 			if (! CFURLGetFileSystemRepresentation((CFURLRef) [self fileURL], true, project, 1023))
 				return;
+#endif
 			getSourceDirFromName ((char *) project);
 			gotoSourceDirectory ();
 			int i;
@@ -268,6 +281,7 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 
 - (IBAction)addFileToProject:(id)sender
 {
+#ifndef GNUSTEP
 	NSString *path = nil;
 	NSOpenPanel *openPanel = [ NSOpenPanel openPanel ];
 	[openPanel setTitle:@"Add file to SLUDGE Project"];
@@ -275,7 +289,7 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 	
 	if ( [ openPanel runModalForDirectory:nil file:nil types:files] ) {
 		path = [ openPanel filename ];
-		UInt8 project[1024];
+		uint8_t project[1024];
 		if (! CFURLGetFileSystemRepresentation((CFURLRef) [self fileURL], true, project, 1023))
 			return;
 		getSourceDirFromName ((char *) project);
@@ -302,6 +316,7 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 		[removeFileButton setEnabled:NO];
 		[self updateChangeCount: NSChangeDone];
 	}
+#endif
 }
 
 - (void)close 
@@ -318,11 +333,13 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 	[closeCompilerButton setEnabled:NO];
 	[NSApp runModalSession:session];
 
-	UInt8 buffer[1024];
+	uint8_t buffer[1024];
+#ifndef GNUSTEP
 	if (CFURLGetFileSystemRepresentation((CFURLRef) [self fileURL], true, buffer, 1023)) {
 		compileEverything(buffer, fileList, &fileListNum);
 		val = true;
 	}
+#endif
 	[closeCompilerButton setEnabled:YES];
 	[NSApp endModalSession:session];
 	if (numErrors) {

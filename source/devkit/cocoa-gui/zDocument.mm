@@ -6,6 +6,8 @@
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
+#import <stdint.h>
+
 #import "zDocument.h"
 #include "zbuffer.h"
 
@@ -68,14 +70,16 @@
 			 ofType:(NSString *)typeName 
 			  error:(NSError **)outError
 {
+#ifndef GNUSTEP
 	if ([typeName isEqualToString:@"SLUDGE zBuffer"]) {		
-		UInt8 path[1024];
+		uint8_t path[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, path, 1023)) {
 			if (loadZBufferFile ((char *) path, &backdrop)) {
 				return YES;
 			}
 		}
 	} 
+#endif
 	*outError = [NSError errorWithDomain:@"Error" code:1 userInfo:nil];
 	return NO;
 }
@@ -84,15 +88,16 @@
 			ofType:(NSString *)typeName 
 			 error:(NSError **)outError
 {
+#ifndef GNUSTEP
 	if ([typeName isEqualToString:@"SLUDGE zBuffer"]) {		
-		UInt8 path[1024];
+		uint8_t path[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, path, 1023)) {
 			if (saveZBufferFile ((char *) path, &backdrop)) {
 				return YES;
 			}
 		}
 	} 
-	
+#endif
 	*outError = [NSError errorWithDomain:@"Error" code:1 userInfo:nil];
 	return NO;
 }

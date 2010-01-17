@@ -6,9 +6,12 @@
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
+#import <stdint.h>
+
 #import "FloorDocument.h"
 
 #import "floormaker.h"
+#include "project.h"
 
 @implementation FloorDocument
 
@@ -59,12 +62,14 @@
 			  error:(NSError **)outError
 {
 	if ([typeName isEqualToString:@"SLUDGE Floor"]) {	
-		UInt8 buffer[1024];
+		uint8_t buffer[1024];
+#ifndef GNUSTEP
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
 			if (loadFloorFromFile ((char *) buffer, &firstPoly)) {
 				return YES;
 			}
 		}
+#endif
 	} 
 	*outError = [NSError errorWithDomain:@"Error" code:1 userInfo:nil];
 	return NO;
@@ -75,13 +80,15 @@
 			 error:(NSError **)outError
 {
 	if ([typeName isEqualToString:@"SLUDGE Floor"]) {		
-		UInt8 buffer[1024];
+		uint8_t buffer[1024];
+#ifndef GNUSTEP
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
 			if (saveFloorToFile ((char *) buffer, &firstPoly)) {
 				[floorView setNeedsDisplay:YES];
 				return YES;
 			}
 		}
+#endif
 	} 
 	*outError = [NSError errorWithDomain:@"Error" code:1 userInfo:nil];
 	return NO;
@@ -312,6 +319,7 @@
 				
 			break;
 		case 2: // Remove vertices
+			{
 			if (! snapToClosest(&xx, &yy, [doc getFloor]))
 				return;
 			struct polyList * firstPoly = [doc getFloor];
@@ -319,6 +327,7 @@
 			killVertex (xx, yy, &firstPoly);
 			[doc setFloor: firstPoly];
 			break;
+			}
 		case 4: // Split lines
 		case 5: // Split segments
 			if (! snapToClosest(&xx, &yy, [doc getFloor]))

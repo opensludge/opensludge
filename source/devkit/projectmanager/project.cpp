@@ -65,7 +65,7 @@ char * getFullPath (const char * file) {
 #endif
 }
 
-void deleteString(char * s) {
+void deleteString(void * s) {
 	delete s;
 	s = NULL;
 }
