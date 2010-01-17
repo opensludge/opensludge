@@ -36,10 +36,10 @@ sludgeCommand math2Sludge[] = {SLU_UNKNOWN, SLU_PLUS, SLU_MINUS, SLU_MULT, SLU_D
 
 // Build these as we go along
 
-stringArray * functionNames = NULL;
-stringArray * functionFiles = NULL;
-stringArray * builtInFunc = NULL;
-stringArray * allFileHandles = NULL;
+extern stringArray * functionNames = NULL;
+extern stringArray * functionFiles = NULL;
+extern stringArray * builtInFunc = NULL;
+extern stringArray * allFileHandles = NULL;
 
 stringArray * typeDefFrom = NULL;
 stringArray * typeDefTo = NULL;
@@ -985,36 +985,5 @@ bool outdoorSub (char * code, const char * fileName) {
 	}
 	delete functionName;
 	return false;
-}
-
-void writeDebugData (FILE * mainFile) {
-	stringArray * funcName;
-
-	// Built in functions...
-
-	funcName = builtInFunc;
-	put2bytes (countElements (funcName), mainFile);
-	while (funcName) {
-		writeString (funcName -> string, mainFile);
-		funcName = funcName -> next;
-	}
-	
-	// User defined functions...
-	
-	funcName = functionNames;
-	put2bytes (countElements (funcName), mainFile);
-	while (funcName) {
-		writeString (funcName -> string, mainFile);
-		funcName = funcName -> next;
-	}
-
-	// Resource files...
-	
-	funcName = allFileHandles;
-	put2bytes (countElements (funcName), mainFile);
-	while (funcName) {
-		writeString (funcName -> string, mainFile);
-		funcName = funcName -> next;
-	}
 }
 

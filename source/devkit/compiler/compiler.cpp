@@ -199,7 +199,7 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 		break;
 
 		case CSTEP_AFTERCOMPILE:
-
+		{
 		outputHalfCode (globalSpace, SLU_LOAD_GLOBAL, "init");
 		outputDoneCode (globalSpace, SLU_CALLIT, 0);
 		finishFunctionNew (globalSpace, NULL);
@@ -276,7 +276,8 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 	
 		setCompileStep (CSTEP_LINKSCRIPTS, countElements(functionNames));
 		break;
-		
+		}
+
 		case CSTEP_LINKSCRIPTS:
 		if (data1 < countElements(functionNames)) {
 			percRect (data1, P_BOTTOM);

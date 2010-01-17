@@ -3,7 +3,7 @@
 
 enum halfCode {HALF_FIND, HALF_MARKER, HALF_DONE};
 
-#include "CSLUDGE.H"
+#include "csludge.h"
 
 struct compilationSpace {
 	int numMarkers;

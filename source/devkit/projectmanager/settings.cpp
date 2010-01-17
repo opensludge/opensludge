@@ -7,10 +7,8 @@
 #include <sys/stat.h>
 
 
-#include "sludge_functions.h"
 #include "splitter.h"
 #include "settings.h"
-#include "translation.h"
 #include "winterfa.h"
 #include "moreio.h"
 #include "wintext.h"
@@ -27,6 +25,69 @@ char * tempDirectory = NULL;
 char * sourceDirectory = NULL;
 bool silent = true;
 
+//Global variables for translation.cpp
+int numberOfValidTranslations;
+translationReg * allTranslations;
+
+//Global variables for sludge_functions.cpp
+stringArray * functionNames;
+stringArray * functionFiles;
+stringArray * builtInFunc;
+stringArray * allFileHandles;
+
+
+void addTranslationIDTable (FILE * mainFile, char * name) {
+	translationReg * temp = allTranslations;
+
+	fputc (numberOfValidTranslations, mainFile);
+	if (numberOfValidTranslations) {
+		if (name && name[0]) {
+			writeString (name, mainFile);
+		} else {
+			writeString ("No translation", mainFile);
+		}
+	}
+	
+	while (temp) {
+		put2bytes (temp -> ID, mainFile);
+		if (temp->name)
+			writeString (temp->name, mainFile);
+		else
+			writeString ("Unnamed translation", mainFile);
+		temp = temp -> next;
+	}	
+}
+
+void writeDebugData (FILE * mainFile) {
+	stringArray * funcName;
+
+	// Built in functions...
+
+	funcName = builtInFunc;
+	put2bytes (countElements (funcName), mainFile);
+	while (funcName) {
+		writeString (funcName -> string, mainFile);
+		funcName = funcName -> next;
+	}
+	
+	// User defined functions...
+	
+	funcName = functionNames;
+	put2bytes (countElements (funcName), mainFile);
+	while (funcName) {
+		writeString (funcName -> string, mainFile);
+		funcName = funcName -> next;
+	}
+
+	// Resource files...
+	
+	funcName = allFileHandles;
+	put2bytes (countElements (funcName), mainFile);
+	while (funcName) {
+		writeString (funcName -> string, mainFile);
+		funcName = funcName -> next;
+	}
+}
 
 void noSettings () {
 	

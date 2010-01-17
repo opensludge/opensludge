@@ -55,7 +55,12 @@ struct programSettingsStruct
 
 extern struct programSettingsStruct programSettings;
 
-
+struct translationReg {
+	char * filename;
+	char * name;
+	int ID;
+	translationReg * next;
+};
 
 extern bool silent;
 extern char * sourceDirectory;

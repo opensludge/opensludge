@@ -10,16 +10,9 @@
 #include "settings.h"
 #include "dumpfiles.h"
 
-int numberOfValidTranslations = 0;
+extern int numberOfValidTranslations = 0;
 
-struct translationReg {
-	char * filename;
-	char * name;
-	int ID;
-	translationReg * next;
-};
-
-translationReg * allTranslations = NULL;
+extern translationReg * allTranslations = NULL;
 
 enum mode {TM_COMMENTS, TM_ID, TM_DATA, TM_NAME};
 
@@ -251,27 +244,5 @@ bool addAllTranslationData (stringArray * theSA, FILE * mainFile) {
 	}
 
 	return true;
-}
-
-void addTranslationIDTable (FILE * mainFile, char * name) {
-	translationReg * temp = allTranslations;
-
-	fputc (numberOfValidTranslations, mainFile);
-	if (numberOfValidTranslations) {
-		if (name && name[0]) {
-			writeString (name, mainFile);
-		} else {
-			writeString ("No translation", mainFile);
-		}
-	}
-	
-	while (temp) {
-		put2bytes (temp -> ID, mainFile);
-		if (temp->name)
-			writeString (temp->name, mainFile);
-		else
-			writeString ("Unnamed translation", mainFile);
-		temp = temp -> next;
-	}	
 }
 
