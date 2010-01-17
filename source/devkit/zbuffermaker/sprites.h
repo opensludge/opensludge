@@ -1,7 +1,11 @@
 #ifndef HWND
 #define __SPRITES_H__
 
+#ifdef __APPLE__
 #include <OpenGL/gl.h>
+#else
+#include <GL/gl.h>
+#endif
 
 #ifdef __cplusplus
 extern "C" {

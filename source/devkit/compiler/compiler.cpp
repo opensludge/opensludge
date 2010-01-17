@@ -21,7 +21,6 @@
 #include "linker.h"
 #include "messbox.h"
 #include "preproc.h"
-#include "project.h"
 #include "percbar.h"
 #include "realproc.h"
 #include "splitter.h"
