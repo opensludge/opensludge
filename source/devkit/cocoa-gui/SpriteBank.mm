@@ -10,7 +10,7 @@
 
 #import "SpriteBank.h"
 
-#import "AppController.h"
+#import "macstuff.h"
 
 
 @implementation SpriteBank

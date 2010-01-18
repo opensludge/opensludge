@@ -12,7 +12,8 @@
 #include <limits.h>
 #include <ctype.h>
 
-#include "messbox.h"
+//#include "messbox.h"
+#include "macstuff.h"
 #include "moreio.h"
 #include "settings.h"
 #include "splitter.h"

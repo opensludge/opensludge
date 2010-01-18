@@ -54,9 +54,10 @@ void addComment (int errorType, const char * comment, const char * filename/*, i
 	
 	char * after = filename ? joinStrings (" (in ", filename, ")") : copyString ("");
 	newLink->fullText = joinStrings (errorTypeStrings[errorType], comment, after);
-	
+
+#ifdef __APPLE__	//FIXME: Should not be commented out.
 	compilerCommentsUpdated();
-	
+#endif
 //	fprintf (stderr, "addComment: %s\n", newLink->fullText);
 	delete after;
 	

@@ -1,4 +1,11 @@
+#ifdef GNUSTEP
+extern "C"
+{
 #import <Cocoa/Cocoa.h>
+}
+#else
+#import <Cocoa/Cocoa.h>
+#endif
 
 @interface AppController : NSObject
 {
@@ -27,5 +34,3 @@
 - (IBAction)prefWriteStringsClick:(id)sender;
 - (IBAction)prefVerboseClick:(id)sender;
 @end
-
-bool errorBox (const char * head, const char * msg);

@@ -6,7 +6,14 @@
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
+#ifdef GNUSTEP
+extern "C"
+{
 #import <Cocoa/Cocoa.h>
+}
+#else
+#import <Cocoa/Cocoa.h>
+#endif
 
 #ifdef __linux__
 #include <GL/gl.h>

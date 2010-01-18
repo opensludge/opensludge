@@ -12,6 +12,7 @@
 
 #import "floormaker.h"
 #include "project.h"
+#import "macstuff.h"
 
 @implementation FloorDocument
 

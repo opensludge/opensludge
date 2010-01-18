@@ -12,7 +12,7 @@
 #include "project.h"
 
 #import "compiler.h"
-#import "AppController.h"
+#import "macstuff.h"
 
 #include "settings.h"
 #include "winterfa.h"

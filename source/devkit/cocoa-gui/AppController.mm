@@ -250,35 +250,6 @@ void saveIniFile() {
 
 @end
 
-const char * getTempDir () {
-	return [NSTemporaryDirectory() UTF8String];
-}
-
-bool askAQuestion (const char * head, const char * msg) {
-	if (! NSRunAlertPanel ([NSString stringWithUTF8String: head], [NSString stringWithUTF8String: msg], @"Yes", @"No", NULL) == NSAlertDefaultReturn)
-		return false;
-	return true;
-}
-
-
-bool errorBox (const char * head, const char * msg) {
-	NSRunAlertPanel ([NSString stringWithUTF8String: head], [NSString stringWithUTF8String: msg], NULL, NULL, NULL);
-	return false;
-}
-
-unsigned int stringToInt (char * s) {
-	int i = 0;
-	for (;;) {
-		if (*s >= '0' && *s <= '9') {
-			i *= 10;
-			i += *s - '0';
-			s ++;
-		} else {
-			return i;
-		}
-	}
-}
-
 void readIniFile () {
 #ifndef GNUSTEP
 	unsigned char appsupport_path[1024];
