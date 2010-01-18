@@ -1,26 +1,17 @@
 # GNU make makefile for OpenSLUDGE by Tobias Hansen
 
-.PHONY: clean install remove clean_engine clean_DevKit install_engine install_DevKit remove_engine remove_DevKit
-
-all: engine DevKit
-
-clean: clean_engine clean_DevKit
-
-install: install_engine install_DevKit
-
-remove: remove_engine remove_DevKit
-
+.PHONY: clean install remove clean_all clean_DevKit install_all install_DevKit remove_all remove_DevKit
 
 engine: Engine CommonCode
 	$(MAKE) -C Engine
 
-clean_engine: Engine
+clean: Engine
 	$(MAKE) -C Engine clean
 
-install_engine: Engine
+install: Engine
 	$(MAKE) -C Engine install
 
-remove_engine: Engine
+remove: Engine
 	$(MAKE) -C Engine remove
 
 
@@ -35,3 +26,12 @@ install_DevKit: devkit
 
 remove_DevKit: devkit
 	$(MAKE) -C devkit remove
+
+
+all: engine DevKit
+
+clean_all: clean clean_DevKit
+
+install_all: install install_DevKit
+
+remove_all: remove remove_DevKit
