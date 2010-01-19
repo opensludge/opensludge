@@ -83,16 +83,19 @@
 			 ofType:(NSString *)typeName 
 			  error:(NSError **)outError
 {
-#ifndef GNUSTEP
-	if ([typeName isEqualToString:@"SLUDGE Sprite Bank"]) {		
+	if ([typeName isEqualToString:@"SLUDGE Sprite Bank"]) {	
+#ifdef GNUSTEP	
+		GSNativeChar buffer[1024];
+		if ([[absoluteURL absoluteString] getFileSystemRepresentation:buffer maxLength:1023]) {
+#else
 		uint8_t buffer[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
+#endif
 			if (loadSpriteBank ((char *) buffer, &sprites)) {
 				return YES;
 			}
 		}
 	} 
-#endif
 	*outError = [NSError errorWithDomain:@"Error" code:1 userInfo:nil];
 	return NO;
 }
@@ -101,16 +104,19 @@
 			ofType:(NSString *)typeName 
 			 error:(NSError **)outError
 {
-#ifndef GNUSTEP
-	if ([typeName isEqualToString:@"SLUDGE Sprite Bank"]) {		
+	if ([typeName isEqualToString:@"SLUDGE Sprite Bank"]) {	
+#ifdef GNUSTEP	
+		GSNativeChar buffer[1024];
+		if ([[absoluteURL absoluteString] getFileSystemRepresentation:buffer maxLength:1023]) {
+#else	
 		uint8_t buffer[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
+#endif
 			if (saveSpriteBank ((char *) buffer, &sprites)) {
 				return YES;
 			}
 		}
 	} 
-#endif
 	*outError = [NSError errorWithDomain:@"Error" code:1 userInfo:nil];
 	return NO;
 }

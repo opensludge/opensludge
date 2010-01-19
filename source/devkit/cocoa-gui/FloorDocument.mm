@@ -63,14 +63,17 @@
 			  error:(NSError **)outError
 {
 	if ([typeName isEqualToString:@"SLUDGE Floor"]) {	
+#ifdef GNUSTEP
+		GSNativeChar buffer[1024];
+		if ([absoluteURL getFileSystemRepresentation:buffer maxLength:1023]) {
+#else
 		uint8_t buffer[1024];
-#ifndef GNUSTEP
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
+#endif
 			if (loadFloorFromFile ((char *) buffer, &firstPoly)) {
 				return YES;
 			}
 		}
-#endif
 	} 
 	*outError = [NSError errorWithDomain:@"Error" code:1 userInfo:nil];
 	return NO;
@@ -80,16 +83,19 @@
 			ofType:(NSString *)typeName 
 			 error:(NSError **)outError
 {
-	if ([typeName isEqualToString:@"SLUDGE Floor"]) {		
+	if ([typeName isEqualToString:@"SLUDGE Floor"]) {
+#ifdef GNUSTEP
+		GSNativeChar buffer[1024];
+		if ([absoluteURL getFileSystemRepresentation:buffer maxLength:1023]) {
+#else		
 		uint8_t buffer[1024];
-#ifndef GNUSTEP
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
+#endif
 			if (saveFloorToFile ((char *) buffer, &firstPoly)) {
 				[floorView setNeedsDisplay:YES];
 				return YES;
 			}
 		}
-#endif
 	} 
 	*outError = [NSError errorWithDomain:@"Error" code:1 userInfo:nil];
 	return NO;

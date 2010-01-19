@@ -70,16 +70,19 @@
 			 ofType:(NSString *)typeName 
 			  error:(NSError **)outError
 {
-#ifndef GNUSTEP
-	if ([typeName isEqualToString:@"SLUDGE zBuffer"]) {		
+	if ([typeName isEqualToString:@"SLUDGE zBuffer"]) {
+#ifdef GNUSTEP
+		GSNativeChar path[1024];
+		if ([[absoluteURL absoluteString] getFileSystemRepresentation:path maxLength:1023]) {
+#else		
 		uint8_t path[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, path, 1023)) {
+#endif
 			if (loadZBufferFile ((char *) path, &backdrop)) {
 				return YES;
 			}
 		}
 	} 
-#endif
 	*outError = [NSError errorWithDomain:@"Error" code:1 userInfo:nil];
 	return NO;
 }
@@ -88,16 +91,19 @@
 			ofType:(NSString *)typeName 
 			 error:(NSError **)outError
 {
-#ifndef GNUSTEP
-	if ([typeName isEqualToString:@"SLUDGE zBuffer"]) {		
+	if ([typeName isEqualToString:@"SLUDGE zBuffer"]) {
+#ifdef GNUSTEP
+		GSNativeChar path[1024];
+		if ([[absoluteURL absoluteString] getFileSystemRepresentation:path maxLength:1023]) {
+#else		
 		uint8_t path[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, path, 1023)) {
+#endif
 			if (saveZBufferFile ((char *) path, &backdrop)) {
 				return YES;
 			}
 		}
 	} 
-#endif
 	*outError = [NSError errorWithDomain:@"Error" code:1 userInfo:nil];
 	return NO;
 }

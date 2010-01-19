@@ -69,11 +69,15 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 	[compilerErrors setDoubleAction:@selector(openError:)];
 	[compilerErrors setTarget:self];
 	
+#ifdef GNUSTEP
+	GSNativeChar project[1024];
+	if ([[[self fileURL] absoluteString] getFileSystemRepresentation:project maxLength:1023]) {
+#else
 	uint8_t project[1024];
-#ifndef GNUSTEP
-	if (! CFURLGetFileSystemRepresentation((CFURLRef) [self fileURL], true, project, 1023))
-		return;
+	if (! CFURLGetFileSystemRepresentation((CFURLRef) [self fileURL], true, project, 1023)) {
 #endif
+		return;
+	}
 	getSourceDirFromName ((char *) project);
 }	
 
@@ -81,17 +85,20 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 			 ofType:(NSString *)typeName 
 			  error:(NSError **)outError
 {
-#ifndef GNUSTEP
-	if ([typeName isEqualToString:@"SLUDGE Project file"]) {	
+	if ([typeName isEqualToString:@"SLUDGE Project file"]) {
+#ifdef GNUSTEP
+		GSNativeChar buffer[1024];
+		if ([[absoluteURL absoluteString] getFileSystemRepresentation:buffer maxLength:1023]) {
+#else
 		uint8_t buffer[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
+#endif	
 			if (loadProject ((char *) buffer, fileList, &fileListNum)) {
 				[projectFiles noteNumberOfRowsChanged];
 				return YES;
 			}
 		}
 	} 
-#endif
 	*outError = [NSError errorWithDomain:@"Error" code:1 userInfo:nil];
 	return NO;
 }
@@ -100,16 +107,19 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 			ofType:(NSString *)typeName 
 			 error:(NSError **)outError
 {
-#ifndef GNUSTEP
 	if ([typeName isEqualToString:@"SLUDGE Project file"]) {	
+#ifdef GNUSTEP
+		GSNativeChar buffer[1024];
+		if ([[absoluteURL absoluteString] getFileSystemRepresentation:buffer maxLength:1023]) {
+#else
 		uint8_t buffer[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
+#endif
 			if (saveProject ((char *) buffer, fileList, &fileListNum)) {
 				return YES;
 			}
 		}
 	} 
-#endif
 	*outError = [NSError errorWithDomain:@"Error" code:1 userInfo:nil];
 	return NO;
 }
@@ -129,11 +139,15 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 			
       		char * tx;
 			clearFileList (resourceList, &numResources);
+#ifdef GNUSTEP
+			GSNativeChar project[1024];
+			if ([[[self fileURL] absoluteString] getFileSystemRepresentation:project maxLength:1023]) {
+#else
 			uint8_t project[1024];
-#ifndef GNUSTEP
-			if (! CFURLGetFileSystemRepresentation((CFURLRef) [self fileURL], true, project, 1023))
-				return;
+			if (! CFURLGetFileSystemRepresentation((CFURLRef) [self fileURL], true, project, 1023)) {
 #endif
+				return;
+			}
 			getSourceDirFromName ((char *) project);
 			gotoSourceDirectory ();
 			int i;
@@ -281,7 +295,6 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 
 - (IBAction)addFileToProject:(id)sender
 {
-#ifndef GNUSTEP
 	NSString *path = nil;
 	NSOpenPanel *openPanel = [ NSOpenPanel openPanel ];
 	[openPanel setTitle:@"Add file to SLUDGE Project"];
@@ -289,9 +302,15 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 	
 	if ( [ openPanel runModalForDirectory:nil file:nil types:files] ) {
 		path = [ openPanel filename ];
+#ifdef GNUSTEP
+		GSNativeChar project[1024];
+		if ([[[self fileURL] absoluteString] getFileSystemRepresentation:project maxLength:1023]) {
+#else
 		uint8_t project[1024];
-		if (! CFURLGetFileSystemRepresentation((CFURLRef) [self fileURL], true, project, 1023))
+		if (! CFURLGetFileSystemRepresentation((CFURLRef) [self fileURL], true, project, 1023)) {
+#endif
 			return;
+		}
 		getSourceDirFromName ((char *) project);
 		addFileToProject ([path UTF8String], sourceDirectory, fileList, &fileListNum);
 		
@@ -316,7 +335,6 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 		[removeFileButton setEnabled:NO];
 		[self updateChangeCount: NSChangeDone];
 	}
-#endif
 }
 
 - (void)close 
@@ -333,13 +351,16 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 	[closeCompilerButton setEnabled:NO];
 	[NSApp runModalSession:session];
 
+#ifdef GNUSTEP
+	GSNativeChar buffer[1024];
+	if ([[[self fileURL] absoluteString] getFileSystemRepresentation:buffer maxLength:1023]) {
+#else
 	uint8_t buffer[1024];
-#ifndef GNUSTEP
 	if (CFURLGetFileSystemRepresentation((CFURLRef) [self fileURL], true, buffer, 1023)) {
+#endif
 		compileEverything(buffer, fileList, &fileListNum);
 		val = true;
 	}
-#endif
 	[closeCompilerButton setEnabled:YES];
 	[NSApp endModalSession:session];
 	if (numErrors) {

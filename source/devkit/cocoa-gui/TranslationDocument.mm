@@ -74,17 +74,20 @@
 			 ofType:(NSString *)typeName 
 			  error:(NSError **)outError
 {
-#ifndef GNUSTEP
 	if ([typeName isEqualToString:@"SLUDGE Translation file"]) {	
+#ifdef GNUSTEP
+		GSNativeChar buffer[1024];
+		if ([[absoluteURL absoluteString] getFileSystemRepresentation:buffer maxLength:1023]) {
+#else
 		uint8_t buffer[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
+#endif
 			if (loadTranslationFile ((char *) buffer, &firstTransLine, &langName, &langID)) {
 				[listOfStrings noteNumberOfRowsChanged];
 				return YES;
 			}
 		}
 	} 
-#endif
 	*outError = [NSError errorWithDomain:@"Error" code:1 userInfo:nil];
 	return NO;
 }
@@ -93,16 +96,19 @@
 			ofType:(NSString *)typeName 
 			 error:(NSError **)outError
 {
-#ifndef GNUSTEP
-	if ([typeName isEqualToString:@"SLUDGE Translation file"]) {		
+	if ([typeName isEqualToString:@"SLUDGE Translation file"]) {
+#ifdef GNUSTEP
+		GSNativeChar buffer[1024];
+		if ([[absoluteURL absoluteString] getFileSystemRepresentation:buffer maxLength:1023]) {
+#else		
 		uint8_t buffer[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
+#endif
 			if (saveTranslationFile ((char *) buffer, firstTransLine, langName, langID)) {
 				return YES;
 			}
 		}
 	} 
-#endif
 	*outError = [NSError errorWithDomain:@"Error" code:1 userInfo:nil];
 	return NO;
 }

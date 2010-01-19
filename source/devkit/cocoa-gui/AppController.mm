@@ -1,9 +1,11 @@
+#import <sys/stat.h>
 #import <unistd.h>
 
 #import "AppController.h"
 
 #include "project.h"
 #include "settings.h"
+#include "macstuff.h"
 #import "SpriteBank.h"
 #import "ProjectDocument.h"
 
@@ -210,7 +212,11 @@ bail: return err;
 }
 
 void saveIniFile() {
-#ifndef GNUSTEP
+#ifdef GNUSTEP
+	chdir (getenv ("HOME"));
+	mkdir (".sludge", 0000777);
+	chdir (".sludge");
+#else
 	unsigned char appsupport_path[1024];
 	FSRef foundRef;
 	
@@ -218,6 +224,7 @@ void saveIniFile() {
 	FSFindFolder (kUserDomain, kPreferencesFolderType , kDontCreateFolder, &foundRef);	
 	FSRefMakePath( &foundRef, appsupport_path, 1024);
 	chdir ((char *) appsupport_path);
+#endif
 	mkdir ("SLUDGE Development Kit", 0000777);
 	chdir ("SLUDGE Development Kit");
 	
@@ -228,7 +235,6 @@ void saveIniFile() {
 	fprintf (fp, "Verbose=%d\n", programSettings.compilerVerbose);
 	fprintf (fp, "SearchSensitive=%d\n", programSettings.searchSensitive);
 	fclose (fp);
-#endif
 }
 
 - (IBAction)prefKeepImagesClick:(id)sender
@@ -251,7 +257,11 @@ void saveIniFile() {
 @end
 
 void readIniFile () {
-#ifndef GNUSTEP
+#ifdef GNUSTEP
+	chdir (getenv ("HOME"));
+	mkdir (".sludge", 0000777);
+	chdir (".sludge");
+#else
 	unsigned char appsupport_path[1024];
 	FSRef foundRef;
 
@@ -259,6 +269,7 @@ void readIniFile () {
 	FSFindFolder (kUserDomain, kPreferencesFolderType , kDontCreateFolder, &foundRef);	
 	FSRefMakePath( &foundRef, appsupport_path, 1024);
 	chdir ((char *) appsupport_path);
+#endif
 	mkdir ("SLUDGE Development Kit", 0000777);
 	chdir ("SLUDGE Development Kit");
 
@@ -336,7 +347,6 @@ void readIniFile () {
 		
 		fclose (fp);
 	}
-#endif
 }
 
 
