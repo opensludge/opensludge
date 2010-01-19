@@ -16,11 +16,11 @@ endif
 include $(GNUSTEP_MAKEFILES)/common.make
 
 
-APP_NAME=Sludge_Dev_Kit
+APP_NAME=SludgeDevKit
 
 VERSION=104
 
-Sludge_Dev_Kit_OBJCC_FILES=\
+SludgeDevKit_OBJCC_FILES=\
 	AppController.mm\
 	FloorDocument.mm\
 	ProjectDocument.mm\
@@ -29,7 +29,7 @@ Sludge_Dev_Kit_OBJCC_FILES=\
 	TranslationDocument.mm\
 	zDocument.mm
 
-Sludge_Dev_Kit_RESOURCE_FILES=\
+SludgeDevKit_RESOURCE_FILES=\
 	../../../doc/Credits.html\
 	../../../doc/SLUDGEDevKitHelp\
 	../../../images/Compiler.icns\
@@ -47,16 +47,17 @@ Sludge_Dev_Kit_RESOURCE_FILES=\
 	../../../images/zIcon.icns\
 	DevKit_Main.nib\
 	Floor.nib\
-	Sludge_Dev_KitInfo.plist\
+	SludgeDevKitInfo.plist\
 	InfoPlist.strings\
 	ProjectDocument.nib\
 	ScriptDocument.nib\
 	SpriteBank.nib\
 	TranslationEditor.nib\
 	scriptIcon.icns\
-	zDocument.nib
+	zDocument.nib\
+	../libsludgedevkit.a
 
-Sludge_Dev_Kit_INCLUDE_DIRS=\
+SludgeDevKit_INCLUDE_DIRS=\
 	-I.\
 	-I../common\
 	-I../compiler\
@@ -74,7 +75,7 @@ ADDITIONAL_NATIVE_LIBS+= glee
 
 ADDITIONAL_CPPFLAGS+= -DGNUSTEP 
 
-Sludge_Dev_Kit_TOOL_LIBS    += -lsludgedevkit
-Sludge_Dev_Kit_LIB_DIRS     += -L..
+SludgeDevKit_TOOL_LIBS    += -lsludgedevkit
+SludgeDevKit_LIB_DIRS     += -L..
 
 include $(GNUSTEP_MAKEFILES)/application.make

@@ -29,10 +29,10 @@ clean:
 	rm -f libsludgedevkit.a
 	$(MAKE) -C cocoa-gui clean
 
-install: libsludgedevkit.a cocoa-gui/Sludge_Dev_Kit.app
+install: libsludgedevkit.a cocoa-gui/SludgeDevKit.app
 	cp -t $(LIBDIR) libsludgedevkit.a
-	cp -r -t $(APPDIR) cocoa-gui/Sludge_Dev_Kit.app
+	cp -r -t $(APPDIR) cocoa-gui/SludgeDevKit.app
 	
 remove:
 	rm -f $(LIBDIR)/libsludgedevkit.a
-	rm -rf $(APPDIR)/Sludge_Dev_Kit.app
+	rm -rf $(APPDIR)/SludgeDevKit.app
