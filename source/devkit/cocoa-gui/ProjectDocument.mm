@@ -71,7 +71,7 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 	
 #ifdef GNUSTEP
 	GSNativeChar project[1024];
-	if ([[[self fileURL] absoluteString] getFileSystemRepresentation:project maxLength:1023]) {
+	if ([[[self fileURL] path] getFileSystemRepresentation:project maxLength:1023]) {
 #else
 	uint8_t project[1024];
 	if (! CFURLGetFileSystemRepresentation((CFURLRef) [self fileURL], true, project, 1023)) {
@@ -88,7 +88,7 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 	if ([typeName isEqualToString:@"SLUDGE Project file"]) {
 #ifdef GNUSTEP
 		GSNativeChar buffer[1024];
-		if ([[absoluteURL absoluteString] getFileSystemRepresentation:buffer maxLength:1023]) {
+		if ([[absoluteURL path] getFileSystemRepresentation:buffer maxLength:1023]) {
 #else
 		uint8_t buffer[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
@@ -110,7 +110,7 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 	if ([typeName isEqualToString:@"SLUDGE Project file"]) {	
 #ifdef GNUSTEP
 		GSNativeChar buffer[1024];
-		if ([[absoluteURL absoluteString] getFileSystemRepresentation:buffer maxLength:1023]) {
+		if ([[absoluteURL path] getFileSystemRepresentation:buffer maxLength:1023]) {
 #else
 		uint8_t buffer[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
@@ -141,7 +141,7 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 			clearFileList (resourceList, &numResources);
 #ifdef GNUSTEP
 			GSNativeChar project[1024];
-			if ([[[self fileURL] absoluteString] getFileSystemRepresentation:project maxLength:1023]) {
+			if ([[[self fileURL] path] getFileSystemRepresentation:project maxLength:1023]) {
 #else
 			uint8_t project[1024];
 			if (! CFURLGetFileSystemRepresentation((CFURLRef) [self fileURL], true, project, 1023)) {
@@ -304,7 +304,7 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 		path = [ openPanel filename ];
 #ifdef GNUSTEP
 		GSNativeChar project[1024];
-		if ([[[self fileURL] absoluteString] getFileSystemRepresentation:project maxLength:1023]) {
+		if ([[[self fileURL] path] getFileSystemRepresentation:project maxLength:1023]) {
 #else
 		uint8_t project[1024];
 		if (! CFURLGetFileSystemRepresentation((CFURLRef) [self fileURL], true, project, 1023)) {
@@ -346,6 +346,7 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 -(bool) compile
 {
 	bool val = false;
+#ifndef GNUSTEP //FIXME: Circular dependency with compiler.cpp needs to be resolved first.
 	me = self;
 	session = [NSApp beginModalSessionForWindow:compilerWindow];
 	[closeCompilerButton setEnabled:NO];
@@ -353,7 +354,7 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 
 #ifdef GNUSTEP
 	GSNativeChar buffer[1024];
-	if ([[[self fileURL] absoluteString] getFileSystemRepresentation:buffer maxLength:1023]) {
+	if ([[[self fileURL] path] getFileSystemRepresentation:buffer maxLength:1023]) {
 #else
 	uint8_t buffer[1024];
 	if (CFURLGetFileSystemRepresentation((CFURLRef) [self fileURL], true, buffer, 1023)) {
@@ -367,6 +368,7 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 		[compilerErrors noteNumberOfRowsChanged];
 		[tabView selectTabViewItemAtIndex:1];
 	}
+#endif
 	return val;
 }
 

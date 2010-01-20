@@ -73,7 +73,7 @@
 	if ([typeName isEqualToString:@"SLUDGE zBuffer"]) {
 #ifdef GNUSTEP
 		GSNativeChar path[1024];
-		if ([[absoluteURL absoluteString] getFileSystemRepresentation:path maxLength:1023]) {
+		if ([[absoluteURL path] getFileSystemRepresentation:path maxLength:1023]) {
 #else		
 		uint8_t path[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, path, 1023)) {
@@ -94,7 +94,7 @@
 	if ([typeName isEqualToString:@"SLUDGE zBuffer"]) {
 #ifdef GNUSTEP
 		GSNativeChar path[1024];
-		if ([[absoluteURL absoluteString] getFileSystemRepresentation:path maxLength:1023]) {
+		if ([[absoluteURL path] getFileSystemRepresentation:path maxLength:1023]) {
 #else		
 		uint8_t path[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, path, 1023)) {

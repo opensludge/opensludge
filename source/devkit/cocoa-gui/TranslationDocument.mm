@@ -77,7 +77,7 @@
 	if ([typeName isEqualToString:@"SLUDGE Translation file"]) {	
 #ifdef GNUSTEP
 		GSNativeChar buffer[1024];
-		if ([[absoluteURL absoluteString] getFileSystemRepresentation:buffer maxLength:1023]) {
+		if ([[absoluteURL path] getFileSystemRepresentation:buffer maxLength:1023]) {
 #else
 		uint8_t buffer[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
@@ -99,7 +99,7 @@
 	if ([typeName isEqualToString:@"SLUDGE Translation file"]) {
 #ifdef GNUSTEP
 		GSNativeChar buffer[1024];
-		if ([[absoluteURL absoluteString] getFileSystemRepresentation:buffer maxLength:1023]) {
+		if ([[absoluteURL path] getFileSystemRepresentation:buffer maxLength:1023]) {
 #else		
 		uint8_t buffer[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
