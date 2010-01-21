@@ -157,8 +157,8 @@ void saveIniFile (char * filename) {
 
 void makeLanguageTable (FILE * table)
 {
-	languageTable = new int[gameSettings.numLanguages];
-	languageName = new char*[gameSettings.numLanguages];
+	languageTable = new int[gameSettings.numLanguages + 1];
+	languageName = new char*[gameSettings.numLanguages + 1];
 
 	for (unsigned int i = 0; i <= gameSettings.numLanguages; i ++) {
 		languageTable[i] = i ? get2bytes (table) : 0;
