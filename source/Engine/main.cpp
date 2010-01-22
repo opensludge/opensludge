@@ -104,7 +104,7 @@ void saveHSI (FILE * writer);
 extern bool reallyWantToQuit;
 
 void printCmdlineUsage() {
-	fprintf(stdout, "OpenSLUDGE engine, usage: sludge_engine [options] <gamefile name>\n\n");
+	fprintf(stdout, "OpenSLUDGE engine, usage: sludge_engine [<options>] <gamefile name>\n\n");
 	fprintf(stdout, "Options:\n");
 	fprintf(stdout, "-f,		--fullscreen		Set display mode to fullscreen\n");
 	fprintf(stdout, "-w,		--window		Set display mode to windowed\n");
