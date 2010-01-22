@@ -43,7 +43,7 @@ extern char **languageName;
 				[languageList addItemWithTitle:[NSString stringWithFormat:@"Language %d", i]];	
 			}
 		}
-		[languageList selectItemAtIndex: gameSettings.languageID];
+		[languageList selectItemAtIndex: getLanguageForFileB()];
 	} else {
 		[languageList addItemWithTitle:@"No translations available"];			
 		[languageList setEnabled:NO];

@@ -76,7 +76,7 @@ BOOL CALLBACK setupDlgProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
                     SendDlgItemMessage(hDlg, 1001, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>((LPCTSTR)text));
                 }
           }
-          SendDlgItemMessage(hDlg, 1001, CB_SETCURSEL, gameSettings.languageID, 0);
+          SendDlgItemMessage(hDlg, 1001, CB_SETCURSEL, getLanguageForFileB(), 0);
        } else {
             const char * text = "No translations available";
             SendDlgItemMessage(hDlg, 1001, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>((LPCTSTR)text));

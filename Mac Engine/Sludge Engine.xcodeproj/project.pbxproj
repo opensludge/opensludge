@@ -108,7 +108,6 @@
 		2FEFC49C10073ADA004C66F1 /* GLee.c in Sources */ = {isa = PBXBuildFile; fileRef = 2FEFC49A10073ADA004C66F1 /* GLee.c */; };
 		2FEFC49D10073ADA004C66F1 /* GLee.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2FEFC49B10073ADA004C66F1 /* GLee.h */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		E836739F1101D9E2001449BC /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E836739E1101D9E2001449BC /* Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -529,7 +528,6 @@
 				2F684E1A0FFEAF6700EED6FE /* gameicon.icns in Resources */,
 				2F2538250FFEB72800A12579 /* sludge.bmp in Resources */,
 				2F3AB888100CF97C00CD6A13 /* Credits.html in Resources */,
-				E836739F1101D9E2001449BC /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
