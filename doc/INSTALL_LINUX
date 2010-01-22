@@ -1,11 +1,12 @@
 Install SDL, libGLU and libpng developer packages
-(on Ubuntu: libsdl1.2-dev libglu1-mesa-dev and libpng12-dev)
-and GLee
-(homepage: http://elf-stone.com/glee.php, Ubuntu-PPA: https://launchpad.net/~miry/+archive/ppa).
-After installing GLee, there should be the files
-/usr/include/GLee.h and some libglee library in /usr/lib.
-Get the linux version of BASS from http://www.un4seen.com.
+(on Ubuntu: libsdl1.2-dev, libglu1-mesa-dev and libpng12-dev).
+
+Make sure that there are the files GLee.h and GLee.c in source/Engine.
+If they are not, get the GLee source code from http://elf-stone.com/glee.php.
+
+Get the linux version of BASS from http://www.un4seen.com/bass.html.
 Copy  bass.h to /usr/include and libbass.so to /usr/lib.
+Take the libbass.so from the x64 folder if you're on 64bit.
 
 Then go to the "source" directory and run
 
