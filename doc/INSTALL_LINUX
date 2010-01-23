@@ -26,14 +26,12 @@ make remove
 
 You can start games now with 
 
-sludge_engine gamedata.slg
+sludge_starter gamedata.slg
 
 Or view the help text with
 
-sludge_engine --help
+sludge_starter --help
 
-If you get no sound, close all applications that access your soundcard, especially soundservers like PulseAudio. You can kill PulseAudio with
-
-pulseaudio -k
+If you get no sound, close all applications that access your soundcard.
 
 - Tobias Hansen <tobias.han@gmx.de>

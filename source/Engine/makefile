@@ -32,12 +32,12 @@ sludge_engine: $(OBJ)
 clean:
 	rm -rf $(BIN) $(OBJ)
 
-install: $(BIN) $(OBJ)
+install: $(BIN) $(OBJ) sludge_starter
 	mkdir -p $(PREFIX)/bin
-	cp -t $(PREFIX)/bin $(BIN)
+	cp -t $(PREFIX)/bin $(BIN) sludge_starter
 	mkdir -p $(PREFIX)/lib/sludge
 	cp -t $(PREFIX)/lib/sludge $(OBJ)
 
 remove:
-	rm -f $(PREFIX)/bin/sludge_engine
+	rm -f $(PREFIX)/bin/sludge_engine $(PREFIX)/bin/sludge_starter
 	rm -rf $(PREFIX)/lib/sludge
