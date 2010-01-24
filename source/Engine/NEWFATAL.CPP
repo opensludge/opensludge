@@ -14,6 +14,7 @@
 
 #include "STRINGY.H"
 #include "errors.h"
+#include "Graphics.h"
 
 void msgBox (const char * head, const char * msg);
 
@@ -46,6 +47,7 @@ void displayFatal () {
 }
 
 void warning (const char * l) {
+	setGraphicsWindow(false);
 	msgBox ("SLUDGE v"TEXT_VERSION" non-fatal indigestion report", l);
 }
 

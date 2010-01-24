@@ -287,7 +287,7 @@ int cacheSound (int f) {
 			return a;
 		}
 
-		fatal (ERROR_SOUND_ODDNESS);
+		warning (ERROR_SOUND_ODDNESS);
 		return -1;
 	}
 }
