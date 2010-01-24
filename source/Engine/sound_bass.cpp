@@ -288,6 +288,9 @@ int cacheSound (int f) {
 		}
 
 		warning (ERROR_SOUND_ODDNESS);
+		soundCache[a].sample = NULL;
+		soundCache[a].fileLoaded = -1;
+		soundCache[a].looping = false;
 		return -1;
 	}
 }

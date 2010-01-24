@@ -1105,7 +1105,7 @@ builtIn(playSound)
 	int fileNumber;
 	if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 	trimStack (fun -> stack);
-	if (! startSound (fileNumber, false)) return BR_NOCOMMENT;
+	if (! startSound (fileNumber, false)) return BR_CONTINUE;	// Was BR_NOCOMMENT
 	return BR_CONTINUE;
 }
 builtIn(loopSound)
@@ -1114,7 +1114,7 @@ builtIn(loopSound)
 	int fileNumber;
 	if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 	trimStack (fun -> stack);
-	if (! startSound (fileNumber, true)) return BR_NOCOMMENT;
+	if (! startSound (fileNumber, true)) return BR_CONTINUE;	// Was BR_NOCOMMENT
 	return BR_CONTINUE;
 }
 
