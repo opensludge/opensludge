@@ -310,6 +310,7 @@ int main(int argc, char *argv[]) try
 					break;
 				case SDL_MOUSEBUTTONDOWN:
 					if (event.button.button == SDL_BUTTON_LEFT)
+					{
 						if (SDL_GetModState() & KMOD_CTRL) {
 							input.rightClick = true;
 							fakeRightclick = true;
@@ -317,6 +318,7 @@ int main(int argc, char *argv[]) try
 							input.leftClick = true;
 							fakeRightclick = false;
 						}
+					}
 					if (event.button.button == SDL_BUTTON_RIGHT) input.rightClick = true;
 					input.mouseX = event.motion.x * winWidth / realWinWidth;
 					input.mouseY = event.motion.y * winHeight / realWinHeight;

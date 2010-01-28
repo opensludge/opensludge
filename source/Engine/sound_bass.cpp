@@ -174,7 +174,6 @@ bool stillPlayingSound (int ch) {
 }
 
 void setSoundLoop (int a, int s, int e) {
-	a,s,e;
 //	if (soundOK) {
 //		int ch = findInSoundCache (a);
 //		if (ch != -1) {

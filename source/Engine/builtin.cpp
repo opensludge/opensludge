@@ -568,6 +568,9 @@ builtIn(stackSize)
 				setVariable (fun -> reg, SVT_INT, fun -> stack -> thisVar.varData.fastArray -> size);
 				trimStack (fun -> stack);
 				return BR_CONTINUE;
+
+				default:
+				break;
 			}
 			fatal ("Parameter isn't a stack or a fast array.");
 			return BR_NOCOMMENT;
@@ -2330,6 +2333,9 @@ builtIn(makeFastArray)
 						trimStack (fun -> stack);
 						return makeFastArraySize (fun -> reg, i) ? BR_CONTINUE : BR_NOCOMMENT;
 					}
+					break;
+
+					default:
 					break;
 				}
 				fatal ("Parameter must be a number or a stack.");

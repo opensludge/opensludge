@@ -19,7 +19,7 @@
 
 #endif
 
-char * typeName[] = {"undefined", "number", "user function", "string",
+const char * typeName[] = {"undefined", "number", "user function", "string",
 							"built-in function", "file", "stack",
 							"object type", "animation", "costume"};
 
@@ -52,6 +52,9 @@ void unlinkVar (variable & thisVar) {
 
 		case SVT_ANIM:
 		deleteAnim (thisVar.varData.animHandler);
+		break;
+
+		default:
 		break;
 	}
 }
@@ -380,6 +383,9 @@ char * getTextFromAnyVar (const variable & from) {
 			objectType * thisType = findObjectType (from.varData.intValue);
 			if (thisType) return copyString (thisType -> screenName);
 		}
+
+		default:
+		break;
 	}
 
 	return copyString (typeName[from.varType]);
@@ -401,6 +407,9 @@ bool getBoolean (const variable & from) {
 
 		case SVT_FASTARRAY:
 		return (bool) (from.varData.fastArray -> size != 0);
+
+		default:
+		break;
 	}
 	return true;
 }
@@ -443,6 +452,9 @@ bool copyMain (const variable & from, variable & to) {
 
 		case SVT_NULL:
 		return true;
+
+		default:
+		break;
 	}
 	fatal ("Unknown value type");
 	return false;

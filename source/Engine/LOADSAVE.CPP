@@ -293,6 +293,9 @@ bool loadVariable (variable * to, FILE * fp) {
 		if (! checkNew (to -> varData.animHandler)) return false;
 		loadAnim (to -> varData.animHandler, fp);
 		return true;
+
+		default:
+		break;
 	}
 	return true;
 }

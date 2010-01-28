@@ -105,7 +105,7 @@ inputType input;
 variable * globalVars;
 int numGlobals;
 
-char * sludgeText[] = { "?????", "RETURN", "BRANCH", "BR_ZERO", "SET_GLOBAL",
+const char * sludgeText[] = { "?????", "RETURN", "BRANCH", "BR_ZERO", "SET_GLOBAL",
 						"SET_LOCAL", "LOAD_GLOBAL", "LOAD_LOCAL",
 						"PLUS", "MINUS", "MULT", "DIVIDE",
 						"AND", "OR", "EQUALS", "NOT_EQ", "MODULUS", "LOAD_VALUE",
@@ -135,7 +135,7 @@ void saveHandlers (FILE * fp) {
 	put2bytes (currentEvents -> spaceFunction,			fp);
 }
 
-FILE * openAndVerify (char * filename, char extra1, char extra2, char * er, int & fileVersion) {
+FILE * openAndVerify (char * filename, char extra1, char extra2, const char * er, int & fileVersion) {
 	FILE * fp = fopen (filename, "rb");
 	if (! fp) {
 		fatal ("Can't open file", filename);
@@ -696,6 +696,8 @@ bool continueFunction (loadedFunction * fun) {
 					}
 					break;
 
+					default:
+					break;
 				}
 				}
 				break;
@@ -1001,6 +1003,9 @@ bool continueFunction (loadedFunction * fun) {
 
 						case SLU_MORE_EQUAL:
 						setVariable (fun -> reg, SVT_INT, firstValue >= secondValue);
+						break;
+
+						default:
 						break;
 					}
 				}

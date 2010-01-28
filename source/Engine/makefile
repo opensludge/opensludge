@@ -1,9 +1,8 @@
 # GNU make makefile for OpenSLUDGE by Tobias Hansen
 
-VERSION = 2.0b
 CC      = /usr/bin/g++
 PREFIX  = /usr/local
-CFLAGS  = -Wall -g -D_REENTRANT -DVERSION=\"$(VERSION)\"
+CFLAGS  = -Wall -g -D_REENTRANT
 IFLAGS  = -I `pwd`/../CommonCode
 LDFLAGS = -lGL -lGLU -lSDL -lpng -lbass
 # LDFLAGS = -lGL -lGLU -lSDL -lpng

@@ -59,7 +59,7 @@ void loadHandlers (FILE * fp);
 void saveHandlers (FILE * fp);
 void finishFunction (loadedFunction * fun);
 void abortFunction (loadedFunction * fun);
-FILE * openAndVerify (char * filename, char extra1, char extra2, char * er, int & fileVersion);
+FILE * openAndVerify (char * filename, char extra1, char extra2, const char * er, int & fileVersion);
 void freezeSubs ();
 void unfreezeSubs ();
 void completeTimers ();
