@@ -31,7 +31,7 @@ void loadSaveDebug (int com) {
 }
 */
 
-void writeStringEncoded (char * s, FILE * fp) {
+void writeStringEncoded (const char * s, FILE * fp) {
 	int a, len = strlen (s);
 
 	put2bytes (len, fp);

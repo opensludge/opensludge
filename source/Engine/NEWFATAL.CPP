@@ -28,7 +28,7 @@ extern char * * allResourceNames /*= NULL*/;
 
 int resourceForFatal = -1;
 
-char * resourceNameFromNum (int i) {
+const char * resourceNameFromNum (int i) {
 	if (i == -1) return NULL;
 	if (numResourceNames == 0) return "RESOURCE";
 	if (i < numResourceNames) return allResourceNames[i];
@@ -96,7 +96,7 @@ void setResourceForFatal (int n) {
 
 int fatal (const char * str1) {
 	if (numResourceNames && resourceForFatal != -1) {
-		char * r = resourceNameFromNum(resourceForFatal);
+		const char * r = resourceNameFromNum(resourceForFatal);
 		char * newStr = new char[strlen (str1) + strlen(r) + strlen (fatalInfo) + 14];
 		if (checkNew (newStr)) {
 			sprintf (newStr, "%s\nResource: %s\n\n%s", fatalInfo, r, str1);

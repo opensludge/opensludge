@@ -137,10 +137,10 @@ void transitionDisolve () {
 	do {
 		// generate next number
 		n = randbuffer[p1][1];
-		y = (n << 27) | (n >> (32 - 27)) + randbuffer[p2][1];
+		y = (n << 27) | ((n >> (32 - 27)) + randbuffer[p2][1]);
 
 		n = randbuffer[p1][0];
-		randbuffer[p1][1] = (n << 19) | (n >> (32 - 19)) + randbuffer[p2][0];
+		randbuffer[p1][1] = (n << 19) | ((n >> (32 - 19)) + randbuffer[p2][0]);
 		randbuffer[p1][0] = y;
 
 		// rotate list pointers
@@ -188,10 +188,10 @@ void transitionTV () {
 	do {
 		// generate next number
 		n = randbuffer[p1][1];
-		y = (n << 27) | (n >> (32 - 27)) + randbuffer[p2][1];
+		y = (n << 27) | ((n >> (32 - 27)) + randbuffer[p2][1]);
 
 		n = randbuffer[p1][0];
-		randbuffer[p1][1] = (n << 19) | (n >> (32 - 19)) + randbuffer[p2][0];
+		randbuffer[p1][1] = (n << 19) | ((n >> (32 - 19)) + randbuffer[p2][0]);
 		randbuffer[p1][0] = y;
 
 		// rotate list pointers
