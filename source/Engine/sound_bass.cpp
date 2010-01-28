@@ -1,3 +1,5 @@
+#include <stdint.h>
+
 #include "ALLFILES.H"
 #include "NEWFATAL.H"
 #include "bass.h"
@@ -26,7 +28,7 @@ soundThing soundCache[MAX_SAMPLES];
 int defVol = 128;
 int defSoundVol = 255;
 
-char * loadEntireFileToMemory (FILE * inputFile, unsigned long size) {
+char * loadEntireFileToMemory (FILE * inputFile, uint32_t size) {
 	char * allData = new char[size];
 	if (! allData) return NULL;
 	fread (allData, size, 1, inputFile);
@@ -109,7 +111,7 @@ bool playMOD (int f, int a, int fromTrack) {
 		stopMOD (a);
 
 		setResourceForFatal (f);
-		unsigned long length = openFileFromNum (f);
+		uint32_t length = openFileFromNum (f);
 		if (length == 0) return NULL;
 
 		char * memImage;
@@ -257,7 +259,7 @@ int cacheSound (int f) {
 	a = findEmptySoundSlot ();
 	freeSound (a);
 
-	unsigned long length = openFileFromNum (f);
+	uint32_t length = openFileFromNum (f);
 	if (! length) return -1;
 
 	char * memImage;

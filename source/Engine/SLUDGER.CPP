@@ -24,6 +24,7 @@
 #include <unistd.h>
 #endif
 #include <stdlib.h>
+#include <stdint.h>
 #include <string.h>
 
 #include <libpng/png.h>
@@ -300,7 +301,7 @@ bool initSludge (char * filename) {
 
 
 		if (SDL_Surface * programIcon = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 32, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000)) {
-			signed long transCol = 63519;
+			int32_t transCol = 63519;
 			SDL_LockSurface(programIcon);
 			Uint8 *p = (Uint8 *) programIcon->pixels;
 
@@ -1163,9 +1164,9 @@ bool handleInput () {
 			// Still paused because of spawned thingy...
 		} else {
 			l = 1;
-			unsigned long retVal = 0;
+			uint32_t retVal = 0;
 #ifdef _WIN32
-			retVal = (unsigned long) ShellExecute (hMainWindow, "open",
+			retVal = (uint32_t) ShellExecute (hMainWindow, "open",
 							  									 launchMe, NULL, "C:\\",
 							  									 SW_SHOWNORMAL);
 #elif defined __APPLE__

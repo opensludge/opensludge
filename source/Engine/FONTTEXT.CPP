@@ -1,3 +1,5 @@
+#include <stdint.h>
+
 #include "debug.h"
 #include "ALLFILES.H"
 
@@ -13,7 +15,7 @@ int fontHeight = 0, numFontColours, loadedFontNum;
 byte fontTable[256];
 short fontSpace = -1;
 
-extern unsigned long startOfDataIndex, startOfTextIndex,
+extern uint32_t startOfDataIndex, startOfTextIndex,
 			  startOfSubIndex, startOfObjectIndex;
 
 

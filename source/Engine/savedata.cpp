@@ -1,3 +1,5 @@
+#include <stdint.h>
+
 #include <string.h>
 
 #include "ALLFILES.H"
@@ -63,7 +65,7 @@ char * readStringEncoded (FILE * fp) {
 }
 
 char * readTextPlain (FILE * fp) {
-	long startPos;
+	int32_t startPos;
 
 	int stringSize = 0;
 	bool keepGoing = true;

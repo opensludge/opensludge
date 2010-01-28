@@ -1,5 +1,6 @@
-#include "debug.h"
+#include <stdint.h>
 
+#include "debug.h"
 
 #include "ALLFILES.H"
 #include "MOREIO.H"
@@ -10,7 +11,7 @@
 
 bool sliceBusy = true;
 FILE * bigDataFile = NULL;
-unsigned long startOfDataIndex, startOfTextIndex,
+uint32_t startOfDataIndex, startOfTextIndex,
 			  startOfSubIndex, startOfObjectIndex;
 
 bool openSubSlice (int num) {
@@ -92,7 +93,7 @@ void finishAccess () {
 	sliceBusy = false;
 }
 
-long startIndex;
+int32_t startIndex;
 
 void setFileIndices (FILE * fp, int numLanguages, unsigned int skipBefore) {
 	if (fp) {

@@ -9,7 +9,7 @@ int allKnownNum = 0;
 void outputKnownMem () {
 	FILE * debu = fopen ("debuTURN.txt", "at");
 
-	fprintf (debu, "%i lumps:", allKnownMem);
+	fprintf (debu, "%i lumps:", allKnownNum);
 	for (int i = 0; i < allKnownNum; i ++) {
 		fprintf (debu, " %p", allKnownMem[i]);
 	}

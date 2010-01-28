@@ -2,6 +2,7 @@
 #include <complex>
 #endif
 #include <stdlib.h>
+#include <stdint.h>
 
 #include <libpng/png.h>
 
@@ -835,7 +836,7 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 	int t1, t2, n;
 	unsigned short c;
 	GLubyte * target;
-	signed long transCol = reserve ? -1 : 63519;
+	int32_t transCol = reserve ? -1 : 63519;
 	int picWidth;
 	int picHeight;
 	int realPicWidth, realPicHeight;
@@ -1120,7 +1121,7 @@ bool mixHSI (FILE * fp, int x, int y) {
 	int t1, t2, n;
 	unsigned short c;
 	GLubyte * target;
-	signed long transCol = 63519;
+	int32_t transCol = 63519;
 
 
 	if (fileIsPNG) {

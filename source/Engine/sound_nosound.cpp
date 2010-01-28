@@ -1,3 +1,5 @@
+#include <stdint.h>
+
 #include "allfiles.h"
 #include "newfatal.h"
 #include "sound.h"
@@ -10,7 +12,7 @@ int defVol = 128;
 int defSoundVol = 255;
 
 #if 0
-char * loadEntireFileToMemory (FILE * inputFile, unsigned long size) {
+char * loadEntireFileToMemory (FILE * inputFile, uint32_t size) {
 	char * allData = new char[size];
 	if (! allData) return NULL;
 	fread (allData, size, 1, inputFile);

@@ -1,3 +1,4 @@
+#include <stdint.h>
 #include <string.h>
 
 #include "ALLFILES.H"
@@ -80,11 +81,11 @@ void transitionSnapshotBox () {
 //----------------------------------------------------
 
 #define KK 17
-unsigned long randbuffer[KK][2];  // history buffer
+uint32_t randbuffer[KK][2];  // history buffer
 int p1, p2;
 
 void resetRandW () {
-	long int seed = 12345;
+	int32_t seed = 12345;
 	
 	for (int i=0; i<KK; i++) {
 		for (int j=0; j<2; j++) {
@@ -128,8 +129,8 @@ void transitionDisolve () {
 		return;
 	}
 	
-	unsigned long n;
-	unsigned long y;
+	uint32_t n;
+	uint32_t y;
 
 	GLubyte * toScreen = transitionTexture;
 	GLubyte * end = transitionTexture + (256 * 256*4);
@@ -179,8 +180,8 @@ void transitionTV () {
 
 	if (! transitionTextureName) reserveTransitionTexture();
 
-	unsigned long n;
-	unsigned long y;
+	uint32_t n;
+	uint32_t y;
 
 	GLubyte * toScreen = transitionTexture;
 	GLubyte * end = transitionTexture + (256 * 256*4);

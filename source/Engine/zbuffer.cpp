@@ -1,3 +1,5 @@
+#include <stdint.h>
+
 #include "ALLFILES.H"
 #include "zbuffer.h"
 #include "FILESET.H"
@@ -40,7 +42,7 @@ void sortZPal (int *oldpal, int *newpal, int size) {
 
 bool setZBuffer (int y) {
 	int x, n;
-	unsigned long stillToGo = 0;
+	uint32_t stillToGo = 0;
 	int yPalette[16], sorted[16], sortback[16];
 
 	killZBuffer ();

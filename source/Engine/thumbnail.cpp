@@ -1,3 +1,5 @@
+#include <stdint.h>
+
 #include "ALLFILES.H"
 #include "errors.h"
 #include "MOREIO.H"
@@ -179,7 +181,7 @@ void showThumbnail (char * filename, int atX, int atY) {
 bool skipThumbnail (FILE * fp) {
 	thumbWidth = get4bytes (fp);
 	thumbHeight = get4bytes (fp);
-	unsigned long skippy = thumbWidth;
+	uint32_t skippy = thumbWidth;
 	skippy *= thumbHeight << 1;
 	fseek (fp, skippy, 1);
 	return (fgetc (fp) == '!');
