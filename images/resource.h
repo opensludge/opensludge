@@ -4,3 +4,4 @@
 
 #define ICON_1                                  105
 #define INVISIBLE                               2195
+//#define SETUPWINDOW                             108

@@ -49,6 +49,10 @@ struct inputType {
 	int mouseX, mouseY, keyPressed;
 };
 
+extern unsigned char * gameIcon;
+extern int iconW, iconH;
+
+
 bool initSludge (char *);
 void sludgeDisplay ();
 int startNewFunctionNum (unsigned int, unsigned int, loadedFunction *, variableStack * &, bool = true);

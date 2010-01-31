@@ -8,7 +8,7 @@
 
 #include "debug.h"
 
-bool allowAnyFilename = false;
+bool allowAnyFilename = true;
 
 
 int get2bytes (FILE * fp) {
@@ -116,12 +116,12 @@ char * encodeFilename (char * nameIn) {
 				case ':':	newName[i++] = '_';		newName[i++] = 'C';		break;
 				case '*':	newName[i++] = '_';		newName[i++] = 'A';		break;
 				case '?':	newName[i++] = '_';		newName[i++] = 'Q';		break;
-				
+
 				default:	newName[i++] = *nameIn;							break;
 			}
 			newName[i] = NULL;
 //			deb ("So far:", newName);
-			nameIn ++;			
+			nameIn ++;
 		}
 //		deb ("Finished:", newName);
 		return newName;

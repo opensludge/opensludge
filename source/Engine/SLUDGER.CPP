@@ -80,6 +80,9 @@ char * * allResourceNames = NULL;
 int selectedLanguage = 0;
 int languageNum = -1;
 
+unsigned char * gameIcon = NULL;
+int iconW = 0, iconH = 0;
+
 int gameVersion;
 int specialSettings;
 FILETIME fileTime;
@@ -235,7 +238,6 @@ bool initSludge (char * filename) {
 	if (fgetc (fp)) {
 		// There is an icon - read it!
 		int n;
-		int w, h;
 
 		long file_pointer = ftell (fp);
 
@@ -254,8 +256,8 @@ bool initSludge (char * filename) {
 			fileIsPNG = false;
 			fseek(fp, file_pointer, SEEK_SET);
 
-			w = get2bytes (fp);
-			h = get2bytes (fp);
+			iconW = get2bytes (fp);
+			iconH = get2bytes (fp);
 		} else {
 			// Read the PNG header
 
@@ -284,8 +286,8 @@ bool initSludge (char * filename) {
 			int bit_depth, color_type, interlace_type, compression_type, filter_method;
 			png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, &interlace_type, &compression_type, &filter_method);
 
-			w = width;
-			h = height;
+			iconW = width;
+			iconH = height;
 
 			if (bit_depth < 8) png_set_packing(png_ptr);
 			png_set_expand(png_ptr);
@@ -299,47 +301,43 @@ bool initSludge (char * filename) {
 
 		}
 
+        gameIcon = new unsigned char [iconW*iconH*4];
+        if (! gameIcon) return fatal ("Can't reserve memory for game icon.");
 
-		if (SDL_Surface * programIcon = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 32, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000)) {
-			int32_t transCol = 63519;
-			SDL_LockSurface(programIcon);
-			Uint8 *p = (Uint8 *) programIcon->pixels;
+        int32_t transCol = 63519;
+        Uint8 *p = (Uint8 *) gameIcon;
 
-			if (fileIsPNG) {
-				unsigned char * row_pointers[h];
-				for (int i = 0; i<h; i++)
-					row_pointers[i] = p + 4*i*w;
+        if (fileIsPNG) {
+            unsigned char * row_pointers[iconH];
+            for (int i = 0; i<iconH; i++)
+                row_pointers[i] = p + 4*i*iconW;
 
-				png_read_image(png_ptr, (png_byte **) row_pointers);
-				png_read_end(png_ptr, NULL);
-				png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
-			} else {
+            png_read_image(png_ptr, (png_byte **) row_pointers);
+            png_read_end(png_ptr, NULL);
+            png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
+        } else {
 
-				for (int t2 = 0; t2 < h; t2 ++) {
-					int t1 = 0;
-					while (t1 < w) {
-						unsigned short c = (unsigned short) get2bytes (fp);
-						if (c & 32) {
-							n = fgetc (fp) + 1;
-							c -= 32;
-						} else {
-							n = 1;
-						}
-						while (n --) {
-							*p++ = (Uint8) redValue(c);
-							*p++ = (Uint8) greenValue(c);
-							*p++ = (Uint8) blueValue(c);
-							*p++ = (Uint8) (c == transCol) ? 0 : 255;
+            for (int t2 = 0; t2 < iconH; t2 ++) {
+                int t1 = 0;
+                while (t1 < iconW) {
+                    unsigned short c = (unsigned short) get2bytes (fp);
+                    if (c & 32) {
+                        n = fgetc (fp) + 1;
+                        c -= 32;
+                    } else {
+                        n = 1;
+                    }
+                    while (n --) {
+                        *p++ = (Uint8) redValue(c);
+                        *p++ = (Uint8) greenValue(c);
+                        *p++ = (Uint8) blueValue(c);
+                        *p++ = (Uint8) (c == transCol) ? 0 : 255;
 
-							t1++;
-						}
-					}
-				}
-			}
-			SDL_UnlockSurface (programIcon);
-			SDL_WM_SetIcon(programIcon, NULL);
-			SDL_FreeSurface(programIcon);
-		}
+                        t1++;
+                    }
+                }
+            }
+        }
 	}
 
  	numGlobals = get2bytes (fp);
@@ -406,7 +404,7 @@ bool initSludge (char * filename) {
 
 	// Get user settings
 	readIniFile (filename);
-	
+
 	if (! gameSettings.noStartWindow) {
 		if (! showSetupWindow()) return 0;
 		saveIniFile (filename);

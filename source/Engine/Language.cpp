@@ -59,6 +59,7 @@ extern settingsStruct gameSettings;
 
 void readIniFile (char * filename) {
 	char * langName = getPrefsFilename (copyString (filename));
+
 	FILE * fp = fopen (langName, "rb");
 
 	gameSettings.languageID = 0;

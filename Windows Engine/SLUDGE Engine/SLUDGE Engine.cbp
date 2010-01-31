@@ -60,6 +60,7 @@
 		<Unit filename="..\..\images\SLUDGE.RC">
 			<Option compilerVar="WINDRES" />
 		</Unit>
+		<Unit filename="..\..\images\resource.h" />
 		<Unit filename="..\..\source\CommonCode\TGA.cpp" />
 		<Unit filename="..\..\source\CommonCode\TGA.h" />
 		<Unit filename="..\..\source\CommonCode\functionList.h" />

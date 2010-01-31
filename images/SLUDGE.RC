@@ -75,17 +75,16 @@ ICON_1             ICON           "sludge.ico"
         BLOCK "040904e4"
         {
             VALUE "About SLUDGE", "Er... well, SLUDGE stands for Scripting Language for Unhindered Development of a Gaming Environment. So there. What, you thought this was a help file?\0"
-            VALUE "About the engine", "This program is freeware! The SLUDGE engine is freely distributable so long as it's not changed in any way. If you're writing a game in SLUDGE, feel free to add the SLUDGE engine to your archive. Enjoy!\0"
+            VALUE "About the engine", "This program is freeware and open source under the LGPL license! If you're writing a game in SLUDGE, feel free to add the SLUDGE engine to your archive. Enjoy!\0"
             VALUE "BASS on the WWW", "The sound library used in the SLUDGE engine is BASS, which you can find on the internet at http://www.un4seen.com/.\0"
             VALUE "FileDescription", "SLUDGE Engine\0"
             VALUE "FileVersion", "2.0 BETA\0"
-            VALUE "LegalCopyright", "\251 Hungry Software and contributors 2000-2009\0"
-            VALUE "SLUDGE on the WWW", "When you get a free moment, you could do worse than to pop over to http://hungrysoftware.com/ and check out the SLUDGE resources. You know you want to, fool.\0"
-            VALUE "UPX on the WWW", "This SLUDGE executable has been compressed using the UPX executable packer. For more information, please visit the UPX website. It's at http://upx.sf.com/ and it's lovely.\0"
+            VALUE "LegalCopyright", "\251 Hungry Software and contributors 2000-2010\0"
+            VALUE "SLUDGE on the WWW", "For more info on SLUDGE, head on over to http://www.adventuredevelopers.com/.\0"
         }
     }
     BLOCK "VarFileInfo"
     {
-        VALUE "Translation", 1033, 1252
+        VALUE "Translation", 0x0809, 1252
     }
 }

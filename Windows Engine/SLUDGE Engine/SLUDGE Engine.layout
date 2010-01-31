@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Debug" />
+	<ActiveTarget name="Release" />
 	<File name="..\..\..\Glee\GLee.c" open="0" top="0" tabpos="8">
 		<Cursor position="73896" topLine="1394" />
 	</File>
-	<File name="..\..\images\SLUDGE.RC" open="0" top="0" tabpos="16">
-		<Cursor position="1072" topLine="0" />
+	<File name="..\..\images\SLUDGE.RC" open="0" top="0" tabpos="6">
+		<Cursor position="168" topLine="0" />
+	</File>
+	<File name="..\..\images\resource.h" open="0" top="0" tabpos="7">
+		<Cursor position="164" topLine="0" />
 	</File>
 	<File name="..\..\source\CommonCode\TGA.h" open="0" top="0" tabpos="2">
 		<Cursor position="1681" topLine="0" />
@@ -17,7 +20,7 @@
 		<Cursor position="0" topLine="0" />
 	</File>
 	<File name="..\..\source\Engine\BACKDROP.CPP" open="1" top="0" tabpos="1">
-		<Cursor position="26871" topLine="902" />
+		<Cursor position="20387" topLine="677" />
 	</File>
 	<File name="..\..\source\Engine\BUILTIN.H" open="0" top="0" tabpos="6">
 		<Cursor position="172" topLine="0" />
@@ -43,23 +46,23 @@
 	<File name="..\..\source\Engine\FREEZE.H" open="0" top="0" tabpos="0">
 		<Cursor position="613" topLine="0" />
 	</File>
-	<File name="..\..\source\Engine\Graphics.cpp" open="0" top="0" tabpos="16">
-		<Cursor position="4619" topLine="138" />
+	<File name="..\..\source\Engine\Graphics.cpp" open="1" top="0" tabpos="7">
+		<Cursor position="5385" topLine="154" />
 	</File>
 	<File name="..\..\source\Engine\Graphics.h" open="0" top="0" tabpos="4">
 		<Cursor position="704" topLine="0" />
 	</File>
-	<File name="..\..\source\Engine\LOADSAVE.CPP" open="1" top="0" tabpos="5">
+	<File name="..\..\source\Engine\LOADSAVE.CPP" open="0" top="0" tabpos="5">
 		<Cursor position="13729" topLine="526" />
 	</File>
-	<File name="..\..\source\Engine\Language.cpp" open="0" top="0" tabpos="12">
-		<Cursor position="3030" topLine="121" />
+	<File name="..\..\source\Engine\Language.cpp" open="1" top="0" tabpos="4">
+		<Cursor position="1071" topLine="42" />
 	</File>
 	<File name="..\..\source\Engine\Language.h" open="0" top="0" tabpos="15">
 		<Cursor position="209" topLine="0" />
 	</File>
 	<File name="..\..\source\Engine\MOREIO.CPP" open="0" top="0" tabpos="0">
-		<Cursor position="1170" topLine="33" />
+		<Cursor position="406" topLine="0" />
 	</File>
 	<File name="..\..\source\Engine\NEWFATAL.CPP" open="0" top="0" tabpos="2">
 		<Cursor position="1897" topLine="62" />
@@ -73,14 +76,14 @@
 	<File name="..\..\source\Engine\OBJTYPES.H" open="0" top="0" tabpos="0">
 		<Cursor position="629" topLine="0" />
 	</File>
-	<File name="..\..\source\Engine\REGION.CPP" open="1" top="0" tabpos="8">
+	<File name="..\..\source\Engine\REGION.CPP" open="0" top="0" tabpos="8">
 		<Cursor position="1866" topLine="52" />
 	</File>
-	<File name="..\..\source\Engine\SLUDGER.CPP" open="0" top="0" tabpos="1">
-		<Cursor position="2619" topLine="97" />
+	<File name="..\..\source\Engine\SLUDGER.CPP" open="1" top="0" tabpos="3">
+		<Cursor position="12614" topLine="423" />
 	</File>
-	<File name="..\..\source\Engine\SLUDGER.H" open="0" top="0" tabpos="7">
-		<Cursor position="445" topLine="15" />
+	<File name="..\..\source\Engine\SLUDGER.H" open="1" top="0" tabpos="6">
+		<Cursor position="1074" topLine="29" />
 	</File>
 	<File name="..\..\source\Engine\SPRBANKS.CPP" open="0" top="0" tabpos="0">
 		<Cursor position="1556" topLine="15" />
@@ -88,7 +91,7 @@
 	<File name="..\..\source\Engine\SPRBANKS.H" open="0" top="0" tabpos="10">
 		<Cursor position="201" topLine="0" />
 	</File>
-	<File name="..\..\source\Engine\SPRITES.CPP" open="1" top="0" tabpos="7">
+	<File name="..\..\source\Engine\SPRITES.CPP" open="0" top="0" tabpos="7">
 		<Cursor position="1763" topLine="50" />
 	</File>
 	<File name="..\..\source\Engine\STATUSBA.CPP" open="0" top="0" tabpos="9">
@@ -100,8 +103,8 @@
 	<File name="..\..\source\Engine\VARIABLE.CPP" open="0" top="0" tabpos="10">
 		<Cursor position="13547" topLine="528" />
 	</File>
-	<File name="..\..\source\Engine\WINSTUFF.CPP" open="0" top="0" tabpos="13">
-		<Cursor position="3631" topLine="91" />
+	<File name="..\..\source\Engine\WINSTUFF.CPP" open="1" top="0" tabpos="5">
+		<Cursor position="3255" topLine="94" />
 	</File>
 	<File name="..\..\source\Engine\WINSTUFF.H" open="0" top="0" tabpos="14">
 		<Cursor position="0" topLine="0" />
@@ -130,19 +133,19 @@
 	<File name="..\..\source\Engine\line.h" open="0" top="0" tabpos="6">
 		<Cursor position="48" topLine="0" />
 	</File>
-	<File name="..\..\source\Engine\main.cpp" open="1" top="0" tabpos="2">
-		<Cursor position="6674" topLine="0" />
+	<File name="..\..\source\Engine\main.cpp" open="1" top="1" tabpos="2">
+		<Cursor position="4146" topLine="191" />
 	</File>
-	<File name="..\..\source\Engine\people.cpp" open="1" top="0" tabpos="6">
+	<File name="..\..\source\Engine\people.cpp" open="0" top="0" tabpos="6">
 		<Cursor position="26559" topLine="954" />
 	</File>
 	<File name="..\..\source\Engine\savedata.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="2999" topLine="109" />
 	</File>
-	<File name="..\..\source\Engine\shaders.cpp" open="1" top="1" tabpos="3">
+	<File name="..\..\source\Engine\shaders.cpp" open="0" top="0" tabpos="3">
 		<Cursor position="1466" topLine="38" />
 	</File>
-	<File name="..\..\source\Engine\shaders.h" open="1" top="0" tabpos="4">
+	<File name="..\..\source\Engine\shaders.h" open="0" top="0" tabpos="4">
 		<Cursor position="248" topLine="0" />
 	</File>
 	<File name="..\..\source\Engine\sound.h" open="0" top="0" tabpos="8">

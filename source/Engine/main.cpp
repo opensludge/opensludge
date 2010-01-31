@@ -211,14 +211,22 @@ int main(int argc, char *argv[]) try
 
 //	fixDir (sludgeFile);
 
+	// OK, so we DO want to start up, then...
+	if (! initSludge (sludgeFile)) return 0;
+
 	/* Initialize the SDL library */
 	if ( SDL_Init(SDL_INIT_VIDEO) < 0 ) {
 		msgBox("Startup Error: Couldn't initialize SDL.", SDL_GetError());
 		exit(1);
 	}
 
-	// OK, so we DO want to start up, then...
-	if (! initSludge (sludgeFile)) return 0;
+    if (gameIcon) {
+        if (SDL_Surface * programIcon = SDL_CreateRGBSurfaceFrom(gameIcon, iconW, iconH, 32, iconW*4, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000)) {
+            SDL_WM_SetIcon(programIcon, NULL);
+            SDL_FreeSurface(programIcon);
+        }
+        delete gameIcon;
+    }
 
 	// Needed to make menu shortcuts work (on Mac), i.e. Command+Q for quit
 	SDL_putenv("SDL_ENABLEAPPEVENTS=1");

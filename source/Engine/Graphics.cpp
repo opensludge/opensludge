@@ -169,6 +169,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 		SDL_Quit();
 		exit(2);
 	}
+	fprintf (stderr, "Video mode %d %d set successfully.\n", realWinWidth, realWinHeight);
 
 	const GLchar VertexFixScaleSprite[] =
 		"void main() {"
@@ -200,7 +201,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 		"	col = mix (texture2.rgb, color.rgb, color.a);"
 		"	gl_FragColor = vec4 (col, max(texture.a, texture2.a));"
 		"}";
-	
+
 	shaderFixScaleSprite = buildShaders (VertexFixScaleSprite, FragmentFixScaleSprite);
 	fprintf (stderr, "Built shader program: %d\n", shaderFixScaleSprite);
 	glUseProgram(shaderFixScaleSprite);
@@ -211,12 +212,12 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 	uniform = glGetUniformLocation(shaderFixScaleSprite, "tex2");
 	if (uniform >= 0) glUniform1i(uniform, 2);
 	uniform = glGetUniformLocation(shaderFixScaleSprite, "useLightTexture");
-	if (uniform >= 0) glUniform1i(uniform, 0);	
-	
+	if (uniform >= 0) glUniform1i(uniform, 0);
+
 	glUseProgram(0);
-	
-	
-	
+
+
+
 	glViewport (viewportOffsetX, viewportOffsetY, viewportWidth, viewportHeight);
 
 	/*
@@ -340,7 +341,7 @@ void setupOpenGLStuff() {
 			fprintf (stderr, "Warning: Old graphics card! ARB_fragment_shader not supported.\n");
 		}
 	}
-	
+
 	int n;
 	glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, (GLint *) &n);
 	fprintf (stderr, "Max texture image units: %d\n", n);

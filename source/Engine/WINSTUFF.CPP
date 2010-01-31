@@ -21,6 +21,8 @@
 #include "MOREIO.H"
 #include "STRINGY.H"
 
+#include "..\..\images\resource.h"
+
 HINSTANCE hInst;  				// Handle of the main instance
 extern HWND hMainWindow;
 
@@ -83,7 +85,6 @@ BOOL CALLBACK setupDlgProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
             SendDlgItemMessage(hDlg, 1001, CB_SETCURSEL, 0, 0);
             EnableWindow(GetDlgItem(hDlg, 1001), false);
         }
-
         return true;
 
     case WM_COMMAND:
@@ -109,9 +110,14 @@ BOOL CALLBACK setupDlgProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
 }
 
 int showSetupWindow() {
+
  	hInst = GetModuleHandle(NULL);
-    if (DialogBox (hInst, "SetupWindow", NULL, setupDlgProc)) return true;
+
+    if (! hInst) fprintf (stderr, "ERROR: No hInst!\n");
+
+    if (DialogBox (hInst, "SETUPWINDOW", NULL, setupDlgProc)) return true;
     return false;
+
 }
 
 void msgBox (const char * head, const char * msg) {
