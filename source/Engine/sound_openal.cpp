@@ -204,7 +204,7 @@ void huntKillFreeSound (int filenum) {
  */
 
 void playStream (int a, bool isMOD, bool loopy) {
-	int err;
+	ALboolean ok;
 	ALuint src;
 	soundThing *st;
 	void (*eos_callback)(void *userdata, ALuint source);
@@ -230,15 +230,15 @@ void playStream (int a, bool isMOD, bool loopy) {
 	}
 
 	if (loopy) {
-		err = alurePlaySourceStream(src, (*st).stream, 
+		ok = alurePlaySourceStream(src, (*st).stream, 
 				NUM_BUFS, -1, eos_callback, &intpointers[a]);
 	}
 	else {
-		err = alurePlaySourceStream(src, (*st).stream, 
+		ok = alurePlaySourceStream(src, (*st).stream, 
 				NUM_BUFS, 0, eos_callback, &intpointers[a]);
 	}
 
-	if(!err) {
+	if(!ok) {
 		fprintf(stderr, "Failed to play stream: %s\n", alureGetErrorString());
 		alDeleteSources(1, &src);
 	}
@@ -381,10 +381,8 @@ int cacheSound (int f) {
 	// Small looping sounds need small chunklengths.
 	chunkLength = 19200;
 	if (cacheLoopySound) {
-		if (length < 51200)
-			chunkLength = 1920;
-		if (length < 19200)
-			chunkLength = 192;
+		if (length < NUM_BUFS * chunkLength)
+			chunkLength = length / NUM_BUFS;
 	}
 	cacheLoopySound = false;
 
