@@ -4,7 +4,7 @@
 # or BASS as sound library:
 #
 #--OpenGL/Alure:-------------------------------------
-#SOUND_LDFLAGS = -lalure -ldumb
+#SOUND_LDFLAGS = -lalure
 #SOUND_OBJ = sound_openal.o
 #--BASS:---------------------------------------------
 SOUND_LDFLAGS = -lbass
