@@ -1,16 +1,25 @@
 # GNU make makefile for OpenSLUDGE by Tobias Hansen
+#
+# Switch comments to build with either OpenAL
+# or BASS as sound library:
+#
+#--OpenGL/Alure:-------------------------------------
+#SOUND_LDFLAGS = -lalure -ldumb
+#SOUND_OBJ = sound_openal.o
+#--BASS:---------------------------------------------
+SOUND_LDFLAGS = -lbass
+SOUND_OBJ = sound_bass.o
+#----------------------------------------------------
 
 CC      = /usr/bin/g++
 PREFIX  = /usr/local
 CFLAGS  = -Wall -g -D_REENTRANT
 IFLAGS  = -I `pwd`/../CommonCode
-LDFLAGS = -lGL -lGLU -lSDL -lpng -lbass
-# LDFLAGS = -lGL -lGLU -lSDL -lpng
+LDFLAGS = -lGL -lGLU -lSDL -lpng $(SOUND_LDFLAGS)
 
-OB = BACKDROP.o bg_effects.o builtin.o CURSORS.o debug.o FILESET.o floor.o FONTTEXT.o FREEZE.o Graphics.o Language.o line.o linuxstuff.o LOADSAVE.o main.o memwatch.o MOREIO.o NEWFATAL.o OBJTYPES.o people.o REGION.o savedata.o shaders.o SLUDGER.o SPRBANKS.o SPRITES.o Sprites_AA.o STATUSBA.o STRINGY.o TALK.o thumbnail.o timing.o transition.o VARIABLE.o WINSTUFF.o zbuffer.o GLee.o
+OBJ = $(SOUND_OBJ) BACKDROP.o bg_effects.o builtin.o CURSORS.o debug.o FILESET.o floor.o FONTTEXT.o FREEZE.o Graphics.o Language.o line.o linuxstuff.o LOADSAVE.o main.o memwatch.o MOREIO.o NEWFATAL.o OBJTYPES.o people.o REGION.o savedata.o shaders.o SLUDGER.o SPRBANKS.o SPRITES.o Sprites_AA.o STATUSBA.o STRINGY.o TALK.o thumbnail.o timing.o transition.o VARIABLE.o WINSTUFF.o zbuffer.o GLee.o
 
-OBJ = $(OB) sound_bass.o
-# OBJ = $(OB) sound_nosound.o
+
 
 BIN = sludge_engine
 
