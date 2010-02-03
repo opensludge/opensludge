@@ -49,6 +49,7 @@ int intpointers[MAX_SAMPLES];
 
 int defVol = 128;
 int defSoundVol = 255;
+const float modLoudness = 0.95f;
 
 /*
  * Set up, tear down:
@@ -109,7 +110,7 @@ void killSoundStuff () {
 
 void setMusicVolume (int a, int v) {
 	if (modCache[a].playing) {
-		alSourcef (modCache[a].playingOnSource, AL_GAIN, (float) v / 256);
+		alSourcef (modCache[a].playingOnSource, AL_GAIN, (float) modLoudness * v / 256);
 	}
 }
 
@@ -232,7 +233,7 @@ void playStream (int a, bool isMOD, bool loopy) {
 	}
 
 	if (isMOD) {
-		alSourcef (src, AL_GAIN, (float) defVol / 256);
+		alSourcef (src, AL_GAIN, (float) modLoudness * defVol / 256);
 	}
 
 	if (loopy) {
@@ -352,6 +353,10 @@ int findEmptySoundSlot () {
 int cacheSound (int f) {
 	unsigned int chunkLength;
 	int retval;
+	bool loopy;
+
+	loopy = cacheLoopySound;
+	cacheLoopySound = false;
 
 	setResourceForFatal (f);
 
@@ -392,14 +397,13 @@ int cacheSound (int f) {
 	chunkLength = 19200;
 
 	// Small looping sounds need small chunklengths.
-	if (cacheLoopySound) {
+	if (loopy) {
 		if (length < NUM_BUFS * chunkLength) {
 			chunkLength = length / NUM_BUFS;
 		}
 	} else if (length < chunkLength) {
 		chunkLength = length;
 	}
-	cacheLoopySound = false;
 
 	soundCache[a].stream = alureCreateStreamFromMemory(memImage, length, chunkLength, 0, NULL);
 
