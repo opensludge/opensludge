@@ -269,6 +269,7 @@ bool playMOD (int f, int a, int fromTrack) {
 	if (! memImage) return fatal (ERROR_MUSIC_MEMORY_LOW);
 
 	modCache[a].stream = alureCreateStreamFromMemory(memImage, length, 19200, 0, NULL);
+	delete memImage; 
 
 	setMusicVolume (a, defVol);
 	alureSetStreamOrder (modCache[a].stream, fromTrack);
@@ -342,7 +343,7 @@ int findEmptySoundSlot () {
 }
 
 int cacheSound (int f) {
-	int chunkLength;
+	int chunkLength, retval;
 
 	setResourceForFatal (f);
 
@@ -378,29 +379,36 @@ int cacheSound (int f) {
 
 //	fprintf(stdout, "Creating stream from file with length = %i\n", length);
 
-	// Small looping sounds need small chunklengths.
 	chunkLength = 19200;
+
+	// Small looping sounds need small chunklengths.
 	if (cacheLoopySound) {
-		if (length < NUM_BUFS * chunkLength)
+		if (length < NUM_BUFS * chunkLength) {
 			chunkLength = length / NUM_BUFS;
+		}
+	} else if (length < chunkLength) {
+		chunkLength = length;
 	}
 	cacheLoopySound = false;
 
 	soundCache[a].stream = alureCreateStreamFromMemory(memImage, length, chunkLength, 0, NULL);
- 
+
+	delete memImage; 
+
 	if (soundCache[a].stream != NULL) {
 		soundCache[a].fileLoaded = f;
-		delete memImage;
 		setResourceForFatal (-1);
-		return a;
+		retval = a;
+	} else {
+		warning (ERROR_SOUND_ODDNESS);
+		soundCache[a].stream = NULL;
+		soundCache[a].playing = false;
+		soundCache[a].fileLoaded = -1;
+		soundCache[a].looping = false;
+		retval = -1;
 	}
 
-	warning (ERROR_SOUND_ODDNESS);
-	soundCache[a].stream = NULL;
-	soundCache[a].playing = false;
-	soundCache[a].fileLoaded = -1;
-	soundCache[a].looping = false;
-	return -1;
+	return retval;
 }
 
 bool startSound (int f, bool loopy) {	
