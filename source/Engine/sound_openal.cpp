@@ -81,7 +81,7 @@ bool initSoundStuff (HWND hwnd) {
 
 void killSoundStuff () {
 	for (int i = 0; i < MAX_SAMPLES; i ++) {
-		if (soundCache[i].playing == true) {
+		if (soundCache[i].playing) {
 			alureStopSource(soundCache[i].playingOnSource, AL_TRUE);
 		}
 
@@ -91,7 +91,7 @@ void killSoundStuff () {
 	}
 
 	for (int i = 0; i < MAX_MODS; i ++) {
-		if (modCache[i].playing == true) {
+		if (modCache[i].playing) {
 			alureStopSource(modCache[i].playingOnSource, AL_TRUE);
 		}
 
@@ -108,7 +108,7 @@ void killSoundStuff () {
  */
 
 void setMusicVolume (int a, int v) {
-	if (modCache[a].playing == true) {
+	if (modCache[a].playing) {
 		alSourcef (modCache[a].playingOnSource, AL_GAIN, (float) v / 256);
 	}
 }
@@ -121,7 +121,7 @@ void setSoundVolume (int a, int v) {
 	if (soundOK) {
 		int ch = findInSoundCache (a);
 		if (ch != -1) {
-			if (soundCache[ch].playing == true) {
+			if (soundCache[ch].playing) {
 				alSourcef (soundCache[ch].playingOnSource, 
 						AL_GAIN, (float) v / 256);
 			}
@@ -145,6 +145,7 @@ static void sound_eos_callback(void *cacheIndex, ALuint source)
 {
 	int *a = (int*)cacheIndex;
 	alDeleteSources(1, &source);
+	soundCache[*a].playingOnSource = 0;
 	soundCache[*a].playing = false;
 	soundCache[*a].looping = false;
 }
@@ -153,6 +154,7 @@ static void mod_eos_callback(void *cacheIndex, ALuint source)
 {
 	int *a = (int*)cacheIndex;
 	alDeleteSources(1, &source);
+	modCache[*a].playingOnSource = 0;
 	alureDestroyStream(modCache[*a].stream, 0, NULL);
 	modCache[*a].stream = NULL;
 	modCache[*a].playing = false;
@@ -182,11 +184,15 @@ void huntKillSound (int filenum) {
 	int gotSlot = findInSoundCache (filenum);
 	if (gotSlot == -1) return;
 
-	alureStopSource (soundCache[gotSlot].playingOnSource, AL_TRUE);
+	if (soundCache[gotSlot].playing) {
+		alureStopSource (soundCache[gotSlot].playingOnSource, AL_TRUE);
+	}
 }
 
 void freeSound (int a) {
-	alureStopSource(soundCache[a].playingOnSource, AL_TRUE);
+	if (soundCache[a].playing) {
+		alureStopSource(soundCache[a].playingOnSource, AL_TRUE);
+	}
 	alureDestroyStream(soundCache[a].stream, 0, NULL);
 	soundCache[a].stream = NULL;
 	soundCache[a].fileLoaded = -1;
@@ -241,6 +247,7 @@ void playStream (int a, bool isMOD, bool loopy) {
 	if(!ok) {
 		fprintf(stderr, "Failed to play stream: %s\n", alureGetErrorString());
 		alDeleteSources(1, &src);
+		(*st).playingOnSource = 0;
 	}
 	else {
 		(*st).playingOnSource = src;
@@ -283,7 +290,7 @@ bool stillPlayingSound (int ch) {
 	if (soundOK)
 		if (ch != -1)
 			if (soundCache[ch].fileLoaded != -1)
-				if (soundCache[ch].playing == true)
+				if (soundCache[ch].playing)
 					return true;
 
 	return false;
@@ -323,7 +330,7 @@ int findEmptySoundSlot () {
 	for (t = 0; t < MAX_SAMPLES; t ++) {
 		emptySoundSlot ++;
 		emptySoundSlot %= MAX_SAMPLES;
-		if (soundCache[emptySoundSlot].playing == false)
+		if (!soundCache[emptySoundSlot].playing)
 			return emptySoundSlot;
 	}
 
@@ -343,7 +350,8 @@ int findEmptySoundSlot () {
 }
 
 int cacheSound (int f) {
-	int chunkLength, retval;
+	unsigned int chunkLength;
+	int retval;
 
 	setResourceForFatal (f);
 
@@ -351,7 +359,9 @@ int cacheSound (int f) {
 
 	int a = findInSoundCache (f);
 	if (a != -1) {
-		alureStopSource(soundCache[a].playingOnSource, AL_TRUE);
+		if (soundCache[a].playing) {
+			alureStopSource(soundCache[a].playingOnSource, AL_TRUE);
+		}
 		alureRewindStream (soundCache[a].stream);
 		return a;
 	}
@@ -403,6 +413,7 @@ int cacheSound (int f) {
 		warning (ERROR_SOUND_ODDNESS);
 		soundCache[a].stream = NULL;
 		soundCache[a].playing = false;
+		soundCache[a].playingOnSource = 0;
 		soundCache[a].fileLoaded = -1;
 		soundCache[a].looping = false;
 		retval = -1;
