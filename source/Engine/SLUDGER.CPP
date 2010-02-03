@@ -2,9 +2,11 @@
 #ifdef __linux__
 //#include <SDL/SDL_opengl.h>
 #include <SDL/SDL.h>
+#include <libpng12/png.h>
 #else
 //#include <SDL_opengl.h>
 #include "SDL.h"
+#include <libpng/png.h>
 #endif
 
 #ifdef __APPLE__
@@ -26,8 +28,6 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
-
-#include <libpng/png.h>
 
 #include "version.h"
 #include "SLUDGER.H"

@@ -272,8 +272,8 @@ bool playMOD (int f, int a, int fromTrack) {
 	uint32_t length = openFileFromNum (f);
 	if (length == 0) return NULL;
 
-	const unsigned char * memImage;
-	memImage = (const unsigned char *) loadEntireFileToMemory (bigDataFile, length);
+	unsigned char * memImage;
+	memImage = (unsigned char *) loadEntireFileToMemory (bigDataFile, length);
 	if (! memImage) return fatal (ERROR_MUSIC_MEMORY_LOW);
 
 	modCache[a].stream = alureCreateStreamFromMemory(memImage, length, 19200, 0, NULL);
@@ -377,12 +377,12 @@ int cacheSound (int f) {
 	uint32_t length = openFileFromNum (f);
 	if (! length) return -1;
 
-	const unsigned char * memImage;
+	unsigned char * memImage;
 
 	bool tryAgain = true;
 
 	while (tryAgain) {
-		memImage = (const unsigned char*)loadEntireFileToMemory (bigDataFile, length);
+		memImage = (unsigned char*)loadEntireFileToMemory (bigDataFile, length);
 		tryAgain = memImage == NULL;
 		if (tryAgain) {
 			if (! forceRemoveSound ()) {

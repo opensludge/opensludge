@@ -4,7 +4,11 @@
 #include <stdlib.h>
 #include <stdint.h>
 
+#ifdef __linux__
+#include <libpng12/png.h>
+#else
 #include <libpng/png.h>
+#endif
 
 #include "GLee.h"
 

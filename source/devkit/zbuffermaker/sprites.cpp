@@ -1,6 +1,11 @@
 #include <stdlib.h>
 #include <string.h>
+
+#ifdef __linux__
+#include <libpng12/png.h>
+#else
 #include <libpng/png.h>
+#endif
 
 #include "tga.h"
 #include "sprites.h"

@@ -1,7 +1,11 @@
 #include <stdio.h>
 #include <string.h>
 
+#ifdef __linux__
+#include <libpng12/png.h>
+#else
 #include <libpng/png.h>
+#endif
 
 #include "moreio.h"
 #include "splitter.h"

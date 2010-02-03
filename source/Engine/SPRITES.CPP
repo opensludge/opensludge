@@ -1,4 +1,9 @@
+#ifdef __linux__
+#include <libpng12/png.h>
+#else
 #include <libpng/png.h>
+#endif
+
 #include "ALLFILES.H"
 
 #include "FILESET.H"
