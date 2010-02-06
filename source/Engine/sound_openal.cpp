@@ -182,6 +182,8 @@ void stopMOD (int i) {
 }
 
 void huntKillSound (int filenum) {
+	alGetError();
+	
 	int gotSlot = findInSoundCache (filenum);
 	if (gotSlot == -1) return;
 
@@ -191,6 +193,7 @@ void huntKillSound (int filenum) {
 }
 
 void freeSound (int a) {
+	alGetError();
 	if (soundCache[a].playing) {
 		alureStopSource(soundCache[a].playingOnSource, AL_TRUE);
 	}
@@ -216,6 +219,8 @@ void playStream (int a, bool isMOD, bool loopy) {
 	soundThing *st;
 	void (*eos_callback)(void *userdata, ALuint source);
 
+	fprintf (stderr, "Starting sound %d (loop: %d, mod: %d)\n", a, loopy, isMOD);
+	
 	if (isMOD) {
 		st = &modCache[a];
 		eos_callback = mod_eos_callback;
@@ -252,6 +257,7 @@ void playStream (int a, bool isMOD, bool loopy) {
 	}
 	else {
 		(*st).playingOnSource = src;
+		fprintf (stderr, "Playing on source %d\n", src);
 		(*st).playing = true;
 	}
 }

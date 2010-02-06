@@ -591,6 +591,7 @@ bool getValueType (int & toHere, variableType vT, const variable & v) {
 		char * e1 = joinStrings ("Can only perform specified operation on a value which is of type ", typeName[vT]);
 		char * e2 = joinStrings ("... value supplied was of type ", typeName[v.varType]);
 		fatal (e1, e2);
+
 		return false;
 	}
 	toHere = v.varData.intValue;

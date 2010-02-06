@@ -67,6 +67,9 @@ cmdlineSettingsStruct cmdlineSettings;
 
 int dialogValue = 0;
 
+char * gamePath = NULL;
+char * settingsPath = NULL;
+
 void fixDir (char * f) {
 	int got = -1, a;
 

@@ -71,22 +71,22 @@ void putSigned (short f, FILE * fp) {
 }
 
 int32_t get4bytes (FILE * fp) {
-/*	int f1, f2, f3, f4;
+	int f1, f2, f3, f4;
 
 	f1 = fgetc (fp);
 	f2 = fgetc (fp);
 	f3 = fgetc (fp);
 	f4 = fgetc (fp);
 
-	debugOut ("MOREIO: get4bytes * %i %i %i %i\n", f1, f2, f3, f4);
+//	debugOut ("MOREIO: get4bytes * %i %i %i %i\n", f1, f2, f3, f4);
 
 	return (f1 + f2*256 + f3*256*256 + f4*256*256*256);
 
-*/
+/*
 
 	int32_t f;
 	fread (& f, sizeof (int32_t), 1, fp);
-	return f;
+	return f;*/
 }
 
 void put4bytes (int32_t f, FILE * fp) {

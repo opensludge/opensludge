@@ -34,7 +34,20 @@ void put2bytesR (int numtoput, FILE * fp) {
 }
 
 void put4bytes (long int i, FILE * fp) {
-	fwrite (&i, sizeof (long int), 1, fp);
+//	fwrite (&i, sizeof (long int), 1, fp);
+	unsigned char f1, f2, f3, f4;
+
+	f4 = i / (256*256*256);
+	i = i % (256*256*256); 
+	f3 = i / (256*256);
+	i = i % (256*256); 
+	f2 = i / 256;
+	f1 = i % 256;
+	
+	fputc (f1, fp);
+	fputc (f2, fp);
+	fputc (f3, fp);
+	fputc (f4, fp);
 }
 
 
@@ -50,9 +63,20 @@ char * copyString (const char * c) {
 }
 
 long get4bytes (FILE * fp) {
-	long f;
-	fread (& f, sizeof (long), 1, fp);
-	return f;
+	int f1, f2, f3, f4;
+	
+	f1 = fgetc (fp);
+	f2 = fgetc (fp);
+	f3 = fgetc (fp);
+	f4 = fgetc (fp);
+		
+	return (f1 + f2*256 + f3*256*256 + f4*256*256*256);
+	
+	/*
+	 
+	 int32_t f;
+	 fread (& f, sizeof (int32_t), 1, fp);
+	 return f;*/
 }
 
 void writeString (const char * txt, FILE * fp) {

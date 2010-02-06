@@ -223,12 +223,6 @@ bool saveSpriteBank (const char * filename, spriteBank *sprites) {
 }
 
 
-short readSigned (FILE * fp) {
-	short f;
-	fread (& f, sizeof (short), 1, fp);
-	return f;
-}
-
 
 bool loadSpriteBank (const char * filename, spriteBank *loadhere) {
 	int i, total, picwidth, picheight, loadSaveMode = 0, howmany,
@@ -261,8 +255,8 @@ bool loadSpriteBank (const char * filename, spriteBank *loadhere) {
 		loadhere->total = total;
 		loadhere->sprites = new sprite [total];		
 		for (int index = 0; index < total; index ++) {
-			loadhere->sprites[index].xhot = readSigned (fp);
-			loadhere->sprites[index].yhot = readSigned (fp);
+			loadhere->sprites[index].xhot = getSigned (fp);
+			loadhere->sprites[index].yhot = getSigned (fp);
 
 			png_structp png_ptr = png_create_read_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 			if (!png_ptr) {
@@ -330,8 +324,8 @@ bool loadSpriteBank (const char * filename, spriteBank *loadhere) {
 			case 2:
 			picwidth = get2bytes(fp);
 			picheight = get2bytes(fp);
-			loadhere->sprites[i].xhot = readSigned (fp);
-			loadhere->sprites[i].yhot = readSigned (fp);
+			loadhere->sprites[i].xhot = getSigned (fp);
+			loadhere->sprites[i].yhot = getSigned (fp);
 			break;
 			
 			default:

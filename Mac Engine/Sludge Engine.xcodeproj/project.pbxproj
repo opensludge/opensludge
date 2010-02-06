@@ -22,7 +22,6 @@
 		2F6F29610FBEFE3C00BC6A67 /* OSXMain.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F6F29600FBEFE3C00BC6A67 /* OSXMain.h */; };
 		2F6F29640FBEFE4800BC6A67 /* OSXMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6F29630FBEFE4800BC6A67 /* OSXMain.m */; };
 		2F6F29940FBEFF3D00BC6A67 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F6F29930FBEFF3D00BC6A67 /* main.cpp */; };
-		2F6F2A800FBF021000BC6A67 /* libbass.dylib in Copy Libbass */ = {isa = PBXBuildFile; fileRef = 2F6E5C2F0E49FE33007408A4 /* libbass.dylib */; };
 		2F7BFEB70E3384AE003F5DC3 /* BACKDROP.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEB60E3384AE003F5DC3 /* BACKDROP.CPP */; };
 		2F7BFEB90E3384B8003F5DC3 /* bg_effects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEB80E3384B8003F5DC3 /* bg_effects.cpp */; };
 		2F7BFEBB0E3384BE003F5DC3 /* builtin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEBA0E3384BE003F5DC3 /* builtin.cpp */; };
@@ -43,7 +42,6 @@
 		2F7BFEDB0E33856C003F5DC3 /* REGION.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEDA0E33856C003F5DC3 /* REGION.CPP */; };
 		2F7BFEE10E338583003F5DC3 /* savedata.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEE00E338583003F5DC3 /* savedata.cpp */; };
 		2F7BFEE30E33858E003F5DC3 /* SLUDGER.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEE20E33858E003F5DC3 /* SLUDGER.CPP */; };
-		2F7BFEE50E3385B3003F5DC3 /* sound_bass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEE40E3385B3003F5DC3 /* sound_bass.cpp */; };
 		2F7BFEE90E3385F8003F5DC3 /* SPRBANKS.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEE60E3385F8003F5DC3 /* SPRBANKS.CPP */; };
 		2F7BFEEA0E3385F8003F5DC3 /* SPRITES.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEE70E3385F8003F5DC3 /* SPRITES.CPP */; };
 		2F7BFEEB0E3385F8003F5DC3 /* Sprites_AA.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEE80E3385F8003F5DC3 /* Sprites_AA.CPP */; };
@@ -108,6 +106,9 @@
 		2FEFC49C10073ADA004C66F1 /* GLee.c in Sources */ = {isa = PBXBuildFile; fileRef = 2FEFC49A10073ADA004C66F1 /* GLee.c */; };
 		2FEFC49D10073ADA004C66F1 /* GLee.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2FEFC49B10073ADA004C66F1 /* GLee.h */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		E8CA57A9111D9EDF00E971B4 /* sound_openal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E8981D35111A2A8500762C10 /* sound_openal.cpp */; };
+		E8CA57B8111D9EE800E971B4 /* libalure.1.0.72.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E8981D4E111A2C6A00762C10 /* libalure.1.0.72.dylib */; };
+		E8E5000D111CBEAC00FD4DBD /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8E5000C111CBEAC00FD4DBD /* OpenAL.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -176,7 +177,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
-				2F6F2A800FBF021000BC6A67 /* libbass.dylib in Copy Libbass */,
 			);
 			name = "Copy Libbass";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -286,6 +286,9 @@
 		2FEFC49B10073ADA004C66F1 /* GLee.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GLee.h; path = ../GLee/GLee.h; sourceTree = SOURCE_ROOT; };
 		8D1107320486CEB800E47090 /* SLUDGE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SLUDGE.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E836739E1101D9E2001449BC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E8981D35111A2A8500762C10 /* sound_openal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sound_openal.cpp; path = ../source/Engine/sound_openal.cpp; sourceTree = SOURCE_ROOT; };
+		E8981D4E111A2C6A00762C10 /* libalure.1.0.72.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libalure.1.0.72.dylib; path = ../alure/build/libalure.1.0.72.dylib; sourceTree = SOURCE_ROOT; };
+		E8E5000C111CBEAC00FD4DBD /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -298,6 +301,8 @@
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				2F6E5C300E49FE33007408A4 /* libbass.dylib in Frameworks */,
 				2F83725B0E5042FA00CC8352 /* OpenGL.framework in Frameworks */,
+				E8E5000D111CBEAC00FD4DBD /* OpenAL.framework in Frameworks */,
+				E8CA57B8111D9EE800E971B4 /* libalure.1.0.72.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -321,6 +326,7 @@
 				2F83725A0E5042FA00CC8352 /* OpenGL.framework */,
 				002F39F909D0881F00EBEB88 /* SDL.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+				E8E5000C111CBEAC00FD4DBD /* OpenAL.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -386,6 +392,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E8981D4E111A2C6A00762C10 /* libalure.1.0.72.dylib */,
 				2F59E737102E230800008746 /* libpng.framework */,
 				2F6E5C2F0E49FE33007408A4 /* libbass.dylib */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
@@ -426,6 +433,7 @@
 				2F7BFF380E338736003F5DC3 /* SLUDGER.H */,
 				2F7BFF390E338736003F5DC3 /* sound.h */,
 				2F7BFF470E33877A003F5DC3 /* SPRBANKS.H */,
+				E8981D35111A2A8500762C10 /* sound_openal.cpp */,
 				2F7BFF430E33877A003F5DC3 /* sprites.h */,
 				2F7BFF480E33877A003F5DC3 /* Sprites_AA.h */,
 				2F7BFF440E33877A003F5DC3 /* STATUSBA.H */,
@@ -558,7 +566,6 @@
 				2F7BFEDB0E33856C003F5DC3 /* REGION.CPP in Sources */,
 				2F7BFEE10E338583003F5DC3 /* savedata.cpp in Sources */,
 				2F7BFEE30E33858E003F5DC3 /* SLUDGER.CPP in Sources */,
-				2F7BFEE50E3385B3003F5DC3 /* sound_bass.cpp in Sources */,
 				2F7BFEE90E3385F8003F5DC3 /* SPRBANKS.CPP in Sources */,
 				2F7BFEEA0E3385F8003F5DC3 /* SPRITES.CPP in Sources */,
 				2F7BFEEB0E3385F8003F5DC3 /* Sprites_AA.CPP in Sources */,
@@ -578,6 +585,7 @@
 				2FA5507D0FF90CC4006A67ED /* Start.m in Sources */,
 				2FEFC49C10073ADA004C66F1 /* GLee.c in Sources */,
 				2F6274FD10EA337700BBDEDF /* shaders.cpp in Sources */,
+				E8CA57A9111D9EDF00E971B4 /* sound_openal.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -602,8 +610,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../bass24-osx\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../alure/build\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../alure/build\"";
 				PRODUCT_NAME = SLUDGE;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
@@ -627,8 +639,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../bass24-osx\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../alure/build\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../alure/build\"";
 				PRODUCT_NAME = SLUDGE;
 				WRAPPER_EXTENSION = app;
 			};
@@ -652,6 +668,7 @@
 					/Library/Frameworks/SDL.framework/Headers,
 					"$(HEADER_SEARCH_PATHS)",
 					../source/CommonCode,
+					../alure/include,
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = /Developer/SDKs/MacOSX10.4u.sdk/usr/lib/libiconv.dylib;
@@ -682,6 +699,7 @@
 					/Library/Frameworks/SDL.framework/Headers,
 					"$(HEADER_SEARCH_PATHS)",
 					../source/CommonCode,
+					../alure/include,
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = /Developer/SDKs/MacOSX10.4u.sdk/usr/lib/libiconv.dylib;
