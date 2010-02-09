@@ -44,7 +44,11 @@ char * getPrefsFilename (char * filename) {
 
 	char * f = filename;
 	for (i = 0; i<n; i++) {
-		if (filename[i] == '/' || filename[i] == '\\')
+#ifdef _WIN32
+		if (filename[i] == '\\')
+#else
+		if (filename[i] == '/')
+#endif
 			f = filename + i + 1;
 	}
 

@@ -1,5 +1,5 @@
 #include <stdint.h>
-
+#include <unistd.h>
 #include <string.h>
 
 #include "ALLFILES.H"
@@ -12,6 +12,8 @@
 unsigned short saveEncoding = false;
 char encode1 = 0;
 char encode2 = 0;
+
+extern char * gamePath;
 
 /*
 void loadSaveDebug (char * com) {
@@ -105,7 +107,31 @@ bool fileToStack (char * filename, stackHandler * sH) {
 	const char * checker = saveEncoding ? "[Custom data (encoded)]\r\n" : "[Custom data (ASCII)]\n";
 
 	FILE * fp = fopen (filename, "rb");
-	if (! fp) return fatal ("No such file", filename);
+	if (! fp) {
+		char currentDir[1000];
+#ifdef _MSC_VER
+		if (! _getcwd (currentDir, 998)) {
+#else
+		if (! getcwd (currentDir, 998)) {
+#endif
+			fprintf(stderr, "Can't get current directory.\n");
+		}
+
+#ifdef _MSC_VER
+		_chdir (gamePath);
+#else
+		chdir (gamePath);
+#endif
+		fp = fopen (filename, "rb");
+#ifdef _MSC_VER
+		_chdir (currentDir);
+#else
+		chdir (currentDir);
+#endif
+		if (! fp) {
+			return fatal ("No such file", filename);
+		}
+	}
 
 	encode1 = (unsigned char) saveEncoding & 255;
 	encode2 = (unsigned char) (saveEncoding >> 8);

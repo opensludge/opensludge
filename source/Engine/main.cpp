@@ -70,11 +70,25 @@ int dialogValue = 0;
 char * gamePath = NULL;
 char * settingsPath = NULL;
 
-void fixDir (char * f) {
+void setGameFilePath (char * f) {
+	char currentDir[1000];
+
+#ifdef _MSC_VER
+	if (! _getcwd (currentDir, 998)) {
+#else
+	if (! getcwd (currentDir, 998)) {
+#endif
+		fprintf(stderr, "Can't get current directory.\n");
+	}
+
 	int got = -1, a;
 
 	for (a = 0; f[a]; a ++) {
-		if (f[a] == '\\' || f[a] == '/') got = a;
+#ifdef _WIN32
+		if (f[a] == '\\') got = a;
+#else
+		if (f[a] == '/') got = a;
+#endif
 	}
 
 	if (got != -1) {
@@ -90,6 +104,22 @@ void fixDir (char * f) {
 		f[got] = '/';
 #endif
 	}
+
+	gamePath = new char[400];
+
+#ifdef _MSC_VER
+	if (! _getcwd (gamePath, 398)) {
+#else
+	if (! getcwd (gamePath, 398)) {
+#endif
+		fprintf(stderr, "Can't get game directory.\n");
+	}
+
+#ifdef _MSC_VER
+	_chdir (currentDir);
+#else
+	chdir (currentDir);
+#endif
 }
 
 
@@ -183,7 +213,11 @@ int main(int argc, char *argv[]) try
 
 		int lastSlash = -1;
 		for (int i = 0; exeFolder[i]; i ++) {
-			if (exeFolder[i] == '\\' || exeFolder[i] == '/') lastSlash = i;
+#ifdef _WIN32
+			if (exeFolder[i] == '\\') lastSlash = i;
+#else
+			if (exeFolder[i] == '/') lastSlash = i;
+#endif
 		}
 		exeFolder[lastSlash+1] = NULL;
 		sludgeFile = joinStrings (exeFolder, "gamedata.slg");
@@ -212,7 +246,7 @@ int main(int argc, char *argv[]) try
 	if (! sludgeFile) return 0;
 #endif
 
-//	fixDir (sludgeFile);
+	setGameFilePath (sludgeFile);
 
 	// OK, so we DO want to start up, then...
 	if (! initSludge (sludgeFile)) return 0;
@@ -451,6 +485,8 @@ int main(int argc, char *argv[]) try
 	}
 
 	fprintf (stderr, "Bye!"); fflush (stderr);
+
+	delete [] gamePath;
 
 	killSoundStuff ();
 
