@@ -1125,9 +1125,7 @@ builtIn(stopSound)
 			{
 	UNUSEDALL
 				int v;
-				fprintf (stderr, "Hello.\n");
 				if (! getValueType (v, SVT_FILE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
-				fprintf (stderr, "Hello.\n");
 				trimStack (fun -> stack);
 				huntKillSound (v);
 				return BR_CONTINUE;
