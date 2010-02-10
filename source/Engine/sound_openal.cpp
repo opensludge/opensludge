@@ -158,6 +158,10 @@ static void sound_eos_callback(void *cacheIndex, ALuint source)
 {
 	int *a = (int*)cacheIndex;
 	alDeleteSources(1, &source);
+	if(alGetError() != AL_NO_ERROR)
+	{
+		fprintf(stderr, "Failed to delete OpenAL source!\n");
+	}
 	soundCache[*a].playingOnSource = 0;
 	soundCache[*a].playing = false;
 	soundCache[*a].looping = false;
@@ -167,6 +171,10 @@ static void mod_eos_callback(void *cacheIndex, ALuint source)
 {
 	int *a = (int*)cacheIndex;
 	alDeleteSources(1, &source);
+	if(alGetError() != AL_NO_ERROR)
+	{
+		fprintf(stderr, "Failed to delete OpenAL source!\n");
+	}
 	modCache[*a].playingOnSource = 0;
 	if (! alureDestroyStream(modCache[*a].stream, 0, NULL)) {
 		fprintf(stderr, "Failed to destroy stream: %s\n", 
@@ -280,6 +288,10 @@ void playStream (int a, bool isMOD, bool loopy) {
 	if(!ok) {
 		fprintf(stderr, "Failed to play stream: %s\n", alureGetErrorString());
 		alDeleteSources(1, &src);
+		if(alGetError() != AL_NO_ERROR)
+		{
+			fprintf(stderr, "Failed to delete OpenAL source!\n");
+		}
 		(*st).playingOnSource = 0;
 	}
 	else {

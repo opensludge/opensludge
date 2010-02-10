@@ -484,7 +484,7 @@ int main(int argc, char *argv[]) try
 
 	}
 
-	fprintf (stderr, "Bye!"); fflush (stderr);
+	fprintf (stderr, "Bye!\n"); fflush (stderr);
 
 	delete [] gamePath;
 
