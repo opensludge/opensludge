@@ -43,6 +43,8 @@
 #include "thumbnail.h"
 #include "Graphics.h"
 
+extern char * gamePath;
+
 int speechMode = 0;
 int cameraX, cameraY;
 spritePalette pastePalette;
@@ -309,6 +311,28 @@ builtIn(fileExists)
 				delete loadNow;
 				if (failSecurityCheck (aaaaa)) return BR_NOCOMMENT;
 				FILE * fp = fopen (aaaaa, "rb");
+				if (! fp) {
+					char currentDir[1000];
+#ifdef _MSC_VER
+					if (! _getcwd (currentDir, 998)) {
+#else
+					if (! getcwd (currentDir, 998)) {
+#endif
+						fprintf(stderr, "Can't get current directory.\n");
+					}
+
+#ifdef _MSC_VER
+					_chdir (gamePath);
+#else
+					chdir (gamePath);
+#endif
+					fp = fopen (aaaaa, "rb");
+#ifdef _MSC_VER
+					_chdir (currentDir);
+#else
+					chdir (currentDir);
+#endif
+				}
 				// Return value
 				setVariable (fun -> reg, SVT_INT, (fp != NULL));
 				if (fp) fclose (fp);

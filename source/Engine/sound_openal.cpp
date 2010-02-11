@@ -208,6 +208,7 @@ void stopMOD (int i) {
 }
 
 void huntKillSound (int filenum) {
+	// Clear OpenAL errors to make sure they don't block anything:
 	alGetError();
 	
 	int gotSlot = findInSoundCache (filenum);
@@ -222,7 +223,9 @@ void huntKillSound (int filenum) {
 }
 
 void freeSound (int a) {
+	// Clear OpenAL errors to make sure they don't block anything:
 	alGetError();
+
 	if (soundCache[a].playing) {
 		if (! alureStopSource(soundCache[a].playingOnSource, AL_TRUE)) {
 			fprintf(stderr, "Failed to stop source: %s\n", 
