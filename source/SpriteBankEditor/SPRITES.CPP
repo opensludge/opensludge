@@ -402,6 +402,22 @@ bool loadSpriteBank (const char * filename, spriteBank *loadhere) {
 	return true;
 }
 
+// I found this function on a coding forum on the 'net.
+// Looks a bit weird, but it should work.
+int getNextPOT(int n) {
+	--n;
+	n |= n >> 16;
+	n |= n >> 8;
+	n |= n >> 4;
+	n |= n >> 2;
+	n |= n >> 1;
+	++n;
+	return n;
+}
+
+bool NPOT_textures = false;
+
+
 bool loadSpriteTextures (spriteBank *loadhere) {
 	int i;
 	int fromhere;
@@ -411,13 +427,26 @@ bool loadSpriteTextures (spriteBank *loadhere) {
 	glGenTextures (loadhere->total, loadhere->myPalette.tex_names);	
 	
 	if (loadhere->type < 2) {
-		GLubyte * tmp[loadhere->total];		
+		GLubyte * tmp;		
 		for (i = 0; i < loadhere->total; i ++) {
-			tmp[i] = new GLubyte [loadhere->sprites[i].width*loadhere->sprites[i].height*4];
+			loadhere->myPalette.tex_w[i] = loadhere->sprites[i].width;
+			loadhere->myPalette.tex_h[i] = loadhere->sprites[i].height;
+			loadhere->sprites[i].tex_x = 0.0;
+			if (! NPOT_textures) {
+				loadhere->myPalette.tex_w[i] = getNextPOT(loadhere->myPalette.tex_w[i]);
+				loadhere->myPalette.tex_h[i] = getNextPOT(loadhere->myPalette.tex_h[i]);
+			}
+			
+			int h = loadhere->myPalette.tex_h[i];
+			int w = loadhere->myPalette.tex_w[i];
+			
+			tmp = new GLubyte [w*h*4];
+			memset (tmp, 0, w*h*4);
+			
 			fromhere = 0;
 			for (int y = 0; y < loadhere->sprites[i].height; y ++) {
 				for (int x = 0; x < loadhere->sprites[i].width; x ++) {
-					GLubyte * target = tmp[i] + 4*loadhere->sprites[i].width*y + x*4;
+					GLubyte * target = tmp + 4*w*y + x*4;
 					s = loadhere->sprites[i].data[fromhere++];
 					if (s) {
 						target[0] = (GLubyte) loadhere->myPalette.r[s];
@@ -440,19 +469,47 @@ bool loadSpriteTextures (spriteBank *loadhere) {
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, loadhere->sprites[i].width, loadhere->sprites[i].height, 0, GL_RGBA, GL_UNSIGNED_BYTE, tmp[i]);
+			glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, tmp);
 			
-			delete tmp[i];		
+			delete tmp;		
 		}
 	} else {
+		GLubyte * tmp;
 		for (i = 0; i < loadhere->total; i ++) {
+			loadhere->myPalette.tex_w[i] = loadhere->sprites[i].width;
+			loadhere->myPalette.tex_h[i] = loadhere->sprites[i].height;
+			loadhere->sprites[i].tex_x = 0.0;
+			if (! NPOT_textures) {
+				loadhere->myPalette.tex_w[i] = getNextPOT(loadhere->myPalette.tex_w[i]);
+				loadhere->myPalette.tex_h[i] = getNextPOT(loadhere->myPalette.tex_h[i]);
+			}
+			
+			int h = loadhere->myPalette.tex_h[i];
+			int w = loadhere->myPalette.tex_w[i];
+			
+			tmp = new GLubyte [w*h*4];
+			memset (tmp, 0, w*h*4);
+			
+			fromhere = 0;
+			for (int y = 0; y < loadhere->sprites[i].height; y ++) {
+				for (int x = 0; x < loadhere->sprites[i].width; x ++) {
+					GLubyte * target = tmp + 4*w*y + x*4;
+					target[0] = loadhere->sprites[i].data[fromhere++];
+					target[1] = loadhere->sprites[i].data[fromhere++];
+					target[2] = loadhere->sprites[i].data[fromhere++];
+					target[3] = loadhere->sprites[i].data[fromhere++];
+				}
+			}
+			
 			loadhere->sprites[i].texNum = i;
 			glBindTexture (GL_TEXTURE_2D, loadhere->myPalette.tex_names[loadhere->sprites[i].texNum]);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, loadhere->sprites[i].width, loadhere->sprites[i].height, 0, GL_RGBA, GL_UNSIGNED_BYTE, loadhere->sprites[i].data);
+			glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, tmp);
+			
+			delete tmp;		
 		}
 	}
 	return true;
@@ -465,12 +522,24 @@ bool loadSpriteTexture (spriteBank *loadhere, int index) {
 	glPixelStorei (GL_UNPACK_ALIGNMENT, 1);	
 	
 	if (loadhere->type < 2) {
-		GLubyte tmp[loadhere->sprites[index].width*loadhere->sprites[index].height*4];		
+		loadhere->myPalette.tex_w[index] = loadhere->sprites[index].width;
+		loadhere->myPalette.tex_h[index] = loadhere->sprites[index].height;
+		loadhere->sprites[index].tex_x = 0.0;
+		if (! NPOT_textures) {
+			loadhere->myPalette.tex_w[index] = getNextPOT(loadhere->myPalette.tex_w[index]);
+			loadhere->myPalette.tex_h[index] = getNextPOT(loadhere->myPalette.tex_h[index]);
+		}
+		
+		int h = loadhere->myPalette.tex_h[index];
+		int w = loadhere->myPalette.tex_w[index];
+		
+		GLubyte tmp[w*h*4];		
+		memset (tmp, 0, w*h*4);
 
 		fromhere = 0;
 		for (int y = 0; y < loadhere->sprites[index].height; y ++) {
 			for (int x = 0; x < loadhere->sprites[index].width; x ++) {
-				GLubyte * target = tmp + 4*loadhere->sprites[index].width*y + x*4;
+				GLubyte * target = tmp + 4*w*y + x*4;
 				s = loadhere->sprites[index].data[fromhere++];
 				if (s) {
 					target[0] = (GLubyte) loadhere->myPalette.r[s];
@@ -491,15 +560,39 @@ bool loadSpriteTexture (spriteBank *loadhere, int index) {
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, loadhere->sprites[index].width, loadhere->sprites[index].height, 0, GL_RGBA, GL_UNSIGNED_BYTE, tmp);
+		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, tmp);
 	} else {
+		loadhere->myPalette.tex_w[index] = loadhere->sprites[index].width;
+		loadhere->myPalette.tex_h[index] = loadhere->sprites[index].height;
+		loadhere->sprites[index].tex_x = 0.0;
+		if (! NPOT_textures) {
+			loadhere->myPalette.tex_w[index] = getNextPOT(loadhere->myPalette.tex_w[index]);
+			loadhere->myPalette.tex_h[index] = getNextPOT(loadhere->myPalette.tex_h[index]);
+		}
+		
+		int h = loadhere->myPalette.tex_h[index];
+		int w = loadhere->myPalette.tex_w[index];
+		
+		GLubyte tmp[w*h*4];		
+		memset (tmp, 0, w*h*4);
+		
+		fromhere = 0;
+		for (int y = 0; y < loadhere->sprites[index].height; y ++) {
+			for (int x = 0; x < loadhere->sprites[index].width; x ++) {
+				GLubyte * target = tmp + 4*w*y + x*4;
+				target[0] = loadhere->sprites[index].data[fromhere++];
+				target[1] = loadhere->sprites[index].data[fromhere++];
+				target[2] = loadhere->sprites[index].data[fromhere++];
+				target[3] = loadhere->sprites[index].data[fromhere++];
+			}
+		}
+		
 		glBindTexture (GL_TEXTURE_2D, loadhere->myPalette.tex_names[loadhere->sprites[index].texNum]);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, loadhere->sprites[index].width, loadhere->sprites[index].height, 0, GL_RGBA, GL_UNSIGNED_BYTE, loadhere->sprites[index].data);
-		
+		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, tmp);
 	}
 		
 	return true;
@@ -864,12 +957,17 @@ void pasteSprite (sprite * single, const spritePalette *fontPal, bool showBox) {
 	
 	if (! single) return;
 	if (single->texNum < 0) return;
-	
+/*	
 	float tx1 = 0.0;
 	float ty1 = 0.0;
 	float tx2 = 1.0;
 	float ty2 = 1.0;
-
+ */
+	float tx1 = (float)(single->tex_x) / fontPal->tex_w[single->texNum];
+	float ty1 = 0.0;
+	float tx2 = (float)(single->tex_x + single->width) / fontPal->tex_w[single->texNum];
+	float ty2 = (float)(single->height+2)/fontPal->tex_h[single->texNum];
+	
 	int x1 = -single->xhot;
 	int y1 = -single->yhot;
 

@@ -534,7 +534,7 @@ bool loadGame (char * fname) {
 		fontHeight = get2bytes (fp);
 		for (int a = 0; a < 256; a ++) fontTable[a] = fgetc (fp);
 	}
-	fontSpace = readSigned (fp);
+	fontSpace = getSigned (fp);
 
 	killAllPeople ();
 	killAllRegions ();

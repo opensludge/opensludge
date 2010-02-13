@@ -50,23 +50,65 @@ char * readString (FILE * fp) {
 	return s;
 }
 
-float readFloat (FILE * fp) {
+float floatSwap( float f )
+{
+	union
+	{
+		float f;
+		unsigned char b[4];
+	} dat1, dat2;
+	
+	dat1.f = f;
+	dat2.b[0] = dat1.b[3];
+	dat2.b[1] = dat1.b[2];
+	dat2.b[2] = dat1.b[1];
+	dat2.b[3] = dat1.b[0];
+	return dat2.f;
+}
+
+
+float getFloat (FILE * fp) {
 	float f;
 	fread (& f, sizeof (float), 1, fp);
+	
+#ifdef	__BIG_ENDIAN__
+	return floatSwap(f);
+#else
 	return f;
+#endif
 }
 
 void putFloat (float f, FILE * fp) {
+#ifdef	__BIG_ENDIAN__
+	f = floatSwap(f);
+#endif
 	fwrite (& f, sizeof (float), 1, fp);
 }
 
-short readSigned (FILE * fp) {
+short shortSwap( short s )
+{
+	unsigned char b1, b2;
+	
+	b1 = s & 255;
+	b2 = (s >> 8) & 255;
+	
+	return (b1 << 8) + b2;
+}
+
+
+short getSigned (FILE * fp) {
 	short f;
 	fread (& f, sizeof (short), 1, fp);
+#ifdef	__BIG_ENDIAN__
+	f = shortSwap(f);
+#endif
 	return f;
 }
 
 void putSigned (short f, FILE * fp) {
+#ifdef	__BIG_ENDIAN__
+	f = shortSwap(f);
+#endif
 	fwrite (& f, sizeof (short), 1, fp);
 }
 
@@ -78,8 +120,6 @@ int32_t get4bytes (FILE * fp) {
 	f3 = fgetc (fp);
 	f4 = fgetc (fp);
 
-//	debugOut ("MOREIO: get4bytes * %i %i %i %i\n", f1, f2, f3, f4);
-
 	return (f1 + f2*256 + f3*256*256 + f4*256*256*256);
 
 /*
@@ -89,19 +129,26 @@ int32_t get4bytes (FILE * fp) {
 	return f;*/
 }
 
-void put4bytes (int32_t f, FILE * fp) {
-	fwrite (& f, sizeof (int32_t), 1, fp);
-}
 
-void debug(char * c, char * c2) {
-	FILE * fp = fopen ("argh.txt", "at");
-	fprintf (fp, "%s %s\n", c, c2);
-	fclose (fp);
+void put4bytes (int i, FILE * fp) {
+	//	fwrite (&i, sizeof (long int), 1, fp);
+	unsigned char f1, f2, f3, f4;
+	
+	f4 = i / (256*256*256);
+	i = i % (256*256*256); 
+	f3 = i / (256*256);
+	i = i % (256*256); 
+	f2 = i / 256;
+	f1 = i % 256;
+	
+	fputc (f1, fp);
+	fputc (f2, fp);
+	fputc (f3, fp);
+	fputc (f4, fp);
 }
 
 char * encodeFilename (char * nameIn) {
 	if (allowAnyFilename) {
-//		deb ("Encoding from:", nameIn);
 		char * newName = new char[strlen (nameIn) * 2 + 1];
 		int i = 0;
 		while (*nameIn) {
@@ -120,10 +167,8 @@ char * encodeFilename (char * nameIn) {
 				default:	newName[i++] = *nameIn;							break;
 			}
 			newName[i] = NULL;
-//			deb ("So far:", newName);
 			nameIn ++;
 		}
-//		deb ("Finished:", newName);
 		return newName;
 	} else {
 		return copyString (nameIn);
@@ -132,12 +177,10 @@ char * encodeFilename (char * nameIn) {
 
 char * decodeFilename (char * nameIn) {
 	if (allowAnyFilename) {
-//		deb ("Name in:", nameIn);
 		char * newName = new char[strlen (nameIn) + 1];
 		int i = 0;
 		while (* nameIn) {
 			if (* nameIn == '_') {
-//				deb ("Special character", nameIn + 1);
 				nameIn ++;
 				switch (* nameIn) {
 					case 'L':	newName[i] = '<';	nameIn ++;		break;
@@ -153,16 +196,11 @@ char * decodeFilename (char * nameIn) {
 					default:	newName[i] = '_';
 				}
 			} else {
-//				deb ("Normal character", nameIn);
 				newName[i] = *nameIn;
 				nameIn ++;
 			}
 			i ++;
 
-//			{
-//			newName[i] = NULL;
-//			deb ("So far:", newName);
-//			}
 		}
 		newName[i] = NULL;
 		return newName;

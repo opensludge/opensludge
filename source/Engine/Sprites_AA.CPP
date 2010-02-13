@@ -34,8 +34,8 @@ void aaSave (aaSettingsStruct & aa, FILE * fp)
 void aaLoad (aaSettingsStruct & aa, FILE * fp)
 {
 	aa.useMe = fgetc (fp) ? true : false;
-	aa.blurX = readFloat (fp);
-	aa.blurY = readFloat (fp);
+	aa.blurX = getFloat (fp);
+	aa.blurY = getFloat (fp);
 }
 
 void aaCopy (aaSettingsStruct * toHere, const aaSettingsStruct * fromHere)

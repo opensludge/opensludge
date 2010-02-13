@@ -213,7 +213,7 @@ bool loadSpeech (speechStruct * sS, FILE * fp) {
 	byte b = fgetc (fp);
 	setFontColour (sS -> talkCol, r, g, b);
 
-	speechSpeed = readFloat (fp);
+	speechSpeed = getFloat (fp);
 	
 	// Read y co-ordinate
 	sS -> speechY = get2bytes (fp);

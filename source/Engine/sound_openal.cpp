@@ -199,6 +199,7 @@ int findInSoundCache (int a) {
 }
 
 void stopMOD (int i) {
+	alGetError();
 	if (modCache[i].playing) {
 		if (! alureStopSource(modCache[i].playingOnSource, AL_TRUE)) {
 			fprintf(stderr, "Failed to stop source: %s\n", 
@@ -282,8 +283,7 @@ void playStream (int a, bool isMOD, bool loopy) {
 	if (loopy) {
 		ok = alurePlaySourceStream(src, (*st).stream, 
 				NUM_BUFS, -1, eos_callback, &intpointers[a]);
-	}
-	else {
+	} else {
 		ok = alurePlaySourceStream(src, (*st).stream, 
 				NUM_BUFS, 0, eos_callback, &intpointers[a]);
 	}
@@ -296,8 +296,7 @@ void playStream (int a, bool isMOD, bool loopy) {
 			fprintf(stderr, "Failed to delete OpenAL source!\n");
 		}
 		(*st).playingOnSource = 0;
-	}
-	else {
+	} else {
 		(*st).playingOnSource = src;
 //		fprintf (stderr, "Playing on source %d\n", src);
 		(*st).playing = true;

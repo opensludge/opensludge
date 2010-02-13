@@ -93,8 +93,8 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 		switch (loadSaveMode) {
 			case 3:
 			{
-				loadhere.sprites[i].xhot = readSigned (bigDataFile);
-				loadhere.sprites[i].yhot = readSigned (bigDataFile);
+				loadhere.sprites[i].xhot = getSigned (bigDataFile);
+				loadhere.sprites[i].yhot = getSigned (bigDataFile);
 
 				png_structp png_ptr = png_create_read_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 				if (!png_ptr) {
@@ -139,8 +139,8 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 			case 2:
 			picwidth = get2bytes (bigDataFile);
 			picheight = get2bytes (bigDataFile);
-			loadhere.sprites[i].xhot = readSigned (bigDataFile);
-			loadhere.sprites[i].yhot = readSigned (bigDataFile);
+			loadhere.sprites[i].xhot = getSigned (bigDataFile);
+			loadhere.sprites[i].yhot = getSigned (bigDataFile);
 			break;
 
 			default:

@@ -133,24 +133,13 @@ void getOverRegion () {
 
 screenRegion * getRegionForObject (int obj) {
 	screenRegion * thisRegion = allScreenRegions;
-//	FILE * debuggy2 = fopen ("debug.txt", "at");
-//	fprintf (debuggy2, "LOOKING FOR REGION %i\n", obj);
-//	fclose (debuggy2);
 
 	while (thisRegion) {
 		if (obj == thisRegion -> thisType -> objectNum) {
-//			debuggy2 = fopen ("debug.txt", "at");
-//			fprintf (debuggy2, "AH-HA! REGION %i! IT'S %s!\n", obj, thisRegion -> thisType -> screenName);
-//			fclose (debuggy2);
-
 			return thisRegion;
 		}
 		thisRegion = thisRegion -> next;
 	}
-
-//	debuggy2 = fopen ("debug.txt", "at");
-//	fprintf (debuggy2, "COULDN'T FIND REGION %i\n", obj);
-//	fclose (debuggy2);
 
 	return NULL;
 }

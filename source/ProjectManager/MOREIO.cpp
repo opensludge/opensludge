@@ -156,20 +156,64 @@ bool newerFile (char * newFileN, char * oldFileN) {
 
 }
 
+float floatSwap( float f )
+{
+	union
+	{
+		float f;
+		unsigned char b[4];
+	} dat1, dat2;
+	
+	dat1.f = f;
+	dat2.b[0] = dat1.b[3];
+	dat2.b[1] = dat1.b[2];
+	dat2.b[2] = dat1.b[1];
+	dat2.b[3] = dat1.b[0];
+	return dat2.f;
+}
 
+
+float getFloat (FILE * fp) {
+	float f;
+	fread (& f, sizeof (float), 1, fp);
+	
+#ifdef	__BIG_ENDIAN__
+	return floatSwap(f);
+#else
+	return f;
+#endif
+}
 
 void putFloat (float f, FILE * fp) {
+#ifdef	__BIG_ENDIAN__
+	f = floatSwap(f);
+#endif
 	fwrite (& f, sizeof (float), 1, fp);
+}
+
+short shortSwap( short s )
+{
+	unsigned char b1, b2;
+	
+	b1 = s & 255;
+	b2 = (s >> 8) & 255;
+	
+	return (b1 << 8) + b2;
 }
 
 
 short getSigned (FILE * fp) {
 	short f;
 	fread (& f, sizeof (short), 1, fp);
+#ifdef	__BIG_ENDIAN__
+	f = shortSwap(f);
+#endif
 	return f;
 }
 
 void putSigned (short f, FILE * fp) {
+#ifdef	__BIG_ENDIAN__
+	f = shortSwap(f);
+#endif
 	fwrite (& f, sizeof (short), 1, fp);
 }
-

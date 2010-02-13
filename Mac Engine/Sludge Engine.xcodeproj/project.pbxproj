@@ -17,7 +17,6 @@
 		2F6274FD10EA337700BBDEDF /* shaders.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F6274FB10EA337700BBDEDF /* shaders.cpp */; };
 		2F684E1A0FFEAF6700EED6FE /* gameicon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 2F684E190FFEAF6700EED6FE /* gameicon.icns */; };
 		2F695B78100D0BD1008A8DC1 /* SDLMain.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2F6F29820FBEFEB000BC6A67 /* SDLMain.nib */; };
-		2F6E5C300E49FE33007408A4 /* libbass.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F6E5C2F0E49FE33007408A4 /* libbass.dylib */; };
 		2F6E5C320E49FE55007408A4 /* bass.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F6E5C310E49FE55007408A4 /* bass.h */; };
 		2F6F29610FBEFE3C00BC6A67 /* OSXMain.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F6F29600FBEFE3C00BC6A67 /* OSXMain.h */; };
 		2F6F29640FBEFE4800BC6A67 /* OSXMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6F29630FBEFE4800BC6A67 /* OSXMain.m */; };
@@ -108,6 +107,7 @@
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		E8CA57A9111D9EDF00E971B4 /* sound_openal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E8981D35111A2A8500762C10 /* sound_openal.cpp */; };
 		E8CA57B8111D9EE800E971B4 /* libalure.1.0.72.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E8981D4E111A2C6A00762C10 /* libalure.1.0.72.dylib */; };
+		E8D2BC3C1126E0BE001B7899 /* libalure.1.0.72.dylib in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = E8981D4E111A2C6A00762C10 /* libalure.1.0.72.dylib */; };
 		E8E5000D111CBEAC00FD4DBD /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8E5000C111CBEAC00FD4DBD /* OpenAL.framework */; };
 /* End PBXBuildFile section */
 
@@ -118,6 +118,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				E8D2BC3C1126E0BE001B7899 /* libalure.1.0.72.dylib in Copy Frameworks into .app bundle */,
 				2F59E748102E246100008746 /* libpng.framework in Copy Frameworks into .app bundle */,
 				002F3A0009D0884600EBEB88 /* SDL.framework in Copy Frameworks into .app bundle */,
 				2F7BFF0E0E3386AD003F5DC3 /* bg_effects.h in Copy Frameworks into .app bundle */,
@@ -299,7 +300,6 @@
 				2F59E738102E230800008746 /* libpng.framework in Frameworks */,
 				002F39FA09D0881F00EBEB88 /* SDL.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
-				2F6E5C300E49FE33007408A4 /* libbass.dylib in Frameworks */,
 				2F83725B0E5042FA00CC8352 /* OpenGL.framework in Frameworks */,
 				E8E5000D111CBEAC00FD4DBD /* OpenAL.framework in Frameworks */,
 				E8CA57B8111D9EE800E971B4 /* libalure.1.0.72.dylib in Frameworks */,

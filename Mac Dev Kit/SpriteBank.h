@@ -8,7 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-#include <OpenGL/gl.h>
+//#include <OpenGL/gl.h>
+#include "GLee.h"
 #include "sprites.h"
 
 @interface SpriteOpenGLView : NSOpenGLView

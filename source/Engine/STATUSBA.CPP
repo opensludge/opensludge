@@ -179,7 +179,7 @@ bool loadStatusBars (FILE * fp) {
 	clearStatusBar ();
 
 	nowStatus -> alignStatus = get2bytes (fp);
-	nowStatus -> litStatus = readSigned (fp);
+	nowStatus -> litStatus = getSigned (fp);
 	nowStatus -> statusX = get2bytes (fp);
 	nowStatus -> statusY = get2bytes (fp);
 

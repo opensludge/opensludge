@@ -929,8 +929,8 @@ bool loadPeople (FILE * fp, int ssgVersion) {
 	onScreenPerson * * pointy = & allPeople;
 	onScreenPerson * me;
 
-	scaleHorizon = readSigned (fp);
-	scaleDivide = readSigned (fp);
+	scaleHorizon = getSigned (fp);
+	scaleDivide = getSigned (fp);
 
 	int countPeople = get2bytes (fp);
 	int a;
@@ -946,15 +946,15 @@ bool loadPeople (FILE * fp, int ssgVersion) {
 		me -> myAnim = new personaAnimation;
 		if (! checkNew (me -> myAnim)) return false;
 
-		me -> x = readFloat (fp);
-		me -> y = readFloat (fp);
+		me -> x = getFloat (fp);
+		me -> y = getFloat (fp);
 
 		loadCostume (me -> myPersona, fp);
 		loadAnim (me -> myAnim, fp);
 
 		me -> lastUsedAnim = fgetc (fp) ? me -> myAnim : NULL;
 
-		me -> scale = readFloat (fp);
+		me -> scale = getFloat (fp);
 
 		me -> extra = get2bytes (fp);
 		me -> height = get2bytes (fp);
@@ -966,7 +966,7 @@ bool loadPeople (FILE * fp, int ssgVersion) {
 		me -> frameTick = get2bytes (fp);
 		me -> walkSpeed = get2bytes (fp);
 		me -> spinSpeed = get2bytes (fp);
-		me -> floaty = readSigned (fp);
+		me -> floaty = getSigned (fp);
 		me -> show = fgetc (fp);
 		me -> walking = fgetc (fp);
 		me -> spinning = fgetc (fp);
@@ -984,9 +984,9 @@ bool loadPeople (FILE * fp, int ssgVersion) {
 			me -> angleOffset = 0;
 		}
 		me -> wantAngle = get2bytes(fp);
-		me -> directionWhenDoneWalking = readSigned(fp);
-		me -> inPoly = readSigned(fp);
-		me -> walkToPoly = readSigned(fp);
+		me -> directionWhenDoneWalking = getSigned(fp);
+		me -> inPoly = getSigned(fp);
+		me -> walkToPoly = getSigned(fp);
 		me -> drawMode = get2bytes(fp);
 		me -> thisType = loadObjectRef (fp);
 
