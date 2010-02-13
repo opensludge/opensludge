@@ -19,7 +19,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-#include <OpenGL/gl.h>
+//#include <OpenGL/gl.h>
+#include "glee.h"
 #include "sprites.h"
 
 @interface zOpenGLView : NSOpenGLView

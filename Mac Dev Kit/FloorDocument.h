@@ -7,7 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#include <OpenGL/gl.h>
+//#include <OpenGL/gl.h>
+#include "glee.h"
 
 #include "FloorMaker.h"
 #include "sprites.h"

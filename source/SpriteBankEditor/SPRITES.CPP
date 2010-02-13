@@ -418,11 +418,43 @@ int getNextPOT(int n) {
 bool NPOT_textures = false;
 
 
+void NPOT_check() {
+	/* Check for graphics capabilities... */
+	if (GLEE_VERSION_2_0) {
+		// Yes! Textures can be any size!
+		NPOT_textures = true;
+		fprintf (stderr, "OpenGL 2.0! All is good.\n");
+	} else {
+		if (GLEE_VERSION_1_5) {
+			fprintf (stderr, "OpenGL 1.5!\n");
+		}
+		else if (GLEE_VERSION_1_4) {
+			fprintf (stderr, "OpenGL 1.4!\n");
+		}
+		else if (GLEE_VERSION_1_3) {
+			fprintf (stderr, "OpenGL 1.3!\n");
+		}
+		else if (GLEE_VERSION_1_2) {
+			fprintf (stderr, "OpenGL 1.2!\n");
+		}
+		if (GLEE_ARB_texture_non_power_of_two) {
+			// Yes! Textures can be any size!
+			NPOT_textures = true;
+		} else {
+			// Workaround needed for lesser graphics cards. Let's hope this works...
+			NPOT_textures = false;
+			fprintf (stderr, "Warning: Old graphics card! GLEE_ARB_texture_non_power_of_two not supported.\n");
+		}
+	}
+}
+
 bool loadSpriteTextures (spriteBank *loadhere) {
 	int i;
 	int fromhere;
 	unsigned char s;
 
+	NPOT_check();
+	
 	glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
 	glGenTextures (loadhere->total, loadhere->myPalette.tex_names);	
 	
@@ -518,6 +550,8 @@ bool loadSpriteTextures (spriteBank *loadhere) {
 bool loadSpriteTexture (spriteBank *loadhere, int index) {
 	int fromhere;
 	unsigned char s;
+
+	NPOT_check();	
 	
 	glPixelStorei (GL_UNPACK_ALIGNMENT, 1);	
 	
@@ -966,7 +1000,11 @@ void pasteSprite (sprite * single, const spritePalette *fontPal, bool showBox) {
 	float tx1 = (float)(single->tex_x) / fontPal->tex_w[single->texNum];
 	float ty1 = 0.0;
 	float tx2 = (float)(single->tex_x + single->width) / fontPal->tex_w[single->texNum];
-	float ty2 = (float)(single->height+2)/fontPal->tex_h[single->texNum];
+	float ty2;
+	if (single->height<0)
+		ty2 = (float)(-single->height+2)/fontPal->tex_h[single->texNum];
+	else
+		ty2 = (float)(single->height+2)/fontPal->tex_h[single->texNum];
 	
 	int x1 = -single->xhot;
 	int y1 = -single->yhot;

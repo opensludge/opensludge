@@ -9,7 +9,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <OpenGL/gl.h>
+//#include <OpenGL/gl.h>
+#include "glee.h"
 
 #include "FloorMaker.h"
 

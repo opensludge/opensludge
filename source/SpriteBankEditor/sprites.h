@@ -1,7 +1,8 @@
 #ifndef HWND
 #define __SPRITES_H__
 
-#include <OpenGL/gl.h>
+//#include <OpenGL/gl.h>
+#include "glee.h"
 
 #ifdef __cplusplus
 extern "C" {
