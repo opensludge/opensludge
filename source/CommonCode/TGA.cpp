@@ -233,7 +233,7 @@ char * readTGAHeader (TGAHeader & h, FILE * fp, palCol thePalette[]) {
 	// Who cares about the ID block?
 	fseek (fp, h.IDBlockSize, 1);
 
-	fprintf (stderr, "New file: %d by %d, %d bits per pixel, palette? %d\n\n", h.width, h.height, h.pixelDepth, h.gotMap);
+	fprintf (stderr, "New file: %d by %d, %d bits per pixel, palette? %d\n", h.width, h.height, h.pixelDepth, h.gotMap);
 	
 	switch (imageType) {
 		case 1:

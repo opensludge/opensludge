@@ -64,6 +64,9 @@ int loadBackDropForCompiler (char * fileName) {
 			}
 		}
 	} else {
+		HORZ_RES = imageHeader.width;
+		VERT_RES = imageHeader.height;
+
 		backdrop32 = true;
 
 		backDrop32Image = new unsigned char [imageHeader.height * imageHeader.width * 4];
