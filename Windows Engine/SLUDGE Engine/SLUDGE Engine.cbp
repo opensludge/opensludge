@@ -38,6 +38,8 @@
 			<Add directory="..\..\..\GnuWin32\include" />
 			<Add directory="..\..\..\Bass\c" />
 			<Add directory="..\..\source\CommonCode" />
+			<Add directory="C:\Program Files\OpenAL 1.1 SDK\include" />
+			<Add directory="..\..\..\alure\include" />
 		</Compiler>
 		<Linker>
 			<Add library="gdi32" />
@@ -52,6 +54,8 @@
 			<Add library="..\..\..\Bass\c\bass.lib" />
 			<Add library="C:\MinGW\lib\libopengl32.a" />
 			<Add library="C:\MinGW\lib\libglu32.a" />
+			<Add library="C:\Program Files\OpenAL 1.1 SDK\libs\Win32\OpenAL32.lib" />
+			<Add library="..\..\..\alure\build\libALURE32.dll.a" />
 		</Linker>
 		<Unit filename="..\..\..\Glee\GLee.c">
 			<Option compilerVar="CC" />
@@ -131,12 +135,17 @@
 		<Unit filename="..\..\source\Engine\shaders.cpp" />
 		<Unit filename="..\..\source\Engine\shaders.h" />
 		<Unit filename="..\..\source\Engine\sound.h" />
-		<Unit filename="..\..\source\Engine\sound_bass.cpp" />
+		<Unit filename="..\..\source\Engine\sound_bass.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="..\..\source\Engine\sound_nosound.cpp">
 			<Option compile="0" />
 			<Option link="0" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
+		<Unit filename="..\..\source\Engine\sound_openal.cpp" />
 		<Unit filename="..\..\source\Engine\sprites.h" />
 		<Unit filename="..\..\source\Engine\thumbnail.cpp" />
 		<Unit filename="..\..\source\Engine\thumbnail.h" />

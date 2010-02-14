@@ -68,20 +68,22 @@ ICON_1             ICON           "sludge.ico"
     FILEVERSION     2,0,0,0
     PRODUCTVERSION  2,0,0,0
     FILEOS          VOS__WINDOWS32
-    FILETYPE        VFT_UNKNOWN
+    FILETYPE        VFT_APP
 {
     BLOCK "StringFileInfo"
     {
         BLOCK "040904e4"
         {
-            VALUE "About SLUDGE", "Er... well, SLUDGE stands for Scripting Language for Unhindered Development of a Gaming Environment. So there. What, you thought this was a help file?\0"
-            VALUE "About the engine", "This program is freeware and open source under the LGPL license! If you're writing a game in SLUDGE, feel free to add the SLUDGE engine to your archive. Enjoy!\0"
-            VALUE "BASS on the WWW", "The sound library used in the SLUDGE engine is BASS, which you can find on the internet at http://www.un4seen.com/.\0"
-            VALUE "FileDescription", "SLUDGE Engine\0"
+            VALUE "CompanyName", "SLUDGE\0"
+            VALUE "Comments", "For more info on SLUDGE, head on over to http://www.adventuredevelopers.com/.\0"
+            VALUE "FileDescription", "Er... well, SLUDGE stands for Scripting Language for Unhindered Development of a Gaming Environment. So there. What, you thought this was a help file?\0"
             VALUE "FileVersion", "2.0 BETA\0"
-            VALUE "LegalCopyright", "\251 Hungry Software and contributors 2000-2010\0"
-            VALUE "SLUDGE on the WWW", "For more info on SLUDGE, head on over to http://www.adventuredevelopers.com/.\0"
-        }
+            VALUE "InternalName", "SLUDGE.EXE\0"
+            VALUE "LegalCopyright", "\251 Hungry Software and contributors 2000-2010, licenced under the LGPL v 2.1\0"
+            VALUE "OriginalFilename", "SLUDGE.EXE\0"
+            VALUE "ProductName", "SLUDGE Engine\0"
+            VALUE "ProductVersion", "2.0 BETA\0"
+         }
     }
     BLOCK "VarFileInfo"
     {

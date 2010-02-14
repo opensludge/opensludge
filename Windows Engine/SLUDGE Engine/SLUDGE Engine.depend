@@ -5,7 +5,7 @@
 1193991332 c:\programmering\sludge\windows engine\sludge engine\resource.h
 	<windows.h>
 
-1258802901 source:c:\programmering\sludge\source\commoncode\tga.cpp
+1266073319 source:c:\programmering\sludge\source\commoncode\tga.cpp
 	<stdio.h>
 	"TGA.h"
 
@@ -27,10 +27,11 @@
 	<GL/glx.h>
 	<stddef.h>
 
-1264801731 source:c:\programmering\sludge\source\engine\backdrop.cpp
+1265225272 source:c:\programmering\sludge\source\engine\backdrop.cpp
 	<complex>
 	<stdlib.h>
 	<stdint.h>
+	<libpng12/png.h>
 	<libpng/png.h>
 	"GLee.h"
 	"ALLFILES.H"
@@ -166,7 +167,7 @@
 	"MOREIO.H"
 	"NEWFATAL.H"
 
-1264801731 source:c:\programmering\sludge\source\engine\loadsave.cpp
+1266073319 source:c:\programmering\sludge\source\engine\loadsave.cpp
 	"ALLFILES.H"
 	"sprites.h"
 	"NEWFATAL.H"
@@ -199,7 +200,7 @@
 
 1258811419 c:\programmering\sludge\source\engine\bg_effects.h
 
-1264264994 source:c:\programmering\sludge\source\engine\moreio.cpp
+1266073319 source:c:\programmering\sludge\source\engine\moreio.cpp
 	<string.h>
 	<stdint.h>
 	"ALLFILES.H"
@@ -416,7 +417,7 @@
 	"FILESET.H"
 	"version.h"
 
-1263063104 source:c:\programmering\sludge\source\engine\region.cpp
+1266073319 source:c:\programmering\sludge\source\engine\region.cpp
 	"ALLFILES.H"
 	"OBJTYPES.H"
 	"REGION.H"
@@ -425,10 +426,12 @@
 	"MOREIO.H"
 	"BACKDROP.H"
 
-1264971715 source:c:\programmering\sludge\source\engine\sludger.cpp
+1265225272 source:c:\programmering\sludge\source\engine\sludger.cpp
 	"ALLFILES.H"
 	<SDL/SDL.h>
+	<libpng12/png.h>
 	"SDL.h"
+	<libpng/png.h>
 	<sys/types.h>
 	<sys/stat.h>
 	<iconv.h>
@@ -439,7 +442,6 @@
 	<stdlib.h>
 	<stdint.h>
 	<string.h>
-	<libpng/png.h>
 	"version.h"
 	"SLUDGER.H"
 	"BACKDROP.H"
@@ -486,7 +488,8 @@
 	"NEWFATAL.H"
 	"debug.h"
 
-1263062412 source:c:\programmering\sludge\source\engine\sprites.cpp
+1266073319 source:c:\programmering\sludge\source\engine\sprites.cpp
+	<libpng12/png.h>
 	<libpng/png.h>
 	"ALLFILES.H"
 	"FILESET.H"
@@ -502,7 +505,7 @@
 	"Graphics.h"
 	"shaders.h"
 
-1262988959 source:c:\programmering\sludge\source\engine\statusba.cpp
+1266073319 source:c:\programmering\sludge\source\engine\statusba.cpp
 	"ALLFILES.H"
 	"BACKDROP.H"
 	"COLOURS.H"
@@ -518,7 +521,7 @@
 	<string.h>
 	"NEWFATAL.H"
 
-1262988959 source:c:\programmering\sludge\source\engine\sprites_aa.cpp
+1266073319 source:c:\programmering\sludge\source\engine\sprites_aa.cpp
 	"ALLFILES.H"
 	"FILESET.H"
 	"sprites.h"
@@ -530,7 +533,7 @@
 	"zbuffer.h"
 	"Sprites_AA.h"
 
-1262988960 source:c:\programmering\sludge\source\engine\talk.cpp
+1266073319 source:c:\programmering\sludge\source\engine\talk.cpp
 	"ALLFILES.H"
 	<string.h>
 	"BACKDROP.H"
@@ -547,7 +550,7 @@
 	"STRINGY.H"
 	"MOREIO.H"
 
-1264801731 source:c:\programmering\sludge\source\engine\variable.cpp
+1265478862 source:c:\programmering\sludge\source\engine\variable.cpp
 	<string.h>
 	"debug.h"
 	"ALLFILES.H"
@@ -594,7 +597,7 @@
 	"NEWFATAL.H"
 	"MOREIO.H"
 
-1264801731 source:c:\programmering\sludge\source\engine\builtin.cpp
+1266003302 source:c:\programmering\sludge\source\engine\builtin.cpp
 	"debug.h"
 	"ALLFILES.H"
 	<SDL/SDL.h>
@@ -671,7 +674,7 @@
 	"shaders.h"
 	"Language.h"
 
-1264971714 source:c:\programmering\sludge\source\engine\language.cpp
+1266003302 source:c:\programmering\sludge\source\engine\language.cpp
 	<stdio.h>
 	<string.h>
 	"STRINGY.H"
@@ -680,7 +683,7 @@
 	"Language.h"
 	"version.h"
 
-1264967831 source:c:\programmering\sludge\source\engine\main.cpp
+1266003302 source:c:\programmering\sludge\source\engine\main.cpp
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -734,7 +737,7 @@
 	<stdlib.h>
 	"ALLFILES.H"
 
-1263063104 source:c:\programmering\sludge\source\engine\people.cpp
+1266073319 source:c:\programmering\sludge\source\engine\people.cpp
 	"ALLFILES.H"
 	<math.h>
 	<stdlib.h>
@@ -754,8 +757,9 @@
 	"floor.h"
 	"zbuffer.h"
 
-1264801731 source:c:\programmering\sludge\source\engine\savedata.cpp
+1266003302 source:c:\programmering\sludge\source\engine\savedata.cpp
 	<stdint.h>
+	<unistd.h>
 	<string.h>
 	"ALLFILES.H"
 	"VARIABLE.H"
@@ -830,10 +834,34 @@
 1258804650 c:\programmering\sludge\source\commoncode\tga.h
 	<stdio.h>
 
-1264799298 c:\programmering\sludge\source\engine\moreio.h
+1266073319 c:\programmering\sludge\source\engine\moreio.h
 	<stdint.h>
 
 1258810534 c:\programmering\sludge\source\engine\csludge.h
 
 1258802901 c:\programmering\sludge\source\commoncode\specialsettings.h
+
+1266073319 source:c:\programmering\sludge\source\engine\sound_openal.cpp
+	<stdint.h>
+	<stdio.h>
+	"AL/alure.h"
+	"ALLFILES.H"
+	"NEWFATAL.H"
+	"sound.h"
+	"MOREIO.H"
+	"FILESET.H"
+
+1265234301 c:\programmering\alure\include\al\alure.h
+	<al.h>
+	<alc.h>
+	<OpenAL/alc.h>
+	<OpenAL/al.h>
+	<AL/al.h>
+	<AL/alc.h>
+	<sys/types.h>
+	<stdint.h>
+
+1165591858 c:\program files\openal 1.1 sdk\include\al.h
+
+1176472968 c:\program files\openal 1.1 sdk\include\alc.h
 
