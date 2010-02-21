@@ -1,8 +1,6 @@
 #ifdef __linux__
-//#include <SDL/SDL_opengl.h>
 #include <SDL/SDL.h>
 #else
-//#include <SDL_opengl.h>
 #include <SDL.h>
 #endif
 #include "GLee.h"
@@ -201,7 +199,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 		"	col = mix (texture2.rgb, color.rgb, color.a);"
 		"	gl_FragColor = vec4 (col, max(texture.a, texture2.a));"
 		"}";
-
+	
 	shaderFixScaleSprite = buildShaders (VertexFixScaleSprite, FragmentFixScaleSprite);
 	fprintf (stderr, "Built shader program: %d\n", shaderFixScaleSprite);
 	glUseProgram(shaderFixScaleSprite);

@@ -1090,7 +1090,7 @@ builtIn(startMusic)
 	trimStack (fun -> stack);
 	if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 	trimStack (fun -> stack);
-	if (! playMOD (fileNumber, musChan, fromTrack)) return BR_NOCOMMENT;
+	if (! playMOD (fileNumber, musChan, fromTrack)) return BR_CONTINUE; //BR_NOCOMMENT;
 	return BR_CONTINUE;
 }
 

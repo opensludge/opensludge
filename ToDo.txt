@@ -10,6 +10,7 @@ Dev Kit:
 
 Wish list:
 
+* Sprite-bank-editor: Allow setting hotspot for multiple frames at once.
 * Multi-line comments.
 * SVG?
 * Added control of animations. (Nonlooping)

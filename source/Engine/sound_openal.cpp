@@ -81,6 +81,8 @@ bool initSoundStuff (HWND hwnd) {
 }
 
 void killSoundStuff () {
+	if (! soundOK) return; 	
+	
 	for (int i = 0; i < MAX_SAMPLES; i ++) {
 		if (soundCache[i].playing) {
 			if (! alureStopSource(soundCache[i].playingOnSource, AL_TRUE)) {
@@ -121,6 +123,8 @@ void killSoundStuff () {
  */
 
 void setMusicVolume (int a, int v) {
+	if (! soundOK) return; 	
+	
 	if (modCache[a].playing) {
 		alSourcef (modCache[a].playingOnSource, AL_GAIN, (float) modLoudness * v / 256);
 	}
@@ -317,8 +321,12 @@ bool playMOD (int f, int a, int fromTrack) {
 
 	setResourceForFatal (f);
 	uint32_t length = openFileFromNum (f);
-	if (length == 0) return NULL;
-
+	if (length == 0) {
+		finishAccess();
+		setResourceForFatal (-1);
+		return NULL;
+	}
+	
 	unsigned char * memImage;
 	memImage = (unsigned char *) loadEntireFileToMemory (bigDataFile, length);
 	if (! memImage) return fatal (ERROR_MUSIC_MEMORY_LOW);

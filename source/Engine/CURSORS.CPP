@@ -1,8 +1,3 @@
-#ifdef __linux__
-//#include <SDL/SDL_opengl.h>
-#else
-//#include <SDL_opengl.h>
-#endif
 #include "GLee.h"
 
 #include "ALLFILES.H"
