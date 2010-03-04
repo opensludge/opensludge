@@ -1,5 +1,5 @@
-#include "VARIABLE.H"
-#include "Graphics.h"
+#include "variable.h"
+#include "graphics.h"
 
 #include "GLee.h"
 

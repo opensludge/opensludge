@@ -1,9 +1,9 @@
-#include "ALLFILES.H"
-#include "OBJTYPES.H"
-#include "VARIABLE.H"
-#include "NEWFATAL.H"
-#include "MOREIO.H"
-#include "FILESET.H"
+#include "allfiles.h"
+#include "objtypes.h"
+#include "variable.h"
+#include "newfatal.h"
+#include "moreio.h"
+#include "fileset.h"
 #include "version.h"
 
 objectType * allObjectTypes = NULL;

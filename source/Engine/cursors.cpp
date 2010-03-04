@@ -1,12 +1,12 @@
 #include "GLee.h"
 
-#include "ALLFILES.H"
-#include "CURSORS.H"
-#include "COLOURS.H"
+#include "allfiles.h"
+#include "cursors.h"
+#include "colours.h"
 #include "sprites.h"
-#include "SPRBANKS.H"
-#include "PEOPLE.H"
-#include "SLUDGER.H"
+#include "sprbanks.h"
+#include "people.h"
+#include "sludger.h"
 
 personaAnimation * mouseCursorAnim;
 int mouseCursorFrameNum = 0;

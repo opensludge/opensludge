@@ -23,26 +23,26 @@
 #include <iconv.h>
 
 #ifdef _WIN32
-#include "WINSTUFF.H"
+#include "winstuff.h"
 #else
 char * grabFileName ();
 #endif
-#include "Language.h"
-#include "STRINGY.H"
-#include "SLUDGER.H"
-#include "BACKDROP.H"
-#include "NEWFATAL.H"
-#include "PEOPLE.H"
+#include "language.h"
+#include "stringy.h"
+#include "sludger.h"
+#include "backdrop.h"
+#include "newfatal.h"
+#include "people.h"
 #include "floor.h"
-#include "OBJTYPES.H"
-#include "TALK.H"
-#include "STATUSBA.H"
+#include "objtypes.h"
+#include "talk.h"
+#include "statusba.h"
 #include "transition.h"
-#include "specialSettings.h"
+#include "specialsettings.h"
 #include "timing.h"
 #include "sound.h"
-#include "SLUDGER.H"
-#include "Graphics.h"
+#include "sludger.h"
+#include "graphics.h"
 
 void msgBox (const char * head, const char * msg);
 int msgBoxQuestion (const char * head, const char * msg);

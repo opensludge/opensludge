@@ -4,7 +4,7 @@
 #include "SDL.h"
 #endif
 
-#include "ALLFILES.H"
+#include "allfiles.h"
 #include "version.h"
 
 #include <string.h>
@@ -12,9 +12,9 @@
 
 #include "sound.h"
 
-#include "STRINGY.H"
+#include "stringy.h"
 #include "errors.h"
-#include "Graphics.h"
+#include "graphics.h"
 
 void msgBox (const char * head, const char * msg);
 

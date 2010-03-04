@@ -4,15 +4,15 @@
 #include <SDL.h>
 #endif
 #include "GLee.h"
-#include "specialSettings.h"
-#include "Graphics.h"
-#include "Sprites_AA.h"
-#include "SPRBANKS.H"
+#include "specialsettings.h"
+#include "graphics.h"
+#include "sprites_aa.h"
+#include "sprbanks.h"
 #include "zbuffer.h"
-#include "BACKDROP.H"
+#include "backdrop.h"
 #include "shaders.h"
 
-#include "Language.h" // for settings
+#include "language.h" // for settings
 
 int winWidth, winHeight;
 int viewportHeight, viewportWidth;

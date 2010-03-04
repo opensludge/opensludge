@@ -1,7 +1,7 @@
-#include "ALLFILES.H"
+#include "allfiles.h"
 #include "sprites.h"
-#include "SPRBANKS.H"
-#include "NEWFATAL.H"
+#include "sprbanks.h"
+#include "newfatal.h"
 #include "debug.h"
 
 loadedSpriteBank * allLoadedBanks = NULL;

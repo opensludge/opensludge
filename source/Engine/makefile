@@ -17,7 +17,7 @@ CFLAGS  = -Wall -g -D_REENTRANT
 IFLAGS  = -I `pwd`/../CommonCode
 LDFLAGS = -lGL -lGLU -lSDL -lpng $(SOUND_LDFLAGS)
 
-OBJ = $(SOUND_OBJ) BACKDROP.o bg_effects.o builtin.o CURSORS.o debug.o FILESET.o floor.o FONTTEXT.o FREEZE.o Graphics.o Language.o line.o linuxstuff.o LOADSAVE.o main.o memwatch.o MOREIO.o NEWFATAL.o OBJTYPES.o people.o REGION.o savedata.o shaders.o SLUDGER.o SPRBANKS.o SPRITES.o Sprites_AA.o STATUSBA.o STRINGY.o TALK.o thumbnail.o timing.o transition.o VARIABLE.o WINSTUFF.o zbuffer.o GLee.o
+OBJ = $(SOUND_OBJ) backdrop.o bg_effects.o builtin.o cursors.o debug.o fileset.o floor.o fonttext.o freeze.o graphics.o language.o line.o linuxstuff.o loadsave.o main.o memwatch.o moreio.o newfatal.o objtypes.o people.o region.o savedata.o shaders.o sludger.o sprbanks.o sprites.o sprites_aa.o statusba.o stringy.o talk.o thumbnail.o timing.o transition.o variable.o winstuff.o zbuffer.o GLee.o
 
 BIN = sludge_engine
 
@@ -27,9 +27,6 @@ sludge_engine: $(OBJ)
 	$(CC) $(CFLAGS) -o sludge_engine $(OBJ) $(IFLAGS) $(LDFLAGS)
 
 %.o: %.cpp
-	$(CC) $(CFLAGS) -c $< $(IFLAGS)
-
-%.o: %.CPP
 	$(CC) $(CFLAGS) -c $< $(IFLAGS)
 
 %.o: %.c

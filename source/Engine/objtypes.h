@@ -1,4 +1,4 @@
-#include "Sprites_AA.h"
+#include "sprites_aa.h"
 
 struct combination {
 	int withObj, funcNum;

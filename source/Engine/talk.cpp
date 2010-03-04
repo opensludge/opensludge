@@ -1,20 +1,20 @@
-#include "ALLFILES.H"
+#include "allfiles.h"
 
 #include <string.h>
 
-#include "BACKDROP.H"
+#include "backdrop.h"
 #include "sprites.h"
-#include "SLUDGER.H"
-#include "OBJTYPES.H"
-#include "REGION.H"
-#include "SPRBANKS.H"
-#include "PEOPLE.H"
-#include "TALK.H"
+#include "sludger.h"
+#include "objtypes.h"
+#include "region.h"
+#include "sprbanks.h"
+#include "people.h"
+#include "talk.h"
 #include "sound.h"
-#include "FONTTEXT.H"
-#include "NEWFATAL.H"
-#include "STRINGY.H"
-#include "MOREIO.H"
+#include "fonttext.h"
+#include "newfatal.h"
+#include "stringy.h"
+#include "moreio.h"
 
 extern int fontHeight, cameraX, cameraY, speechMode;
 speechStruct * speech;

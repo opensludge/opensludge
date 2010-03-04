@@ -12,20 +12,20 @@
 
 #include "GLee.h"
 
-#include "ALLFILES.H"
+#include "allfiles.h"
 
-#include "WINSTUFF.H"
-#include "NEWFATAL.H"
-#include "COLOURS.H"
-#include "FILESET.H"
-#include "CURSORS.H"
-#include "BACKDROP.H"
-#include "MOREIO.H"
-#include "VARIABLE.H"
+#include "winstuff.h"
+#include "newfatal.h"
+#include "colours.h"
+#include "fileset.h"
+#include "cursors.h"
+#include "backdrop.h"
+#include "moreio.h"
+#include "variable.h"
 #include "zbuffer.h"
-#include "Graphics.h"
+#include "graphics.h"
 #include "line.h"
-#include "Sprites_AA.h"
+#include "sprites_aa.h"
 
 #include "version.h"
 

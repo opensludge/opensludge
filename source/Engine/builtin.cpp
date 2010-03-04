@@ -1,5 +1,5 @@
 #include "debug.h"
-#include "ALLFILES.H"
+#include "allfiles.h"
 #ifdef __linux
 #include <SDL/SDL.h>
 #else
@@ -16,32 +16,32 @@
 #endif
 #include <stdio.h>
 
-#include "SLUDGER.H"
-#include "BUILTIN.H"
-#include "STRINGY.H"
-#include "NEWFATAL.H"
-#include "CURSORS.H"
-#include "STATUSBA.H"
-#include "LOADSAVE.H"
-#include "BACKDROP.H"
+#include "sludger.h"
+#include "builtin.h"
+#include "stringy.h"
+#include "newfatal.h"
+#include "cursors.h"
+#include "statusba.h"
+#include "loadsave.h"
+#include "backdrop.h"
 #include "bg_effects.h"
 #include "sprites.h"
-#include "FONTTEXT.H"
-#include "SPRBANKS.H"
-#include "PEOPLE.H"
+#include "fonttext.h"
+#include "sprbanks.h"
+#include "people.h"
 #include "sound.h"
-#include "OBJTYPES.H"
+#include "objtypes.h"
 #include "floor.h"
 #include "zbuffer.h"
-#include "TALK.H"
-#include "REGION.H"
-#include "MOREIO.H"
+#include "talk.h"
+#include "region.h"
+#include "moreio.h"
 #include "savedata.h"
-#include "FREEZE.H"
-#include "COLOURS.H"
-#include "Language.h"
+#include "freeze.h"
+#include "colours.h"
+#include "language.h"
 #include "thumbnail.h"
-#include "Graphics.h"
+#include "graphics.h"
 
 extern char * gamePath;
 
@@ -2578,14 +2578,14 @@ builtIn(doBackgroundEffect)
 #define FUNC(special,name)		{builtIn_ ## name},
 static builtInFunctionData builtInFunctionArray[] =
 {
-	#include "functionList.h"
+	#include "functionlist.h"
 };
 #undef FUNC
 
 #define FUNC(special,name)		{#name},
 char builtInFunctionNames[][25] =
 {
-#include "functionList.h"
+#include "functionlist.h"
 };
 #undef FUNC
 

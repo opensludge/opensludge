@@ -1,15 +1,15 @@
 #include <stdint.h>
 
-#include "ALLFILES.H"
+#include "allfiles.h"
 #include "errors.h"
-#include "MOREIO.H"
+#include "moreio.h"
 #include "version.h"
-#include "SLUDGER.H"
-#include "COLOURS.H"
-#include "BACKDROP.H"
-#include "Graphics.h"
-#include "Sprites_AA.h"
-#include "NEWFATAL.H"
+#include "sludger.h"
+#include "colours.h"
+#include "backdrop.h"
+#include "graphics.h"
+#include "sprites_aa.h"
+#include "newfatal.h"
 
 bool freeze ();
 void unfreeze (bool);	// Because FREEZE.H needs a load of other includes

@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <string.h>
-#include "STRINGY.H"
-#include "NEWFATAL.H"
-#include "MOREIO.H"
-#include "Language.h"
+#include "stringy.h"
+#include "newfatal.h"
+#include "moreio.h"
+#include "language.h"
 #include "version.h"
 
 int *languageTable;

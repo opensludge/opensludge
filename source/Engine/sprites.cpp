@@ -4,19 +4,19 @@
 #include <libpng/png.h>
 #endif
 
-#include "ALLFILES.H"
+#include "allfiles.h"
 
-#include "FILESET.H"
+#include "fileset.h"
 #include "sprites.h"
-#include "Sprites_AA.h"
-#include "MOREIO.H"
-#include "NEWFATAL.H"
-#include "COLOURS.H"
-#include "BACKDROP.H"
-#include "SLUDGER.H"
+#include "sprites_aa.h"
+#include "moreio.h"
+#include "newfatal.h"
+#include "colours.h"
+#include "backdrop.h"
+#include "sludger.h"
 #include "zbuffer.h"
 #include "debug.h"
-#include "Graphics.h"
+#include "graphics.h"
 
 #include "shaders.h"
 

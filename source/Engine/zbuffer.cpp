@@ -1,11 +1,11 @@
 #include <stdint.h>
 
-#include "ALLFILES.H"
+#include "allfiles.h"
 #include "zbuffer.h"
-#include "FILESET.H"
-#include "MOREIO.H"
-#include "NEWFATAL.H"
-#include "Graphics.h"
+#include "fileset.h"
+#include "moreio.h"
+#include "newfatal.h"
+#include "graphics.h"
 
 zBufferData zBuffer;
 extern int sceneWidth, sceneHeight;

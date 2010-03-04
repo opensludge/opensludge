@@ -1,10 +1,10 @@
 
 #include "GLee.h"
 #include <stdlib.h>
-#include "Graphics.h"
-#include "Sprites_AA.h"
+#include "graphics.h"
+#include "sprites_aa.h"
 
-#include "ALLFILES.H"
+#include "allfiles.h"
 
 extern int sceneWidth, sceneHeight;
 extern GLuint backdropTextureName;

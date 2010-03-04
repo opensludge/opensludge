@@ -1,4 +1,4 @@
-#include "VARIABLE.H"
+#include "variable.h"
 #ifdef _WIN32
 #include <windows.h>
 #else

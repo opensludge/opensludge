@@ -3,7 +3,7 @@
 #include "allfiles.h"
 #include "newfatal.h"
 #include "sound.h"
-#include "MOREIO.H"
+#include "moreio.h"
 #include "fileset.h"
 
 bool soundOK = false;

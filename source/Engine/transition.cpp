@@ -1,10 +1,10 @@
 #include <stdint.h>
 #include <string.h>
 
-#include "ALLFILES.H"
-#include "COLOURS.H"
-#include "BACKDROP.H"
-#include "Graphics.h"
+#include "allfiles.h"
+#include "colours.h"
+#include "backdrop.h"
+#include "graphics.h"
 
 extern GLuint snapshotTextureName;
 extern unsigned char brightnessLevel;
