@@ -18,6 +18,9 @@ struct texture {
 	double texW, texH;
 };
 
+struct shaders {
+	GLuint fixScaleSprite;
+};
 
 // From Backdrop.cpp, but they're here anyway
 extern GLubyte * backdropTexture;
@@ -30,7 +33,7 @@ extern int viewportOffsetX, viewportOffsetY;
 extern int realWinWidth, realWinHeight;
 
 extern bool NPOT_textures;
-extern GLuint shaderFixScaleSprite;
+extern shaders shader;
 
 void setPixelCoords (bool pixels);
 void setGraphicsWindow(bool fullscreen, bool restoreGraphics = true);

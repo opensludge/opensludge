@@ -3,7 +3,6 @@
 #else
 #include <SDL.h>
 #endif
-#include "GLee.h"
 #include "specialsettings.h"
 #include "graphics.h"
 #include "sprites_aa.h"
@@ -28,7 +27,7 @@ extern int sceneWidth, sceneHeight;
 extern zBufferData zBuffer;
 extern int lightMapNumber;
 
-GLuint shaderFixScaleSprite = 0;
+shaders shader;
 
 void msgBox (const char * head, const char * msg);
 void sludgeDisplay ();
@@ -200,16 +199,16 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 		"	gl_FragColor = vec4 (col, max(texture.a, texture2.a));"
 		"}";
 	
-	shaderFixScaleSprite = buildShaders (VertexFixScaleSprite, FragmentFixScaleSprite);
-	fprintf (stderr, "Built shader program: %d\n", shaderFixScaleSprite);
-	glUseProgram(shaderFixScaleSprite);
-	GLint uniform = glGetUniformLocation(shaderFixScaleSprite, "tex0");
+	shader.fixScaleSprite = buildShaders (VertexFixScaleSprite, FragmentFixScaleSprite);
+	fprintf (stderr, "Built shader program: %d (fixScaleSprite)\n", shader.fixScaleSprite);
+	glUseProgram(shader.fixScaleSprite);
+	GLint uniform = glGetUniformLocation(shader.fixScaleSprite, "tex0");
 	if (uniform >= 0) glUniform1i(uniform, 0);
-	uniform = glGetUniformLocation(shaderFixScaleSprite, "tex1");
+	uniform = glGetUniformLocation(shader.fixScaleSprite, "tex1");
 	if (uniform >= 0) glUniform1i(uniform, 1);
-	uniform = glGetUniformLocation(shaderFixScaleSprite, "tex2");
+	uniform = glGetUniformLocation(shader.fixScaleSprite, "tex2");
 	if (uniform >= 0) glUniform1i(uniform, 2);
-	uniform = glGetUniformLocation(shaderFixScaleSprite, "useLightTexture");
+	uniform = glGetUniformLocation(shader.fixScaleSprite, "useLightTexture");
 	if (uniform >= 0) glUniform1i(uniform, 0);
 
 	glUseProgram(0);
