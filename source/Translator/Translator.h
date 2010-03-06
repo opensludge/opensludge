@@ -18,6 +18,7 @@ enum lineType {TYPE_NEW, TYPE_NONE, TYPE_TRANS, TYPE_SEARCH};
 struct transLine {
 	char * transFrom, * transTo;
 	enum lineType type;
+	char exists;
 	struct transLine * next;
 };
 

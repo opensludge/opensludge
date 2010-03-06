@@ -1,11 +1,11 @@
 #include <stdint.h>
 
-#include "allfiles.h"
-#include "newfatal.h"
+#include "ALLFILES.H"
+#include "NEWFATAL.H"
 #include "bass.h"
 #include "sound.h"
-#include "moreio.h"
-#include "fileset.h"
+#include "MOREIO.H"
+#include "FILESET.H"
 
 #define MAX_SAMPLES 8
 #define MAX_MODS 3

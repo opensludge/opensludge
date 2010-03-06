@@ -1,9 +1,9 @@
 #ifdef __linux__
-#include "allfiles.h"
+#include "ALLFILES.H"
 #include <iostream>
 #include <fstream>
 
-#include "language.h" // for settings
+#include "Language.h" // for settings
 
 extern settingsStruct gameSettings;
 extern cmdlineSettingsStruct cmdlineSettings;

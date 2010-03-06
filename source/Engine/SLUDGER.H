@@ -3,9 +3,9 @@
 
 #include <stdint.h>
 
-#include "variable.h"
-#include "csludge.h"
-#include "language.h"
+#include "VARIABLE.H"
+#include "CSLUDGE.H"
+#include "Language.h"
 
 #ifndef _WIN32
 typedef struct _FILETIME {

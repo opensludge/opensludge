@@ -1,10 +1,10 @@
 #include <string.h>
 #include <stdint.h>
 
-#include "allfiles.h"
-#include "moreio.h"
-#include "newfatal.h"
-#include "stringy.h"
+#include "ALLFILES.H"
+#include "MOREIO.H"
+#include "NEWFATAL.H"
+#include "STRINGY.H"
 
 #include "debug.h"
 

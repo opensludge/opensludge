@@ -2,9 +2,9 @@
 
 #include "debug.h"
 
-#include "allfiles.h"
-#include "moreio.h"
-#include "newfatal.h"
+#include "ALLFILES.H"
+#include "MOREIO.H"
+#include "NEWFATAL.H"
 //#include "debug.h"
 
 //char * outputDir;

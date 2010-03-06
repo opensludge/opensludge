@@ -1,7 +1,7 @@
-#include "allfiles.h"
+#include "ALLFILES.H"
 #include <string.h>
 
-#include "newfatal.h"
+#include "NEWFATAL.H"
 
 char * copyString (const char * copyMe) {
 	char * newString = new char [strlen (copyMe) + 1];

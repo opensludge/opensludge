@@ -2,10 +2,10 @@
 #include <unistd.h>
 #include <string.h>
 
-#include "allfiles.h"
-#include "variable.h"
-#include "newfatal.h"
-#include "moreio.h"
+#include "ALLFILES.H"
+#include "VARIABLE.H"
+#include "NEWFATAL.H"
+#include "MOREIO.H"
 
 #define LOAD_ERROR "Can't load custom data...\n\n"
 

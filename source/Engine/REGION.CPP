@@ -1,10 +1,10 @@
-#include "allfiles.h"
-#include "objtypes.h"
-#include "region.h"
-#include "newfatal.h"
-#include "sludger.h"
-#include "moreio.h"
-#include "backdrop.h"
+#include "ALLFILES.H"
+#include "OBJTYPES.H"
+#include "REGION.H"
+#include "NEWFATAL.H"
+#include "SLUDGER.H"
+#include "MOREIO.H"
+#include "BACKDROP.H"
 
 screenRegion * allScreenRegions = NULL;
 screenRegion * overRegion = NULL;

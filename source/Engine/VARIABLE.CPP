@@ -2,18 +2,18 @@
 
 #include "debug.h"
 
-#include "allfiles.h"
+#include "ALLFILES.H"
 
-#include "variable.h"
-#include "newfatal.h"
+#include "VARIABLE.H"
+#include "NEWFATAL.H"
 
-#include "stringy.h"
-#include "objtypes.h"
-#include "people.h"
-#include "fileset.h"
+#include "STRINGY.H"
+#include "OBJTYPES.H"
+#include "PEOPLE.H"
+#include "FILESET.H"
 
 #include <dirent.h>
-#include "moreio.h"
+#include "MOREIO.H"
 #ifdef _WIN32
 #include "windows.h"
 

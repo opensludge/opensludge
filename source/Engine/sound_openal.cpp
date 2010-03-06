@@ -22,11 +22,11 @@
 
 #include "AL/alure.h"
 
-#include "allfiles.h"
-#include "newfatal.h"
+#include "ALLFILES.H"
+#include "NEWFATAL.H"
 #include "sound.h"
-#include "moreio.h"
-#include "fileset.h"
+#include "MOREIO.H"
+#include "FILESET.H"
 
 #define MAX_SAMPLES 8
 #define MAX_MODS 3
@@ -262,6 +262,8 @@ void playStream (int a, bool isMOD, bool loopy) {
 	soundThing *st;
 	void (*eos_callback)(void *userdata, ALuint source);
 
+//	fprintf (stderr, "Starting sound %d (loop: %d, mod: %d)\n", a, loopy, isMOD);
+
 	if (isMOD) {
 		st = &modCache[a];
 		eos_callback = mod_eos_callback;
@@ -300,6 +302,7 @@ void playStream (int a, bool isMOD, bool loopy) {
 		(*st).playingOnSource = 0;
 	} else {
 		(*st).playingOnSource = src;
+//		fprintf (stderr, "Playing on source %d\n", src);
 		(*st).playing = true;
 	}
 }
@@ -464,6 +467,8 @@ int cacheSound (int f) {
 		}
 	}
 
+//	fprintf(stdout, "Creating stream from file with length = %i\n", length);
+
 	chunkLength = 19200;
 
 	// Small looping sounds need small chunklengths.
@@ -555,3 +560,4 @@ bool getSoundCacheStack (stackHandler * sH) {
 	}
 	return true;
 }
+
