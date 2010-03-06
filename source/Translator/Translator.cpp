@@ -193,10 +193,7 @@ int foundStringInFileDel (char * string, transLine ** firstTransLine) {
 	trimEdgeSpace (string);
 	
 	while (hunt) {
-		if (strcmp (hunt -> transFrom, string) == 0) {
-			hunt -> exists = 1;
-			return 0;
-		}
+		if (strcmp (hunt -> transFrom, string) == 0) return 0;
 		lastOne = hunt;
 		hunt = hunt -> next;
 	}
@@ -206,7 +203,6 @@ int foundStringInFileDel (char * string, transLine ** firstTransLine) {
 		*firstTransLine = hunt;
 	
 	hunt->type = TYPE_NEW;
-	hunt->exists = 1;
 	delete string;
 	return 1;
 }
@@ -284,15 +280,7 @@ bool updateFromProject (const char * filename, transLine **firstTransLine) {
 
 	FILE * fp = fopen (filename, "rt");
 	int totalNew = 0;
-	int totalOld = 0;
 	if (fp) {
-		transLine * hunt = *firstTransLine;
-		
-		while (hunt) {
-			hunt -> exists = 0;
-			hunt = hunt -> next;
-		}		
-		
 		char * theLine;
 		for (;;) {
 			theLine = readText (fp);
@@ -316,39 +304,8 @@ bool updateFromProject (const char * filename, transLine **firstTransLine) {
 			theLine = readText (fp);
 			if (theLine) totalNew += updateFromSource (theLine, firstTransLine);
 		}
-		
-		hunt = *firstTransLine;
-		transLine *prev = NULL;
-		while (hunt) {
-			if (! hunt -> exists) {
-				fprintf(stderr, "Removing string: %s\n", hunt->transFrom);
-				if (prev) {
-					prev->next = hunt->next;
-					
-					delete hunt -> transFrom;
-					delete hunt -> transTo;
-					delete hunt;
-					hunt = prev;
-				} else {
-					*firstTransLine = (*firstTransLine) -> next;
-
-					delete hunt -> transFrom;
-					delete hunt -> transTo;
-					delete hunt;
-					hunt = *firstTransLine;					
-				}
-				totalOld++;
-			}
-			if (hunt) {
-				prev = hunt;
-				hunt = hunt -> next;
-			}
-		}		
-		
 	}
-	if (totalOld) {
-		errorBox ("Warning.", "I found unused strings in the translation file. The unused strings are removed.");
-	}	else if (! totalNew) {
+	if (! totalNew) {
 		errorBox ("Found no new strings in the project that I don't already know about.", "This translation file is up to date! Hooray!");
 		return false;
 	}

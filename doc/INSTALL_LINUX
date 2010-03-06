@@ -1,0 +1,49 @@
+These instructions cover building OpenSLUDGE with OpenAL as sound library (which is recommendet). You can still use BASS as sound library, see INSTALL_LINUX_BASS for instructions. The game "Frasse and the Peas of Keyick" currently still requires BASS to work properly, because it uses a sound format not supported by Alure.
+
+Install SDL, libGLU and libpng developer packages
+(on Ubuntu: libsdl1.2-dev, libglu1-mesa-dev and libpng12-dev).
+
+OpenAL sound support requires OpenAL, Vorbis, FLAC and DUMB dev packages.
+(Ubuntu: libopenal-dev, libvorbis-dev, libflac-dev, libdumb1-dev)
+
+Get the newest version of Alure from git: http://kcat.strangesoft.net/alure.html
+Version 1.0 won't work, because it doesn't have all functions used by SLUDGE!
+
+Compile and install Alure, making sure that at least Vorbis, FLAC and DUMB support are enabled:
+
+cmake .
+make
+make install
+
+(make install requires root rights.)
+
+Now OpenSLUDGE can be compiled.
+
+Make sure that there are the files GLee.h and GLee.c in source/Engine.
+If they are not, get the GLee source code from http://elf-stone.com/glee.php.
+
+Then go to the "source" directory and run
+
+make
+
+If that doesn't stop with an error, do (with root rights):
+
+make install
+
+You can clean the source directory with
+
+make clean
+
+and revert the installation with 
+
+make remove
+
+You can start games now with 
+
+sludge_engine gamedata.slg
+
+Or view the help text with
+
+sludge_engine --help
+
+- Tobias Hansen <tobias.han@gmx.de>
