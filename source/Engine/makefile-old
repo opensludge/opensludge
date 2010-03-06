@@ -4,11 +4,11 @@
 # or BASS as sound library:
 #
 #--OpenGL/Alure:-------------------------------------
-SOUND_LDFLAGS = -lalure
-SOUND_OBJ = sound_openal.o
+#SOUND_LDFLAGS = -lalure
+#SOUND_OBJ = sound_openal.o
 #--BASS:---------------------------------------------
-#SOUND_LDFLAGS = -lbass
-#SOUND_OBJ = sound_bass.o
+SOUND_LDFLAGS = -lbass
+SOUND_OBJ = sound_bass.o
 #----------------------------------------------------
 
 CC      = /usr/bin/g++
