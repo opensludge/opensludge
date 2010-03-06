@@ -10,9 +10,9 @@ Get the linux version of BASS from http://www.un4seen.com/bass.html.
 Copy  bass.h to /usr/include and libbass.so to /usr/lib.
 Take the libbass.so from the x64 folder if you're on 64bit.
 
-Then go to the "source" directory and change the comments in the makefile to build with BASS instead of OpenAL.
+Rename source/makefile-old to source/makefile and source/Engine/makefile-old to source/Engine/makefile.
 
-Build OpenSLUDGE with
+Then `cd' to the "source" directory and build OpenSLUDGE with
 
 make
 
