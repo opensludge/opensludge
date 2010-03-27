@@ -894,7 +894,7 @@ bool loadCostume (persona * cossy, FILE * fp) {
 		cossy -> animation[a] = new personaAnimation;
 		if (! checkNew (cossy -> animation[a])) return false;
 
-		if (! loadAnim (cossy -> animation[a], fp, ssgVersion)) return false;
+		if (! loadAnim (cossy -> animation[a], fp)) return false;
 	}
 //	debugCostume ("Loaded", cossy);
 	return true;

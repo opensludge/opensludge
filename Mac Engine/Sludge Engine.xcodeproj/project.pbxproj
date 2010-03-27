@@ -21,87 +21,87 @@
 		2F6F29610FBEFE3C00BC6A67 /* OSXMain.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F6F29600FBEFE3C00BC6A67 /* OSXMain.h */; };
 		2F6F29640FBEFE4800BC6A67 /* OSXMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6F29630FBEFE4800BC6A67 /* OSXMain.m */; };
 		2F6F29940FBEFF3D00BC6A67 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F6F29930FBEFF3D00BC6A67 /* main.cpp */; };
-		2F7BFEB70E3384AE003F5DC3 /* BACKDROP.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEB60E3384AE003F5DC3 /* BACKDROP.CPP */; };
+		2F7BFEB70E3384AE003F5DC3 /* backdrop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEB60E3384AE003F5DC3 /* backdrop.cpp */; };
 		2F7BFEB90E3384B8003F5DC3 /* bg_effects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEB80E3384B8003F5DC3 /* bg_effects.cpp */; };
 		2F7BFEBB0E3384BE003F5DC3 /* builtin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEBA0E3384BE003F5DC3 /* builtin.cpp */; };
-		2F7BFEBD0E3384CB003F5DC3 /* CURSORS.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEBC0E3384CB003F5DC3 /* CURSORS.CPP */; };
+		2F7BFEBD0E3384CB003F5DC3 /* cursors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEBC0E3384CB003F5DC3 /* cursors.cpp */; };
 		2F7BFEBF0E3384E0003F5DC3 /* debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEBE0E3384E0003F5DC3 /* debug.cpp */; };
-		2F7BFEC30E338504003F5DC3 /* FILESET.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEC20E338504003F5DC3 /* FILESET.CPP */; };
+		2F7BFEC30E338504003F5DC3 /* fileset.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEC20E338504003F5DC3 /* fileset.cpp */; };
 		2F7BFEC50E33850F003F5DC3 /* floor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEC40E33850F003F5DC3 /* floor.cpp */; };
-		2F7BFEC70E338513003F5DC3 /* FONTTEXT.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEC60E338513003F5DC3 /* FONTTEXT.CPP */; };
-		2F7BFEC90E33851E003F5DC3 /* FREEZE.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEC80E33851E003F5DC3 /* FREEZE.CPP */; };
-		2F7BFECB0E338529003F5DC3 /* Language.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFECA0E338529003F5DC3 /* Language.cpp */; };
+		2F7BFEC70E338513003F5DC3 /* fonttext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEC60E338513003F5DC3 /* fonttext.cpp */; };
+		2F7BFEC90E33851E003F5DC3 /* freeze.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEC80E33851E003F5DC3 /* freeze.cpp */; };
+		2F7BFECB0E338529003F5DC3 /* language.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFECA0E338529003F5DC3 /* language.cpp */; };
 		2F7BFECD0E338535003F5DC3 /* line.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFECC0E338535003F5DC3 /* line.cpp */; };
-		2F7BFECF0E33853B003F5DC3 /* LOADSAVE.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFECE0E33853B003F5DC3 /* LOADSAVE.CPP */; };
+		2F7BFECF0E33853B003F5DC3 /* loadsave.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFECE0E33853B003F5DC3 /* loadsave.cpp */; };
 		2F7BFED10E338542003F5DC3 /* memwatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFED00E338542003F5DC3 /* memwatch.cpp */; };
-		2F7BFED30E338547003F5DC3 /* MOREIO.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFED20E338547003F5DC3 /* MOREIO.CPP */; };
-		2F7BFED50E338555003F5DC3 /* NEWFATAL.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFED40E338555003F5DC3 /* NEWFATAL.CPP */; };
-		2F7BFED70E33855C003F5DC3 /* OBJTYPES.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFED60E33855C003F5DC3 /* OBJTYPES.CPP */; };
+		2F7BFED30E338547003F5DC3 /* moreio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFED20E338547003F5DC3 /* moreio.cpp */; };
+		2F7BFED50E338555003F5DC3 /* newfatal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFED40E338555003F5DC3 /* newfatal.cpp */; };
+		2F7BFED70E33855C003F5DC3 /* objtypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFED60E33855C003F5DC3 /* objtypes.cpp */; };
 		2F7BFED90E338563003F5DC3 /* people.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFED80E338563003F5DC3 /* people.cpp */; };
-		2F7BFEDB0E33856C003F5DC3 /* REGION.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEDA0E33856C003F5DC3 /* REGION.CPP */; };
+		2F7BFEDB0E33856C003F5DC3 /* region.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEDA0E33856C003F5DC3 /* region.cpp */; };
 		2F7BFEE10E338583003F5DC3 /* savedata.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEE00E338583003F5DC3 /* savedata.cpp */; };
-		2F7BFEE30E33858E003F5DC3 /* SLUDGER.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEE20E33858E003F5DC3 /* SLUDGER.CPP */; };
-		2F7BFEE90E3385F8003F5DC3 /* SPRBANKS.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEE60E3385F8003F5DC3 /* SPRBANKS.CPP */; };
-		2F7BFEEA0E3385F8003F5DC3 /* SPRITES.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEE70E3385F8003F5DC3 /* SPRITES.CPP */; };
-		2F7BFEEB0E3385F8003F5DC3 /* Sprites_AA.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEE80E3385F8003F5DC3 /* Sprites_AA.CPP */; };
+		2F7BFEE30E33858E003F5DC3 /* sludger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEE20E33858E003F5DC3 /* sludger.cpp */; };
+		2F7BFEE90E3385F8003F5DC3 /* sprbanks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEE60E3385F8003F5DC3 /* sprbanks.cpp */; };
+		2F7BFEEA0E3385F8003F5DC3 /* sprites.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEE70E3385F8003F5DC3 /* sprites.cpp */; };
+		2F7BFEEB0E3385F8003F5DC3 /* sprites_aa.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEE80E3385F8003F5DC3 /* sprites_aa.cpp */; };
 		2F7BFEF30E338627003F5DC3 /* transition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEEC0E338627003F5DC3 /* transition.cpp */; };
 		2F7BFEF40E338627003F5DC3 /* timing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEED0E338627003F5DC3 /* timing.cpp */; };
-		2F7BFEF50E338627003F5DC3 /* STRINGY.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEEE0E338627003F5DC3 /* STRINGY.CPP */; };
-		2F7BFEF60E338627003F5DC3 /* TALK.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEEF0E338627003F5DC3 /* TALK.CPP */; };
-		2F7BFEF70E338627003F5DC3 /* VARIABLE.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEF00E338627003F5DC3 /* VARIABLE.CPP */; };
+		2F7BFEF50E338627003F5DC3 /* stringy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEEE0E338627003F5DC3 /* stringy.cpp */; };
+		2F7BFEF60E338627003F5DC3 /* talk.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEEF0E338627003F5DC3 /* talk.cpp */; };
+		2F7BFEF70E338627003F5DC3 /* variable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEF00E338627003F5DC3 /* variable.cpp */; };
 		2F7BFEF80E338627003F5DC3 /* thumbnail.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEF10E338627003F5DC3 /* thumbnail.cpp */; };
-		2F7BFEF90E338627003F5DC3 /* STATUSBA.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEF20E338627003F5DC3 /* STATUSBA.CPP */; };
+		2F7BFEF90E338627003F5DC3 /* statusba.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEF20E338627003F5DC3 /* statusba.cpp */; };
 		2F7BFF000E338649003F5DC3 /* zbuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEFB0E338649003F5DC3 /* zbuffer.cpp */; };
-		2F7BFF030E338649003F5DC3 /* WINSTUFF.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEFE0E338649003F5DC3 /* WINSTUFF.CPP */; };
+		2F7BFF030E338649003F5DC3 /* winstuff.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEFE0E338649003F5DC3 /* winstuff.cpp */; };
 		2F7BFF050E33867F003F5DC3 /* TGA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFF040E33867F003F5DC3 /* TGA.cpp */; };
 		2F7BFF0E0E3386AD003F5DC3 /* bg_effects.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF070E3386AD003F5DC3 /* bg_effects.h */; };
-		2F7BFF0F0E3386AD003F5DC3 /* BACKDROP.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF080E3386AD003F5DC3 /* BACKDROP.H */; };
-		2F7BFF100E3386AD003F5DC3 /* BUILTIN.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF090E3386AD003F5DC3 /* BUILTIN.H */; };
-		2F7BFF110E3386AD003F5DC3 /* COLOURS.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF0A0E3386AD003F5DC3 /* COLOURS.H */; };
-		2F7BFF120E3386AD003F5DC3 /* ALLFILES.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF0B0E3386AD003F5DC3 /* ALLFILES.H */; };
-		2F7BFF130E3386AD003F5DC3 /* CURSORS.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF0C0E3386AD003F5DC3 /* CURSORS.H */; };
-		2F7BFF140E3386AD003F5DC3 /* CSLUDGE.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF0D0E3386AD003F5DC3 /* CSLUDGE.H */; };
+		2F7BFF0F0E3386AD003F5DC3 /* backdrop.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF080E3386AD003F5DC3 /* backdrop.h */; };
+		2F7BFF100E3386AD003F5DC3 /* builtin.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF090E3386AD003F5DC3 /* builtin.h */; };
+		2F7BFF110E3386AD003F5DC3 /* colours.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF0A0E3386AD003F5DC3 /* colours.h */; };
+		2F7BFF120E3386AD003F5DC3 /* allfiles.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF0B0E3386AD003F5DC3 /* allfiles.h */; };
+		2F7BFF130E3386AD003F5DC3 /* cursors.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF0C0E3386AD003F5DC3 /* cursors.h */; };
+		2F7BFF140E3386AD003F5DC3 /* csludge.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF0D0E3386AD003F5DC3 /* csludge.h */; };
 		2F7BFF1B0E3386C4003F5DC3 /* debug.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF160E3386C4003F5DC3 /* debug.h */; };
 		2F7BFF1C0E3386C4003F5DC3 /* floor.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF170E3386C4003F5DC3 /* floor.h */; };
-		2F7BFF1D0E3386C4003F5DC3 /* FILESET.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF180E3386C4003F5DC3 /* FILESET.H */; };
+		2F7BFF1D0E3386C4003F5DC3 /* fileset.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF180E3386C4003F5DC3 /* fileset.h */; };
 		2F7BFF1E0E3386C4003F5DC3 /* errors.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF190E3386C4003F5DC3 /* errors.h */; };
-		2F7BFF210E3386E1003F5DC3 /* FREEZE.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF1F0E3386E1003F5DC3 /* FREEZE.H */; };
-		2F7BFF220E3386E1003F5DC3 /* FONTTEXT.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF200E3386E1003F5DC3 /* FONTTEXT.H */; };
+		2F7BFF210E3386E1003F5DC3 /* freeze.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF1F0E3386E1003F5DC3 /* freeze.h */; };
+		2F7BFF220E3386E1003F5DC3 /* fonttext.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF200E3386E1003F5DC3 /* fonttext.h */; };
 		2F7BFF240E3386FC003F5DC3 /* functionList.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF230E3386FC003F5DC3 /* functionList.h */; };
-		2F7BFF2D0E338718003F5DC3 /* PEOPLE.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF250E338718003F5DC3 /* PEOPLE.H */; };
-		2F7BFF2E0E338718003F5DC3 /* OBJTYPES.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF260E338718003F5DC3 /* OBJTYPES.H */; };
-		2F7BFF2F0E338718003F5DC3 /* MOREIO.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF270E338718003F5DC3 /* MOREIO.H */; };
+		2F7BFF2D0E338718003F5DC3 /* people.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF250E338718003F5DC3 /* people.h */; };
+		2F7BFF2E0E338718003F5DC3 /* objtypes.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF260E338718003F5DC3 /* objtypes.h */; };
+		2F7BFF2F0E338718003F5DC3 /* moreio.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF270E338718003F5DC3 /* moreio.h */; };
 		2F7BFF300E338718003F5DC3 /* line.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF280E338718003F5DC3 /* line.h */; };
-		2F7BFF310E338718003F5DC3 /* LOADSAVE.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF290E338718003F5DC3 /* LOADSAVE.H */; };
-		2F7BFF320E338718003F5DC3 /* Language.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF2A0E338718003F5DC3 /* Language.h */; };
+		2F7BFF310E338718003F5DC3 /* loadsave.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF290E338718003F5DC3 /* loadsave.h */; };
+		2F7BFF320E338718003F5DC3 /* language.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF2A0E338718003F5DC3 /* language.h */; };
 		2F7BFF330E338718003F5DC3 /* memwatch.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF2B0E338718003F5DC3 /* memwatch.h */; };
-		2F7BFF340E338718003F5DC3 /* NEWFATAL.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF2C0E338718003F5DC3 /* NEWFATAL.H */; };
-		2F7BFF3B0E338736003F5DC3 /* REGION.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF350E338736003F5DC3 /* REGION.H */; };
-		2F7BFF3E0E338736003F5DC3 /* SLUDGER.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF380E338736003F5DC3 /* SLUDGER.H */; };
+		2F7BFF340E338718003F5DC3 /* newfatal.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF2C0E338718003F5DC3 /* newfatal.h */; };
+		2F7BFF3B0E338736003F5DC3 /* region.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF350E338736003F5DC3 /* region.h */; };
+		2F7BFF3E0E338736003F5DC3 /* sludger.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF380E338736003F5DC3 /* sludger.h */; };
 		2F7BFF3F0E338736003F5DC3 /* sound.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF390E338736003F5DC3 /* sound.h */; };
 		2F7BFF400E338736003F5DC3 /* savedata.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF3A0E338736003F5DC3 /* savedata.h */; };
 		2F7BFF420E338751003F5DC3 /* specialSettings.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF410E338751003F5DC3 /* specialSettings.h */; };
 		2F7BFF490E33877A003F5DC3 /* sprites.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF430E33877A003F5DC3 /* sprites.h */; };
-		2F7BFF4A0E33877A003F5DC3 /* STATUSBA.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF440E33877A003F5DC3 /* STATUSBA.H */; };
-		2F7BFF4B0E33877A003F5DC3 /* STRINGY.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF450E33877A003F5DC3 /* STRINGY.H */; };
-		2F7BFF4C0E33877A003F5DC3 /* TALK.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF460E33877A003F5DC3 /* TALK.H */; };
-		2F7BFF4D0E33877A003F5DC3 /* SPRBANKS.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF470E33877A003F5DC3 /* SPRBANKS.H */; };
-		2F7BFF4E0E33877A003F5DC3 /* Sprites_AA.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF480E33877A003F5DC3 /* Sprites_AA.h */; };
+		2F7BFF4A0E33877A003F5DC3 /* statusba.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF440E33877A003F5DC3 /* statusba.h */; };
+		2F7BFF4B0E33877A003F5DC3 /* stringy.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF450E33877A003F5DC3 /* stringy.h */; };
+		2F7BFF4C0E33877A003F5DC3 /* talk.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF460E33877A003F5DC3 /* talk.h */; };
+		2F7BFF4D0E33877A003F5DC3 /* sprbanks.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF470E33877A003F5DC3 /* sprbanks.h */; };
+		2F7BFF4E0E33877A003F5DC3 /* sprites_aa.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF480E33877A003F5DC3 /* sprites_aa.h */; };
 		2F7BFF500E338789003F5DC3 /* TGA.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF4F0E338789003F5DC3 /* TGA.h */; };
-		2F7BFF550E3387B4003F5DC3 /* VARIABLE.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF510E3387B4003F5DC3 /* VARIABLE.H */; };
+		2F7BFF550E3387B4003F5DC3 /* variable.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF510E3387B4003F5DC3 /* variable.h */; };
 		2F7BFF560E3387B4003F5DC3 /* transition.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF520E3387B4003F5DC3 /* transition.h */; };
 		2F7BFF570E3387B4003F5DC3 /* thumbnail.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF530E3387B4003F5DC3 /* thumbnail.h */; };
 		2F7BFF580E3387B4003F5DC3 /* timing.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF540E3387B4003F5DC3 /* timing.h */; };
 		2F7BFF5A0E3387CE003F5DC3 /* version.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF590E3387CE003F5DC3 /* version.h */; };
-		2F7BFF600E33880C003F5DC3 /* WINSTUFF.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF5C0E33880C003F5DC3 /* WINSTUFF.H */; };
+		2F7BFF600E33880C003F5DC3 /* winstuff.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF5C0E33880C003F5DC3 /* winstuff.h */; };
 		2F7BFF610E33880C003F5DC3 /* zbuffer.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF5D0E33880C003F5DC3 /* zbuffer.h */; };
 		2F83725B0E5042FA00CC8352 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F83725A0E5042FA00CC8352 /* OpenGL.framework */; };
 		2F9B3FBC0F557405003B4998 /* Sludge.icns in Resources */ = {isa = PBXBuildFile; fileRef = 2F9B3FBB0F557405003B4998 /* Sludge.icns */; };
 		2FA5507C0FF90CC4006A67ED /* Start.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2FA5507A0FF90CC4006A67ED /* Start.h */; };
 		2FA5507D0FF90CC4006A67ED /* Start.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FA5507B0FF90CC4006A67ED /* Start.m */; };
 		2FA550870FF90E90006A67ED /* Startup.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2FA550860FF90E90006A67ED /* Startup.nib */; };
-		2FB1C3BD0FAB4B5700718E0C /* Graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FB1C3BC0FAB4B5700718E0C /* Graphics.cpp */; };
-		2FB1C3C40FAB4C7900718E0C /* Graphics.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2FB1C3C30FAB4C7900718E0C /* Graphics.h */; };
+		2FB1C3BD0FAB4B5700718E0C /* graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FB1C3BC0FAB4B5700718E0C /* graphics.cpp */; };
+		2FB1C3C40FAB4C7900718E0C /* graphics.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2FB1C3C30FAB4C7900718E0C /* graphics.h */; };
 		2FEFC49C10073ADA004C66F1 /* GLee.c in Sources */ = {isa = PBXBuildFile; fileRef = 2FEFC49A10073ADA004C66F1 /* GLee.c */; };
 		2FEFC49D10073ADA004C66F1 /* GLee.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2FEFC49B10073ADA004C66F1 /* GLee.h */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -126,48 +126,48 @@
 				2F59E748102E246100008746 /* libpng.framework in Copy Frameworks into .app bundle */,
 				002F3A0009D0884600EBEB88 /* SDL.framework in Copy Frameworks into .app bundle */,
 				2F7BFF0E0E3386AD003F5DC3 /* bg_effects.h in Copy Frameworks into .app bundle */,
-				2F7BFF0F0E3386AD003F5DC3 /* BACKDROP.H in Copy Frameworks into .app bundle */,
-				2F7BFF100E3386AD003F5DC3 /* BUILTIN.H in Copy Frameworks into .app bundle */,
-				2F7BFF110E3386AD003F5DC3 /* COLOURS.H in Copy Frameworks into .app bundle */,
-				2F7BFF120E3386AD003F5DC3 /* ALLFILES.H in Copy Frameworks into .app bundle */,
-				2F7BFF130E3386AD003F5DC3 /* CURSORS.H in Copy Frameworks into .app bundle */,
-				2F7BFF140E3386AD003F5DC3 /* CSLUDGE.H in Copy Frameworks into .app bundle */,
+				2F7BFF0F0E3386AD003F5DC3 /* backdrop.h in Copy Frameworks into .app bundle */,
+				2F7BFF100E3386AD003F5DC3 /* builtin.h in Copy Frameworks into .app bundle */,
+				2F7BFF110E3386AD003F5DC3 /* colours.h in Copy Frameworks into .app bundle */,
+				2F7BFF120E3386AD003F5DC3 /* allfiles.h in Copy Frameworks into .app bundle */,
+				2F7BFF130E3386AD003F5DC3 /* cursors.h in Copy Frameworks into .app bundle */,
+				2F7BFF140E3386AD003F5DC3 /* csludge.h in Copy Frameworks into .app bundle */,
 				2F7BFF1B0E3386C4003F5DC3 /* debug.h in Copy Frameworks into .app bundle */,
 				2F7BFF1C0E3386C4003F5DC3 /* floor.h in Copy Frameworks into .app bundle */,
-				2F7BFF1D0E3386C4003F5DC3 /* FILESET.H in Copy Frameworks into .app bundle */,
+				2F7BFF1D0E3386C4003F5DC3 /* fileset.h in Copy Frameworks into .app bundle */,
 				2F7BFF1E0E3386C4003F5DC3 /* errors.h in Copy Frameworks into .app bundle */,
-				2F7BFF210E3386E1003F5DC3 /* FREEZE.H in Copy Frameworks into .app bundle */,
-				2F7BFF220E3386E1003F5DC3 /* FONTTEXT.H in Copy Frameworks into .app bundle */,
+				2F7BFF210E3386E1003F5DC3 /* freeze.h in Copy Frameworks into .app bundle */,
+				2F7BFF220E3386E1003F5DC3 /* fonttext.h in Copy Frameworks into .app bundle */,
 				2F7BFF240E3386FC003F5DC3 /* functionList.h in Copy Frameworks into .app bundle */,
-				2F7BFF2D0E338718003F5DC3 /* PEOPLE.H in Copy Frameworks into .app bundle */,
-				2F7BFF2E0E338718003F5DC3 /* OBJTYPES.H in Copy Frameworks into .app bundle */,
-				2F7BFF2F0E338718003F5DC3 /* MOREIO.H in Copy Frameworks into .app bundle */,
+				2F7BFF2D0E338718003F5DC3 /* people.h in Copy Frameworks into .app bundle */,
+				2F7BFF2E0E338718003F5DC3 /* objtypes.h in Copy Frameworks into .app bundle */,
+				2F7BFF2F0E338718003F5DC3 /* moreio.h in Copy Frameworks into .app bundle */,
 				2F7BFF300E338718003F5DC3 /* line.h in Copy Frameworks into .app bundle */,
-				2F7BFF310E338718003F5DC3 /* LOADSAVE.H in Copy Frameworks into .app bundle */,
-				2F7BFF320E338718003F5DC3 /* Language.h in Copy Frameworks into .app bundle */,
+				2F7BFF310E338718003F5DC3 /* loadsave.h in Copy Frameworks into .app bundle */,
+				2F7BFF320E338718003F5DC3 /* language.h in Copy Frameworks into .app bundle */,
 				2F7BFF330E338718003F5DC3 /* memwatch.h in Copy Frameworks into .app bundle */,
-				2F7BFF340E338718003F5DC3 /* NEWFATAL.H in Copy Frameworks into .app bundle */,
-				2F7BFF3B0E338736003F5DC3 /* REGION.H in Copy Frameworks into .app bundle */,
-				2F7BFF3E0E338736003F5DC3 /* SLUDGER.H in Copy Frameworks into .app bundle */,
+				2F7BFF340E338718003F5DC3 /* newfatal.h in Copy Frameworks into .app bundle */,
+				2F7BFF3B0E338736003F5DC3 /* region.h in Copy Frameworks into .app bundle */,
+				2F7BFF3E0E338736003F5DC3 /* sludger.h in Copy Frameworks into .app bundle */,
 				2F7BFF3F0E338736003F5DC3 /* sound.h in Copy Frameworks into .app bundle */,
 				2F7BFF400E338736003F5DC3 /* savedata.h in Copy Frameworks into .app bundle */,
 				2F7BFF420E338751003F5DC3 /* specialSettings.h in Copy Frameworks into .app bundle */,
 				2F7BFF490E33877A003F5DC3 /* sprites.h in Copy Frameworks into .app bundle */,
-				2F7BFF4A0E33877A003F5DC3 /* STATUSBA.H in Copy Frameworks into .app bundle */,
-				2F7BFF4B0E33877A003F5DC3 /* STRINGY.H in Copy Frameworks into .app bundle */,
-				2F7BFF4C0E33877A003F5DC3 /* TALK.H in Copy Frameworks into .app bundle */,
-				2F7BFF4D0E33877A003F5DC3 /* SPRBANKS.H in Copy Frameworks into .app bundle */,
-				2F7BFF4E0E33877A003F5DC3 /* Sprites_AA.h in Copy Frameworks into .app bundle */,
+				2F7BFF4A0E33877A003F5DC3 /* statusba.h in Copy Frameworks into .app bundle */,
+				2F7BFF4B0E33877A003F5DC3 /* stringy.h in Copy Frameworks into .app bundle */,
+				2F7BFF4C0E33877A003F5DC3 /* talk.h in Copy Frameworks into .app bundle */,
+				2F7BFF4D0E33877A003F5DC3 /* sprbanks.h in Copy Frameworks into .app bundle */,
+				2F7BFF4E0E33877A003F5DC3 /* sprites_aa.h in Copy Frameworks into .app bundle */,
 				2F7BFF500E338789003F5DC3 /* TGA.h in Copy Frameworks into .app bundle */,
-				2F7BFF550E3387B4003F5DC3 /* VARIABLE.H in Copy Frameworks into .app bundle */,
+				2F7BFF550E3387B4003F5DC3 /* variable.h in Copy Frameworks into .app bundle */,
 				2F7BFF560E3387B4003F5DC3 /* transition.h in Copy Frameworks into .app bundle */,
 				2F7BFF570E3387B4003F5DC3 /* thumbnail.h in Copy Frameworks into .app bundle */,
 				2F7BFF580E3387B4003F5DC3 /* timing.h in Copy Frameworks into .app bundle */,
 				2F7BFF5A0E3387CE003F5DC3 /* version.h in Copy Frameworks into .app bundle */,
-				2F7BFF600E33880C003F5DC3 /* WINSTUFF.H in Copy Frameworks into .app bundle */,
+				2F7BFF600E33880C003F5DC3 /* winstuff.h in Copy Frameworks into .app bundle */,
 				2F7BFF610E33880C003F5DC3 /* zbuffer.h in Copy Frameworks into .app bundle */,
 				2F6E5C320E49FE55007408A4 /* bass.h in Copy Frameworks into .app bundle */,
-				2FB1C3C40FAB4C7900718E0C /* Graphics.h in Copy Frameworks into .app bundle */,
+				2FB1C3C40FAB4C7900718E0C /* graphics.h in Copy Frameworks into .app bundle */,
 				2F6F29610FBEFE3C00BC6A67 /* OSXMain.h in Copy Frameworks into .app bundle */,
 				2FA5507C0FF90CC4006A67ED /* Start.h in Copy Frameworks into .app bundle */,
 				2FEFC49D10073ADA004C66F1 /* GLee.h in Copy Frameworks into .app bundle */,
@@ -205,88 +205,88 @@
 		2F6F29630FBEFE4800BC6A67 /* OSXMain.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = OSXMain.m; sourceTree = "<group>"; };
 		2F6F29820FBEFEB000BC6A67 /* SDLMain.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = SDLMain.nib; sourceTree = "<group>"; };
 		2F6F29930FBEFF3D00BC6A67 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../source/Engine/main.cpp; sourceTree = SOURCE_ROOT; };
-		2F7BFEB60E3384AE003F5DC3 /* BACKDROP.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = BACKDROP.CPP; path = ../source/Engine/BACKDROP.CPP; sourceTree = SOURCE_ROOT; };
+		2F7BFEB60E3384AE003F5DC3 /* backdrop.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = backdrop.cpp; path = ../source/Engine/backdrop.cpp; sourceTree = SOURCE_ROOT; };
 		2F7BFEB80E3384B8003F5DC3 /* bg_effects.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = bg_effects.cpp; path = ../source/Engine/bg_effects.cpp; sourceTree = SOURCE_ROOT; };
 		2F7BFEBA0E3384BE003F5DC3 /* builtin.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = builtin.cpp; path = ../source/Engine/builtin.cpp; sourceTree = SOURCE_ROOT; };
-		2F7BFEBC0E3384CB003F5DC3 /* CURSORS.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = CURSORS.CPP; path = ../source/Engine/CURSORS.CPP; sourceTree = SOURCE_ROOT; };
+		2F7BFEBC0E3384CB003F5DC3 /* cursors.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = cursors.cpp; path = ../source/Engine/cursors.cpp; sourceTree = SOURCE_ROOT; };
 		2F7BFEBE0E3384E0003F5DC3 /* debug.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = debug.cpp; path = ../source/Engine/debug.cpp; sourceTree = SOURCE_ROOT; };
-		2F7BFEC20E338504003F5DC3 /* FILESET.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = FILESET.CPP; path = ../source/Engine/FILESET.CPP; sourceTree = SOURCE_ROOT; };
+		2F7BFEC20E338504003F5DC3 /* fileset.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = fileset.cpp; path = ../source/Engine/fileset.cpp; sourceTree = SOURCE_ROOT; };
 		2F7BFEC40E33850F003F5DC3 /* floor.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = floor.cpp; path = ../source/Engine/floor.cpp; sourceTree = SOURCE_ROOT; };
-		2F7BFEC60E338513003F5DC3 /* FONTTEXT.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = FONTTEXT.CPP; path = ../source/Engine/FONTTEXT.CPP; sourceTree = SOURCE_ROOT; };
-		2F7BFEC80E33851E003F5DC3 /* FREEZE.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = FREEZE.CPP; path = ../source/Engine/FREEZE.CPP; sourceTree = SOURCE_ROOT; };
-		2F7BFECA0E338529003F5DC3 /* Language.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Language.cpp; path = ../source/Engine/Language.cpp; sourceTree = SOURCE_ROOT; };
+		2F7BFEC60E338513003F5DC3 /* fonttext.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = fonttext.cpp; path = ../source/Engine/fonttext.cpp; sourceTree = SOURCE_ROOT; };
+		2F7BFEC80E33851E003F5DC3 /* freeze.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = freeze.cpp; path = ../source/Engine/freeze.cpp; sourceTree = SOURCE_ROOT; };
+		2F7BFECA0E338529003F5DC3 /* language.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = language.cpp; path = ../source/Engine/language.cpp; sourceTree = SOURCE_ROOT; };
 		2F7BFECC0E338535003F5DC3 /* line.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = line.cpp; path = ../source/Engine/line.cpp; sourceTree = SOURCE_ROOT; };
-		2F7BFECE0E33853B003F5DC3 /* LOADSAVE.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = LOADSAVE.CPP; path = ../source/Engine/LOADSAVE.CPP; sourceTree = SOURCE_ROOT; };
+		2F7BFECE0E33853B003F5DC3 /* loadsave.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = loadsave.cpp; path = ../source/Engine/loadsave.cpp; sourceTree = SOURCE_ROOT; };
 		2F7BFED00E338542003F5DC3 /* memwatch.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = memwatch.cpp; path = ../source/Engine/memwatch.cpp; sourceTree = SOURCE_ROOT; };
-		2F7BFED20E338547003F5DC3 /* MOREIO.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = MOREIO.CPP; path = ../source/Engine/MOREIO.CPP; sourceTree = SOURCE_ROOT; };
-		2F7BFED40E338555003F5DC3 /* NEWFATAL.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = NEWFATAL.CPP; path = ../source/Engine/NEWFATAL.CPP; sourceTree = SOURCE_ROOT; };
-		2F7BFED60E33855C003F5DC3 /* OBJTYPES.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = OBJTYPES.CPP; path = ../source/Engine/OBJTYPES.CPP; sourceTree = SOURCE_ROOT; };
+		2F7BFED20E338547003F5DC3 /* moreio.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = moreio.cpp; path = ../source/Engine/moreio.cpp; sourceTree = SOURCE_ROOT; };
+		2F7BFED40E338555003F5DC3 /* newfatal.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = newfatal.cpp; path = ../source/Engine/newfatal.cpp; sourceTree = SOURCE_ROOT; };
+		2F7BFED60E33855C003F5DC3 /* objtypes.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = objtypes.cpp; path = ../source/Engine/objtypes.cpp; sourceTree = SOURCE_ROOT; };
 		2F7BFED80E338563003F5DC3 /* people.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = people.cpp; path = ../source/Engine/people.cpp; sourceTree = SOURCE_ROOT; };
-		2F7BFEDA0E33856C003F5DC3 /* REGION.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = REGION.CPP; path = ../source/Engine/REGION.CPP; sourceTree = SOURCE_ROOT; };
+		2F7BFEDA0E33856C003F5DC3 /* region.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = region.cpp; path = ../source/Engine/region.cpp; sourceTree = SOURCE_ROOT; };
 		2F7BFEE00E338583003F5DC3 /* savedata.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = savedata.cpp; path = ../source/Engine/savedata.cpp; sourceTree = SOURCE_ROOT; };
-		2F7BFEE20E33858E003F5DC3 /* SLUDGER.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SLUDGER.CPP; path = ../source/Engine/SLUDGER.CPP; sourceTree = SOURCE_ROOT; };
+		2F7BFEE20E33858E003F5DC3 /* sludger.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sludger.cpp; path = ../source/Engine/sludger.cpp; sourceTree = SOURCE_ROOT; };
 		2F7BFEE40E3385B3003F5DC3 /* sound_bass.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sound_bass.cpp; path = ../source/Engine/sound_bass.cpp; sourceTree = SOURCE_ROOT; };
-		2F7BFEE60E3385F8003F5DC3 /* SPRBANKS.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SPRBANKS.CPP; path = ../source/Engine/SPRBANKS.CPP; sourceTree = SOURCE_ROOT; };
-		2F7BFEE70E3385F8003F5DC3 /* SPRITES.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SPRITES.CPP; path = ../source/Engine/SPRITES.CPP; sourceTree = SOURCE_ROOT; };
-		2F7BFEE80E3385F8003F5DC3 /* Sprites_AA.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Sprites_AA.CPP; path = ../source/Engine/Sprites_AA.CPP; sourceTree = SOURCE_ROOT; };
+		2F7BFEE60E3385F8003F5DC3 /* sprbanks.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sprbanks.cpp; path = ../source/Engine/sprbanks.cpp; sourceTree = SOURCE_ROOT; };
+		2F7BFEE70E3385F8003F5DC3 /* sprites.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sprites.cpp; path = ../source/Engine/sprites.cpp; sourceTree = SOURCE_ROOT; };
+		2F7BFEE80E3385F8003F5DC3 /* sprites_aa.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sprites_aa.cpp; path = ../source/Engine/sprites_aa.cpp; sourceTree = SOURCE_ROOT; };
 		2F7BFEEC0E338627003F5DC3 /* transition.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = transition.cpp; path = ../source/Engine/transition.cpp; sourceTree = SOURCE_ROOT; };
 		2F7BFEED0E338627003F5DC3 /* timing.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = timing.cpp; path = ../source/Engine/timing.cpp; sourceTree = SOURCE_ROOT; };
-		2F7BFEEE0E338627003F5DC3 /* STRINGY.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = STRINGY.CPP; path = ../source/Engine/STRINGY.CPP; sourceTree = SOURCE_ROOT; };
-		2F7BFEEF0E338627003F5DC3 /* TALK.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = TALK.CPP; path = ../source/Engine/TALK.CPP; sourceTree = SOURCE_ROOT; };
-		2F7BFEF00E338627003F5DC3 /* VARIABLE.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = VARIABLE.CPP; path = ../source/Engine/VARIABLE.CPP; sourceTree = SOURCE_ROOT; };
+		2F7BFEEE0E338627003F5DC3 /* stringy.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = stringy.cpp; path = ../source/Engine/stringy.cpp; sourceTree = SOURCE_ROOT; };
+		2F7BFEEF0E338627003F5DC3 /* talk.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = talk.cpp; path = ../source/Engine/talk.cpp; sourceTree = SOURCE_ROOT; };
+		2F7BFEF00E338627003F5DC3 /* variable.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = variable.cpp; path = ../source/Engine/variable.cpp; sourceTree = SOURCE_ROOT; };
 		2F7BFEF10E338627003F5DC3 /* thumbnail.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = thumbnail.cpp; path = ../source/Engine/thumbnail.cpp; sourceTree = SOURCE_ROOT; };
-		2F7BFEF20E338627003F5DC3 /* STATUSBA.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = STATUSBA.CPP; path = ../source/Engine/STATUSBA.CPP; sourceTree = SOURCE_ROOT; };
+		2F7BFEF20E338627003F5DC3 /* statusba.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = statusba.cpp; path = ../source/Engine/statusba.cpp; sourceTree = SOURCE_ROOT; };
 		2F7BFEFB0E338649003F5DC3 /* zbuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = zbuffer.cpp; path = ../source/Engine/zbuffer.cpp; sourceTree = SOURCE_ROOT; };
-		2F7BFEFE0E338649003F5DC3 /* WINSTUFF.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = WINSTUFF.CPP; path = ../source/Engine/WINSTUFF.CPP; sourceTree = SOURCE_ROOT; };
+		2F7BFEFE0E338649003F5DC3 /* winstuff.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = winstuff.cpp; path = ../source/Engine/winstuff.cpp; sourceTree = SOURCE_ROOT; };
 		2F7BFF040E33867F003F5DC3 /* TGA.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = TGA.cpp; path = ../source/CommonCode/TGA.cpp; sourceTree = SOURCE_ROOT; };
 		2F7BFF070E3386AD003F5DC3 /* bg_effects.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = bg_effects.h; path = ../source/Engine/bg_effects.h; sourceTree = SOURCE_ROOT; };
-		2F7BFF080E3386AD003F5DC3 /* BACKDROP.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = BACKDROP.H; path = ../source/Engine/BACKDROP.H; sourceTree = SOURCE_ROOT; };
-		2F7BFF090E3386AD003F5DC3 /* BUILTIN.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = BUILTIN.H; path = ../source/Engine/BUILTIN.H; sourceTree = SOURCE_ROOT; };
-		2F7BFF0A0E3386AD003F5DC3 /* COLOURS.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = COLOURS.H; path = ../source/Engine/COLOURS.H; sourceTree = SOURCE_ROOT; };
-		2F7BFF0B0E3386AD003F5DC3 /* ALLFILES.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = ALLFILES.H; path = ../source/Engine/ALLFILES.H; sourceTree = SOURCE_ROOT; };
-		2F7BFF0C0E3386AD003F5DC3 /* CURSORS.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = CURSORS.H; path = ../source/Engine/CURSORS.H; sourceTree = SOURCE_ROOT; };
-		2F7BFF0D0E3386AD003F5DC3 /* CSLUDGE.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = CSLUDGE.H; path = ../source/Engine/CSLUDGE.H; sourceTree = SOURCE_ROOT; };
+		2F7BFF080E3386AD003F5DC3 /* backdrop.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = backdrop.h; path = ../source/Engine/backdrop.h; sourceTree = SOURCE_ROOT; };
+		2F7BFF090E3386AD003F5DC3 /* builtin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = builtin.h; path = ../source/Engine/builtin.h; sourceTree = SOURCE_ROOT; };
+		2F7BFF0A0E3386AD003F5DC3 /* colours.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = colours.h; path = ../source/Engine/colours.h; sourceTree = SOURCE_ROOT; };
+		2F7BFF0B0E3386AD003F5DC3 /* allfiles.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = allfiles.h; path = ../source/Engine/allfiles.h; sourceTree = SOURCE_ROOT; };
+		2F7BFF0C0E3386AD003F5DC3 /* cursors.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = cursors.h; path = ../source/Engine/cursors.h; sourceTree = SOURCE_ROOT; };
+		2F7BFF0D0E3386AD003F5DC3 /* csludge.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = csludge.h; path = ../source/Engine/csludge.h; sourceTree = SOURCE_ROOT; };
 		2F7BFF160E3386C4003F5DC3 /* debug.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = debug.h; path = ../source/Engine/debug.h; sourceTree = SOURCE_ROOT; };
 		2F7BFF170E3386C4003F5DC3 /* floor.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = floor.h; path = ../source/Engine/floor.h; sourceTree = SOURCE_ROOT; };
-		2F7BFF180E3386C4003F5DC3 /* FILESET.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = FILESET.H; path = ../source/Engine/FILESET.H; sourceTree = SOURCE_ROOT; };
+		2F7BFF180E3386C4003F5DC3 /* fileset.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = fileset.h; path = ../source/Engine/fileset.h; sourceTree = SOURCE_ROOT; };
 		2F7BFF190E3386C4003F5DC3 /* errors.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = errors.h; path = ../source/Engine/errors.h; sourceTree = SOURCE_ROOT; };
-		2F7BFF1F0E3386E1003F5DC3 /* FREEZE.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = FREEZE.H; path = ../source/Engine/FREEZE.H; sourceTree = SOURCE_ROOT; };
-		2F7BFF200E3386E1003F5DC3 /* FONTTEXT.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = FONTTEXT.H; path = ../source/Engine/FONTTEXT.H; sourceTree = SOURCE_ROOT; };
+		2F7BFF1F0E3386E1003F5DC3 /* freeze.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = freeze.h; path = ../source/Engine/freeze.h; sourceTree = SOURCE_ROOT; };
+		2F7BFF200E3386E1003F5DC3 /* fonttext.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = fonttext.h; path = ../source/Engine/fonttext.h; sourceTree = SOURCE_ROOT; };
 		2F7BFF230E3386FC003F5DC3 /* functionList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = functionList.h; path = ../source/CommonCode/functionList.h; sourceTree = SOURCE_ROOT; };
-		2F7BFF250E338718003F5DC3 /* PEOPLE.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = PEOPLE.H; path = ../source/Engine/PEOPLE.H; sourceTree = SOURCE_ROOT; };
-		2F7BFF260E338718003F5DC3 /* OBJTYPES.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = OBJTYPES.H; path = ../source/Engine/OBJTYPES.H; sourceTree = SOURCE_ROOT; };
-		2F7BFF270E338718003F5DC3 /* MOREIO.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = MOREIO.H; path = ../source/Engine/MOREIO.H; sourceTree = SOURCE_ROOT; };
+		2F7BFF250E338718003F5DC3 /* people.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = people.h; path = ../source/Engine/people.h; sourceTree = SOURCE_ROOT; };
+		2F7BFF260E338718003F5DC3 /* objtypes.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = objtypes.h; path = ../source/Engine/objtypes.h; sourceTree = SOURCE_ROOT; };
+		2F7BFF270E338718003F5DC3 /* moreio.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = moreio.h; path = ../source/Engine/moreio.h; sourceTree = SOURCE_ROOT; };
 		2F7BFF280E338718003F5DC3 /* line.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = line.h; path = ../source/Engine/line.h; sourceTree = SOURCE_ROOT; };
-		2F7BFF290E338718003F5DC3 /* LOADSAVE.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = LOADSAVE.H; path = ../source/Engine/LOADSAVE.H; sourceTree = SOURCE_ROOT; };
-		2F7BFF2A0E338718003F5DC3 /* Language.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Language.h; path = ../source/Engine/Language.h; sourceTree = SOURCE_ROOT; };
+		2F7BFF290E338718003F5DC3 /* loadsave.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = loadsave.h; path = ../source/Engine/loadsave.h; sourceTree = SOURCE_ROOT; };
+		2F7BFF2A0E338718003F5DC3 /* language.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = language.h; path = ../source/Engine/language.h; sourceTree = SOURCE_ROOT; };
 		2F7BFF2B0E338718003F5DC3 /* memwatch.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = memwatch.h; path = ../source/Engine/memwatch.h; sourceTree = SOURCE_ROOT; };
-		2F7BFF2C0E338718003F5DC3 /* NEWFATAL.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = NEWFATAL.H; path = ../source/Engine/NEWFATAL.H; sourceTree = SOURCE_ROOT; };
-		2F7BFF350E338736003F5DC3 /* REGION.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = REGION.H; path = ../source/Engine/REGION.H; sourceTree = SOURCE_ROOT; };
-		2F7BFF380E338736003F5DC3 /* SLUDGER.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = SLUDGER.H; path = ../source/Engine/SLUDGER.H; sourceTree = SOURCE_ROOT; };
+		2F7BFF2C0E338718003F5DC3 /* newfatal.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = newfatal.h; path = ../source/Engine/newfatal.h; sourceTree = SOURCE_ROOT; };
+		2F7BFF350E338736003F5DC3 /* region.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = region.h; path = ../source/Engine/region.h; sourceTree = SOURCE_ROOT; };
+		2F7BFF380E338736003F5DC3 /* sludger.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sludger.h; path = ../source/Engine/sludger.h; sourceTree = SOURCE_ROOT; };
 		2F7BFF390E338736003F5DC3 /* sound.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sound.h; path = ../source/Engine/sound.h; sourceTree = SOURCE_ROOT; };
 		2F7BFF3A0E338736003F5DC3 /* savedata.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = savedata.h; path = ../source/Engine/savedata.h; sourceTree = SOURCE_ROOT; };
 		2F7BFF410E338751003F5DC3 /* specialSettings.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = specialSettings.h; path = ../source/CommonCode/specialSettings.h; sourceTree = SOURCE_ROOT; };
 		2F7BFF430E33877A003F5DC3 /* sprites.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sprites.h; path = ../source/Engine/sprites.h; sourceTree = SOURCE_ROOT; };
-		2F7BFF440E33877A003F5DC3 /* STATUSBA.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = STATUSBA.H; path = ../source/Engine/STATUSBA.H; sourceTree = SOURCE_ROOT; };
-		2F7BFF450E33877A003F5DC3 /* STRINGY.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = STRINGY.H; path = ../source/Engine/STRINGY.H; sourceTree = SOURCE_ROOT; };
-		2F7BFF460E33877A003F5DC3 /* TALK.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = TALK.H; path = ../source/Engine/TALK.H; sourceTree = SOURCE_ROOT; };
-		2F7BFF470E33877A003F5DC3 /* SPRBANKS.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = SPRBANKS.H; path = ../source/Engine/SPRBANKS.H; sourceTree = SOURCE_ROOT; };
-		2F7BFF480E33877A003F5DC3 /* Sprites_AA.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Sprites_AA.h; path = ../source/Engine/Sprites_AA.h; sourceTree = SOURCE_ROOT; };
+		2F7BFF440E33877A003F5DC3 /* statusba.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = statusba.h; path = ../source/Engine/statusba.h; sourceTree = SOURCE_ROOT; };
+		2F7BFF450E33877A003F5DC3 /* stringy.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = stringy.h; path = ../source/Engine/stringy.h; sourceTree = SOURCE_ROOT; };
+		2F7BFF460E33877A003F5DC3 /* talk.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = talk.h; path = ../source/Engine/talk.h; sourceTree = SOURCE_ROOT; };
+		2F7BFF470E33877A003F5DC3 /* sprbanks.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sprbanks.h; path = ../source/Engine/sprbanks.h; sourceTree = SOURCE_ROOT; };
+		2F7BFF480E33877A003F5DC3 /* sprites_aa.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sprites_aa.h; path = ../source/Engine/sprites_aa.h; sourceTree = SOURCE_ROOT; };
 		2F7BFF4F0E338789003F5DC3 /* TGA.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TGA.h; path = ../source/CommonCode/TGA.h; sourceTree = SOURCE_ROOT; };
-		2F7BFF510E3387B4003F5DC3 /* VARIABLE.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = VARIABLE.H; path = ../source/Engine/VARIABLE.H; sourceTree = SOURCE_ROOT; };
+		2F7BFF510E3387B4003F5DC3 /* variable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = variable.h; path = ../source/Engine/variable.h; sourceTree = SOURCE_ROOT; };
 		2F7BFF520E3387B4003F5DC3 /* transition.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = transition.h; path = ../source/Engine/transition.h; sourceTree = SOURCE_ROOT; };
 		2F7BFF530E3387B4003F5DC3 /* thumbnail.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = thumbnail.h; path = ../source/Engine/thumbnail.h; sourceTree = SOURCE_ROOT; };
 		2F7BFF540E3387B4003F5DC3 /* timing.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = timing.h; path = ../source/Engine/timing.h; sourceTree = SOURCE_ROOT; };
 		2F7BFF590E3387CE003F5DC3 /* version.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = version.h; path = ../source/CommonCode/version.h; sourceTree = SOURCE_ROOT; };
-		2F7BFF5C0E33880C003F5DC3 /* WINSTUFF.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = WINSTUFF.H; path = ../source/Engine/WINSTUFF.H; sourceTree = SOURCE_ROOT; };
+		2F7BFF5C0E33880C003F5DC3 /* winstuff.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = winstuff.h; path = ../source/Engine/winstuff.h; sourceTree = SOURCE_ROOT; };
 		2F7BFF5D0E33880C003F5DC3 /* zbuffer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = zbuffer.h; path = ../source/Engine/zbuffer.h; sourceTree = SOURCE_ROOT; };
 		2F83725A0E5042FA00CC8352 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		2F9B3FBB0F557405003B4998 /* Sludge.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Sludge.icns; path = ../images/Sludge.icns; sourceTree = SOURCE_ROOT; };
 		2FA5507A0FF90CC4006A67ED /* Start.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Start.h; sourceTree = "<group>"; };
 		2FA5507B0FF90CC4006A67ED /* Start.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Start.m; sourceTree = "<group>"; };
 		2FA550860FF90E90006A67ED /* Startup.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = Startup.nib; sourceTree = "<group>"; };
-		2FB1C3BC0FAB4B5700718E0C /* Graphics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Graphics.cpp; path = ../source/Engine/Graphics.cpp; sourceTree = SOURCE_ROOT; };
-		2FB1C3C30FAB4C7900718E0C /* Graphics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Graphics.h; path = ../source/Engine/Graphics.h; sourceTree = SOURCE_ROOT; };
+		2FB1C3BC0FAB4B5700718E0C /* graphics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = graphics.cpp; path = ../source/Engine/graphics.cpp; sourceTree = SOURCE_ROOT; };
+		2FB1C3C30FAB4C7900718E0C /* graphics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = graphics.h; path = ../source/Engine/graphics.h; sourceTree = SOURCE_ROOT; };
 		2FEFC49A10073ADA004C66F1 /* GLee.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = GLee.c; path = ../GLee/GLee.c; sourceTree = SOURCE_ROOT; };
 		2FEFC49B10073ADA004C66F1 /* GLee.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GLee.h; path = ../GLee/GLee.h; sourceTree = SOURCE_ROOT; };
 		8D1107320486CEB800E47090 /* SLUDGE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SLUDGE.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -420,83 +420,83 @@
 		2F7BFEB50E33848B003F5DC3 /* Source Files */ = {
 			isa = PBXGroup;
 			children = (
-				2F7BFF0B0E3386AD003F5DC3 /* ALLFILES.H */,
-				2F7BFF080E3386AD003F5DC3 /* BACKDROP.H */,
+				2F7BFF0B0E3386AD003F5DC3 /* allfiles.h */,
+				2F7BFF080E3386AD003F5DC3 /* backdrop.h */,
 				2F6E5C310E49FE55007408A4 /* bass.h */,
 				2F7BFF070E3386AD003F5DC3 /* bg_effects.h */,
-				2F7BFF090E3386AD003F5DC3 /* BUILTIN.H */,
-				2F7BFF0A0E3386AD003F5DC3 /* COLOURS.H */,
-				2F7BFF0D0E3386AD003F5DC3 /* CSLUDGE.H */,
-				2F7BFF0C0E3386AD003F5DC3 /* CURSORS.H */,
+				2F7BFF090E3386AD003F5DC3 /* builtin.h */,
+				2F7BFF0A0E3386AD003F5DC3 /* colours.h */,
+				2F7BFF0D0E3386AD003F5DC3 /* csludge.h */,
+				2F7BFF0C0E3386AD003F5DC3 /* cursors.h */,
 				2F7BFF160E3386C4003F5DC3 /* debug.h */,
 				2F7BFF190E3386C4003F5DC3 /* errors.h */,
-				2F7BFF180E3386C4003F5DC3 /* FILESET.H */,
+				2F7BFF180E3386C4003F5DC3 /* fileset.h */,
 				2F7BFF170E3386C4003F5DC3 /* floor.h */,
-				2F7BFF200E3386E1003F5DC3 /* FONTTEXT.H */,
-				2F7BFF1F0E3386E1003F5DC3 /* FREEZE.H */,
-				2FB1C3C30FAB4C7900718E0C /* Graphics.h */,
-				2F7BFF2A0E338718003F5DC3 /* Language.h */,
+				2F7BFF200E3386E1003F5DC3 /* fonttext.h */,
+				2F7BFF1F0E3386E1003F5DC3 /* freeze.h */,
+				2FB1C3C30FAB4C7900718E0C /* graphics.h */,
+				2F7BFF2A0E338718003F5DC3 /* language.h */,
 				2F7BFF280E338718003F5DC3 /* line.h */,
-				2F7BFF290E338718003F5DC3 /* LOADSAVE.H */,
+				2F7BFF290E338718003F5DC3 /* loadsave.h */,
 				2F7BFF2B0E338718003F5DC3 /* memwatch.h */,
-				2F7BFF270E338718003F5DC3 /* MOREIO.H */,
-				2F7BFF2C0E338718003F5DC3 /* NEWFATAL.H */,
-				2F7BFF260E338718003F5DC3 /* OBJTYPES.H */,
-				2F7BFF250E338718003F5DC3 /* PEOPLE.H */,
-				2F7BFF350E338736003F5DC3 /* REGION.H */,
+				2F7BFF270E338718003F5DC3 /* moreio.h */,
+				2F7BFF2C0E338718003F5DC3 /* newfatal.h */,
+				2F7BFF260E338718003F5DC3 /* objtypes.h */,
+				2F7BFF250E338718003F5DC3 /* people.h */,
+				2F7BFF350E338736003F5DC3 /* region.h */,
 				2F7BFF3A0E338736003F5DC3 /* savedata.h */,
 				2F6274FA10EA337700BBDEDF /* shaders.h */,
-				2F7BFF380E338736003F5DC3 /* SLUDGER.H */,
+				2F7BFF380E338736003F5DC3 /* sludger.h */,
 				2F7BFF390E338736003F5DC3 /* sound.h */,
-				2F7BFF470E33877A003F5DC3 /* SPRBANKS.H */,
+				2F7BFF470E33877A003F5DC3 /* sprbanks.h */,
 				E8981D35111A2A8500762C10 /* sound_openal.cpp */,
 				2F7BFF430E33877A003F5DC3 /* sprites.h */,
-				2F7BFF480E33877A003F5DC3 /* Sprites_AA.h */,
-				2F7BFF440E33877A003F5DC3 /* STATUSBA.H */,
-				2F7BFF450E33877A003F5DC3 /* STRINGY.H */,
-				2F7BFF460E33877A003F5DC3 /* TALK.H */,
+				2F7BFF480E33877A003F5DC3 /* sprites_aa.h */,
+				2F7BFF440E33877A003F5DC3 /* statusba.h */,
+				2F7BFF450E33877A003F5DC3 /* stringy.h */,
+				2F7BFF460E33877A003F5DC3 /* talk.h */,
 				2F7BFF530E3387B4003F5DC3 /* thumbnail.h */,
 				2F7BFF540E3387B4003F5DC3 /* timing.h */,
 				2F7BFF520E3387B4003F5DC3 /* transition.h */,
-				2F7BFF510E3387B4003F5DC3 /* VARIABLE.H */,
-				2F7BFF5C0E33880C003F5DC3 /* WINSTUFF.H */,
+				2F7BFF510E3387B4003F5DC3 /* variable.h */,
+				2F7BFF5C0E33880C003F5DC3 /* winstuff.h */,
 				2F7BFF5D0E33880C003F5DC3 /* zbuffer.h */,
-				2F7BFEB60E3384AE003F5DC3 /* BACKDROP.CPP */,
+				2F7BFEB60E3384AE003F5DC3 /* backdrop.cpp */,
 				2F7BFEB80E3384B8003F5DC3 /* bg_effects.cpp */,
 				2F7BFEBA0E3384BE003F5DC3 /* builtin.cpp */,
-				2F7BFEBC0E3384CB003F5DC3 /* CURSORS.CPP */,
+				2F7BFEBC0E3384CB003F5DC3 /* cursors.cpp */,
 				2F7BFEBE0E3384E0003F5DC3 /* debug.cpp */,
-				2F7BFEC20E338504003F5DC3 /* FILESET.CPP */,
+				2F7BFEC20E338504003F5DC3 /* fileset.cpp */,
 				2F7BFEC40E33850F003F5DC3 /* floor.cpp */,
-				2F7BFEC60E338513003F5DC3 /* FONTTEXT.CPP */,
-				2F7BFEC80E33851E003F5DC3 /* FREEZE.CPP */,
-				2FB1C3BC0FAB4B5700718E0C /* Graphics.cpp */,
-				2F7BFECA0E338529003F5DC3 /* Language.cpp */,
+				2F7BFEC60E338513003F5DC3 /* fonttext.cpp */,
+				2F7BFEC80E33851E003F5DC3 /* freeze.cpp */,
+				2FB1C3BC0FAB4B5700718E0C /* graphics.cpp */,
+				2F7BFECA0E338529003F5DC3 /* language.cpp */,
 				2F7BFECC0E338535003F5DC3 /* line.cpp */,
-				2F7BFECE0E33853B003F5DC3 /* LOADSAVE.CPP */,
+				2F7BFECE0E33853B003F5DC3 /* loadsave.cpp */,
 				2F6F29930FBEFF3D00BC6A67 /* main.cpp */,
 				2F7BFED00E338542003F5DC3 /* memwatch.cpp */,
-				2F7BFED20E338547003F5DC3 /* MOREIO.CPP */,
-				2F7BFED40E338555003F5DC3 /* NEWFATAL.CPP */,
-				2F7BFED60E33855C003F5DC3 /* OBJTYPES.CPP */,
+				2F7BFED20E338547003F5DC3 /* moreio.cpp */,
+				2F7BFED40E338555003F5DC3 /* newfatal.cpp */,
+				2F7BFED60E33855C003F5DC3 /* objtypes.cpp */,
 				2F7BFED80E338563003F5DC3 /* people.cpp */,
-				2F7BFEDA0E33856C003F5DC3 /* REGION.CPP */,
+				2F7BFEDA0E33856C003F5DC3 /* region.cpp */,
 				2F7BFEE00E338583003F5DC3 /* savedata.cpp */,
 				2F6274FB10EA337700BBDEDF /* shaders.cpp */,
-				2F7BFEE20E33858E003F5DC3 /* SLUDGER.CPP */,
+				2F7BFEE20E33858E003F5DC3 /* sludger.cpp */,
 				2F7BFEE40E3385B3003F5DC3 /* sound_bass.cpp */,
-				2F7BFEE60E3385F8003F5DC3 /* SPRBANKS.CPP */,
-				2F7BFEE70E3385F8003F5DC3 /* SPRITES.CPP */,
-				2F7BFEE80E3385F8003F5DC3 /* Sprites_AA.CPP */,
-				2F7BFEF20E338627003F5DC3 /* STATUSBA.CPP */,
-				2F7BFEEE0E338627003F5DC3 /* STRINGY.CPP */,
+				2F7BFEE60E3385F8003F5DC3 /* sprbanks.cpp */,
+				2F7BFEE70E3385F8003F5DC3 /* sprites.cpp */,
+				2F7BFEE80E3385F8003F5DC3 /* sprites_aa.cpp */,
+				2F7BFEF20E338627003F5DC3 /* statusba.cpp */,
+				2F7BFEEE0E338627003F5DC3 /* stringy.cpp */,
 				2F7BFEEC0E338627003F5DC3 /* transition.cpp */,
 				2F7BFEED0E338627003F5DC3 /* timing.cpp */,
 				2F7BFEF10E338627003F5DC3 /* thumbnail.cpp */,
-				2F7BFEEF0E338627003F5DC3 /* TALK.CPP */,
-				2F7BFEF00E338627003F5DC3 /* VARIABLE.CPP */,
+				2F7BFEEF0E338627003F5DC3 /* talk.cpp */,
+				2F7BFEF00E338627003F5DC3 /* variable.cpp */,
 				2F7BFEFB0E338649003F5DC3 /* zbuffer.cpp */,
-				2F7BFEFE0E338649003F5DC3 /* WINSTUFF.CPP */,
+				2F7BFEFE0E338649003F5DC3 /* winstuff.cpp */,
 			);
 			name = "Source Files";
 			sourceTree = "<group>";
@@ -576,40 +576,40 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2F7BFEB70E3384AE003F5DC3 /* BACKDROP.CPP in Sources */,
+				2F7BFEB70E3384AE003F5DC3 /* backdrop.cpp in Sources */,
 				2F7BFEB90E3384B8003F5DC3 /* bg_effects.cpp in Sources */,
 				2F7BFEBB0E3384BE003F5DC3 /* builtin.cpp in Sources */,
-				2F7BFEBD0E3384CB003F5DC3 /* CURSORS.CPP in Sources */,
+				2F7BFEBD0E3384CB003F5DC3 /* cursors.cpp in Sources */,
 				2F7BFEBF0E3384E0003F5DC3 /* debug.cpp in Sources */,
-				2F7BFEC30E338504003F5DC3 /* FILESET.CPP in Sources */,
+				2F7BFEC30E338504003F5DC3 /* fileset.cpp in Sources */,
 				2F7BFEC50E33850F003F5DC3 /* floor.cpp in Sources */,
-				2F7BFEC70E338513003F5DC3 /* FONTTEXT.CPP in Sources */,
-				2F7BFEC90E33851E003F5DC3 /* FREEZE.CPP in Sources */,
-				2F7BFECB0E338529003F5DC3 /* Language.cpp in Sources */,
+				2F7BFEC70E338513003F5DC3 /* fonttext.cpp in Sources */,
+				2F7BFEC90E33851E003F5DC3 /* freeze.cpp in Sources */,
+				2F7BFECB0E338529003F5DC3 /* language.cpp in Sources */,
 				2F7BFECD0E338535003F5DC3 /* line.cpp in Sources */,
-				2F7BFECF0E33853B003F5DC3 /* LOADSAVE.CPP in Sources */,
+				2F7BFECF0E33853B003F5DC3 /* loadsave.cpp in Sources */,
 				2F7BFED10E338542003F5DC3 /* memwatch.cpp in Sources */,
-				2F7BFED30E338547003F5DC3 /* MOREIO.CPP in Sources */,
-				2F7BFED50E338555003F5DC3 /* NEWFATAL.CPP in Sources */,
-				2F7BFED70E33855C003F5DC3 /* OBJTYPES.CPP in Sources */,
+				2F7BFED30E338547003F5DC3 /* moreio.cpp in Sources */,
+				2F7BFED50E338555003F5DC3 /* newfatal.cpp in Sources */,
+				2F7BFED70E33855C003F5DC3 /* objtypes.cpp in Sources */,
 				2F7BFED90E338563003F5DC3 /* people.cpp in Sources */,
-				2F7BFEDB0E33856C003F5DC3 /* REGION.CPP in Sources */,
+				2F7BFEDB0E33856C003F5DC3 /* region.cpp in Sources */,
 				2F7BFEE10E338583003F5DC3 /* savedata.cpp in Sources */,
-				2F7BFEE30E33858E003F5DC3 /* SLUDGER.CPP in Sources */,
-				2F7BFEE90E3385F8003F5DC3 /* SPRBANKS.CPP in Sources */,
-				2F7BFEEA0E3385F8003F5DC3 /* SPRITES.CPP in Sources */,
-				2F7BFEEB0E3385F8003F5DC3 /* Sprites_AA.CPP in Sources */,
+				2F7BFEE30E33858E003F5DC3 /* sludger.cpp in Sources */,
+				2F7BFEE90E3385F8003F5DC3 /* sprbanks.cpp in Sources */,
+				2F7BFEEA0E3385F8003F5DC3 /* sprites.cpp in Sources */,
+				2F7BFEEB0E3385F8003F5DC3 /* sprites_aa.cpp in Sources */,
 				2F7BFEF30E338627003F5DC3 /* transition.cpp in Sources */,
 				2F7BFEF40E338627003F5DC3 /* timing.cpp in Sources */,
-				2F7BFEF50E338627003F5DC3 /* STRINGY.CPP in Sources */,
-				2F7BFEF60E338627003F5DC3 /* TALK.CPP in Sources */,
-				2F7BFEF70E338627003F5DC3 /* VARIABLE.CPP in Sources */,
+				2F7BFEF50E338627003F5DC3 /* stringy.cpp in Sources */,
+				2F7BFEF60E338627003F5DC3 /* talk.cpp in Sources */,
+				2F7BFEF70E338627003F5DC3 /* variable.cpp in Sources */,
 				2F7BFEF80E338627003F5DC3 /* thumbnail.cpp in Sources */,
-				2F7BFEF90E338627003F5DC3 /* STATUSBA.CPP in Sources */,
+				2F7BFEF90E338627003F5DC3 /* statusba.cpp in Sources */,
 				2F7BFF000E338649003F5DC3 /* zbuffer.cpp in Sources */,
-				2F7BFF030E338649003F5DC3 /* WINSTUFF.CPP in Sources */,
+				2F7BFF030E338649003F5DC3 /* winstuff.cpp in Sources */,
 				2F7BFF050E33867F003F5DC3 /* TGA.cpp in Sources */,
-				2FB1C3BD0FAB4B5700718E0C /* Graphics.cpp in Sources */,
+				2FB1C3BD0FAB4B5700718E0C /* graphics.cpp in Sources */,
 				2F6F29640FBEFE4800BC6A67 /* OSXMain.m in Sources */,
 				2F6F29940FBEFF3D00BC6A67 /* main.cpp in Sources */,
 				2FA5507D0FF90CC4006A67ED /* Start.m in Sources */,

@@ -38,15 +38,23 @@ Valid values for numerical <i>frame</i> parameters (or the first parameter in a 
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
 (The range of valid numbers is 0 to the number of sprites in <i>spriteBank</i> minus 1.)<BR>
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+</i><b>Sounds and functions</b><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+Sound files and functions may also be put in the list of frames. When a sound file or function is encountered, 
+it is played or called, and then the animation moves to the next frame immediately. Do not put more than one
+sound or function in a row: Each sound or function must be separated by a frame number (or the wait function).
+<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
 <FONT FACE=arial color=#3A8F8B SIZE=+1><B>Return value:</B></FONT><BR>
 
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
 The return value is the animation which has been created. This can then be used as part of a <b><a href="costume.html">costume</a></b> or applied to a character using the <b><a href="animate.html">animate</a></b> function.<BR>
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Example:</B></FONT><BR>
+<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Examples:</B></FONT><BR>
 
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
 <FONT color=#BB4444><TT><B>animate (ego, anim ('egoPickUp.duc', 0, 1, 2, wait (3, 10), 2, 1));</B></TT></FONT><BR>
+<FONT color=#BB4444><TT><B>animate (ego, anim ('egoPickUp.duc', 0, 1, 2, wait (3, 10), 'noise.ogg', 2, 1));</B></TT></FONT><BR>
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
 <FONT FACE=arial color=#3A8F8B SIZE=+1><B>See also:</B></FONT><BR>
 
