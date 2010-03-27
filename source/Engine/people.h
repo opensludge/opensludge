@@ -103,6 +103,6 @@ void deleteAnim (personaAnimation * orig);
 bool saveAnim (personaAnimation * p, FILE * fp);
 bool loadAnim (personaAnimation * p, FILE * fp);
 bool savePeople (FILE * fp);
-bool loadPeople (FILE * fp, int ssgVersion);
+bool loadPeople (FILE * fp);
 bool saveCostume (persona * cossy, FILE * fp);
 bool loadCostume (persona * cossy, FILE * fp);

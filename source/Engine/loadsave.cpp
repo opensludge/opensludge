@@ -495,8 +495,9 @@ bool saveGame (char * fname) {
 
 //FILE * debug = NULL;
 
+int ssgVersion;
+
 bool loadGame (char * fname) {
-	int ssgVersion;
 	FILE * fp;
 	FILETIME savedGameTime;
 	int a;
@@ -569,7 +570,7 @@ bool loadGame (char * fname) {
 		loadVariable (& globalVars[a], fp);
 	}
 
-	loadPeople (fp, ssgVersion);
+	loadPeople (fp);
 
 
 	if (fgetc (fp)) {

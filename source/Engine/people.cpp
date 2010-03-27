@@ -29,6 +29,7 @@ extern speechStruct * speech;
 
 extern variableStack * noStack;
 
+extern int ssgVersion;
 
 extern int cameraX, cameraY;
 screenRegion personRegion;
@@ -829,6 +830,7 @@ bool saveAnim (personaAnimation * p, FILE * fp) {
 		for (int a = 0; a < p -> numFrames; a ++) {
 			put4bytes (p -> frames[a].frameNum, fp);
 			put4bytes (p -> frames[a].howMany, fp);
+			put4bytes (p -> frames[a].noise, fp);
 		}
 	}
 	return true;
@@ -846,6 +848,11 @@ bool loadAnim (personaAnimation * p, FILE * fp) {
 		for (a = 0; a < p -> numFrames; a ++) {
 			p -> frames[a].frameNum = get4bytes (fp);
 			p -> frames[a].howMany = get4bytes (fp);
+			if (ssgVersion >= VERSION(2,0)) {
+				p -> frames[a].noise = get4bytes (fp);
+			} else {
+				p -> frames[a].noise = 0;
+			}
 		}
 	} else {
 		p -> theSprites = NULL;
@@ -887,7 +894,7 @@ bool loadCostume (persona * cossy, FILE * fp) {
 		cossy -> animation[a] = new personaAnimation;
 		if (! checkNew (cossy -> animation[a])) return false;
 
-		if (! loadAnim (cossy -> animation[a], fp)) return false;
+		if (! loadAnim (cossy -> animation[a], fp, ssgVersion)) return false;
 	}
 //	debugCostume ("Loaded", cossy);
 	return true;
@@ -958,7 +965,7 @@ bool savePeople (FILE * fp) {
 	return true;
 }
 
-bool loadPeople (FILE * fp, int ssgVersion) {
+bool loadPeople (FILE * fp) {
 	onScreenPerson * * pointy = & allPeople;
 	onScreenPerson * me;
 
