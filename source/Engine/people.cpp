@@ -18,6 +18,7 @@
 #include "loadsave.h"
 #include "floor.h"
 #include "zbuffer.h"
+#include "sound.h"
 
 #define ANGLEFIX (180.0 / 3.14157)
 #define ANI_STAND 0
@@ -55,7 +56,7 @@ personaAnimation * createPersonaAnim (int num, variableStack * & stacky) {
 //	db ("\nCreating new animation from built-in function");
 	checkNew (newP);
 //	adding (newP);
-
+	
 	newP -> numFrames = num;
 	newP -> frames = new animFrame[num];
 	checkNew (newP -> frames);
@@ -66,7 +67,11 @@ personaAnimation * createPersonaAnim (int num, variableStack * & stacky) {
 
 	while (a) {
 		a --;
-		if (stacky -> thisVar.varType == SVT_STACK) {
+		newP -> frames[a].noise = 0;
+		if (stacky -> thisVar.varType == SVT_FILE) {
+			newP -> frames[a].noise = stacky -> thisVar.varData.intValue;
+			fprintf (stderr, "Noise: %d: %s\n",newP -> frames[a].noise, resourceNameFromNum (newP -> frames[a].noise));
+		} else if (stacky -> thisVar.varType == SVT_STACK) {
 			getValueType (frameNum, SVT_INT, stacky -> thisVar.varData.theStack -> first -> thisVar);
 			getValueType (howMany, SVT_INT, stacky -> thisVar.varData.theStack -> first -> next -> thisVar);
 		} else {
@@ -114,6 +119,7 @@ personaAnimation * copyAnim (personaAnimation * orig) {
 		for (int a = 0; a < num; a ++) {
 			newAnim -> frames[a].frameNum = orig -> frames[a].frameNum;
 			newAnim -> frames[a].howMany = orig -> frames[a].howMany;
+			newAnim -> frames[a].noise = orig -> frames[a].noise;
 		}
 	} else {
 		newAnim -> frames = NULL;
@@ -354,6 +360,15 @@ void drawPeople () {
 			thisPerson -> frameNum ++;
 			thisPerson -> frameNum %= thisPerson -> myAnim -> numFrames;
 			thisPerson -> frameTick = thisPerson -> myAnim -> frames[thisPerson -> frameNum].howMany;
+			if (myAnim -> frames[thisPerson -> frameNum].noise > 0) {
+				startSound(myAnim -> frames[thisPerson -> frameNum].noise, false);
+				//fprintf (stderr, "Want to play noise %d: %s (%d)\n", myAnim -> frames[thisPerson -> frameNum].noise, resourceNameFromNum (myAnim -> frames[thisPerson -> frameNum].noise),
+				//												thisPerson -> frameNum															
+				//																														   );
+				thisPerson -> frameNum ++;
+				thisPerson -> frameNum %= thisPerson -> myAnim -> numFrames;
+				thisPerson -> frameTick = thisPerson -> myAnim -> frames[thisPerson -> frameNum].howMany;
+			}
 		}
 		thisPerson = thisPerson -> next;
 	}

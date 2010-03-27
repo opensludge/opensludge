@@ -30,7 +30,6 @@
 		2F2FF5C0102C4263005439DA /* zbuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA4A20FFCEBE6005E5C36 /* zbuffer.cpp */; };
 		2F373F6F100E0686009F6880 /* Project.hpp in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F373F6D100E0686009F6880 /* Project.hpp */; };
 		2F373F70100E0686009F6880 /* Project.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F373F6E100E0686009F6880 /* Project.cpp */; };
-		2F3AB9CE100D0B7100CD6A13 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D1107310486CEB800E47090 /* Info.plist */; };
 		2F46989A101B4ACA00D451DB /* slx.icns in Resources */ = {isa = PBXBuildFile; fileRef = 2F469899101B4ACA00D451DB /* slx.icns */; };
 		2F59AFFF100CD9E1004A21BC /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F59AFFE100CD9E1004A21BC /* Carbon.framework */; };
 		2F59E734102E22CA00008746 /* libpng.framework in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F59E72D102E22A900008746 /* libpng.framework */; };
@@ -303,7 +302,6 @@
 		2FF7AE501012195300F6AF98 /* SpriteBank.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpriteBank.h; sourceTree = "<group>"; };
 		2FF7AE511012195300F6AF98 /* SpriteBank.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpriteBank.m; sourceTree = "<group>"; };
 		2FF7AE5C10121A0700F6AF98 /* SpriteBank.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = SpriteBank.nib; sourceTree = "<group>"; };
-		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Sludge Dev Kit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sludge Dev Kit.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -403,7 +401,6 @@
 				2F695C70100D138D008A8DC1 /* icon.icns */,
 				2F695C71100D138D008A8DC1 /* ProjIcon.icns */,
 				2F1B9A62100CF81C00BD9739 /* Credits.html */,
-				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165DFE840E0CC02AAC07 /* InfoPlist.strings */,
 				002F3AF009D08F1000EBEB88 /* DevKit Main.nib */,
 				2FF7AE5C10121A0700F6AF98 /* SpriteBank.nib */,
@@ -643,7 +640,6 @@
 				2F9DE047100CC7ED0067DE50 /* DevKit Main.nib in Resources */,
 				2F9DDF75100CC7DA0067DE50 /* SLUDGEDevKitHelp in Resources */,
 				2F1B9A63100CF81C00BD9739 /* Credits.html in Resources */,
-				2F3AB9CE100D0B7100CD6A13 /* Info.plist in Resources */,
 				2F695C72100D138D008A8DC1 /* icon.icns in Resources */,
 				2F695C73100D138D008A8DC1 /* ProjIcon.icns in Resources */,
 				2FF7AE5D10121A0700F6AF98 /* SpriteBank.nib in Resources */,

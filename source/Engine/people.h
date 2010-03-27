@@ -2,6 +2,7 @@
 
 struct animFrame {
 	int frameNum, howMany;
+	int noise;
 };
 
 #define EXTRA_FRONT			1
