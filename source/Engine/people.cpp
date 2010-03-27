@@ -27,6 +27,8 @@
 
 extern speechStruct * speech;
 
+extern variableStack * noStack;
+
 
 extern int cameraX, cameraY;
 screenRegion personRegion;
@@ -71,6 +73,9 @@ personaAnimation * createPersonaAnim (int num, variableStack * & stacky) {
 		if (stacky -> thisVar.varType == SVT_FILE) {
 			newP -> frames[a].noise = stacky -> thisVar.varData.intValue;
 			fprintf (stderr, "Noise: %d: %s\n",newP -> frames[a].noise, resourceNameFromNum (newP -> frames[a].noise));
+		} else if (stacky -> thisVar.varType == SVT_FUNC) {
+			newP -> frames[a].noise = - stacky -> thisVar.varData.intValue;
+			fprintf (stderr, "Noise: func %d",newP -> frames[a].noise);
 		} else if (stacky -> thisVar.varType == SVT_STACK) {
 			getValueType (frameNum, SVT_INT, stacky -> thisVar.varData.theStack -> first -> thisVar);
 			getValueType (howMany, SVT_INT, stacky -> thisVar.varData.theStack -> first -> next -> thisVar);
@@ -329,6 +334,17 @@ void drawPeople () {
 				thisPerson -> lastUsedAnim = myAnim;
 				thisPerson -> frameNum = 0;
 				thisPerson -> frameTick = myAnim -> frames[0].howMany;
+				if (myAnim -> frames[thisPerson -> frameNum].noise > 0) {
+					startSound(myAnim -> frames[thisPerson -> frameNum].noise, false);
+					thisPerson -> frameNum ++;
+					thisPerson -> frameNum %= thisPerson -> myAnim -> numFrames;
+					thisPerson -> frameTick = thisPerson -> myAnim -> frames[thisPerson -> frameNum].howMany;
+				} else if (myAnim -> frames[thisPerson -> frameNum].noise) {
+					startNewFunctionNum (- myAnim -> frames[thisPerson -> frameNum].noise, 0, NULL, noStack);
+					thisPerson -> frameNum ++;
+					thisPerson -> frameNum %= thisPerson -> myAnim -> numFrames;
+					thisPerson -> frameTick = thisPerson -> myAnim -> frames[thisPerson -> frameNum].howMany;
+				}
 			}
 			int fNumSign = myAnim -> frames[thisPerson -> frameNum].frameNum;
 			int m = fNumSign < 0;
@@ -362,9 +378,11 @@ void drawPeople () {
 			thisPerson -> frameTick = thisPerson -> myAnim -> frames[thisPerson -> frameNum].howMany;
 			if (myAnim -> frames[thisPerson -> frameNum].noise > 0) {
 				startSound(myAnim -> frames[thisPerson -> frameNum].noise, false);
-				//fprintf (stderr, "Want to play noise %d: %s (%d)\n", myAnim -> frames[thisPerson -> frameNum].noise, resourceNameFromNum (myAnim -> frames[thisPerson -> frameNum].noise),
-				//												thisPerson -> frameNum															
-				//																														   );
+				thisPerson -> frameNum ++;
+				thisPerson -> frameNum %= thisPerson -> myAnim -> numFrames;
+				thisPerson -> frameTick = thisPerson -> myAnim -> frames[thisPerson -> frameNum].howMany;
+			} else if (myAnim -> frames[thisPerson -> frameNum].noise) {
+				startNewFunctionNum (- myAnim -> frames[thisPerson -> frameNum].noise, 0, NULL, noStack);
 				thisPerson -> frameNum ++;
 				thisPerson -> frameNum %= thisPerson -> myAnim -> numFrames;
 				thisPerson -> frameTick = thisPerson -> myAnim -> frames[thisPerson -> frameNum].howMany;
