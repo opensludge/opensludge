@@ -1,9 +1,9 @@
+#import "SpriteBank.h"
 #import <unistd.h>
 
 #import "AppController.h"
 
 #include "settings.h"
-#import "SpriteBank.h"
 #import "ProjectDocument.h"
 
 AppController *aC;

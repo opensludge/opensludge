@@ -1028,10 +1028,6 @@ bool runSludge () {
 	loadedFunction * thisFunction = allRunningFunctions;
 	loadedFunction * nextFunction;
 
-#if BUILTINDEBUG
-	builtInDebugTick();
-#endif
-
 //	debugSounds ();
 	while (thisFunction) {
 		nextFunction = thisFunction -> next;

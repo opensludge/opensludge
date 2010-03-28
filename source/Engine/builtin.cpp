@@ -176,6 +176,9 @@ static builtReturn sayCore (int numParams, loadedFunction * fun, bool sayIt)
 	return BR_NOCOMMENT;
 }
 
+#pragma mark -
+#pragma mark Built in functions
+
 builtIn(say)
 {
 	 UNUSEDALL
@@ -313,25 +316,13 @@ builtIn(fileExists)
 				FILE * fp = fopen (aaaaa, "rb");
 				if (! fp) {
 					char currentDir[1000];
-#ifdef _MSC_VER
-					if (! _getcwd (currentDir, 998)) {
-#else
 					if (! getcwd (currentDir, 998)) {
-#endif
 						fprintf(stderr, "Can't get current directory.\n");
 					}
 
-#ifdef _MSC_VER
-					_chdir (gamePath);
-#else
 					chdir (gamePath);
-#endif
 					fp = fopen (aaaaa, "rb");
-#ifdef _MSC_VER
-					_chdir (currentDir);
-#else
 					chdir (currentDir);
-#endif
 				}
 				// Return value
 				setVariable (fun -> reg, SVT_INT, (fp != NULL));
@@ -969,11 +960,7 @@ builtIn(launch)
 //					return BR_NOCOMMENT;
 	} else {
 		char gameDir[1000];
-#ifdef _MSC_VER
-		if (! _getcwd (gameDir, 998)) {
-#else
 		if (! getcwd (gameDir, 998)) {
-#endif
 			fatal ("Can't get current directory");
 			return BR_NOCOMMENT;
 		}
@@ -2572,6 +2559,8 @@ builtIn(doBackgroundEffect)
 	return BR_CONTINUE;
 }
 
+#pragma mark -
+#pragma mark Other functions
 
 //-------------------------------------
 
@@ -2591,26 +2580,6 @@ char builtInFunctionNames[][25] =
 
 #define NUM_FUNCS			(sizeof (builtInFunctionArray) / sizeof (builtInFunctionArray[0]))
 
-#if BUILTINDEBUG
-static unsigned char ticky = 0;
-
-static void newDebug (char * a, char * b)
-{
-	FILE * fp = fopen ("newDebug.txt", "at");
-	if (fp)
-	{
-		fprintf (fp, "%i\t%s: %s\n", (int)ticky, a, b);
-		fclose (fp);
-	}
-}
-
-void builtInDebugTick()
-{
-	ticky ++;
-}
-#endif
-
-
 
 
 builtReturn callBuiltIn (int whichFunc, int numParams, loadedFunction * fun) {
@@ -2623,17 +2592,10 @@ builtReturn callBuiltIn (int whichFunc, int numParams, loadedFunction * fun) {
 		setFatalInfo (
 			(fun -> originalNumber < numUserFunc) ? allUserFunc[fun -> originalNumber] : "Unknown user function",
 			(whichFunc < numBIFNames) ? allBIFNames[whichFunc] : "Unknown built-in function");
-#if BUILTINDEBUG
-		newDebug (
-			(fun -> originalNumber < numUserFunc) ? allUserFunc[fun -> originalNumber] : "Unknown user function",
-			(whichFunc < numBIFNames) ? allBIFNames[whichFunc] : "Unknown built-in function");
-#endif
 	}
 
-//	newDebug (" Given this many parameters:", numParams);
 	if (whichFunc < NUM_FUNCS) {
 		if (paramNum[whichFunc] != -1) {
-//			newDebug (" Needs this many parameters:", paramNum[whichFunc]);
 			if (paramNum[whichFunc] != numParams) {
 				char buff[100];
 				sprintf (buff, "Built in function must have %i parameter%s",

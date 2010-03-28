@@ -12,7 +12,40 @@
 @interface ScriptDocument : NSDocument {
 	IBOutlet NSTextView *text;
 	
-	NSMutableDictionary *words;
+	
+	NSDictionary *commandsColour, *commentsColour, *keywordsColour, *stringsColour, *variablesColour;
+	
+	NSMutableDictionary *builtinWords;
+	NSMutableDictionary *keyWords;
+/*	
+	//NSString *completeString;
+	NSString *searchString;
+	
+	NSLayoutManager * firstLayoutManager;
+	NSRect visibleRect;
+	NSRange visibleRange;
+	NSRange rangeOfLine;
+	
+	int beginningOfFirstVisibleLine;
+	int endOfLastVisibleLine;
+	int beginning, end, endOfLine, index, length, searchStringLength, commandLocation, skipEndCommand, beginLocationInMultiLine, endLocationInMultiLine, searchSyntaxLength, rangeLocation;
+	int maxRange, completeStringLength;
+
+	NSCharacterSet *keywordStartCharacterSet, *keywordEndCharacterSet;
+	NSString *keywordTestString;
+	NSCharacterSet *beginVariable;
+	NSCharacterSet *endVariable;
+	NSString *firstSingleLineComment;
+
+	NSString *firstString;
+	NSString *secondString;
+		
+	NSScanner *scanner;
+	NSScanner *completeDocumentScanner;	
+	NSSet *keywords;
+	*/
+	
+// --	
 
 	NSString*						sourceCode;				// Temp. storage for data from file until NIB has been read.
 }

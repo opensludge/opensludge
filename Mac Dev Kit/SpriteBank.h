@@ -6,10 +6,10 @@
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
 
 //#include <OpenGL/gl.h>
 #include "GLee.h"
+#import <Cocoa/Cocoa.h>
 #include "sprites.h"
 
 @interface SpriteOpenGLView : NSOpenGLView

@@ -6,9 +6,9 @@
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
 //#include <OpenGL/gl.h>
 #include "glee.h"
+#import <Cocoa/Cocoa.h>
 
 #include "FloorMaker.h"
 #include "sprites.h"
