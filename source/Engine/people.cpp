@@ -377,16 +377,18 @@ void drawPeople () {
 			thisPerson -> frameNum ++;
 			thisPerson -> frameNum %= thisPerson -> myAnim -> numFrames;
 			thisPerson -> frameTick = thisPerson -> myAnim -> frames[thisPerson -> frameNum].howMany;
-			if (myAnim -> frames[thisPerson -> frameNum].noise > 0) {
-				startSound(myAnim -> frames[thisPerson -> frameNum].noise, false);
-				thisPerson -> frameNum ++;
-				thisPerson -> frameNum %= thisPerson -> myAnim -> numFrames;
-				thisPerson -> frameTick = thisPerson -> myAnim -> frames[thisPerson -> frameNum].howMany;
-			} else if (myAnim -> frames[thisPerson -> frameNum].noise) {
-				startNewFunctionNum (- myAnim -> frames[thisPerson -> frameNum].noise, 0, NULL, noStack);
-				thisPerson -> frameNum ++;
-				thisPerson -> frameNum %= thisPerson -> myAnim -> numFrames;
-				thisPerson -> frameTick = thisPerson -> myAnim -> frames[thisPerson -> frameNum].howMany;
+			if (myAnim -> frames) {
+				if (myAnim -> frames[thisPerson -> frameNum].noise > 0) {
+					startSound(myAnim -> frames[thisPerson -> frameNum].noise, false);
+					thisPerson -> frameNum ++;
+					thisPerson -> frameNum %= thisPerson -> myAnim -> numFrames;
+					thisPerson -> frameTick = thisPerson -> myAnim -> frames[thisPerson -> frameNum].howMany;
+				} else if (myAnim -> frames[thisPerson -> frameNum].noise) {
+					startNewFunctionNum (- myAnim -> frames[thisPerson -> frameNum].noise, 0, NULL, noStack);
+					thisPerson -> frameNum ++;
+					thisPerson -> frameNum %= thisPerson -> myAnim -> numFrames;
+					thisPerson -> frameTick = thisPerson -> myAnim -> frames[thisPerson -> frameNum].howMany;
+				}
 			}
 		}
 		thisPerson = thisPerson -> next;

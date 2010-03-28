@@ -210,9 +210,9 @@ void addFunction (NSMutableDictionary *words, char *name) {
 									range:found];
 			} else if ([builtinWords objectForKey:word] != NULL) {
 				[textStorage addAttribute:NSForegroundColorAttributeName
-									value:[NSColor colorWithCalibratedRed:0.0 
-																	green:0.0 
-																	 blue:0.7
+									value:[NSColor colorWithCalibratedRed:0.1 
+																	green:0.1 
+																	 blue:0.6
 																	alpha:1.0]
 									range:found];
 			}
