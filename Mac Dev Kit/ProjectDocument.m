@@ -313,14 +313,16 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 -(bool) compile
 {
 	bool val = false;
+	int success = false;
 	me = self;
 	session = [NSApp beginModalSessionForWindow:compilerWindow];
 	[closeCompilerButton setEnabled:NO];
+	[runGameButton setEnabled:NO];
 	[NSApp runModalSession:session];
 
 	UInt8 buffer[1024];
 	if (CFURLGetFileSystemRepresentation((CFURLRef) [self fileURL], true, buffer, 1023)) {
-		compileEverything(buffer, fileList, &fileListNum);
+		success = compileEverything(buffer, fileList, &fileListNum);
 		val = true;
 	}
 	[closeCompilerButton setEnabled:YES];
@@ -328,6 +330,9 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 	if (numErrors) {
 		[compilerErrors noteNumberOfRowsChanged];
 		[tabView selectTabViewItemAtIndex:1];
+	} 
+	if (success) {
+		[runGameButton setEnabled:YES];
 	}
 	return val;
 }
@@ -336,6 +341,18 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 {
 	[compilerWindow close];
 }
+
+extern char * gameFile;
+
+- (IBAction)runGame:(id)sender
+{
+	// Run the game
+	char *file = getFullPath (gameFile);
+	[[NSWorkspace sharedWorkspace] openFile: [NSString stringWithUTF8String:file]];
+	fprintf(stderr, "*%s* *%s*\n", settings.finalFile, file);
+	deleteString (file);
+}
+
 
 - (bool)showProjectPrefs
 {

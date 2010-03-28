@@ -42,6 +42,7 @@
 	IBOutlet NSTextField *compGlobs;
 	IBOutlet NSTextField *compStrings;
 	IBOutlet NSTextField *compResources;
+	IBOutlet NSButton *runGameButton;
 	IBOutlet NSButton *closeCompilerButton;
 	
 	int numResources;
@@ -56,6 +57,7 @@
 - (bool) compile;
 - (bool)showProjectPrefs;
 - (IBAction)endProjectPrefs:(id)sender;
+- (IBAction)runGame:(id)sender;
 - (IBAction)closeCompilerBox:(id)sender;
 
 @end

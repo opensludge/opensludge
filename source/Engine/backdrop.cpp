@@ -977,6 +977,24 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 	glEnable (GL_TEXTURE_2D);
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
+	
+	float btx1;
+	float btx2;
+	float bty1;
+	float bty2;
+	if (! NPOT_textures) {
+		btx1 = backdropTexW * x / sceneWidth;
+		btx2 = backdropTexW * (x+realPicWidth) / sceneWidth;
+		bty1 = backdropTexH * y / sceneHeight;
+		bty2 = backdropTexH * (y+realPicHeight) / sceneHeight;
+	} else {
+		btx1 = (float) x / sceneWidth;
+		btx2 = (float) (x+realPicWidth) / sceneWidth;
+		bty1 = (float) y / sceneHeight;
+		bty2 = (float) (y+realPicHeight) / sceneHeight;
+	}
+	
+	
 	setPixelCoords (true);
 
 	int xoffset = 0;
@@ -990,36 +1008,43 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 			glClear(GL_COLOR_BUFFER_BIT);	// Clear The Screen
 
 			if (backdropExists) {
-				// Render the scene - first the old backdrop
+				// Render the sprite to the backdrop 
+				// (using mulitexturing, so the old backdrop is seen where alpha < 1.0)
+				glActiveTexture(GL_TEXTURE2);
 				glBindTexture (GL_TEXTURE_2D, backdropTextureName);
-				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+				glActiveTexture(GL_TEXTURE0);
+				
+				glUseProgram(shader.fixScaleSprite);
+				GLint uniform = glGetUniformLocation(shader.fixScaleSprite, "useLightTexture");
+				if (uniform >= 0) glUniform1i(uniform, 0); // No lighting
+				
 				glColor4f(1.0, 1.0, 1.0, 1.0);
-
-				glEnable(GL_BLEND);
-				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+				glBindTexture(GL_TEXTURE_2D, tmpTex);
+				glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+				
 				glBegin(GL_QUADS);
-				glTexCoord2f(0.0, 0.0); glVertex3f(-x-xoffset, -y+yoffset, 0.0);
-				glTexCoord2f(backdropTexW, 0.0); glVertex3f(sceneWidth-x-xoffset, -y+yoffset, 0.0);
-				glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(sceneWidth-x-xoffset, -y+yoffset+sceneHeight, 0.0);
-				glTexCoord2f(0.0, backdropTexH); glVertex3f(-x-xoffset, -y+yoffset+sceneHeight, 0.0);
+				glTexCoord2f(0.0, 0.0); glMultiTexCoord2f(GL_TEXTURE2, btx1, bty1); 	glVertex3f(-xoffset, -yoffset, 0.0);
+				glTexCoord2f(texCoordW, 0.0); glMultiTexCoord2f(GL_TEXTURE2, btx2, bty1); 	glVertex3f(realPicWidth-xoffset, -yoffset, 0.0);
+				glTexCoord2f(texCoordW, texCoordH); glMultiTexCoord2f(GL_TEXTURE2, btx2, bty2); 	glVertex3f(realPicWidth-xoffset, realPicHeight-yoffset, 0.0);
+				glTexCoord2f(0.0, texCoordH); glMultiTexCoord2f(GL_TEXTURE2, btx1, bty2); 	glVertex3f(-xoffset, realPicHeight-yoffset, 0.0);
 				glEnd();
+				
+				glUseProgram(0);
+				
+			} else {
+				// It's all new - nothing special to be done.
+
+				glBindTexture(GL_TEXTURE_2D, tmpTex);
+
+				glColor4f(1.0, 0.0, 0.0, 0.0);
+				glBegin(GL_QUADS);
+				glTexCoord2f(0.0, 0.0); glVertex3f(-xoffset, -yoffset, 0.0);
+				glTexCoord2f(texCoordW, 0.0); glVertex3f(realPicWidth-xoffset, -yoffset, 0.0);
+				glTexCoord2f(texCoordW, texCoordH); glVertex3f(realPicWidth-xoffset, -yoffset+realPicHeight, 0.0);
+				glTexCoord2f(0.0, texCoordH); glVertex3f(-xoffset, -yoffset+realPicHeight, 0.0);
+				glEnd();
+				
 			}
-
-
-			// Then the new!
-			glBindTexture(GL_TEXTURE_2D, tmpTex);
-
-			glColor4f(1.0, 0.0, 0.0, 0.0);
-			glBegin(GL_QUADS);
-			glTexCoord2f(0.0, 0.0); glVertex3f(-xoffset, -yoffset, 0.0);
-			glTexCoord2f(texCoordW, 0.0); glVertex3f(realPicWidth-xoffset, -yoffset, 0.0);
-			glTexCoord2f(texCoordW, texCoordH); glVertex3f(realPicWidth-xoffset, -yoffset+realPicHeight, 0.0);
-			glTexCoord2f(0.0, texCoordH); glVertex3f(-xoffset, -yoffset+realPicHeight, 0.0);
-			glEnd();
-
-			glDisable (GL_BLEND);
 
 			// Copy Our ViewPort To The Texture
 			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
@@ -1118,9 +1143,30 @@ bool mixHSI (FILE * fp, int x, int y) {
 	if (y == IN_THE_CENTRE) y = (sceneHeight - realPicHeight) >> 1;
 	if (x < 0 || x + realPicWidth > sceneWidth || y < 0 || y + realPicHeight > sceneHeight) return false;
 
+	float btx1, tx1;
+	float btx2, tx2;
+	float bty1, ty1;
+	float bty2, ty2;
 	if (! NPOT_textures) {
+		tx1 = 0.0;
+		ty1 = 0.0;
+		tx2 = ((double)picWidth) / getNextPOT(picWidth);
+		ty2 = ((double)picHeight) / getNextPOT(picHeight);
 		picWidth = getNextPOT(picWidth);
 		picHeight = getNextPOT(picHeight);
+		btx1 = backdropTexW * x / sceneWidth;
+		btx2 = backdropTexW * (x+picWidth) / sceneWidth;
+		bty1 = backdropTexH * y / sceneHeight;
+		bty2 = backdropTexH * (y+picHeight) / sceneHeight;
+	} else {
+		tx1 = 0.0;
+		ty1 = 0.0;
+		tx2 = 1.0;
+		ty2 = 1.0;
+		btx1 = (float) x / sceneWidth;
+		btx2 = (float) (x+picWidth) / sceneWidth;
+		bty1 = (float) y / sceneHeight;
+		bty2 = (float) (y+picHeight) / sceneHeight;
 	}
 	int t1, t2, n;
 	unsigned short c;
@@ -1180,7 +1226,8 @@ bool mixHSI (FILE * fp, int x, int y) {
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
 	setPixelCoords (true);
-
+	
+	
 	int xoffset = 0;
 	while (xoffset < picWidth) {
 		int w = (picWidth-xoffset < viewportWidth) ? picWidth-xoffset : viewportWidth;
@@ -1189,38 +1236,34 @@ bool mixHSI (FILE * fp, int x, int y) {
 		while (yoffset < picHeight) {
 			int h = (picHeight-yoffset < viewportHeight) ? picHeight-yoffset : viewportHeight;
 
-			// Render the scene - first the old backdrop
+			glClear(GL_COLOR_BUFFER_BIT);	// Clear The Screen
+
+			// Render the sprite to the backdrop 
+			// (using mulitexturing, so the backdrop is seen where alpha < 1.0)
+			glActiveTexture(GL_TEXTURE2);
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			glColor3f(0.0, 1.0, 0.0);
-
-			glBegin(GL_QUADS);
-			glTexCoord2f(0.0, 0.0); glVertex3f(-x-xoffset, -y-yoffset, 0.0);
-			glTexCoord2f(backdropTexW, 0.0); glVertex3f(sceneWidth-x-xoffset, -y-yoffset, 0.0);
-			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(sceneWidth-x-xoffset, sceneHeight-y-yoffset, 0.0);
-			glTexCoord2f(0.0, backdropTexH); glVertex3f(-x-xoffset, sceneHeight-y-yoffset, 0.0);
-			glEnd();
-
-			// Then the new!
-			glBindTexture(GL_TEXTURE_2D, tmpTex);
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-
+			glActiveTexture(GL_TEXTURE0);
+			
+			glUseProgram(shader.fixScaleSprite);
+			GLint uniform = glGetUniformLocation(shader.fixScaleSprite, "useLightTexture");
+			if (uniform >= 0) glUniform1i(uniform, 0); // No lighting
+			
 			glColor4f(1.0, 1.0, 1.0, 0.5);
+			glBindTexture(GL_TEXTURE_2D, tmpTex);
+			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+			
 			glBegin(GL_QUADS);
-			glTexCoord2f(0.0, 0.0); glVertex3f(-xoffset, -yoffset, 0.0);
-			glTexCoord2f(backdropTexW, 0.0); glVertex3f(picWidth-xoffset, -yoffset, 0.0);
-			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(picWidth-xoffset, picHeight-yoffset, 0.0);
-			glTexCoord2f(0.0, backdropTexH); glVertex3f(-xoffset, picHeight-yoffset, 0.0);
+			glTexCoord2f(tx1, ty1); glMultiTexCoord2f(GL_TEXTURE2, btx1, bty1); 	glVertex3f(-xoffset, -yoffset, 0.0);
+			glTexCoord2f(tx2, ty1); glMultiTexCoord2f(GL_TEXTURE2, btx2, bty1); 	glVertex3f(picWidth-xoffset, -yoffset, 0.0);
+			glTexCoord2f(tx2, ty2); glMultiTexCoord2f(GL_TEXTURE2, btx2, bty2); 	glVertex3f(picWidth-xoffset, picHeight-yoffset, 0.0);
+			glTexCoord2f(tx1, ty2); glMultiTexCoord2f(GL_TEXTURE2, btx1, bty2); 	glVertex3f(-xoffset, picHeight-yoffset, 0.0);
 			glEnd();
-
-			glDisable (GL_BLEND);
-
+			
 			// Copy Our ViewPort To The Texture
 			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
-			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, x+xoffset, y+yoffset, viewportOffsetX, viewportOffsetY, w, h);
+			glUseProgram(0);
+			
+			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, (int) ((x<0) ? xoffset: x+xoffset), (int) ((y<0) ? yoffset: y+yoffset), (int) ((x<0) ?viewportOffsetX-x:viewportOffsetX), (int) ((y<0) ?viewportOffsetY-y:viewportOffsetY), w, h);
 
 			yoffset += viewportHeight;
 		}

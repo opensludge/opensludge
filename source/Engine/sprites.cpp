@@ -352,11 +352,28 @@ void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette
 	float tx2 = (float)(single.tex_x + single.width) / fontPal.tex_w[single.texNum];
 	float ty2 = (float)(single.height+2)/fontPal.tex_h[single.texNum];
 
-	int diffX = single.width+1;
-	int diffY = single.height+2;
+	float btx1;
+	float btx2;
+	float bty1;
+	float bty2;
+	if (! NPOT_textures) {
+		btx1 = backdropTexW * x1 / sceneWidth;
+		btx2 = backdropTexW * (x1+single.width) / sceneWidth;
+		bty1 = backdropTexH * y1 / sceneHeight;
+		bty2 = backdropTexH * (y1+single.width) / sceneHeight;
+	} else {
+		btx1 = (float) x1 / sceneWidth;
+		btx2 = (float) (x1+single.width) / sceneWidth;
+		bty1 = (float) y1 / sceneHeight;
+		bty2 = (float) (y1+single.width) / sceneHeight;
+	}
+	
+	
+	int diffX = single.width;
+	int diffY = single.height;
 
 	x1 -= single.xhot;
-	y1 -= single.yhot+1;
+	y1 -= single.yhot;
 
 	if (x1 < 0) diffX += x1;
 	if (y1 < 0) diffY += y1;
@@ -376,39 +393,33 @@ void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette
 		while (yoffset < diffY) {
 			int h = (diffY-yoffset < viewportHeight) ? diffY-yoffset : viewportHeight;
 
-			// Render the scene - first the old backdrop
-			glColor4ub (255, 255, 255, 255);
+			// Render the sprite to the backdrop 
+			// (using mulitexturing, so the backdrop is seen where alpha < 1.0)
+			glActiveTexture(GL_TEXTURE2);
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+			glActiveTexture(GL_TEXTURE0);
 
-			glBegin(GL_QUADS);
-			glTexCoord2f(0.0, 0.0); glVertex3f(-x1-xoffset, -y1+yoffset, 0.0);
-			glTexCoord2f(backdropTexW, 0.0); glVertex3f(sceneWidth-x1-xoffset, -y1+yoffset, 0.0);
-			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(sceneWidth-x1-xoffset, sceneHeight-y1+yoffset, 0.0);
-			glTexCoord2f(0.0, backdropTexH); glVertex3f(-x1-xoffset, sceneHeight-y1+yoffset, 0.0);
-			glEnd();
-
-			// Then the sprite
+			glUseProgram(shader.fixScaleSprite);
+			GLint uniform = glGetUniformLocation(shader.fixScaleSprite, "useLightTexture");
+			if (uniform >= 0) glUniform1i(uniform, 0); // No lighting
+			
 			glColor4ub (fontPal.originalRed, fontPal.originalGreen, fontPal.originalBlue, 255);
 			glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
 			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 			glBegin(GL_QUADS);
-			glTexCoord2f(tx1, ty1);	glVertex3f(-xoffset, -yoffset, 0.0);
-			glTexCoord2f(tx2, ty1);	glVertex3f(single.width-xoffset, -yoffset, 0.0);
-			glTexCoord2f(tx2, ty2);	glVertex3f(single.width-xoffset, -yoffset+single.height+2, 0.0);
-			glTexCoord2f(tx1, ty2);	glVertex3f(-xoffset, -yoffset+single.height+2, 0.0);
+			glTexCoord2f(tx1, ty1); glMultiTexCoord2f(GL_TEXTURE2, btx1, bty1); 	glVertex3f(-xoffset, -yoffset, 0.0);
+			glTexCoord2f(tx2, ty1); glMultiTexCoord2f(GL_TEXTURE2, btx2, bty1); 	glVertex3f(single.width-xoffset, -yoffset, 0.0);
+			glTexCoord2f(tx2, ty2); glMultiTexCoord2f(GL_TEXTURE2, btx2, bty2); 	glVertex3f(single.width-xoffset, single.height-yoffset, 0.0);
+			glTexCoord2f(tx1, ty2); glMultiTexCoord2f(GL_TEXTURE2, btx1, bty2); 	glVertex3f(-xoffset, single.height-yoffset, 0.0);
 			glEnd();
-			glDisable(GL_BLEND);
 
 			// Copy Our ViewPort To The Texture
 			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
-			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, (x1<0) ? xoffset : x1+xoffset, (y1<0) ? yoffset: y1+yoffset, viewportOffsetX, viewportOffsetY, w, h);
-
+			glUseProgram(0);
+			
+			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, (int) ((x1<0) ? xoffset: x1+xoffset), (int) ((y1<0) ? yoffset: y1+yoffset), (int) ((x1<0) ?viewportOffsetX-x1:viewportOffsetX), (int) ((y1<0) ?viewportOffsetY-y1:viewportOffsetY), w, h);
+			
 			yoffset += viewportHeight;
 		}
 		xoffset += viewportWidth;

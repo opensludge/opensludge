@@ -75,6 +75,7 @@ extern stringArray * builtInFunc;
 extern stringArray * typeDefFrom;
 extern stringArray * allKnownFlags;
 
+char * gameFile = NULL;
 
 static int data1 = 0, numProcessed = 0;
 
@@ -346,13 +347,15 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 		fclose (projectFile);
 		gotoSourceDirectory ();
 		char * fromName = joinStrings (settings.finalFile, ".sl~");
-		char * toName = joinStrings (settings.finalFile, settings.forceSilent ? " (silent).slg" : ".slg");
-		unlink (toName);
+		if (gameFile) deleteString (gameFile);
+		gameFile = joinStrings (settings.finalFile, settings.forceSilent ? " (silent).slg" : ".slg");
+		unlink (gameFile);
 		
-		if (rename (fromName, toName))
+		if (rename (fromName, gameFile))
 		{
 			addComment (ERRORTYPE_SYSTEMERROR, "Couldn't rename the compiled game file... it's been left with the name", fromName, NULL);
 		}
+		deleteString(fromName);
 		setCompileStep (CSTEP_DONE, 0);
 		break;
 	}
@@ -360,12 +363,13 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 	return true;
 }
 
-void compileEverything (char * project, char **fileList, int *numFiles) {
+int compileEverything (char * project, char **fileList, int *numFiles) {
+	int success = true;
 	clearTranslations ();
 	if (! getSourceDirFromName (project)) {
 		setCompilerText (COM_PROGTEXT, "Error initialising!");
 		setCompilerText (COM_FILENAME, "Could not find the folder for the source files.");
-		return;
+		return false;
 	}		
 	
 	initBuiltInFunc ();
@@ -379,6 +383,7 @@ void compileEverything (char * project, char **fileList, int *numFiles) {
 			char * killName = joinStrings (settings.finalFile, ".sl~");
 			unlink (killName);
 			delete killName;
+			success = false;
 		}
 	}
 		
@@ -392,4 +397,5 @@ void compileEverything (char * project, char **fileList, int *numFiles) {
 	destroyAll (allFileHandles);
 		
 	killTempDir();
+	return success;
 }
