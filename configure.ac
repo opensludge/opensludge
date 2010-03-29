@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.55])
-AC_INIT([opensludge-engine], [2.0b], [tobias.han@gmx.de])
+AC_INIT([sludge-engine], [2.0b], [tobias.han@gmx.de])
 AC_CONFIG_SRCDIR([source/Engine/sludger.cpp])
 AM_INIT_AUTOMAKE
 AC_CONFIG_HEADERS([config.h])

@@ -1,4 +1,4 @@
-bin_PROGRAMS = sludge_engine
+bin_PROGRAMS = sludge-engine
 
 sludge_engine_SOURCES = \
 	backdrop.cpp bg_effects.cpp builtin.cpp cursors.cpp debug.cpp \

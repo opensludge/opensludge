@@ -137,13 +137,14 @@ void saveHSI (FILE * writer);
 extern bool reallyWantToQuit;
 
 void printCmdlineUsage() {
-	fprintf(stdout, "OpenSLUDGE engine, usage: sludge_engine [<options>] <gamefile name>\n\n");
+	fprintf(stdout, "OpenSLUDGE engine, usage: sludge-engine [<options>] <gamefile name>\n\n");
 	fprintf(stdout, "Options:\n");
 	fprintf(stdout, "-f,		--fullscreen		Set display mode to fullscreen\n");
 	fprintf(stdout, "-w,		--window		Set display mode to windowed\n");
 	fprintf(stdout, "-l<number>,	--language=<number>	Set language to <number> (>=0)\n\n");
-	fprintf(stdout, "Options are safed, so you don't need to specify them every time.\n");
+	fprintf(stdout, "Options are saved, so you don't need to specify them every time.\n");
 	fprintf(stdout, "If you entered a wrong language number, use -l0 to reset the language to the default setting.\n");
+	fprintf(stdout, "You can always toggle between fullscreen and windowed mode with \"Alt+Enter\".\n");
 }
 
 #ifdef _WIN32

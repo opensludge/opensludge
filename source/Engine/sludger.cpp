@@ -387,8 +387,8 @@ bool initSludge (char * filename) {
 #endif
 #ifdef __linux__
 	chdir (getenv ("HOME"));
-	mkdir (".sludge", 0000777);
-	chdir (".sludge");
+	mkdir (".sludge-engine", 0000777);
+	chdir (".sludge-engine");
 #endif
 
 #ifdef _WIN32
