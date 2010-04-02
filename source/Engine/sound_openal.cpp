@@ -306,6 +306,7 @@ void playStream (int a, bool isMOD, bool loopy) {
 }
 
 char * loadEntireFileToMemory (FILE * inputFile, uint32_t size) {
+	fprintf (stderr, "%i ", size);
 	char * allData = new char[size];
 	if (! allData) return NULL;
 	fread (allData, size, 1, inputFile);
@@ -345,7 +346,7 @@ bool playMOD (int f, int a, int fromTrack) {
 	} else {
 		fprintf(stderr, "Failed to create stream from MOD: %s\n",
 						alureGetErrorString());
-		warning (ERROR_SOUND_ODDNESS);
+		warning (ERROR_MUSIC_ODDNESS);
 		soundCache[a].stream = NULL;
 		soundCache[a].playing = false;
 		soundCache[a].playingOnSource = 0;

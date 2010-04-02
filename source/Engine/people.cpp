@@ -324,7 +324,7 @@ void drawPeople () {
 	shufflePeople ();
 
 	onScreenPerson * thisPerson = allPeople;
-	personaAnimation * myAnim;
+	personaAnimation * myAnim = NULL;
 	overRegion = NULL;
 
 	while (thisPerson) {
@@ -372,14 +372,11 @@ void drawPeople () {
 				}
 			}
 		}
-		debugOut("Before...");
 		if (! -- thisPerson -> frameTick) {
 			thisPerson -> frameNum ++;
 			thisPerson -> frameNum %= thisPerson -> myAnim -> numFrames;
 			thisPerson -> frameTick = thisPerson -> myAnim -> frames[thisPerson -> frameNum].howMany;
-		debugOut("1...");
-			if (myAnim && myAnim -> frames) {
-		debugOut("2...");
+			if (thisPerson -> show && myAnim && myAnim -> frames) {
 				if (myAnim -> frames[thisPerson -> frameNum].noise > 0) {
 					startSound(myAnim -> frames[thisPerson -> frameNum].noise, false);
 					thisPerson -> frameNum ++;
@@ -392,9 +389,7 @@ void drawPeople () {
 					thisPerson -> frameTick = thisPerson -> myAnim -> frames[thisPerson -> frameNum].howMany;
 				}
 			}
-		debugOut("3...");
 		}
-		debugOut("After.\n");
 		thisPerson = thisPerson -> next;
 	}
 }

@@ -1119,6 +1119,7 @@ builtIn(playSound)
 	int fileNumber;
 	if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 	trimStack (fun -> stack);
+	fprintf (stderr, "Playing sound %d\n", fileNumber);
 	if (! startSound (fileNumber, false)) return BR_CONTINUE;	// Was BR_NOCOMMENT
 	return BR_CONTINUE;
 }

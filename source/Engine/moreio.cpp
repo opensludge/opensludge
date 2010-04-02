@@ -112,6 +112,10 @@ void putSigned (short f, FILE * fp) {
 	fwrite (& f, sizeof (short), 1, fp);
 }
 
+
+// The following two functions treat signed integers as unsigned.
+// That's done on purpose.
+
 int32_t get4bytes (FILE * fp) {
 	int f1, f2, f3, f4;
 

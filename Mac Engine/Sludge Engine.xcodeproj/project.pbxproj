@@ -53,7 +53,7 @@
 		2F7BFEF90E338627003F5DC3 /* statusba.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEF20E338627003F5DC3 /* statusba.cpp */; };
 		2F7BFF000E338649003F5DC3 /* zbuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEFB0E338649003F5DC3 /* zbuffer.cpp */; };
 		2F7BFF030E338649003F5DC3 /* winstuff.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFEFE0E338649003F5DC3 /* winstuff.cpp */; };
-		2F7BFF050E33867F003F5DC3 /* TGA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFF040E33867F003F5DC3 /* TGA.cpp */; };
+		2F7BFF050E33867F003F5DC3 /* tga.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7BFF040E33867F003F5DC3 /* tga.cpp */; };
 		2F7BFF0E0E3386AD003F5DC3 /* bg_effects.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF070E3386AD003F5DC3 /* bg_effects.h */; };
 		2F7BFF0F0E3386AD003F5DC3 /* backdrop.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF080E3386AD003F5DC3 /* backdrop.h */; };
 		2F7BFF100E3386AD003F5DC3 /* builtin.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF090E3386AD003F5DC3 /* builtin.h */; };
@@ -87,7 +87,7 @@
 		2F7BFF4C0E33877A003F5DC3 /* talk.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF460E33877A003F5DC3 /* talk.h */; };
 		2F7BFF4D0E33877A003F5DC3 /* sprbanks.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF470E33877A003F5DC3 /* sprbanks.h */; };
 		2F7BFF4E0E33877A003F5DC3 /* sprites_aa.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF480E33877A003F5DC3 /* sprites_aa.h */; };
-		2F7BFF500E338789003F5DC3 /* TGA.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF4F0E338789003F5DC3 /* TGA.h */; };
+		2F7BFF500E338789003F5DC3 /* tga.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF4F0E338789003F5DC3 /* tga.h */; };
 		2F7BFF550E3387B4003F5DC3 /* variable.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF510E3387B4003F5DC3 /* variable.h */; };
 		2F7BFF560E3387B4003F5DC3 /* transition.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF520E3387B4003F5DC3 /* transition.h */; };
 		2F7BFF570E3387B4003F5DC3 /* thumbnail.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7BFF530E3387B4003F5DC3 /* thumbnail.h */; };
@@ -158,7 +158,7 @@
 				2F7BFF4C0E33877A003F5DC3 /* talk.h in Copy Frameworks into .app bundle */,
 				2F7BFF4D0E33877A003F5DC3 /* sprbanks.h in Copy Frameworks into .app bundle */,
 				2F7BFF4E0E33877A003F5DC3 /* sprites_aa.h in Copy Frameworks into .app bundle */,
-				2F7BFF500E338789003F5DC3 /* TGA.h in Copy Frameworks into .app bundle */,
+				2F7BFF500E338789003F5DC3 /* tga.h in Copy Frameworks into .app bundle */,
 				2F7BFF550E3387B4003F5DC3 /* variable.h in Copy Frameworks into .app bundle */,
 				2F7BFF560E3387B4003F5DC3 /* transition.h in Copy Frameworks into .app bundle */,
 				2F7BFF570E3387B4003F5DC3 /* thumbnail.h in Copy Frameworks into .app bundle */,
@@ -238,7 +238,7 @@
 		2F7BFEF20E338627003F5DC3 /* statusba.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = statusba.cpp; path = ../source/Engine/statusba.cpp; sourceTree = SOURCE_ROOT; };
 		2F7BFEFB0E338649003F5DC3 /* zbuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = zbuffer.cpp; path = ../source/Engine/zbuffer.cpp; sourceTree = SOURCE_ROOT; };
 		2F7BFEFE0E338649003F5DC3 /* winstuff.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = winstuff.cpp; path = ../source/Engine/winstuff.cpp; sourceTree = SOURCE_ROOT; };
-		2F7BFF040E33867F003F5DC3 /* TGA.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = TGA.cpp; path = ../source/CommonCode/TGA.cpp; sourceTree = SOURCE_ROOT; };
+		2F7BFF040E33867F003F5DC3 /* tga.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = tga.cpp; path = ../source/CommonCode/tga.cpp; sourceTree = SOURCE_ROOT; };
 		2F7BFF070E3386AD003F5DC3 /* bg_effects.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = bg_effects.h; path = ../source/Engine/bg_effects.h; sourceTree = SOURCE_ROOT; };
 		2F7BFF080E3386AD003F5DC3 /* backdrop.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = backdrop.h; path = ../source/Engine/backdrop.h; sourceTree = SOURCE_ROOT; };
 		2F7BFF090E3386AD003F5DC3 /* builtin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = builtin.h; path = ../source/Engine/builtin.h; sourceTree = SOURCE_ROOT; };
@@ -272,7 +272,7 @@
 		2F7BFF460E33877A003F5DC3 /* talk.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = talk.h; path = ../source/Engine/talk.h; sourceTree = SOURCE_ROOT; };
 		2F7BFF470E33877A003F5DC3 /* sprbanks.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sprbanks.h; path = ../source/Engine/sprbanks.h; sourceTree = SOURCE_ROOT; };
 		2F7BFF480E33877A003F5DC3 /* sprites_aa.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sprites_aa.h; path = ../source/Engine/sprites_aa.h; sourceTree = SOURCE_ROOT; };
-		2F7BFF4F0E338789003F5DC3 /* TGA.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TGA.h; path = ../source/CommonCode/TGA.h; sourceTree = SOURCE_ROOT; };
+		2F7BFF4F0E338789003F5DC3 /* tga.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = tga.h; path = ../source/CommonCode/tga.h; sourceTree = SOURCE_ROOT; };
 		2F7BFF510E3387B4003F5DC3 /* variable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = variable.h; path = ../source/Engine/variable.h; sourceTree = SOURCE_ROOT; };
 		2F7BFF520E3387B4003F5DC3 /* transition.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = transition.h; path = ../source/Engine/transition.h; sourceTree = SOURCE_ROOT; };
 		2F7BFF530E3387B4003F5DC3 /* thumbnail.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = thumbnail.h; path = ../source/Engine/thumbnail.h; sourceTree = SOURCE_ROOT; };
@@ -383,8 +383,8 @@
 			children = (
 				2FEFC49A10073ADA004C66F1 /* GLee.c */,
 				2FEFC49B10073ADA004C66F1 /* GLee.h */,
-				2F7BFF040E33867F003F5DC3 /* TGA.cpp */,
-				2F7BFF4F0E338789003F5DC3 /* TGA.h */,
+				2F7BFF040E33867F003F5DC3 /* tga.cpp */,
+				2F7BFF4F0E338789003F5DC3 /* tga.h */,
 				2F7BFF230E3386FC003F5DC3 /* functionList.h */,
 				2F7BFF410E338751003F5DC3 /* specialSettings.h */,
 				2F7BFF590E3387CE003F5DC3 /* version.h */,
@@ -608,7 +608,7 @@
 				2F7BFEF90E338627003F5DC3 /* statusba.cpp in Sources */,
 				2F7BFF000E338649003F5DC3 /* zbuffer.cpp in Sources */,
 				2F7BFF030E338649003F5DC3 /* winstuff.cpp in Sources */,
-				2F7BFF050E33867F003F5DC3 /* TGA.cpp in Sources */,
+				2F7BFF050E33867F003F5DC3 /* tga.cpp in Sources */,
 				2FB1C3BD0FAB4B5700718E0C /* graphics.cpp in Sources */,
 				2F6F29640FBEFE4800BC6A67 /* OSXMain.m in Sources */,
 				2F6F29940FBEFF3D00BC6A67 /* main.cpp in Sources */,
