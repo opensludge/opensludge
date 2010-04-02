@@ -350,24 +350,12 @@ void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette
 	float tx1 = (float)(single.tex_x) / fontPal.tex_w[single.texNum];
 	float ty1 = 0.0;
 	float tx2 = (float)(single.tex_x + single.width) / fontPal.tex_w[single.texNum];
-	float ty2 = (float)(single.height+2)/fontPal.tex_h[single.texNum];
+	float ty2 = (float)(single.height)/fontPal.tex_h[single.texNum];
 
 	float btx1;
 	float btx2;
 	float bty1;
 	float bty2;
-	if (! NPOT_textures) {
-		btx1 = backdropTexW * x1 / sceneWidth;
-		btx2 = backdropTexW * (x1+single.width) / sceneWidth;
-		bty1 = backdropTexH * y1 / sceneHeight;
-		bty2 = backdropTexH * (y1+single.width) / sceneHeight;
-	} else {
-		btx1 = (float) x1 / sceneWidth;
-		btx2 = (float) (x1+single.width) / sceneWidth;
-		bty1 = (float) y1 / sceneHeight;
-		bty2 = (float) (y1+single.width) / sceneHeight;
-	}
-	
 	
 	int diffX = single.width;
 	int diffY = single.height;
@@ -375,6 +363,18 @@ void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette
 	x1 -= single.xhot;
 	y1 -= single.yhot;
 
+	if (! NPOT_textures) {
+		btx1 = backdropTexW * x1 / sceneWidth;
+		btx2 = backdropTexW * (x1+single.width) / sceneWidth;
+		bty1 = backdropTexH * y1 / sceneHeight;
+		bty2 = backdropTexH * (y1+single.height) / sceneHeight;
+	} else {
+		btx1 = (float) x1 / sceneWidth;
+		btx2 = (float) (x1+single.width) / sceneWidth;
+		bty1 = (float) y1 / sceneHeight;
+		bty2 = (float) (y1+single.height) / sceneHeight;
+	}	
+	
 	if (x1 < 0) diffX += x1;
 	if (y1 < 0) diffY += y1;
 	if (x1 + diffX > sceneWidth) diffX = sceneWidth - x1;
@@ -920,6 +920,7 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 		bty1 = lty1 = (float) y1 / sceneHeight;
 		bty2 = lty2 = (float) (y1+spriteHeight) / sceneHeight;
 	}
+	
 
 	glEnable (GL_TEXTURE_2D);
 
