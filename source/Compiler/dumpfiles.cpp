@@ -17,7 +17,7 @@
 bool dumpFileInto (FILE * writer, char * thisFile) {
 	int a;
 	FILE * reader = fopen (thisFile, "rb");
-
+	
 	if (! reader) return false;
 	for (;;) {
 		a = fgetc (reader);
@@ -143,8 +143,12 @@ bool dumpFiles (FILE * mainFile, stringArray * & theSA) {
 			
 			currentRemainingIndex += filesize;
 			
-			while (filesize --) {
-				fputc (fgetc (inFile), mainFile);
+			char buf[256];
+			int a = 0;
+			while (filesize -= a) {
+				a = fread(buf, 1, 256, inFile);
+				if (! a) break;
+				fwrite (buf, 1, a, mainFile);
 			}
 			
 			fclose (inFile);

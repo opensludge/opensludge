@@ -73,10 +73,8 @@ personaAnimation * createPersonaAnim (int num, variableStack * & stacky) {
 		newP -> frames[a].noise = 0;
 		if (stacky -> thisVar.varType == SVT_FILE) {
 			newP -> frames[a].noise = stacky -> thisVar.varData.intValue;
-			fprintf (stderr, "Noise: %d: %s\n",newP -> frames[a].noise, resourceNameFromNum (newP -> frames[a].noise));
 		} else if (stacky -> thisVar.varType == SVT_FUNC) {
 			newP -> frames[a].noise = - stacky -> thisVar.varData.intValue;
-			fprintf (stderr, "Noise: func %d",newP -> frames[a].noise);
 		} else if (stacky -> thisVar.varType == SVT_STACK) {
 			getValueType (frameNum, SVT_INT, stacky -> thisVar.varData.theStack -> first -> thisVar);
 			getValueType (howMany, SVT_INT, stacky -> thisVar.varData.theStack -> first -> next -> thisVar);

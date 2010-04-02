@@ -437,9 +437,6 @@ void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette
 
 void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette & fontPal) {
 
-	/*pasteSpriteToBackDrop (x1, y1, single, fontPal);
-	return;*/
-
 	float tx1 = (float)(single.tex_x - 0.5) / fontPal.tex_w[single.texNum];
 	float ty1 = 0.0;
 	float tx2 = (float)(single.tex_x + single.width + 0.5) / fontPal.tex_w[single.texNum];
@@ -461,7 +458,6 @@ void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette 
 	setPixelCoords (true);
 	glEnable (GL_TEXTURE_2D);
 	glColor3ub (currentBurnR, currentBurnG, currentBurnB);
-//	glColor4ub (255, 0, 0, 255);
 
 	int xoffset = 0;
 	while (xoffset < diffX) {

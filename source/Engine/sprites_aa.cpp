@@ -11,7 +11,6 @@
 #include "sprites_aa.h"
 
 extern zBufferData zBuffer;
-extern inputType input;
 extern int cameraX, cameraY;
 
 aaSettingsStruct maxAntiAliasSettings = {true, 100.f, 100.f};

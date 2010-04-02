@@ -56,13 +56,14 @@ const float modLoudness = 0.95f;
  */
 
 bool initSoundStuff (HWND hwnd) {
+	
 	if(!alureInitDevice(NULL, NULL))
 	{
 		fprintf(stderr, "Failed to open OpenAL device: %s\n",
-						alureGetErrorString());
+				alureGetErrorString());
 		return 1;
-	}
-
+	}	
+	
 	int a;
 	for (a = 0; a < MAX_SAMPLES; a ++) {
 		soundCache[a].stream = NULL;
