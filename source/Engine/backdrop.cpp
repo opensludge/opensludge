@@ -14,7 +14,6 @@
 
 #include "allfiles.h"
 
-#include "winstuff.h"
 #include "newfatal.h"
 #include "colours.h"
 #include "fileset.h"
