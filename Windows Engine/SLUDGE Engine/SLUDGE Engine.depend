@@ -5,21 +5,21 @@
 1193991332 c:\programmering\sludge\windows engine\sludge engine\resource.h
 	<windows.h>
 
-1266073319 source:c:\programmering\sludge\source\commoncode\tga.cpp
+1268255861 source:c:\programmering\sludge\source\commoncode\tga.cpp
 	<stdio.h>
-	"TGA.h"
+	"tga.h"
 
 1258804650 c:\programmering\sludge\source\commoncode\TGA.h
 	<stdio.h>
 
-1258804768 source:c:\programmering\glee\glee.c
+1258808368 source:c:\programmering\glee\glee.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	"GLee.h"
 	<Carbon/Carbon.h>
 
-1258804768 c:\programmering\glee\glee.h
+1258808368 c:\programmering\glee\glee.h
 	<windows.h>
 	<GL/gl.h>
 	<OpenGL/gl.h>
@@ -27,203 +27,203 @@
 	<GL/glx.h>
 	<stddef.h>
 
-1265225272 source:c:\programmering\sludge\source\engine\backdrop.cpp
+1270224317 source:c:\programmering\sludge\source\engine\backdrop.cpp
 	<complex>
 	<stdlib.h>
 	<stdint.h>
 	<libpng12/png.h>
 	<libpng/png.h>
 	"GLee.h"
-	"ALLFILES.H"
-	"WINSTUFF.H"
-	"NEWFATAL.H"
-	"COLOURS.H"
-	"FILESET.H"
-	"CURSORS.H"
-	"BACKDROP.H"
-	"MOREIO.H"
-	"VARIABLE.H"
+	"allfiles.h"
+	"winstuff.h"
+	"newfatal.h"
+	"colours.h"
+	"fileset.h"
+	"cursors.h"
+	"backdrop.h"
+	"moreio.h"
+	"variable.h"
 	"zbuffer.h"
-	"Graphics.h"
+	"graphics.h"
 	"line.h"
-	"Sprites_AA.h"
+	"sprites_aa.h"
 	"version.h"
 
-1258802903 c:\programmering\sludge\source\engine\allfiles.h
+1268255837 c:\programmering\sludge\source\engine\allfiles.h
 	<stdio.h>
 
-1258802903 c:\programmering\sludge\source\engine\winstuff.h
+1268255838 c:\programmering\sludge\source\engine\winstuff.h
 
-1258804993 c:\programmering\sludge\source\engine\newfatal.h
+1268255837 c:\programmering\sludge\source\engine\newfatal.h
 	"errors.h"
 
-1258802902 c:\programmering\sludge\source\engine\errors.h
+1268255837 c:\programmering\sludge\source\engine\errors.h
 
-1258802903 c:\programmering\sludge\source\engine\colours.h
+1268255838 c:\programmering\sludge\source\engine\colours.h
 
-1258802902 c:\programmering\sludge\source\engine\fileset.h
+1268255837 c:\programmering\sludge\source\engine\fileset.h
 
-1258802902 c:\programmering\sludge\source\engine\cursors.h
+1268255837 c:\programmering\sludge\source\engine\cursors.h
 
-1263063270 c:\programmering\sludge\source\engine\backdrop.h
-	"VARIABLE.H"
-	"Graphics.h"
+1268255838 c:\programmering\sludge\source\engine\backdrop.h
+	"variable.h"
+	"graphics.h"
 	"GLee.h"
 
-1258802902 c:\programmering\sludge\source\engine\variable.h
+1268255837 c:\programmering\sludge\source\engine\variable.h
 
-1262988959 c:\programmering\sludge\source\engine\graphics.h
+1268255838 c:\programmering\sludge\source\engine\graphics.h
 	"GLee.h"
 
 1258802902 c:\programmering\sludge\source\engine\MOREIO.H
 
-1263063271 c:\programmering\sludge\source\engine\zbuffer.h
+1268255838 c:\programmering\sludge\source\engine\zbuffer.h
 	"GLee.h"
 
-1258804994 c:\programmering\sludge\source\engine\line.h
+1268255838 c:\programmering\sludge\source\engine\line.h
 
-1258804993 c:\programmering\sludge\source\engine\sprites_aa.h
+1268255837 c:\programmering\sludge\source\engine\sprites_aa.h
 	<stdio.h>
 
-1258802901 c:\programmering\sludge\source\commoncode\version.h
+1268255861 c:\programmering\sludge\source\commoncode\version.h
 
-1263063270 source:c:\programmering\sludge\source\engine\cursors.cpp
+1268255837 source:c:\programmering\sludge\source\engine\cursors.cpp
 	"GLee.h"
-	"ALLFILES.H"
-	"CURSORS.H"
-	"COLOURS.H"
+	"allfiles.h"
+	"cursors.h"
+	"colours.h"
 	"sprites.h"
-	"SPRBANKS.H"
-	"PEOPLE.H"
-	"SLUDGER.H"
+	"sprbanks.h"
+	"people.h"
+	"sludger.h"
 
-1263063270 c:\programmering\sludge\source\engine\sprites.h
+1268255837 c:\programmering\sludge\source\engine\sprites.h
 	"GLee.h"
 
-1258810535 c:\programmering\sludge\source\engine\sprbanks.h
+1268255838 c:\programmering\sludge\source\engine\sprbanks.h
 	"sprites.h"
 
-1262988960 c:\programmering\sludge\source\engine\people.h
-	"Sprites_AA.h"
+1269774153 c:\programmering\sludge\source\engine\people.h
+	"sprites_aa.h"
 
-1264967767 c:\programmering\sludge\source\engine\sludger.h
+1268255838 c:\programmering\sludge\source\engine\sludger.h
 	<stdint.h>
-	"VARIABLE.H"
-	"CSLUDGE.H"
-	"Language.h"
+	"variable.h"
+	"csludge.h"
+	"language.h"
 
 1258810534 c:\programmering\sludge\source\engine\CSLUDGE.H
 
-1263063271 c:\programmering\sludge\source\engine\language.h
+1268255837 c:\programmering\sludge\source\engine\language.h
 
-1264801731 source:c:\programmering\sludge\source\engine\fonttext.cpp
+1268255838 source:c:\programmering\sludge\source\engine\fonttext.cpp
 	<stdint.h>
 	"debug.h"
-	"ALLFILES.H"
+	"allfiles.h"
 	"sprites.h"
-	"COLOURS.H"
-	"FONTTEXT.H"
-	"NEWFATAL.H"
-	"MOREIO.H"
+	"colours.h"
+	"fonttext.h"
+	"newfatal.h"
+	"moreio.h"
 
-1258810534 c:\programmering\sludge\source\engine\debug.h
+1270225902 c:\programmering\sludge\source\engine\debug.h
 
-1258810880 c:\programmering\sludge\source\engine\fonttext.h
+1268255838 c:\programmering\sludge\source\engine\fonttext.h
 
-1262988960 source:c:\programmering\sludge\source\engine\freeze.cpp
+1268255837 source:c:\programmering\sludge\source\engine\freeze.cpp
 	<string.h>
-	"ALLFILES.H"
-	"Graphics.h"
-	"NEWFATAL.H"
+	"allfiles.h"
+	"graphics.h"
+	"newfatal.h"
 	"sprites.h"
-	"SPRBANKS.H"
-	"PEOPLE.H"
-	"SLUDGER.H"
-	"OBJTYPES.H"
-	"REGION.H"
-	"BACKDROP.H"
-	"TALK.H"
-	"FONTTEXT.H"
-	"STATUSBA.H"
-	"FREEZE.H"
+	"sprbanks.h"
+	"people.h"
+	"sludger.h"
+	"objtypes.h"
+	"region.h"
+	"backdrop.h"
+	"talk.h"
+	"fonttext.h"
+	"statusba.h"
+	"freeze.h"
 	"zbuffer.h"
 
-1262988959 c:\programmering\sludge\source\engine\objtypes.h
-	"Sprites_AA.h"
+1268255837 c:\programmering\sludge\source\engine\objtypes.h
+	"sprites_aa.h"
 
-1258802903 c:\programmering\sludge\source\engine\region.h
+1268255838 c:\programmering\sludge\source\engine\region.h
 
-1258802902 c:\programmering\sludge\source\engine\talk.h
+1268255838 c:\programmering\sludge\source\engine\talk.h
 	"sprites.h"
 
-1258802903 c:\programmering\sludge\source\engine\statusba.h
+1268255837 c:\programmering\sludge\source\engine\statusba.h
 
-1258810880 c:\programmering\sludge\source\engine\freeze.h
+1268255837 c:\programmering\sludge\source\engine\freeze.h
 
-1264801731 source:c:\programmering\sludge\source\engine\fileset.cpp
+1268255837 source:c:\programmering\sludge\source\engine\fileset.cpp
 	<stdint.h>
 	"debug.h"
-	"ALLFILES.H"
-	"MOREIO.H"
-	"NEWFATAL.H"
+	"allfiles.h"
+	"moreio.h"
+	"newfatal.h"
 
-1266073319 source:c:\programmering\sludge\source\engine\loadsave.cpp
-	"ALLFILES.H"
+1269774153 source:c:\programmering\sludge\source\engine\loadsave.cpp
+	"allfiles.h"
 	"sprites.h"
-	"NEWFATAL.H"
-	"VARIABLE.H"
+	"newfatal.h"
+	"variable.h"
 	"version.h"
-	"MOREIO.H"
-	"SLUDGER.H"
-	"PEOPLE.H"
-	"TALK.H"
-	"OBJTYPES.H"
-	"BACKDROP.H"
-	"REGION.H"
+	"moreio.h"
+	"sludger.h"
+	"people.h"
+	"talk.h"
+	"objtypes.h"
+	"backdrop.h"
+	"region.h"
 	"floor.h"
 	"zbuffer.h"
-	"CURSORS.H"
-	"STATUSBA.H"
+	"cursors.h"
+	"statusba.h"
 	"sound.h"
 	"thumbnail.h"
 	"bg_effects.h"
-	"FILESET.H"
+	"fileset.h"
 
-1258802902 c:\programmering\sludge\source\engine\floor.h
+1268255837 c:\programmering\sludge\source\engine\floor.h
 	"windef.h"
 
-1262988960 c:\programmering\sludge\source\engine\sound.h
-	"VARIABLE.H"
+1268255838 c:\programmering\sludge\source\engine\sound.h
+	"variable.h"
 	<windows.h>
 
-1258802902 c:\programmering\sludge\source\engine\thumbnail.h
+1268255837 c:\programmering\sludge\source\engine\thumbnail.h
 
-1258811419 c:\programmering\sludge\source\engine\bg_effects.h
+1268255838 c:\programmering\sludge\source\engine\bg_effects.h
 
-1266073319 source:c:\programmering\sludge\source\engine\moreio.cpp
+1268255837 source:c:\programmering\sludge\source\engine\moreio.cpp
 	<string.h>
 	<stdint.h>
-	"ALLFILES.H"
-	"MOREIO.H"
-	"NEWFATAL.H"
-	"STRINGY.H"
+	"allfiles.h"
+	"moreio.h"
+	"newfatal.h"
+	"stringy.h"
 	"debug.h"
 
-1258802903 c:\programmering\sludge\source\engine\stringy.h
+1268255838 c:\programmering\sludge\source\engine\stringy.h
 
-1264801731 source:c:\programmering\sludge\source\engine\newfatal.cpp
+1268255837 source:c:\programmering\sludge\source\engine\newfatal.cpp
 	<SDL/SDL.h>
 	"SDL.h"
-	"ALLFILES.H"
+	"allfiles.h"
 	"version.h"
 	<string.h>
 	<stdlib.h>
 	"sound.h"
-	"STRINGY.H"
+	"stringy.h"
 	"errors.h"
-	"Graphics.h"
+	"graphics.h"
 
-1255796849 c:\programmering\sdl\include\sdl\sdl.h
+1255800449 c:\programmering\sdl\include\sdl\sdl.h
 	"SDL_main.h"
 	"SDL_stdinc.h"
 	"SDL_audio.h"
@@ -242,14 +242,14 @@
 	"begin_code.h"
 	"close_code.h"
 
-1255796850 c:\programmering\sdl\include\sdl\sdl_main.h
+1255800450 c:\programmering\sdl\include\sdl\sdl_main.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 	"begin_code.h"
 	"close_code.h"
 
-1255796850 c:\programmering\sdl\include\sdl\sdl_stdinc.h
+1255800450 c:\programmering\sdl\include\sdl\sdl_stdinc.h
 	"SDL_config.h"
 	<sys/types.h>
 	<stdio.h>
@@ -275,22 +275,22 @@
 	<stdlib.h>
 	"close_code.h"
 
-1255796864 c:\programmering\sdl\include\sdl\sdl_config.h
+1255800464 c:\programmering\sdl\include\sdl\sdl_config.h
 	"SDL_platform.h"
 	<stdarg.h>
 
-1255796850 c:\programmering\sdl\include\sdl\sdl_platform.h
+1255800450 c:\programmering\sdl\include\sdl\sdl_platform.h
 
-1096741816 c:\programmering\gnuwin32\include\iconv.h
+1096745416 c:\programmering\gnuwin32\include\iconv.h
 	"iconv.h"
 	<stddef.h>
 	<errno.h>
 
-1255796850 c:\programmering\sdl\include\sdl\begin_code.h
+1255800450 c:\programmering\sdl\include\sdl\begin_code.h
 
-1255796850 c:\programmering\sdl\include\sdl\close_code.h
+1255800450 c:\programmering\sdl\include\sdl\close_code.h
 
-1255796849 c:\programmering\sdl\include\sdl\sdl_audio.h
+1255800449 c:\programmering\sdl\include\sdl\sdl_audio.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_endian.h"
@@ -300,23 +300,23 @@
 	"begin_code.h"
 	"close_code.h"
 
-1255796849 c:\programmering\sdl\include\sdl\sdl_error.h
+1255800449 c:\programmering\sdl\include\sdl\sdl_error.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1255796849 c:\programmering\sdl\include\sdl\sdl_endian.h
+1255800449 c:\programmering\sdl\include\sdl\sdl_endian.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1255796850 c:\programmering\sdl\include\sdl\sdl_mutex.h
+1255800450 c:\programmering\sdl\include\sdl\sdl_mutex.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1255796850 c:\programmering\sdl\include\sdl\sdl_thread.h
+1255800450 c:\programmering\sdl\include\sdl\sdl_thread.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_mutex.h"
@@ -324,24 +324,24 @@
 	<process.h>
 	"close_code.h"
 
-1255796850 c:\programmering\sdl\include\sdl\sdl_rwops.h
+1255800450 c:\programmering\sdl\include\sdl\sdl_rwops.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1255796849 c:\programmering\sdl\include\sdl\sdl_cdrom.h
+1255800449 c:\programmering\sdl\include\sdl\sdl_cdrom.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1255796849 c:\programmering\sdl\include\sdl\sdl_cpuinfo.h
+1255800449 c:\programmering\sdl\include\sdl\sdl_cpuinfo.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1255796849 c:\programmering\sdl\include\sdl\sdl_events.h
+1255800449 c:\programmering\sdl\include\sdl\sdl_events.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_active.h"
@@ -352,82 +352,82 @@
 	"begin_code.h"
 	"close_code.h"
 
-1255796849 c:\programmering\sdl\include\sdl\sdl_active.h
+1255800449 c:\programmering\sdl\include\sdl\sdl_active.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1255796849 c:\programmering\sdl\include\sdl\sdl_keyboard.h
+1255800449 c:\programmering\sdl\include\sdl\sdl_keyboard.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_keysym.h"
 	"begin_code.h"
 	"close_code.h"
 
-1255796850 c:\programmering\sdl\include\sdl\sdl_keysym.h
+1255800450 c:\programmering\sdl\include\sdl\sdl_keysym.h
 
-1255796850 c:\programmering\sdl\include\sdl\sdl_mouse.h
+1255800450 c:\programmering\sdl\include\sdl\sdl_mouse.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_video.h"
 	"begin_code.h"
 	"close_code.h"
 
-1255796850 c:\programmering\sdl\include\sdl\sdl_video.h
+1255800450 c:\programmering\sdl\include\sdl\sdl_video.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_rwops.h"
 	"begin_code.h"
 	"close_code.h"
 
-1255796849 c:\programmering\sdl\include\sdl\sdl_joystick.h
+1255800449 c:\programmering\sdl\include\sdl\sdl_joystick.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1255796850 c:\programmering\sdl\include\sdl\sdl_quit.h
+1255800450 c:\programmering\sdl\include\sdl\sdl_quit.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 
-1255796850 c:\programmering\sdl\include\sdl\sdl_loadso.h
-	"SDL_stdinc.h"
-	"SDL_error.h"
-	"begin_code.h"
-	"close_code.h"
-
-1255796850 c:\programmering\sdl\include\sdl\sdl_timer.h
+1255800450 c:\programmering\sdl\include\sdl\sdl_loadso.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1255796850 c:\programmering\sdl\include\sdl\sdl_version.h
+1255800450 c:\programmering\sdl\include\sdl\sdl_timer.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\programmering\sdl\include\sdl\sdl_version.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1262988960 source:c:\programmering\sludge\source\engine\objtypes.cpp
-	"ALLFILES.H"
-	"OBJTYPES.H"
-	"VARIABLE.H"
-	"NEWFATAL.H"
-	"MOREIO.H"
-	"FILESET.H"
+1268255838 source:c:\programmering\sludge\source\engine\objtypes.cpp
+	"allfiles.h"
+	"objtypes.h"
+	"variable.h"
+	"newfatal.h"
+	"moreio.h"
+	"fileset.h"
 	"version.h"
 
-1266073319 source:c:\programmering\sludge\source\engine\region.cpp
-	"ALLFILES.H"
-	"OBJTYPES.H"
-	"REGION.H"
-	"NEWFATAL.H"
-	"SLUDGER.H"
-	"MOREIO.H"
-	"BACKDROP.H"
+1268255838 source:c:\programmering\sludge\source\engine\region.cpp
+	"allfiles.h"
+	"objtypes.h"
+	"region.h"
+	"newfatal.h"
+	"sludger.h"
+	"moreio.h"
+	"backdrop.h"
 
-1265225272 source:c:\programmering\sludge\source\engine\sludger.cpp
-	"ALLFILES.H"
+1270224317 source:c:\programmering\sludge\source\engine\sludger.cpp
+	"allfiles.h"
 	<SDL/SDL.h>
 	<libpng12/png.h>
 	"SDL.h"
@@ -443,163 +443,163 @@
 	<stdint.h>
 	<string.h>
 	"version.h"
-	"SLUDGER.H"
-	"BACKDROP.H"
-	"CURSORS.H"
-	"COLOURS.H"
-	"OBJTYPES.H"
-	"REGION.H"
+	"sludger.h"
+	"backdrop.h"
+	"cursors.h"
+	"colours.h"
+	"objtypes.h"
+	"region.h"
 	"sprites.h"
-	"SPRBANKS.H"
-	"PEOPLE.H"
-	"TALK.H"
-	"NEWFATAL.H"
-	"STRINGY.H"
-	"MOREIO.H"
-	"STATUSBA.H"
-	"BUILTIN.H"
-	"FONTTEXT.H"
-	"FREEZE.H"
+	"sprbanks.h"
+	"people.h"
+	"talk.h"
+	"newfatal.h"
+	"stringy.h"
+	"moreio.h"
+	"statusba.h"
+	"builtin.h"
+	"fonttext.h"
+	"freeze.h"
 	"floor.h"
 	"zbuffer.h"
 	"sound.h"
-	"LOADSAVE.H"
-	"FILESET.H"
+	"loadsave.h"
+	"fileset.h"
 	"transition.h"
-	"Language.h"
-	"specialSettings.h"
-	"Graphics.h"
+	"language.h"
+	"specialsettings.h"
+	"graphics.h"
 	"debug.h"
 	<shellapi.h>
 	<shlobj.h>
 
-1258802903 c:\programmering\sludge\source\engine\builtin.h
+1269774153 c:\programmering\sludge\source\engine\builtin.h
 
-1258802903 c:\programmering\sludge\source\engine\loadsave.h
+1268255838 c:\programmering\sludge\source\engine\loadsave.h
 
-1258802903 c:\programmering\sludge\source\engine\transition.h
+1268255838 c:\programmering\sludge\source\engine\transition.h
 
 1258802901 c:\programmering\sludge\source\commoncode\specialSettings.h
 
-1262988959 source:c:\programmering\sludge\source\engine\sprbanks.cpp
-	"ALLFILES.H"
+1268255838 source:c:\programmering\sludge\source\engine\sprbanks.cpp
+	"allfiles.h"
 	"sprites.h"
-	"SPRBANKS.H"
-	"NEWFATAL.H"
+	"sprbanks.h"
+	"newfatal.h"
 	"debug.h"
 
-1266073319 source:c:\programmering\sludge\source\engine\sprites.cpp
+1270224317 source:c:\programmering\sludge\source\engine\sprites.cpp
 	<libpng12/png.h>
 	<libpng/png.h>
-	"ALLFILES.H"
-	"FILESET.H"
+	"allfiles.h"
+	"fileset.h"
 	"sprites.h"
-	"Sprites_AA.h"
-	"MOREIO.H"
-	"NEWFATAL.H"
-	"COLOURS.H"
-	"BACKDROP.H"
-	"SLUDGER.H"
+	"sprites_aa.h"
+	"moreio.h"
+	"newfatal.h"
+	"colours.h"
+	"backdrop.h"
+	"sludger.h"
 	"zbuffer.h"
 	"debug.h"
-	"Graphics.h"
+	"graphics.h"
 	"shaders.h"
 
-1266073319 source:c:\programmering\sludge\source\engine\statusba.cpp
-	"ALLFILES.H"
-	"BACKDROP.H"
-	"COLOURS.H"
+1268255838 source:c:\programmering\sludge\source\engine\statusba.cpp
+	"allfiles.h"
+	"backdrop.h"
+	"colours.h"
 	"sprites.h"
-	"FONTTEXT.H"
-	"MOREIO.H"
-	"STRINGY.H"
-	"NEWFATAL.H"
-	"STATUSBA.H"
+	"fonttext.h"
+	"moreio.h"
+	"stringy.h"
+	"newfatal.h"
+	"statusba.h"
 
-1262988959 source:c:\programmering\sludge\source\engine\stringy.cpp
-	"ALLFILES.H"
+1268255837 source:c:\programmering\sludge\source\engine\stringy.cpp
+	"allfiles.h"
 	<string.h>
-	"NEWFATAL.H"
+	"newfatal.h"
 
-1266073319 source:c:\programmering\sludge\source\engine\sprites_aa.cpp
-	"ALLFILES.H"
-	"FILESET.H"
+1270224317 source:c:\programmering\sludge\source\engine\sprites_aa.cpp
+	"allfiles.h"
+	"fileset.h"
 	"sprites.h"
-	"MOREIO.H"
-	"NEWFATAL.H"
-	"COLOURS.H"
-	"BACKDROP.H"
-	"SLUDGER.H"
+	"moreio.h"
+	"newfatal.h"
+	"colours.h"
+	"backdrop.h"
+	"sludger.h"
 	"zbuffer.h"
-	"Sprites_AA.h"
+	"sprites_aa.h"
 
-1266073319 source:c:\programmering\sludge\source\engine\talk.cpp
-	"ALLFILES.H"
+1268255838 source:c:\programmering\sludge\source\engine\talk.cpp
+	"allfiles.h"
 	<string.h>
-	"BACKDROP.H"
+	"backdrop.h"
 	"sprites.h"
-	"SLUDGER.H"
-	"OBJTYPES.H"
-	"REGION.H"
-	"SPRBANKS.H"
-	"PEOPLE.H"
-	"TALK.H"
+	"sludger.h"
+	"objtypes.h"
+	"region.h"
+	"sprbanks.h"
+	"people.h"
+	"talk.h"
 	"sound.h"
-	"FONTTEXT.H"
-	"NEWFATAL.H"
-	"STRINGY.H"
-	"MOREIO.H"
+	"fonttext.h"
+	"newfatal.h"
+	"stringy.h"
+	"moreio.h"
 
-1265478862 source:c:\programmering\sludge\source\engine\variable.cpp
+1268255838 source:c:\programmering\sludge\source\engine\variable.cpp
 	<string.h>
 	"debug.h"
-	"ALLFILES.H"
-	"VARIABLE.H"
-	"NEWFATAL.H"
-	"STRINGY.H"
-	"OBJTYPES.H"
-	"PEOPLE.H"
-	"FILESET.H"
+	"allfiles.h"
+	"variable.h"
+	"newfatal.h"
+	"stringy.h"
+	"objtypes.h"
+	"people.h"
+	"fileset.h"
 	<dirent.h>
-	"MOREIO.H"
+	"moreio.h"
 	"windows.h"
 
-1264971711 source:c:\programmering\sludge\source\engine\winstuff.cpp
+1268255837 source:c:\programmering\sludge\source\engine\winstuff.cpp
 	<windows.h>
-	"ALLFILES.H"
-	"WINSTUFF.H"
-	"NEWFATAL.H"
+	"allfiles.h"
+	"winstuff.h"
+	"newfatal.h"
 	"sprites.h"
-	"SPRBANKS.H"
-	"FONTTEXT.H"
-	"BACKDROP.H"
-	"SLUDGER.H"
-	"CURSORS.H"
-	"OBJTYPES.H"
-	"REGION.H"
-	"PEOPLE.H"
-	"TALK.H"
+	"sprbanks.h"
+	"fonttext.h"
+	"backdrop.h"
+	"sludger.h"
+	"cursors.h"
+	"objtypes.h"
+	"region.h"
+	"people.h"
+	"talk.h"
 	"direct.h"
 	"sound.h"
-	"COLOURS.H"
-	"MOREIO.H"
-	"STRINGY.H"
+	"colours.h"
+	"moreio.h"
+	"stringy.h"
 	"..\..\images\resource.h"
 
-1262988960 source:c:\programmering\sludge\source\engine\bg_effects.cpp
+1268255838 source:c:\programmering\sludge\source\engine\bg_effects.cpp
 	<stdlib.h>
 	<string.h>
 	<malloc.h>
-	"ALLFILES.H"
-	"BACKDROP.H"
-	"COLOURS.H"
-	"Graphics.h"
-	"NEWFATAL.H"
-	"MOREIO.H"
+	"allfiles.h"
+	"backdrop.h"
+	"colours.h"
+	"graphics.h"
+	"newfatal.h"
+	"moreio.h"
 
-1266003302 source:c:\programmering\sludge\source\engine\builtin.cpp
+1269774153 source:c:\programmering\sludge\source\engine\builtin.cpp
 	"debug.h"
-	"ALLFILES.H"
+	"allfiles.h"
 	<SDL/SDL.h>
 	"SDL.h"
 	<stdlib.h>
@@ -608,82 +608,81 @@
 	<direct.h>
 	<unistd.h>
 	<stdio.h>
-	"SLUDGER.H"
-	"BUILTIN.H"
-	"STRINGY.H"
-	"NEWFATAL.H"
-	"CURSORS.H"
-	"STATUSBA.H"
-	"LOADSAVE.H"
-	"BACKDROP.H"
+	"sludger.h"
+	"builtin.h"
+	"stringy.h"
+	"newfatal.h"
+	"cursors.h"
+	"statusba.h"
+	"loadsave.h"
+	"backdrop.h"
 	"bg_effects.h"
 	"sprites.h"
-	"FONTTEXT.H"
-	"SPRBANKS.H"
-	"PEOPLE.H"
+	"fonttext.h"
+	"sprbanks.h"
+	"people.h"
 	"sound.h"
-	"OBJTYPES.H"
+	"objtypes.h"
 	"floor.h"
 	"zbuffer.h"
-	"TALK.H"
-	"REGION.H"
-	"MOREIO.H"
+	"talk.h"
+	"region.h"
+	"moreio.h"
 	"savedata.h"
-	"FREEZE.H"
-	"COLOURS.H"
-	"Language.h"
+	"freeze.h"
+	"colours.h"
+	"language.h"
 	"thumbnail.h"
-	"Graphics.h"
-	"functionList.h"
-	"functionList.h"
+	"graphics.h"
+	"functionlist.h"
+	"functionlist.h"
 
-1258802903 c:\programmering\sludge\source\engine\savedata.h
+1268255838 c:\programmering\sludge\source\engine\savedata.h
 
-1264801730 c:\programmering\sludge\source\commoncode\functionlist.h
+1268255861 c:\programmering\sludge\source\commoncode\functionlist.h
 
-1262988960 source:c:\programmering\sludge\source\engine\debug.cpp
+1268255838 source:c:\programmering\sludge\source\engine\debug.cpp
 	<stdarg.h>
-	"ALLFILES.H"
+	"allfiles.h"
 	"debug.h"
 
-1262988959 source:c:\programmering\sludge\source\engine\floor.cpp
-	"ALLFILES.H"
-	"NEWFATAL.H"
-	"FILESET.H"
-	"MOREIO.H"
+1268255837 source:c:\programmering\sludge\source\engine\floor.cpp
+	"allfiles.h"
+	"newfatal.h"
+	"fileset.h"
+	"moreio.h"
 	"floor.h"
 	"line.h"
 
-1263063270 source:c:\programmering\sludge\source\engine\line.cpp
+1268255837 source:c:\programmering\sludge\source\engine\line.cpp
 	"GLee.h"
 	<stdlib.h>
-	"Graphics.h"
-	"Sprites_AA.h"
-	"ALLFILES.H"
+	"graphics.h"
+	"sprites_aa.h"
+	"allfiles.h"
 
-1264971718 source:c:\programmering\sludge\source\engine\graphics.cpp
+1268255837 source:c:\programmering\sludge\source\engine\graphics.cpp
 	<SDL/SDL.h>
 	<SDL.h>
-	"GLee.h"
-	"specialSettings.h"
-	"Graphics.h"
-	"Sprites_AA.h"
-	"SPRBANKS.H"
+	"specialsettings.h"
+	"graphics.h"
+	"sprites_aa.h"
+	"sprbanks.h"
 	"zbuffer.h"
-	"BACKDROP.H"
+	"backdrop.h"
 	"shaders.h"
-	"Language.h"
+	"language.h"
 
-1266003302 source:c:\programmering\sludge\source\engine\language.cpp
+1268255837 source:c:\programmering\sludge\source\engine\language.cpp
 	<stdio.h>
 	<string.h>
-	"STRINGY.H"
-	"NEWFATAL.H"
-	"MOREIO.H"
-	"Language.h"
+	"stringy.h"
+	"newfatal.h"
+	"moreio.h"
+	"language.h"
 	"version.h"
 
-1266003302 source:c:\programmering\sludge\source\engine\main.cpp
+1270224317 source:c:\programmering\sludge\source\engine\main.cpp
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -700,25 +699,25 @@
 	<SDL.h>
 	<SDL_syswm.h>
 	<iconv.h>
-	"WINSTUFF.H"
-	"Language.h"
-	"STRINGY.H"
-	"SLUDGER.H"
-	"BACKDROP.H"
-	"NEWFATAL.H"
-	"PEOPLE.H"
+	"winstuff.h"
+	"language.h"
+	"stringy.h"
+	"sludger.h"
+	"backdrop.h"
+	"newfatal.h"
+	"people.h"
 	"floor.h"
-	"OBJTYPES.H"
-	"TALK.H"
-	"STATUSBA.H"
+	"objtypes.h"
+	"talk.h"
+	"statusba.h"
 	"transition.h"
-	"specialSettings.h"
+	"specialsettings.h"
 	"timing.h"
 	"sound.h"
-	"SLUDGER.H"
-	"Graphics.h"
+	"sludger.h"
+	"graphics.h"
 
-1255796850 c:\programmering\sdl\include\sdl\sdl_syswm.h
+1255800450 c:\programmering\sdl\include\sdl\sdl_syswm.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_version.h"
@@ -731,40 +730,42 @@
 	<Ph.h>
 	"close_code.h"
 
-1258802902 c:\programmering\sludge\source\engine\timing.h
+1268255837 c:\programmering\sludge\source\engine\timing.h
 
-1264801731 source:c:\programmering\sludge\source\engine\memwatch.cpp
+1268255838 source:c:\programmering\sludge\source\engine\memwatch.cpp
 	<stdlib.h>
-	"ALLFILES.H"
+	"allfiles.h"
 
-1266073319 source:c:\programmering\sludge\source\engine\people.cpp
-	"ALLFILES.H"
+1270225845 source:c:\programmering\sludge\source\engine\people.cpp
+	"allfiles.h"
 	<math.h>
 	<stdlib.h>
 	"version.h"
 	"sprites.h"
-	"Sprites_AA.h"
-	"SPRBANKS.H"
-	"SLUDGER.H"
-	"OBJTYPES.H"
-	"REGION.H"
-	"PEOPLE.H"
-	"TALK.H"
-	"NEWFATAL.H"
-	"VARIABLE.H"
-	"MOREIO.H"
-	"LOADSAVE.H"
+	"sprites_aa.h"
+	"sprbanks.h"
+	"sludger.h"
+	"objtypes.h"
+	"region.h"
+	"people.h"
+	"talk.h"
+	"newfatal.h"
+	"variable.h"
+	"moreio.h"
+	"loadsave.h"
 	"floor.h"
 	"zbuffer.h"
+	"sound.h"
+	"debug.h"
 
-1266003302 source:c:\programmering\sludge\source\engine\savedata.cpp
+1268255837 source:c:\programmering\sludge\source\engine\savedata.cpp
 	<stdint.h>
 	<unistd.h>
 	<string.h>
-	"ALLFILES.H"
-	"VARIABLE.H"
-	"NEWFATAL.H"
-	"MOREIO.H"
+	"allfiles.h"
+	"variable.h"
+	"newfatal.h"
+	"moreio.h"
 
 1264801731 source:c:\programmering\sludge\source\engine\sound_bass.cpp
 	<stdint.h>
@@ -779,79 +780,79 @@
 	<wtypes.h>
 	<stdint.h>
 
-1264801731 source:c:\programmering\sludge\source\engine\thumbnail.cpp
+1268255837 source:c:\programmering\sludge\source\engine\thumbnail.cpp
 	<stdint.h>
-	"ALLFILES.H"
+	"allfiles.h"
 	"errors.h"
-	"MOREIO.H"
+	"moreio.h"
 	"version.h"
-	"SLUDGER.H"
-	"COLOURS.H"
-	"BACKDROP.H"
-	"Graphics.h"
-	"Sprites_AA.h"
-	"NEWFATAL.H"
+	"sludger.h"
+	"colours.h"
+	"backdrop.h"
+	"graphics.h"
+	"sprites_aa.h"
+	"newfatal.h"
 
-1263063271 source:c:\programmering\sludge\source\engine\timing.cpp
+1268255838 source:c:\programmering\sludge\source\engine\timing.cpp
 	<SDL/SDL.h>
 	"SDL.h"
 
-1264801731 source:c:\programmering\sludge\source\engine\transition.cpp
+1268255837 source:c:\programmering\sludge\source\engine\transition.cpp
 	<stdint.h>
 	<string.h>
-	"ALLFILES.H"
-	"COLOURS.H"
-	"BACKDROP.H"
-	"Graphics.h"
+	"allfiles.h"
+	"colours.h"
+	"backdrop.h"
+	"graphics.h"
 
-1264801731 source:c:\programmering\sludge\source\engine\zbuffer.cpp
+1268255837 source:c:\programmering\sludge\source\engine\zbuffer.cpp
 	<stdint.h>
-	"ALLFILES.H"
+	"allfiles.h"
 	"zbuffer.h"
-	"FILESET.H"
-	"MOREIO.H"
-	"NEWFATAL.H"
-	"Graphics.h"
+	"fileset.h"
+	"moreio.h"
+	"newfatal.h"
+	"graphics.h"
 
-1264274155 source:c:\programmering\sludge\images\sludge.rc
+1266151528 source:c:\programmering\sludge\images\sludge.rc
 	<windows.h>
 	<commctrl.h>
 	<richedit.h>
 	"resource.h"
 
-1264274190 c:\programmering\sludge\images\resource.h
+1264277790 c:\programmering\sludge\images\resource.h
 
-1262988959 c:\programmering\sludge\source\engine\shaders.h
+1268255837 c:\programmering\sludge\source\engine\shaders.h
 	"GLee.h"
 
-1263063270 source:c:\programmering\sludge\source\engine\shaders.cpp
+1268255837 source:c:\programmering\sludge\source\engine\shaders.cpp
 	<stdio.h>
 	"shaders.h"
 	<GL\glu.h>
 	<GL/glu.h>
 	<OpenGL/glu.h>
 
-1258804650 c:\programmering\sludge\source\commoncode\tga.h
+1268255861 c:\programmering\sludge\source\commoncode\tga.h
 	<stdio.h>
 
-1266073319 c:\programmering\sludge\source\engine\moreio.h
+1268255838 c:\programmering\sludge\source\engine\moreio.h
 	<stdint.h>
 
-1258810534 c:\programmering\sludge\source\engine\csludge.h
+1268255838 c:\programmering\sludge\source\engine\csludge.h
 
-1258802901 c:\programmering\sludge\source\commoncode\specialsettings.h
+1268255861 c:\programmering\sludge\source\commoncode\specialsettings.h
 
-1266073319 source:c:\programmering\sludge\source\engine\sound_openal.cpp
+1270224317 source:c:\programmering\sludge\source\engine\sound_openal.cpp
 	<stdint.h>
 	<stdio.h>
 	"AL/alure.h"
-	"ALLFILES.H"
-	"NEWFATAL.H"
+	"allfiles.h"
+	"newfatal.h"
 	"sound.h"
-	"MOREIO.H"
-	"FILESET.H"
+	"moreio.h"
+	"fileset.h"
 
-1265234301 c:\programmering\alure\include\al\alure.h
+1265237901 c:\programmering\alure\include\al\alure.h
 	<al.h>
 	<alc.h>
 	<OpenAL/alc.h>
@@ -861,7 +862,7 @@
 	<sys/types.h>
 	<stdint.h>
 
-1165591858 c:\program files\openal 1.1 sdk\include\al.h
+1165595458 c:\program files\openal 1.1 sdk\include\al.h
 
-1176472968 c:\program files\openal 1.1 sdk\include\alc.h
+1176476568 c:\program files\openal 1.1 sdk\include\alc.h
 

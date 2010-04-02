@@ -19,6 +19,7 @@
 #include "floor.h"
 #include "zbuffer.h"
 #include "sound.h"
+#include "debug.h"
 
 #define ANGLEFIX (180.0 / 3.14157)
 #define ANI_STAND 0
@@ -59,7 +60,7 @@ personaAnimation * createPersonaAnim (int num, variableStack * & stacky) {
 //	db ("\nCreating new animation from built-in function");
 	checkNew (newP);
 //	adding (newP);
-	
+
 	newP -> numFrames = num;
 	newP -> frames = new animFrame[num];
 	checkNew (newP -> frames);
@@ -371,11 +372,14 @@ void drawPeople () {
 				}
 			}
 		}
+		debugOut("Before...");
 		if (! -- thisPerson -> frameTick) {
 			thisPerson -> frameNum ++;
 			thisPerson -> frameNum %= thisPerson -> myAnim -> numFrames;
 			thisPerson -> frameTick = thisPerson -> myAnim -> frames[thisPerson -> frameNum].howMany;
-			if (myAnim -> frames) {
+		debugOut("1...");
+			if (myAnim && myAnim -> frames) {
+		debugOut("2...");
 				if (myAnim -> frames[thisPerson -> frameNum].noise > 0) {
 					startSound(myAnim -> frames[thisPerson -> frameNum].noise, false);
 					thisPerson -> frameNum ++;
@@ -388,7 +392,9 @@ void drawPeople () {
 					thisPerson -> frameTick = thisPerson -> myAnim -> frames[thisPerson -> frameNum].howMany;
 				}
 			}
+		debugOut("3...");
 		}
+		debugOut("After.\n");
 		thisPerson = thisPerson -> next;
 	}
 }
