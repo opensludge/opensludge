@@ -9,7 +9,7 @@ float getFloat (FILE * fp);
 void putSigned (short f, FILE * fp);
 short getSigned (FILE * fp);
 int32_t get4bytes (FILE * fp);
-void put4bytes (int32_t f, FILE * fp);
+void put4bytes (uint32_t f, FILE * fp);
 
 char * encodeFilename (char * nameIn);
 char * decodeFilename (char * nameIn);

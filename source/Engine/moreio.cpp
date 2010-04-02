@@ -119,8 +119,10 @@ int32_t get4bytes (FILE * fp) {
 	f2 = fgetc (fp);
 	f3 = fgetc (fp);
 	f4 = fgetc (fp);
-
-	return (f1 + f2*256 + f3*256*256 + f4*256*256*256);
+	
+	unsigned int x = f1 + f2*256 + f3*256*256 + f4*256*256*256;
+	
+	return x;
 
 /*
 
@@ -130,10 +132,10 @@ int32_t get4bytes (FILE * fp) {
 }
 
 
-void put4bytes (int i, FILE * fp) {
+void put4bytes (unsigned int i, FILE * fp) {
 	//	fwrite (&i, sizeof (long int), 1, fp);
 	unsigned char f1, f2, f3, f4;
-	
+			
 	f4 = i / (256*256*256);
 	i = i % (256*256*256); 
 	f3 = i / (256*256);
