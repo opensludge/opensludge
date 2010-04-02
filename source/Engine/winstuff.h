@@ -7,4 +7,3 @@
 void setWindowName (const char * tx);
 bool InitApplication (HINSTANCE hInstance);
 bool InitInstance (HINSTANCE hInstance, const char *);
-char * grabFileName ();

@@ -4,6 +4,7 @@
 #include "SDL.h"
 #endif
 
+#include "platform-dependent.h"
 #include "allfiles.h"
 #include "version.h"
 
@@ -15,8 +16,6 @@
 #include "stringy.h"
 #include "errors.h"
 #include "graphics.h"
-
-void msgBox (const char * head, const char * msg);
 
 const char emergencyMemoryMessage[]	= "Out of memory displaying error message!";
 

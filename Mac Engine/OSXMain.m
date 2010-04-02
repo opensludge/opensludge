@@ -8,11 +8,10 @@
 #import <sys/param.h> /* for MAXPATHLEN */
 #import <unistd.h>
 
+#include "platform-dependent.h"
 #include "STRINGY.H"
 
 #import "Start.h"
-
-void msgBox (const char * head, const char * msg);
 
 static int    gArgc;
 static char  **gArgv;
@@ -326,3 +325,6 @@ int msgBoxQuestion (const char * head, const char * msg) {
 	return true;
 }
 
+void changeToUserDir () {
+//TODO: Move stuff from sludger.cpp here.
+}

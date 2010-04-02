@@ -1,10 +1,8 @@
 #include "allfiles.h"
 #ifdef __linux__
-//#include <SDL/SDL_opengl.h>
 #include <SDL/SDL.h>
 #include <libpng12/png.h>
 #else
-//#include <SDL_opengl.h>
 #include "SDL.h"
 #include <libpng/png.h>
 #endif
@@ -29,6 +27,7 @@
 #include <stdint.h>
 #include <string.h>
 
+#include "platform-dependent.h"
 #include "version.h"
 #include "sludger.h"
 #include "backdrop.h"
@@ -62,8 +61,6 @@
 #include <shellapi.h>
 #include <shlobj.h> // For SHGetFolderPath
 #endif
-
-int showSetupWindow();
 
 extern personaAnimation * mouseCursorAnim;
 extern spritePalette pastePalette;
@@ -386,9 +383,7 @@ bool initSludge (char * filename) {
 	_chdir(szAppData);
 #endif
 #ifdef __linux__
-	chdir (getenv ("HOME"));
-	mkdir (".sludge-engine", 0000777);
-	chdir (".sludge-engine");
+	changeToUserDir ();
 #endif
 
 #ifdef _WIN32

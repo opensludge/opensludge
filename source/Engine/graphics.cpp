@@ -3,6 +3,7 @@
 #else
 #include <SDL.h>
 #endif
+#include "platform-dependent.h"
 #include "specialsettings.h"
 #include "graphics.h"
 #include "sprites_aa.h"
@@ -29,7 +30,6 @@ extern int lightMapNumber;
 
 shaders shader;
 
-void msgBox (const char * head, const char * msg);
 void sludgeDisplay ();
 
 

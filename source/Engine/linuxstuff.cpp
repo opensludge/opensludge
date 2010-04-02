@@ -1,8 +1,12 @@
 #ifdef __linux__
-#include "allfiles.h"
 #include <iostream>
 #include <fstream>
+#include <unistd.h>
+#include <stdlib.h>
+#include <sys/stat.h>
 
+#include "platform-dependent.h"
+#include "allfiles.h"
 #include "language.h" // for settings
 
 extern settingsStruct gameSettings;
@@ -30,4 +34,9 @@ int msgBoxQuestion (const char * head, const char * msg) {
 	return 1;
 }
 
+void changeToUserDir () {
+	chdir (getenv ("HOME"));
+	mkdir (".sludge-engine", 0000777);
+	chdir (".sludge-engine");
+}
 #endif

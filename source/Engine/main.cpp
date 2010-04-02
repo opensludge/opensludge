@@ -24,9 +24,8 @@
 
 #ifdef _WIN32
 #include "winstuff.h"
-#else
-char * grabFileName ();
 #endif
+#include "platform-dependent.h"
 #include "language.h"
 #include "stringy.h"
 #include "sludger.h"
@@ -43,9 +42,6 @@ char * grabFileName ();
 #include "sound.h"
 #include "sludger.h"
 #include "graphics.h"
-
-void msgBox (const char * head, const char * msg);
-int msgBoxQuestion (const char * head, const char * msg);
 
 extern bool runningFullscreen;
 

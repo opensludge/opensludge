@@ -9,6 +9,3 @@
 
 @interface SDLMain : NSObject
 @end
-
-char * grabFileName ();
-int showSetupWindow();
