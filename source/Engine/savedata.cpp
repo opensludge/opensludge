@@ -109,25 +109,14 @@ bool fileToStack (char * filename, stackHandler * sH) {
 	FILE * fp = fopen (filename, "rb");
 	if (! fp) {
 		char currentDir[1000];
-#ifdef _MSC_VER
-		if (! _getcwd (currentDir, 998)) {
-#else
 		if (! getcwd (currentDir, 998)) {
-#endif
 			fprintf(stderr, "Can't get current directory.\n");
 		}
 
-#ifdef _MSC_VER
-		_chdir (gamePath);
-#else
 		chdir (gamePath);
-#endif
 		fp = fopen (filename, "rb");
-#ifdef _MSC_VER
-		_chdir (currentDir);
-#else
 		chdir (currentDir);
-#endif
+
 		if (! fp) {
 			return fatal ("No such file", filename);
 		}

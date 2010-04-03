@@ -1,6 +1,3 @@
-#ifdef _MSC_VER
-#include <complex>
-#endif
 #include <stdlib.h>
 #include <stdint.h>
 

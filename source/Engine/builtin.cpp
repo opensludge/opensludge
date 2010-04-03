@@ -8,12 +8,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-#ifdef _MSC_VER
-#include <complex>
-#include <direct.h>
-#else
 #include <unistd.h>
-#endif
 #include <stdio.h>
 
 #include "sludger.h"

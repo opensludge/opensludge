@@ -290,6 +290,7 @@
 		2FEFC49A10073ADA004C66F1 /* GLee.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = GLee.c; path = ../GLee/GLee.c; sourceTree = SOURCE_ROOT; };
 		2FEFC49B10073ADA004C66F1 /* GLee.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GLee.h; path = ../GLee/GLee.h; sourceTree = SOURCE_ROOT; };
 		8D1107320486CEB800E47090 /* SLUDGE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SLUDGE.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E81E15581166A98F000C3483 /* platform-dependent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "platform-dependent.h"; path = "../source/Engine/platform-dependent.h"; sourceTree = SOURCE_ROOT; };
 		E836739E1101D9E2001449BC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E8981D35111A2A8500762C10 /* sound_openal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sound_openal.cpp; path = ../source/Engine/sound_openal.cpp; sourceTree = SOURCE_ROOT; };
 		E8D761421128A5A900A5F7D7 /* libdumb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libdumb.a; path = ../libs/libdumb.a; sourceTree = SOURCE_ROOT; };
@@ -420,6 +421,7 @@
 		2F7BFEB50E33848B003F5DC3 /* Source Files */ = {
 			isa = PBXGroup;
 			children = (
+				E81E15581166A98F000C3483 /* platform-dependent.h */,
 				2F7BFF0B0E3386AD003F5DC3 /* allfiles.h */,
 				2F7BFF080E3386AD003F5DC3 /* backdrop.h */,
 				2F6E5C310E49FE55007408A4 /* bass.h */,

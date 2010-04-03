@@ -132,6 +132,8 @@ int msgBoxQuestion (const char * head, const char * msg) {
 }
 
 void changeToUserDir () {
-//TODO: Move stuff from sludger.cpp here.
+	TCHAR szAppData[MAX_PATH];
+	/*hr = */SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, szAppData);
+	_chdir(szAppData);
 }
 #endif

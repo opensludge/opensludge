@@ -326,5 +326,11 @@ int msgBoxQuestion (const char * head, const char * msg) {
 }
 
 void changeToUserDir () {
-//TODO: Move stuff from sludger.cpp here.
+	char appsupport_path[1024];
+	FSRef foundRef;
+	
+	// Find the Application Support Folder  (or should it be kPreferencesFolderType?) and go there
+	FSFindFolder (kUserDomain, kApplicationSupportFolderType , kDontCreateFolder, &foundRef);
+	FSRefMakePath( &foundRef, (Uint8 *) appsupport_path, 1024);
+	chdir (appsupport_path);
 }

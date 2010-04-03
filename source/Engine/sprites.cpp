@@ -298,6 +298,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 					target[1] = (GLubyte) spriteData[i][fromhere++];
 					target[2] = (GLubyte) spriteData[i][fromhere++];
 					target[3] = (GLubyte) spriteData[i][fromhere++];
+					if (target[3]<255) fprintf (stderr, "%d %d %d %d\n", target[0], target[1], target[2], target[3]);
 				}
 			}
 		}
@@ -713,14 +714,19 @@ bool checkColourChange (bool reset);
 
 bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, float scale, unsigned int drawMode, int floaty, bool useZB, bool light, bool mirror, bool boundingBoxCollision, aaSettingsStruct * aa) {
 	if (scale <= 0.05) return false;
-
+/*
 	float tx1 = (float)(single.tex_x - 0.5) / fontPal.tex_w[single.texNum];
 	float ty1 = 0.0;
 	float tx2 = (float)(single.tex_x + single.width+0.5) / fontPal.tex_w[single.texNum];
 	float ty2 = (float)(single.height+2)/fontPal.tex_h[single.texNum];
-
-	int diffX = ((float)single.width+0.5) * scale;
-	int diffY = ((float)single.height+2.0) * scale;
+ */
+	float tx1 = (float)(single.tex_x) / fontPal.tex_w[single.texNum];
+	float ty1 = (float) 1.0/fontPal.tex_h[single.texNum];
+	float tx2 = (float)(single.tex_x + single.width) / fontPal.tex_w[single.texNum];
+	float ty2 = (float)(single.height+1)/fontPal.tex_h[single.texNum];
+	
+	int diffX = ((float)single.width) * scale;
+	int diffY = ((float)single.height+1) * scale;
 
 	int x1;
 	if (single.xhot < 0)
@@ -774,6 +780,8 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 		curLight[0] = curLight[1] = curLight[2] = 255;
 	}
 
+	if (! boundingBoxCollision)
+		checkColourChange (true);
 
 	glEnable (GL_TEXTURE_2D);
 

@@ -69,11 +69,7 @@ char * settingsPath = NULL;
 void setGameFilePath (char * f) {
 	char currentDir[1000];
 
-#ifdef _MSC_VER
-	if (! _getcwd (currentDir, 998)) {
-#else
 	if (! getcwd (currentDir, 998)) {
-#endif
 		fprintf(stderr, "Can't get current directory.\n");
 	}
 
@@ -89,11 +85,7 @@ void setGameFilePath (char * f) {
 
 	if (got != -1) {
 		f[got] = NULL;
-#ifdef _MSC_VER
-		_chdir (f);
-#else
 		chdir (f);
-#endif
 #ifdef _WIN32
 		f[got] = '\\';
 #else
@@ -103,19 +95,11 @@ void setGameFilePath (char * f) {
 
 	gamePath = new char[400];
 
-#ifdef _MSC_VER
-	if (! _getcwd (gamePath, 398)) {
-#else
 	if (! getcwd (gamePath, 398)) {
-#endif
 		fprintf(stderr, "Can't get game directory.\n");
 	}
 
-#ifdef _MSC_VER
-	_chdir (currentDir);
-#else
 	chdir (currentDir);
-#endif
 }
 
 

@@ -300,6 +300,8 @@ bool loadSpriteBank (const char * filename, spriteBank *loadhere) {
 			loadhere->sprites[index].data = data;
 			loadhere->sprites[index].width = width;
 			loadhere->sprites[index].height = height;
+			
+			
 		}
 		fclose(fp);
 			
@@ -832,6 +834,49 @@ bool loadSpriteFromTGA (const char * file, struct spriteBank *sprites, int index
 	sprites->sprites[index].width = imageHeader.width;
 	sprites->sprites[index].height = imageHeader.height;
 	
+	int n, r, g, b;
+	int width = imageHeader.width;
+	int height = imageHeader.height;
+	for (int x=0; x<width;x++) {
+		for (int y=0; y<height; y++) {
+			if (! sprites->sprites[index].data[4*width*y + x*4 + 3]) {
+				n = r = g = b = 0;
+				if (x>0 && sprites->sprites[index].data[4*width*y + (x-1)*4 + 3]) {
+					n++;
+					r+= sprites->sprites[index].data[4*width*y + (x-1)*4];
+					g+= sprites->sprites[index].data[4*width*y + (x-1)*4+1];
+					b+= sprites->sprites[index].data[4*width*y + (x-1)*4+2];
+				}
+				if (x<width-1 && sprites->sprites[index].data[4*width*y + (x+1)*4 + 3]) {
+					n++;
+					r+= sprites->sprites[index].data[4*width*y + (x+1)*4];
+					g+= sprites->sprites[index].data[4*width*y + (x+1)*4+1];
+					b+= sprites->sprites[index].data[4*width*y + (x+1)*4+2];
+				}
+				if (y>0 && sprites->sprites[index].data[4*width*(y-1) + x*4 + 3]) {
+					n++;
+					r+= sprites->sprites[index].data[4*width*(y-1) + x*4];
+					g+= sprites->sprites[index].data[4*width*(y-1) + x*4+1];
+					b+= sprites->sprites[index].data[4*width*(y-1) + x*4+2];
+				}
+				if (y<height-1 && sprites->sprites[index].data[4*width*(y+1) + x*4 + 3]) {
+					n++;
+					r+= sprites->sprites[index].data[4*width*(y+1) + x*4];
+					g+= sprites->sprites[index].data[4*width*(y+1) + x*4+1];
+					b+= sprites->sprites[index].data[4*width*(y+1) + x*4+2];
+				}
+				if (n) {
+					r /= n;
+					g /= n;
+					b /= n;
+					sprites->sprites[index].data[4*width*y + x*4]=r;
+					sprites->sprites[index].data[4*width*y + x*4+1]=g;
+					sprites->sprites[index].data[4*width*y + x*4+2]=b;
+				}
+			}
+		}
+	}	
+	
 	loadSpriteTexture (sprites, index);
 	return true;
 }
@@ -910,6 +955,47 @@ bool loadSpriteFromPNG (const char * file, struct spriteBank *sprites, int index
 	sprites->sprites[index].data = data;
 	sprites->sprites[index].width = width;
 	sprites->sprites[index].height = height;
+	
+	int n, r, g, b;
+	for (int x=0; x<width;x++) {
+		for (int y=0; y<height; y++) {
+			if (! sprites->sprites[index].data[4*width*y + x*4 + 3]) {
+				n = r = g = b = 0;
+				if (x>0 && sprites->sprites[index].data[4*width*y + (x-1)*4 + 3]) {
+					n++;
+					r+= sprites->sprites[index].data[4*width*y + (x-1)*4];
+					g+= sprites->sprites[index].data[4*width*y + (x-1)*4+1];
+					b+= sprites->sprites[index].data[4*width*y + (x-1)*4+2];
+				}
+				if (x<width-1 && sprites->sprites[index].data[4*width*y + (x+1)*4 + 3]) {
+					n++;
+					r+= sprites->sprites[index].data[4*width*y + (x+1)*4];
+					g+= sprites->sprites[index].data[4*width*y + (x+1)*4+1];
+					b+= sprites->sprites[index].data[4*width*y + (x+1)*4+2];
+				}
+				if (y>0 && sprites->sprites[index].data[4*width*(y-1) + x*4 + 3]) {
+					n++;
+					r+= sprites->sprites[index].data[4*width*(y-1) + x*4];
+					g+= sprites->sprites[index].data[4*width*(y-1) + x*4+1];
+					b+= sprites->sprites[index].data[4*width*(y-1) + x*4+2];
+				}
+				if (y<height-1 && sprites->sprites[index].data[4*width*(y+1) + x*4 + 3]) {
+					n++;
+					r+= sprites->sprites[index].data[4*width*(y+1) + x*4];
+					g+= sprites->sprites[index].data[4*width*(y+1) + x*4+1];
+					b+= sprites->sprites[index].data[4*width*(y+1) + x*4+2];
+				}
+				if (n) {
+					r /= n;
+					g /= n;
+					b /= n;
+					sprites->sprites[index].data[4*width*y + x*4]=r;
+					sprites->sprites[index].data[4*width*y + x*4+1]=g;
+					sprites->sprites[index].data[4*width*y + x*4+2]=b;
+				}
+			}
+		}
+	}
 	
 	loadSpriteTexture (sprites, index);
 	return true;
@@ -1002,7 +1088,7 @@ void pasteSprite (sprite * single, const spritePalette *fontPal, bool showBox) {
 	float tx2 = (float)(single->tex_x + single->width) / fontPal->tex_w[single->texNum];
 	float ty2;
 	if (single->height<0)
-		ty2 = (float)(-single->height+2)/fontPal->tex_h[single->texNum];
+		ty2 = (float)(-(single->height+2))/fontPal->tex_h[single->texNum];
 	else
 		ty2 = (float)(single->height+2)/fontPal->tex_h[single->texNum];
 	
@@ -1017,10 +1103,10 @@ void pasteSprite (sprite * single, const spritePalette *fontPal, bool showBox) {
 		//    glBegin(GL_LINE_LOOP);
 		glBegin(GL_QUADS);			
 		{
-			glVertex3f(x1, -y1, 0.0);
-			glVertex3f(x1+single->width, -y1, 0.0);
-			glVertex3f(x1+single->width, -y1-single->height, 0.0);
-			glVertex3f(x1, -y1-single->height, 0.0);
+			glVertex3f(x1, -y1+1, 0.0);
+			glVertex3f(x1+single->width, -y1+1, 0.0);
+			glVertex3f(x1+single->width, -y1-single->height-1, 0.0);
+			glVertex3f(x1, -y1-single->height-1, 0.0);
 		}
 		glEnd();
 		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);

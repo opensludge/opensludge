@@ -17,12 +17,7 @@
 
 #include "GLee.h"
 
-#ifdef _MSC_VER
-#include <shellapi.h>
-#include <direct.h>
-#else
 #include <unistd.h>
-#endif
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
@@ -368,34 +363,15 @@ bool initSludge (char * filename) {
 	delete nameOrig;
 	delete gameNameOrig;
 
-#ifdef __APPLE__
-	char appsupport_path[1024];
-	FSRef foundRef;
-
-	// Find the Application Support Folder  (or should it be kPreferencesFolderType?) and go there
-	FSFindFolder (kUserDomain, kApplicationSupportFolderType , kDontCreateFolder, &foundRef);
-	FSRefMakePath( &foundRef, (Uint8 *) appsupport_path, 1024);
-	chdir (appsupport_path);
-#endif
-#ifdef _WIN32
-	TCHAR szAppData[MAX_PATH];
-	/*hr = */SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, szAppData);
-	_chdir(szAppData);
-#endif
-#ifdef __linux__
 	changeToUserDir ();
-#endif
 
 #ifdef _WIN32
 	mkdir (gameName);
 #else
 	mkdir (gameName, 0000777);
 #endif
-#ifdef _MSC_VER
-	if (_chdir (gameName)) return fatal ("This game's preference folder is inaccessible!\nI can't access the following directory (maybe there's a file with the same name, or maybe it's read-protected):", gameName);
-#else
+
 	if (chdir (gameName)) return fatal ("This game's preference folder is inaccessible!\nI can't access the following directory (maybe there's a file with the same name, or maybe it's read-protected):", gameName);
-#endif
 
 	// Get user settings
 	readIniFile (filename);
@@ -420,11 +396,9 @@ bool initSludge (char * filename) {
 #else
 		mkdir (dataFolder, 0000777);
 #endif
-#ifdef _MSC_VER
-		if (_chdir (dataFolder)) return fatal ("This game's data folder is inaccessible!\nI can't access the following directory (maybe there's a file with the same name, or maybe it's read-protected):", dataFolder);
-#else
+
 		if (chdir (dataFolder)) return fatal ("This game's data folder is inaccessible!\nI can't access the following directory (maybe there's a file with the same name, or maybe it's read-protected):", dataFolder);
-#endif
+
 		delete dataFolder;
 	}
 
@@ -469,8 +443,6 @@ void sludgeDisplay () {
 	drawBackDrop ();				// Draw the room
 
 	drawZBuffer(cameraX, cameraY, false);
-
-	checkColourChange (true);
 
 	glEnable(GL_DEPTH_TEST);
 	drawPeople ();					// Then add any moving characters...
@@ -1157,8 +1129,8 @@ bool handleInput () {
 			uint32_t retVal = 0;
 #ifdef _WIN32
 			retVal = (uint32_t) ShellExecute (hMainWindow, "open",
-							  									 launchMe, NULL, "C:\\",
-							  									 SW_SHOWNORMAL);
+											launchMe, NULL, "C:\\",
+											SW_SHOWNORMAL);
 #elif defined __APPLE__
 			if (launchMe[0] == 'h' &&
 				launchMe[1] == 't' &&
