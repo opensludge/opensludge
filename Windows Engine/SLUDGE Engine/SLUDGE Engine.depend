@@ -5,7 +5,7 @@
 1193991332 c:\programmering\sludge\windows engine\sludge engine\resource.h
 	<windows.h>
 
-1268255861 source:c:\programmering\sludge\source\commoncode\tga.cpp
+1270243961 source:c:\programmering\sludge\source\commoncode\tga.cpp
 	<stdio.h>
 	"tga.h"
 
@@ -27,15 +27,13 @@
 	<GL/glx.h>
 	<stddef.h>
 
-1270224317 source:c:\programmering\sludge\source\engine\backdrop.cpp
-	<complex>
+1270301047 source:c:\programmering\sludge\source\engine\backdrop.cpp
 	<stdlib.h>
 	<stdint.h>
 	<libpng12/png.h>
 	<libpng/png.h>
 	"GLee.h"
 	"allfiles.h"
-	"winstuff.h"
 	"newfatal.h"
 	"colours.h"
 	"fileset.h"
@@ -52,7 +50,7 @@
 1268255837 c:\programmering\sludge\source\engine\allfiles.h
 	<stdio.h>
 
-1268255838 c:\programmering\sludge\source\engine\winstuff.h
+1270243961 c:\programmering\sludge\source\engine\winstuff.h
 
 1268255837 c:\programmering\sludge\source\engine\newfatal.h
 	"errors.h"
@@ -200,7 +198,7 @@
 
 1268255838 c:\programmering\sludge\source\engine\bg_effects.h
 
-1268255837 source:c:\programmering\sludge\source\engine\moreio.cpp
+1270243960 source:c:\programmering\sludge\source\engine\moreio.cpp
 	<string.h>
 	<stdint.h>
 	"allfiles.h"
@@ -211,9 +209,10 @@
 
 1268255838 c:\programmering\sludge\source\engine\stringy.h
 
-1268255837 source:c:\programmering\sludge\source\engine\newfatal.cpp
+1270243960 source:c:\programmering\sludge\source\engine\newfatal.cpp
 	<SDL/SDL.h>
 	"SDL.h"
+	"platform-dependent.h"
 	"allfiles.h"
 	"version.h"
 	<string.h>
@@ -426,7 +425,7 @@
 	"moreio.h"
 	"backdrop.h"
 
-1270224317 source:c:\programmering\sludge\source\engine\sludger.cpp
+1270301197 source:c:\programmering\sludge\source\engine\sludger.cpp
 	"allfiles.h"
 	<SDL/SDL.h>
 	<libpng12/png.h>
@@ -436,12 +435,11 @@
 	<sys/stat.h>
 	<iconv.h>
 	"GLee.h"
-	<shellapi.h>
-	<direct.h>
 	<unistd.h>
 	<stdlib.h>
 	<stdint.h>
 	<string.h>
+	"platform-dependent.h"
 	"version.h"
 	"sludger.h"
 	"backdrop.h"
@@ -471,7 +469,6 @@
 	"graphics.h"
 	"debug.h"
 	<shellapi.h>
-	<shlobj.h>
 
 1269774153 c:\programmering\sludge\source\engine\builtin.h
 
@@ -488,7 +485,7 @@
 	"newfatal.h"
 	"debug.h"
 
-1270224317 source:c:\programmering\sludge\source\engine\sprites.cpp
+1270301047 source:c:\programmering\sludge\source\engine\sprites.cpp
 	<libpng12/png.h>
 	<libpng/png.h>
 	"allfiles.h"
@@ -564,10 +561,11 @@
 	"moreio.h"
 	"windows.h"
 
-1268255837 source:c:\programmering\sludge\source\engine\winstuff.cpp
+1270301170 source:c:\programmering\sludge\source\engine\winstuff.cpp
 	<windows.h>
 	"allfiles.h"
 	"winstuff.h"
+	"platform-dependent.h"
 	"newfatal.h"
 	"sprites.h"
 	"sprbanks.h"
@@ -584,12 +582,13 @@
 	"colours.h"
 	"moreio.h"
 	"stringy.h"
+	<shellapi.h>
+	<shlobj.h>
 	"..\..\images\resource.h"
 
-1268255838 source:c:\programmering\sludge\source\engine\bg_effects.cpp
+1270301047 source:c:\programmering\sludge\source\engine\bg_effects.cpp
 	<stdlib.h>
 	<string.h>
-	<malloc.h>
 	"allfiles.h"
 	"backdrop.h"
 	"colours.h"
@@ -597,15 +596,13 @@
 	"newfatal.h"
 	"moreio.h"
 
-1269774153 source:c:\programmering\sludge\source\engine\builtin.cpp
+1270301047 source:c:\programmering\sludge\source\engine\builtin.cpp
 	"debug.h"
 	"allfiles.h"
 	<SDL/SDL.h>
 	"SDL.h"
 	<stdlib.h>
 	<string.h>
-	<complex>
-	<direct.h>
 	<unistd.h>
 	<stdio.h>
 	"sludger.h"
@@ -661,9 +658,10 @@
 	"sprites_aa.h"
 	"allfiles.h"
 
-1268255837 source:c:\programmering\sludge\source\engine\graphics.cpp
+1270243960 source:c:\programmering\sludge\source\engine\graphics.cpp
 	<SDL/SDL.h>
 	<SDL.h>
+	"platform-dependent.h"
 	"specialsettings.h"
 	"graphics.h"
 	"sprites_aa.h"
@@ -682,7 +680,7 @@
 	"language.h"
 	"version.h"
 
-1270224317 source:c:\programmering\sludge\source\engine\main.cpp
+1270301047 source:c:\programmering\sludge\source\engine\main.cpp
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -700,6 +698,7 @@
 	<SDL_syswm.h>
 	<iconv.h>
 	"winstuff.h"
+	"platform-dependent.h"
 	"language.h"
 	"stringy.h"
 	"sludger.h"
@@ -736,7 +735,7 @@
 	<stdlib.h>
 	"allfiles.h"
 
-1270225845 source:c:\programmering\sludge\source\engine\people.cpp
+1270243960 source:c:\programmering\sludge\source\engine\people.cpp
 	"allfiles.h"
 	<math.h>
 	<stdlib.h>
@@ -758,7 +757,7 @@
 	"sound.h"
 	"debug.h"
 
-1268255837 source:c:\programmering\sludge\source\engine\savedata.cpp
+1270301047 source:c:\programmering\sludge\source\engine\savedata.cpp
 	<stdint.h>
 	<unistd.h>
 	<string.h>
@@ -835,14 +834,14 @@
 1268255861 c:\programmering\sludge\source\commoncode\tga.h
 	<stdio.h>
 
-1268255838 c:\programmering\sludge\source\engine\moreio.h
+1270243961 c:\programmering\sludge\source\engine\moreio.h
 	<stdint.h>
 
 1268255838 c:\programmering\sludge\source\engine\csludge.h
 
 1268255861 c:\programmering\sludge\source\commoncode\specialsettings.h
 
-1270224317 source:c:\programmering\sludge\source\engine\sound_openal.cpp
+1270243960 source:c:\programmering\sludge\source\engine\sound_openal.cpp
 	<stdint.h>
 	<stdio.h>
 	"AL/alure.h"
@@ -865,4 +864,6 @@
 1165595458 c:\program files\openal 1.1 sdk\include\al.h
 
 1176476568 c:\program files\openal 1.1 sdk\include\alc.h
+
+1270301047 c:\programmering\sludge\source\engine\platform-dependent.h
 

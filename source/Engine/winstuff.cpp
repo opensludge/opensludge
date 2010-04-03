@@ -22,6 +22,9 @@
 #include "moreio.h"
 #include "stringy.h"
 
+#include <shellapi.h>
+#include <shlobj.h> // For SHGetFolderPath
+
 #include "..\..\images\resource.h"
 
 HINSTANCE hInst;  				// Handle of the main instance

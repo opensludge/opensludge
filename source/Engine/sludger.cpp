@@ -54,7 +54,6 @@
 #include "debug.h"
 #ifdef _WIN32
 #include <shellapi.h>
-#include <shlobj.h> // For SHGetFolderPath
 #endif
 
 extern personaAnimation * mouseCursorAnim;
@@ -992,7 +991,7 @@ bool continueFunction (loadedFunction * fun) {
 
 
 bool runSludge () {
-		
+
 	loadedFunction * thisFunction = allRunningFunctions;
 	loadedFunction * nextFunction;
 
