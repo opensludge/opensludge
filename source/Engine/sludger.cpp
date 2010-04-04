@@ -427,17 +427,6 @@ void sludgeDisplay () {
 //	glClearColor(0.5, 0.5, 1.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear The Screen
 	glDepthMask (GL_FALSE);
-/*
-	glDisable (GL_TEXTURE_2D);
-
-	glColor4i(100, 100, 255, 255);
-	glBegin(GL_QUADS);
-	glVertex3f(0.0, 0.0, 0);
-	glVertex3f(800.0, 0.0, 0);
-	glVertex3f(800.0, 800.0, 0);
-	glVertex3f(0.0, 800.0, 0);
-	glEnd();*/
-
 
 	drawBackDrop ();				// Draw the room
 

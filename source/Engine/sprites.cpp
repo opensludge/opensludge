@@ -244,14 +244,6 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 
 	for (i = 0; i < total; i ++) {
 		fromhere = 0;
-		/*
-		for (int x = loadhere.sprites[i].tex_x; x < loadhere.sprites[i].tex_x+loadhere.sprites[i].width; x ++) {
-			GLubyte * target = tmp[loadhere.sprites[i].texNum] + x*4;
-			target[0] = (GLubyte) 0;
-			target[1] = (GLubyte) 0;
-			target[2] = (GLubyte) 0;
-			target[3] = (GLubyte) 0;
-		}*/
 
 		int transColour = -1;
 		if (loadSaveMode < 3) {
@@ -298,7 +290,6 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 					target[1] = (GLubyte) spriteData[i][fromhere++];
 					target[2] = (GLubyte) spriteData[i][fromhere++];
 					target[3] = (GLubyte) spriteData[i][fromhere++];
-					if (target[3]<255) fprintf (stderr, "%d %d %d %d\n", target[0], target[1], target[2], target[3]);
 				}
 			}
 		}
@@ -714,26 +705,21 @@ bool checkColourChange (bool reset);
 
 bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, float scale, unsigned int drawMode, int floaty, bool useZB, bool light, bool mirror, bool boundingBoxCollision, aaSettingsStruct * aa) {
 	if (scale <= 0.05) return false;
-/*
-	float tx1 = (float)(single.tex_x - 0.5) / fontPal.tex_w[single.texNum];
-	float ty1 = 0.0;
-	float tx2 = (float)(single.tex_x + single.width+0.5) / fontPal.tex_w[single.texNum];
-	float ty2 = (float)(single.height+2)/fontPal.tex_h[single.texNum];
- */
+
 	float tx1 = (float)(single.tex_x) / fontPal.tex_w[single.texNum];
 	float ty1 = (float) 1.0/fontPal.tex_h[single.texNum];
 	float tx2 = (float)(single.tex_x + single.width) / fontPal.tex_w[single.texNum];
 	float ty2 = (float)(single.height+1)/fontPal.tex_h[single.texNum];
 	
 	int diffX = ((float)single.width) * scale;
-	int diffY = ((float)single.height+1) * scale;
+	int diffY = ((float)single.height) * scale;
 
 	int x1;
 	if (single.xhot < 0)
 		x1 = x - (mirror ? (float) (single.width - single.xhot) : (float)(single.xhot+1) ) * scale;
 	else
 		x1 = x - (mirror ? (float) (single.width - (single.xhot+1)) : (float)single.xhot ) * scale;
-	int y1 = y - (single.yhot +1 - floaty) * scale;
+	int y1 = y - (single.yhot - floaty) * scale;
 	int x2 = x1 + diffX;
 	int y2 = y1 + diffY;
 
