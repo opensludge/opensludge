@@ -3,7 +3,7 @@ aclocal
 autoheader
 if [ ! -f "ChangeLog" ]
     then
-        > ChangeLog
+        svn log > ChangeLog
 fi
 if [ ! -f "NEWS" ]
     then
