@@ -1,5 +1,5 @@
 #ifdef __linux__
-#include <libpng12/png.h>
+#include <png.h>
 #else
 #include <libpng/png.h>
 #endif

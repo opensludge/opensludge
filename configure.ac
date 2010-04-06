@@ -19,6 +19,7 @@ AC_CHECK_LIB([SDL], [SDL_Init])
 AC_CHECK_LIB([alure], [alureCreateStreamFromMemory])
 AC_CHECK_LIB([png], [png_sig_cmp])
 AC_CHECK_LIB([glee], [GLeeInit])
+AC_CHECK_LIB([GLee], [GLeeInit])
 
 # Checks for header files.
 AC_CHECK_HEADERS([limits.h malloc.h stddef.h stdint.h stdlib.h string.h sys/time.h unistd.h])

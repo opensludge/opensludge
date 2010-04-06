@@ -1,7 +1,7 @@
 #include "allfiles.h"
 #ifdef __linux__
 #include <SDL/SDL.h>
-#include <libpng12/png.h>
+#include <png.h>
 #else
 #include "SDL.h"
 #include <libpng/png.h>

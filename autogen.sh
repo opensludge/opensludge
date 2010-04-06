@@ -1,13 +1,7 @@
 #!/bin/sh
 aclocal
 autoheader
-if [ ! -f "ChangeLog" ]
-    then
-        svn log > ChangeLog
-fi
-if [ ! -f "NEWS" ]
-    then
-        > NEWS
-fi
+svn log > ChangeLog
+touch NEWS
 automake -ac
 autoconf
