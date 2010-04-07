@@ -1116,9 +1116,7 @@ bool handleInput () {
 			l = 1;
 			uint32_t retVal = 0;
 #ifdef _WIN32
-			retVal = (uint32_t) ShellExecute (hMainWindow, "open",
-											launchMe, NULL, "C:\\",
-											SW_SHOWNORMAL);
+			retVal = (uint32_t) ShellExecute (hMainWindow, "open", launchMe, NULL, "C:\\", SW_SHOWNORMAL);
 #elif defined __APPLE__
 			if (launchMe[0] == 'h' &&
 				launchMe[1] == 't' &&
@@ -1126,11 +1124,13 @@ bool handleInput () {
 				launchMe[3] == 'p' &&
 				launchMe[4] == ':') {
 
-				// IT'S A WEBSITE!
-				[[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString: [NSString stringWithUTF8String: launchMe]]];
+				if ([[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString: [NSString stringWithUTF8String: launchMe]]])
+					retVal = 69;
 
 			} else {
-				[[NSWorkspace sharedWorkspace] openFile: [NSString stringWithUTF8String: launchMe]];
+				
+				if ([[NSWorkspace sharedWorkspace] openFile: [NSString stringWithUTF8String: launchMe]])
+					retVal = 69;
 			}
 #endif
 			setVariable (* launchResult, SVT_INT, retVal > 31);

@@ -951,24 +951,12 @@ builtIn(launch)
 
 		// IT'S A WEBSITE!
 		launchMe = newText;
-//					fatal (launchMe);
-//					return BR_NOCOMMENT;
 	} else {
-		char gameDir[1000];
-		if (! getcwd (gameDir, 998)) {
-			fatal ("Can't get current directory");
-			return BR_NOCOMMENT;
-		}
+		char *gameDir; 
 #ifdef _WIN32
-		if (gameDir[strlen (gameDir) - 1] != '\\') {
-			gameDir[strlen (gameDir) + 1] = NULL;
-			gameDir[strlen (gameDir)] = '\\';
-		}
+		gameDir = joinStrings(gamePath, "\\");
 #else
-		if (gameDir[strlen (gameDir) - 1] != '/') {
-			gameDir[strlen (gameDir) + 1] = NULL;
-			gameDir[strlen (gameDir)] = '/';
-		}
+		gameDir = joinStrings(gamePath, "/");
 #endif
 		launchMe = joinStrings (gameDir, newText);
 		delete newText;
