@@ -56,7 +56,7 @@ static int compileStep = CSTEP_INIT;
 static stringArray * globalVarNames = NULL;
 
 static FILE * projectFile;
-static stringArray * allSourceStrings = NULL;
+stringArray * allSourceStrings = NULL;
 static stringArray * allTheFunctionNamesTemp = NULL;
 static compilationSpace globalSpace;
 

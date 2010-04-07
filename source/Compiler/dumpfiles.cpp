@@ -17,12 +17,13 @@
 bool dumpFileInto (FILE * writer, char * thisFile) {
 	int a;
 	FILE * reader = fopen (thisFile, "rb");
+	char buf[256];	
 	
 	if (! reader) return false;
-	for (;;) {
-		a = fgetc (reader);
-		if (a == EOF) break;
-		fputc (a, writer);
+	while (true) {
+		a = fread(buf, 1, 256, reader);
+		if (! a) break;
+		fwrite (buf, 1, a, writer);
 	}
 	fclose (reader);
 	return true;
@@ -96,6 +97,8 @@ bool dumpFiles (FILE * mainFile, stringArray * & theSA) {
 	FILE * inFile;
 	gotoSourceDirectory ();
 	
+	char buf[0xFFFF];	
+	
 	bool killAfterAdd;
 	while (theSA) {
 		setCompilerText (COM_FILENAME, theSA -> string);
@@ -124,7 +127,7 @@ bool dumpFiles (FILE * mainFile, stringArray * & theSA) {
 				break;
 				
 				case FILETYPE_UNKNOWN:
-				return addComment (ERRORTYPE_PROJECTERROR, "Tried to include a file which is not supported by SLUDGE.\n\nSupported music types: .XM, .MOD, .S3M, .IT, .MID, .RMI\nSupported sampled sound types: .WAV, .MP3, .OGG\nSupported graphic types: .TGA\nSLUDGE-specific types: .FLO, .ZBU, .DUC\n\nThe file you tried to include was:", theSA -> string, NULL);
+				return addComment (ERRORTYPE_PROJECTERROR, "Tried to include a file which is not supported by SLUDGE.\n\nSupported music types: .XM, .MOD, .S3M, .IT\nSupported sampled sound types: .WAV, .OGG\nSupported graphic types: .TGA, .PNG\nSLUDGE-specific types: .FLO, .ZBU, .DUC\n\nThe file you tried to include was:", theSA -> string, NULL);
 			}
 			
 			inFile = fopen (theSA -> string, "rb");
@@ -143,10 +146,9 @@ bool dumpFiles (FILE * mainFile, stringArray * & theSA) {
 			
 			currentRemainingIndex += filesize;
 			
-			char buf[256];
 			int a = 0;
 			while (filesize -= a) {
-				a = fread(buf, 1, 256, inFile);
+				a = fread(buf, 1, 0xFFFF, inFile);
 				if (! a) break;
 				fwrite (buf, 1, a, mainFile);
 			}

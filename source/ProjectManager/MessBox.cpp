@@ -8,11 +8,15 @@
  */
 
 #include <stdio.h>
+#include <string.h>
 
 #include "MessBox.h"
 #include "MoreIO.h"
 #include "SPLITTER.HPP"
 
+
+extern stringArray * allSourceStrings;
+extern stringArray * allFileHandles;
 
 char * errorTypeStrings[ERRORTYPE_NUM] =
 {
@@ -37,6 +41,7 @@ void clearComments () {
 	numErrors = 0;
 }
 
+
 void addComment (int errorType, const char * comment, const char * filename/*, int lineNumber*/) {
 	
 	errorLinkToFile * newLink = new errorLinkToFile;
@@ -45,15 +50,70 @@ void addComment (int errorType, const char * comment, const char * filename/*, i
 	if (filename && filename[0] == '\0')
 		filename = NULL;	
 	
+	char * s = copyString(comment);
+	char * s2, *s3;
+	
+	// Extract real strings...
+	while (s2 = strstr(s, "_string")) {
+		unsigned long i = 0;
+		int ac = 0;
+		
+		s3 = s2 + 7;
+		int looping = true;
+		while (s3[ac] && looping) {
+			if (s3[ac] >= '0' && s3[ac] <= '9') {
+				i = (i * 10) + s3[ac] - '0';
+				if (i >= 65535) {
+					looping = false;
+				}
+			} else {
+				looping = false;
+			}
+			if (looping) ac ++;			
+		}
+		s3+=ac;
+		s2[1] = 0;
+		s2[0] = '"';
+		s2 = s;
+		s = joinStrings(s, returnElement (allSourceStrings, i), "\"", s3);
+		delete s2;
+	}
+
+	// Extract resource file names ...
+	while (s2 = strstr(s, "_file")) {
+		unsigned long i = 0;
+		int ac = 0;
+		
+		s3 = s2 + 7;
+		int looping = true;
+		while (s3[ac] && looping) {
+			if (s3[ac] >= '0' && s3[ac] <= '9') {
+				i = (i * 10) + s3[ac] - '0';
+				if (i >= 65535) {
+					looping = false;
+				}
+			} else {
+				looping = false;
+			}
+			if (looping) ac ++;			
+		}
+		s3+=ac;
+		s2[1] = 0;
+		s2[0] = '\'';
+		s2 = s;
+		s = joinStrings(s, returnElement (allFileHandles, i), "'", s3);
+		delete s2;
+	}
+	
 	newLink->errorType = errorType;
-	newLink->overview = copyString (comment);
+	newLink->overview = copyString (s);
 	newLink->filename = filename ? copyString (filename) : NULL;
 	newLink->lineNumber = 0;
 	newLink->next = errorList;
 	errorList = newLink;
 	
 	char * after = filename ? joinStrings (" (in ", filename, ")") : copyString ("");
-	newLink->fullText = joinStrings (errorTypeStrings[errorType], comment, after);
+	newLink->fullText = joinStrings (errorTypeStrings[errorType], s, after);
 	
 	compilerCommentsUpdated();
 	
