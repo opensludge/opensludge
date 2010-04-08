@@ -281,6 +281,8 @@ void playStream (int a, bool isMOD, bool loopy) {
 
 	if (isMOD) {
 		alSourcef (src, AL_GAIN, (float) modLoudness * defVol / 256);
+	} else {
+		alSourcef (src, AL_GAIN, (float) soundCache[a].vol / 256);
 	}
 
 	if (loopy) {
