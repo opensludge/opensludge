@@ -1134,7 +1134,7 @@ bool handleInput () {
 					retVal = 69;
 			}
 #else
-			retVal = launchFile(launchMe);
+			retVal = launch(launchMe);
 #endif
 			setVariable (* launchResult, SVT_INT, retVal > 31);
 			launchMe = NULL;
