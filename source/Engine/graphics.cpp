@@ -1,8 +1,5 @@
-#ifdef __linux__
 #include <SDL/SDL.h>
-#else
-#include <SDL.h>
-#endif
+
 #include "platform-dependent.h"
 #include "specialsettings.h"
 #include "graphics.h"

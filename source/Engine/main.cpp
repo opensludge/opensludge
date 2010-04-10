@@ -10,13 +10,10 @@
 #include <time.h>
 #include <sys/time.h>
 #include "GLee.h"
-#ifdef __linux__
 #include <SDL/SDL.h>
 #include <SDL/SDL_syswm.h>
+#ifdef __linux__
 #include <getopt.h>
-#else
-#include <SDL.h>
-#include <SDL_syswm.h>
 #endif
 
 // For unicode conversion
@@ -386,6 +383,7 @@ int main(int argc, char *argv[]) try
 					}
 					switch (event.key.keysym.sym) {
 						case SDLK_BACKSPACE:
+						case SDLK_DELETE:	// Ok, mapping these to the same key is weird, I admit. But good?
 							input.keyPressed = 127; break;
 						case SDLK_TAB:
 							input.keyPressed = 9; break;

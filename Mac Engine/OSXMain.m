@@ -59,11 +59,14 @@ static NSString *getApplicationName(void)
 	}
 }
 
-// Disregard any keyboard events besides command+key
 - (void)sendEvent:(NSEvent *)anEvent {
+	// Are we using Cocoa? If not, eat the keypresses unless the Command key is involved.
 	if(! usingCocoa && (NSKeyDown == [anEvent type] || NSKeyUp == [anEvent type])) {
-		if( [anEvent modifierFlags] & NSCommandKeyMask)
-			[super sendEvent: anEvent];
+		if( [anEvent modifierFlags] & NSCommandKeyMask) {
+			// But we handle Command+F, so don't pass that on.
+			if (! [[anEvent charactersIgnoringModifiers] isEqualToString: @"f"])
+				[super sendEvent: anEvent];
+		}
 	} else
 		[super sendEvent: anEvent];
 }
