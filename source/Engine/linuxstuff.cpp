@@ -41,6 +41,10 @@ void changeToUserDir () {
 }
 
 uint32_t launch(char * launchMe) {
+	fprintf(stdout, "I tried to show you something with an extern program,");
+	fprintf(stdout, " but this functionality is disabled on this platform.");
+	fprintf(stdout, " You might want to have a look at it:\n");
+	fprintf(stdout, "%s\n", launchMe);
 	return 0;
 }
 #endif
