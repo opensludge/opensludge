@@ -11,10 +11,10 @@
 #include "shaders.h"
 #ifdef _WIN32
 #include <GL\glu.h> // handy for gluErrorString
-#elif defined __linux__
-#include <GL/glu.h> // handy for gluErrorString
-#else
+#elif defined __APPLE__
 #include <OpenGL/glu.h> // handy for gluErrorString
+#else
+#include <GL/glu.h> // handy for gluErrorString
 #endif
 
 int

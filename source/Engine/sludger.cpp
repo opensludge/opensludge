@@ -1133,6 +1133,8 @@ bool handleInput () {
 				if ([[NSWorkspace sharedWorkspace] openFile: [NSString stringWithUTF8String: launchMe]])
 					retVal = 69;
 			}
+#else
+			retVal = launchFile(launchMe);
 #endif
 			setVariable (* launchResult, SVT_INT, retVal > 31);
 			launchMe = NULL;

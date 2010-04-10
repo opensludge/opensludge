@@ -39,4 +39,8 @@ void changeToUserDir () {
 	mkdir (".sludge-engine", 0000777);
 	chdir (".sludge-engine");
 }
+
+uint32_t launch(char * launchMe) {
+	return 0;
+}
 #endif
