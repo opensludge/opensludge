@@ -222,7 +222,13 @@ int main(int argc, char *argv[]) try
 			sludgeFile = grabFileName ();
 	}
 
-	if (! sludgeFile) return 0;
+	if (! sludgeFile) {
+		fprintf(stderr, "Game file not found.\n");
+#if defined __unix__ && !(defined __APPLE__)
+		printCmdlineUsage();
+#endif
+		return 0;
+	}
 
 	setGameFilePath (sludgeFile);
 
