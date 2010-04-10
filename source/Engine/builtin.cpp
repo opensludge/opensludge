@@ -934,7 +934,7 @@ builtIn(launch)
 	UNUSEDALL
 	char * newTextA = getTextFromAnyVar (fun -> stack -> thisVar);
 	if (! newTextA) return BR_NOCOMMENT;
-
+	
 	char * newText = encodeFilename (newTextA);
 	delete newTextA;
 

@@ -40,11 +40,11 @@ void changeToUserDir () {
 	chdir (".sludge-engine");
 }
 
-uint32_t launch(char * launchMe) {
+uint32_t launch(char * filename) {
 	fprintf(stdout, "I tried to show you something with an extern program,");
 	fprintf(stdout, " but this functionality is disabled on this platform.");
 	fprintf(stdout, " You might want to have a look at it:\n");
-	fprintf(stdout, "%s\n", launchMe);
+	fprintf(stdout, "%s\n", filename);
 	return 0;
 }
 #endif

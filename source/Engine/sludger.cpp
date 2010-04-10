@@ -1,11 +1,3 @@
-#ifdef __APPLE__
-#import <Cocoa/Cocoa.h>
-#endif
-
-#ifdef _WIN32
-#include <shellapi.h>
-#endif
-
 #if defined __unix__ && !(defined __APPLE__)
 #include <png.h>
 #else
@@ -1115,28 +1107,8 @@ bool handleInput () {
 			// Still paused because of spawned thingy...
 		} else {
 			l = 1;
-			uint32_t retVal = 0;
-#ifdef _WIN32
-			retVal = (uint32_t) ShellExecute (hMainWindow, "open", launchMe, NULL, "C:\\", SW_SHOWNORMAL);
-#elif defined __APPLE__
-			if (launchMe[0] == 'h' &&
-				launchMe[1] == 't' &&
-				launchMe[2] == 't' &&
-				launchMe[3] == 'p' &&
-				launchMe[4] == ':') {
 
-				if ([[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString: [NSString stringWithUTF8String: launchMe]]])
-					retVal = 69;
-
-			} else {
-				
-				if ([[NSWorkspace sharedWorkspace] openFile: [NSString stringWithUTF8String: launchMe]])
-					retVal = 69;
-			}
-#else
-			retVal = launch(launchMe);
-#endif
-			setVariable (* launchResult, SVT_INT, retVal > 31);
+			setVariable (* launchResult, SVT_INT, launch(launchMe) > 31);
 			launchMe = NULL;
 			launchResult = NULL;
 		}

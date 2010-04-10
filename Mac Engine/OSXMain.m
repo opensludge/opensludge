@@ -337,3 +337,22 @@ void changeToUserDir () {
 	FSRefMakePath( &foundRef, (Uint8 *) appsupport_path, 1024);
 	chdir (appsupport_path);
 }
+
+uint32_t launch(char * file) {
+	if (file[0] == 'h' &&
+		file[1] == 't' &&
+		file[2] == 't' &&
+		file[3] == 'p' &&
+		file[4] == ':') {
+		
+		if ([[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString: [NSString stringWithUTF8String: file]]])
+			return 69;
+		
+	} else {
+		
+		if ([[NSWorkspace sharedWorkspace] openFile: [NSString stringWithUTF8String: file]])
+			return 69;
+	}	
+	return 0;
+}
+

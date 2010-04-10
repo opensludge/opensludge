@@ -177,6 +177,15 @@ char * encodeFilename (char * nameIn) {
 		}
 		return newName;
 	} else {
+		int a;
+		for (a = 0; nameIn[a]; a ++) {
+#ifdef _WIN32
+			if (nameIn[a] == '/') nameIn[a] = '\\';
+#else
+			if (nameIn[a] == '\\') nameIn[a] ='/';
+#endif
+		}
+		
 		return copyString (nameIn);
 	}
 }

@@ -10,4 +10,5 @@ void msgBox (const char * head, const char * msg);
 int msgBoxQuestion (const char * head, const char * msg);
 
 void changeToUserDir ();
-uint32_t launch(char * LaunchMe);
+uint32_t launch(char * filename);
+

@@ -1,5 +1,6 @@
 #ifdef _WIN32
 #include <windows.h>
+#include <shellapi.h>
 
 #include "allfiles.h"
 
@@ -138,5 +139,9 @@ void changeToUserDir () {
 	TCHAR szAppData[MAX_PATH];
 	/*hr = */SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, szAppData);
 	_chdir(szAppData);
+}
+
+uint32_t launch(char * f) {
+	return ShellExecute (hMainWindow, "open", f, NULL, "C:\\", SW_SHOWNORMAL);
 }
 #endif
