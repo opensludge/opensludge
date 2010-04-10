@@ -186,6 +186,14 @@ int main(int argc, char *argv[]) try
 				break;
 			}
 		}
+		tester = fopen (sludgeFile, "rb");
+		if (tester) {
+			fclose (tester);
+		} else {
+			fprintf(stderr, "Game file not found.\n");
+			printCmdlineUsage();
+			return 0;
+		}
 #endif
 	} else {
 		char exeFolder[MAX_PATH+1];
@@ -213,18 +221,8 @@ int main(int argc, char *argv[]) try
 		else
 			sludgeFile = grabFileName ();
 	}
-#if defined __unix__ && !(defined __APPLE__)
-	tester = fopen (sludgeFile, "rb");
-	if (tester) {
-		fclose (tester);
-	} else {
-		fprintf(stderr, "Game file not found.\n");
-		printCmdlineUsage();
-		return 0;
-	}
-#else
+
 	if (! sludgeFile) return 0;
-#endif
 
 	setGameFilePath (sludgeFile);
 
