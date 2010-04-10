@@ -1,14 +1,19 @@
-#include "allfiles.h"
-#include <SDL/SDL.h>
-#ifdef __linux__
+#ifdef __APPLE__
+#import <Cocoa/Cocoa.h>
+#endif
+
+#ifdef _WIN32
+#include <shellapi.h>
+#endif
+
+#if defined __unix__ && !(defined __APPLE__)
 #include <png.h>
 #else
 #include <libpng/png.h>
 #endif
 
-#ifdef __APPLE__
-#import <Cocoa/Cocoa.h>
-#endif
+#include "allfiles.h"
+#include <SDL/SDL.h>
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -51,9 +56,6 @@
 #include "graphics.h"
 
 #include "debug.h"
-#ifdef _WIN32
-#include <shellapi.h>
-#endif
 
 extern personaAnimation * mouseCursorAnim;
 extern spritePalette pastePalette;
@@ -349,7 +351,7 @@ bool initSludge (char * filename) {
 	iconv_t convert = iconv_open ("UTF-8", "CP1252");
 	size_t len1 = strlen(gameNameWin)+1;
 	size_t len2 = 1023;
-#ifdef __linux__
+#if defined __unix__ && !(defined __APPLE__)
 	iconv (convert,(char **) tmp1, &len1, tmp2, &len2);
 #else
 	iconv (convert,(const char **) tmp1, &len1, tmp2, &len2);

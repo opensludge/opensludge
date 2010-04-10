@@ -1,11 +1,11 @@
-#include <stdlib.h>
-#include <stdint.h>
-
-#ifdef __linux__
+#if defined __unix__ && !(defined __APPLE__)
 #include <png.h>
 #else
 #include <libpng/png.h>
 #endif
+
+#include <stdlib.h>
+#include <stdint.h>
 
 #include "GLee.h"
 

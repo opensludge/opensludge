@@ -1,3 +1,11 @@
+#if defined __unix__ && !(defined __APPLE__)
+#include <getopt.h>
+#endif
+
+#ifdef _WIN32
+#include "winstuff.h"
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -12,16 +20,10 @@
 #include "GLee.h"
 #include <SDL/SDL.h>
 #include <SDL/SDL_syswm.h>
-#ifdef __linux__
-#include <getopt.h>
-#endif
 
 // For unicode conversion
 #include <iconv.h>
 
-#ifdef _WIN32
-#include "winstuff.h"
-#endif
 #include "platform-dependent.h"
 #include "language.h"
 #include "stringy.h"
@@ -147,7 +149,7 @@ int main(int argc, char *argv[]) try
 
 	if (argc > 1) {
 		sludgeFile = argv[argc - 1];
-#ifdef __linux__
+#if defined __unix__ && !(defined __APPLE__)
 		cmdlineSettings.fullscreenSet = false;
 		cmdlineSettings.languageSet = false;
 		while (1)
@@ -211,7 +213,7 @@ int main(int argc, char *argv[]) try
 		else
 			sludgeFile = grabFileName ();
 	}
-#ifdef __linux__
+#if defined __unix__ && !(defined __APPLE__)
 	tester = fopen (sludgeFile, "rb");
 	if (tester) {
 		fclose (tester);
@@ -282,7 +284,7 @@ int main(int argc, char *argv[]) try
 	size_t len1 = strlen(gameNameWin)+1;
 	size_t len2 = 1023;
 	//size_t numChars =
-#ifdef __linux__
+#if defined __unix__ && !(defined __APPLE__)
 	iconv (convert,(char **) tmp1, &len1, tmp2, &len2);
 #else
 	iconv (convert,(const char **) tmp1, &len1, tmp2, &len2);
