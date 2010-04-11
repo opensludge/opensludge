@@ -1,5 +1,5 @@
 #if defined __unix__ && !(defined __APPLE__)
-#include <getopt.h>
+#include "linuxstuff.h"
 #endif
 
 #ifdef _WIN32
@@ -58,7 +58,6 @@ extern inputType input;
 extern variableStack * noStack;
 
 settingsStruct gameSettings;
-cmdlineSettingsStruct cmdlineSettings;
 
 int dialogValue = 0;
 
@@ -115,9 +114,16 @@ void saveHSI (FILE * writer);
 
 extern bool reallyWantToQuit;
 
-#if defined __unix__ && !(defined __APPLE__)
-void printCmdlineUsage();
-#endif
+bool fileExists(char * file) {
+	FILE * tester;
+	bool retval = false;
+	tester = fopen (file, "rb");
+	if (tester) {
+		retval = true;
+		fclose (tester);
+	}
+	return retval;
+}
 
 #ifdef _WIN32
 #undef main
@@ -142,52 +148,6 @@ int main(int argc, char *argv[]) try
 
 	if (argc > 1) {
 		sludgeFile = argv[argc - 1];
-#if defined __unix__ && !(defined __APPLE__)
-		cmdlineSettings.fullscreenSet = false;
-		cmdlineSettings.languageSet = false;
-		while (1)
-		{
-			static struct option long_options[] =
-			{
-				{"fullscreen",	no_argument,	   0, 'f' },
-				{"window",	no_argument,	   0, 'w' },
-				{"language",	required_argument, 0, 'l' },
-				{"help",	no_argument,	   0, 'h' },
-				{0,0,0,0} /* This is a filler for -1 */
-			};
-			int option_index = 0;
-			char c = getopt_long (argc, argv, "f:w:l:h:", long_options, &option_index);
-			if (c == -1) break;
-
-			switch (c) {
-			case 'f':
-				cmdlineSettings.fullscreenSet = true;
-				cmdlineSettings.userFullScreen = true;
-				break;
-			case 'w':
-				cmdlineSettings.fullscreenSet = true;
-				cmdlineSettings.userFullScreen = false;
-				break;
-			case 'l':
-				cmdlineSettings.languageSet = true;
-				cmdlineSettings.languageID = atoi(optarg);
-				break;
-			case 'h':
-			default:
-				printCmdlineUsage();
-				return 0;
-				break;
-			}
-		}
-		tester = fopen (sludgeFile, "rb");
-		if (tester) {
-			fclose (tester);
-		} else {
-			fprintf(stderr, "Game file not found.\n");
-			printCmdlineUsage();
-			return 0;
-		}
-#endif
 	} else {
 		char exeFolder[MAX_PATH+1];
 		strcpy (exeFolder, argv[0]);
@@ -202,18 +162,26 @@ int main(int argc, char *argv[]) try
 		}
 		exeFolder[lastSlash+1] = NULL;
 		sludgeFile = joinStrings (exeFolder, "gamedata.slg");
-		tester = fopen (sludgeFile, "rb");
-
-		if (! tester) {
+		if (! ( fileExists (sludgeFile) ) ) {
 			delete sludgeFile;
 			sludgeFile = joinStrings (exeFolder, "gamedata");
-			tester = fopen (sludgeFile, "rb");
+			if (! ( fileExists (sludgeFile) ) ) {
+				sludgeFile = grabFileName ();
+			}
 		}
-		if (tester)
-			fclose (tester);
-		else
-			sludgeFile = grabFileName ();
 	}
+
+#if defined __unix__ && !(defined __APPLE__)
+	if (! parseCmdlineParameters(argc, argv) ) {
+		printCmdlineUsage();
+		return 0;
+	}
+	if (! fileExists(sludgeFile) ) {
+		fprintf(stderr, "Game file not found.\n");
+		printCmdlineUsage();
+		return 0;
+	}
+#endif
 
 	// The player pressed cancel in the file selection dialogue, 
 	// so we should quit now.

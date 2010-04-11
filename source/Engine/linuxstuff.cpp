@@ -4,14 +4,19 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <sys/stat.h>
+#include <getopt.h>
 
+#include "linuxstuff.h"
 #include "platform-dependent.h"
 #include "allfiles.h"
 #include "language.h" // for settings
 
 extern settingsStruct gameSettings;
-extern cmdlineSettingsStruct cmdlineSettings;
+cmdlineSettingsStruct cmdlineSettings;
 
+/*
+ * Functions declared in linuxstuff.h:
+ */
 
 void printCmdlineUsage() {
 	fprintf(stdout, "OpenSLUDGE engine, usage: sludge-engine [<options>] <gamefile name>\n\n");
@@ -24,9 +29,50 @@ void printCmdlineUsage() {
 	fprintf(stdout, "You can always toggle between fullscreen and windowed mode with \"Alt+Enter\".\n");
 }
 
+bool parseCmdlineParameters(int argc, char *argv[]) {
+	int retval = true;
+	cmdlineSettings.fullscreenSet = false;
+	cmdlineSettings.languageSet = false;
+	while (1)
+	{
+		static struct option long_options[] =
+		{
+			{"fullscreen",	no_argument,	   0, 'f' },
+			{"window",	no_argument,	   0, 'w' },
+			{"language",	required_argument, 0, 'l' },
+			{"help",	no_argument,	   0, 'h' },
+			{0,0,0,0} /* This is a filler for -1 */
+		};
+		int option_index = 0;
+		char c = getopt_long (argc, argv, "f:w:l:h:", long_options, &option_index);
+		if (c == -1) break;
+			switch (c) {
+		case 'f':
+			cmdlineSettings.fullscreenSet = true;
+			cmdlineSettings.userFullScreen = true;
+			break;
+		case 'w':
+			cmdlineSettings.fullscreenSet = true;
+			cmdlineSettings.userFullScreen = false;
+			break;
+		case 'l':
+			cmdlineSettings.languageSet = true;
+			cmdlineSettings.languageID = atoi(optarg);
+			break;
+		case 'h':
+		default:
+			retval = false;
+			break;
+		}
+	}
+	return retval;
+}
+
+/*
+ * Functions declared in platform-dependent.h:
+ */
+
 char * grabFileName () {
-	fprintf(stderr, "Game file not found.\n");
-	printCmdlineUsage();
 	return NULL;
 }
 

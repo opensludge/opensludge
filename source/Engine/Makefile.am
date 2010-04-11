@@ -15,7 +15,7 @@ sludge_engine_SOURCES = \
 	newfatal.h objtypes.h people.h region.h savedata.h shaders.h \
 	sludger.h sound.h sprbanks.h sprites.h sprites_aa.h statusba.h \
 	stringy.h talk.h thumbnail.h timing.h transition.h variable.h \
-	platform-dependent.h zbuffer.h \
+	platform-dependent.h linuxstuff.h zbuffer.h \
 	../CommonCode/functionlist.h \
 	../CommonCode/specialsettings.h \
 	../CommonCode/version.h
