@@ -140,7 +140,6 @@ int main(int argc, char *argv[]) try
 	SDL_Event event;
 
 	char * sludgeFile;
-	FILE * tester;
 
 	time_t t;
 	srand((unsigned) time(&t));
