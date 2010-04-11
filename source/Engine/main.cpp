@@ -115,16 +115,9 @@ void saveHSI (FILE * writer);
 
 extern bool reallyWantToQuit;
 
-void printCmdlineUsage() {
-	fprintf(stdout, "OpenSLUDGE engine, usage: sludge-engine [<options>] <gamefile name>\n\n");
-	fprintf(stdout, "Options:\n");
-	fprintf(stdout, "-f,		--fullscreen		Set display mode to fullscreen\n");
-	fprintf(stdout, "-w,		--window		Set display mode to windowed\n");
-	fprintf(stdout, "-l<number>,	--language=<number>	Set language to <number> (>=0)\n\n");
-	fprintf(stdout, "Options are saved, so you don't need to specify them every time.\n");
-	fprintf(stdout, "If you entered a wrong language number, use -l0 to reset the language to the default setting.\n");
-	fprintf(stdout, "You can always toggle between fullscreen and windowed mode with \"Alt+Enter\".\n");
-}
+#if defined __unix__ && !(defined __APPLE__)
+void printCmdlineUsage();
+#endif
 
 #ifdef _WIN32
 #undef main
@@ -222,17 +215,12 @@ int main(int argc, char *argv[]) try
 			sludgeFile = grabFileName ();
 	}
 
-	if (! sludgeFile) {
-		fprintf(stderr, "Game file not found.\n");
-#if defined __unix__ && !(defined __APPLE__)
-		printCmdlineUsage();
-#endif
-		return 0;
-	}
-
-	setGameFilePath (sludgeFile);
-
+	// The player pressed cancel in the file selection dialogue, 
+	// so we should quit now.
+	if (! sludgeFile) return 0;
+	
 	// OK, so we DO want to start up, then...
+	setGameFilePath (sludgeFile);
 	if (! initSludge (sludgeFile)) return 0;
 
 	/* Initialize the SDL library */
@@ -253,7 +241,6 @@ int main(int argc, char *argv[]) try
 	SDL_putenv("SDL_ENABLEAPPEVENTS=1");
 
 	setupOpenGLStuff();
-
 
 
 #ifdef _WIN32
