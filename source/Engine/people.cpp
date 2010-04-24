@@ -512,7 +512,7 @@ bool doBorderStuff (onScreenPerson * moveMe) {
 	return true;
 }
 
-bool walkMe (onScreenPerson * thisPerson) {
+bool walkMe (onScreenPerson * thisPerson, bool move = true) {
 	float xDiff, yDiff, maxDiff, s;
 
 	for (;;) {
@@ -530,7 +530,8 @@ bool walkMe (onScreenPerson * thisPerson) {
 				setFrames (* thisPerson, ANI_WALK);
 			}
 			s = maxDiff / s;
-			moveAndScale (* thisPerson,
+			if (move)
+				moveAndScale (* thisPerson,
 							  thisPerson -> x + xDiff / s,
 							  thisPerson -> y + yDiff / (s * 2));
 			return true;
@@ -581,7 +582,7 @@ bool makeWalkingPerson (int x, int y, int objNum, loadedFunction * func, int di)
 	}
 
 	doBorderStuff (moveMe);
-	if (walkMe (moveMe) || moveMe -> spinning) {
+	if (walkMe (moveMe, false) || moveMe -> spinning) {
 		moveMe -> continueAfterWalking = func;
 		return true;
 	} else {
@@ -757,13 +758,17 @@ void animatePerson (int obj, personaAnimation * fram) {	// Set a new SINGLE anim
 void animatePerson (int obj, persona * per) {			// Set a new costume
 	onScreenPerson * moveMe = findPerson (obj);
 	if (moveMe) {
-		if (moveMe -> continueAfterWalking) abortFunction (moveMe -> continueAfterWalking);
-		moveMe -> continueAfterWalking = NULL;
-		moveMe -> walking = false;
+	//	if (moveMe -> continueAfterWalking) abortFunction (moveMe -> continueAfterWalking);
+	//	moveMe -> continueAfterWalking = NULL;
+	//	moveMe -> walking = false;
 		moveMe -> spinning = false;
 		moveMe -> myPersona = per;
 		rethinkAngle (moveMe);
-		setFrames (* moveMe, 0);
+		if (moveMe-> walking) {
+			setFrames (* moveMe, ANI_WALK);
+		} else {
+			setFrames (* moveMe, ANI_STAND);
+		}
 	}
 }
 
