@@ -292,9 +292,9 @@ void hardScroll (int distance) {
 			glEnable (GL_TEXTURE_2D);
 			glBegin(GL_QUADS);
 			glTexCoord2f(0.0, 0.0); glVertex3f(-xoffset, -distance-yoffset, 0.0);
-			glTexCoord2f(backdropTexW, 0.0); glVertex3f(sceneWidth-1-xoffset, -distance-yoffset, 0.0);
-			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(sceneWidth-1-xoffset, sceneHeight-1-distance-yoffset, 0.0);
-			glTexCoord2f(0.0, backdropTexH); glVertex3f(-xoffset, sceneHeight-1-distance-yoffset, 0.0);
+			glTexCoord2f(backdropTexW, 0.0); glVertex3f(sceneWidth-xoffset, -distance-yoffset, 0.0);
+			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(sceneWidth-xoffset, sceneHeight-distance-yoffset, 0.0);
+			glTexCoord2f(0.0, backdropTexH); glVertex3f(-xoffset, sceneHeight-distance-yoffset, 0.0);
 			glEnd();
 
 

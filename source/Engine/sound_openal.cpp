@@ -308,7 +308,7 @@ void playStream (int a, bool isMOD, bool loopy) {
 }
 
 char * loadEntireFileToMemory (FILE * inputFile, uint32_t size) {
-	fprintf (stderr, "%i ", size);
+//	fprintf (stderr, "%i ", size);
 	char * allData = new char[size];
 	if (! allData) return NULL;
 	fread (allData, size, 1, inputFile);
