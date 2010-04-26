@@ -21,6 +21,7 @@ extern int specialSettings;
 extern settingsStruct gameSettings;
 
 extern GLuint backdropTextureName;
+extern GLuint snapshotTextureName;
 extern int sceneWidth, sceneHeight;
 extern zBufferData zBuffer;
 extern int lightMapNumber;
@@ -71,6 +72,8 @@ bool runningFullscreen = false;
 // Used for switching, and for initial window creation.
 void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 
+	GLubyte *snapTexture;
+	
 	Uint32 videoflags = 0;
 
 	if (! desktopW) {
@@ -98,6 +101,18 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
 			glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture);
+		}
+		if (snapshotTextureName) {
+			int picWidth = winWidth;
+			int picHeight = winHeight;
+			if (! NPOT_textures) {
+				picWidth = getNextPOT(picWidth);
+				picHeight = getNextPOT(picHeight);
+			}
+			snapTexture = new GLubyte [picHeight*picWidth*4];
+			
+			glBindTexture (GL_TEXTURE_2D, snapshotTextureName);
+			glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, snapTexture);
 		}
 	}
 
@@ -249,7 +264,25 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 			glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, sceneWidth, sceneHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture);
 
 		}
-
+		if (snapshotTextureName) {
+			if (!glIsTexture(snapshotTextureName)) {
+				glGenTextures (1, &snapshotTextureName);
+			}
+			glBindTexture (GL_TEXTURE_2D, snapshotTextureName);
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+			if (maxAntiAliasSettings.useMe) {
+				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); //GL_NEAREST
+				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			} else {
+				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			}
+			// Restore the backdrop
+			glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, winWidth, winHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, snapTexture);
+			delete snapTexture;
+		}
+		
 		reloadSpriteTextures ();
 		reloadParallaxTextures ();
 		zBuffer.texName = 0;

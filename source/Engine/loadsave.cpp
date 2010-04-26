@@ -38,8 +38,7 @@ extern byte fontTable[256];							// "	"	"
 extern spriteBank theFont;							// "	"	"
 extern FILETIME fileTime;							// In sludger.cpp
 extern int speechMode;								// "	"	"
-extern GLuint snapshotTextureName;					// In backdrop.cpp
-extern int lightMapNumber;							// "	"	"
+extern int lightMapNumber;							// In backdrop.cpp
 extern int sceneWidth, sceneHeight;					// "	"	"
 extern int cameraX, cameraY;						// "	"	"
 extern unsigned char brightnessLevel;				// "	"	"
@@ -477,12 +476,7 @@ bool saveGame (char * fname) {
 
 	fputc (languageNum, fp);	// Selected language
 
-	if (snapshotTextureName) {
-		fputc (1, fp);				// 1 for snapshot follows
-		saveCoreHSI (fp, snapshotTextureName, sceneWidth, sceneHeight);
-	} else {
-		fputc (0, fp);
-	}
+	saveSnapshot(fp);
 
 	fclose (fp);
 	clearStackLib ();

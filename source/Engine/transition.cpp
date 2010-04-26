@@ -9,6 +9,8 @@
 extern GLuint snapshotTextureName;
 extern unsigned char brightnessLevel;
 
+extern double snapTexW, snapTexH;
+
 unsigned char fadeMode = 2;
 
 
@@ -48,9 +50,9 @@ void transitionCrossFader () {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
 	glBegin(GL_QUADS);			
-	glTexCoord2f(0.0, backdropTexH); glVertex3f(0, winHeight, 0.0);
-	glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(winWidth, winHeight, 0.0);
-	glTexCoord2f(backdropTexW, 0.0); glVertex3f(winWidth, 0, 0.0);
+	glTexCoord2f(0.0, snapTexH); glVertex3f(0, winHeight, 0.0);
+	glTexCoord2f(snapTexW, snapTexH); glVertex3f(winWidth, winHeight, 0.0);
+	glTexCoord2f(snapTexW, 0.0); glVertex3f(winWidth, 0, 0.0);
 	glTexCoord2f(0.0, 0.0); glVertex3f(0, 0, 0.0);
 	glEnd();
 	glDisable(GL_BLEND);
@@ -68,9 +70,9 @@ void transitionSnapshotBox () {
 	float yScale = (float) brightnessLevel * winHeight / 510.f;
 	
 	glBegin(GL_QUADS);			
-	glTexCoord2f(0.0, backdropTexH); glVertex3f(xScale, winHeight-yScale, 0.0);
-	glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(winWidth-xScale, winHeight-yScale, 0.0);
-	glTexCoord2f(backdropTexW, 0.0); glVertex3f(winWidth-xScale, yScale, 0.0);
+	glTexCoord2f(0.0, snapTexH); glVertex3f(xScale, winHeight-yScale, 0.0);
+	glTexCoord2f(snapTexW, snapTexH); glVertex3f(winWidth-xScale, winHeight-yScale, 0.0);
+	glTexCoord2f(snapTexW, 0.0); glVertex3f(winWidth-xScale, yScale, 0.0);
 	glTexCoord2f(0.0, 0.0); glVertex3f(xScale, yScale, 0.0);
 	glEnd();
 

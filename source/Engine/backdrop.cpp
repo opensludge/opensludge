@@ -22,6 +22,9 @@
 #include "graphics.h"
 #include "line.h"
 #include "sprites_aa.h"
+#include "people.h"
+#include "talk.h"
+#include "statusba.h"
 
 #include "version.h"
 
@@ -37,6 +40,8 @@ double backdropTexH = 1.0;
 texture lightMap;
 
 GLuint snapshotTextureName = 0;
+double snapTexW = 1.0;
+double snapTexH = 1.0;
 
 int lightMapMode = LIGHTMAPMODE_PIXEL;
 
@@ -55,20 +60,72 @@ void nosnapshot () {
 	snapshotTextureName = 0;
 }
 
-
+void saveSnapshot(FILE * fp) {
+	if (snapshotTextureName) {
+		fputc (1, fp);				// 1 for snapshot follows
+		saveCoreHSI (fp, snapshotTextureName, winWidth, winHeight);
+	} else {
+		fputc (0, fp);
+	}
+}
+	
 bool snapshot () {
+	
 	nosnapshot ();
 	if (! freeze ()) return false;
-	snapshotTextureName = backdropTextureName;
+	
+	glEnable (GL_TEXTURE_2D);
+	setPixelCoords (true);
+
+	
+	glGenTextures (1, &snapshotTextureName);
+	int w = winWidth; 
+	int h = winHeight;
+	if (! NPOT_textures) {
+		w = getNextPOT(winWidth);
+		h = getNextPOT(winHeight);
+		snapTexW = ((double)winWidth) / w;
+		snapTexH = ((double)winHeight) / h;
+	}
+	
+	glBindTexture(GL_TEXTURE_2D, snapshotTextureName);
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+
+	// Render scene
+	glDepthMask (GL_TRUE);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear The Screen
+	glDepthMask (GL_FALSE);
+	
+	drawBackDrop ();				// Draw the room
+	drawZBuffer(cameraX, cameraY, false);
+	
+	glEnable(GL_DEPTH_TEST);
+	drawPeople ();					// Then add any moving characters...
+	glDisable(GL_DEPTH_TEST);
+	viewSpeech ();					// ...and anything being said
+	drawStatusBar ();
+	
+	
+	// Copy Our ViewPort To The Texture
+	glBindTexture(GL_TEXTURE_2D, snapshotTextureName);	
+	glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, viewportOffsetX, viewportOffsetY, winWidth, winHeight);
+
+	setPixelCoords (false);
+	
 	unfreeze (false);
 	return true;
 }
 
 bool restoreSnapshot (FILE * fp) {
-	int realPicWidth, realPicHeight;
-	int picWidth = realPicWidth = get2bytes (fp);
-	int picHeight = realPicHeight = get2bytes (fp);
-
+	int picWidth = get2bytes (fp);
+	int picHeight = get2bytes (fp);
+	
+	if ((picWidth != winWidth) || (picHeight != winHeight))
+		return false;
 
 	int t1, t2, n;
 	unsigned short c;
@@ -77,12 +134,14 @@ bool restoreSnapshot (FILE * fp) {
 	if (! NPOT_textures) {
 		picWidth = getNextPOT(picWidth);
 		picHeight = getNextPOT(picHeight);
+		snapTexW = ((double)winWidth) / picWidth;
+		snapTexH = ((double)winHeight) / picHeight;
 	}
 	GLubyte * snapshotTexture = new GLubyte [picHeight*picWidth*4];
 
-	for (t2 = 0; t2 < realPicHeight; t2 ++) {
+	for (t2 = 0; t2 < winHeight; t2 ++) {
 		t1 = 0;
-		while (t1 < realPicWidth) {
+		while (t1 < winHeight) {
 			c = (unsigned short) get2bytes (fp);
 			if (c & 32) {
 				n = fgetc (fp) + 1;
@@ -108,7 +167,7 @@ bool restoreSnapshot (FILE * fp) {
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, snapshotTexture);
-
+	
 	delete snapshotTexture;
 	snapshotTexture = NULL;
 
@@ -1387,7 +1446,7 @@ void saveCorePNG  (FILE * writer, GLuint texture, int w, int h) {
 	unsigned char * row_pointers[h];
 
 	for (int i = 0; i < h; i++) {
-		row_pointers[i] = image + 3*i*w;
+		row_pointers[i] = image + 3*i*texw;
 	}
 
 	png_set_rows(png_ptr, info_ptr, row_pointers);
@@ -1416,7 +1475,7 @@ void saveCoreHSI (FILE * writer, GLuint texture, int w, int h) {
 	put2bytes (h, writer);
 
 	for (y = 0; y < h; y ++) {
-		fromHere = image +(y*w);
+		fromHere = image +(y*texw);
 		x = 0;
 		while (x < w) {
 			lookPointer = fromHere + 1;

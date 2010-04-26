@@ -57,4 +57,5 @@ void reloadParallaxTextures ();
 
 void nosnapshot ();
 bool snapshot ();
+void saveSnapshot(FILE * fp);
 bool restoreSnapshot (FILE * fp);
