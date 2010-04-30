@@ -742,19 +742,21 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 		if (lightMapMode == LIGHTMAPMODE_HOTSPOT) {
 			int lx=x+cameraX;
 			int ly=y+cameraY;
-			if (lx<0 || ly<0 || lx>=sceneWidth || ly>=sceneHeight) {
-				curLight[0] = curLight[1] = curLight[2] = 255;
+			
+			if (lx<0) lx = 0;
+			else if (lx>=sceneWidth) lx = sceneWidth-1;
+			if (ly<0) ly = 0;
+			else if (ly>=sceneHeight) ly = sceneHeight-1;
+			
+			GLubyte *target;
+			if (! NPOT_textures) {
+				target = lightMap.data + (ly*getNextPOT(sceneWidth) + lx)*4;
 			} else {
-				GLubyte *target;
-				if (! NPOT_textures) {
-					target = lightMap.data + (ly*getNextPOT(sceneWidth) + lx)*4;
-				} else {
-					target = lightMap.data + (ly*sceneWidth + lx)*4;
-				}
-				curLight[0] = target[0];
-				curLight[1] = target[1];
-				curLight[2] = target[2];
+				target = lightMap.data + (ly*sceneWidth + lx)*4;
 			}
+			curLight[0] = target[0];
+			curLight[1] = target[1];
+			curLight[2] = target[2];
 		} else if (lightMapMode == LIGHTMAPMODE_PIXEL) {
 			curLight[0] = curLight[1] = curLight[2] = 255;
 			glActiveTexture(GL_TEXTURE1);

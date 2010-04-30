@@ -1117,7 +1117,7 @@ void pasteSprite (sprite * single, const spritePalette *fontPal, bool showBox) {
 	
 	// Draw the sprite
 	glBindTexture (GL_TEXTURE_2D, fontPal->tex_names[single->texNum]);
-			
+				
 	glBegin(GL_QUADS);			
 	glTexCoord2f(tx1, ty1);	glVertex3f(x1, -y1, 0.0);
 	glTexCoord2f(tx2, ty1);	glVertex3f(x1+single->width, -y1, 0.0);

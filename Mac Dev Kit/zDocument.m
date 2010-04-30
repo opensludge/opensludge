@@ -116,13 +116,13 @@
 	else
 		[bufferYTextField setEnabled:NO];
 	buffer = i;
-	[self setBufferY: backdrop.sprites[i].tex_x];
+	[self setBufferY: backdrop.sprites[i].special];
 }
 
 - (void)setBufferY:(int)i
 {
-	if (buffer && i != backdrop.sprites[buffer].tex_x) {
-		backdrop.sprites[buffer].tex_x = i;
+	if (buffer && i != backdrop.sprites[buffer].special) {
+		backdrop.sprites[buffer].special = i;
 		[self updateChangeCount: NSChangeDone];
 	}
 	[zView setNeedsDisplay:YES];
@@ -273,6 +273,7 @@
 	int i;
 	int b = [doc buffer];
 	
+	
 	if (backdrop->total>1)
 		for (i=1; i< backdrop->total; i++) {
 			if (i == b) {
@@ -300,8 +301,8 @@
 		glColor4f(0.0f, 1.0f, 0.0f, 0.7f);
 		glBegin(GL_LINES);
 		{
-			glVertex3f(  0.0,  backdrop->sprites[b].tex_x, 0.0);
-			glVertex3f(  backdrop->sprites[0].width,  backdrop->sprites[b].tex_x, 0.0);
+			glVertex3f(  0.0,  backdrop->sprites[b].special, 0.0);
+			glVertex3f(  backdrop->sprites[0].width,  backdrop->sprites[b].special, 0.0);
 		}
 		glEnd();
 	}

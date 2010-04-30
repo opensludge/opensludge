@@ -82,9 +82,12 @@ bool loadZBufferFromTGA (const char * fileName, spriteBank *loadhere) {
 		loadhere->sprites[n].height = -imageHeader.height;
 		loadhere->sprites[n].xhot = 0;
 		loadhere->sprites[n].yhot = 0;
-		loadhere->sprites[n].tex_x = cutoff[n];
+		loadhere->sprites[n].special = cutoff[n];
+		loadhere->sprites[n].tex_x = 0;
 		loadhere->sprites[n].texNum = n;
 		loadhere->myPalette.tex_names[n] = 0;
+		loadhere->myPalette.tex_h[n] = imageHeader.height;
+		loadhere->myPalette.tex_w[n] = imageHeader.width;
 		
 		if (n)
 			loadhere->sprites[n].data = new unsigned char [imageHeader.width * imageHeader.height];
@@ -138,9 +141,12 @@ bool loadZBufferFile (const char * name, spriteBank *loadhere) {
 		loadhere->sprites[n].height = -zbHeight;
 		loadhere->sprites[n].xhot = 0;
 		loadhere->sprites[n].yhot = 0;
-		loadhere->sprites[n].tex_x = get2bytes (fp);
+		loadhere->sprites[n].tex_x = 0;
+		loadhere->sprites[n].special = get2bytes (fp);
 		loadhere->sprites[n].texNum = n;
 		loadhere->myPalette.tex_names[n] = 0;
+		loadhere->myPalette.tex_h[n] = zbHeight;
+		loadhere->myPalette.tex_w[n] = zbWidth;
 		
 		loadhere->sprites[n].data = new unsigned char [zbWidth * zbHeight];
 	}

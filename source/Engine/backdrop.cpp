@@ -670,13 +670,12 @@ bool loadLightMap (int v) {
 
 	}
 
-
-
 	if (lightMapMode == LIGHTMAPMODE_HOTSPOT) {
 		if (lightMap.w != sceneWidth || lightMap.h != sceneHeight) {
 			return fatal ("Light map width and height don't match scene width and height. That is required for lightmaps in HOTSPOT mode.");
 		}
 	}
+ 
 	if (! NPOT_textures) {
 		newPicWidth = getNextPOT(lightMap.w);
 		newPicHeight = getNextPOT(lightMap.h);

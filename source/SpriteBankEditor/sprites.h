@@ -20,6 +20,7 @@ extern "C" {
 struct sprite {
 	int width, height, xhot, yhot;
 	int tex_x;
+	int special;
 	int texNum;
 	unsigned char * data;
 };
