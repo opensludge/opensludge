@@ -697,6 +697,8 @@ void deleteSprite (int i, struct spriteBank *sprites) {
 			newsprites [i2].texNum = i2;//sprites->sprites[i1].texNum;
 			newsprites [i2].data = sprites->sprites[i1].data;
 			sprites->myPalette.tex_names[i2] = sprites->myPalette.tex_names[i1];
+			sprites->myPalette.tex_w[i2] = sprites->myPalette.tex_w[i1];
+			sprites->myPalette.tex_h[i2] = sprites->myPalette.tex_h[i1];
 			i2++;
 		} else {
 			if (sprites->sprites[i1].data) {
@@ -709,6 +711,7 @@ void deleteSprite (int i, struct spriteBank *sprites) {
 	delete sprites->sprites;
 	sprites->sprites = newsprites;
 	sprites->total--;
+	
 }
 
 unsigned char findClosestPal (spritePalette *searchIn, unsigned char r, unsigned char g, unsigned char b) {
@@ -834,6 +837,8 @@ bool loadSpriteFromTGA (const char * file, struct spriteBank *sprites, int index
 	sprites->sprites[index].width = imageHeader.width;
 	sprites->sprites[index].height = imageHeader.height;
 	
+	if (sprites->type>=2) {
+	
 	int n, r, g, b;
 	int width = imageHeader.width;
 	int height = imageHeader.height;
@@ -876,6 +881,7 @@ bool loadSpriteFromTGA (const char * file, struct spriteBank *sprites, int index
 			}
 		}
 	}	
+	}
 	
 	loadSpriteTexture (sprites, index);
 	return true;
@@ -1000,6 +1006,67 @@ bool loadSpriteFromPNG (const char * file, struct spriteBank *sprites, int index
 	loadSpriteTexture (sprites, index);
 	return true;
 }
+
+void doFontification (struct spriteBank *sprites, unsigned int fontifySpaceWidth) {
+	
+	int which = 1;
+	int fromColumn = 0;
+	int yhot = (sprites->sprites[0].height * 3) / 4;
+	
+	for (int thisColumn = 0; thisColumn < sprites->sprites[0].width; thisColumn ++) {
+		int y;
+		
+		// Find out if the column's empty...
+		for (y = 0; y < sprites->sprites[0].height; y ++) {
+			if (sprites->sprites[0].data[y*sprites->sprites[0].width*4 + thisColumn*4 + 3]) break;
+		}
+		
+		int width = (thisColumn - fromColumn);
+		
+		// So was it?
+		if (y == sprites->sprites[0].height || width == 255) {
+			
+			// Make sure we didn't find a blank column last time
+			if (width) {
+				
+				// Reserve memory
+				GLubyte * toHere = (GLubyte *) new GLubyte [width * sprites->sprites[0].height * 4];
+				GLubyte * dataIfOK = toHere;
+				if (toHere) {
+					
+					for (y = 0; y < sprites->sprites[0].height; y ++) {
+						GLubyte * from = sprites->sprites[0].data + 4*sprites->sprites[0].width*y + fromColumn*4;
+						for (int x = 0; x < width*4; x ++) {
+							* (toHere ++) = from[x];
+						}
+					}
+					
+					addSprite (which, sprites);
+					sprites->sprites[which].width = width;
+					sprites->sprites[which].height = sprites->sprites[0].height;
+					sprites->sprites[which].yhot = yhot;
+					delete sprites->sprites[which].data;
+					sprites->sprites[which].data = dataIfOK;
+					which ++;
+				}					
+			}
+			fromColumn = thisColumn + 1;
+		}
+	}
+	
+	addSprite (which, sprites);
+	sprites->sprites[which].width = fontifySpaceWidth;
+	sprites->sprites[which].height = 1;
+	sprites->sprites[which].yhot = 0;
+	delete sprites->sprites[which].data;
+	sprites->sprites[which].data = new GLubyte [fontifySpaceWidth * 4];
+	memset(sprites->sprites[which].data, 0, fontifySpaceWidth * 4);
+
+	deleteSprite (0, sprites);
+	
+	loadSpriteTextures (sprites);	
+}
+
 
 bool convertSpriteBank8to32 (struct spriteBank *sprites) {
 	if (! sprites->total) return true;

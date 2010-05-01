@@ -260,8 +260,6 @@
 		2F7EA45D0FFCEBE6005E5C36 /* WINCOMP.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = WINCOMP.CPP; sourceTree = "<group>"; };
 		2F7EA4600FFCEBE6005E5C36 /* WINTERFA.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; path = WINTERFA.H; sourceTree = "<group>"; };
 		2F7EA4610FFCEBE6005E5C36 /* wintext.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = wintext.cpp; sourceTree = "<group>"; };
-		2F7EA4640FFCEBE6005E5C36 /* fontify.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = fontify.cpp; sourceTree = "<group>"; };
-		2F7EA4650FFCEBE6005E5C36 /* fontify.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = fontify.h; sourceTree = "<group>"; };
 		2F7EA4700FFCEBE6005E5C36 /* SPLITTER.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SPLITTER.CPP; path = ../SpriteBankEditor/SPLITTER.CPP; sourceTree = "<group>"; };
 		2F7EA4720FFCEBE6005E5C36 /* SPRITES.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = SPRITES.CPP; sourceTree = "<group>"; };
 		2F7EA4730FFCEBE6005E5C36 /* sprites.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = sprites.h; sourceTree = "<group>"; };
@@ -549,8 +547,6 @@
 		2F7EA4630FFCEBE6005E5C36 /* SpriteBankEditor */ = {
 			isa = PBXGroup;
 			children = (
-				2F7EA4640FFCEBE6005E5C36 /* fontify.cpp */,
-				2F7EA4650FFCEBE6005E5C36 /* fontify.h */,
 				2F7EA4720FFCEBE6005E5C36 /* SPRITES.CPP */,
 				2F7EA4730FFCEBE6005E5C36 /* sprites.h */,
 			);

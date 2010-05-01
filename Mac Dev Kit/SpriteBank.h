@@ -43,6 +43,10 @@
 	struct spriteBank sprites;
 	
 	int hotSpotX, hotSpotY;
+
+	IBOutlet NSPanel *fontifyWindow;
+	IBOutlet NSButton *fontifyOK;
+	int fontifySpaceWidth;
 }
 - (struct spriteBank *) getSprites;
 
@@ -56,6 +60,9 @@
 - (IBAction)replaceSprite:(id)sender;
 - (IBAction)deleteSprite:(id)sender;
 - (IBAction)exportSprite:(id)sender;
+
+-(void) fontifyMe;
+- (IBAction)doFontify:(id)sender;
 
 @end
 

@@ -8,6 +8,7 @@
 
 #import "SpriteBank.h"
 
+extern NSModalSession session;
 
 
 @implementation SpriteBank
@@ -190,6 +191,70 @@
 	}
 	sprites.type = 2;	
 }
+
+
+- (int) fontifySpaceWidth
+{
+	return fontifySpaceWidth;
+}
+- (void) setFontifySpaceWidth:(int)i
+{
+	fontifySpaceWidth = i;
+}
+
+-(void) fontifyMe
+{
+	
+	[self setFontifySpaceWidth: 10];
+	sprites.type = 2;
+	[self setPalButton];
+	
+	session = [NSApp beginModalSessionForWindow:fontifyWindow];
+
+}
+
+- (IBAction)doFontify:(id)sender
+{
+	[fontifyWindow close];
+	[NSApp endModalSession:session];
+	
+	NSString *path = nil;
+	NSOpenPanel *openPanel = [ NSOpenPanel openPanel ];
+	[openPanel setTitle:@"Load image as font"];
+	NSArray *files = [NSArray arrayWithObjects:@"tga", @"png", nil];
+	
+	if ( [ openPanel runModalForDirectory:nil file:nil types:files] ) {
+		path = [ openPanel filename ];
+		addSprite ([spriteView spriteIndex], &sprites);
+		bool success = 0;
+		
+		if ([[path pathExtension] isEqualToString: @"png"]) {
+			success = loadSpriteFromPNG ((char *) [path UTF8String], &sprites, [spriteView spriteIndex]);
+		} else if ([[path pathExtension] isEqualToString: @"tga"]) {
+			success = loadSpriteFromTGA ((char *) [path UTF8String], &sprites, [spriteView spriteIndex]);
+		} else {
+			errorBox ("Can't load image", "I don't recognise the file type. TGA and PNG are the supported file types.");
+		}
+		if (! success) {
+			deleteSprite ([spriteView spriteIndex], &sprites);
+		} else {
+			
+			// Now it's time to fontify it!
+			doFontification(&sprites, fontifySpaceWidth);
+			
+			[self setHotSpotX: sprites.sprites[[spriteView spriteIndex]].xhot];
+			[self setHotSpotY: sprites.sprites[[spriteView spriteIndex]].yhot];
+			[self updateChangeCount: NSChangeDone];
+			[spriteIndexSlider setEnabled:YES];
+			[[palMode cellWithTag: 0] setEnabled:NO];
+			[[palMode cellWithTag: 1] setEnabled:NO];
+		}
+		[spriteView setSpriteIndex:[spriteView spriteIndex]];
+		[spriteView setNeedsDisplay:YES];
+	}	
+	
+}
+
 
 - (IBAction)insertSprite:(id)sender
 {

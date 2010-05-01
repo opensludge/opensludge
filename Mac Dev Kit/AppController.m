@@ -69,10 +69,20 @@ AppController *aC;
 {
 	NSDocumentController *docControl = [NSDocumentController sharedDocumentController];
 	NSError **err;
-	NSDocument *doc = [docControl makeUntitledDocumentOfType:@"SLUDGE Sprite Bank" error:err];
+	SpriteBank *doc = [docControl makeUntitledDocumentOfType:@"SLUDGE Sprite Bank" error:err];
 	[docControl addDocument: doc];
 	[doc makeWindowControllers];
 	[doc showWindows];
+}
+- (IBAction)spriteBankFontify:(id)sender
+{
+	NSDocumentController *docControl = [NSDocumentController sharedDocumentController];
+	NSError **err;
+	SpriteBank *doc = [docControl makeUntitledDocumentOfType:@"SLUDGE Sprite Bank" error:err];
+	[docControl addDocument: doc];
+	[doc makeWindowControllers];
+	[doc showWindows];
+	[doc fontifyMe];
 }
 - (IBAction)floorNew:(id)sender
 {
