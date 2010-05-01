@@ -1024,7 +1024,7 @@ void doFontification (struct spriteBank *sprites, unsigned int fontifySpaceWidth
 		int width = (thisColumn - fromColumn);
 		
 		// So was it?
-		if (y == sprites->sprites[0].height || width == 255) {
+		if (y == sprites->sprites[0].height || (thisColumn == sprites->sprites[0].width - 1)) {
 			
 			// Make sure we didn't find a blank column last time
 			if (width) {
