@@ -27,11 +27,11 @@
 	<GL/glx.h>
 	<stddef.h>
 
-1270301047 source:c:\programmering\sludge\source\engine\backdrop.cpp
+1272711184 source:c:\programmering\sludge\source\engine\backdrop.cpp
+	<png.h>
+	<libpng/png.h>
 	<stdlib.h>
 	<stdint.h>
-	<libpng12/png.h>
-	<libpng/png.h>
 	"GLee.h"
 	"allfiles.h"
 	"newfatal.h"
@@ -45,12 +45,16 @@
 	"graphics.h"
 	"line.h"
 	"sprites_aa.h"
+	"people.h"
+	"talk.h"
+	"statusba.h"
 	"version.h"
 
 1268255837 c:\programmering\sludge\source\engine\allfiles.h
 	<stdio.h>
 
-1270243961 c:\programmering\sludge\source\engine\winstuff.h
+1272711875 c:\programmering\sludge\source\engine\winstuff.h
+	<windows.h>
 
 1268255837 c:\programmering\sludge\source\engine\newfatal.h
 	"errors.h"
@@ -63,7 +67,7 @@
 
 1268255837 c:\programmering\sludge\source\engine\cursors.h
 
-1268255838 c:\programmering\sludge\source\engine\backdrop.h
+1272711184 c:\programmering\sludge\source\engine\backdrop.h
 	"variable.h"
 	"graphics.h"
 	"GLee.h"
@@ -112,7 +116,7 @@
 
 1258810534 c:\programmering\sludge\source\engine\CSLUDGE.H
 
-1268255837 c:\programmering\sludge\source\engine\language.h
+1272711184 c:\programmering\sludge\source\engine\language.h
 
 1268255838 source:c:\programmering\sludge\source\engine\fonttext.cpp
 	<stdint.h>
@@ -165,7 +169,7 @@
 	"moreio.h"
 	"newfatal.h"
 
-1269774153 source:c:\programmering\sludge\source\engine\loadsave.cpp
+1272711184 source:c:\programmering\sludge\source\engine\loadsave.cpp
 	"allfiles.h"
 	"sprites.h"
 	"newfatal.h"
@@ -198,7 +202,7 @@
 
 1268255838 c:\programmering\sludge\source\engine\bg_effects.h
 
-1270243960 source:c:\programmering\sludge\source\engine\moreio.cpp
+1272711184 source:c:\programmering\sludge\source\engine\moreio.cpp
 	<string.h>
 	<stdint.h>
 	"allfiles.h"
@@ -209,9 +213,8 @@
 
 1268255838 c:\programmering\sludge\source\engine\stringy.h
 
-1270243960 source:c:\programmering\sludge\source\engine\newfatal.cpp
+1270908313 source:c:\programmering\sludge\source\engine\newfatal.cpp
 	<SDL/SDL.h>
-	"SDL.h"
 	"platform-dependent.h"
 	"allfiles.h"
 	"version.h"
@@ -425,12 +428,11 @@
 	"moreio.h"
 	"backdrop.h"
 
-1270301197 source:c:\programmering\sludge\source\engine\sludger.cpp
+1272711394 source:c:\programmering\sludge\source\engine\sludger.cpp
+	<png.h>
+	<libpng/png.h>
 	"allfiles.h"
 	<SDL/SDL.h>
-	<libpng12/png.h>
-	"SDL.h"
-	<libpng/png.h>
 	<sys/types.h>
 	<sys/stat.h>
 	<iconv.h>
@@ -468,7 +470,6 @@
 	"specialsettings.h"
 	"graphics.h"
 	"debug.h"
-	<shellapi.h>
 
 1269774153 c:\programmering\sludge\source\engine\builtin.h
 
@@ -485,8 +486,8 @@
 	"newfatal.h"
 	"debug.h"
 
-1270301047 source:c:\programmering\sludge\source\engine\sprites.cpp
-	<libpng12/png.h>
+1272711184 source:c:\programmering\sludge\source\engine\sprites.cpp
+	<png.h>
 	<libpng/png.h>
 	"allfiles.h"
 	"fileset.h"
@@ -561,8 +562,9 @@
 	"moreio.h"
 	"windows.h"
 
-1270301170 source:c:\programmering\sludge\source\engine\winstuff.cpp
+1272711815 source:c:\programmering\sludge\source\engine\winstuff.cpp
 	<windows.h>
+	<shellapi.h>
 	"allfiles.h"
 	"winstuff.h"
 	"platform-dependent.h"
@@ -596,11 +598,10 @@
 	"newfatal.h"
 	"moreio.h"
 
-1270301047 source:c:\programmering\sludge\source\engine\builtin.cpp
+1272711184 source:c:\programmering\sludge\source\engine\builtin.cpp
 	"debug.h"
 	"allfiles.h"
 	<SDL/SDL.h>
-	"SDL.h"
 	<stdlib.h>
 	<string.h>
 	<unistd.h>
@@ -658,9 +659,8 @@
 	"sprites_aa.h"
 	"allfiles.h"
 
-1270243960 source:c:\programmering\sludge\source\engine\graphics.cpp
+1272711184 source:c:\programmering\sludge\source\engine\graphics.cpp
 	<SDL/SDL.h>
-	<SDL.h>
 	"platform-dependent.h"
 	"specialsettings.h"
 	"graphics.h"
@@ -680,7 +680,9 @@
 	"language.h"
 	"version.h"
 
-1270301047 source:c:\programmering\sludge\source\engine\main.cpp
+1272711184 source:c:\programmering\sludge\source\engine\main.cpp
+	"linuxstuff.h"
+	"winstuff.h"
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -693,11 +695,7 @@
 	"GLee.h"
 	<SDL/SDL.h>
 	<SDL/SDL_syswm.h>
-	<getopt.h>
-	<SDL.h>
-	<SDL_syswm.h>
 	<iconv.h>
-	"winstuff.h"
 	"platform-dependent.h"
 	"language.h"
 	"stringy.h"
@@ -735,7 +733,7 @@
 	<stdlib.h>
 	"allfiles.h"
 
-1270243960 source:c:\programmering\sludge\source\engine\people.cpp
+1272711184 source:c:\programmering\sludge\source\engine\people.cpp
 	"allfiles.h"
 	<math.h>
 	<stdlib.h>
@@ -792,11 +790,10 @@
 	"sprites_aa.h"
 	"newfatal.h"
 
-1268255838 source:c:\programmering\sludge\source\engine\timing.cpp
+1270908313 source:c:\programmering\sludge\source\engine\timing.cpp
 	<SDL/SDL.h>
-	"SDL.h"
 
-1268255837 source:c:\programmering\sludge\source\engine\transition.cpp
+1272711184 source:c:\programmering\sludge\source\engine\transition.cpp
 	<stdint.h>
 	<string.h>
 	"allfiles.h"
@@ -824,12 +821,12 @@
 1268255837 c:\programmering\sludge\source\engine\shaders.h
 	"GLee.h"
 
-1268255837 source:c:\programmering\sludge\source\engine\shaders.cpp
+1272711184 source:c:\programmering\sludge\source\engine\shaders.cpp
 	<stdio.h>
 	"shaders.h"
 	<GL\glu.h>
-	<GL/glu.h>
 	<OpenGL/glu.h>
+	<GL/glu.h>
 
 1268255861 c:\programmering\sludge\source\commoncode\tga.h
 	<stdio.h>
@@ -841,7 +838,7 @@
 
 1268255861 c:\programmering\sludge\source\commoncode\specialsettings.h
 
-1270243960 source:c:\programmering\sludge\source\engine\sound_openal.cpp
+1272711184 source:c:\programmering\sludge\source\engine\sound_openal.cpp
 	<stdint.h>
 	<stdio.h>
 	"AL/alure.h"
@@ -865,5 +862,201 @@
 
 1176476568 c:\program files\openal 1.1 sdk\include\alc.h
 
-1270301047 c:\programmering\sludge\source\engine\platform-dependent.h
+1272711184 c:\programmering\sludge\source\engine\platform-dependent.h
+	<stdint.h>
+
+1255800449 c:\programmering\sdl\include\sdl.h
+	"SDL_main.h"
+	"SDL_stdinc.h"
+	"SDL_audio.h"
+	"SDL_cdrom.h"
+	"SDL_cpuinfo.h"
+	"SDL_endian.h"
+	"SDL_error.h"
+	"SDL_events.h"
+	"SDL_loadso.h"
+	"SDL_mutex.h"
+	"SDL_rwops.h"
+	"SDL_thread.h"
+	"SDL_timer.h"
+	"SDL_video.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\programmering\sdl\include\sdl_main.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\programmering\sdl\include\sdl_stdinc.h
+	"SDL_config.h"
+	<sys/types.h>
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<stdarg.h>
+	<stdlib.h>
+	<malloc.h>
+	<stddef.h>
+	<stdarg.h>
+	<memory.h>
+	<string.h>
+	<strings.h>
+	<inttypes.h>
+	<stdint.h>
+	<ctype.h>
+	<iconv.h>
+	"begin_code.h"
+	<alloca.h>
+	<malloc.h>
+	<malloc.h>
+	<malloc.h>
+	<stdlib.h>
+	"close_code.h"
+
+1255800464 c:\programmering\sdl\include\sdl_config.h
+	"SDL_platform.h"
+	<stdarg.h>
+
+1255800450 c:\programmering\sdl\include\sdl_platform.h
+
+1255800450 c:\programmering\sdl\include\begin_code.h
+
+1255800450 c:\programmering\sdl\include\close_code.h
+
+1255800449 c:\programmering\sdl\include\sdl_audio.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_endian.h"
+	"SDL_mutex.h"
+	"SDL_thread.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800449 c:\programmering\sdl\include\sdl_error.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800449 c:\programmering\sdl\include\sdl_endian.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\programmering\sdl\include\sdl_mutex.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\programmering\sdl\include\sdl_thread.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_mutex.h"
+	"begin_code.h"
+	<process.h>
+	"close_code.h"
+
+1255800450 c:\programmering\sdl\include\sdl_rwops.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800449 c:\programmering\sdl\include\sdl_cdrom.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800449 c:\programmering\sdl\include\sdl_cpuinfo.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800449 c:\programmering\sdl\include\sdl_events.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_active.h"
+	"SDL_keyboard.h"
+	"SDL_mouse.h"
+	"SDL_joystick.h"
+	"SDL_quit.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800449 c:\programmering\sdl\include\sdl_active.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800449 c:\programmering\sdl\include\sdl_keyboard.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_keysym.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\programmering\sdl\include\sdl_keysym.h
+
+1255800450 c:\programmering\sdl\include\sdl_mouse.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\programmering\sdl\include\sdl_video.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800449 c:\programmering\sdl\include\sdl_joystick.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\programmering\sdl\include\sdl_quit.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+
+1255800450 c:\programmering\sdl\include\sdl_loadso.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\programmering\sdl\include\sdl_timer.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\programmering\sdl\include\sdl_version.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\programmering\sdl\include\sdl_syswm.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_version.h"
+	"begin_code.h"
+	<X11/Xlib.h>
+	<X11/Xatom.h>
+	<microwin/nano-X.h>
+	<windows.h>
+	<sys/neutrino.h>
+	<Ph.h>
+	"close_code.h"
+
+1272711184 c:\programmering\sludge\source\engine\linuxstuff.h
 

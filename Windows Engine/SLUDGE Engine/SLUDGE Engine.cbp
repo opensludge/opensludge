@@ -34,7 +34,7 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add directory="..\..\..\SDL\include\SDL" />
+			<Add directory="..\..\..\SDL\include" />
 			<Add directory="..\..\..\GnuWin32\include" />
 			<Add directory="..\..\..\Bass\c" />
 			<Add directory="..\..\source\CommonCode" />

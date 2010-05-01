@@ -142,6 +142,6 @@ void changeToUserDir () {
 }
 
 uint32_t launch(char * f) {
-	return ShellExecute (hMainWindow, "open", f, NULL, "C:\\", SW_SHOWNORMAL);
+	return (uint32_t) ShellExecute (hMainWindow, "open", f, NULL, "C:\\", SW_SHOWNORMAL);
 }
 #endif

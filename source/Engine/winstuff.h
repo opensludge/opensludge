@@ -1,3 +1,7 @@
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 #ifndef _WIN32
 #ifndef HINSTANCE
 #define HINSTANCE int
