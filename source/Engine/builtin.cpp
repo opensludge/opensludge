@@ -84,7 +84,7 @@ int paramNum[] = {-1, 0, 1, 1, -1, -1, 1, 3, 4, 1, 0, 0, 8, -1,		// SAY -> MOVEM
 						-1, -1, -1, 2, 2, 0, 3, 1, 					// anim, costume, pO, setC, wait, sS, substring, stringLength
 						0, 1, 1, 0, 2,  							// dark, save, load, quit, rename
 						1, 3, 3, 1, 2, 1, 1, 3, 1, 0, 0, 2, 1,		// stackSize, pasteString, startMusic, defvol, vol, stopmus, stopsound, setfont, alignStatus, show x 2, pos'Status, setFloor
-						-1, -1, 1, 1, 2, 1, 1, 1, -1, -1, 1, 1, 1,	// force, jump, peekstart, peekend, enqueue, getSavedGames, inFont, loopSound, removeChar, stopCharacter
+						-1, -1, 1, 1, 2, 1, 1, 1, -1, -1, -1, 1, 1,	// force, jump, peekstart, peekend, enqueue, getSavedGames, inFont, loopSound, removeChar, stopCharacter
 						1, 0, 3, 3, 1, 2, 1, 2, 2,					// launch, howFrozen, pastecol, litcol, checksaved, float, cancelfunc, walkspeed, delAll
 						2, 3, 1, 2, 2, 0, 0, 1, 2, 3, 1, -1,		// extras, mixoverlay, pastebloke, getMScreenX/Y, setSound(Default/-)Volume, looppoints, speechMode, setLightMap
 						-1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1,			// think, getCharacterDirection, is(char/region/moving), deleteGame, renameGame, hardScroll, stringWidth, speechSpeed, normalCharacter
@@ -1106,10 +1106,54 @@ builtIn(loopSound)
 {
 	UNUSEDALL
 	int fileNumber;
-	if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
-	trimStack (fun -> stack);
-	if (! startSound (fileNumber, true)) return BR_CONTINUE;	// Was BR_NOCOMMENT
-	return BR_CONTINUE;
+
+	if (numParams < 1) {
+		fatal ("Built-in function loopSound() must have at least 1 parameter.");
+		return BR_NOCOMMENT;
+	} else if (numParams < 2) {
+
+		if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+		trimStack (fun -> stack);
+		if (! startSound (fileNumber, true)) return BR_CONTINUE;	// Was BR_NOCOMMENT
+		return BR_CONTINUE;
+	} else {
+		// We have more than one sound to play!
+		
+		int doLoop = 2;
+		soundList *s = NULL;
+		soundList * old = NULL;
+		
+		// Should we loop?
+		if (fun->stack->thisVar.varType != SVT_FILE) {
+			getValueType (doLoop, SVT_INT, fun -> stack -> thisVar);
+			trimStack (fun -> stack);
+			numParams--;
+		}
+		while (numParams) {
+			if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) {
+				fatal ("Illegal parameter given built-in function loopSound().");
+				return BR_NOCOMMENT;
+			}
+			s = new soundList;
+			s-> next = old;
+			s-> prev = NULL;
+			s-> sound = fileNumber;
+			old = s;
+			
+			trimStack(fun->stack);
+			numParams--;
+		}
+		while (s->next) s = s-> next;
+		if (doLoop > 1) {
+			s->next = old;
+			old->prev = s;
+		} else if (doLoop) {
+			s->next = s;
+		}
+		old->vol = -1;
+		playSoundList(old);
+		return BR_CONTINUE;
+	}	
 }
 
 builtIn(stopSound)

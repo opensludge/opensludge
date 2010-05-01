@@ -5,6 +5,20 @@
 #define HWND void *
 #endif
 
+
+// Sound list stuff
+struct soundList {
+	int sound;
+	struct soundList * next;
+	struct soundList * prev;
+	int cacheIndex;
+	int vol;
+};
+soundList *deleteSoundFromList (soundList *s);
+void playSoundList(soundList *s);
+
+
+
 // GENERAL...
 bool initSoundStuff (HWND);
 void killSoundStuff ();

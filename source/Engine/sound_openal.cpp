@@ -40,7 +40,8 @@ struct soundThing {
 	ALuint playingOnSource;
 	bool playing;
 	int fileLoaded, vol;	//Used for sounds only.
-	bool looping;		//Used for sounds only.
+	bool looping;			//Used for sounds only.
+	soundList *listed;
 };
 
 soundThing soundCache[MAX_SAMPLES];
@@ -70,6 +71,7 @@ bool initSoundStuff (HWND hwnd) {
 		soundCache[a].playing = false;
 		soundCache[a].fileLoaded = -1;
 		soundCache[a].looping = false;
+		soundCache[a].listed = NULL;
 		intpointers[a] = a;
 	}
 
@@ -85,6 +87,14 @@ void killSoundStuff () {
 	if (! soundOK) return; 	
 	
 	for (int i = 0; i < MAX_SAMPLES; i ++) {
+		if (soundCache[i].listed) {
+			if (soundCache[i].listed->next) {
+				soundList *s = soundCache[i].listed->next;
+				s -> prev = soundCache[i].listed->prev;
+				while (s = deleteSoundFromList(s)); 
+				soundCache[i].listed->next = soundCache[i].listed->prev = NULL;
+			}
+		}
 		if (soundCache[i].playing) {
 			if (! alureStopSource(soundCache[i].playingOnSource, AL_TRUE)) {
 				fprintf(stderr, "Failed to stop source: %s\n",
@@ -221,6 +231,15 @@ void huntKillSound (int filenum) {
 	if (gotSlot == -1) return;
 
 	if (soundCache[gotSlot].playing) {
+		if (soundCache[gotSlot].listed) {
+			if (soundCache[gotSlot].listed->next) {
+				soundList *s = soundCache[gotSlot].listed->next;
+				s -> prev = soundCache[gotSlot].listed->prev;
+				while (s = deleteSoundFromList(s)); 
+				soundCache[gotSlot].listed->next = soundCache[gotSlot].listed->prev = NULL;
+			}
+		}
+		
 		if (! alureStopSource(soundCache[gotSlot].playingOnSource, AL_TRUE)) {
 			fprintf(stderr, "Failed to stop source: %s\n",
 						alureGetErrorString());
@@ -233,6 +252,14 @@ void freeSound (int a) {
 	alGetError();
 
 	if (soundCache[a].playing) {
+		if (soundCache[a].listed) {
+			if (soundCache[a].listed->next) {
+				soundList *s = soundCache[a].listed->next;
+				s -> prev = soundCache[a].listed->prev;
+				while (s = deleteSoundFromList(s)); 
+				soundCache[a].listed->next = soundCache[a].listed->prev = NULL;
+			}
+		}
 		if (! alureStopSource(soundCache[a].playingOnSource, AL_TRUE)) {
 			fprintf(stderr, "Failed to stop source: %s\n",
 						alureGetErrorString());
@@ -444,6 +471,8 @@ int cacheSound (int f) {
 			fprintf(stderr, "Failed to rewind stream: %s\n",
 						alureGetErrorString());
 		}
+		soundCache[a].listed = NULL;
+
 		return a;
 	}
 	if (f == -2) return -1;
@@ -487,6 +516,7 @@ int cacheSound (int f) {
 		soundCache[a].fileLoaded = f;
 		setResourceForFatal (-1);
 		retval = a;
+		soundCache[a].listed = NULL;
 	} else {
 		fprintf(stderr, "Failed to create stream from sound: %s\n",
 						alureGetErrorString());
@@ -559,3 +589,104 @@ bool getSoundCacheStack (stackHandler * sH) {
 	}
 	return true;
 }
+
+soundList *deleteSoundFromList (soundList *s) {
+	soundList * o = NULL;
+	if (! s->next) {
+		o = s->prev;
+		if (o) o-> next = NULL;
+		delete s;
+		return o;
+	}
+	if (s != s->next) {
+		o = s->next;
+		o->prev = s->prev;
+		if (o->prev) o->prev->next = o;
+	}
+	delete s;
+	return o;
+}
+
+static void list_eos_callback(void *list, ALuint source)
+{
+	soundList *s = (soundList *) list;
+	
+	int a = s->cacheIndex;
+	alDeleteSources(1, &source);
+	if(alGetError() != AL_NO_ERROR)
+	{
+		fprintf(stderr, "Failed to delete OpenAL source!\n");
+	}
+	soundCache[a].playingOnSource = 0;
+	soundCache[a].playing = false;
+	soundCache[a].looping = false;
+	soundCache[a].listed = NULL;
+	if (s->next) {
+		if (s->next == s) {
+			int v = defSoundVol;
+			defSoundVol = soundCache[a].vol;
+			startSound (s->sound, true);
+			defSoundVol = v;
+			while (s = deleteSoundFromList(s)); 
+			return;
+		}
+		s->next->vol = soundCache[a].vol;
+		playSoundList(s->next);
+	} else {
+		while (s = deleteSoundFromList(s)); 
+	}
+}
+
+
+void playSoundList(soundList *s) {
+	if (soundOK) {
+		
+		cacheLoopySound = false;
+		int a = cacheSound (s->sound);
+		if (a == -1) {
+			fprintf(stderr, "Failed to cache sound!\n");
+			return;
+		}
+		soundCache[a].looping = false;
+		soundCache[a].listed = s;
+		if (s->vol < 0)
+			soundCache[a].vol = defSoundVol;
+		else
+			soundCache[a].vol = s->vol;
+		s-> cacheIndex = a;
+		
+		fprintf (stderr, "Playing sound %d in cache %d\n", s->sound, a);
+		
+		ALboolean ok;
+		ALuint src;
+		soundThing *st;
+		
+		st = &soundCache[a];
+		
+		alGenSources(1, &src);
+		if(alGetError() != AL_NO_ERROR)
+		{
+			fprintf(stderr, "Failed to create OpenAL source!\n");
+			return;
+		}
+		
+		alSourcef (src, AL_GAIN, (float) soundCache[a].vol / 256);
+		
+		ok = alurePlaySourceStream(src, (*st).stream,
+									   NUM_BUFS, 0, list_eos_callback, s);
+		
+		if(!ok) {
+			fprintf(stderr, "Failed to play stream: %s\n", alureGetErrorString());
+			alDeleteSources(1, &src);
+			if(alGetError() != AL_NO_ERROR)
+			{
+				fprintf(stderr, "Failed to delete OpenAL source!\n");
+			}
+			(*st).playingOnSource = 0;
+		} else {
+			(*st).playingOnSource = src;
+			(*st).playing = true;
+		}
+	}
+}
+

@@ -1,18 +1,12 @@
-Engine:
+This is a possible to-do list. Not everything here may be a good idea, but it's a collection of ideas and wishes so they don't are forgotten.
 
 * Let games replace the logo in the setup window?
 * Allow launching of one SLUDGE game from within another.
 * Movie support (this is one for the future - not planned for SLUDGE 2.0)
-
-Dev Kit:
-
-* Fontify
-
-Wish list:
-
 * Sprite-bank-editor: Allow setting hotspot for multiple frames at once.
-* Multi-line comments.
+* Multi-line comments. (Maybe a feature of the editor?)
 * SVG?
 * Added control of animations. (Nonlooping)
 * Lip sync
 * Smoother setCharacterDrawMode (numerical rather than constants)
+* Zooming the scene: http://www.adventuredevelopers.com/forum/index.php?topic=2396.0
