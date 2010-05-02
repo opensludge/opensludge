@@ -41,8 +41,13 @@ void grabRGBA (FILE * fp, int bpc, unsigned char & r, unsigned char & g, unsigne
 		case 16:
 			grabbed1 = fgetc (fp);
 			grabbed2 = fgetc (fp);
+			if (grabbed2*256+grabbed1 == 31775) {
+				r=g=b=a=0;
+				break;
+			}
+
 			r = ((grabbed2 & 127) << 1),
-				g = ((grabbed1 & 224) >> 2) + (grabbed2 << 6);
+			g = ((grabbed1 & 224) >> 2) + (grabbed2 << 6);
 			b = ((grabbed1 & 31) << 3);
 			if (r == 255 && g == 0 && b == 255) {
 				r = g = b = a = 0;

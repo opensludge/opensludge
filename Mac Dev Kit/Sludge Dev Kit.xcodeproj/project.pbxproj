@@ -42,8 +42,8 @@
 		2F7DF424100FBA1A00A08B2E /* WINBOX.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA4190FFCEBE6005E5C36 /* WINBOX.CPP */; };
 		2F7EA3E50FFCEBCF005E5C36 /* functionList.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA3DD0FFCEBCF005E5C36 /* functionList.h */; };
 		2F7EA3E90FFCEBCF005E5C36 /* specialSettings.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA3E10FFCEBCF005E5C36 /* specialSettings.h */; };
-		2F7EA3EA0FFCEBCF005E5C36 /* TGA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA3E20FFCEBCF005E5C36 /* TGA.cpp */; };
-		2F7EA3EB0FFCEBCF005E5C36 /* TGA.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA3E30FFCEBCF005E5C36 /* TGA.h */; };
+		2F7EA3EA0FFCEBCF005E5C36 /* tga.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA3E20FFCEBCF005E5C36 /* tga.cpp */; };
+		2F7EA3EB0FFCEBCF005E5C36 /* tga.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA3E30FFCEBCF005E5C36 /* tga.h */; };
 		2F7EA3EC0FFCEBCF005E5C36 /* version.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA3E40FFCEBCF005E5C36 /* version.h */; };
 		2F7EA4A40FFCEBE6005E5C36 /* ALLKNOWN.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA3EE0FFCEBE6005E5C36 /* ALLKNOWN.CPP */; };
 		2F7EA4A50FFCEBE6005E5C36 /* ALLKNOWN.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA3EF0FFCEBE6005E5C36 /* ALLKNOWN.H */; };
@@ -132,7 +132,7 @@
 				2F59E734102E22CA00008746 /* libpng.framework in Copy Frameworks into .app bundle */,
 				2F7EA3E50FFCEBCF005E5C36 /* functionList.h in Copy Frameworks into .app bundle */,
 				2F7EA3E90FFCEBCF005E5C36 /* specialSettings.h in Copy Frameworks into .app bundle */,
-				2F7EA3EB0FFCEBCF005E5C36 /* TGA.h in Copy Frameworks into .app bundle */,
+				2F7EA3EB0FFCEBCF005E5C36 /* tga.h in Copy Frameworks into .app bundle */,
 				2F7EA3EC0FFCEBCF005E5C36 /* version.h in Copy Frameworks into .app bundle */,
 				2F7EA4A50FFCEBE6005E5C36 /* ALLKNOWN.H in Copy Frameworks into .app bundle */,
 				2F7EA4A90FFCEBE6005E5C36 /* checkUsed.h in Copy Frameworks into .app bundle */,
@@ -216,8 +216,8 @@
 		2F695C71100D138D008A8DC1 /* ProjIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ProjIcon.icns; path = ../images/ProjIcon.icns; sourceTree = SOURCE_ROOT; };
 		2F7EA3DD0FFCEBCF005E5C36 /* functionList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = functionList.h; sourceTree = "<group>"; };
 		2F7EA3E10FFCEBCF005E5C36 /* specialSettings.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = specialSettings.h; sourceTree = "<group>"; };
-		2F7EA3E20FFCEBCF005E5C36 /* TGA.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = TGA.cpp; sourceTree = "<group>"; };
-		2F7EA3E30FFCEBCF005E5C36 /* TGA.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TGA.h; sourceTree = "<group>"; };
+		2F7EA3E20FFCEBCF005E5C36 /* tga.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = tga.cpp; sourceTree = "<group>"; };
+		2F7EA3E30FFCEBCF005E5C36 /* tga.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = tga.h; sourceTree = "<group>"; };
 		2F7EA3E40FFCEBCF005E5C36 /* version.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
 		2F7EA3EE0FFCEBE6005E5C36 /* ALLKNOWN.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = ALLKNOWN.CPP; sourceTree = "<group>"; };
 		2F7EA3EF0FFCEBE6005E5C36 /* ALLKNOWN.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; path = ALLKNOWN.H; sourceTree = "<group>"; };
@@ -433,8 +433,8 @@
 				2F18B65E100CB9C20009A1CB /* GLee.h */,
 				2F7EA3DD0FFCEBCF005E5C36 /* functionList.h */,
 				2F7EA3E10FFCEBCF005E5C36 /* specialSettings.h */,
-				2F7EA3E20FFCEBCF005E5C36 /* TGA.cpp */,
-				2F7EA3E30FFCEBCF005E5C36 /* TGA.h */,
+				2F7EA3E20FFCEBCF005E5C36 /* tga.cpp */,
+				2F7EA3E30FFCEBCF005E5C36 /* tga.h */,
 				2F7EA3E40FFCEBCF005E5C36 /* version.h */,
 			);
 			name = CommonCode;
@@ -667,7 +667,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				002F3A2E09D0888800EBEB88 /* AppController.m in Sources */,
-				2F7EA3EA0FFCEBCF005E5C36 /* TGA.cpp in Sources */,
+				2F7EA3EA0FFCEBCF005E5C36 /* tga.cpp in Sources */,
 				2F7EA4A40FFCEBE6005E5C36 /* ALLKNOWN.CPP in Sources */,
 				2F7EA4A60FFCEBE6005E5C36 /* HSI.CPP in Sources */,
 				2F7EA4A80FFCEBE6005E5C36 /* checkUsed.cpp in Sources */,
