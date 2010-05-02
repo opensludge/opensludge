@@ -575,6 +575,9 @@ bool getSoundCacheStack (stackHandler * sH) {
 }
 
 soundList *deleteSoundFromList (soundList *s) {
+	// Don't delete a playing sound.
+	if (s->cacheIndex) return NULL;
+	
 	soundList * o = NULL;
 	if (! s->next) {
 		o = s->prev;
@@ -604,6 +607,7 @@ static void list_eos_callback(void *list, ALuint source)
 	soundCache[a].playingOnSource = 0;
 	soundCache[a].playing = false;
 	soundCache[a].looping = false;
+	s-> cacheIndex = false;
 	if (SilenceIKillYou) {
 		while (s = deleteSoundFromList(s)); 
 	} else {
