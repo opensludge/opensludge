@@ -25,11 +25,19 @@ AC_CHECK_LIB([GLee], [GLeeInit])
 AC_CHECK_HEADERS([limits.h malloc.h stddef.h stdint.h stdlib.h string.h sys/time.h unistd.h])
 AC_CHECK_HEADERS([GL/glu.h SDL/SDL.h SDL/SDL_syswm.h png.h GLee.h AL/alure.h getopt.h])
 
-# Check if pkg-config finds libpng.
-mylibpnginclude=`pkg-config --cflags libpng`
+# Check if libpng-config finds libpng.
+mylibpngldflags=`libpng-config --ldflags`
 if test $? -eq 0
   then
-    if test $mylibpnginclude
+    if test ${mylibpngldflags%%\ *}
+      then
+        ac_cv_lib_png_png_sig_cmp="yes"
+    fi
+fi
+mylibpngcflags=`libpng-config --cflags`
+if test $? -eq 0
+  then
+    if test ${mylibpngcflags%%\ *}
       then
         ac_cv_header_png_h="yes"
     fi

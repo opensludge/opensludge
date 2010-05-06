@@ -20,4 +20,6 @@ sludge_engine_SOURCES = \
 	../CommonCode/specialsettings.h \
 	../CommonCode/version.h
 
-AM_CPPFLAGS = -I$(top_srcdir)/source/CommonCode `pkg-config --cflags libpng`
+AM_CPPFLAGS = -I$(top_srcdir)/source/CommonCode `libpng-config --cflags`
+
+AM_LDFLAGS = `libpng-config --ldflags`
