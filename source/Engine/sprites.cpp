@@ -667,7 +667,8 @@ void setDrawMode (unsigned int drawMode) {
 			break;
 		case 	drawModeFoggy4:
 			glEnable(GL_COLOR_SUM);
-			glSecondaryColor3ub (128, 128, 128);
+			glSecondaryColor3ub (curLight[0]/2, curLight[1]/2, curLight[2]/2);
+			//glSecondaryColor3ub (128, 128, 128);
 			glColor4ub (0, 0, 0, 255);
 			break;
 		case 	drawModeGlow3:
@@ -690,7 +691,8 @@ void setDrawMode (unsigned int drawMode) {
 			break;
 		case 	drawModeGlow4:
 			glEnable(GL_COLOR_SUM);
-			glSecondaryColor3ub (255, 255, 255);
+			//glSecondaryColor3ub (255, 255, 255);
+			glSecondaryColor3ub (curLight[0], curLight[1], curLight[2]);
 			glColor4ub (0, 0, 0, 255);
 			break;
 		default:

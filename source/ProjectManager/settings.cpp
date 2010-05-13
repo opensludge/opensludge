@@ -37,7 +37,7 @@ void noSettings () {
 	if (settings.runtimeDataFolder) delete settings.runtimeDataFolder;
 	settings.runtimeDataFolder = joinStrings ("save", "");
 	if (settings.finalFile) delete settings.finalFile;
-	settings.finalFile =joinStrings ("untitled", "");
+	settings.finalFile =joinStrings ("Gamedata", "");
 	if (settings.windowName) delete settings.windowName;
 	settings.windowName = joinStrings ("New SLUDGE Game", "");
 	if (settings.originalLanguage) delete settings.originalLanguage;

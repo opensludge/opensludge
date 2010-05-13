@@ -9,12 +9,23 @@
 <FONT FACE=arial color=#3A8F8B SIZE=+1><B>Syntax:</B></FONT><BR>
 
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<font color=#BB4444 SIZE=+2><TT><B>loopSound (<i>thisSoundFile</i>);</B></TT></FONT><BR>
+<font color=#BB4444 SIZE=+2><TT><B>loopSound (<i>sound [, sound [, sound...]]</i>);</B></TT></FONT><BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<font color=#BB4444 SIZE=+2><TT><B>loopSound (<i>sound [, sound [, sound...]], loopStyle</i>);</B></TT></FONT><BR>
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
 <FONT FACE=arial color=#3A8F8B SIZE=+1><B>Purpose:</B></FONT><BR>
 
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-Plays a sound repeatedly, starting immediately. If the parameter isn't a <b><a href="File_Handling.html">file handle</a></b> the code has no effect. Supported sound formats are Windows wave files (.WAV) and Ogg Vorbis (.OGG).<BR>
+Plays one or more sounds, starting immediately. The sound parameters must be <b><a href="File_Handling.html">file handles</a></b>. Supported sound formats are wave files (.WAV) and Ogg Vorbis (.OGG).<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+If <i>loopStyle</i> is zero, the sounds are played in order and then stop.<BR>
+If <i>loopStyle</i> is one, the sounds are played in order and then the final sound is looped.<BR>
+If <i>loopStyle</i> is two, the whole playlist is looped.<BR>
+<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+A call to <a href="stopSound.html">stopSound</a></b> with the currently playing sound will stop 
+the sound, and cancel any sounds waiting in line to be played. But please note that stopSound only
+affects the currently playing sound: Stopping a sound that has finished playing, or one that hasn't
+yet started playing will have no effect.<br>
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
 <FONT FACE=arial color=#3A8F8B SIZE=+1><B>Return value:</B></FONT><BR>
 
