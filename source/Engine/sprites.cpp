@@ -7,6 +7,7 @@
 #include "allfiles.h"
 
 #include "fileset.h"
+#include "people.h"
 #include "sprites.h"
 #include "sprites_aa.h"
 #include "moreio.h"
@@ -573,139 +574,29 @@ void flipFontSprite (int x, int y, sprite & single, const spritePalette & fontPa
 
 
 
-enum drawModes {
-	drawModeNormal,
-	drawModeTransparent1,
-	drawModeTransparent2,
-	drawModeTransparent3,
-	drawModeDark1,
-	drawModeDark2,
-	drawModeDark3,
-	drawModeBlack,
-	drawModeShadow1,
-	drawModeShadow2,
-	drawModeShadow3,
-	drawModeFoggy1,
-	drawModeFoggy2,
-	drawModeFoggy3,
-	drawModeFoggy4,
-	drawModeGlow1,
-	drawModeGlow2,
-	drawModeGlow3,
-	drawModeGlow4,
-	drawModeInvisible,
-	numDrawModes
-};
 
 unsigned char curLight[3];
 
-void setDrawMode (unsigned int drawMode) {
-	glSecondaryColor3ub (0, 0, 0);
-	switch (drawMode) {
-		case drawModeTransparent3:
-			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-			glColor4ub (curLight[0], curLight[1], curLight[2], 192);
-			break;
-		case drawModeTransparent2:
-			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-			glColor4ub (curLight[0], curLight[1], curLight[2], 128);
-			break;
-		case drawModeTransparent1:
-			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-			glColor4ub (curLight[0], curLight[1], curLight[2], 64);
-			break;
-		case drawModeInvisible:
-			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-			// 1 rather than 0 so that we can do collision detection.
-			glColor4ub (curLight[0], curLight[1], curLight[2], 1);
-			break;
-		case drawModeDark1:
-			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-			glColor4ub (curLight[0]*3/4, curLight[1]*3/4, curLight[2]*3/4, 255);
-			break;
-		case drawModeDark2:
-			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-			glColor4ub (curLight[0]/2, curLight[1]/2, curLight[2]/2, 255);
-			break;
-		case drawModeDark3:
-			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-			glColor4ub (curLight[0]/4, curLight[1]/4, curLight[2]/4, 255);
-			break;
-		case drawModeBlack:
-			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-			glColor4ub (0, 0, 0, 255);
-			break;
-		case 	drawModeShadow1:
-			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-			glColor4ub (0, 0, 0, 192);
-			break;
-		case 	drawModeShadow2:
-			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-			glColor4ub (0, 0, 0, 128);
-			break;
-		case 	drawModeShadow3:
-			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-			glColor4ub (0, 0, 0, 64);
-			break;
-		case 	drawModeFoggy3:
-			glEnable(GL_COLOR_SUM);
-			glSecondaryColor3ub (curLight[0]*3/8, curLight[1]*3/8, curLight[2]*3/8);
-			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-			glColor4ub (curLight[0]/4, curLight[1]/4, curLight[2]/4, 255);
-			break;
-		case 	drawModeFoggy2:
-			glEnable(GL_COLOR_SUM);
-			glSecondaryColor3ub (curLight[0]/4, curLight[1]/4, curLight[2]/4);
-			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-			glColor4ub (curLight[0]/2, curLight[1]/2, curLight[2]/2, 255);
-			break;
-		case 	drawModeFoggy1:
-			glEnable(GL_COLOR_SUM);
-			glSecondaryColor3ub (curLight[0]/8, curLight[1]/8, curLight[2]/8);
-			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-			glColor4ub (curLight[0]*3/4, curLight[1]*3/4, curLight[2]*3/4, 255);
-			break;
-		case 	drawModeFoggy4:
-			glEnable(GL_COLOR_SUM);
-			glSecondaryColor3ub (curLight[0]/2, curLight[1]/2, curLight[2]/2);
-			//glSecondaryColor3ub (128, 128, 128);
-			glColor4ub (0, 0, 0, 255);
-			break;
-		case 	drawModeGlow3:
-			glEnable(GL_COLOR_SUM);
-			glSecondaryColor3ub (curLight[0]*3/4, curLight[1]*3/4, curLight[2]*3/4);
-			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-			glColor4ub (curLight[0]/4, curLight[1]/4, curLight[2]/4, 255);
-			break;
-		case 	drawModeGlow2:
-			glEnable(GL_COLOR_SUM);
-			glSecondaryColor3ub (curLight[0]/2, curLight[1]/2, curLight[2]/2);
-			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-			glColor4ub (curLight[0]/2, curLight[1]/2, curLight[2]/2, 255);
-			break;
-		case 	drawModeGlow1:
-			glEnable(GL_COLOR_SUM);
-			glSecondaryColor3ub (curLight[0]/4, curLight[1]/4, curLight[2]/4);
-			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-			glColor4ub (curLight[0]*3/4, curLight[1]*3/4, curLight[2]*3/4, 255);
-			break;
-		case 	drawModeGlow4:
-			glEnable(GL_COLOR_SUM);
-			//glSecondaryColor3ub (255, 255, 255);
-			glSecondaryColor3ub (curLight[0], curLight[1], curLight[2]);
-			glColor4ub (0, 0, 0, 255);
-			break;
-		default:
-			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-			glColor4ub (curLight[0], curLight[1], curLight[2], 255);
-			break;
+void setDrawMode (onScreenPerson * thisPerson) {
+	if (thisPerson->colourmix) {
+		glEnable(GL_COLOR_SUM);
+		glSecondaryColor3ub (curLight[0]*thisPerson->r*thisPerson->colourmix/65025, curLight[1]*thisPerson->g*thisPerson->colourmix/65025, curLight[2]*thisPerson->b*thisPerson->colourmix/65025);
 	}
+
+	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glColor4ub (curLight[0]*(255-thisPerson->colourmix)/255, curLight[1]*(255-thisPerson->colourmix)/255, curLight[2]*(255-thisPerson->colourmix)/255, 255 - thisPerson->transparency);
 }
 
 extern GLuint backdropTextureName;
 bool checkColourChange (bool reset);
 
-bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, float scale, unsigned int drawMode, int floaty, bool useZB, bool light, bool mirror, bool boundingBoxCollision, aaSettingsStruct * aa) {
+bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, onScreenPerson * thisPerson, bool mirror) {
+	float scale = thisPerson-> scale;
+	bool useZB = ! (thisPerson->extra & EXTRA_NOZB);
+	bool light = ! (thisPerson->extra & EXTRA_NOLITE);
+	bool boundingBoxCollision = thisPerson->extra & EXTRA_RECTANGULAR;
+	aaSettingsStruct * aa = & thisPerson->aaSettings;
+	
 	if (scale <= 0.05) return false;
 
 	float tx1 = (float)(single.tex_x) / fontPal.tex_w[single.texNum];
@@ -721,7 +612,7 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 		x1 = x - (mirror ? (float) (single.width - single.xhot) : (float)(single.xhot+1) ) * scale;
 	else
 		x1 = x - (mirror ? (float) (single.width - (single.xhot+1)) : (float)single.xhot ) * scale;
-	int y1 = y - (single.yhot - floaty) * scale;
+	int y1 = y - (single.yhot - thisPerson->floaty) * scale;
 	int x2 = x1 + diffX;
 	int y2 = y1 + diffY;
 
@@ -775,7 +666,7 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 
 	glEnable (GL_TEXTURE_2D);
 
-	setDrawMode (drawMode);
+	setDrawMode (thisPerson);
 
 	glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
 	if (aa->useMe && maxAntiAliasSettings.useMe)
@@ -822,6 +713,7 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 		glDisable(GL_TEXTURE_2D);
 		glActiveTexture(GL_TEXTURE0);
 	}
+	glSecondaryColor3ub (0, 0, 0);
 	glDisable(GL_COLOR_SUM);
 
 	// Are we pointing at the sprite?
@@ -833,7 +725,12 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 }
 
 // Paste a scaled sprite onto the backdrop
-void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, float scale, unsigned int drawMode, int floaty, bool useZB, bool light, int camX, int camY, bool mirror, aaSettingsStruct * aa) {
+void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, onScreenPerson * thisPerson, int camX, int camY, bool mirror) {
+	
+	float scale = thisPerson-> scale;
+	bool useZB = ! (thisPerson->extra & EXTRA_NOZB);
+	bool light = ! (thisPerson->extra & EXTRA_NOLITE);
+	
 	if (scale <= 0.05) return;
 
 	float tx1 = (float)(single.tex_x - 0.5) / fontPal.tex_w[single.texNum];
@@ -848,7 +745,7 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 		x1 = x - (mirror ? (float) (single.width - single.xhot) : (float)(single.xhot+1) ) * scale;
 	else
 		x1 = x - (mirror ? (float) (single.width - (single.xhot+1)) : (float)single.xhot ) * scale;
-	int y1 = y - (single.yhot +1 - floaty) * scale;
+	int y1 = y - (single.yhot +1 - thisPerson->floaty) * scale;
 
 	float spriteWidth = diffX;
 	float spriteHeight = diffY;
@@ -958,7 +855,7 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 			glUseProgram(shader.fixScaleSprite);
 			GLint uniform = glGetUniformLocation(shader.fixScaleSprite, "useLightTexture");
 			if (uniform >= 0) glUniform1i(uniform, light && lightMapMode == LIGHTMAPMODE_PIXEL && lightMap.data);
-			setDrawMode (drawMode);
+			setDrawMode (thisPerson);
 
 			glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
 

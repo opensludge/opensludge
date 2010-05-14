@@ -869,6 +869,7 @@ void initBuiltInFunc ()
 	addToStringArray (typeDefFrom, "deleteGame");			addToStringArray (typeDefTo, "deleteFile");
 	addToStringArray (typeDefFrom, "renameGame");			addToStringArray (typeDefTo, "renameFile");
 	addToStringArray (typeDefFrom, "getSavedGames");		addToStringArray (typeDefTo, "getMatchingFiles");
+	addToStringArray (typeDefFrom, "setCharacterColorize");		addToStringArray (typeDefTo, "setCharacterColourise");
 	
 	addToStringArray (typeDefFrom, "FRONT");		addToStringArray (typeDefTo, "1");
 	addToStringArray (typeDefFrom, "FIXEDSIZE");	addToStringArray (typeDefTo, "2");

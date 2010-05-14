@@ -250,10 +250,161 @@ void setShown (bool h, int ob) {
 	if (moveMe) moveMe -> show = h;
 }
 
+enum drawModes {
+	drawModeNormal,
+	drawModeTransparent1,
+	drawModeTransparent2,
+	drawModeTransparent3,
+	drawModeDark1,
+	drawModeDark2,
+	drawModeDark3,
+	drawModeBlack,
+	drawModeShadow1,
+	drawModeShadow2,
+	drawModeShadow3,
+	drawModeFoggy1,
+	drawModeFoggy2,
+	drawModeFoggy3,
+	drawModeFoggy4,
+	drawModeGlow1,
+	drawModeGlow2,
+	drawModeGlow3,
+	drawModeGlow4,
+	drawModeInvisible,
+	numDrawModes
+};
+
+void setMyDrawMode (onScreenPerson *moveMe, int h) {
+	switch (h) {
+		case drawModeTransparent3:
+			moveMe->r=moveMe->g=moveMe->b=0;
+			moveMe->colourmix=0;
+			moveMe->transparency = 64;
+			break;
+		case drawModeTransparent2:
+			moveMe->r=moveMe->g=moveMe->b=0;
+			moveMe->colourmix=0;
+			moveMe->transparency = 128;
+			break;
+		case drawModeTransparent1:
+			moveMe->r=moveMe->g=moveMe->b=0;
+			moveMe->colourmix=0;
+			moveMe->transparency = 192;
+			break;
+		case drawModeInvisible:
+			moveMe->r=moveMe->g=moveMe->b=0;
+			moveMe->colourmix=0;
+			moveMe->transparency = 254;
+			break;
+		case drawModeDark1:
+			moveMe->r=moveMe->g=moveMe->b=0;
+			moveMe->colourmix=192;
+			moveMe->transparency = 0;
+			break;
+		case drawModeDark2:
+			moveMe->r=moveMe->g=moveMe->b=0;
+			moveMe->colourmix=128;
+			moveMe->transparency = 0;
+			break;
+		case drawModeDark3:
+			moveMe->r=moveMe->g=moveMe->b=0;
+			moveMe->colourmix=64;
+			moveMe->transparency = 0;
+			break;
+		case drawModeBlack:
+			moveMe->r=moveMe->g=moveMe->b=0;
+			moveMe->colourmix=255;
+			moveMe->transparency = 0;
+			break;
+		case 	drawModeShadow1:
+			moveMe->r=moveMe->g=moveMe->b=0;
+			moveMe->colourmix=255;
+			moveMe->transparency = 64;
+			break;
+		case 	drawModeShadow2:
+			moveMe->r=moveMe->g=moveMe->b=0;
+			moveMe->colourmix=255;
+			moveMe->transparency = 128;
+			break;
+		case 	drawModeShadow3:
+			moveMe->r=moveMe->g=moveMe->b=0;
+			moveMe->colourmix=255;
+			moveMe->transparency = 192;
+			break;
+		case 	drawModeFoggy3:
+			moveMe->r=moveMe->g=moveMe->b=128;
+			moveMe->colourmix=192;
+			moveMe->transparency = 0;
+			break;
+		case 	drawModeFoggy2:
+			moveMe->r=moveMe->g=moveMe->b=128;
+			moveMe->colourmix=128;
+			moveMe->transparency = 0;
+			break;
+		case 	drawModeFoggy1:
+			moveMe->r=moveMe->g=moveMe->b=128;
+			moveMe->colourmix=64;
+			moveMe->transparency = 0;
+			break;
+		case 	drawModeFoggy4:
+			moveMe->r=moveMe->g=moveMe->b=128;
+			moveMe->colourmix=255;
+			moveMe->transparency = 0;
+			break;
+		case 	drawModeGlow3:
+			moveMe->r=moveMe->g=moveMe->b=255;
+			moveMe->colourmix=192;
+			moveMe->transparency = 0;
+			break;
+		case 	drawModeGlow2:
+			moveMe->r=moveMe->g=moveMe->b=255;
+			moveMe->colourmix=128;
+			moveMe->transparency = 0;
+			break;
+		case 	drawModeGlow1:
+			moveMe->r=moveMe->g=moveMe->b=255;
+			moveMe->colourmix=64;
+			moveMe->transparency = 0;
+			break;
+		case 	drawModeGlow4:
+			moveMe->r=moveMe->g=moveMe->b=255;
+			moveMe->colourmix=255;
+			moveMe->transparency = 0;
+			break;
+		default:
+			moveMe->r=moveMe->g=moveMe->b=0;
+			moveMe->colourmix=0;
+			moveMe->transparency = 0;
+			break;
+	}
+	
+}
+
 void setDrawMode (int h, int ob) {
 	onScreenPerson * moveMe = findPerson (ob);
-	if (moveMe) moveMe -> drawMode = h;
+	if (! moveMe) return;
+		
+	setMyDrawMode (moveMe, h);
 }
+
+void setPersonTransparency (int ob, unsigned char x) {
+	onScreenPerson * moveMe = findPerson (ob);
+	if (! moveMe) return;
+	
+	moveMe->transparency = x;
+}
+
+void setPersonColourise (int ob, unsigned char r, unsigned char g, unsigned char b, unsigned char colourmix) {
+	onScreenPerson * moveMe = findPerson (ob);
+	if (! moveMe) return;
+	
+	moveMe->r = r;
+	moveMe->g = g;
+	moveMe->b = b;
+	moveMe->colourmix = colourmix;
+}
+
+
 
 extern screenRegion * overRegion;
 
@@ -313,7 +464,7 @@ void fixPeople (int oldX, int oldY) {
 					meX = thisPerson -> x - oldX;
 					meY = thisPerson -> y - oldY;
 				}
-				fixScaleSprite (meX, meY, myAnim -> theSprites -> bank.sprites[fNum], myAnim -> theSprites -> bank.myPalette, thisPerson -> scale, thisPerson -> drawMode, thisPerson -> floaty, ! (thisPerson -> extra & EXTRA_NOZB), !(thisPerson -> extra & EXTRA_NOLITE), oldX, oldY, m, & thisPerson->aaSettings);
+				fixScaleSprite (meX, meY, myAnim -> theSprites -> bank.sprites[fNum], myAnim -> theSprites -> bank.myPalette, thisPerson, oldX, oldY, m);
 			}
 		}
 		thisPerson = thisPerson -> next;
@@ -362,7 +513,7 @@ void drawPeople () {
 					drawAtX -= cameraX;
 					drawAtY -= cameraY;
 				}
-				r = scaleSprite (drawAtX, drawAtY, myAnim->theSprites->bank.sprites[fNum], myAnim -> theSprites -> bank.myPalette, thisPerson -> scale, thisPerson -> drawMode, thisPerson -> floaty, ! (thisPerson -> extra & EXTRA_NOZB), ! (thisPerson -> extra & EXTRA_NOLITE), m, thisPerson -> extra & EXTRA_RECTANGULAR, & thisPerson->aaSettings);
+				r = scaleSprite (drawAtX, drawAtY, myAnim->theSprites->bank.sprites[fNum], myAnim -> theSprites -> bank.myPalette, thisPerson, m);
 				if (r) {
 					if (thisPerson -> thisType -> screenName[0]) {
 						if (personRegion.thisType != thisPerson -> thisType) lastRegion = NULL;
@@ -704,7 +855,11 @@ bool addPerson (int x, int y, int objNum, persona * p) {
 	newPerson -> walkSpeed = newPerson -> thisType -> walkSpeed;
 	newPerson -> myAnim = NULL;
 	newPerson -> spinSpeed = newPerson -> thisType -> spinSpeed;
-	newPerson -> drawMode = 0;
+	newPerson -> r = 0;
+	newPerson -> g = 0;
+	newPerson -> b = 0;
+	newPerson -> colourmix = 0;
+	newPerson -> transparency = 0;
 	newPerson -> myPersona = p;
 
 	aaCopy (& newPerson->aaSettings, & newPerson->thisType->antiAliasingSettings);
@@ -959,8 +1114,13 @@ bool savePeople (FILE * fp) {
 		putSigned (me -> directionWhenDoneWalking, fp);
 		putSigned (me -> inPoly, fp);
 		putSigned (me -> walkToPoly, fp);
-		put2bytes (me -> drawMode, fp);
 
+		fputc (me -> r, fp);
+		fputc (me -> g, fp);
+		fputc (me -> b, fp);
+		fputc (me -> colourmix, fp);
+		fputc (me -> transparency, fp);
+		
 		saveObjectRef (me -> thisType, fp);
 
 		// Anti-aliasing settings
@@ -1033,7 +1193,15 @@ bool loadPeople (FILE * fp) {
 		me -> directionWhenDoneWalking = getSigned(fp);
 		me -> inPoly = getSigned(fp);
 		me -> walkToPoly = getSigned(fp);
-		me -> drawMode = get2bytes(fp);
+		if (ssgVersion >= VERSION(2,0)) {
+			me -> r = fgetc (fp);
+			me -> g = fgetc (fp);
+			me -> b = fgetc (fp);
+			me -> colourmix = fgetc (fp);
+			me -> transparency = fgetc (fp);
+		} else {
+			setMyDrawMode(me, get2bytes(fp));
+		}
 		me -> thisType = loadObjectRef (fp);
 
 		// Anti-aliasing settings

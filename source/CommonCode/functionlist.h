@@ -167,4 +167,6 @@ FUNC (true, setMaximumAntiAliasing)
 FUNC (true, setBackgroundEffect)
 FUNC (true, doBackgroundEffect)
 FUNC (true, setCharacterAngleOffset)
+FUNC (true, setCharacterTransparency)
+FUNC (true, setCharacterColourise)
  

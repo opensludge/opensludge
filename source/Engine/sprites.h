@@ -3,6 +3,8 @@
 
 #include "GLee.h"
 
+struct onScreenPerson;
+
 struct sprite {
 	int width, height, xhot, yhot;
 	int tex_x;
@@ -39,10 +41,10 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont);
 void fontSprite		(int x1, int y1, sprite & single, const spritePalette & fontPal);
 void flipFontSprite	(int x1, int y1, sprite & single, const spritePalette & fontPal);
 
-bool scaleSprite (int x1, int y1, sprite & single, const spritePalette & fontPal, float, unsigned int, int, bool, bool, bool, bool, aaSettingsStruct *);
+bool scaleSprite (int x1, int y1, sprite & single, const spritePalette & fontPal, onScreenPerson * thisPerson, bool mirror);
 void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette & fontPal);
 bool reserveSpritePal (spritePalette & sP, int n);
-void fixScaleSprite (int x1, int y1, sprite & single, const spritePalette & fontPal, float scale, unsigned int drawMode, int, bool, bool light, const int camX, const int camY, bool, aaSettingsStruct * aa);
+void fixScaleSprite (int x1, int y1, sprite & single, const spritePalette & fontPal, onScreenPerson * thisPerson, const int camX, const int camY, bool);
 void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette & fontPal);
 
 #endif

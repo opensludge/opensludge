@@ -95,7 +95,8 @@ int paramNum[] = {-1, 0, 1, 1, -1, -1, 1, 3, 4, 1, 0, 0, 8, -1,		// SAY -> MOVEM
 						3, 2, 2, 0, 0, 1,							// readThumbnail, setThumbnailSize, hasFlag, snapshot, clearSnapshot, anyFilename
 						2, 1,										// regGet, fatal
 						4, 3, -1, 0,								// chr AA, max AA, setBackgroundEffect, doBackgroundEffect
-						2											// setCharacterAngleOffset
+						2,											// setCharacterAngleOffset
+						2, 5										// setCharacterTransparency, setCharacterColourise
 };
 
 bool failSecurityCheck (char * fn) {
@@ -1461,6 +1462,34 @@ builtIn(setCharacterDrawMode)
 				setDrawMode (di, obj);
 				return BR_CONTINUE;
 }
+builtIn(setCharacterTransparency)
+{
+	UNUSEDALL
+	int obj, x;
+	if (! getValueType (x, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	trimStack (fun -> stack);
+	if (! getValueType (obj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	trimStack (fun -> stack);
+	setPersonTransparency (obj, x);
+	return BR_CONTINUE;
+}
+builtIn(setCharacterColourise)
+{
+	UNUSEDALL
+	int obj, r, g, b, mix;
+	if (! getValueType (mix, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	trimStack (fun -> stack);
+	if (! getValueType (b, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	trimStack (fun -> stack);
+	if (! getValueType (g, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	trimStack (fun -> stack);
+	if (! getValueType (r, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	trimStack (fun -> stack);
+	if (! getValueType (obj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	trimStack (fun -> stack);
+	setPersonColourise (obj, r, g, b, mix);
+	return BR_CONTINUE;
+}
 
 builtIn(setScale)
 {
@@ -1504,7 +1533,7 @@ builtIn(pasteCharacter)
 					}
 
 					int fNum = myAnim -> frames[thisPerson -> frameNum].frameNum;
-					fixScaleSprite (thisPerson -> x, thisPerson -> y, myAnim -> theSprites -> bank.sprites[abs (fNum)], myAnim -> theSprites -> bank.myPalette, thisPerson -> scale, thisPerson -> drawMode, thisPerson -> floaty, ! (thisPerson -> extra & EXTRA_NOZB), ! (thisPerson -> extra & EXTRA_NOLITE), 0, 0, fNum < 0, & thisPerson->aaSettings);
+					fixScaleSprite (thisPerson -> x, thisPerson -> y, myAnim -> theSprites -> bank.sprites[abs (fNum)], myAnim -> theSprites -> bank.myPalette, thisPerson, 0, 0, fNum < 0);
 					setVariable (fun -> reg, SVT_INT, 1);
 				} else {
 					setVariable (fun -> reg, SVT_INT, 0);

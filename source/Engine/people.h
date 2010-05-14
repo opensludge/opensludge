@@ -42,8 +42,9 @@ struct onScreenPerson {
 	bool show;
 	int direction, directionWhenDoneWalking;
 	struct objectType * thisType;
-	int drawMode, extra, spinSpeed;
+	int extra, spinSpeed;
 	aaSettingsStruct aaSettings;
+	unsigned char r,g,b,colourmix,transparency;
 };
 
 // Initialisation and creation
@@ -73,6 +74,8 @@ void makeTalker (onScreenPerson & me);
 void makeSilent (onScreenPerson & me);
 void setShown (bool h, int ob);
 void setDrawMode (int h, int ob);
+void setPersonTransparency (int ob, unsigned char x);
+void setPersonColourise (int ob, unsigned char r, unsigned char g, unsigned char b, unsigned char colourmix);
 
 // Moving 'em
 
