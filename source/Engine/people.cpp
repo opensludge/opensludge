@@ -391,6 +391,7 @@ void setPersonTransparency (int ob, unsigned char x) {
 	onScreenPerson * moveMe = findPerson (ob);
 	if (! moveMe) return;
 	
+	if (x > 254) x = 254;
 	moveMe->transparency = x;
 }
 

@@ -1,3 +1,5 @@
+Add documentation to the new functions!
+
 This is a possible to-do list. Not everything here may be a good idea, but it's a collection of ideas and wishes so they don't are forgotten.
 
 * Let games replace the logo in the setup window?
@@ -8,5 +10,4 @@ This is a possible to-do list. Not everything here may be a good idea, but it's 
 * SVG?
 * Added control of animations. (Nonlooping)
 * Lip sync
-* Smoother setCharacterDrawMode (numerical rather than constants)
 * Zooming the scene: http://www.adventuredevelopers.com/forum/index.php?topic=2396.0
