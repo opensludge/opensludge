@@ -5,7 +5,7 @@
 		<Cursor position="73896" topLine="1394" />
 	</File>
 	<File name="..\..\images\SLUDGE.RC" open="0" top="0" tabpos="6">
-		<Cursor position="168" topLine="0" />
+		<Cursor position="317" topLine="27" />
 	</File>
 	<File name="..\..\images\resource.h" open="0" top="0" tabpos="7">
 		<Cursor position="164" topLine="0" />
@@ -79,8 +79,8 @@
 	<File name="..\..\source\Engine\REGION.CPP" open="0" top="0" tabpos="8">
 		<Cursor position="1866" topLine="52" />
 	</File>
-	<File name="..\..\source\Engine\SLUDGER.CPP" open="1" top="0" tabpos="4">
-		<Cursor position="83" topLine="0" />
+	<File name="..\..\source\Engine\SLUDGER.CPP" open="0" top="0" tabpos="4">
+		<Cursor position="307" topLine="0" />
 	</File>
 	<File name="..\..\source\Engine\SLUDGER.H" open="0" top="0" tabpos="5">
 		<Cursor position="1074" topLine="29" />
@@ -118,10 +118,10 @@
 	<File name="..\..\source\Engine\builtin.cpp" open="0" top="0" tabpos="13">
 		<Cursor position="64854" topLine="2496" />
 	</File>
-	<File name="..\..\source\Engine\debug.cpp" open="1" top="0" tabpos="2">
+	<File name="..\..\source\Engine\debug.cpp" open="0" top="0" tabpos="2">
 		<Cursor position="273" topLine="0" />
 	</File>
-	<File name="..\..\source\Engine\debug.h" open="1" top="0" tabpos="3">
+	<File name="..\..\source\Engine\debug.h" open="0" top="0" tabpos="3">
 		<Cursor position="110" topLine="0" />
 	</File>
 	<File name="..\..\source\Engine\floor.cpp" open="0" top="0" tabpos="11">
@@ -139,7 +139,7 @@
 	<File name="..\..\source\Engine\main.cpp" open="0" top="0" tabpos="2">
 		<Cursor position="4146" topLine="191" />
 	</File>
-	<File name="..\..\source\Engine\people.cpp" open="1" top="0" tabpos="1">
+	<File name="..\..\source\Engine\people.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="10776" topLine="362" />
 	</File>
 	<File name="..\..\source\Engine\savedata.cpp" open="0" top="0" tabpos="0">

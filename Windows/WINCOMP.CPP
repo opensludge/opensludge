@@ -2,6 +2,7 @@
 #include <windows.h>
 
 #include <stdlib.h>
+#include <ctype.h>
 #include <stdio.h>
 #include <unistd.h>
 
@@ -98,8 +99,8 @@ LRESULT CALLBACK prefsBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 				case ID_EDIT_SPEED:
 				if (HIWORD(wParam) == 1024) {
 					bool success = true;
-					unsigned int newFrame = GetDlgItemInt (hDlg, ID_EDIT_SPEED, &success, 0);
-					
+					unsigned int newFrame = GetDlgItemInt (hDlg, ID_EDIT_SPEED, (BOOL *) &success, 0);
+
 					if (! success || newFrame > 1000 || newFrame < 1) {
 			        	SetDlgItemText (hDlg, ID_EDIT_SPEED2, "???");
 					} else {
@@ -112,28 +113,28 @@ LRESULT CALLBACK prefsBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 				{
 					char * newText;
 					int le;
-	
+
 					bool success = true;
-	
-					unsigned int newHeight, newWidth = GetDlgItemInt (hDlg, ID_EDIT_WINWIDTH, & success, 0);
+
+					unsigned int newHeight, newWidth = GetDlgItemInt (hDlg, ID_EDIT_WINWIDTH, (BOOL *) & success, 0);
 					if (success) {
-						newHeight = GetDlgItemInt (hDlg, ID_EDIT_WINHEIGHT, & success, 0);
+						newHeight = GetDlgItemInt (hDlg, ID_EDIT_WINHEIGHT, (BOOL *) & success, 0);
 					}
 					if (! success) {
 						messageBox (er, "Screen width and height should be positive integer values.");
 						return true;
 					}
-					
-					unsigned int newFrame = GetDlgItemInt (hDlg, ID_EDIT_SPEED, &success, 0);
+
+					unsigned int newFrame = GetDlgItemInt (hDlg, ID_EDIT_SPEED,(BOOL *) &success, 0);
 					if (! success || newFrame > 250 || newFrame < 1) {
 						messageBox (er, "Milliseconds per frame (ms/frame) should be an integer between 1 and 250 inclusive.");
 						return true;
 					}
-	
+
 					settings.frameSpeed = newFrame;
 					settings.screenWidth = newWidth;
 					settings.screenHeight = newHeight;
-	
+
 					// GET QUIT MESSAGE
 					le = GetWindowTextLength (GetDlgItem (hDlg, ID_EDIT_QUITMESSAGE)) + 1;
 					newText = new char[le];
@@ -151,11 +152,11 @@ LRESULT CALLBACK prefsBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 					if (newText) {
 						GetWindowText (GetDlgItem (hDlg, ID_EDIT_CUSTOMICON), newText, le);
 						if (settings.customIcon) delete settings.customIcon;
-						customIcon = newText;
+						settings.customIcon = newText;
 					} else {
 						errorBox ("Out of memory...", "Can't update custom icon filename.");
 					}
-					
+
 					// GET DATA FOLDER NAME
 					le = GetWindowTextLength (GetDlgItem (hDlg, ID_EDIT_DATAFOLDER)) + 1;
 					newText = new char[le];
@@ -166,7 +167,7 @@ LRESULT CALLBACK prefsBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 					} else {
 						errorBox ("Out of memory...", "Can't update run-time data folder name.");
 					}
-					
+
 					// GET MORE STUFF
 					settings.runFullScreen = isChecked (hDlg, ID_FULLSCREEN);
 					settings.forceSilent = isChecked (hDlg, ID_MAKESILENT);
@@ -179,7 +180,7 @@ LRESULT CALLBACK prefsBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 				case IDCANCEL:
 				EndDialog(hDlg, true);
 				return (true);
-				
+
 				case ID_MOREOPTIONS:
 				DialogBox(inst, MAKEINTRESOURCE(DLG_PROJECT_ADVANCED), hDlg, (DLGPROC)projectAdvancedFunc);
 				break;
@@ -208,8 +209,8 @@ LRESULT CALLBACK resourcesBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 			int i, n = MESS (ID_FILELIST, LB_GETCOUNT, 0, 0);
        		char * tx;
 
-			gotoSourceRoot ();
-			
+			gotoSourceDirectory ();
+
         	if (searchString) {
 	        	SetDlgItemText (hDlg, IDOK, "Edit");
 				//SetWindowText (hDlg, "Search results");
@@ -219,10 +220,10 @@ LRESULT CALLBACK resourcesBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 					if (tx) {
 						bool gotcha = false;
 						char * entireFile = grabWholeFile (tx);
-						
+
 						if (entireFile) {
 							if (! programSettings.searchSensitive) upperString (entireFile);
-							
+
 							// Look for searchString...
 							for (int i = 0; entireFile[i]; i ++) {
 								int j;
@@ -235,7 +236,7 @@ LRESULT CALLBACK resourcesBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 									break;
 								}
 							}
-							
+
 							// If we found it, add the name of the file
 							if (gotcha) {
 		    	    			if (LB_ERR == SendDlgItemMessage (hDlg, ID_FILELIST, LB_FINDSTRINGEXACT, (WPARAM) -1, (LPARAM) tx)) {
@@ -259,7 +260,7 @@ LRESULT CALLBACK resourcesBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 				for (i = 0; i < n; i ++) {
 					if (SendDlgItemMessage (mainWin, ID_FILELIST, LB_GETSEL, (WPARAM) i, (LPARAM) 0)) {
 						tx = getFileFromBox (i);
-						char * extension = tx + strlen(tx) - 4;						
+						char * extension = tx + strlen(tx) - 4;
 //						errorBox ("Extension", extension);
 						if (strlen (tx) > 4 && strcmp (extension, ".slu") == 0) {
 							fp = fopen (tx, "rt");
@@ -280,15 +281,15 @@ LRESULT CALLBACK resourcesBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 										if (t == '\"') pM = PM_QUOTE;
 										if (t == '#') pM = PM_COMMENT;
 										break;
-			
+
 										case PM_COMMENT:
 										if (t == '\n') pM = PM_NORMAL;
 										break;
-			
+
 										case PM_QUOTE:
 										if (t == '\"' && lastOne != '\\') pM = PM_NORMAL;
 										break;
-			
+
 										case PM_FILENAME:
 										if (t == '\'' && lastOne != '\\') {
 											buffer[numBuff] = 0;
@@ -337,7 +338,7 @@ LRESULT CALLBACK resourcesBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 				}
 			}
 			return true;
-			
+
 			case IDCANCEL:
 			EndDialog(hDlg, true);
 			return true;
@@ -365,7 +366,7 @@ LRESULT CALLBACK searchBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 				searchString = new char[le];
 				programSettings.searchSensitive = isChecked (hDlg, ID_CASESENSITIVE);
 
-				putRegSetting ("searchSensitive", programSettings.searchSensitive);
+				//putRegSetting ("searchSensitive", programSettings.searchSensitive);
 
 				if (searchString) {
 					GetWindowText (GetDlgItem (hDlg, ID_TEXT_EDITOR), searchString, le);
@@ -374,7 +375,7 @@ LRESULT CALLBACK searchBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 					messageBox ("Find", "No memory for specified string.");
 				}
 				// No break; here
-								
+
 				case IDCANCEL:
 				EndDialog(hDlg, true);
 				return (true);
@@ -403,7 +404,7 @@ void drawLogo (HWND hDlg, int x, int y) {
 			DeleteDC (hSrcDC);
 		}
 	}
-	
+
 	EndPaint (hDlg, &ps);
 }
 
@@ -411,7 +412,7 @@ LRESULT CALLBACK aboutBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 	switch (message) {
 //        case WM_INITDIALOG:
 //      	return true;
-        
+
         case WM_PAINT:
 		drawLogo (hDlg, 149, 12);
 		return false;
@@ -438,9 +439,9 @@ LRESULT CALLBACK sizeBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 	switch (message) {
         case WM_INITDIALOG:
         {
-        	SetDlgItemInt (hDlg, ID_EDIT_WINWIDTH, getRegInt ("utilityWidth", 640), 0);
-        	SetDlgItemInt (hDlg, ID_EDIT_WINHEIGHT, getRegInt ("utilityHeight", 480), 0);
-			if (! loadedFile) EnableWindow (GetDlgItem (hDlg, ID_USE_PROJECT_SIZE), false);
+        //	SetDlgItemInt (hDlg, ID_EDIT_WINWIDTH, getRegInt ("utilityWidth", 640), 0);
+        //	SetDlgItemInt (hDlg, ID_EDIT_WINHEIGHT, getRegInt ("utilityHeight", 480), 0);
+		//	if (! loadedFile) EnableWindow (GetDlgItem (hDlg, ID_USE_PROJECT_SIZE), false);
 			return (true);
 		}
 
@@ -450,20 +451,20 @@ LRESULT CALLBACK sizeBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
     	    	SetDlgItemInt (hDlg, ID_EDIT_WINWIDTH, settings.screenWidth, 0);
 	        	SetDlgItemInt (hDlg, ID_EDIT_WINHEIGHT, settings.screenHeight, 0);
 				return (true);
-				
+
 				case IDOK:
 				{
 					bool success;
-					unsigned int newHeight, newWidth = GetDlgItemInt (hDlg, ID_EDIT_WINWIDTH, & success, 0);
+					unsigned int newHeight, newWidth = GetDlgItemInt (hDlg, ID_EDIT_WINWIDTH, (BOOL *) & success, 0);
 					if (success) {
-						newHeight = GetDlgItemInt (hDlg, ID_EDIT_WINHEIGHT, & success, 0);
+						newHeight = GetDlgItemInt (hDlg, ID_EDIT_WINHEIGHT, (BOOL *) & success, 0);
 					}
 					if (! success || newHeight < 100 || newWidth < 100) {
 						messageBox (er, "Width and height should both be positive integer values bigger than 99");
 						return true;
 					}
-					if (! putRegInt ("utilityWidth", newWidth))		return true;
-					if (! putRegInt ("utilityHeight", newHeight))	return true;
+					//if (! putRegInt ("utilityWidth", newWidth))		return true;
+					//if (! putRegInt ("utilityHeight", newHeight))	return true;
 				}
 
 				case IDCANCEL:
@@ -485,7 +486,7 @@ void activateMenus (bool on) {
 	EnableWindow (GetDlgItem (mainWin, ID_PROJECT_COMPILE), on);
 	EnableWindow (GetDlgItem (mainWin, ID_PROJECT_RUN), on);
 	EnableWindow (GetDlgItem (mainWin, ID_DISPLAY), on);
-	EnableWindow (GetDlgItem (mainWin, ID_PROJECT_SAVE), on && changed);
+	EnableWindow (GetDlgItem (mainWin, ID_PROJECT_SAVE), on /*&& changed*/);
 	EnableWindow (GetDlgItem (mainWin, ID_CONTENTS_ADD_FILE), on);
 	EnableWindow (GetDlgItem (mainWin, ID_CONTENTS_FIND_IN_FILE), on);
 	EnableWindow (GetDlgItem (mainWin, ID_CONTENTS_RESOURCES), on);
@@ -496,7 +497,7 @@ void activateMenus (bool on) {
 //	EnableWindow (GetDlgItem (mainWin, ID_EDIT_QUITMESSAGE), on);
 //	EnableWindow (GetDlgItem (mainWin, ID_EDIT_WINWIDTH), on);
 //	EnableWindow (GetDlgItem (mainWin, ID_EDIT_WINHEIGHT), on);
-	
+
 	EnableMenuItem (myMenu, ID_PROJECT_COMPILE, on ? MF_ENABLED : MF_GRAYED);
 	EnableMenuItem (myMenu, ID_PROJECT_RUN, on ? MF_ENABLED : MF_GRAYED);
 	EnableMenuItem (myMenu, ID_PROJECT_SAVEAS, on ? MF_ENABLED : MF_GRAYED);
@@ -506,8 +507,8 @@ void activateMenus (bool on) {
 	EnableMenuItem (myMenu, ID_CONTENTS_RESOURCES, on ? MF_ENABLED : MF_GRAYED);
 	EnableMenuItem (myMenu, ID_DISPLAY, on ? MF_ENABLED : MF_GRAYED);
 
-	EnableMenuItem (myMenu, ID_PROJECT_SAVE, (on && changed) ? MF_ENABLED : MF_GRAYED);
-	EnableMenuItem (myMenu, ID_PROJECT_REVERT, (on && changed) ? MF_ENABLED : MF_GRAYED);
+	EnableMenuItem (myMenu, ID_PROJECT_SAVE, (on /*&& changed*/) ? MF_ENABLED : MF_GRAYED);
+	EnableMenuItem (myMenu, ID_PROJECT_REVERT, (on /*&& changed*/) ? MF_ENABLED : MF_GRAYED);
 }
 
 char * getFileFromBox (int i) {
@@ -548,7 +549,7 @@ void fixExtension (char * buff, char * ext) {
 	}
 }
 
-bool APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
+BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 
 	static OPENFILENAME ofn;
 	static char path[MAX_PATH];
@@ -567,7 +568,7 @@ bool APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 			case ID_EDIT_OUTPUTFILE:
 			if (HIWORD(w) == 1024) setChanged (true);
 			break;
-			
+
 			case ID_SETTINGSBOX:
 			DialogBox(inst, MAKEINTRESOURCE(DLG_FILE_LOCATIONS), h, (DLGPROC)settingsBoxFunc);
 			break;
@@ -598,11 +599,11 @@ bool APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 						case 1:
 						fixExtension (file, "slu");
 						break;
-						
+
 						case 2:
 						fixExtension (file, "sld");
 						break;
-						
+
 						case 3:
 						fixExtension (file, "tra");
 						break;
@@ -632,7 +633,7 @@ bool APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 				}
 			}
 			break;
-			
+
 			case ID_PROJECT_SAVE:
 			saveProject (loadedFile);
 			break;
@@ -644,16 +645,16 @@ bool APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 			case ID_PROJECT_CLOSE:		// My menu thingy
 			closeProject ();
 			break;
-			
+
 			case IDCANCEL:				// X button
 			case ID_EXIT:
 			PostQuitMessage (0);
 			break;
-			
+
 			case ID_UPGRADES:
 			checkForUpgrades (h);
 			break;
-			
+
 			case ID_LAUNCH_FLOOR:
 			case ID_LAUNCH_Z:
 			case ID_LAUNCH_ENGINE:
@@ -681,7 +682,7 @@ bool APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 				}
 			}
 			break;
-			
+
 			case ID_PROJECT_NEW:
 			{
 				char file[MAX_PATH]="New.slp";
@@ -700,7 +701,7 @@ bool APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 				}
 			}
 			break;
-			
+
 			case ID_CONTENTS_FIND_IN_FILE:
 			DialogBox(inst, MAKEINTRESOURCE(666), h, (DLGPROC)searchBoxFunc);
 			break;
@@ -717,7 +718,7 @@ bool APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 //			WinHelp (mainWin, helpFile, HELP_FINDER, 0);
 			editFile (helpFile, mainWin);
 			break;
-			
+
 /*			case ID_CONTENTS_NEW_PROJECT:
 			MESS(ID_FILELIST, LB_RESETCONTENT, 0, 0);
 			break;
@@ -726,7 +727,7 @@ bool APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 			case ID_CONTENTS_DELETE_FILE:
 			{
 				int i, n = MESS (ID_FILELIST, LB_GETCOUNT, 0, 0);
-				
+
 				for (i = 0; i < n; i ++) {
 					if (MESS (ID_FILELIST, LB_GETSEL, i, 0)) {
 						MESS (ID_FILELIST, LB_DELETESTRING, i, 0);
@@ -741,7 +742,7 @@ bool APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 			case ID_CONTENTS_EDIT_FILE:
 			{
 				int i, n = MESS (ID_FILELIST, LB_GETCOUNT, 0, 0);
-				
+
 				for (i = 0; i < n; i ++) {
 					if (MESS (ID_FILELIST, LB_GETSEL, i, 0)) {
 						char * fn = getFileFromBox (i);
@@ -766,7 +767,7 @@ bool APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 				setTick (ID_KEEP_STRINGS, keepStrings);
 			}
 			break;
-						
+
 			case ID_VERBOSE:
 			if (putRegSetting ("compilerVerbose", ! verboseMode)) {
 				verboseMode = ! verboseMode;
@@ -797,7 +798,7 @@ bool APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 		myMenu = LoadMenu (inst, MAKEINTRESOURCE(1));
 		SetMenu (h, myMenu);
 		verifyOtherKitPrograms ();
-		
+
 		mainWin=h;
 		SetClassLong(h, GCL_HICON, (LONG) LoadIcon(inst, MAKEINTRESOURCE(3)));
 		GetCurrentDirectory(MAX_PATH,path);
@@ -835,8 +836,26 @@ bool APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 		PostQuitMessage(0);
 		return 1;
 	}
-	#pragma unused(l)
 	return 0;
+}
+
+const char * getTempDir () {
+	char la[] = "%temp";
+	char buffer[500];
+	char * returnVal = NULL;
+
+
+	if (ExpandEnvironmentStrings (la, buffer, 499) == 0) {
+		addComment (ERRORTYPE_SYSTEMERROR, "Can't expand string containing environment variable(s)", la, NULL);
+		return NULL;
+	}
+	if (! buffer[0]) {
+		addComment (ERRORTYPE_SYSTEMERROR, "No environment variable(s)", la, NULL);
+		return NULL;
+	}
+	returnVal = joinStrings (buffer, "");
+
+	return returnVal;
 }
 
 
@@ -855,10 +874,10 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine,
                                     IMAGE_BITMAP, 0, 0,
                                     LR_CREATEDIBSECTION);
 
-	if (!CreateDialog(hInstance, MAKEINTRESOURCE(DLG_MAIN), NULL, dialogproc)) {
+	if (! CreateDialog(hInstance, MAKEINTRESOURCE(DLG_MAIN), NULL, dialogproc)) {
 		return 0;
 	}
-	
+
 	while (1) {
 		if (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE)) {
 			if (!GetMessage(&msg, NULL, 0, 0))

@@ -5,13 +5,13 @@
 
 #ifdef __cplusplus
 extern "C" {
-#endif		
+#endif
 
 struct chrRenderingSettingsStruct
 {
 	bool defEnabled;
 	int defSoftnessX, defSoftnessY;
-	
+
 	bool maxEnabled, maxReadIni;
 	int maxSoftnessX, maxSoftnessY;
 };
@@ -24,11 +24,11 @@ struct settingsStruct
 	char *quitMessage;
 	char *customIcon;
 	char *runtimeDataFolder;
-	
+
 	char *finalFile;
 	char *windowName;
 	char *originalLanguage;
-	
+
 	int winMouseImage;
 	bool ditherImages;
 	bool runFullScreen;
@@ -36,10 +36,10 @@ struct settingsStruct
 	bool startupShowLoading;
 	bool startupInvisible;
 	bool forceSilent;
-	
+
 	int	screenHeight;
 	int screenWidth;
-		
+
 	int frameSpeed;
 };
 

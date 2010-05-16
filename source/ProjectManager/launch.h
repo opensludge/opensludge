@@ -1,4 +1,4 @@
-#ifndef HWND
+#ifndef _WIN32
 #define HWND int
 #endif
 

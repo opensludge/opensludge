@@ -1,6 +1,7 @@
 #ifdef __cplusplus
 extern "C" {
-#endif	#include <stdio.h>
+#endif
+#include <stdio.h>
 
 // Input
 

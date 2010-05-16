@@ -5,7 +5,7 @@
 1193991332 c:\programmering\sludge\windows engine\sludge engine\resource.h
 	<windows.h>
 
-1270243961 source:c:\programmering\sludge\source\commoncode\tga.cpp
+1272799569 source:c:\programmering\sludge\source\commoncode\tga.cpp
 	<stdio.h>
 	"tga.h"
 
@@ -99,13 +99,13 @@
 	"people.h"
 	"sludger.h"
 
-1268255837 c:\programmering\sludge\source\engine\sprites.h
+1273862935 c:\programmering\sludge\source\engine\sprites.h
 	"GLee.h"
 
 1268255838 c:\programmering\sludge\source\engine\sprbanks.h
 	"sprites.h"
 
-1269774153 c:\programmering\sludge\source\engine\people.h
+1273862935 c:\programmering\sludge\source\engine\people.h
 	"sprites_aa.h"
 
 1268255838 c:\programmering\sludge\source\engine\sludger.h
@@ -194,7 +194,7 @@
 1268255837 c:\programmering\sludge\source\engine\floor.h
 	"windef.h"
 
-1268255838 c:\programmering\sludge\source\engine\sound.h
+1272748975 c:\programmering\sludge\source\engine\sound.h
 	"variable.h"
 	<windows.h>
 
@@ -486,11 +486,12 @@
 	"newfatal.h"
 	"debug.h"
 
-1272711184 source:c:\programmering\sludge\source\engine\sprites.cpp
+1273862935 source:c:\programmering\sludge\source\engine\sprites.cpp
 	<png.h>
 	<libpng/png.h>
 	"allfiles.h"
 	"fileset.h"
+	"people.h"
 	"sprites.h"
 	"sprites_aa.h"
 	"moreio.h"
@@ -598,7 +599,7 @@
 	"newfatal.h"
 	"moreio.h"
 
-1272711184 source:c:\programmering\sludge\source\engine\builtin.cpp
+1273862935 source:c:\programmering\sludge\source\engine\builtin.cpp
 	"debug.h"
 	"allfiles.h"
 	<SDL/SDL.h>
@@ -637,7 +638,7 @@
 
 1268255838 c:\programmering\sludge\source\engine\savedata.h
 
-1268255861 c:\programmering\sludge\source\commoncode\functionlist.h
+1273862935 c:\programmering\sludge\source\commoncode\functionlist.h
 
 1268255838 source:c:\programmering\sludge\source\engine\debug.cpp
 	<stdarg.h>
@@ -733,7 +734,7 @@
 	<stdlib.h>
 	"allfiles.h"
 
-1272711184 source:c:\programmering\sludge\source\engine\people.cpp
+1273863163 source:c:\programmering\sludge\source\engine\people.cpp
 	"allfiles.h"
 	<math.h>
 	<stdlib.h>
@@ -838,7 +839,7 @@
 
 1268255861 c:\programmering\sludge\source\commoncode\specialsettings.h
 
-1272711184 source:c:\programmering\sludge\source\engine\sound_openal.cpp
+1272799569 source:c:\programmering\sludge\source\engine\sound_openal.cpp
 	<stdint.h>
 	<stdio.h>
 	"AL/alure.h"

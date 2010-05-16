@@ -28,7 +28,7 @@ bool silent = true;
 
 
 void noSettings () {
-	
+
 	if (settings.quitMessage) delete settings.quitMessage;
 	settings.quitMessage = joinStrings ("Are you sure you want to quit?", "");
 	if (settings.customIcon) delete settings.customIcon;
@@ -86,11 +86,11 @@ void readDir (char * t) {
 		} else if (strcmp (splitLine -> string, "windowname") == 0) {
 			if (settings.windowName) delete settings.windowName;
 			settings.windowName = joinStrings ("", splitLine -> next -> string);
-			
+
 		} else if (strcmp (splitLine -> string, "language") == 0) {
 			if (settings.originalLanguage) delete settings.originalLanguage;
 			settings.originalLanguage = joinStrings ("", splitLine -> next -> string);
-			
+
 		// NEW MOUSE SETTING
 		} else if (strcmp (splitLine -> string, "mouse") == 0) {
 			settings.winMouseImage = stringToInt (splitLine -> next -> string);
@@ -150,18 +150,18 @@ bool readSettings (FILE * fp) {
 	char * grabLine;
 	bool keepGoing = true;
 	noSettings ();
-	
+
 	while (keepGoing) {
 		grabLine = readText (fp);
 		if (grabLine && grabLine[0]) {
-			readDir (grabLine);			
+			readDir (grabLine);
 		} else
 			keepGoing = false;
 		delete grabLine;
 	}
-	
+
 	if (! settings.finalFile) return addComment (ERRORTYPE_PROJECTERROR, "Vital line missing from project", "finalfile", NULL);
-	
+
 	return true;
 }
 
@@ -171,7 +171,7 @@ void killSettingsStrings ()
 	if (settings.customIcon) delete settings.customIcon;
 	if (settings.runtimeDataFolder) delete settings.runtimeDataFolder;
 	if (settings.finalFile) delete settings.finalFile;
-	if (settings.windowName) delete settings.windowName; 
+	if (settings.windowName) delete settings.windowName;
 }
 
 char * newString (const char * old)
@@ -189,9 +189,11 @@ char * newString (const char * old)
  * but it's nice to clean up anyway, and I don't think Windows cleans up that way.
  *
  */
-void killTempDir() {	
+void killTempDir() {
+	// TODO!
+#ifndef WIN32
 	gotoTempDirectory ();
-	
+
 	struct dirent **eps;
 	int n = scandir (tempDirectory, &eps, NULL, NULL);
 	if (n > 0)
@@ -203,10 +205,11 @@ void killTempDir() {
 		}
 		free (eps);
 	}
-	
-	gotoSourceDirectory ();	
+
+	gotoSourceDirectory ();
 	rmdir(tempDirectory);
 	tempDirectory = NULL;
+#endif
 }
 
 static void fileWriteBool (FILE * fp, const char * theString, bool theBool)
@@ -215,7 +218,7 @@ static void fileWriteBool (FILE * fp, const char * theString, bool theBool)
 }
 
 void writeSettings (FILE * fp) {
-		 
+
 	fprintf 		(fp, "[SETTINGS]\nwindowname=%s\n", settings.windowName);
 	fprintf 		(fp, "finalfile=%s\n", 				settings.finalFile);
 	fprintf 		(fp, "language=%s\n", 				settings.originalLanguage);
@@ -232,7 +235,7 @@ void writeSettings (FILE * fp) {
 	fprintf 	  	(fp, "width=%lu\n",					settings.screenWidth);
 	fprintf 	  	(fp, "height=%lu\n", 				settings.screenHeight);
 	fprintf 		(fp, "speed=%lu\n", 				settings.frameSpeed);
-	
+
 	fileWriteBool	(fp, "chrRender_def_enabled", 		chrRenderingSettings.defEnabled);
 	fprintf 	 	(fp, "chrRender_def_softX=%lu\n",	chrRenderingSettings.defSoftnessX);
 	fprintf 	 	(fp, "chrRender_def_softY=%lu\n",	chrRenderingSettings.defSoftnessY);
@@ -241,7 +244,7 @@ void writeSettings (FILE * fp) {
 	fileWriteBool	(fp, "chrRender_max_readIni", 		chrRenderingSettings.maxReadIni);
 	fprintf 	 	(fp, "chrRender_max_softX=%lu\n",	chrRenderingSettings.maxSoftnessX);
 	fprintf 	 	(fp, "chrRender_max_softY=%lu\n",	chrRenderingSettings.maxSoftnessY);
-	
+
 	fprintf 		(fp, "\n[FILES]\n");
 }
 
@@ -270,10 +273,14 @@ bool gotoTempDirectory () {
 		tempDirectory = joinStrings(getTempDir(), "/SLUDGE_Tmp_XXXXXX");
 		fixPath (tempDirectory, true);
 		if (mktemp (tempDirectory)) {
+#ifdef WIN32
+			if (mkdir (tempDirectory))
+#else
 			if (mkdir (tempDirectory, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH))
+#endif
 				tempDirectory = NULL;
 		}
-	}	
+	}
 	if (! tempDirectory) return false;
 	bool r = chdir (tempDirectory);
 	if (r) return addComment (ERRORTYPE_SYSTEMERROR, "Can't move to temporary directory", tempDirectory, NULL);
@@ -283,11 +290,11 @@ bool gotoTempDirectory () {
 FILE * openFinalFile (char * addMe, char * mode) {
 	char * fullName = joinStrings (settings.finalFile, addMe);
 	if (! fullName) return NULL;
-	
+
 	gotoSourceDirectory ();
 	FILE * fp = fopen (fullName, mode);
 	delete fullName;
-	
+
 	return fp;
 }
 
@@ -313,17 +320,17 @@ void writeFinalData (FILE * mainFile) {
 	fputc (0, mainFile);
 	fprintf (mainFile, "\r\nSLUDGE data file\r\nSLUDGE is (c) Hungry Software and contributors 2006-2010\r\nThis data file must be run using the SLUDGE engine available at http://www.hungrysoftware.com/\r\n");
 	fputc (0, mainFile);
-	
+
 	fputc (MAJOR_VERSION, mainFile);		// Major version
 	fputc (MINOR_VERSION, mainFile);		// Minor version
-	
+
 	if (programSettings.compilerVerbose) {
 		fputc (1, mainFile);
 		writeDebugData (mainFile);
 	} else {
 		fputc (0, mainFile);
 	}
-	
+
 	put2bytes (settings.screenWidth, mainFile);
 	put2bytes (settings.screenHeight, mainFile);
 	fputc ((1 /* reg */	) +
@@ -334,33 +341,33 @@ void writeFinalData (FILE * mainFile) {
 		   (settings.startupInvisible 							  << 5) +
 		   ((! settings.startupShowLogo)								  << 6) +
 		   ((! settings.startupShowLoading)							  << 7),
-		   
+
 		   mainFile);
-	
+
 	fputc (settings.frameSpeed, mainFile);
 	writeString ("", mainFile); // Unused - was used for registration.
-	
+
 	// Now write the date and time of compilation...
-	
-	/* TODO - but not used by the engine anyway 
+
+	/* TODO - but not used by the engine anyway
 		SYSTEMTIME systemTime;*/
 	FILETIME fileTime;
 	//GetSystemTime (& systemTime);
 	//SystemTimeToFileTime (& systemTime, & fileTime);
 	fwrite (& fileTime, sizeof (fileTime), 1, mainFile);
-	
+
 	// More bits
-	
+
 	writeString (settings.runtimeDataFolder, mainFile);
-	
+
 	addTranslationIDTable (mainFile, settings.originalLanguage);
-	
+
 	// Max anti-alias settings
 	fputc (chrRenderingSettings.maxReadIni, mainFile);
 	fputc (chrRenderingSettings.maxEnabled, mainFile);
 	putFloat (chrRenderingSettings.maxSoftnessX / 16.f, mainFile);
 	putFloat (chrRenderingSettings.maxSoftnessY / 16.f, mainFile);
-	
+
 	writeString ("okSoFar", mainFile);
 }
 
@@ -370,7 +377,7 @@ void writeFinalData (FILE * mainFile) {
 
 bool getSourceDirFromName (const char * name) {
 	char * filename = joinStrings (name, "");
-	
+
 	int a, lastSlash = -1;
 	for (a = 0; filename[a]; a ++) {
 		if (filename[a] == '/' || filename[a] == '\\') {
@@ -416,25 +423,3 @@ void fixPath (char *filename, bool makeGood) {
 }
 
 
-#ifdef _WIN32	
-
-char * getTempDir () {
-	char la[] = "%temp";
-	char buffer[500];
-	char * returnVal = NULL;
-	
-	
-	if (ExpandEnvironmentStrings (la, buffer, 499) == 0) {
-		addComment (ERRORTYPE_SYSTEMERROR, "Can't expand string containing environment variable(s)", la, NULL);
-		return NULL;
-	}
-	if (! buffer[0]) {
-		addComment (ERRORTYPE_SYSTEMERROR, "No environment variable(s)", la, NULL);
-		return NULL;
-	}
-	returnVal = joinStrings (buffer, "");
-	
-	return returnVal;
-}
-
-#endif
