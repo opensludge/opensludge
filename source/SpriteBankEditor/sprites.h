@@ -1,4 +1,4 @@
-#ifndef HWND
+#ifndef __SPRITES_H__
 #define __SPRITES_H__
 
 //#include <OpenGL/gl.h>

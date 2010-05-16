@@ -1,4 +1,4 @@
-#ifdef WIN32
+#ifdef _WIN32
 
 #include "PercBar.h"
 #include "wintext.h"

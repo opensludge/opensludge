@@ -398,7 +398,7 @@ bool getSourceDirFromName (const char * name) {
 void fixPath (char *filename, bool makeGood) {
 	if (! filename) return;
 	char * ptr;
-#ifdef WIN32
+#ifdef _WIN32
 	while (ptr = strstr (filename, "/")) {
 		ptr[0] = '\\';
 	}
@@ -416,7 +416,7 @@ void fixPath (char *filename, bool makeGood) {
 }
 
 
-#ifdef WIN32	
+#ifdef _WIN32	
 
 char * getTempDir () {
 	char la[] = "%temp";
