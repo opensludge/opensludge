@@ -10,7 +10,7 @@
 #include "Project.hpp"
 
 #include "settings.h"
-#include "WINTERFA.H"
+#include "wintext.h"
 
 // -- These are from "MessBox.h"
 struct errorLinkToFile
@@ -417,13 +417,13 @@ extern char * gameFile;
 	if (!s) return;
 	
 	switch (where) {
-		case COM_PROGTEXT:
+		case COMPILER_TXT_ACTION:
 			[compTask setStringValue:s];
 			break;
-		case COM_FILENAME:
+		case COMPILER_TXT_FILENAME:
 			[compFile setStringValue:s];
 			break;
-		case COM_ITEMTEXT:
+		case COMPILER_TXT_ITEM:
 			[compItem setStringValue:s];
 			break;
 	}
@@ -465,7 +465,7 @@ void clearRect (int i, int whichBox) {
 		[me setProgress2max:i?i:1];
 }
 
-void setCompilerText (int where, const char * tx) {
+void setCompilerText (const where, const char * tx) {
 	[me setText:tx here:where];
 }
 

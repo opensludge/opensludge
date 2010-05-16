@@ -8,7 +8,6 @@
 #include "settings.h"
 #include "MessBox.h"
 #include "LINKER.H"
-#include "WINTERFA.H"
 #include "wintext.h"
 #include "checkUsed.h"
 
@@ -47,10 +46,10 @@ bool runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray 
 	if (readObj == NULL) return addComment (ERRORTYPE_SYSTEMERROR, "Can't open", filename, NULL);
 
 	originalName = readString (readObj);
-	setCompilerText (COM_ITEMTEXT, originalName);
+	setCompilerText (COMPILER_TXT_ITEM, originalName);
 
 	grabbedText = readString (readObj);
-	setCompilerText (COM_FILENAME, grabbedText);
+	setCompilerText (COMPILER_TXT_FILENAME, grabbedText);
 	char * theOriginalFilename = grabbedText;
 
 	char * classNameDot = readString (readObj);

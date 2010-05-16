@@ -9,7 +9,6 @@
 #include "OBJTYPE.H"
 #include "MessBox.h"
 #include "wintext.h"
-#include "WINTERFA.H"
 #include "ALLKNOWN.H"
 
 int subNum = 0;
@@ -60,7 +59,7 @@ bool realWork (int fileNumber, stringArray * & globalVars, compilationSpace & gl
 	origName = splitString (theSource, '*', ONCE);
 	delete theSource;
 
-	setCompilerText (COM_FILENAME, origName -> string);
+	setCompilerText (COMPILER_TXT_FILENAME, origName -> string);
 
 	theBits = splitString (origName -> next -> string, ';', REPEAT);
 

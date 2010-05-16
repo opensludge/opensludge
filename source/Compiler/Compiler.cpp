@@ -30,7 +30,6 @@
 #include "settings.h"
 #include "HSI.H"
 #include "ObjType.h"
-#include "WINTERFA.H"
 #include "wintext.h"
 
 enum { CSTEP_INIT,
@@ -112,13 +111,13 @@ void setCompileStep (int a, int totalBits)
 	compileStep = a;
 	data1 = 0;
 	
-	setCompilerText (COM_PROGTEXT, stageName[a]);
+	setCompilerText (COMPILER_TXT_ACTION, stageName[a]);
 	fprintf (stderr, "%s\n", stageName[a]);
 	
 	if (a <= CSTEP_DONE)
 	{
-		setCompilerText (COM_FILENAME, "");
-		setCompilerText (COM_ITEMTEXT, "");
+		setCompilerText (COMPILER_TXT_FILENAME, "");
+		setCompilerText (COMPILER_TXT_ITEM, "");
 		
 		clearRect (CSTEP_DONE, P_TOP);
 		percRect (a, P_TOP);
@@ -154,7 +153,7 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 			} else {
 				char * tx = fileList[data1];
 				fixPath(tx, true);
-				setCompilerText (COM_FILENAME, tx);
+				setCompilerText (COMPILER_TXT_FILENAME, tx);
 				
 				char * compareMe = tx + (strlen (tx) - 4);
 				char * lowExt = compareMe;
@@ -234,9 +233,9 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 	
 		// ADD ICON ------------------------------------
 		if (settings.customIcon && settings.customIcon[0]) {
-			setCompilerText (COM_PROGTEXT, "Adding custom icon");
-			setCompilerText (COM_FILENAME, settings.customIcon);
-			setCompilerText (COM_ITEMTEXT, "");
+			setCompilerText (COMPILER_TXT_ACTION, "Adding custom icon");
+			setCompilerText (COMPILER_TXT_FILENAME, settings.customIcon);
+			setCompilerText (COMPILER_TXT_ITEM, "");
 			char * iconFile = joinStrings (settings.customIcon, "");
 			if (getFileType (iconFile) == FILETYPE_TGA) {
 				convertTGA (iconFile);
@@ -367,8 +366,8 @@ int compileEverything (char * project, char **fileList, int *numFiles) {
 	int success = true;
 	clearTranslations ();
 	if (! getSourceDirFromName (project)) {
-		setCompilerText (COM_PROGTEXT, "Error initialising!");
-		setCompilerText (COM_FILENAME, "Could not find the folder for the source files.");
+		setCompilerText (COMPILER_TXT_ACTION, "Error initialising!");
+		setCompilerText (COMPILER_TXT_FILENAME, "Could not find the folder for the source files.");
 		return false;
 	}		
 	

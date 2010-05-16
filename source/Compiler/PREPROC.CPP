@@ -5,7 +5,6 @@
 #include "MOREIO.H"
 #include "settings.h"
 #include "MessBox.h"
-#include "WINBOX.H"
 #include "dumpfiles.h"
 
 #define numDoubleCharTypes 13

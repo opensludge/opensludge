@@ -6,7 +6,6 @@
 #include "MOREIO.H"
 #include "SPLITTER.HPP"
 #include "wintext.h"
-#include "WINTERFA.H"
 #include "MessBox.h"
 #include "TGA.h"
 
@@ -176,7 +175,7 @@ bool convertTGA (char * filename) {
 
 	if (newerFile (oldName, filename)) {
 		backdrop32 = false;
-		setCompilerText (COM_ITEMTEXT, "Compressing image");
+		setCompilerText (COMPILER_TXT_ITEM, "Compressing image");
 		i = loadBackDropForCompiler (oldName);
 		if (! i) return false;
 		if (backdrop32) {
@@ -199,7 +198,7 @@ bool convertTGA (char * filename) {
 
 			if (! j) return false;
 		}
-		setCompilerText (COM_ITEMTEXT, "");
+		setCompilerText (COMPILER_TXT_ITEM, "");
 	}
 	delete oldName;
 	return true;

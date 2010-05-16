@@ -8,7 +8,6 @@
 #include "TOKENS.H"
 #include "MOREIO.H"
 #include "MessBox.h"
-#include "WINTERFA.H"
 #include "PercBar.h"
 #include "wintext.h"
 #include "ALLKNOWN.H"
@@ -90,7 +89,7 @@ bool startFunction (int num,
 					
 	char file1[30], file2[30];
 	
-	setCompilerText (COM_ITEMTEXT, theName);
+	setCompilerText (COMPILER_TXT_ITEM, theName);
 	sprintf (file1, "_F%05i.dat", num);
 	sprintf (file2, "_F%05iM.dat", num);
 	
@@ -961,7 +960,7 @@ bool outdoorSub (char * code, const char * fileName) {
 
 	char * functionName = joinStrings (inThisClass, getSpecial -> string);
 
-	setCompilerText (COM_ITEMTEXT, functionName);
+	setCompilerText (COMPILER_TXT_ITEM, functionName);
 
 	if (! destroyFirst (getContents)) {
 		addComment (ERRORTYPE_PROJECTERROR, "Bad sub definition (no parameters)", functionName, fileName);

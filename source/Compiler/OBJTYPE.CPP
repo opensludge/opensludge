@@ -10,7 +10,6 @@
 #include "REALPROC.H"
 #include "MessBox.h"
 #include "wintext.h"
-#include "WINTERFA.H"
 #include "wintext.h"
 #include "checkUsed.h"
 
@@ -63,7 +62,7 @@ bool createObjectType (char * code, const char * fName, stringArray * & globalVa
 
 	char * displayName = joinStrings (getBits -> string, "");
 	inThisClass = joinStrings (displayName, ".");
-	setCompilerText (COM_ITEMTEXT, displayName);
+	setCompilerText (COMPILER_TXT_ITEM, displayName);
 	objNam = joinStrings (getBits -> string, ".");
 
 	if (! checkNotKnown (getBits -> string, fName)) return false;
@@ -123,7 +122,7 @@ bool createObjectType (char * code, const char * fName, stringArray * & globalVa
 						getBitInsides -> string, false, false, fName)	// Code without {}
 					< 0 ) return false;
 
-					setCompilerText (COM_ITEMTEXT, displayName);
+					setCompilerText (COMPILER_TXT_ITEM, displayName);
 					destroyAll (getBitInsides);
 					delete newFuncName;
 					numCombis ++;
@@ -277,9 +276,9 @@ bool linkObjectFile (FILE * mainFile, FILE * indexFile, int i, unsigned long cal
 	if (! fileIn) return addComment (ERRORTYPE_SYSTEMERROR, "Can't read object type file", fbuff, NULL);
 
 	objNam = readString (fileIn);
-	setCompilerText (COM_ITEMTEXT, objNam);
+	setCompilerText (COMPILER_TXT_ITEM, objNam);
 	char * fileNam = readString (fileIn);
-	setCompilerText (COM_FILENAME, fileNam);
+	setCompilerText (COMPILER_TXT_FILENAME, fileNam);
 
 	for (a = 0; a < 2; a ++) {
 		fputc (fgetc (fileIn), mainFile);

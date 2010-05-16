@@ -11,7 +11,6 @@
 #include "SPLITTER.HPP"
 #include "settings.h"
 #include "translation.h"
-#include "WINTERFA.H"
 #include "MOREIO.H"
 #include "wintext.h"
 #include "MessBox.h"

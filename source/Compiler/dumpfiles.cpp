@@ -5,7 +5,6 @@
 #include "SPLITTER.HPP"
 #include "PercBar.h"
 #include "wintext.h"
-#include "WINTERFA.H"
 #include "settings.h"
 #include "HSI.H"
 #include "MessBox.h"
@@ -75,8 +74,8 @@ bool dumpFiles (FILE * mainFile, stringArray * & theSA) {
 	
 	// Display first...
 
-	setCompilerText (COM_PROGTEXT, "Attaching sprites, images and audio files");
-	setCompilerText (COM_ITEMTEXT, "");
+	setCompilerText (COMPILER_TXT_ACTION, "Attaching sprites, images and audio files");
+	setCompilerText (COMPILER_TXT_ITEM, "");
 	
 	int numFiles = countElements (theSA);
 	
@@ -101,7 +100,7 @@ bool dumpFiles (FILE * mainFile, stringArray * & theSA) {
 	
 	bool killAfterAdd;
 	while (theSA) {
-		setCompilerText (COM_FILENAME, theSA -> string);
+		setCompilerText (COMPILER_TXT_FILENAME, theSA -> string);
 		
 		killAfterAdd = false;
 		if (! theSA -> string[0]) {
@@ -161,8 +160,8 @@ bool dumpFiles (FILE * mainFile, stringArray * & theSA) {
 	}
 	long filePos = ftell(mainFile);
 	
-	setCompilerText (COM_PROGTEXT, "Adding look-up table");
-	setCompilerText (COM_FILENAME, "");		
+	setCompilerText (COMPILER_TXT_ACTION, "Adding look-up table");
+	setCompilerText (COMPILER_TXT_FILENAME, "");		
 	percRect (++ i, P_BOTTOM);
 
 	fseek(mainFile, lookup, SEEK_SET);

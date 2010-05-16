@@ -4,7 +4,6 @@
 #include "MOREIO.H"
 #include "SPLITTER.HPP"
 #include "wintext.h"
-#include "WINTERFA.H"
 #include "MessBox.h"
 
 bool convertFloor (char * filename) {
