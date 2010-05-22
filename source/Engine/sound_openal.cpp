@@ -79,6 +79,15 @@ bool initSoundStuff (HWND hwnd) {
 		modCache[a].playing = false;
 	}
 
+// Remove ifdef when switching to Alure 1.1 stable!
+#if defined __unix__ && !(defined __APPLE__)
+	if (! alureUpdateInterval(0.1))
+	{
+		fprintf(stderr, "Failed to set Alure update interval: %s\n",
+				alureGetErrorString());
+		return 1;
+	}
+#endif
 	return soundOK = true;
 }
 

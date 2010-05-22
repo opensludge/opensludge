@@ -1,7 +1,7 @@
 Windows and Mac OS X
 ********************
 
-If you use Windows or Mac OS X, you should use the prebuilt releases
+   If you use Windows or Mac OS X, you should use the prebuilt releases
 available on the project page. If you want to compile SLUDGE yourself
 on these platforms, you can use the Dev-C++ project files in the
 "Windows Engine" or the or Xcode project files in the "Mac Engine" and
@@ -14,21 +14,21 @@ Linux
 Dependencies
 ============
 
-Dependencies of the OpenSLUDGE engine are SDL, OpenGL, GLee, libGLU and
-libpng. OpenAL sound support requires OpenAL and Alure with Vorbis, FLAC
-and DUMB support enabled.
+   Dependencies of the OpenSLUDGE engine are SDL, OpenGL, GLee, libGLU
+and libpng. OpenAL sound support requires OpenAL and Alure (>= 1.1) with
+Vorbis, FLAC and DUMB support enabled.
 
-On Debian and Ubuntu the correspoding packages are libsdl1.2-dev,
+   On Debian and Ubuntu the correspoding packages are libsdl1.2-dev,
 mesa-common-dev, glee-dev (only available in Debian Squeeze yet, but
 you can use this package for Ubuntu, too), libglu1-mesa-dev,
-libpng12-dev, libopenal-dev, libvorbis-dev, libflac-dev and libdumb1-dev.
+libpng12-dev, libopenal-dev, libalure-dev (only version 1.0 by now),
+libvorbis-dev, libflac-dev and libdumb1-dev.
 
-Alure, version 1.0, is available in Debian and Ubuntu, but SLUDGE
-requires a version greater than 1.0. This means you have to get the
-newest version of Alure from git for now:
-http://kcat.strangesoft.net/alure.html
+   Until Alure, version 1.1, is available in Debian and Ubuntu, you have
+to get Alure from http://kcat.strangesoft.net/alure.html and install it
+manually.
 
-Compile and install Alure, making sure that at least Vorbis, FLAC and
+   Compile and install Alure, making sure that at least Vorbis, FLAC and
 DUMB support are enabled:
 
 cmake .
@@ -37,7 +37,7 @@ make install
 
 (make install requires root rights.)
 
-Now you can go on installing OpenSLUDGE.
+   Now you can go on installing OpenSLUDGE.
 
 Installing OpenSLUDGE
 =====================

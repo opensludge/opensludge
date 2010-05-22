@@ -16,7 +16,7 @@ AC_PROG_INSTALL
 AC_CHECK_LIB([GL], [glBegin])
 AC_CHECK_LIB([GLU], [gluCylinder])
 AC_CHECK_LIB([SDL], [SDL_Init])
-AC_CHECK_LIB([alure], [alureCreateStreamFromMemory])
+AC_CHECK_LIB([alure], [alureUpdateInterval])
 AC_CHECK_LIB([png], [png_sig_cmp])
 AC_CHECK_LIB([glee], [GLeeInit])
 AC_CHECK_LIB([GLee], [GLeeInit])
@@ -77,7 +77,7 @@ if test $ac_cv_lib_glee_GLeeInit
   else
     echo "GLee            ..."$ac_cv_lib_GLee_GLeeInit
 fi
-echo "Alure (> 1.0)   ..."$ac_cv_lib_alure_alureCreateStreamFromMemory
+echo "Alure (>= 1.1)  ..."$ac_cv_lib_alure_alureUpdateInterval
 echo ""
 echo "GL/glu.h        ..."$ac_cv_header_GL_glu_h
 echo "SDL/SDL.h       ..."$ac_cv_header_SDL_SDL_h
