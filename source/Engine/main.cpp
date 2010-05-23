@@ -113,6 +113,7 @@ void tick () {
 void saveHSI (FILE * writer);
 
 extern bool reallyWantToQuit;
+extern bool useMySpecialAA;
 
 bool fileExists(char * file) {
 	FILE * tester;
@@ -333,12 +334,17 @@ int main(int argc, char *argv[]) try
 						if (SDLK_RETURN == event.key.keysym.sym) {
 							setGraphicsWindow(! runningFullscreen);
 						}
+						if (SDLK_a == event.key.keysym.sym) {
+							useMySpecialAA = ! useMySpecialAA;
+							break;
+						}
 						// Allow Alt+F4 to quit
 						if (SDLK_F4 ==  event.key.keysym.sym) {
 						    SDL_Event event;
 						    event.type = SDL_QUIT;
 						    SDL_PushEvent(&event);
 						}
+						
 						break;
 					}
 					switch (event.key.keysym.sym) {

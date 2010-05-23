@@ -543,7 +543,7 @@ void copyToBackDrop (GLuint fromHere, int orW, int orH, int orX, int orY, parall
 	backdropExists = true;
 }
 
-
+extern bool useMySpecialAA;
 
 
 void drawBackDrop () {
@@ -590,6 +590,19 @@ void drawBackDrop () {
 	}
 
 	glBindTexture (GL_TEXTURE_2D, backdropTextureName);
+	if (useMySpecialAA) {
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	
+		glUseProgram(shader.smartScaler);
+		GLuint uniform = glGetUniformLocation(shader.smartScaler, "OGL2Size");
+		//if (scale > 1.0) {
+		if (uniform >= 0) glUniform4f(uniform, 1.0/sceneWidth, 1.0/sceneHeight, 1.0, 1.0);
+		//} else {
+		//	if (uniform >= 0) glUniform4f(uniform, scale*0.5/fontPal.tex_w[single.texNum], scale*0.5/fontPal.tex_h[single.texNum], 1.0, 1.0);
+		//}
+	} else {
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	}
 	glBegin(GL_QUADS);
 	glTexCoord2f(0.0, 0.0); glVertex3f(-cameraX, -cameraY, 0.0);
 	glTexCoord2f(backdropTexW, 0.0); glVertex3f(sceneWidth-cameraX, -cameraY, 0.0);
@@ -598,6 +611,7 @@ void drawBackDrop () {
 	glEnd();
 	glDisable(GL_BLEND);
 
+	glUseProgram(0);
 }
 
 bool loadLightMap (int v) {

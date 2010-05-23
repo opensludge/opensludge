@@ -21,6 +21,8 @@
 
 #include "shaders.h"
 
+bool useMySpecialAA = false;
+
 extern zBufferData zBuffer;
 extern GLuint backdropTextureName;
 
@@ -602,7 +604,7 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 	float tx1 = (float)(single.tex_x) / fontPal.tex_w[single.texNum];
 	float ty1 = (float) 1.0/fontPal.tex_h[single.texNum];
 	float tx2 = (float)(single.tex_x + single.width) / fontPal.tex_w[single.texNum];
-	float ty2 = (float)(single.height+1)/fontPal.tex_h[single.texNum];
+	float ty2 = (float)(single.height+1)/fontPal.tex_h[single.texNum];	
 	
 	int diffX = ((float)single.width) * scale;
 	int diffY = ((float)single.height) * scale;
@@ -669,14 +671,25 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 	setDrawMode (thisPerson);
 
 	glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
-	if (aa->useMe && maxAntiAliasSettings.useMe)
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	else
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	if (useMySpecialAA) {
+		glUseProgram(shader.smartScaler);
+		GLuint uniform = glGetUniformLocation(shader.smartScaler, "OGL2Size");
+		//if (scale > 1.0) {
+			if (uniform >= 0) glUniform4f(uniform, 1.0/fontPal.tex_w[single.texNum], 1.0/fontPal.tex_h[single.texNum], 1.0, 1.0);
+		//} else {
+		//	if (uniform >= 0) glUniform4f(uniform, scale*0.5/fontPal.tex_w[single.texNum], scale*0.5/fontPal.tex_h[single.texNum], 1.0, 1.0);
+		//}
+	} else {
+		if (aa->useMe && maxAntiAliasSettings.useMe)
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		else
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	}
+	
 	glBegin(GL_QUADS);
 
 	float ltx1, ltx2, lty1, lty2;
@@ -707,6 +720,7 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 
 	glEnd();
 	glDisable(GL_BLEND);
+	glUseProgram(0);
 
 	if (light && lightMapMode == LIGHTMAPMODE_PIXEL) {
 		glActiveTexture(GL_TEXTURE1);

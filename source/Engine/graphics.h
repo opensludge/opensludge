@@ -20,6 +20,7 @@ struct texture {
 
 struct shaders {
 	GLuint fixScaleSprite;
+	GLuint smartScaler;
 };
 
 // From Backdrop.cpp, but they're here anyway
