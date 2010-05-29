@@ -136,8 +136,8 @@
 	<File name="..\..\source\Engine\line.h" open="0" top="0" tabpos="6">
 		<Cursor position="48" topLine="0" />
 	</File>
-	<File name="..\..\source\Engine\main.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="4146" topLine="191" />
+	<File name="..\..\source\Engine\main.cpp" open="1" top="1" tabpos="1">
+		<Cursor position="205" topLine="0" />
 	</File>
 	<File name="..\..\source\Engine\people.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="10776" topLine="362" />

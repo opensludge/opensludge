@@ -150,15 +150,14 @@ int main(int argc, char *argv[]) try
 #ifdef __APPLE__
 	// bundleFolder is set in applicationDidFinishLaunching.
 #else
-	bundleFolder = new char[strlen(argv[0])+1];
-	strcpy (bundleFolder, argv[0]);	
+	bundleFolder = copyString(argv[0]);
 	int lastSlash = -1;
 	for (int i = 0; bundleFolder[i]; i ++) {
 		if (bundleFolder[i] == PATHSLASH) lastSlash = i;
 	}
 	bundleFolder[lastSlash+1] = NULL;
 #endif
-	
+
 	if (argc > 1) {
 		sludgeFile = argv[argc - 1];
 	} else {
@@ -184,10 +183,10 @@ int main(int argc, char *argv[]) try
 	}
 #endif
 
-	// The player pressed cancel in the file selection dialogue, 
+	// The player pressed cancel in the file selection dialogue,
 	// so we should quit now.
 	if (! sludgeFile) return 0;
-	
+
 	// OK, so we DO want to start up, then...
 	setGameFilePath (sludgeFile);
 	if (! initSludge (sludgeFile)) return 0;
@@ -345,7 +344,7 @@ int main(int argc, char *argv[]) try
 						    event.type = SDL_QUIT;
 						    SDL_PushEvent(&event);
 						}
-						
+
 						break;
 					}
 					switch (event.key.keysym.sym) {

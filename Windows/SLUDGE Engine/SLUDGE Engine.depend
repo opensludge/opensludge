@@ -27,7 +27,7 @@
 	<GL/glx.h>
 	<stddef.h>
 
-1272711184 source:c:\programmering\sludge\source\engine\backdrop.cpp
+1274633646 source:c:\programmering\sludge\source\engine\backdrop.cpp
 	<png.h>
 	<libpng/png.h>
 	<stdlib.h>
@@ -74,7 +74,7 @@
 
 1268255837 c:\programmering\sludge\source\engine\variable.h
 
-1268255838 c:\programmering\sludge\source\engine\graphics.h
+1274633646 c:\programmering\sludge\source\engine\graphics.h
 	"GLee.h"
 
 1258802902 c:\programmering\sludge\source\engine\MOREIO.H
@@ -486,7 +486,7 @@
 	"newfatal.h"
 	"debug.h"
 
-1273862935 source:c:\programmering\sludge\source\engine\sprites.cpp
+1274633646 source:c:\programmering\sludge\source\engine\sprites.cpp
 	<png.h>
 	<libpng/png.h>
 	"allfiles.h"
@@ -660,7 +660,7 @@
 	"sprites_aa.h"
 	"allfiles.h"
 
-1272711184 source:c:\programmering\sludge\source\engine\graphics.cpp
+1275161126 source:c:\programmering\sludge\source\engine\graphics.cpp
 	<SDL/SDL.h>
 	"platform-dependent.h"
 	"specialsettings.h"
@@ -681,7 +681,7 @@
 	"language.h"
 	"version.h"
 
-1272711184 source:c:\programmering\sludge\source\engine\main.cpp
+1275161444 source:c:\programmering\sludge\source\engine\main.cpp
 	"linuxstuff.h"
 	"winstuff.h"
 	<stdio.h>
@@ -819,11 +819,13 @@
 
 1264277790 c:\programmering\sludge\images\resource.h
 
-1268255837 c:\programmering\sludge\source\engine\shaders.h
+1275161126 c:\programmering\sludge\source\engine\shaders.h
 	"GLee.h"
 
-1272711184 source:c:\programmering\sludge\source\engine\shaders.cpp
+1275161444 source:c:\programmering\sludge\source\engine\shaders.cpp
 	<stdio.h>
+	<stdlib.h>
+	"stringy.h"
 	"shaders.h"
 	<GL\glu.h>
 	<OpenGL/glu.h>
@@ -839,7 +841,7 @@
 
 1268255861 c:\programmering\sludge\source\commoncode\specialsettings.h
 
-1272799569 source:c:\programmering\sludge\source\engine\sound_openal.cpp
+1274633646 source:c:\programmering\sludge\source\engine\sound_openal.cpp
 	<stdint.h>
 	<stdio.h>
 	"AL/alure.h"

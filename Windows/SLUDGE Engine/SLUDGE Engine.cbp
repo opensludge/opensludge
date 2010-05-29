@@ -57,6 +57,11 @@
 			<Add library="C:\Program Files\OpenAL 1.1 SDK\libs\Win32\OpenAL32.lib" />
 			<Add library="..\..\..\alure\build\libALURE32.dll.a" />
 		</Linker>
+		<ExtraCommands>
+			<Add after="$(CMD_CP) ..\..\source\Engine\*.vert $(TARGET_OUTPUT_DIR)" />
+			<Add after="$(CMD_CP) ..\..\source\Engine\*.frag $(TARGET_OUTPUT_DIR)" />
+			<Mode after="always" />
+		</ExtraCommands>
 		<Unit filename="..\..\..\Glee\GLee.c">
 			<Option compilerVar="CC" />
 		</Unit>
