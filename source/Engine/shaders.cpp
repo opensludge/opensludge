@@ -19,7 +19,7 @@
 #include <GL/glu.h> // handy for gluErrorString
 #endif
 
-extern const char *bundleFolder;
+extern char *bundleFolder;
 
 //Function from: http://www.evl.uic.edu/aej/594/code/ogl.cpp
 //Read in a textfile (GLSL program)
@@ -29,7 +29,7 @@ char *shaderFileRead(char *name)
 	FILE *fp;
 	char *content = NULL;
 	
-	fprintf(stderr, "bundleFolder is %s\n", bundleFolder);
+	//fprintf(stderr, "bundleFolder is %s\n", bundleFolder);
 	
 	char * fn = joinStrings (bundleFolder, name);
 	

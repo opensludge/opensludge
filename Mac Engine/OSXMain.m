@@ -13,7 +13,7 @@
 
 #import "Start.h"
 
-extern const char *bundleFolder;
+extern char *bundleFolder;
 
 
 static int    gArgc;

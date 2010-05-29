@@ -69,7 +69,7 @@ settingsStruct gameSettings;
 int dialogValue = 0;
 
 char * gamePath = NULL;
-const char *bundleFolder;
+char *bundleFolder;
 
 void setGameFilePath (char * f) {
 	char currentDir[1000];
