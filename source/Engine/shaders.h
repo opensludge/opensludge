@@ -10,4 +10,5 @@
 
 #include "GLee.h"
 
+char *shaderFileRead(char *fn); 
 int buildShaders (const GLchar *vertexShader, const GLchar *fragmentShader);

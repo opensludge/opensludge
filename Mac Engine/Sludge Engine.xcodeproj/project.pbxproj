@@ -113,6 +113,10 @@
 		E8D7614C1128A5A900A5F7D7 /* libvorbisenc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8D761461128A5A900A5F7D7 /* libvorbisenc.a */; };
 		E8D7614D1128A5A900A5F7D7 /* libvorbisfile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8D761471128A5A900A5F7D7 /* libvorbisfile.a */; };
 		E8D7614F1128A5C700A5F7D7 /* libalure.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8D7614E1128A5C700A5F7D7 /* libalure.a */; };
+		E8DB5E2A11B1774100137FE3 /* scale.frag in Resources */ = {isa = PBXBuildFile; fileRef = E8DB5E2811B1774100137FE3 /* scale.frag */; };
+		E8DB5E2B11B1774100137FE3 /* scale.vert in Resources */ = {isa = PBXBuildFile; fileRef = E8DB5E2911B1774100137FE3 /* scale.vert */; };
+		E8DB5E9411B17DFB00137FE3 /* fixScaleSprite.vert in Resources */ = {isa = PBXBuildFile; fileRef = E8DB5E9311B17DFB00137FE3 /* fixScaleSprite.vert */; };
+		E8DB5E9811B17E4600137FE3 /* fixScaleSprite.frag in Resources */ = {isa = PBXBuildFile; fileRef = E8DB5E9711B17E4600137FE3 /* fixScaleSprite.frag */; };
 		E8E5000D111CBEAC00FD4DBD /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8E5000C111CBEAC00FD4DBD /* OpenAL.framework */; };
 /* End PBXBuildFile section */
 
@@ -176,14 +180,14 @@
 			name = "Copy Frameworks into .app bundle";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2F6F2A7C0FBF01C400BC6A67 /* Copy Libbass */ = {
+		2F6F2A7C0FBF01C400BC6A67 /* Copy Shaders */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
 			);
-			name = "Copy Libbass";
+			name = "Copy Shaders";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -300,6 +304,10 @@
 		E8D761461128A5A900A5F7D7 /* libvorbisenc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvorbisenc.a; path = ../libs/libvorbisenc.a; sourceTree = SOURCE_ROOT; };
 		E8D761471128A5A900A5F7D7 /* libvorbisfile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvorbisfile.a; path = ../libs/libvorbisfile.a; sourceTree = SOURCE_ROOT; };
 		E8D7614E1128A5C700A5F7D7 /* libalure.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libalure.a; path = ../libs/libalure.a; sourceTree = SOURCE_ROOT; };
+		E8DB5E2811B1774100137FE3 /* scale.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = scale.frag; path = ../source/Engine/scale.frag; sourceTree = SOURCE_ROOT; };
+		E8DB5E2911B1774100137FE3 /* scale.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = scale.vert; path = ../source/Engine/scale.vert; sourceTree = SOURCE_ROOT; };
+		E8DB5E9311B17DFB00137FE3 /* fixScaleSprite.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = fixScaleSprite.vert; path = ../source/Engine/fixScaleSprite.vert; sourceTree = SOURCE_ROOT; };
+		E8DB5E9711B17E4600137FE3 /* fixScaleSprite.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = fixScaleSprite.frag; path = ../source/Engine/fixScaleSprite.frag; sourceTree = SOURCE_ROOT; };
 		E8E5000C111CBEAC00FD4DBD /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -368,6 +376,7 @@
 		29B97314FDCFA39411CA2CEA /* SdlSludge */ = {
 			isa = PBXGroup;
 			children = (
+				E8DB5E2711B1772100137FE3 /* Shaders */,
 				29B97315FDCFA39411CA2CEA /* Common Code */,
 				2F7BFEB50E33848B003F5DC3 /* Source Files */,
 				080E96DDFE201D6D7F000001 /* OSX Stuff */,
@@ -517,6 +526,17 @@
 			name = Libraries;
 			sourceTree = "<group>";
 		};
+		E8DB5E2711B1772100137FE3 /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				E8DB5E2811B1774100137FE3 /* scale.frag */,
+				E8DB5E2911B1774100137FE3 /* scale.vert */,
+				E8DB5E9311B17DFB00137FE3 /* fixScaleSprite.vert */,
+				E8DB5E9711B17E4600137FE3 /* fixScaleSprite.frag */,
+			);
+			name = Shaders;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -528,7 +548,7 @@
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
 				002F39FD09D0883400EBEB88 /* Copy Frameworks into .app bundle */,
-				2F6F2A7C0FBF01C400BC6A67 /* Copy Libbass */,
+				2F6F2A7C0FBF01C400BC6A67 /* Copy Shaders */,
 			);
 			buildRules = (
 			);
@@ -562,6 +582,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E8DB5E9411B17DFB00137FE3 /* fixScaleSprite.vert in Resources */,
+				E8DB5E9811B17E4600137FE3 /* fixScaleSprite.frag in Resources */,
+				E8DB5E2A11B1774100137FE3 /* scale.frag in Resources */,
+				E8DB5E2B11B1774100137FE3 /* scale.vert in Resources */,
 				2F9B3FBC0F557405003B4998 /* Sludge.icns in Resources */,
 				2F695B78100D0BD1008A8DC1 /* SDLMain.nib in Resources */,
 				2FA550870FF90E90006A67ED /* Startup.nib in Resources */,

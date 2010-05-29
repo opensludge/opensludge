@@ -7,7 +7,9 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 
+#include "stringy.h"
 #include "shaders.h"
 #ifdef _WIN32
 #include <GL\glu.h> // handy for gluErrorString
@@ -16,6 +18,47 @@
 #else
 #include <GL/glu.h> // handy for gluErrorString
 #endif
+
+extern const char *bundleFolder;
+
+//Function from: http://www.evl.uic.edu/aej/594/code/ogl.cpp
+//Read in a textfile (GLSL program)
+// we need to pass it as a string to the GLSL driver
+char *shaderFileRead(char *name) 
+{
+	FILE *fp;
+	char *content = NULL;
+	
+	fprintf(stderr, "bundleFolder is %s\n", bundleFolder);
+	
+	char * fn = joinStrings (bundleFolder, name);
+	
+	int count=0;
+	
+	if (fn != NULL) {
+		
+		fp = fopen(fn,"rt");
+		
+		if (fp != NULL) {
+			
+			fseek(fp, 0, SEEK_END);
+			count = ftell(fp);
+			rewind(fp);
+			
+			if (count > 0) {
+				content = (char *)malloc(sizeof(char) * (count+1));
+				count = fread(content,sizeof(char),count,fp);
+				content[count] = '\0';
+			}
+			fclose(fp);
+			
+		}
+	}
+	
+	delete fn;
+	
+	return content;
+}
 
 int
 printOglError (const char *file,

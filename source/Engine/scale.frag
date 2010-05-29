@@ -21,57 +21,50 @@
 
 */
 
-
 uniform sampler2D OGL2Texture;
-
 void main()
 {
-    vec3 c11 = texture(OGL2Texture, gl_TexCoord[0].xy).xyz;
-    vec3 s00 = texture(OGL2Texture, gl_TexCoord[1].xy).xyz; 
-    vec3 s20 = texture(OGL2Texture, gl_TexCoord[2].xy).xyz; 
-    vec3 s22 = texture(OGL2Texture, gl_TexCoord[3].xy).xyz; 
-    vec3 s02 = texture(OGL2Texture, gl_TexCoord[4].xy).xyz;     
-    vec3 c01 = texture(OGL2Texture, gl_TexCoord[1].zw).xyz; 
-    vec3 c21 = texture(OGL2Texture, gl_TexCoord[2].zw).xyz; 
-    vec3 c10 = texture(OGL2Texture, gl_TexCoord[3].zw).xyz; 
-    vec3 c12 = texture(OGL2Texture, gl_TexCoord[4].zw).xyz;  
-    vec3 dt = vec3(1.0,1.0,1.0);
+	vec4 c11 = texture2D(OGL2Texture, gl_TexCoord[0].xy);
+	vec4 s00 = texture2D(OGL2Texture, gl_TexCoord[1].xy);
+	vec4 s20 = texture2D(OGL2Texture, gl_TexCoord[2].xy);
+	vec4 s22 = texture2D(OGL2Texture, gl_TexCoord[3].xy);
+	vec4 s02 = texture2D(OGL2Texture, gl_TexCoord[4].xy);   
+	vec4 c01 = texture2D(OGL2Texture, gl_TexCoord[1].zw);
+	vec4 c21 = texture2D(OGL2Texture, gl_TexCoord[2].zw);
+	vec4 c10 = texture2D(OGL2Texture, gl_TexCoord[3].zw);
+	vec4 c12 = texture2D(OGL2Texture, gl_TexCoord[4].zw);
+	vec4 dt = vec4(1.0,1.0,1.0,1.0);
+		
+	gl_FragColor = c11;
+	float hl=dot(abs(c01-c21),dt)+0.0001;
+	float vl=dot(abs(c10-c12),dt)+0.0001;
+	float m1=dot(abs(s00-s22),dt)+0.0001;
+	float m2=dot(abs(s02-s20),dt)+0.0001;
 
-    float hl=dot(abs(c01-c21),dt)+0.0001;
-    float vl=dot(abs(c10-c12),dt)+0.0001;
-    float m1=dot(abs(s00-s22),dt)+0.0001;
-    float m2=dot(abs(s02-s20),dt)+0.0001;            
-    
-    vec3 temp1 = m2*(s00 + s22) + m1*(s02 + s20);
-    vec3 temp2 = hl*(c10 + c12) + vl*(c01 + c21);
-    
-    c11 = (temp2/(hl+vl) + c11 + c11) * 0.083333 + (temp1/(m1+m2)) * 0.333333;
+	vec4 temp1 = m2*(s00 + s22) + m1*(s02 + s20);
+	vec4 temp2 = hl*(c10 + c12) + vl*(c01 + c21);
 
-    vec3 mn1 = min(min(s00,c01),s02);
-    vec3 mn2 = min(min(c10,c11),c12);
-    vec3 mn3 = min(min(s20,c21),s22);
-
-    vec3 mx1 = max(max(s00,c01),s02);
-    vec3 mx2 = max(max(c10,c11),c12);
-    vec3 mx3 = max(max(s20,c21),s22);
-
-    mn1 = min(min(mn1,mn2),mn3);
-    mx1 = max(max(mx1,mx2),mx3);
-
-    // float filterparam = 3.0;     
-
-    vec3 dif1 = 0.0001*dt + abs(c11-mn1);
-    vec3 dif2 = 0.0001*dt + abs(c11-mx1);
-
-    // dif = pow(dif, filterparam)
-    dif1 = dif1 * dif1 * dif1;
-    dif2 = dif2 * dif2 * dif2;
-
-    c11 = (dif1 * mx1 + dif2 * mn1) / (dif1 + dif2);
-        
-    // 16-255    
-    // gl_FragColor.xyz = c11 * 1.0669456 - 0.0669456;    
-    // 16-235
-    gl_FragColor.xyz = c11 * 1.16438356 - 0.07305936;    
-    
+	c11 = (temp2/(hl+vl) + c11 + c11) * 0.083333 + (temp1/(m1+m2)) * 0.333333;
+	
+	vec4 mn1 = min(min(s00,c01),s02);
+	vec4 mn2 = min(min(c10,c11),c12);
+	vec4 mn3 = min(min(s20,c21),s22);
+	
+	vec4 mx1 = max(max(s00,c01),s02);
+	vec4 mx2 = max(max(c10,c11),c12);
+	vec4 mx3 = max(max(s20,c21),s22);
+		
+	mn1 = min(min(mn1,mn2),mn3);
+	mx1 = max(max(mx1,mx2),mx3);
+	
+	vec4 dif1 = 0.0001*dt + abs(c11-mn1);
+	vec4 dif2 = 0.0001*dt + abs(c11-mx1);
+	
+	dif1 = dif1 * dif1 * dif1;
+	dif2 = dif2 * dif2 * dif2;
+	
+	c11 = (dif1 * mx1 + dif2 * mn1) / (dif1 + dif2);
+	
+	gl_FragColor = (gl_FragColor + c11 * 1.16438356 - 0.07305936)/2.0; 
 }
+

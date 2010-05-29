@@ -13,6 +13,9 @@
 
 #import "Start.h"
 
+extern const char *bundleFolder;
+
+
 static int    gArgc;
 static char  **gArgv;
 static bool   gFinderLaunch;
@@ -179,6 +182,10 @@ static NSString *getApplicationName(void)
 
     /* Set the main menu to contain the real app name instead of "SDL App" */
     [self fixMenu:[NSApp mainMenu] withAppName:getApplicationName()];	
+	
+	NSBundle *bundle;
+	bundle = [NSBundle bundleForClass: [self class]];
+	bundleFolder = joinStrings ([[bundle resourcePath] UTF8String], "/");
 	
     /* Hand off to main application code */
     gCalledAppMainline = true;

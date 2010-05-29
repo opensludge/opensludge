@@ -182,134 +182,43 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 
 	GLint uniform;
 	
-	const GLchar VertexScale[] =
-	"uniform vec4 OGL2Param;"
-	"uniform vec4 OGL2Size;"
-	"void main()"
-	"{"
-//	"	float x = OGL2Size.x * 0.0004883 * OGL2Param.x;"
-//	"	float y = OGL2Size.y * 0.0009766 * OGL2Param.y;"
-	"	float x = OGL2Size.x;"
-	"	float y = OGL2Size.y;"
-	"	"
-	"	vec2 sd1 = vec2( x,y) * 0.5; "
-	"	vec2 sd2 = vec2(-x,y) * 0.5;"
-	"	"
-	"	vec2 ddx = vec2(  x, 0.0); "
-	"	vec2 ddy = vec2(0.0,   y);"
-	"	"
-	"	gl_Position = ftransform();"
-	"	gl_TexCoord[0] = gl_MultiTexCoord0;"
-	"	gl_TexCoord[1].xy = gl_TexCoord[0].xy - sd1;"
-	"	gl_TexCoord[2].xy = gl_TexCoord[0].xy - sd2;"
-	"	gl_TexCoord[3].xy = gl_TexCoord[0].xy + sd1;"
-	"	gl_TexCoord[4].xy = gl_TexCoord[0].xy + sd2;"
-	"	gl_TexCoord[1].zw = gl_TexCoord[0].xy - ddy;"
-	"	gl_TexCoord[2].zw = gl_TexCoord[0].xy + ddx;"
-	"	gl_TexCoord[3].zw = gl_TexCoord[0].xy + ddy;"
-	"	gl_TexCoord[4].zw = gl_TexCoord[0].xy - ddx;"
-	"}";
-	const GLchar FragmentScale[] =
-	"uniform sampler2D OGL2Texture;"
-	"void main()"
-	"{"
-	"	vec4 c11 = texture2D(OGL2Texture, gl_TexCoord[0].xy);"
-	"	vec4 s00 = texture2D(OGL2Texture, gl_TexCoord[1].xy); "
-	"	vec4 s20 = texture2D(OGL2Texture, gl_TexCoord[2].xy); "
-	"	vec4 s22 = texture2D(OGL2Texture, gl_TexCoord[3].xy); "
-	"	vec4 s02 = texture2D(OGL2Texture, gl_TexCoord[4].xy);  "   
-	"	vec4 c01 = texture2D(OGL2Texture, gl_TexCoord[1].zw); "
-	"	vec4 c21 = texture2D(OGL2Texture, gl_TexCoord[2].zw); "
-	"	vec4 c10 = texture2D(OGL2Texture, gl_TexCoord[3].zw); "
-	"	vec4 c12 = texture2D(OGL2Texture, gl_TexCoord[4].zw);  "
-	"	vec4 dt = vec4(1.0,1.0,1.0,1.0);"
-	"	"
-	"	gl_FragColor = c11;    "
-	"	float hl=dot(abs(c01-c21),dt)+0.0001;"
-	"	float vl=dot(abs(c10-c12),dt)+0.0001;"
-	"	float m1=dot(abs(s00-s22),dt)+0.0001;"
-	"	float m2=dot(abs(s02-s20),dt)+0.0001; "           
-	"	"
-	"	vec4 temp1 = m2*(s00 + s22) + m1*(s02 + s20);"
-	"	vec4 temp2 = hl*(c10 + c12) + vl*(c01 + c21);"
-	"	"
-	"	c11 = (temp2/(hl+vl) + c11 + c11) * 0.083333 + (temp1/(m1+m2)) * 0.333333;"
-	"	"
-	"	vec4 mn1 = min(min(s00,c01),s02);"
-	"	vec4 mn2 = min(min(c10,c11),c12);"
-	"	vec4 mn3 = min(min(s20,c21),s22);"
-	"	"
-	"	vec4 mx1 = max(max(s00,c01),s02);"
-	"	vec4 mx2 = max(max(c10,c11),c12);"
-	"	vec4 mx3 = max(max(s20,c21),s22);"
-	"	"
-	"	mn1 = min(min(mn1,mn2),mn3);"
-	"	mx1 = max(max(mx1,mx2),mx3);"
-	"	"
-	"	vec4 dif1 = 0.0001*dt + abs(c11-mn1);"
-	"	vec4 dif2 = 0.0001*dt + abs(c11-mx1);"
-	"	"
-	"	dif1 = dif1 * dif1 * dif1;"
-	"	dif2 = dif2 * dif2 * dif2;"
-	"	"
-	"	c11 = (dif1 * mx1 + dif2 * mn1) / (dif1 + dif2);"
-     "   "
-	"	gl_FragColor = (gl_FragColor + c11 * 1.16438356 - 0.07305936)/2.0;    "
-	"	"
-	"}";
+	const GLchar *Vertex = shaderFileRead("scale.vert");
+	const GLchar *Fragment = shaderFileRead("scale.frag");
 	
-	shader.smartScaler = buildShaders (VertexScale, FragmentScale);
-	fprintf (stderr, "Built shader program: %d (smartScaler)\n", shader.smartScaler);
-	glUseProgram(shader.smartScaler);
-	uniform = glGetUniformLocation(shader.smartScaler, "OGL2Texture");
-	if (uniform >= 0) glUniform1i(uniform, 0);
-	uniform = glGetUniformLocation(shader.smartScaler, "OGL2Param");
-	if (uniform >= 0) glUniform4f(uniform, 1.0, 1.0, 1.0, 1.0);
-	uniform = glGetUniformLocation(shader.smartScaler, "OGL2Size");
-	if (uniform >= 0) glUniform4f(uniform, 1.0, 1.0, 1.0, 1.0);
+	if (! Vertex || ! Fragment) {
+		fprintf(stderr, "Error loading shader program!\n");
+	} else {
 	
-	const GLchar VertexFixScaleSprite[] =
-	"void main() {"
-	"	gl_TexCoord[0] = gl_MultiTexCoord0;"
-	"	gl_TexCoord[1] = gl_MultiTexCoord1;"
-	"	gl_TexCoord[2] = gl_MultiTexCoord2;"
-	"	gl_FrontColor = gl_Color;"
-	"	gl_FrontSecondaryColor = gl_SecondaryColor;"
-	"	gl_Position = ftransform();"
-	"}";
-	const GLchar FragmentFixScaleSprite[] =
-	"uniform sampler2D tex0;"
-	"uniform sampler2D tex1;"
-	"uniform sampler2D tex2;"
-	"uniform bool useLightTexture;"
-	"void main()"
-	"{"
-	"	vec4 texture = texture2D (tex0, gl_TexCoord[0].xy);"
-	"	vec4 texture2 = texture2D (tex2, gl_TexCoord[2].xy);"
-	"	vec3 col;"
-	"	if (useLightTexture) {"
-	"		vec4 texture1 = texture2D (tex1, gl_TexCoord[1].xy);"
-	"		col = texture1.rgb * texture.rgb;"
-	"	} else {"
-	"		col = gl_Color.rgb * texture.rgb;"
-	"	}"
-	"	col += vec3(gl_SecondaryColor);"
-	"	vec4 color = vec4 (col, gl_Color.a * texture.a);"
-	"	col = mix (texture2.rgb, color.rgb, color.a);"
-	"	gl_FragColor = vec4 (col, max(texture.a, texture2.a));"
-	"}";
+		shader.smartScaler = buildShaders (Vertex, Fragment);
+		fprintf (stderr, "Built shader program: %d (smartScaler)\n", shader.smartScaler);
+		glUseProgram(shader.smartScaler);
+		uniform = glGetUniformLocation(shader.smartScaler, "OGL2Texture");
+		if (uniform >= 0) glUniform1i(uniform, 0);
+		uniform = glGetUniformLocation(shader.smartScaler, "OGL2Param");
+		if (uniform >= 0) glUniform4f(uniform, 1.0, 1.0, 1.0, 1.0);
+		uniform = glGetUniformLocation(shader.smartScaler, "OGL2Size");
+		if (uniform >= 0) glUniform4f(uniform, 1.0, 1.0, 1.0, 1.0);
 	
-	shader.fixScaleSprite = buildShaders (VertexFixScaleSprite, FragmentFixScaleSprite);
-	fprintf (stderr, "Built shader program: %d (fixScaleSprite)\n", shader.fixScaleSprite);
-	glUseProgram(shader.fixScaleSprite);
-	uniform = glGetUniformLocation(shader.fixScaleSprite, "tex0");
-	if (uniform >= 0) glUniform1i(uniform, 0);
-	uniform = glGetUniformLocation(shader.fixScaleSprite, "tex1");
-	if (uniform >= 0) glUniform1i(uniform, 1);
-	uniform = glGetUniformLocation(shader.fixScaleSprite, "tex2");
-	if (uniform >= 0) glUniform1i(uniform, 2);
-	uniform = glGetUniformLocation(shader.fixScaleSprite, "useLightTexture");
-	if (uniform >= 0) glUniform1i(uniform, 0);
+	}
+	Vertex = shaderFileRead("fixScaleSprite.vert");
+	Fragment = shaderFileRead("fixScaleSprite.frag");
+
+	if (! Vertex || ! Fragment) {
+		fprintf(stderr, "Error loading shader program!\n");
+	} else {
+		
+		shader.fixScaleSprite = buildShaders (Vertex, Fragment);
+		fprintf (stderr, "Built shader program: %d (fixScaleSprite)\n", shader.fixScaleSprite);
+		glUseProgram(shader.fixScaleSprite);
+		uniform = glGetUniformLocation(shader.fixScaleSprite, "tex0");
+		if (uniform >= 0) glUniform1i(uniform, 0);
+		uniform = glGetUniformLocation(shader.fixScaleSprite, "tex1");
+		if (uniform >= 0) glUniform1i(uniform, 1);
+		uniform = glGetUniformLocation(shader.fixScaleSprite, "tex2");
+		if (uniform >= 0) glUniform1i(uniform, 2);
+		uniform = glGetUniformLocation(shader.fixScaleSprite, "useLightTexture");
+		if (uniform >= 0) glUniform1i(uniform, 0);
+	}
 	
 	glUseProgram(0);
 

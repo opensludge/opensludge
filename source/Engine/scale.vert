@@ -20,7 +20,6 @@
         
 */
 
-
 uniform vec4 OGL2Param;
 uniform vec4 OGL2Size;
 
@@ -28,8 +27,10 @@ void main()
 {
 // 1.0/2048.0 = 0.00048828125
 // 1.0/1024.0 = 0.0009765625
-float x = OGL2Size.x * 0.0004883 * OGL2Param.x;
-float y = OGL2Size.y * 0.0009766 * OGL2Param.y;
+//float x = OGL2Size.x * 0.0004883 * OGL2Param.x;
+//float y = OGL2Size.y * 0.0009766 * OGL2Param.y;
+float x = OGL2Size.x;
+float y = OGL2Size.y;
 
 vec2 sd1 = vec2( x,y) * 0.5; 
 vec2 sd2 = vec2(-x,y) * 0.5;

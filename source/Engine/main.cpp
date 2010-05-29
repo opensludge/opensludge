@@ -42,6 +42,13 @@
 #include "sludger.h"
 #include "graphics.h"
 
+
+#ifdef _WIN32
+#define PATHSLASH '\\'
+#else
+#define PATHSLASH '/'
+#endif
+
 extern bool runningFullscreen;
 
 #ifndef MAX_PATH
@@ -62,7 +69,7 @@ settingsStruct gameSettings;
 int dialogValue = 0;
 
 char * gamePath = NULL;
-char * settingsPath = NULL;
+const char *bundleFolder;
 
 void setGameFilePath (char * f) {
 	char currentDir[1000];
@@ -74,21 +81,13 @@ void setGameFilePath (char * f) {
 	int got = -1, a;
 
 	for (a = 0; f[a]; a ++) {
-#ifdef _WIN32
-		if (f[a] == '\\') got = a;
-#else
-		if (f[a] == '/') got = a;
-#endif
+		if (f[a] == PATHSLASH) got = a;
 	}
 
 	if (got != -1) {
 		f[got] = NULL;
 		chdir (f);
-#ifdef _WIN32
-		f[got] = '\\';
-#else
-		f[got] = '/';
-#endif
+		f[got] = PATHSLASH;
 	}
 
 	gamePath = new char[400];
@@ -129,6 +128,7 @@ bool fileExists(char * file) {
 #ifdef _WIN32
 #undef main
 #endif
+
 int main(int argc, char *argv[]) try
 {
 	/* Dimensions of our window. */
@@ -145,26 +145,27 @@ int main(int argc, char *argv[]) try
 	time_t t;
 	srand((unsigned) time(&t));
 
-
+	// bundleFolder is used to look for the game file
+	// and later to find the shader programs
+#ifdef __APPLE__
+	// bundleFolder is set in applicationDidFinishLaunching.
+#else
+	bundleFolder = new char[strlen(argv[0])+1];
+	strcpy (bundleFolder, argv[0]);	
+	int lastSlash = -1;
+	for (int i = 0; bundleFolder[i]; i ++) {
+		if (bundleFolder[i] == PATHSLASH) lastSlash = i;
+	}
+	bundleFolder[lastSlash+1] = NULL;
+#endif
+	
 	if (argc > 1) {
 		sludgeFile = argv[argc - 1];
 	} else {
-		char exeFolder[MAX_PATH+1];
-		strcpy (exeFolder, argv[0]);
-
-		int lastSlash = -1;
-		for (int i = 0; exeFolder[i]; i ++) {
-#ifdef _WIN32
-			if (exeFolder[i] == '\\') lastSlash = i;
-#else
-			if (exeFolder[i] == '/') lastSlash = i;
-#endif
-		}
-		exeFolder[lastSlash+1] = NULL;
-		sludgeFile = joinStrings (exeFolder, "gamedata.slg");
+		sludgeFile = joinStrings (bundleFolder, "gamedata.slg");
 		if (! ( fileExists (sludgeFile) ) ) {
 			delete sludgeFile;
-			sludgeFile = joinStrings (exeFolder, "gamedata");
+			sludgeFile = joinStrings (bundleFolder, "gamedata");
 			if (! ( fileExists (sludgeFile) ) ) {
 				sludgeFile = grabFileName ();
 			}
