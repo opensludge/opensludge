@@ -594,12 +594,10 @@ void drawBackDrop () {
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	
 		glUseProgram(shader.smartScaler);
-		GLuint uniform = glGetUniformLocation(shader.smartScaler, "OGL2Size");
-		//if (scale > 1.0) {
+		GLuint uniform = glGetUniformLocation(shader.smartScaler, "Size");
 		if (uniform >= 0) glUniform4f(uniform, 1.0/sceneWidth, 1.0/sceneHeight, 1.0, 1.0);
-		//} else {
-		//	if (uniform >= 0) glUniform4f(uniform, scale*0.5/fontPal.tex_w[single.texNum], scale*0.5/fontPal.tex_h[single.texNum], 1.0, 1.0);
-		//}
+		uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
+		if (uniform >= 0) glUniform1i(uniform, 0);
 	} else {
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	}

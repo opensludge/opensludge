@@ -677,12 +677,14 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 
 	if (useMySpecialAA) {
 		glUseProgram(shader.smartScaler);
-		GLuint uniform = glGetUniformLocation(shader.smartScaler, "OGL2Size");
+		GLuint uniform = glGetUniformLocation(shader.smartScaler, "Size");
 		//if (scale > 1.0) {
 			if (uniform >= 0) glUniform4f(uniform, 1.0/fontPal.tex_w[single.texNum], 1.0/fontPal.tex_h[single.texNum], 1.0, 1.0);
 		//} else {
 		//	if (uniform >= 0) glUniform4f(uniform, scale*0.5/fontPal.tex_w[single.texNum], scale*0.5/fontPal.tex_h[single.texNum], 1.0, 1.0);
 		//}
+		uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
+		if (uniform >= 0) glUniform1i(uniform, light && lightMapMode == LIGHTMAPMODE_PIXEL && lightMap.data);
 	} else {
 		if (aa->useMe && maxAntiAliasSettings.useMe)
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

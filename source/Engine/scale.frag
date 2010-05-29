@@ -21,18 +21,21 @@
 
 */
 
-uniform sampler2D OGL2Texture;
+uniform sampler2D Texture;
+uniform sampler2D lightTexture;
+uniform bool useLightTexture;
+
 void main()
 {
-	vec4 c11 = texture2D(OGL2Texture, gl_TexCoord[0].xy);
-	vec4 s00 = texture2D(OGL2Texture, gl_TexCoord[1].xy);
-	vec4 s20 = texture2D(OGL2Texture, gl_TexCoord[2].xy);
-	vec4 s22 = texture2D(OGL2Texture, gl_TexCoord[3].xy);
-	vec4 s02 = texture2D(OGL2Texture, gl_TexCoord[4].xy);   
-	vec4 c01 = texture2D(OGL2Texture, gl_TexCoord[1].zw);
-	vec4 c21 = texture2D(OGL2Texture, gl_TexCoord[2].zw);
-	vec4 c10 = texture2D(OGL2Texture, gl_TexCoord[3].zw);
-	vec4 c12 = texture2D(OGL2Texture, gl_TexCoord[4].zw);
+	vec4 c11 = texture2D(Texture, gl_TexCoord[0].xy);
+	vec4 s00 = texture2D(Texture, gl_TexCoord[1].xy);
+	vec4 s20 = texture2D(Texture, gl_TexCoord[2].xy);
+	vec4 s22 = texture2D(Texture, gl_TexCoord[3].xy);
+	vec4 s02 = texture2D(Texture, gl_TexCoord[4].xy);   
+	vec4 c01 = texture2D(Texture, gl_TexCoord[1].zw);
+	vec4 c21 = texture2D(Texture, gl_TexCoord[2].zw);
+	vec4 c10 = texture2D(Texture, gl_TexCoord[3].zw);
+	vec4 c12 = texture2D(Texture, gl_TexCoord[4].zw);
 	vec4 dt = vec4(1.0,1.0,1.0,1.0);
 		
 	gl_FragColor = c11;
@@ -65,6 +68,16 @@ void main()
 	
 	c11 = (dif1 * mx1 + dif2 * mn1) / (dif1 + dif2);
 	
-	gl_FragColor = (gl_FragColor + c11 * 1.16438356 - 0.07305936)/2.0; 
+	gl_FragColor = (c11+gl_FragColor)/2.0; 
+	
+	vec3 col;
+	if (useLightTexture) {
+		vec4 texture1 = texture2D (lightTexture, gl_TexCoord[5].xy);
+		col = texture1.rgb * gl_FragColor.rgb;
+	} else {
+		col = gl_Color.rgb * gl_FragColor.rgb;
+	}
+	col += vec3(gl_SecondaryColor);
+	gl_FragColor = vec4 (col, gl_Color.a * gl_FragColor.a);
 }
 

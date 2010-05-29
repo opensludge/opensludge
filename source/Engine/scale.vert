@@ -20,32 +20,33 @@
         
 */
 
-uniform vec4 OGL2Param;
-uniform vec4 OGL2Size;
+uniform vec4 Size;
 
 void main()
 {
-// 1.0/2048.0 = 0.00048828125
-// 1.0/1024.0 = 0.0009765625
-//float x = OGL2Size.x * 0.0004883 * OGL2Param.x;
-//float y = OGL2Size.y * 0.0009766 * OGL2Param.y;
-float x = OGL2Size.x;
-float y = OGL2Size.y;
+	float x = Size.x;
+	float y = Size.y;
 
-vec2 sd1 = vec2( x,y) * 0.5; 
-vec2 sd2 = vec2(-x,y) * 0.5;
+	vec2 sd1 = vec2( x,y) * 0.3; // 0.5
+	vec2 sd2 = vec2(-x,y) * 0.3;
 
-vec2 ddx = vec2(  x, 0.0); 
-vec2 ddy = vec2(0.0,   y);
+	vec2 ddx = vec2(  x, 0.0)*0.6; // 1.0
+	vec2 ddy = vec2(0.0,   y)*0.6;
 
-gl_Position = ftransform();
-gl_TexCoord[0] = gl_MultiTexCoord0;
-gl_TexCoord[1].xy = gl_TexCoord[0].xy - sd1;
-gl_TexCoord[2].xy = gl_TexCoord[0].xy - sd2;
-gl_TexCoord[3].xy = gl_TexCoord[0].xy + sd1;
-gl_TexCoord[4].xy = gl_TexCoord[0].xy + sd2;
-gl_TexCoord[1].zw = gl_TexCoord[0].xy - ddy;
-gl_TexCoord[2].zw = gl_TexCoord[0].xy + ddx;
-gl_TexCoord[3].zw = gl_TexCoord[0].xy + ddy;
-gl_TexCoord[4].zw = gl_TexCoord[0].xy - ddx;
+	gl_Position = ftransform();
+	gl_TexCoord[0] = gl_MultiTexCoord0;
+	gl_TexCoord[1].xy = gl_TexCoord[0].xy - sd1;
+	gl_TexCoord[2].xy = gl_TexCoord[0].xy - sd2;
+	gl_TexCoord[3].xy = gl_TexCoord[0].xy + sd1;
+	gl_TexCoord[4].xy = gl_TexCoord[0].xy + sd2;
+	gl_TexCoord[1].zw = gl_TexCoord[0].xy - ddy;
+	gl_TexCoord[2].zw = gl_TexCoord[0].xy + ddx;
+	gl_TexCoord[3].zw = gl_TexCoord[0].xy + ddy;
+	gl_TexCoord[4].zw = gl_TexCoord[0].xy - ddx;
+
+	// Light
+	gl_TexCoord[5] = gl_MultiTexCoord1;
+	gl_FrontColor = gl_Color;
+	gl_FrontSecondaryColor = gl_SecondaryColor;
+
 }

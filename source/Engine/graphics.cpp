@@ -187,24 +187,28 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 	
 	if (! Vertex || ! Fragment) {
 		fprintf(stderr, "Error loading shader program!\n");
+		shader.smartScaler = 0;
 	} else {
 	
 		shader.smartScaler = buildShaders (Vertex, Fragment);
 		fprintf (stderr, "Built shader program: %d (smartScaler)\n", shader.smartScaler);
 		glUseProgram(shader.smartScaler);
-		uniform = glGetUniformLocation(shader.smartScaler, "OGL2Texture");
+		uniform = glGetUniformLocation(shader.smartScaler, "Texture");
 		if (uniform >= 0) glUniform1i(uniform, 0);
-		uniform = glGetUniformLocation(shader.smartScaler, "OGL2Param");
+		uniform = glGetUniformLocation(shader.smartScaler, "Size");
 		if (uniform >= 0) glUniform4f(uniform, 1.0, 1.0, 1.0, 1.0);
-		uniform = glGetUniformLocation(shader.smartScaler, "OGL2Size");
-		if (uniform >= 0) glUniform4f(uniform, 1.0, 1.0, 1.0, 1.0);
-	
+		uniform = glGetUniformLocation(shader.smartScaler, "lightTexture");
+		if (uniform >= 0) glUniform1i(uniform, 1);
+		uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
+		if (uniform >= 0) glUniform1i(uniform, 0);
+		
 	}
 	Vertex = shaderFileRead("fixScaleSprite.vert");
 	Fragment = shaderFileRead("fixScaleSprite.frag");
 
 	if (! Vertex || ! Fragment) {
 		fprintf(stderr, "Error loading shader program!\n");
+		shader.fixScaleSprite = 0;
 	} else {
 		
 		shader.fixScaleSprite = buildShaders (Vertex, Fragment);
