@@ -149,6 +149,8 @@ int main(int argc, char *argv[]) try
 	// and later to find the shader programs
 #ifdef __APPLE__
 	// bundleFolder is set in applicationDidFinishLaunching.
+#elif defined __unix__
+	bundleFolder = DATADIR;	// DATADIR is defined in the Makefile.
 #else
 	bundleFolder = copyString(argv[0]);
 	int lastSlash = -1;
