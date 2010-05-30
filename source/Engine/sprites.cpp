@@ -676,6 +676,7 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	if (useMySpecialAA) {
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glUseProgram(shader.smartScaler);
 		GLuint uniform = glGetUniformLocation(shader.smartScaler, "Size");
 		//if (scale > 1.0) {

@@ -105,6 +105,10 @@
 		2FEFC49C10073ADA004C66F1 /* GLee.c in Sources */ = {isa = PBXBuildFile; fileRef = 2FEFC49A10073ADA004C66F1 /* GLee.c */; };
 		2FEFC49D10073ADA004C66F1 /* GLee.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2FEFC49B10073ADA004C66F1 /* GLee.h */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		E899DADF11B272840055B9A4 /* scale (kopia).frag in Sources */ = {isa = PBXBuildFile; fileRef = E899DADD11B272840055B9A4 /* scale (kopia).frag */; };
+		E899DAE011B272840055B9A4 /* scale (kopia).vert in Sources */ = {isa = PBXBuildFile; fileRef = E899DADE11B272840055B9A4 /* scale (kopia).vert */; };
+		E899DAE111B2728D0055B9A4 /* scale (kopia).frag in Resources */ = {isa = PBXBuildFile; fileRef = E899DADD11B272840055B9A4 /* scale (kopia).frag */; };
+		E899DAE211B2728D0055B9A4 /* scale (kopia).vert in Resources */ = {isa = PBXBuildFile; fileRef = E899DADE11B272840055B9A4 /* scale (kopia).vert */; };
 		E8CA57A9111D9EDF00E971B4 /* sound_openal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E8981D35111A2A8500762C10 /* sound_openal.cpp */; };
 		E8D761481128A5A900A5F7D7 /* libdumb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8D761421128A5A900A5F7D7 /* libdumb.a */; };
 		E8D761491128A5A900A5F7D7 /* libFLAC.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8D761431128A5A900A5F7D7 /* libFLAC.a */; };
@@ -297,6 +301,8 @@
 		E81E15581166A98F000C3483 /* platform-dependent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "platform-dependent.h"; path = "../source/Engine/platform-dependent.h"; sourceTree = SOURCE_ROOT; };
 		E836739E1101D9E2001449BC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E8981D35111A2A8500762C10 /* sound_openal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sound_openal.cpp; path = ../source/Engine/sound_openal.cpp; sourceTree = SOURCE_ROOT; };
+		E899DADD11B272840055B9A4 /* scale (kopia).frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = "scale (kopia).frag"; path = "../source/Engine/scale (kopia).frag"; sourceTree = SOURCE_ROOT; };
+		E899DADE11B272840055B9A4 /* scale (kopia).vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = "scale (kopia).vert"; path = "../source/Engine/scale (kopia).vert"; sourceTree = SOURCE_ROOT; };
 		E8D761421128A5A900A5F7D7 /* libdumb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libdumb.a; path = ../libs/libdumb.a; sourceTree = SOURCE_ROOT; };
 		E8D761431128A5A900A5F7D7 /* libFLAC.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFLAC.a; path = ../libs/libFLAC.a; sourceTree = SOURCE_ROOT; };
 		E8D761441128A5A900A5F7D7 /* libogg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libogg.a; path = ../libs/libogg.a; sourceTree = SOURCE_ROOT; };
@@ -529,6 +535,8 @@
 		E8DB5E2711B1772100137FE3 /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
+				E899DADD11B272840055B9A4 /* scale (kopia).frag */,
+				E899DADE11B272840055B9A4 /* scale (kopia).vert */,
 				E8DB5E2811B1774100137FE3 /* scale.frag */,
 				E8DB5E2911B1774100137FE3 /* scale.vert */,
 				E8DB5E9311B17DFB00137FE3 /* fixScaleSprite.vert */,
@@ -582,6 +590,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E899DAE111B2728D0055B9A4 /* scale (kopia).frag in Resources */,
+				E899DAE211B2728D0055B9A4 /* scale (kopia).vert in Resources */,
 				E8DB5E9411B17DFB00137FE3 /* fixScaleSprite.vert in Resources */,
 				E8DB5E9811B17E4600137FE3 /* fixScaleSprite.frag in Resources */,
 				E8DB5E2A11B1774100137FE3 /* scale.frag in Resources */,
@@ -642,6 +652,8 @@
 				2FEFC49C10073ADA004C66F1 /* GLee.c in Sources */,
 				2F6274FD10EA337700BBDEDF /* shaders.cpp in Sources */,
 				E8CA57A9111D9EDF00E971B4 /* sound_openal.cpp in Sources */,
+				E899DADF11B272840055B9A4 /* scale (kopia).frag in Sources */,
+				E899DAE011B272840055B9A4 /* scale (kopia).vert in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
