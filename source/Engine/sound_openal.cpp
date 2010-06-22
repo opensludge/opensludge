@@ -57,7 +57,7 @@ const float modLoudness = 0.95f;
  */
 
 bool initSoundStuff (HWND hwnd) {
-	
+
 	if(!alureInitDevice(NULL, NULL))
 	{
 		fprintf(stderr, "Failed to open OpenAL device: %s\n",
@@ -149,14 +149,13 @@ void setDefaultMusicVolume (int v) {
 }
 
 void setSoundVolume (int a, int v) {
-	if (soundOK) {
-		int ch = findInSoundCache (a);
-		if (ch != -1) {
-			if (soundCache[ch].playing) {
-				soundCache[ch].vol = v;
-				alSourcef (soundCache[ch].playingOnSource,
-						AL_GAIN, (float) v / 256);
-			}
+	if (! soundOK) return; 	
+	int ch = findInSoundCache (a);
+	if (ch != -1) {
+		if (soundCache[ch].playing) {
+			soundCache[ch].vol = v;
+			alSourcef (soundCache[ch].playingOnSource,
+					AL_GAIN, (float) v / 256);
 		}
 	}
 }
@@ -218,6 +217,7 @@ int findInSoundCache (int a) {
 }
 
 void stopMOD (int i) {
+	if (! soundOK) return; 	
 	alGetError();
 	if (modCache[i].playing) {
 		if (! alureStopSource(modCache[i].playingOnSource, AL_TRUE)) {
@@ -228,6 +228,7 @@ void stopMOD (int i) {
 }
 
 void huntKillSound (int filenum) {
+	if (! soundOK) return;
 	// Clear OpenAL errors to make sure they don't block anything:
 	alGetError();
 
@@ -247,6 +248,7 @@ void huntKillSound (int filenum) {
 }
 
 void freeSound (int a) {
+	if (! soundOK) return;
 	// Clear OpenAL errors to make sure they don't block anything:
 	alGetError();
 
@@ -270,6 +272,7 @@ void freeSound (int a) {
 
 
 void huntKillFreeSound (int filenum) {
+	if (! soundOK) return; 	
 	int gotSlot = findInSoundCache (filenum);
 	if (gotSlot == -1) return;
 	freeSound (gotSlot);
@@ -280,6 +283,7 @@ void huntKillFreeSound (int filenum) {
  */
 
 void playStream (int a, bool isMOD, bool loopy) {
+	if (! soundOK) return; 	
 	ALboolean ok;
 	ALuint src;
 	soundThing *st;
@@ -340,6 +344,7 @@ char * loadEntireFileToMemory (FILE * inputFile, uint32_t size) {
 }
 
 bool playMOD (int f, int a, int fromTrack) {
+	if (! soundOK) return true;
 	stopMOD (a);
 
 	setResourceForFatal (f);
@@ -443,6 +448,8 @@ int findEmptySoundSlot () {
 }
 
 int cacheSound (int f) {
+	if (! soundOK) return -1;
+
 	unsigned int chunkLength;
 	int retval;
 	bool loopy;
