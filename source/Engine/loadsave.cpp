@@ -3,6 +3,7 @@
 #include "newfatal.h"
 #include "variable.h"
 #include "version.h"
+#include "language.h"
 #include "moreio.h"
 #include "sludger.h"
 #include "people.h"
@@ -52,8 +53,6 @@ extern unsigned int currentBlankColour;				// in backdrop.cpp
 extern parallaxLayer * parallaxStuff;				//		"
 extern int lightMapMode;							//		"
 extern int languageNum;
-
-extern settingsStruct gameSettings;
 
 
 //----------------------------------------------------------------------
@@ -463,7 +462,6 @@ bool saveGame (char * fname) {
 
 	put2bytes (saveEncoding, fp);
 
-	aaSave(maxAntiAliasSettings, fp);
 	blur_saveSettings(fp);
 
 	put2bytes (currentBlankColour, fp);
@@ -593,7 +591,13 @@ bool loadGame (char * fname) {
 
 	if (ssgVersion >= VERSION(1,6))
 	{
-		aaLoad(maxAntiAliasSettings, fp);
+		if (ssgVersion < VERSION (2,0)) {
+			// aaLoad
+			fgetc (fp);
+			getFloat (fp);
+			getFloat (fp);
+		}
+		
 		blur_loadSettings(fp);
 	}
 

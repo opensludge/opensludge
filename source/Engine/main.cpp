@@ -29,6 +29,7 @@
 #include "stringy.h"
 #include "sludger.h"
 #include "backdrop.h"
+#include "language.h"
 #include "newfatal.h"
 #include "people.h"
 #include "floor.h"
@@ -63,8 +64,6 @@ int realWinWidth = 640, realWinHeight = 480;
 extern int specialSettings;
 extern inputType input;
 extern variableStack * noStack;
-
-settingsStruct gameSettings;
 
 int dialogValue = 0;
 
@@ -112,7 +111,6 @@ void tick () {
 void saveHSI (FILE * writer);
 
 extern bool reallyWantToQuit;
-extern bool useMySpecialAA;
 
 bool fileExists(char * file) {
 	FILE * tester;
@@ -337,7 +335,7 @@ int main(int argc, char *argv[]) try
 							setGraphicsWindow(! runningFullscreen);
 						}
 						if (SDLK_a == event.key.keysym.sym) {
-							useMySpecialAA = ! useMySpecialAA;
+							gameSettings.antiAlias = ! gameSettings.antiAlias;
 							break;
 						}
 						// Allow Alt+F4 to quit

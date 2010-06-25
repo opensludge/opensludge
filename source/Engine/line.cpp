@@ -2,7 +2,6 @@
 #include "GLee.h"
 #include <stdlib.h>
 #include "graphics.h"
-#include "sprites_aa.h"
 
 #include "allfiles.h"
 
@@ -100,11 +99,4 @@ void drawLine(int x1, int y1, int x2, int y2) {
 		xoffset += viewportWidth;
 	}
 	setPixelCoords (false);	
-	if (maxAntiAliasSettings.useMe) {
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	} else {
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	}			
 }

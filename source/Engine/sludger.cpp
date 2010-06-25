@@ -49,6 +49,7 @@
 
 #include "debug.h"
 
+
 extern personaAnimation * mouseCursorAnim;
 extern spritePalette pastePalette;
 extern int dialogValue, sceneWidth, sceneHeight;
@@ -161,8 +162,6 @@ FILE * openAndVerify (char * filename, char extra1, char extra2, const char * er
 	return fp;
 }
 
-extern settingsStruct gameSettings;
-
 bool initSludge (char * filename) {
 	int a = 0;
 	mouseCursorAnim = makeNullAnim ();
@@ -205,11 +204,13 @@ bool initSludge (char * filename) {
 	gameSettings.numLanguages = (gameVersion >= VERSION(1,3)) ? (fgetc (fp)) : 0;
 	makeLanguageTable (fp);
 
-	bool useAAFromIni = true;
 	if (gameVersion >= VERSION(1,6))
 	{
-		useAAFromIni = fgetc(fp);
-		aaLoad(maxAntiAliasSettings, fp);
+		fgetc(fp);
+		// aaLoad
+		fgetc (fp);
+		getFloat (fp);
+		getFloat (fp);
 	}
 
 	char * checker = readString (fp);
@@ -372,9 +373,6 @@ bool initSludge (char * filename) {
 		if (! showSetupWindow()) return 0;
 		saveIniFile (filename);
 	}
-
-	if (useAAFromIni && gameSettings.antiAlias >= 0)
-		maxAntiAliasSettings.useMe = (gameSettings.antiAlias != 0);
 
 	// Now set file indices properly to the chosen language.
 	languageNum = getLanguageForFileB ();

@@ -7,6 +7,8 @@ struct cmdlineSettingsStruct
 	unsigned int languageID;
 	bool fullscreenSet;
 	bool userFullScreen;
+	bool aaSet;
+	bool antiAlias;
 };
 
 void printCmdlineUsage();

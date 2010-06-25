@@ -43,17 +43,13 @@ objectType * loadObjectType (int i) {
 
 			if (gameVersion >= VERSION(1,6))
 			{
-				aaLoad (newType->antiAliasingSettings, bigDataFile);
-			}
-			else
-			{
-				newType->antiAliasingSettings.useMe = false;
-				newType->antiAliasingSettings.blurX = 0.1f;	//0.f;
-				newType->antiAliasingSettings.blurY = 0.1f; //0.f;
+				// aaLoad
+				fgetc (bigDataFile);
+				getFloat (bigDataFile);
+				getFloat (bigDataFile);
 			}
 			
 			if (gameVersion >= VERSION(1,4)) {
-//				fatal ("New");
 				newType -> flags = get2bytes (bigDataFile);
 			} else {
 				newType -> flags = 0;

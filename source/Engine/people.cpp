@@ -4,7 +4,6 @@
 
 #include "version.h"
 #include "sprites.h"
-#include "sprites_aa.h"
 #include "sprbanks.h"
 #include "sludger.h"
 #include "objtypes.h"
@@ -863,8 +862,6 @@ bool addPerson (int x, int y, int objNum, persona * p) {
 	newPerson -> transparency = 0;
 	newPerson -> myPersona = p;
 
-	aaCopy (& newPerson->aaSettings, & newPerson->thisType->antiAliasingSettings);
-
 	setFrames (* newPerson, ANI_STAND);
 
 	// HEIGHT (BASED ON 1st FRAME OF 1st ANIMATION... INC. SPECIAL CASES)
@@ -1124,9 +1121,6 @@ bool savePeople (FILE * fp) {
 		
 		saveObjectRef (me -> thisType, fp);
 
-		// Anti-aliasing settings
-		aaSave (me -> aaSettings, fp);
-
 		me = me -> next;
 	}
 	return true;
@@ -1208,9 +1202,12 @@ bool loadPeople (FILE * fp) {
 		// Anti-aliasing settings
 		if (ssgVersion >= VERSION(1,6))
 		{
-			aaLoad (me -> aaSettings, fp);
-		} else {
-			aaCopy (& me->aaSettings, &me->thisType->antiAliasingSettings);
+			if (ssgVersion < VERSION (2,0)) {
+				// aaLoad
+				fgetc (fp);
+				getFloat (fp);
+				getFloat (fp);
+			}
 		}
 
 		me -> next = NULL;

@@ -9,7 +9,6 @@
 #include "fileset.h"
 #include "people.h"
 #include "sprites.h"
-#include "sprites_aa.h"
 #include "moreio.h"
 #include "newfatal.h"
 #include "colours.h"
@@ -20,8 +19,6 @@
 #include "graphics.h"
 
 #include "shaders.h"
-
-bool useMySpecialAA = false;
 
 extern zBufferData zBuffer;
 extern GLuint backdropTextureName;
@@ -314,8 +311,8 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 		glBindTexture (GL_TEXTURE_2D, loadhere.myPalette.tex_names[tex_num]);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, totalwidth[tex_num], maxheight[tex_num], 0, GL_RGBA, GL_UNSIGNED_BYTE, tmp[tex_num]);
 
 		delete tmp[tex_num];
@@ -325,8 +322,8 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 			glBindTexture (GL_TEXTURE_2D, loadhere.myPalette.burnTex_names[tex_num]);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, totalwidth[tex_num], maxheight[tex_num], 0, GL_RGBA, GL_UNSIGNED_BYTE, tmp2[tex_num]);
 
 			delete tmp2[tex_num];
@@ -420,14 +417,6 @@ void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette
 		xoffset += viewportWidth;
 	}
 	setPixelCoords (false);
-	if (maxAntiAliasSettings.useMe) {
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	} else {
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	}
-
 }
 
 void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette & fontPal) {
@@ -499,14 +488,6 @@ void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette 
 		xoffset += viewportWidth;
 	}
 	setPixelCoords (false);
-	if (maxAntiAliasSettings.useMe) {
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	} else {
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	}
-
 }
 
 extern GLuint backdropTextureName;
@@ -528,6 +509,19 @@ void fontSprite (int x, int y, sprite & single, const spritePalette & fontPal) {
 	glColor3ub (fontPal.originalRed, fontPal.originalGreen, fontPal.originalBlue);
 	glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
 
+	if (gameSettings.antiAlias) {
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glUseProgram(shader.smartScaler);
+		GLuint uniform = glGetUniformLocation(shader.smartScaler, "Size");
+		//if (scale > 1.0) {
+		if (uniform >= 0) glUniform4f(uniform, 1.0/fontPal.tex_w[single.texNum], 1.0/fontPal.tex_h[single.texNum], 1.0, 1.0);
+		//} else {
+		//	if (uniform >= 0) glUniform4f(uniform, scale*0.5/fontPal.tex_w[single.texNum], scale*0.5/fontPal.tex_h[single.texNum], 1.0, 1.0);
+		//}
+		uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
+		if (uniform >= 0) glUniform1i(uniform, 0);
+	}
+	
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -540,6 +534,7 @@ void fontSprite (int x, int y, sprite & single, const spritePalette & fontPal) {
 
 	glEnd();
 	glDisable(GL_BLEND);
+	glUseProgram(0);
 }
 
 void flipFontSprite (int x, int y, sprite & single, const spritePalette & fontPal) {
@@ -597,7 +592,6 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 	bool useZB = ! (thisPerson->extra & EXTRA_NOZB);
 	bool light = ! (thisPerson->extra & EXTRA_NOLITE);
 	bool boundingBoxCollision = thisPerson->extra & EXTRA_RECTANGULAR;
-	aaSettingsStruct * aa = & thisPerson->aaSettings;
 	
 	if (scale <= 0.05) return false;
 
@@ -674,9 +668,9 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-	if (useMySpecialAA) {
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	if (gameSettings.antiAlias) {
 		glUseProgram(shader.smartScaler);
 		GLuint uniform = glGetUniformLocation(shader.smartScaler, "Size");
 		//if (scale > 1.0) {
@@ -686,11 +680,6 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 		//}
 		uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
 		if (uniform >= 0) glUniform1i(uniform, light && lightMapMode == LIGHTMAPMODE_PIXEL && lightMap.data);
-	} else {
-		if (aa->useMe && maxAntiAliasSettings.useMe)
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		else
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	}
 	
 	glBegin(GL_QUADS);
@@ -897,8 +886,6 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
 			glUseProgram(0);
 
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, (int) ((x1<0) ? xoffset: x1+xoffset), (int) ((y1<0) ? yoffset: y1+yoffset), (int) ((x1<0) ?viewportOffsetX-x1:viewportOffsetX), (int) ((y1<0) ?viewportOffsetY-y1:viewportOffsetY), w, h);
 
 			yoffset += viewportHeight;
@@ -907,13 +894,6 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 	}
 
 	setPixelCoords (false);
-	if (maxAntiAliasSettings.useMe) {
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	} else {
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	}
 	glUseProgram(0);
 }
 

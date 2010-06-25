@@ -12,6 +12,8 @@ struct settingsStruct
 	bool noStartWindow;
 };
 
+extern settingsStruct gameSettings;
+
 void readIniFile (char * filename);
 void saveIniFile (char * filename);
 int getLanguageForFileB ();

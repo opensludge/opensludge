@@ -8,6 +8,7 @@
 
 int *languageTable;
 char **languageName;
+settingsStruct gameSettings;
 
 unsigned int stringToInt (char * s) {
 	int i = 0;
@@ -59,8 +60,6 @@ char * getPrefsFilename (char * filename) {
 	return joined;
 }
 
-extern settingsStruct gameSettings;
-
 void readIniFile (char * filename) {
 	char * langName = getPrefsFilename (copyString (filename));
 
@@ -69,7 +68,7 @@ void readIniFile (char * filename) {
 	gameSettings.languageID = 0;
 	gameSettings.userFullScreen = true;
 	gameSettings.refreshRate = 0;
-	gameSettings.antiAlias = -1;
+	gameSettings.antiAlias = true;
     gameSettings.fixedPixels = false;
     gameSettings.noStartWindow = false;
 

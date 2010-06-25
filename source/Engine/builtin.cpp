@@ -26,6 +26,7 @@
 #include "zbuffer.h"
 #include "talk.h"
 #include "region.h"
+#include "language.h"
 #include "moreio.h"
 #include "savedata.h"
 #include "freeze.h"
@@ -73,8 +74,6 @@ extern frozenStuffStruct * frozenStuff;
 extern unsigned int currentBlankColour;
 extern unsigned int languageID;
 extern unsigned char currentBurnR, currentBurnG, currentBurnB;
-extern settingsStruct gameSettings;
-extern aaSettingsStruct maxAntiAliasSettings;
 
 int paramNum[] = {-1, 0, 1, 1, -1, -1, 1, 3, 4, 1, 0, 0, 8, -1,		// SAY -> MOVEMOUSE
 						-1, 0, 0, -1, -1, 1, 1, 1, 1, 4, 1, 1, 2, 1,// FOCUS -> REMOVEREGION
@@ -2546,54 +2545,28 @@ builtIn(quitWithFatalError)
 	return BR_NOCOMMENT;
 }
 
-builtIn(setCharacterAntiAliasing)
+builtIn(_rem_setCharacterAA)
 {
 	UNUSEDALL
 
-	int who;
-	aaSettingsStruct tempSettings;
+	trimStack (fun -> stack);
+	trimStack (fun -> stack);
+	trimStack (fun -> stack);
+	trimStack (fun -> stack);
 
-	if (aaGetFromStack (& tempSettings, fun))
-	{
-		if (! getValueType (who, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
-		trimStack (fun -> stack);
-
-		onScreenPerson * thisPerson = findPerson (who);
-
-		if (thisPerson) {
-			aaCopy (& thisPerson->aaSettings, & tempSettings);
-			setVariable (fun -> reg, SVT_INT, 1);
-		} else {
-			setVariable (fun -> reg, SVT_INT, 0);
-		}
-		return BR_CONTINUE;
-	}
-	else
-	{
-		return BR_NOCOMMENT;
-	}
+	return BR_CONTINUE;
 }
 
-builtIn(setMaximumAntiAliasing)
+builtIn(_rem_setMaximumAA)
 {
 	UNUSEDALL
 
-	if (aaGetFromStack (& maxAntiAliasSettings, fun))
-	{
-		glBindTexture(GL_TEXTURE_2D, backdropTextureName);
-		if (maxAntiAliasSettings.useMe) {
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		} else {
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		}
-		return BR_CONTINUE;
-	}
-	else
-	{
-		return BR_NOCOMMENT;
-	}
+	trimStack (fun -> stack);
+	trimStack (fun -> stack);
+	trimStack (fun -> stack);
+
+	return BR_CONTINUE;
+
 }
 
 builtIn(setBackgroundEffect)

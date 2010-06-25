@@ -23,7 +23,9 @@ void printCmdlineUsage() {
 	fprintf(stdout, "Options:\n");
 	fprintf(stdout, "-f,		--fullscreen		Set display mode to fullscreen\n");
 	fprintf(stdout, "-w,		--window		Set display mode to windowed\n");
+	fprintf(stdout, "-w,		--window		Set display mode to windowed\n");
 	fprintf(stdout, "-l<number>,	--language=<number>	Set language to <number> (>=0)\n\n");
+	fprintf(stdout, "-a<number>,	--antialias=<number>	Turn antialiasing on (1) or off (0)\n\n");
 	fprintf(stdout, "Options are saved, so you don't need to specify them every time.\n");
 	fprintf(stdout, "If you entered a wrong language number, use -l0 to reset the language to the default setting.\n");
 	fprintf(stdout, "You can always toggle between fullscreen and windowed mode with \"Alt+Enter\".\n");
@@ -40,6 +42,7 @@ bool parseCmdlineParameters(int argc, char *argv[]) {
 			{"fullscreen",	no_argument,	   0, 'f' },
 			{"window",	no_argument,	   0, 'w' },
 			{"language",	required_argument, 0, 'l' },
+			{"language",	required_argument, 0, 'a' },
 			{"help",	no_argument,	   0, 'h' },
 			{0,0,0,0} /* This is a filler for -1 */
 		};
@@ -58,6 +61,10 @@ bool parseCmdlineParameters(int argc, char *argv[]) {
 		case 'l':
 			cmdlineSettings.languageSet = true;
 			cmdlineSettings.languageID = atoi(optarg);
+			break;
+		case 'a':
+			cmdlineSettings.aaSet = true;
+			cmdlineSettings.antiAlias = atoi(optarg);
 			break;
 		case 'h':
 		default:
@@ -82,6 +89,9 @@ int showSetupWindow() {
 	}
 	if (cmdlineSettings.fullscreenSet) {
 		gameSettings.userFullScreen = cmdlineSettings.userFullScreen;
+	}
+	if (cmdlineSettings.fullscreenSet) {
+		gameSettings.antiAlias = cmdlineSettings.antiAlias;
 	}
 	return 1;
 }

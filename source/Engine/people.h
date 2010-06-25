@@ -1,5 +1,3 @@
-#include "sprites_aa.h"
-
 struct animFrame {
 	int frameNum, howMany;
 	int noise;
@@ -25,8 +23,6 @@ struct persona {
 	int numDirections;
 };
 
-struct aaSettingsStruct;
-
 struct onScreenPerson {
 	float x, y;
 	int height, floaty, walkSpeed;
@@ -43,7 +39,6 @@ struct onScreenPerson {
 	int direction, directionWhenDoneWalking;
 	struct objectType * thisType;
 	int extra, spinSpeed;
-	aaSettingsStruct aaSettings;
 	unsigned char r,g,b,colourmix,transparency;
 };
 

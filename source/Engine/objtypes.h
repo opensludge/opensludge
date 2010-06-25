@@ -1,5 +1,3 @@
-#include "sprites_aa.h"
-
 struct combination {
 	int withObj, funcNum;
 };
@@ -13,7 +11,6 @@ struct objectType {
 	int speechGap, walkSpeed, wrapSpeech, spinSpeed;
 	unsigned short int flags;
 	combination * allCombis;
-	aaSettingsStruct antiAliasingSettings;
 };
 
 bool initObjectTypes ();

@@ -6,6 +6,7 @@
 
 #include "winstuff.h"
 #include "platform-dependent.h"
+#include "language.h"
 #include "newfatal.h"
 #include "sprites.h"
 #include "sprbanks.h"
@@ -32,8 +33,6 @@ HINSTANCE hInst;  				// Handle of the main instance
 extern HWND hMainWindow;
 
 extern variableStack * noStack;
-
-extern settingsStruct gameSettings;
 
 // The platform-specific functions - Windows edition.
 

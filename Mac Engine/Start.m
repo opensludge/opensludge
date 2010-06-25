@@ -10,8 +10,6 @@
 #import "Start.h"
 #include "Language.h"
 
-extern settingsStruct gameSettings;
-
 @interface SDLApplication : NSApplication
 @end
 
@@ -34,6 +32,7 @@ extern char **languageName;
 - (void)windowDidLoad
 {
 	[fullScreenCheck setState:gameSettings.userFullScreen != 0];
+	[aaCheck setState:gameSettings.antiAlias != 0];
 	[languageList removeAllItems];
 	if (gameSettings.numLanguages) {
 		for (int i=0; i<= gameSettings.numLanguages; i++) {
@@ -55,6 +54,7 @@ extern int *languageTable;
 -(IBAction)okButton:(id)sender
 {
 	gameSettings.userFullScreen = [fullScreenCheck state];
+	gameSettings.antiAlias = [aaCheck state];
 	if (gameSettings.numLanguages) {
 		gameSettings.languageID = [languageList indexOfSelectedItem];
 		if (gameSettings.languageID < 0) gameSettings.languageID = 0;

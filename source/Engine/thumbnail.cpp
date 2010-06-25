@@ -8,7 +8,6 @@
 #include "colours.h"
 #include "backdrop.h"
 #include "graphics.h"
-#include "sprites_aa.h"
 #include "newfatal.h"
 
 bool freeze ();
@@ -31,6 +30,7 @@ bool saveThumbnail (FILE * fp) {
 
 		glEnable (GL_TEXTURE_2D);
 		setPixelCoords (true);
+		glUseProgram(0);
 
 		glGenTextures (1, &thumbnailTextureName);
 		glBindTexture(GL_TEXTURE_2D, thumbnailTextureName);
@@ -43,7 +43,7 @@ bool saveThumbnail (FILE * fp) {
 		// Render the backdrop (scaled)
 		glTexEnvi (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 		glBindTexture (GL_TEXTURE_2D, backdropTextureName);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 		glBegin(GL_QUADS);
@@ -53,10 +53,8 @@ bool saveThumbnail (FILE * fp) {
 		glTexCoord2f(0.0, backdropTexH); glVertex3f(0.0, thumbHeight-1, 0.0);
 		glEnd();
 
-		if (! maxAntiAliasSettings.useMe) {
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		}
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
 		// Copy Our ViewPort To The Texture
 		glBindTexture(GL_TEXTURE_2D, thumbnailTextureName);

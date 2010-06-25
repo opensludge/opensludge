@@ -3,7 +3,7 @@
 #include "platform-dependent.h"
 #include "specialsettings.h"
 #include "graphics.h"
-#include "sprites_aa.h"
+#include "language.h"
 #include "sprbanks.h"
 #include "zbuffer.h"
 #include "backdrop.h"
@@ -18,7 +18,6 @@ int viewportOffsetX = 0, viewportOffsetY = 0;
 bool NPOT_textures = true;
 
 extern int specialSettings;
-extern settingsStruct gameSettings;
 
 extern GLuint backdropTextureName;
 extern GLuint snapshotTextureName;
@@ -50,13 +49,9 @@ void setPixelCoords (bool pixels) {
 
 		glClear(GL_COLOR_BUFFER_BIT);
 	} else {
-		if (maxAntiAliasSettings.useMe) {
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); //GL_NEAREST
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		} else {
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		}
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		glOrtho(0, winWidth, winHeight, 0, 1.0, -1.0);
@@ -254,13 +249,10 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-			if (maxAntiAliasSettings.useMe) {
-				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); //GL_NEAREST
-				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			} else {
-				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			}
+
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
 			// Restore the backdrop
 			glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, sceneWidth, sceneHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture);
 
@@ -272,13 +264,10 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 			glBindTexture (GL_TEXTURE_2D, snapshotTextureName);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-			if (maxAntiAliasSettings.useMe) {
-				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); //GL_NEAREST
-				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			} else {
-				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			}
+
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
 			// Restore the backdrop
 			glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, winWidth, winHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, snapTexture);
 			delete snapTexture;

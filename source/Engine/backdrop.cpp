@@ -16,17 +16,18 @@
 #include "fileset.h"
 #include "cursors.h"
 #include "backdrop.h"
+#include "language.h"
 #include "moreio.h"
 #include "variable.h"
 #include "zbuffer.h"
 #include "graphics.h"
 #include "line.h"
-#include "sprites_aa.h"
 #include "people.h"
 #include "talk.h"
 #include "statusba.h"
 
 #include "version.h"
+
 
 bool freeze ();
 void unfreeze (bool);	// Because FREEZE.H needs a load of other includes
@@ -164,8 +165,8 @@ bool restoreSnapshot (FILE * fp) {
 	glBindTexture(GL_TEXTURE_2D, snapshotTextureName);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, snapshotTexture);
 	
 	delete snapshotTexture;
@@ -226,13 +227,9 @@ bool reserveBackdrop () {
 	glBindTexture (GL_TEXTURE_2D, backdropTextureName);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	if (maxAntiAliasSettings.useMe) {
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); //GL_NEAREST
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	} else {
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	}
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
 	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture);
 
 	return true;
@@ -367,13 +364,7 @@ void hardScroll (int distance) {
 	}
 	glDisable(GL_TEXTURE_2D);
 	setPixelCoords (false);
-	if (maxAntiAliasSettings.useMe) {
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	} else {
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	}
+
 }
 
 void drawVerticalLine (unsigned int x, unsigned int y1, unsigned int y2) {
@@ -436,13 +427,6 @@ void darkScreen () {
 		xoffset += viewportWidth;
 	}
 	setPixelCoords (false);
-	if (maxAntiAliasSettings.useMe) {
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	} else {
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	}
 }
 
 inline int sortOutPCamera (int cX, int fX, int sceneMax, int boxMax) {
@@ -521,14 +505,6 @@ void copyToBackDrop (GLuint fromHere, int orW, int orH, int orX, int orY, parall
 			glTexCoord2f(0.0, backdropTexH); glVertex3f(-orX-xoffset, orH-orY-yoffset, 0);
 			glEnd();
 
-			if (maxAntiAliasSettings.useMe) {
-				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); //GL_NEAREST
-				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			} else {
-				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			}
-
 			// Copy Our ViewPort To The Texture
 			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
 			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0+xoffset, 0+yoffset, viewportOffsetX, viewportOffsetY, w, h);
@@ -542,8 +518,6 @@ void copyToBackDrop (GLuint fromHere, int orW, int orH, int orX, int orY, parall
 	setPixelCoords(false);
 	backdropExists = true;
 }
-
-extern bool useMySpecialAA;
 
 
 void drawBackDrop () {
@@ -590,16 +564,14 @@ void drawBackDrop () {
 	}
 
 	glBindTexture (GL_TEXTURE_2D, backdropTextureName);
-	if (useMySpecialAA) {
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	if (gameSettings.antiAlias) {
 	
 		glUseProgram(shader.smartScaler);
 		GLuint uniform = glGetUniformLocation(shader.smartScaler, "Size");
 		if (uniform >= 0) glUniform4f(uniform, 1.0/sceneWidth, 1.0/sceneHeight, 1.0, 1.0);
 		uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
 		if (uniform >= 0) glUniform1i(uniform, 0);
-	} else {
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	}
 	glBegin(GL_QUADS);
 	glTexCoord2f(0.0, 0.0); glVertex3f(-cameraX, -cameraY, 0.0);
@@ -777,13 +749,10 @@ void reloadParallaxTextures () {
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		else
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		if (maxAntiAliasSettings.useMe) {
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		} else {
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		}
+
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
 		if (! NPOT_textures) {
 			glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, getNextPOT(nP->width), getNextPOT(nP->height), 0, GL_RGBA, GL_UNSIGNED_BYTE, nP->texture);
 		} else {
@@ -960,13 +929,10 @@ bool loadParallax (unsigned short v, unsigned short fracX, unsigned short fracY)
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	else
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	if (maxAntiAliasSettings.useMe) {
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	} else {
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	}
+
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
 	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, nP->texture);
 
 	finishAccess ();
@@ -1200,13 +1166,9 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 	glDeleteTextures(1, &tmpTex);
 
 	setPixelCoords (false);
-	if (maxAntiAliasSettings.useMe) {
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	} else {
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	}
+
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
 	backdropExists = true;
 	return true;
@@ -1414,13 +1376,6 @@ bool mixHSI (FILE * fp, int x, int y) {
 	}
 	glDeleteTextures(1, &tmpTex);
 	setPixelCoords (false);
-	if (maxAntiAliasSettings.useMe) {
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	} else {
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	}
 
 	return true;
 }

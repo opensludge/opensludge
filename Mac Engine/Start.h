@@ -11,6 +11,7 @@
 @interface StartController : NSWindowController {
 	IBOutlet NSButton *fullScreenCheck;
 	IBOutlet NSPopUpButton *languageList;
+	IBOutlet NSButton *aaCheck;
 }
 - (IBAction)okButton: (id)sender;
 - (IBAction)cancelButton: (id)sender;
