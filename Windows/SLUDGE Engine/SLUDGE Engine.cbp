@@ -113,7 +113,6 @@
 		<Unit filename="..\..\source\Engine\STATUSBA.H" />
 		<Unit filename="..\..\source\Engine\STRINGY.CPP" />
 		<Unit filename="..\..\source\Engine\STRINGY.H" />
-		<Unit filename="..\..\source\Engine\Sprites_AA.CPP" />
 		<Unit filename="..\..\source\Engine\Sprites_AA.h" />
 		<Unit filename="..\..\source\Engine\TALK.CPP" />
 		<Unit filename="..\..\source\Engine\TALK.H" />

@@ -27,7 +27,7 @@
 	<GL/glx.h>
 	<stddef.h>
 
-1274633646 source:c:\programmering\sludge\source\engine\backdrop.cpp
+1277457920 source:c:\programmering\sludge\source\engine\backdrop.cpp
 	<png.h>
 	<libpng/png.h>
 	<stdlib.h>
@@ -39,12 +39,12 @@
 	"fileset.h"
 	"cursors.h"
 	"backdrop.h"
+	"language.h"
 	"moreio.h"
 	"variable.h"
 	"zbuffer.h"
 	"graphics.h"
 	"line.h"
-	"sprites_aa.h"
 	"people.h"
 	"talk.h"
 	"statusba.h"
@@ -99,14 +99,13 @@
 	"people.h"
 	"sludger.h"
 
-1273862935 c:\programmering\sludge\source\engine\sprites.h
+1277457920 c:\programmering\sludge\source\engine\sprites.h
 	"GLee.h"
 
 1268255838 c:\programmering\sludge\source\engine\sprbanks.h
 	"sprites.h"
 
-1273862935 c:\programmering\sludge\source\engine\people.h
-	"sprites_aa.h"
+1277457920 c:\programmering\sludge\source\engine\people.h
 
 1268255838 c:\programmering\sludge\source\engine\sludger.h
 	<stdint.h>
@@ -116,7 +115,7 @@
 
 1258810534 c:\programmering\sludge\source\engine\CSLUDGE.H
 
-1272711184 c:\programmering\sludge\source\engine\language.h
+1277457920 c:\programmering\sludge\source\engine\language.h
 
 1268255838 source:c:\programmering\sludge\source\engine\fonttext.cpp
 	<stdint.h>
@@ -132,7 +131,7 @@
 
 1268255838 c:\programmering\sludge\source\engine\fonttext.h
 
-1268255837 source:c:\programmering\sludge\source\engine\freeze.cpp
+1277457920 source:c:\programmering\sludge\source\engine\freeze.cpp
 	<string.h>
 	"allfiles.h"
 	"graphics.h"
@@ -150,8 +149,7 @@
 	"freeze.h"
 	"zbuffer.h"
 
-1268255837 c:\programmering\sludge\source\engine\objtypes.h
-	"sprites_aa.h"
+1277457920 c:\programmering\sludge\source\engine\objtypes.h
 
 1268255838 c:\programmering\sludge\source\engine\region.h
 
@@ -169,12 +167,13 @@
 	"moreio.h"
 	"newfatal.h"
 
-1272711184 source:c:\programmering\sludge\source\engine\loadsave.cpp
+1277457920 source:c:\programmering\sludge\source\engine\loadsave.cpp
 	"allfiles.h"
 	"sprites.h"
 	"newfatal.h"
 	"variable.h"
 	"version.h"
+	"language.h"
 	"moreio.h"
 	"sludger.h"
 	"people.h"
@@ -410,7 +409,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1268255838 source:c:\programmering\sludge\source\engine\objtypes.cpp
+1277457920 source:c:\programmering\sludge\source\engine\objtypes.cpp
 	"allfiles.h"
 	"objtypes.h"
 	"variable.h"
@@ -428,7 +427,7 @@
 	"moreio.h"
 	"backdrop.h"
 
-1272711394 source:c:\programmering\sludge\source\engine\sludger.cpp
+1277457920 source:c:\programmering\sludge\source\engine\sludger.cpp
 	<png.h>
 	<libpng/png.h>
 	"allfiles.h"
@@ -486,14 +485,13 @@
 	"newfatal.h"
 	"debug.h"
 
-1274633646 source:c:\programmering\sludge\source\engine\sprites.cpp
+1277457920 source:c:\programmering\sludge\source\engine\sprites.cpp
 	<png.h>
 	<libpng/png.h>
 	"allfiles.h"
 	"fileset.h"
 	"people.h"
 	"sprites.h"
-	"sprites_aa.h"
 	"moreio.h"
 	"newfatal.h"
 	"colours.h"
@@ -563,12 +561,13 @@
 	"moreio.h"
 	"windows.h"
 
-1272711815 source:c:\programmering\sludge\source\engine\winstuff.cpp
+1277458480 source:c:\programmering\sludge\source\engine\winstuff.cpp
 	<windows.h>
 	<shellapi.h>
 	"allfiles.h"
 	"winstuff.h"
 	"platform-dependent.h"
+	"language.h"
 	"newfatal.h"
 	"sprites.h"
 	"sprbanks.h"
@@ -599,7 +598,7 @@
 	"newfatal.h"
 	"moreio.h"
 
-1273862935 source:c:\programmering\sludge\source\engine\builtin.cpp
+1277457920 source:c:\programmering\sludge\source\engine\builtin.cpp
 	"debug.h"
 	"allfiles.h"
 	<SDL/SDL.h>
@@ -626,6 +625,7 @@
 	"zbuffer.h"
 	"talk.h"
 	"region.h"
+	"language.h"
 	"moreio.h"
 	"savedata.h"
 	"freeze.h"
@@ -638,7 +638,7 @@
 
 1268255838 c:\programmering\sludge\source\engine\savedata.h
 
-1273862935 c:\programmering\sludge\source\commoncode\functionlist.h
+1277457919 c:\programmering\sludge\source\commoncode\functionlist.h
 
 1268255838 source:c:\programmering\sludge\source\engine\debug.cpp
 	<stdarg.h>
@@ -653,26 +653,25 @@
 	"floor.h"
 	"line.h"
 
-1268255837 source:c:\programmering\sludge\source\engine\line.cpp
+1277457920 source:c:\programmering\sludge\source\engine\line.cpp
 	"GLee.h"
 	<stdlib.h>
 	"graphics.h"
-	"sprites_aa.h"
 	"allfiles.h"
 
-1275161126 source:c:\programmering\sludge\source\engine\graphics.cpp
+1277457920 source:c:\programmering\sludge\source\engine\graphics.cpp
 	<SDL/SDL.h>
 	"platform-dependent.h"
 	"specialsettings.h"
 	"graphics.h"
-	"sprites_aa.h"
+	"language.h"
 	"sprbanks.h"
 	"zbuffer.h"
 	"backdrop.h"
 	"shaders.h"
 	"language.h"
 
-1268255837 source:c:\programmering\sludge\source\engine\language.cpp
+1277457920 source:c:\programmering\sludge\source\engine\language.cpp
 	<stdio.h>
 	<string.h>
 	"stringy.h"
@@ -681,7 +680,7 @@
 	"language.h"
 	"version.h"
 
-1275161444 source:c:\programmering\sludge\source\engine\main.cpp
+1277457920 source:c:\programmering\sludge\source\engine\main.cpp
 	"linuxstuff.h"
 	"winstuff.h"
 	<stdio.h>
@@ -702,6 +701,7 @@
 	"stringy.h"
 	"sludger.h"
 	"backdrop.h"
+	"language.h"
 	"newfatal.h"
 	"people.h"
 	"floor.h"
@@ -734,13 +734,12 @@
 	<stdlib.h>
 	"allfiles.h"
 
-1273863163 source:c:\programmering\sludge\source\engine\people.cpp
+1277457920 source:c:\programmering\sludge\source\engine\people.cpp
 	"allfiles.h"
 	<math.h>
 	<stdlib.h>
 	"version.h"
 	"sprites.h"
-	"sprites_aa.h"
 	"sprbanks.h"
 	"sludger.h"
 	"objtypes.h"
@@ -778,7 +777,7 @@
 	<wtypes.h>
 	<stdint.h>
 
-1268255837 source:c:\programmering\sludge\source\engine\thumbnail.cpp
+1277457920 source:c:\programmering\sludge\source\engine\thumbnail.cpp
 	<stdint.h>
 	"allfiles.h"
 	"errors.h"
@@ -788,7 +787,6 @@
 	"colours.h"
 	"backdrop.h"
 	"graphics.h"
-	"sprites_aa.h"
 	"newfatal.h"
 
 1270908313 source:c:\programmering\sludge\source\engine\timing.cpp
@@ -811,7 +809,7 @@
 	"newfatal.h"
 	"graphics.h"
 
-1266151528 source:c:\programmering\sludge\images\sludge.rc
+1277458540 source:c:\programmering\sludge\images\sludge.rc
 	<windows.h>
 	<commctrl.h>
 	<richedit.h>
@@ -841,7 +839,7 @@
 
 1268255861 c:\programmering\sludge\source\commoncode\specialsettings.h
 
-1274633646 source:c:\programmering\sludge\source\engine\sound_openal.cpp
+1277457920 source:c:\programmering\sludge\source\engine\sound_openal.cpp
 	<stdint.h>
 	<stdio.h>
 	"AL/alure.h"
@@ -1061,5 +1059,5 @@
 	<Ph.h>
 	"close_code.h"
 
-1272711184 c:\programmering\sludge\source\engine\linuxstuff.h
+1277457920 c:\programmering\sludge\source\engine\linuxstuff.h
 

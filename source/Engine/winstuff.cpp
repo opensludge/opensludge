@@ -72,6 +72,11 @@ BOOL CALLBACK setupDlgProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
         else
             CheckDlgButton (hDlg, 1000, BST_UNCHECKED);
 
+        if (gameSettings.antiAlias)
+            CheckDlgButton (hDlg, 1002, BST_CHECKED);
+        else
+            CheckDlgButton (hDlg, 1002, BST_UNCHECKED);
+
         if (gameSettings.numLanguages) {
           char text[20];
           for (unsigned int i = 0; i<=gameSettings.numLanguages; i++) {
@@ -96,6 +101,7 @@ BOOL CALLBACK setupDlgProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
             case IDOK:
 
             gameSettings.userFullScreen = (IsDlgButtonChecked(hDlg, 1000) == BST_CHECKED);
+            gameSettings.antiAlias = (IsDlgButtonChecked(hDlg, 1002) == BST_CHECKED);
             if (gameSettings.numLanguages) {
                 gameSettings.languageID = SendDlgItemMessage(hDlg, 1001, CB_GETCURSEL, 0, 0);
                 if (gameSettings.languageID < 0) gameSettings.languageID = 0;
