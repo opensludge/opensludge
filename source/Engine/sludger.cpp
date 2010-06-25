@@ -71,7 +71,6 @@ int iconW = 0, iconH = 0;
 int gameVersion;
 int specialSettings;
 FILETIME fileTime;
-//extern byte frameRate;
 extern int desiredfps;
 bool captureAllKeys = false;
 
@@ -524,7 +523,7 @@ void freezeSubs () {
 
 	while (thisFunction) {
 		if (thisFunction -> unfreezable) {
-//			MessageBox (NULL, "Trying to freeze an unfreezable function!", "SLUDGE debugging bollocks!", MB_OK | MB_ICONSTOP | MB_SYSTEMMODAL | MB_SETFOREGROUND);
+			msgBox ("SLUDGE debugging bollocks!", "Trying to freeze an unfreezable function!");
 		} else {
 			thisFunction -> freezerLevel ++;
 		}
@@ -541,8 +540,6 @@ void unfreezeSubs () {
 	}
 }
 
-//FILE * debuggy2 = fopen ("ou.txt", "wt");
-//extern persona * hackPersona;
 
 bool continueFunction (loadedFunction * fun) {
 	bool keepLooping = true;
@@ -975,15 +972,11 @@ bool runSludge () {
 	loadedFunction * thisFunction = allRunningFunctions;
 	loadedFunction * nextFunction;
 
-//	debugSounds ();
 	while (thisFunction) {
 		nextFunction = thisFunction -> next;
-		//debugOut ("SLUDGER: runSludge in the loop\n");
 
 		if (! thisFunction -> freezerLevel) {
 			if (thisFunction -> timeLeft) {
-//				if (numBIFNames) newDebug ("*** Paused function:", allUserFunc[thisFunction -> originalNumber]);
-//				newDebug ("Time left...", thisFunction -> timeLeft);
 				if (thisFunction -> timeLeft < 0) {
 					if (! stillPlayingSound (findInSoundCache (speech -> lastFile))) {
 						thisFunction -> timeLeft = 0;
@@ -995,9 +988,7 @@ bool runSludge () {
 					thisFunction -> isSpeech = false;
 					killAllSpeech ();
 				}
-				//debugOut ("SLUDGER: runSludge before\n");
 				if (! continueFunction (thisFunction)) return false;
-				//debugOut ("SLUDGER: runSludge after\n");
 			}
 		}
 
@@ -1116,7 +1107,6 @@ bool handleInput () {
 	}
 
 	if (! overRegion) getOverRegion ();
-//	input.checkRegion = false;
 
 	if (input.justMoved) {
 		if (currentEvents -> moveMouseFunction) {
@@ -1124,7 +1114,6 @@ bool handleInput () {
 		}
 	}
 	input.justMoved = false;
-//	if (! runSludge ()) return false;
 
 	if (lastRegion != overRegion && currentEvents -> focusFunction) {
 		variableStack * tempStack = new variableStack;
@@ -1228,5 +1217,4 @@ bool handleInput () {
 	input.keyPressed = 0;
 	lastRegion = overRegion;
 	return runSludge ();
-//	return true;
 }

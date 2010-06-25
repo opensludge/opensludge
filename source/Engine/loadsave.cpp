@@ -122,9 +122,6 @@ bool saveStackRef (stackHandler * vs, FILE * fp) {
 	while (s) {
 		if (s -> stack == vs) {
 			fputc (1, fp);
-//			char buff[100];
-//			sprintf (buff, "Found a duplicate! total = %d, a = %d, saving %d", stackLibTotal, a, stackLibTotal - a);
-//			warning (buff);
 			put2bytes (stackLibTotal - a, fp);
 			return true;
 		}
@@ -153,10 +150,6 @@ void clearStackLib () {
 }
 
 stackHandler * getStackFromLibrary (int n) {
-//	stackLibrary * each = stackLib;
-//	char buff[100];
-//	sprintf (buff, "stack lib entry %d of %d", n, stackLibTotal);
-//	warning (buff);
 	n = stackLibTotal - n;
 	while (n) {
 		stackLib = stackLib -> next;
@@ -235,7 +228,6 @@ bool saveVariable (variable * from, FILE * fp)
 
 		case SVT_COSTUME:
 		saveCostume (from -> varData.costumeHandler, fp);
-//		fatal ("Can't save costumes yet!");
 		return false;
 
 		case SVT_ANIM:
@@ -338,13 +330,10 @@ loadedFunction * loadFunction (FILE * fp) {
 	// See what it was called by and load if we need to...
 
 	buildFunc -> originalNumber = get2bytes (fp);
-//	debugOut ("   Loading function with ID:", buildFunc -> originalNumber);
 	buildFunc -> calledBy = NULL;
 	if (fgetc (fp)) {
-//		debugOut ("     Function was called by something else!");
 		buildFunc -> calledBy = loadFunction (fp);
 		if (! buildFunc -> calledBy) return NULL;
-//		debugOut ("   Anyway, back to ID", buildFunc -> originalNumber);
 	}
 
 	buildFunc -> timeLeft = get4bytes (fp);
@@ -362,7 +351,6 @@ loadedFunction * loadFunction (FILE * fp) {
 		loadVariable (& (buildFunc -> localVars[a]), fp);
 	}
 
-//	debugOut ("   Done!");
 	return buildFunc;
 }
 
@@ -484,8 +472,6 @@ bool saveGame (char * fname) {
 //----------------------------------------------------------------------
 // Load everything
 //----------------------------------------------------------------------
-
-//FILE * debug = NULL;
 
 int ssgVersion;
 
@@ -617,9 +603,8 @@ bool loadGame (char * fname) {
 		}
 
 		int selectedLanguage = fgetc (fp);
-		if (selectedLanguage != languageNum)
-			//return fatal ("Sorry - this game was saved when the program was running in a different language!");
-		{
+		if (selectedLanguage != languageNum) {
+			// Load the saved language!
 			languageNum = selectedLanguage;
 			setFileIndices (NULL, gameSettings.numLanguages, languageNum);
 		}

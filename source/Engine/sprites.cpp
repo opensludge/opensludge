@@ -30,15 +30,8 @@ unsigned char currentBurnR = 0, currentBurnG = 0, currentBurnB = 0;
 
 
 void forgetSpriteBank (spriteBank & forgetme) {
-	//unsigned int index;
-
 	glDeleteTextures (forgetme.myPalette.numTextures, forgetme.myPalette.tex_names);
 	if (forgetme.isFont) glDeleteTextures (forgetme.myPalette.numTextures, forgetme.myPalette.burnTex_names);
-
-	/*
-	for (index = 0; index < forgetme.total; index ++) {
-		delete forgetme.sprites[index].data;
-	}*/
 
 	delete forgetme.sprites;
 	forgetme.sprites = NULL;

@@ -5,9 +5,7 @@
 #include "allfiles.h"
 #include "moreio.h"
 #include "newfatal.h"
-//#include "debug.h"
 
-//char * outputDir;
 
 bool sliceBusy = true;
 FILE * bigDataFile = NULL;
@@ -71,8 +69,6 @@ unsigned int openFileFromNum (int num) {
 
 char * getNumberedString (int value) {
 
-	//debugOut ("FILSET: getNumberedString - Reading: %i (%i) %i\n", value, (value << 2) + startOfTextIndex, startOfTextIndex);
-
 	if (sliceBusy) {
 		fatal ("Can't read from data file", "I'm already reading something");
 		return NULL;
@@ -80,12 +76,8 @@ char * getNumberedString (int value) {
 
 	fseek (bigDataFile, (value << 2) + startOfTextIndex, 0);
 	value = get4bytes (bigDataFile);
-	//debugOut ("FILSET: getNumberedString - Seeking: %i\n", value);
 	fseek (bigDataFile, value, 0);
 
-//	char * re = readString (bigDataFile);
-//	fprintf (dbug, "Read [%s]\n", re);
-//	return re;
 	return readString (bigDataFile);
 }
 

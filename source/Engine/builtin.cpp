@@ -124,8 +124,6 @@ bool failSecurityCheck (char * fn) {
 
 loadedFunction * saverFunc;
 
-//void deb(char * c, char * c2);
-
 typedef builtReturn (* builtInSludgeFunc) (int numParams, loadedFunction * fun);
 struct builtInFunctionData
 {
@@ -375,10 +373,9 @@ builtIn(blankArea)
 
 builtIn(darkBackground)
 {
-	 UNUSEDALL
-			darkScreen ();
-//			blurScreen ();
-			return BR_CONTINUE;
+	UNUSEDALL
+	darkScreen ();
+	return BR_CONTINUE;
 }
 
 builtIn(addOverlay)
@@ -1038,7 +1035,6 @@ builtIn(quitGame)
 	reallyWantToQuit = true;
 	quit_event.type=SDL_QUIT;
 	SDL_PushEvent(&quit_event);
-	//PostQuitMessage(0);
 	return BR_NOCOMMENT;
 }
 
@@ -1445,21 +1441,21 @@ builtIn(showCharacter)
 builtIn(removeAllCharacters)
 {
 	UNUSEDALL
-			killSpeechTimers ();
-			killMostPeople ();
-			return BR_CONTINUE;
+	killSpeechTimers ();
+	killMostPeople ();
+	return BR_CONTINUE;
 }
 
 builtIn(setCharacterDrawMode)
 {
 	UNUSEDALL
-				int obj, di;
-				if (! getValueType (di, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
-				trimStack (fun -> stack);
-				if (! getValueType (obj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
-				trimStack (fun -> stack);
-				setDrawMode (di, obj);
-				return BR_CONTINUE;
+	int obj, di;
+	if (! getValueType (di, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	trimStack (fun -> stack);
+	if (! getValueType (obj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	trimStack (fun -> stack);
+	setDrawMode (di, obj);
+	return BR_CONTINUE;
 }
 builtIn(setCharacterTransparency)
 {
@@ -2235,14 +2231,13 @@ builtIn(transitionMode)
 			}
 
 
-// Deprecated function - does nothing
+// Removed function - does nothing
 builtIn(_rem_updateDisplay)
 {
 	UNUSEDALL
-			//updateDisplay = getBoolean (fun -> stack -> thisVar);
-			trimStack (fun -> stack);
-			setVariable (fun -> reg, SVT_INT, true /*updateDisplay*/);
-			return BR_CONTINUE;
+	trimStack (fun -> stack);
+	setVariable (fun -> reg, SVT_INT, true);
+	return BR_CONTINUE;
 }
 
 builtIn(getSoundCache)
@@ -2259,28 +2254,27 @@ builtIn(getSoundCache)
 			}
 
 builtIn(saveCustomData)
-
-			{
+{
 	UNUSEDALL
-				// saveCustomData (thisStack, fileName);
-				char * fileNameB = getTextFromAnyVar (fun -> stack -> thisVar);
-				if (! checkNew (fileNameB)) return BR_NOCOMMENT;
-
-				char * fileName = encodeFilename (fileNameB);
-				delete fileNameB;
-
-				if (failSecurityCheck (fileName)) return BR_NOCOMMENT;
-				trimStack (fun -> stack);
-
-				if (fun -> stack -> thisVar.varType != SVT_STACK) {
-					fatal ("First parameter isn't a stack");
-					return BR_NOCOMMENT;
-				}
-				if (! stackToFile (fileName, fun -> stack -> thisVar)) return BR_NOCOMMENT;
-				trimStack (fun -> stack);
-				delete fileName;
-			return BR_CONTINUE;
-			}
+	// saveCustomData (thisStack, fileName);
+	char * fileNameB = getTextFromAnyVar (fun -> stack -> thisVar);
+	if (! checkNew (fileNameB)) return BR_NOCOMMENT;
+	
+	char * fileName = encodeFilename (fileNameB);
+	delete fileNameB;
+	
+	if (failSecurityCheck (fileName)) return BR_NOCOMMENT;
+	trimStack (fun -> stack);
+	
+	if (fun -> stack -> thisVar.varType != SVT_STACK) {
+		fatal ("First parameter isn't a stack");
+		return BR_NOCOMMENT;
+	}
+	if (! stackToFile (fileName, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	trimStack (fun -> stack);
+	delete fileName;
+	return BR_CONTINUE;
+}
 
 builtIn(loadCustomData)
 			{

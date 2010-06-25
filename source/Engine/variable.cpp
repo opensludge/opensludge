@@ -242,9 +242,6 @@ void addVariablesInSecond (variable & var1, variable & var2) {
 	} else {
 		char * string1 = getTextFromAnyVar (var1);
 		char * string2 = getTextFromAnyVar (var2);
-//		FILE * debuggy2 = fopen ("debug.txt", "at");
-//		fprintf (debuggy2, "JOINING \"%s\" AND \"%s\"\n", string1, string2);
-//		fclose (debuggy2);
 
 		unlinkVar (var2);
 		var2.varData.theString = joinStrings (string1, string2);
@@ -290,17 +287,13 @@ void compareVariablesInSecond (const variable & var1, variable & var2) {
 }
 
 void makeTextVar (variable & thisVar, char * txt) {
-	//debugOut ("VARIABLE: makeTextVar\n");
 	unlinkVar (thisVar);
 	thisVar.varType = SVT_STRING;
 	thisVar.varData.theString = copyString (txt);
 }
 
 bool loadStringToVar (variable & thisVar, int value) {
-	//debugOut ("VARIABLE: loadStringToVar... ");
-
 	makeTextVar (thisVar, getNumberedString (value));
-	//debugOut ("done.\n");
 	return (bool) (thisVar.varData.theString != NULL);
 }
 
@@ -416,8 +409,6 @@ bool getBoolean (const variable & from) {
 
 bool copyMain (const variable & from, variable & to) {
 	to.varType = from.varType;
-//	debug ("Copying variable of type", typeName[from.varType]);
-//	debug ("Destination", & to);
 	switch (to.varType) {
 		case SVT_INT:
 		case SVT_FUNC:
@@ -425,7 +416,6 @@ bool copyMain (const variable & from, variable & to) {
 		case SVT_FILE:
 		case SVT_OBJTYPE:
 		to.varData.intValue = from.varData.intValue;
-//		debug ("Value", to.varData.intValue);
 		return true;
 
 		case SVT_FASTARRAY:
@@ -513,8 +503,6 @@ bool moveVariable (variable & from, variable & to) {
 bool addVarToStack (const variable & va, variableStack * & thisStack) {
 	variableStack * newStack = new variableStack;
 	if (! checkNew (newStack)) return false;
-//	debug ("New variableStack created at", newStack);
-//	debug ("Want to add to the stack starting at", thisStack);
 
 	if (! copyMain (va, newStack -> thisVar)) return false;
 	newStack -> next = thisStack;

@@ -1,5 +1,4 @@
 #include "errors.h"
-//#include <windows.h>
 
 bool hasFatal ();
 

@@ -39,12 +39,7 @@ void writeStringEncoded (const char * s, FILE * fp) {
 	int a, len = strlen (s);
 
 	put2bytes (len, fp);
-//	loadSaveDebug ("WRITE: length");
-//	loadSaveDebug (len);
 	for (a = 0; a < len; a ++) {
-//		loadSaveDebug ("WRITE: s[a]");
-//		loadSaveDebug (s[a]);
-//		loadSaveDebug ((int) s[a] ^ encode1);
 		fputc (s[a] ^ encode1, fp);
 		encode1 += encode2;
 	}
@@ -54,12 +49,8 @@ char * readStringEncoded (FILE * fp) {
 	int a, len = get2bytes (fp);
 	char * s = new char[len + 1];
 	if (! checkNew (s)) return NULL;
-//	loadSaveDebug ("READ: length");
-//	loadSaveDebug (len);
 	for (a = 0; a < len; a ++) {
 		s[a] = (char) (fgetc (fp) ^ encode1);
-//		loadSaveDebug ("READ: s[a]");
-//		loadSaveDebug (s[a]);
 		encode1 += encode2;
 	}
 	s[len] = NULL;
@@ -75,7 +66,6 @@ char * readTextPlain (FILE * fp) {
 	char * reply;
 
 	startPos = ftell (fp);
-	//fgetpos (fp, & startPos);
 
 	while (keepGoing) {
 		gotChar = (char) fgetc (fp);
@@ -89,7 +79,6 @@ char * readTextPlain (FILE * fp) {
 	if ((stringSize == 0) && (feof (fp))) {
 		return NULL;
 	} else {
-		//fsetpos (fp, &startPos);
 		fseek (fp, startPos, SEEK_SET);
 		reply = new char[stringSize + 1];
 		if (reply == NULL) return NULL;
@@ -134,7 +123,6 @@ bool fileToStack (char * filename, stackHandler * sH) {
 	}
 
 	if (saveEncoding) {
-//		loadSaveDebug ("\nCHECKING ENCODING IS THE SAME\n");
 		char * checker = readStringEncoded (fp);
 		if (strcmp (checker, "UN£LOåCKED")) {
 			fclose (fp);
@@ -150,8 +138,6 @@ bool fileToStack (char * filename, stackHandler * sH) {
 			char i = fgetc (fp) ^ encode1;
 
 			if (feof (fp)) break;
-//			loadSaveDebug ("READ: type");
-//			loadSaveDebug (i);
 			switch (i) {
 				case 0:
 				{
@@ -243,7 +229,6 @@ bool stackToFile (char * filename, const variable & from) {
 
 		hereWeAre = hereWeAre -> next;
 	}
-//	fprintf (fp, "Done!\n");
 	fclose (fp);
 	return true;
 }

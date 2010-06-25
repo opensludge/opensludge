@@ -101,10 +101,7 @@ void setGameFilePath (char * f) {
 
 void tick () {
 	walkAllPeople ();
-//	if (!
-		handleInput ()
-		//) return
-			;
+	handleInput ();
 	sludgeDisplay ();
 }
 

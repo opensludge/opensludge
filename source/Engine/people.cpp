@@ -12,7 +12,6 @@
 #include "talk.h"
 #include "newfatal.h"
 #include "variable.h"
-//#include "memwatch.h"
 #include "moreio.h"
 #include "loadsave.h"
 #include "floor.h"
@@ -42,8 +41,6 @@ short int scaleHorizon = 75;
 short int scaleDivide = 150;
 extern screenRegion * allScreenRegions;
 
-//persona * hackPersona = NULL;
-
 #define TF_max(a, b) ((a > b) ? a : b)
 
 inline int TF_abs (int a) {
@@ -56,15 +53,11 @@ void setFrames (onScreenPerson & m, int a) {
 
 personaAnimation * createPersonaAnim (int num, variableStack * & stacky) {
 	personaAnimation * newP = new personaAnimation;
-//	db ("\nCreating new animation from built-in function");
 	checkNew (newP);
-//	adding (newP);
 
 	newP -> numFrames = num;
 	newP -> frames = new animFrame[num];
 	checkNew (newP -> frames);
-//	db ("Making room for frames");
-//	adding (newP -> frames);
 
 	int a = num, frameNum, howMany;
 
@@ -92,8 +85,6 @@ personaAnimation * createPersonaAnim (int num, variableStack * & stacky) {
 
 personaAnimation * makeNullAnim () {
 	personaAnimation * newAnim	= new personaAnimation;
-//	db ("\nCreating NULL animation");
-//	adding (newAnim);
 
 	newAnim -> theSprites		= NULL;
 	newAnim -> numFrames		= 0;
@@ -105,8 +96,6 @@ personaAnimation * copyAnim (personaAnimation * orig) {
 	int num = orig -> numFrames;
 
 	personaAnimation * newAnim	= new personaAnimation;
-//	db ("\nCopying animation");
-//	adding (newAnim);
 
 	// Copy the easy bits...
 	newAnim -> theSprites		= orig -> theSprites;
@@ -117,8 +106,6 @@ personaAnimation * copyAnim (personaAnimation * orig) {
 		// Argh! Frames! We need a whole NEW array of animFrame structures...
 
 		newAnim -> frames = new animFrame[num];
-//		db ("Copying frames");
-//		adding (newAnim -> frames);
 
 		for (int a = 0; a < num; a ++) {
 			newAnim -> frames[a].frameNum = orig -> frames[a].frameNum;
@@ -133,22 +120,12 @@ personaAnimation * copyAnim (personaAnimation * orig) {
 }
 
 void deleteAnim (personaAnimation * orig) {
-/*	FILE * debu = fopen ("debuTURN.txt", "at");
-	if (orig) {
-		fprintf (debu, "\nDeleting an animation with %i frames...\n", orig -> numFrames);
-	} else {
-		fprintf (debu, "\nDeleting a NULL animation! Ouch!");
-	}
-	fclose (debu);
-*/
 
 	if (orig)
 	{
 		if (orig -> numFrames) {
-	//		deleting (orig -> frames);
 			delete orig -> frames;
 		}
-	//	deleting (orig);
 		delete orig;
 		orig = NULL;
 	}
@@ -620,8 +597,6 @@ bool doBorderStuff (onScreenPerson * moveMe) {
 		int x2 = moveMe -> walkToX, y2 = moveMe -> walkToY;
 		int x3 = currentFloor -> vertex[ID].x, y3 = currentFloor -> vertex[ID].y;
 		int x4 = currentFloor -> vertex[ID2].x, y4 = currentFloor -> vertex[ID2].y;
-//		drawLine (x1, y1, x2, y2);
-//		drawLine (x3, y3, x4, y4);
 
 		int xAB = x1 - x2;
 		int yAB = y1 - y2;
@@ -676,7 +651,6 @@ bool walkMe (onScreenPerson * thisPerson, bool move = true) {
 
 		if (TF_abs (maxDiff) > s) {
 			if (thisPerson -> spinning) {
-//				db ("IN WALKME (MIDDLE):");
 				spinStep (thisPerson);
 				setFrames (* thisPerson, ANI_WALK);
 			}
@@ -692,7 +666,6 @@ bool walkMe (onScreenPerson * thisPerson, bool move = true) {
 			if (thisPerson -> directionWhenDoneWalking != -1) {
 				thisPerson -> wantAngle = thisPerson -> directionWhenDoneWalking;
 				thisPerson -> spinning = true;
-//				db ("IN WALKME (INPOLY == -1):");
 				spinStep (thisPerson);
 			}
 			break;
@@ -811,13 +784,10 @@ bool setCharacterWalkSpeed (int f, int objNum) {
 void walkAllPeople () {
 	onScreenPerson * thisPerson = allPeople;
 
-//	db ("");
-
 	while (thisPerson) {
 		if (thisPerson -> walking) {
 			walkMe (thisPerson);
 		} else if (thisPerson -> spinning) {
-//			db ("FROM WALKALLPEOPLE:");
 			spinStep (thisPerson);
 			setFrames (* thisPerson, ANI_STAND);
 		}
@@ -832,8 +802,6 @@ void walkAllPeople () {
 bool addPerson (int x, int y, int objNum, persona * p) {
 	onScreenPerson * newPerson = new onScreenPerson;
 	if (! checkNew (newPerson)) return false;
-
-//	debug ("addPerson start");
 
 	// EASY STUFF
 	newPerson -> thisType = loadObjectType (objNum);

@@ -204,10 +204,8 @@ void saveSpeech (speechStruct * sS, FILE * fp) {
 }
 
 bool loadSpeech (speechStruct * sS, FILE * fp) {
-//	debugOut ("About to kill all speech...");
 	speech -> currentTalker = NULL;
 	killAllSpeech ();
-//	debugOut (" done!\n");
 	byte r = fgetc (fp);
 	byte g = fgetc (fp);
 	byte b = fgetc (fp);
@@ -217,17 +215,13 @@ bool loadSpeech (speechStruct * sS, FILE * fp) {
 	
 	// Read y co-ordinate
 	sS -> speechY = get2bytes (fp);
-//	debugOut ("SpeechY =", sS -> speechY);
 
 	// Read which character's talking
 	sS -> lookWhosTalking = get2bytes (fp);
-//	debugOut ("lookWhosTalking =", sS -> lookWhosTalking);
 
 	if (fgetc (fp)) {
-//		debugOut ("That's a person! I'm looking for who it is!");
 		sS -> currentTalker = findPerson (get2bytes (fp));
 	} else {
-//		debugOut ("That's NOT a person!");
 		sS -> currentTalker = NULL;
 	}
 		
@@ -239,14 +233,11 @@ bool loadSpeech (speechStruct * sS, FILE * fp) {
 		newOne = new speechLine;
 		if (! checkNew (newOne)) return false;
 		newOne -> textLine = readString (fp);
-//		debugOut ("TEXT: ", newOne -> textLine);
 		newOne -> x	= get2bytes (fp);
-//		debugOut ("X:    ", newOne -> x);
 		newOne -> next = NULL;
 		(* viewLine) = newOne;
 		viewLine = & (newOne -> next);
 	}
 
-//	debugOut ("About to return...");
 	return true;
 }

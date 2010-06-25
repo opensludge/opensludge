@@ -4,8 +4,6 @@
 void * allKnownMem[3000];
 int allKnownNum = 0;
 
-//void db (char *);
-
 void outputKnownMem () {
 	FILE * debu = fopen ("debuTURN.txt", "at");
 

@@ -31,7 +31,6 @@ void setDefaultMusicVolume (int v);
 
 // SAMPLES...
 int cacheSound (int f);
-//int fakeCacheSoundForVideo (char * memImage, int length);
 bool startSound (int, bool = false);
 void huntKillSound (int a);
 void huntKillFreeSound (int filenum);
