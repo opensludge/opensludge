@@ -50,4 +50,7 @@
 	NSString*						sourceCode;				// Temp. storage for data from file until NIB has been read.
 }
 
+- (bool)commentMenu;
+
+
 @end

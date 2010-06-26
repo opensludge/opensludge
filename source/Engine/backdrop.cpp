@@ -81,7 +81,6 @@ bool snapshot () {
 	
 	glEnable (GL_TEXTURE_2D);
 	setPixelCoords (true);
-
 	
 	glGenTextures (1, &snapshotTextureName);
 	int w = winWidth; 
@@ -327,6 +326,7 @@ void blankScreen (int x1, int y1, int x2, int y2) {
 		}
 		xoffset += viewportWidth;
 	}
+	glEnable (GL_TEXTURE_2D);
 	setPixelCoords (false);
 }
 
@@ -355,7 +355,6 @@ void hardScroll (int distance) {
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
-			glEnable (GL_TEXTURE_2D);
 			glBegin(GL_QUADS);
 			glTexCoord2f(0.0, 0.0); glVertex3f(-xoffset, -distance-yoffset, 0.0);
 			glTexCoord2f(backdropTexW, 0.0); glVertex3f(sceneWidth-xoffset, -distance-yoffset, 0.0);
@@ -372,9 +371,7 @@ void hardScroll (int distance) {
 		}
 		xoffset += viewportWidth;
 	}
-	glDisable(GL_TEXTURE_2D);
 	setPixelCoords (false);
-
 }
 
 void drawVerticalLine (unsigned int x, unsigned int y1, unsigned int y2) {
@@ -417,7 +414,6 @@ void darkScreen () {
 			glColorMask (GL_TRUE, GL_TRUE, GL_TRUE, GL_FALSE);
 
 			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 			glBegin(GL_QUADS);
 			glVertex3f(-xoffset, -yoffset, 0.0);
@@ -436,6 +432,7 @@ void darkScreen () {
 		}
 		xoffset += viewportWidth;
 	}
+	glEnable (GL_TEXTURE_2D);
 	setPixelCoords (false);
 }
 
@@ -455,7 +452,12 @@ void drawBackDrop () {
 	glEnable (GL_TEXTURE_2D);
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	if (gameSettings.antiAlias) {
+		glUseProgram(shader.smartScaler);
+		GLuint uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
+		if (uniform >= 0) glUniform1i(uniform, 0);
+	}
 
 	if (parallaxStuff) {
 		parallaxLayer * ps = parallaxStuff;
@@ -493,15 +495,6 @@ void drawBackDrop () {
 	}
 
 	glBindTexture (GL_TEXTURE_2D, backdropTextureName);
-	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	if (gameSettings.antiAlias) {
-	
-		glUseProgram(shader.smartScaler);
-		GLuint uniform = glGetUniformLocation(shader.smartScaler, "Size");
-		if (uniform >= 0) glUniform4f(uniform, 1.0/sceneWidth, 1.0/sceneHeight, 1.0, 1.0);
-		uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
-		if (uniform >= 0) glUniform1i(uniform, 0);
-	}
 	glBegin(GL_QUADS);
 	glTexCoord2f(0.0, 0.0); glVertex3f(-cameraX, -cameraY, 0.0);
 	glTexCoord2f(backdropTexW, 0.0); glVertex3f(sceneWidth-cameraX, -cameraY, 0.0);

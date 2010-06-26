@@ -197,8 +197,6 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 		glUseProgram(shader.smartScaler);
 		uniform = glGetUniformLocation(shader.smartScaler, "Texture");
 		if (uniform >= 0) glUniform1i(uniform, 0);
-		uniform = glGetUniformLocation(shader.smartScaler, "Size");
-		if (uniform >= 0) glUniform4f(uniform, 1.0, 1.0, 1.0, 1.0);
 		uniform = glGetUniformLocation(shader.smartScaler, "lightTexture");
 		if (uniform >= 0) glUniform1i(uniform, 1);
 		uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
@@ -237,6 +235,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 	 */
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	setPixelCoords (false);
 

@@ -3,7 +3,7 @@ Windows and Mac OS X
 
    If you use Windows or Mac OS X, you should use the prebuilt releases
 available on the project page. If you want to compile SLUDGE yourself
-on these platforms, you can use the Dev-C++ project files in the
+on these platforms, you can use the Code::Blocks project files in the
 "Windows Engine" or the or Xcode project files in the "Mac Engine" and
 "Mac Dev Kit" directories. Note that in this case you have to satisfy
 the dependencies mentioned in the next section.

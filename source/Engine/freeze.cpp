@@ -108,7 +108,6 @@ void freezeBackDrop (frozenStuffStruct * newFreezer) {
 	glEnable (GL_TEXTURE_2D);
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear The Screen
 	
 	int xoffset = 0;

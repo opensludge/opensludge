@@ -98,5 +98,6 @@ void drawLine(int x1, int y1, int x2, int y2) {
 		}		
 		xoffset += viewportWidth;
 	}
+	glEnable (GL_TEXTURE_2D);
 	setPixelCoords (false);	
 }

@@ -75,6 +75,7 @@ void addFunction (NSMutableDictionary *words, char *name) {
 	}
 }	
 	
+
 -(NSData*)	dataRepresentationOfType: (NSString*)aType
 {
     return [[text string] dataUsingEncoding: NSISOLatin1StringEncoding];
@@ -237,5 +238,21 @@ void addFunction (NSMutableDictionary *words, char *name) {
 	[self colourString: string range:area storage: textStorage];
 	
 }
+
+- (bool)commentMenu
+{
+	
+	
+	return true;
+	// TODO
+	
+    NSTextStorage *textStorage = [text textStorage];
+    NSRange area = [text selectedRange];
+	
+	[[textStorage mutableString] replaceCharactersInRange: area withString:@"#"];
+
+	return true;
+}
+
 
 @end

@@ -128,13 +128,11 @@ void drawZBuffer(int x, int y, bool upsidedown) {
 	if (! zBuffer.tex) return;
 	
 	glEnable(GL_DEPTH_TEST);
-	glEnable (GL_TEXTURE_2D);
 	glEnable(GL_BLEND);
 	glEnable(GL_ALPHA_TEST);
 	glColorMask (GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 	glDepthMask (GL_TRUE);
 	
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glBindTexture (GL_TEXTURE_2D, zBuffer.texName);
 	glColor4f(1.0, 1.0, 1.0, 1.0);

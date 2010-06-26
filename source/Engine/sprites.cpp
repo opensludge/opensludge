@@ -368,7 +368,6 @@ void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette
 	if (diffX < 0) return;
 	if (diffY < 0) return;
 
-	glEnable (GL_TEXTURE_2D);
 	setPixelCoords (true);
 
 	int xoffset = 0;
@@ -434,7 +433,6 @@ void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette 
 	if (diffY < 0) return;
 
 	setPixelCoords (true);
-	glEnable (GL_TEXTURE_2D);
 	glColor3ub (currentBurnR, currentBurnG, currentBurnB);
 
 	int xoffset = 0;
@@ -463,7 +461,6 @@ void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette 
 			glEnable(GL_BLEND);
 			glBindTexture (GL_TEXTURE_2D, fontPal.burnTex_names[single.texNum]);
 			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // GL_MODULATE instead of decal mixes the colours!
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 			glBegin(GL_QUADS);
 			glTexCoord2f(tx1, ty1);	glVertex3f(-xoffset, -yoffset, 0.0);
@@ -498,26 +495,17 @@ void fontSprite (int x, int y, sprite & single, const spritePalette & fontPal) {
 	float x2 = x1 + (float)single.width/cameraZoom;
 	float y2 = y1 + (float)single.height/cameraZoom;
 
-	glEnable (GL_TEXTURE_2D);
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // GL_MODULATE instead of decal mixes the colours!
 	glColor3ub (fontPal.originalRed, fontPal.originalGreen, fontPal.originalBlue);
 	glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
 
 	if (gameSettings.antiAlias) {
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glUseProgram(shader.smartScaler);
-		GLuint uniform = glGetUniformLocation(shader.smartScaler, "Size");
-		//if (scale > 1.0) {
-		if (uniform >= 0) glUniform4f(uniform, 1.0/fontPal.tex_w[single.texNum], 1.0/fontPal.tex_h[single.texNum], 1.0, 1.0);
-		//} else {
-		//	if (uniform >= 0) glUniform4f(uniform, scale*0.5/fontPal.tex_w[single.texNum], scale*0.5/fontPal.tex_h[single.texNum], 1.0, 1.0);
-		//}
-		uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
+		GLuint uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
 		if (uniform >= 0) glUniform1i(uniform, 0);
 	}
 	
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glBegin(GL_QUADS);
 
@@ -543,26 +531,17 @@ void flipFontSprite (int x, int y, sprite & single, const spritePalette & fontPa
 	float x2 = x1 + (float)single.width/cameraZoom;
 	float y2 = y1 + (float)single.height/cameraZoom;
 	
-	glEnable (GL_TEXTURE_2D);
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // GL_MODULATE instead of decal mixes the colours!
 	glColor3ub (fontPal.originalRed, fontPal.originalGreen, fontPal.originalBlue);
 	glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
 	
 	if (gameSettings.antiAlias) {
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glUseProgram(shader.smartScaler);
-		GLuint uniform = glGetUniformLocation(shader.smartScaler, "Size");
-		//if (scale > 1.0) {
-		if (uniform >= 0) glUniform4f(uniform, 1.0/fontPal.tex_w[single.texNum], 1.0/fontPal.tex_h[single.texNum], 1.0, 1.0);
-		//} else {
-		//	if (uniform >= 0) glUniform4f(uniform, scale*0.5/fontPal.tex_w[single.texNum], scale*0.5/fontPal.tex_h[single.texNum], 1.0, 1.0);
-		//}
-		uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
+		GLuint uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
 		if (uniform >= 0) glUniform1i(uniform, 0);
 	}
 	
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
 	glBegin(GL_QUADS);
 	
@@ -601,9 +580,7 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 	float y = thisPerson->y;
 	
 	float scale = thisPerson-> scale;
-	bool useZB = ! (thisPerson->extra & EXTRA_NOZB);
 	bool light = ! (thisPerson->extra & EXTRA_NOLITE);
-	bool boundingBoxCollision = thisPerson->extra & EXTRA_RECTANGULAR;
 	
 	if (scale <= 0.05) return false;
 
@@ -641,7 +618,7 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 
 	double z;
 
-	if (useZB && zBuffer.numPanels) {
+	if ((! (thisPerson->extra & EXTRA_NOZB)) && zBuffer.numPanels) {
 		int i;
 		for (i = 1; i<zBuffer.numPanels; i++) {
 			if (zBuffer.panel[i] >= y + cameraY) {
@@ -684,28 +661,18 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 		curLight[0] = curLight[1] = curLight[2] = 255;
 	}
 
-	if (! boundingBoxCollision)
+	if (! (thisPerson->extra & EXTRA_RECTANGULAR))
 		checkColourChange (true);
-
-	glEnable (GL_TEXTURE_2D);
 
 	setDrawMode (thisPerson);
 
 	glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
 
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 	if (gameSettings.antiAlias) {
 		glUseProgram(shader.smartScaler);
-		GLuint uniform = glGetUniformLocation(shader.smartScaler, "Size");
-		//if (scale > 1.0) {
-			if (uniform >= 0) glUniform4f(uniform, 1.0/fontPal.tex_w[single.texNum], 1.0/fontPal.tex_h[single.texNum], 1.0, 1.0);
-		//} else {
-		//	if (uniform >= 0) glUniform4f(uniform, scale*0.5/fontPal.tex_w[single.texNum], scale*0.5/fontPal.tex_h[single.texNum], 1.0, 1.0);
-		//}
-		uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
+		GLuint uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
 		if (uniform >= 0) glUniform1i(uniform, light && lightMapMode == LIGHTMAPMODE_PIXEL && lightMap.data);
 	}
 	
@@ -751,7 +718,7 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 
 	// Are we pointing at the sprite?
 	if (input.mouseX >= x1 && input.mouseX <= x2 && input.mouseY >= y1 && input.mouseY <= y2) {
-		if (boundingBoxCollision) return true;
+		if (thisPerson->extra & EXTRA_RECTANGULAR) return true;
 		return checkColourChange (false);
 	}
 	return false;
@@ -766,19 +733,19 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 	
 	if (scale <= 0.05) return;
 
-	float tx1 = (float)(single.tex_x - 0.5) / fontPal.tex_w[single.texNum];
-	float ty1 = 0.0;
-	float tx2 = (float)(single.tex_x + single.width + 0.5) / fontPal.tex_w[single.texNum];
-	float ty2 = (float)(single.height+2)/fontPal.tex_h[single.texNum];
+	float tx1 = (float)(single.tex_x) / fontPal.tex_w[single.texNum];
+	float ty1 = (float) 1.0/fontPal.tex_h[single.texNum];//0.0;
+	float tx2 = (float)(single.tex_x + single.width) / fontPal.tex_w[single.texNum];
+	float ty2 = (float)(single.height+1)/fontPal.tex_h[single.texNum];
 
-	int diffX = ((float)single.width+0.5) * scale;
-	int diffY = ((float)single.height+2.0) * scale;
+	int diffX = ((float)single.width) * scale;
+	int diffY = ((float)single.height) * scale;
 	int x1;
 	if (single.xhot < 0)
 		x1 = x - (mirror ? (float) (single.width - single.xhot) : (float)(single.xhot+1) ) * scale;
 	else
 		x1 = x - (mirror ? (float) (single.width - (single.xhot+1)) : (float)single.xhot ) * scale;
-	int y1 = y - (single.yhot +1 - thisPerson->floaty) * scale;
+	int y1 = y - (single.yhot - thisPerson->floaty) * scale;
 
 	float spriteWidth = diffX;
 	float spriteHeight = diffY;
@@ -849,9 +816,6 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 		bty2 = lty2 = (float) (y1+spriteHeight) / sceneHeight;
 	}
 	
-
-	glEnable (GL_TEXTURE_2D);
-
 	setPixelCoords (true);
 	int xoffset = 0;
 	while (xoffset < diffX) {

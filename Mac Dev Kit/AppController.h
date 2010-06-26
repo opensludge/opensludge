@@ -10,6 +10,8 @@
 	
 }
 
+- (IBAction)commentMenu:(id)sender;
+
 - (IBAction)prefsMenu:(id)sender;
 - (IBAction)newProject:(id)sender;
 - (IBAction)menuOpen:(id)sender;

@@ -5,6 +5,7 @@
 
 #include "settings.h"
 #import "ProjectDocument.h"
+#import "ScriptDocument.h"
 
 AppController *aC;
 
@@ -23,15 +24,6 @@ AppController *aC;
 	return self;
 }
 
-- (IBAction)prefsMenu:(id)sender
-{
-	[preferenceWindow makeKeyAndOrderFront:nil];
-	
-	[prefKeepImages setState: ! programSettings.compilerKillImages];
-	[prefWriteStrings setState: programSettings.compilerWriteStrings];
-	[prefVerbose setState: programSettings.compilerVerbose];
-	
-}
 
 - (IBAction)menuOpen:(id)sender
 {
@@ -112,6 +104,15 @@ AppController *aC;
 	[doc showWindows];
 }
 
+- (IBAction)prefsMenu:(id)sender
+{
+	[preferenceWindow makeKeyAndOrderFront:nil];
+	
+	[prefKeepImages setState: ! programSettings.compilerKillImages];
+	[prefWriteStrings setState: programSettings.compilerWriteStrings];
+	[prefVerbose setState: programSettings.compilerVerbose];
+	
+}
 
 - (IBAction)compileMenu:(id)sender
 {
@@ -203,6 +204,10 @@ bail: return err;
 		// This is project stuff
 		if (! [[[[NSDocumentController sharedDocumentController] currentDocument] fileType] isEqualToString:@"SLUDGE Project file"])
 			return false;
+	} else if ([menuItem tag] == 1001)  {
+		// For script editor
+		if (! [[[[NSDocumentController sharedDocumentController] currentDocument] fileType] isEqualToString:@"SLUDGE Script"])
+			return false;
 	}
 	return true;
 }
@@ -248,6 +253,16 @@ void saveIniFile() {
 {
 	programSettings.compilerVerbose = [prefVerbose state];
 	saveIniFile();
+}
+
+bool errorBox (const char * head, const char * msg) ;
+
+- (IBAction)commentMenu:(id)sender
+{
+	ScriptDocument *doc = [[NSDocumentController sharedDocumentController] currentDocument];
+	if ([doc commentMenu])
+		return;
+	errorBox("Error", "Can't comment text: Wrong kind of file.");
 }
 
 

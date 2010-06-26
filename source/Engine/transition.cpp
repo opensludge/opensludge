@@ -26,7 +26,6 @@ void transitionFader () {
 	glColor4ub (0, 0, 0, 255 - brightnessLevel);
 	
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
 	glBegin(GL_QUADS);			
 	glVertex3f(0, winHeight, 0.0);
@@ -35,6 +34,7 @@ void transitionFader () {
 	glVertex3f(0, 0, 0.0);
 	glEnd();
 	glDisable(GL_BLEND);
+	glEnable (GL_TEXTURE_2D);
 }
 
 void transitionCrossFader () {
@@ -42,12 +42,10 @@ void transitionCrossFader () {
 	if (! snapshotTextureName) return;
 	
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glEnable (GL_TEXTURE_2D);
 	glColor4ub (255, 255, 255, 255 - brightnessLevel);
 	glBindTexture (GL_TEXTURE_2D,snapshotTextureName);
 	
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
 	glBegin(GL_QUADS);			
 	glTexCoord2f(0.0, snapTexH); glVertex3f(0, winHeight, 0.0);
@@ -63,7 +61,6 @@ void transitionSnapshotBox () {
 	if (! snapshotTextureName) return; 
 
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-	glEnable (GL_TEXTURE_2D);
 	glBindTexture (GL_TEXTURE_2D,snapshotTextureName);
 	
 	float xScale = (float) brightnessLevel * winWidth / 510.f;	// 510 = 255*2
@@ -163,11 +160,9 @@ void transitionDisolve () {
 	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, transitionTexture);
 
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glEnable (GL_TEXTURE_2D);
 	glColor4ub (255, 255, 255, 255);
 	
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
 	glBegin(GL_QUADS);			
 	glTexCoord2f(0.0, 1.0); glVertex3f(0, winHeight, 0.0);
@@ -214,11 +209,9 @@ void transitionTV () {
 	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, transitionTexture);
 	
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glEnable (GL_TEXTURE_2D);
 	glColor4ub (255, 255, 255, 255);
 	
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
 	glBegin(GL_QUADS);			
 	glTexCoord2f(0.0, 1.0); glVertex3f(0, winHeight, 0.0);
@@ -250,6 +243,7 @@ void transitionBlinds () {
 	glVertex3f(0, 0, 0.0);
 	glEnd();
 	glDisable(GL_POLYGON_STIPPLE);
+	glEnable (GL_TEXTURE_2D);
 	
 }
 
