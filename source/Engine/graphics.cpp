@@ -15,6 +15,8 @@ int winWidth, winHeight;
 int viewportHeight, viewportWidth;
 int viewportOffsetX = 0, viewportOffsetY = 0;
 
+extern float cameraZoom;
+
 bool NPOT_textures = true;
 
 extern int specialSettings;
@@ -54,7 +56,12 @@ void setPixelCoords (bool pixels) {
 
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(0, winWidth, winHeight, 0, 1.0, -1.0);
+		GLdouble w = (GLdouble) winWidth / cameraZoom;
+		GLdouble h = (GLdouble) winHeight / cameraZoom;
+		
+		glOrtho(0, w, h, 0, 1.0, -1.0);
+		
+//		glOrtho(0, winWidth, winHeight, 0, 1.0, -1.0);
 
 		glMatrixMode(GL_MODELVIEW);
 	}
@@ -203,19 +210,19 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 
 	if (! Vertex || ! Fragment) {
 		fprintf(stderr, "Error loading shader program!\n");
-		shader.fixScaleSprite = 0;
+		shader.paste = 0;
 	} else {
 		
-		shader.fixScaleSprite = buildShaders (Vertex, Fragment);
-		fprintf (stderr, "Built shader program: %d (fixScaleSprite)\n", shader.fixScaleSprite);
-		glUseProgram(shader.fixScaleSprite);
-		uniform = glGetUniformLocation(shader.fixScaleSprite, "tex0");
+		shader.paste = buildShaders (Vertex, Fragment);
+		fprintf (stderr, "Built shader program: %d (fixScaleSprite)\n", shader.paste);
+		glUseProgram(shader.paste);
+		uniform = glGetUniformLocation(shader.paste, "tex0");
 		if (uniform >= 0) glUniform1i(uniform, 0);
-		uniform = glGetUniformLocation(shader.fixScaleSprite, "tex1");
+		uniform = glGetUniformLocation(shader.paste, "tex1");
 		if (uniform >= 0) glUniform1i(uniform, 1);
-		uniform = glGetUniformLocation(shader.fixScaleSprite, "tex2");
+		uniform = glGetUniformLocation(shader.paste, "tex2");
 		if (uniform >= 0) glUniform1i(uniform, 2);
-		uniform = glGetUniformLocation(shader.fixScaleSprite, "useLightTexture");
+		uniform = glGetUniformLocation(shader.paste, "useLightTexture");
 		if (uniform >= 0) glUniform1i(uniform, 0);
 	}
 	

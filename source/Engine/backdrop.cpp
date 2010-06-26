@@ -24,9 +24,12 @@
 #include "line.h"
 #include "people.h"
 #include "talk.h"
+#include "sludger.h"
 #include "statusba.h"
 
 #include "version.h"
+
+extern inputType input;
 
 
 bool freeze ();
@@ -55,6 +58,7 @@ int lightMapNumber;
 unsigned int currentBlankColour = makeColour (0, 0, 0);
 
 extern int cameraX, cameraY;
+extern float cameraZoom;
 
 void nosnapshot () {
 	glDeleteTextures (1, &snapshotTextureName);
@@ -209,6 +213,12 @@ void killParallax () {
 bool reserveBackdrop () {
 	cameraX = 0;
 	cameraY = 0;
+	input.mouseX = input.mouseX * cameraZoom;
+	input.mouseY = input.mouseY * cameraZoom;	
+	cameraZoom = 1.0;
+	input.mouseX = input.mouseX / cameraZoom;
+	input.mouseY = input.mouseY / cameraZoom;
+	setPixelCoords(false);
 	int picWidth = sceneWidth;
 	int picHeight = sceneHeight;
 
@@ -429,94 +439,13 @@ void darkScreen () {
 	setPixelCoords (false);
 }
 
+
+
 inline int sortOutPCamera (int cX, int fX, int sceneMax, int boxMax) {
 	return (fX == 65535) ?
-		(sceneMax ? ((cX * boxMax) / sceneMax) : 0)
+	(sceneMax ? ((cX * boxMax) / sceneMax) : 0)
 	:
-		((cX * fX) / 100);
-}
-
-
-/*
-/ copyToBackdrop
-/ This function is used to copy the old backdrop when doing a freeze
-*/
-void copyToBackDrop (GLuint fromHere, int orW, int orH, int orX, int orY, parallaxLayer * parallaxS) {
-
-	setPixelCoords (true);
-
-	glColor4f(1.0, 1.0, 1.0, 1.0);
-	glEnable (GL_TEXTURE_2D);
-	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear The Screen
-
-	int xoffset = 0;
-
-	while (xoffset < winWidth) {
-		int w = (winWidth-xoffset < viewportWidth) ? winWidth-xoffset : viewportWidth;
-
-		int yoffset = 0;
-		while (yoffset < orH) {
-			int h = (winHeight-yoffset < viewportHeight) ? winHeight-yoffset : viewportHeight;
-
-			if (parallaxS) {
-				parallaxLayer * ps = parallaxS;
-
-				while (ps->next) ps = ps->next;
-
-				while (ps) {
-					ps -> cameraX = sortOutPCamera (orX, ps -> fractionX, orW - w, ps -> width - winWidth);
-					ps -> cameraY = sortOutPCamera (orY, ps -> fractionY, orH - h, ps -> height - winHeight);
-
-					glBindTexture (GL_TEXTURE_2D, ps->textureName);
-					glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-					glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-					glBegin(GL_QUADS);
-
-					float texw = (ps->wrapS) ? (float) orW / ps->width: 1.0;
-					float wt = (ps->wrapS) ? orW : ps->width;
-					float texh = (ps->wrapT) ? (float) orH / ps->height: 1.0;
-					float ht = (ps->wrapT) ? orH : ps->height;
-
-					glTexCoord2f(0.0, 0.0); glVertex3f(-ps -> cameraX-xoffset, -ps -> cameraY-yoffset, 0.1);
-					glTexCoord2f(texw, 0.0); glVertex3f(wt -ps -> cameraX-xoffset, -ps -> cameraY-yoffset, 0.1);
-					glTexCoord2f(texw, texh); glVertex3f(wt -ps -> cameraX-xoffset, ht -ps -> cameraY-yoffset, 0.1);
-					glTexCoord2f(0.0, texh); glVertex3f(-ps -> cameraX-xoffset, ht -ps -> cameraY-yoffset, 0.1);
-
-					glEnd();
-
-					ps = ps -> prev;
-				}
-			}
-
-
-			// Render the backdrop
-			glBindTexture (GL_TEXTURE_2D, fromHere);
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			glColor4f(1.0, 1.0, 1.0, 1.0);
-
-			glBegin(GL_QUADS);
-			glTexCoord2f(0.0, 0.0); glVertex3f(-orX-xoffset, -orY-yoffset, 0);
-			glTexCoord2f(backdropTexW, 0.0); glVertex3f(orW-orX-xoffset, -orY-yoffset, 0);
-			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(orW-orX-xoffset, orH-orY-yoffset, 0);
-			glTexCoord2f(0.0, backdropTexH); glVertex3f(-orX-xoffset, orH-orY-yoffset, 0);
-			glEnd();
-
-			// Copy Our ViewPort To The Texture
-			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
-			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0+xoffset, 0+yoffset, viewportOffsetX, viewportOffsetY, w, h);
-
-			yoffset += viewportHeight;
-		}
-		xoffset += viewportWidth;
-	}
-
-
-	setPixelCoords(false);
-	backdropExists = true;
+	((cX * fX) / 100);
 }
 
 
@@ -534,8 +463,8 @@ void drawBackDrop () {
 		while (ps->next) ps = ps->next;
 
 		while (ps) {
-			ps -> cameraX = sortOutPCamera (cameraX, ps -> fractionX, sceneWidth - winWidth, ps -> width - winWidth);
-			ps -> cameraY = sortOutPCamera (cameraY, ps -> fractionY, sceneHeight - winHeight, ps -> height - winHeight);
+			ps -> cameraX = sortOutPCamera (cameraX, ps -> fractionX, sceneWidth - (float)winWidth/cameraZoom, ps -> width - (float)winWidth/cameraZoom);
+			ps -> cameraY = sortOutPCamera (cameraY, ps -> fractionY, sceneHeight - (float)winHeight/cameraZoom, ps -> height - (float)winHeight/cameraZoom);
 
 			glBindTexture (GL_TEXTURE_2D, ps->textureName);
 			glBegin(GL_QUADS);
@@ -553,9 +482,9 @@ void drawBackDrop () {
 			}
 
 			glTexCoord2f(0.0, 0.0); glVertex3f(-ps -> cameraX, -ps -> cameraY, 0.1);
-			glTexCoord2f(texw, 0.0); glVertex3f(w-1 -ps -> cameraX, -ps -> cameraY, 0.1);
-			glTexCoord2f(texw, texh); glVertex3f(w-1 -ps -> cameraX, h -1 -ps -> cameraY, 0.1);
-			glTexCoord2f(0.0, texh); glVertex3f(-ps -> cameraX, h -1 -ps -> cameraY, 0.1);
+			glTexCoord2f(texw, 0.0); glVertex3f(w -ps -> cameraX, -ps -> cameraY, 0.1);
+			glTexCoord2f(texw, texh); glVertex3f(w -ps -> cameraX, h -ps -> cameraY, 0.1);
+			glTexCoord2f(0.0, texh); glVertex3f(-ps -> cameraX, h -ps -> cameraY, 0.1);
 
 			glEnd();
 
@@ -1122,8 +1051,8 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 				glBindTexture (GL_TEXTURE_2D, backdropTextureName);
 				glActiveTexture(GL_TEXTURE0);
 				
-				glUseProgram(shader.fixScaleSprite);
-				GLint uniform = glGetUniformLocation(shader.fixScaleSprite, "useLightTexture");
+				glUseProgram(shader.paste);
+				GLint uniform = glGetUniformLocation(shader.paste, "useLightTexture");
 				if (uniform >= 0) glUniform1i(uniform, 0); // No lighting
 				
 				glColor4f(1.0, 1.0, 1.0, 1.0);
@@ -1348,8 +1277,8 @@ bool mixHSI (FILE * fp, int x, int y) {
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
 			glActiveTexture(GL_TEXTURE0);
 			
-			glUseProgram(shader.fixScaleSprite);
-			GLint uniform = glGetUniformLocation(shader.fixScaleSprite, "useLightTexture");
+			glUseProgram(shader.paste);
+			GLint uniform = glGetUniformLocation(shader.paste, "useLightTexture");
 			if (uniform >= 0) glUniform1i(uniform, 0); // No lighting
 			
 			glColor4f(1.0, 1.0, 1.0, 0.5);

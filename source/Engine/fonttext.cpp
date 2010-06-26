@@ -18,6 +18,7 @@ short fontSpace = -1;
 extern uint32_t startOfDataIndex, startOfTextIndex,
 			  startOfSubIndex, startOfObjectIndex;
 
+extern float cameraZoom;
 
 void createFontPalette (spritePalette & sP) {
 	sP.total = 0;
@@ -46,11 +47,11 @@ void pasteString (char * theText, int xOff, int y, spritePalette & thePal) {
 
 	if (! fontLoaded) return;
 
-	xOff += fontSpace >> 1;
+	xOff += (float)(fontSpace >> 1) / cameraZoom;
 	for (a = 0; theText[a]; a ++) {
 		mySprite = & theFont.sprites[fontTable[(unsigned char) theText[a]]];
 		fontSprite (xOff, y, * mySprite, thePal);
-		xOff += mySprite -> width + fontSpace;
+		xOff += (double)(mySprite -> width + fontSpace) / cameraZoom;
 	}
 }
 

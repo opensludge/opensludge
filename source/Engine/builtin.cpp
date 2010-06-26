@@ -39,6 +39,7 @@ extern char * gamePath;
 
 int speechMode = 0;
 int cameraX, cameraY;
+float cameraZoom = 1.0;
 spritePalette pastePalette;
 
 char * launchMe = NULL;
@@ -95,7 +96,8 @@ int paramNum[] = {-1, 0, 1, 1, -1, -1, 1, 3, 4, 1, 0, 0, 8, -1,		// SAY -> MOVEM
 						2, 1,										// regGet, fatal
 						4, 3, -1, 0,								// chr AA, max AA, setBackgroundEffect, doBackgroundEffect
 						2,											// setCharacterAngleOffset
-						2, 5										// setCharacterTransparency, setCharacterColourise
+						2, 5,										// setCharacterTransparency, setCharacterColourise
+						1											// zoomCamera
 };
 
 bool failSecurityCheck (char * fn) {
@@ -232,14 +234,14 @@ builtIn(getMouseY)
 builtIn(getMouseScreenX)
 {
 	 UNUSEDALL
-	setVariable (fun -> reg, SVT_INT, input.mouseX);
+	setVariable (fun -> reg, SVT_INT, input.mouseX*cameraZoom);
 	return BR_CONTINUE;
 }
 
 builtIn(getMouseScreenY)
 {
 	 UNUSEDALL
-	setVariable (fun -> reg, SVT_INT, input.mouseY);
+	setVariable (fun -> reg, SVT_INT, input.mouseY*cameraZoom);
 	return BR_CONTINUE;
 }
 
@@ -443,22 +445,45 @@ builtIn(setSceneDimensions)
 			}
 
 builtIn(aimCamera)
-			{
-	 UNUSEDALL
-				if (! getValueType (cameraY, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
-				trimStack (fun -> stack);
-				if (! getValueType (cameraX, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
-				trimStack (fun -> stack);
+{
+	UNUSEDALL
+	if (! getValueType (cameraY, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	trimStack (fun -> stack);
+	if (! getValueType (cameraX, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	trimStack (fun -> stack);
+	
+	cameraX -= (float)(winWidth >> 1)/ cameraZoom;
+	cameraY -= (float)(winHeight >> 1)/ cameraZoom;
+	
+	if (cameraX < 0) cameraX = 0;
+	else if (cameraX > sceneWidth - (float)winWidth/ cameraZoom) cameraX = sceneWidth - (float)winWidth/ cameraZoom;
+	if (cameraY < 0) cameraY = 0;
+	else if (cameraY > sceneHeight - (float)winHeight/ cameraZoom) cameraY = sceneHeight - (float)winHeight/ cameraZoom;
+	return BR_CONTINUE;
+}
 
-				cameraX -= winWidth >> 1;
-				cameraY -= winHeight >> 1;
 
-				if (cameraX < 0) cameraX = 0;
-				else if (cameraX > sceneWidth - winWidth) cameraX = sceneWidth - winWidth;
-				if (cameraY < 0) cameraY = 0;
-				else if (cameraY > sceneHeight - winHeight) cameraY = sceneHeight - winHeight;
-				return BR_CONTINUE;
-			}
+builtIn(zoomCamera)
+{
+	UNUSEDALL
+	int z;
+	if (! getValueType (z, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	trimStack (fun -> stack);
+
+	input.mouseX = input.mouseX * cameraZoom;
+	input.mouseY = input.mouseY * cameraZoom;
+	
+	
+	cameraZoom = (float) z * 0.01;
+	if ((float) winWidth / cameraZoom > sceneWidth) cameraZoom = (float)winWidth / sceneWidth;
+	if ((float) winHeight / cameraZoom > sceneHeight) cameraZoom = (float)winHeight / sceneHeight;
+	setPixelCoords (false);
+
+	input.mouseX = input.mouseX / cameraZoom;
+	input.mouseY = input.mouseY / cameraZoom;
+
+	return BR_CONTINUE;
+}
 
 			//----------------------
 			// VARIABLES - Anything
@@ -1094,7 +1119,6 @@ builtIn(playSound)
 	int fileNumber;
 	if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
 	trimStack (fun -> stack);
-	fprintf (stderr, "Playing sound %d\n", fileNumber);
 	if (! startSound (fileNumber, false)) return BR_CONTINUE;	// Was BR_NOCOMMENT
 	return BR_CONTINUE;
 }

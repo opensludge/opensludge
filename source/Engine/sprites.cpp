@@ -25,6 +25,7 @@ extern GLuint backdropTextureName;
 
 extern inputType input;
 extern int cameraX, cameraY;
+extern float cameraZoom;
 
 unsigned char currentBurnR = 0, currentBurnG = 0, currentBurnB = 0;
 
@@ -384,8 +385,8 @@ void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
 			glActiveTexture(GL_TEXTURE0);
 
-			glUseProgram(shader.fixScaleSprite);
-			GLint uniform = glGetUniformLocation(shader.fixScaleSprite, "useLightTexture");
+			glUseProgram(shader.paste);
+			GLint uniform = glGetUniformLocation(shader.paste, "useLightTexture");
 			if (uniform >= 0) glUniform1i(uniform, 0); // No lighting
 			
 			glColor4ub (fontPal.originalRed, fontPal.originalGreen, fontPal.originalBlue, 255);
@@ -492,10 +493,10 @@ void fontSprite (int x, int y, sprite & single, const spritePalette & fontPal) {
 	float tx2 = (float)(single.tex_x + single.width+0.5) / fontPal.tex_w[single.texNum];
 	float ty2 = (float)(single.height+2)/fontPal.tex_h[single.texNum];
 
-	float x1 = x - single.xhot-0.5;
-	float y1 = y - single.yhot-0.5;
-	float x2 = x1 + single.width+1.0;
-	float y2 = y1 + single.height+1.0;
+	float x1 = (float)x - (float)single.xhot/cameraZoom;
+	float y1 = (float)y - (float)single.yhot/cameraZoom;
+	float x2 = x1 + (float)single.width/cameraZoom;
+	float y2 = y1 + (float)single.height/cameraZoom;
 
 	glEnable (GL_TEXTURE_2D);
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // GL_MODULATE instead of decal mixes the colours!
@@ -537,21 +538,34 @@ void flipFontSprite (int x, int y, sprite & single, const spritePalette & fontPa
 	float tx2 = (float)(single.tex_x + single.width+1.0) / fontPal.tex_w[single.texNum];
 	float ty2 = (float)(single.height+2)/fontPal.tex_h[single.texNum];
 
-	int x1 = (int) (x - single.xhot-0.5);
-	int y1 = (int) (y - single.yhot-0.5);
-	int x2 = (int) (x1 + single.width+1.0);
-	int y2 = (int) (y1 + single.height+1.0);
-
+	float x1 = (float)x - (float)single.xhot/cameraZoom;
+	float y1 = (float)y - (float)single.yhot/cameraZoom;
+	float x2 = x1 + (float)single.width/cameraZoom;
+	float y2 = y1 + (float)single.height/cameraZoom;
+	
 	glEnable (GL_TEXTURE_2D);
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // GL_MODULATE instead of decal mixes the colours!
 	glColor3ub (fontPal.originalRed, fontPal.originalGreen, fontPal.originalBlue);
 	glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
-
+	
+	if (gameSettings.antiAlias) {
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glUseProgram(shader.smartScaler);
+		GLuint uniform = glGetUniformLocation(shader.smartScaler, "Size");
+		//if (scale > 1.0) {
+		if (uniform >= 0) glUniform4f(uniform, 1.0/fontPal.tex_w[single.texNum], 1.0/fontPal.tex_h[single.texNum], 1.0, 1.0);
+		//} else {
+		//	if (uniform >= 0) glUniform4f(uniform, scale*0.5/fontPal.tex_w[single.texNum], scale*0.5/fontPal.tex_h[single.texNum], 1.0, 1.0);
+		//}
+		uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
+		if (uniform >= 0) glUniform1i(uniform, 0);
+	}
+	
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+	
 	glBegin(GL_QUADS);
-
+	
 	glTexCoord2f(tx1, ty1);	glVertex3f(x2, y1, 0.0);
 	glTexCoord2f(tx2, ty1);	glVertex3f(x1, y1, 0.0);
 	glTexCoord2f(tx2, ty2);	glVertex3f(x1, y2, 0.0);
@@ -559,7 +573,8 @@ void flipFontSprite (int x, int y, sprite & single, const spritePalette & fontPa
 
 	glEnd();
 	glDisable(GL_BLEND);
-
+	glUseProgram(0);
+	
 }
 
 
@@ -580,7 +595,11 @@ void setDrawMode (onScreenPerson * thisPerson) {
 extern GLuint backdropTextureName;
 bool checkColourChange (bool reset);
 
-bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, onScreenPerson * thisPerson, bool mirror) {
+bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson * thisPerson, bool mirror) {
+
+	float x = thisPerson->x;
+	float y = thisPerson->y;
+	
 	float scale = thisPerson-> scale;
 	bool useZB = ! (thisPerson->extra & EXTRA_NOZB);
 	bool light = ! (thisPerson->extra & EXTRA_NOLITE);
@@ -596,14 +615,29 @@ bool scaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, 
 	int diffX = ((float)single.width) * scale;
 	int diffY = ((float)single.height) * scale;
 
-	int x1;
-	if (single.xhot < 0)
-		x1 = x - (mirror ? (float) (single.width - single.xhot) : (float)(single.xhot+1) ) * scale;
-	else
-		x1 = x - (mirror ? (float) (single.width - (single.xhot+1)) : (float)single.xhot ) * scale;
-	int y1 = y - (single.yhot - thisPerson->floaty) * scale;
-	int x2 = x1 + diffX;
-	int y2 = y1 + diffY;
+	int x1, y1, x2, y2;
+	
+	if (thisPerson -> extra & EXTRA_FIXTOSCREEN) {
+		x = x / cameraZoom;
+		y = y / cameraZoom;
+		if (single.xhot < 0)
+			x1 = x - (mirror ? (float) (single.width - single.xhot) : (float)(single.xhot+1) ) * scale/cameraZoom;
+		else
+			x1 = x - (mirror ? (float) (single.width - (single.xhot+1)) : (float)single.xhot ) * scale / cameraZoom;
+		y1 = y - (single.yhot - thisPerson->floaty) * scale / cameraZoom;
+		x2 = x1 + diffX / cameraZoom;
+		y2 = y1 + diffY / cameraZoom;
+	} else {
+		x -= cameraX;
+		y -= cameraY;
+		if (single.xhot < 0)
+			x1 = x - (mirror ? (float) (single.width - single.xhot) : (float)(single.xhot+1) ) * scale;
+		else
+			x1 = x - (mirror ? (float) (single.width - (single.xhot+1)) : (float)single.xhot ) * scale;
+		y1 = y - (single.yhot - thisPerson->floaty) * scale;
+		x2 = x1 + diffX;
+		y2 = y1 + diffY;
+	}
 
 	double z;
 
@@ -851,8 +885,8 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 			}
 
 			// Then the sprite
-			glUseProgram(shader.fixScaleSprite);
-			GLint uniform = glGetUniformLocation(shader.fixScaleSprite, "useLightTexture");
+			glUseProgram(shader.paste);
+			GLint uniform = glGetUniformLocation(shader.paste, "useLightTexture");
 			if (uniform >= 0) glUniform1i(uniform, light && lightMapMode == LIGHTMAPMODE_PIXEL && lightMap.data);
 			setDrawMode (thisPerson);
 

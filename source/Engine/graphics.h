@@ -19,7 +19,7 @@ struct texture {
 };
 
 struct shaders {
-	GLuint fixScaleSprite;
+	GLuint paste;
 	GLuint smartScaler;
 };
 

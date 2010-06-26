@@ -410,43 +410,7 @@ void shufflePeople () {
 	}
 }
 
-void fixPeople (int oldX, int oldY) {
-	shufflePeople ();
 
-	onScreenPerson * thisPerson = allPeople;
-	personaAnimation * myAnim;
-
-	while (thisPerson) {
-		if (thisPerson -> show) {
-			myAnim = thisPerson -> myAnim;
-			if (myAnim != thisPerson -> lastUsedAnim) {
-				thisPerson -> lastUsedAnim = myAnim;
-				thisPerson -> frameNum = 0;
-				thisPerson -> frameTick = myAnim -> frames[0].howMany;
-			}
-			int fNumSign = myAnim -> frames[thisPerson -> frameNum].frameNum;
-			int m = fNumSign < 0;
-			int fNum = abs (fNumSign);
-
-			if (fNum >= myAnim -> theSprites -> bank.total) {
-				fNum = 0;
-				m = 2 - m;
-			}
-			if (m != 2) {
-				int meX, meY;
-				if (thisPerson -> extra & EXTRA_FIXTOSCREEN) {
-					meX = thisPerson -> x;
-					meY = thisPerson -> y;
-				} else {
-					meX = thisPerson -> x - oldX;
-					meY = thisPerson -> y - oldY;
-				}
-				fixScaleSprite (meX, meY, myAnim -> theSprites -> bank.sprites[fNum], myAnim -> theSprites -> bank.myPalette, thisPerson, oldX, oldY, m);
-			}
-		}
-		thisPerson = thisPerson -> next;
-	}
-}
 
 void drawPeople () {
 	shufflePeople ();
@@ -483,14 +447,7 @@ void drawPeople () {
 			}
 			if (m != 2) {
 				bool r = false;
-				float drawAtX = thisPerson->x;
-				float drawAtY = thisPerson->y;
-				if (! (thisPerson -> extra & EXTRA_FIXTOSCREEN))
-				{
-					drawAtX -= cameraX;
-					drawAtY -= cameraY;
-				}
-				r = scaleSprite (drawAtX, drawAtY, myAnim->theSprites->bank.sprites[fNum], myAnim -> theSprites -> bank.myPalette, thisPerson, m);
+				r = scaleSprite (myAnim->theSprites->bank.sprites[fNum], myAnim -> theSprites -> bank.myPalette, thisPerson, m);
 				if (r) {
 					if (thisPerson -> thisType -> screenName[0]) {
 						if (personRegion.thisType != thisPerson -> thisType) lastRegion = NULL;

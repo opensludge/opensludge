@@ -15,6 +15,7 @@ struct frozenStuffStruct {
 	personaAnimation * mouseCursorAnim;
 	int mouseCursorFrameNum;
 	int cameraX, cameraY, sceneWidth, sceneHeight;
+	float cameraZoom;
 
 	frozenStuffStruct * next;
 };

@@ -15,6 +15,7 @@ spritePalette litVerbLinePalette;
 statusStuff mainStatus;
 statusStuff * nowStatus = & mainStatus;
 extern int fontHeight;
+extern float cameraZoom;
 
 void setLitStatus (int i) {
 	nowStatus -> litStatus = i;
@@ -71,15 +72,15 @@ void drawStatusBar () {
 	while (stat) {
 		switch (nowStatus -> alignStatus) {
 			case IN_THE_CENTRE:
-			pasteString (stat -> text, (winWidth - stringWidth (stat -> text)) >> 1, y, (n ++ == nowStatus -> litStatus) ? litVerbLinePalette : verbLinePalette);
+			pasteString (stat -> text, ((winWidth - stringWidth (stat -> text)) >> 1)/cameraZoom, y/cameraZoom, (n ++ == nowStatus -> litStatus) ? litVerbLinePalette : verbLinePalette);
 			break;
 
 			case 1001:
-			pasteString (stat -> text, (winWidth - stringWidth (stat -> text)) - nowStatus -> statusX, y, (n ++ == nowStatus -> litStatus) ? litVerbLinePalette : verbLinePalette);
+			pasteString (stat -> text, (winWidth - stringWidth (stat -> text)) - nowStatus -> statusX/cameraZoom, y/cameraZoom, (n ++ == nowStatus -> litStatus) ? litVerbLinePalette : verbLinePalette);
 			break;
 
 			default:
-			pasteString (stat -> text, nowStatus -> statusX, y, (n ++ == nowStatus -> litStatus) ? litVerbLinePalette : verbLinePalette);
+			pasteString (stat -> text, nowStatus -> statusX/cameraZoom, y/cameraZoom, (n ++ == nowStatus -> litStatus) ? litVerbLinePalette : verbLinePalette);
 		}
 		stat = stat -> next;
 		y -= fontHeight;

@@ -61,6 +61,8 @@ HWND hMainWindow = NULL;
 
 int realWinWidth = 640, realWinHeight = 480;
 
+extern float cameraZoom;
+
 extern int specialSettings;
 extern inputType input;
 extern variableStack * noStack;
@@ -286,8 +288,8 @@ int main(int argc, char *argv[]) try
 */
 				case SDL_MOUSEMOTION:
 					input.justMoved = true;
-					input.mouseX = event.motion.x * winWidth / realWinWidth;
-					input.mouseY = event.motion.y * winHeight / realWinHeight;
+					input.mouseX = event.motion.x * ((float)winWidth/cameraZoom) / realWinWidth;
+					input.mouseY = event.motion.y * ((float)winHeight/cameraZoom) / realWinHeight;
 					break;
 				case SDL_MOUSEBUTTONDOWN:
 					if (event.button.button == SDL_BUTTON_LEFT)
@@ -301,8 +303,8 @@ int main(int argc, char *argv[]) try
 						}
 					}
 					if (event.button.button == SDL_BUTTON_RIGHT) input.rightClick = true;
-					input.mouseX = event.motion.x * winWidth / realWinWidth;
-					input.mouseY = event.motion.y * winHeight / realWinHeight;
+					input.mouseX = event.motion.x * ((float)winWidth/cameraZoom) / realWinWidth;
+					input.mouseY = event.motion.y * ((float)winHeight/cameraZoom) / realWinHeight;
 
 					break;
 				case SDL_MOUSEBUTTONUP:
@@ -315,8 +317,8 @@ int main(int argc, char *argv[]) try
 						}
 					}
 					if (event.button.button == SDL_BUTTON_RIGHT) input.rightRelease = true;
-					input.mouseX = event.motion.x * winWidth / realWinWidth;
-					input.mouseY = event.motion.y * winHeight / realWinHeight;
+					input.mouseX = event.motion.x * ((float)winWidth/cameraZoom) / realWinWidth;
+					input.mouseY = event.motion.y * ((float)winHeight/cameraZoom) / realWinHeight;
 					break;
 				case SDL_KEYDOWN:
 					// Ignore Command keypresses - they're for the OS to handle.

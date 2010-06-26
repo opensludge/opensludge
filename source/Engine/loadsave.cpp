@@ -42,6 +42,7 @@ extern int speechMode;								// "	"	"
 extern int lightMapNumber;							// In backdrop.cpp
 extern int sceneWidth, sceneHeight;					// "	"	"
 extern int cameraX, cameraY;						// "	"	"
+extern float cameraZoom;
 extern unsigned char brightnessLevel;				// "	"	"
 extern short fontSpace;								// in textfont.cpp
 extern unsigned char fadeMode;						// In transition.cpp
@@ -393,6 +394,8 @@ bool saveGame (char * fname) {
 	// Save backdrop
 	put2bytes (cameraX, fp);
 	put2bytes (cameraY, fp);
+	putFloat(cameraZoom, fp);
+	
 	fputc (brightnessLevel, fp);
 	saveHSI (fp);
 
@@ -520,6 +523,13 @@ bool loadGame (char * fname) {
 
 	int camerX = get2bytes (fp);
 	int camerY = get2bytes (fp);
+	float camerZ;
+	if (ssgVersion >= VERSION(2,0)) {
+		camerZ = getFloat(fp);
+	} else {
+		camerZ = 1.0;
+	}
+
 	brightnessLevel = fgetc (fp);
 
 	loadHSI (fp, 0, 0, true);
@@ -622,6 +632,7 @@ bool loadGame (char * fname) {
 
 	cameraX = camerX;
 	cameraY = camerY;
+	cameraZoom = camerZ;
 
 	return true;
 }

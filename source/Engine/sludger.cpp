@@ -397,12 +397,13 @@ bool initSludge (char * filename) {
 }
 
 extern int cameraX, cameraY;
+extern float cameraZoom;
 
 bool checkColourChange (bool reset) {
 	static GLuint oldPixel;
 	static GLuint pixel;
 
-	glReadPixels(viewportOffsetX+input.mouseX*viewportWidth/winWidth, viewportOffsetY+(winHeight - input.mouseY)*viewportHeight/winHeight, 1, 1, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8, &pixel);
+	glReadPixels(viewportOffsetX+input.mouseX*viewportWidth/((float)winWidth/cameraZoom), viewportOffsetY+(((float)winHeight/cameraZoom) - input.mouseY)*viewportHeight/((float)winHeight/cameraZoom), 1, 1, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8, &pixel);
 
 	if (reset || oldPixel != pixel) {
 		oldPixel = pixel;
@@ -523,7 +524,7 @@ void freezeSubs () {
 
 	while (thisFunction) {
 		if (thisFunction -> unfreezable) {
-			msgBox ("SLUDGE debugging bollocks!", "Trying to freeze an unfreezable function!");
+			//msgBox ("SLUDGE debugging bollocks!", "Trying to freeze an unfreezable function!");
 		} else {
 			thisFunction -> freezerLevel ++;
 		}

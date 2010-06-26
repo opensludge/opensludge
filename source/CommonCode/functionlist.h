@@ -169,4 +169,5 @@ FUNC (true, doBackgroundEffect)
 FUNC (true, setCharacterAngleOffset)
 FUNC (true, setCharacterTransparency)
 FUNC (true, setCharacterColourise)
+FUNC (true, zoomCamera)
  

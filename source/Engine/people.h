@@ -50,7 +50,7 @@ bool addPerson (int x, int y, int objNum, persona * p);
 // Draw to screen and to backdrop
 
 void drawPeople ();
-void fixPeople (int, int);
+void freezePeople (int, int);
 
 // Removalisationisms
 

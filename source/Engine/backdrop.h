@@ -28,7 +28,6 @@ void killBackDrop ();
 void loadBackDrop (int fileNum, int x, int y);
 void mixBackDrop (int fileNum, int x, int y);
 void drawBackDrop ();
-void copyToBackDrop (GLuint fromHere, int orW, int orH, int orX, int orY, parallaxLayer * parallaxS);
 void blankScreen (int x1, int y1, int x2, int y2);
 void darkScreen ();
 void saveHSI (FILE * writer);

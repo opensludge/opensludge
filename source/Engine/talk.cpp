@@ -17,6 +17,7 @@
 #include "moreio.h"
 
 extern int fontHeight, cameraX, cameraY, speechMode;
+extern float cameraZoom;
 speechStruct * speech;
 float speechSpeed = 1;
 
@@ -60,7 +61,7 @@ inline void setObjFontColour (objectType * t) {
 }
 
 void addSpeechLine (char * theLine, int x, int & offset) {
-	int halfWidth = stringWidth (theLine) >> 1;
+	int halfWidth = (stringWidth (theLine) >> 1)/cameraZoom;
 	int xx1 = x - (halfWidth);
 	int xx2 = x + (halfWidth);
 	speechLine * newLine = new speechLine;
@@ -72,8 +73,8 @@ void addSpeechLine (char * theLine, int x, int & offset) {
 	speech -> allSpeech = newLine;
 	if ((xx1 < 5) && (offset < (5 - xx1))) {
 		offset = 5 - xx1;
-	} else if ((xx2 >= winWidth - 5) && (offset > (winWidth - 5 - xx2))) {
-		offset = winWidth - 5 - xx2;
+	} else if ((xx2 >= ((float)winWidth/cameraZoom) - 5) && (offset > (((float)winWidth/cameraZoom) - 5 - xx2))) {
+		offset = ((float)winWidth/cameraZoom) - 5 - xx2;
 	}
 }
 
@@ -112,13 +113,13 @@ int wrapSpeechXY (char * theText, int x, int y, int wrap, int sampleFile) {
 		addSpeechLine (theText, x, offset);
 		theText[a] = ' ';
 		theText += a + 1;
-		y -= fontHeight;
+		y -= fontHeight/cameraZoom;
 	}
 	addSpeechLine (theText, x, offset);
-	y -= fontHeight;
+	y -= fontHeight/cameraZoom;
 
 	if (y < 0) speech -> speechY -= y;
-	else if (speech -> speechY > cameraY + winHeight - fontHeight/3) speech -> speechY = cameraY + winHeight - fontHeight/3;
+	else if (speech -> speechY > cameraY + (float)(winHeight - fontHeight/3)/cameraZoom) speech -> speechY = cameraY + (float)(winHeight - fontHeight/3)/cameraZoom;
 
 	if (offset) {
 		speechLine * viewLine = speech -> allSpeech;
@@ -167,7 +168,7 @@ void viewSpeech () {
 	fixFont (speech -> talkCol);
 	while (viewLine) {
 		pasteString (viewLine -> textLine, viewLine -> x, viewY, speech -> talkCol);
-		viewY -= fontHeight;
+		viewY -= fontHeight / cameraZoom;
 		viewLine = viewLine -> next;
 	}
 }
