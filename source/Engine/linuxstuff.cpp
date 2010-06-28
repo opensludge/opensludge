@@ -24,7 +24,8 @@ void printCmdlineUsage() {
 	fprintf(stdout, "-f,		--fullscreen		Set display mode to fullscreen\n");
 	fprintf(stdout, "-w,		--window		Set display mode to windowed\n");
 	fprintf(stdout, "-l<number>,	--language=<number>	Set language to <number> (>=0)\n");
-	fprintf(stdout, "-a<number>,	--antialias=<number>	Turn antialiasing on (1) or off (0)\n\n");
+	fprintf(stdout, "-a<number>,	--antialias=<number>	Turn antialiasing on (1) or off (0)\n");
+	fprintf(stdout, "-h,		--help			Print this help message\n\n");
 	fprintf(stdout, "Options are saved, so you don't need to specify them every time.\n");
 	fprintf(stdout, "If you entered a wrong language number, use -l0 to reset the language to the default setting.\n");
 	fprintf(stdout, "You can always toggle between fullscreen and windowed mode with \"Alt+Enter\"\n");
@@ -47,7 +48,7 @@ bool parseCmdlineParameters(int argc, char *argv[]) {
 			{0,0,0,0} /* This is a filler for -1 */
 		};
 		int option_index = 0;
-		char c = getopt_long (argc, argv, "f:w:l:a:h:", long_options, &option_index);
+		char c = getopt_long (argc, argv, "fwl:a:h", long_options, &option_index);
 		if (c == -1) break;
 			switch (c) {
 		case 'f':
