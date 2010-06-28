@@ -241,15 +241,37 @@ void addFunction (NSMutableDictionary *words, char *name) {
 
 - (bool)commentMenu
 {
+	NSString *string = [text string];
+	NSMutableString *newstring = [NSMutableString stringWithCapacity:10];
+	NSRange area = [text selectedRange];
+	NSRange area2;
 	
+	int c=0;
+
+	// extend our range along line boundaries.
+    area = [string lineRangeForRange:area];
+	[newstring setString: [string substringWithRange:area]];
+
+	area2 = [newstring lineRangeForRange:NSMakeRange(0, 0)];
+
+	while (area2.length) {
+		if (NSOrderedSame == [newstring compare:@"#~" options:nil range:NSMakeRange(area2.location, 2)]) {
+			[newstring deleteCharactersInRange: NSMakeRange(area2.location, 2)];
+			area2 = [newstring lineRangeForRange:NSMakeRange(area2.location+area2.length-2, 0)];
+			c-=2;
+		} else {
+			[newstring insertString:@"#~" atIndex:area2.location];
+			area2 = [newstring lineRangeForRange:NSMakeRange(area2.location+area2.length+2, 0)];
+			c+=2;
+		}
+	}
 	
-	return true;
-	// TODO
-	
-    NSTextStorage *textStorage = [text textStorage];
-    NSRange area = [text selectedRange];
-	
-	[[textStorage mutableString] replaceCharactersInRange: area withString:@"#"];
+	if ([text shouldChangeTextInRange: area replacementString: newstring]) {
+		[text replaceCharactersInRange: area withString: newstring];
+		[text didChangeText];
+		area.length+=c;
+		[text setSelectedRange: area];
+	}
 
 	return true;
 }

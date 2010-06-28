@@ -12,7 +12,7 @@
 		</object>
 		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<integer value="357"/>
-			<integer value="350"/>
+			<integer value="438"/>
 		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -324,8 +324,9 @@
 								</object>
 								<object class="NSMenuItem" id="973811441">
 									<reference key="NSMenu" ref="455865245"/>
-									<string key="NSTitle">Block comment</string>
-									<string key="NSKeyEquiv"/>
+									<string key="NSTitle">Toggle Block Comment</string>
+									<string key="NSKeyEquiv">b</string>
+									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="84987063"/>
 									<reference key="NSMixedImage" ref="753856710"/>
@@ -2135,7 +2136,7 @@
 				<string key="435.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="436.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="437.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="438.IBEditorWindowLastContentRect">{{515, 410}, {240, 293}}</string>
+				<string key="438.IBEditorWindowLastContentRect">{{515, 410}, {247, 293}}</string>
 				<string key="438.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="439.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="440.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
