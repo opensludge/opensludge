@@ -144,15 +144,15 @@ static builtReturn sayCore (int numParams, loadedFunction * fun, bool sayIt)
 	
 	switch (numParams) {
 		case 3:
-			if (! getValueType (fileNum, SVT_FILE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+			if (! getValueType (fileNum, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
 			trimStack (fun -> stack);
 			// No break; here
 			
 		case 2:
 			newText = getTextFromAnyVar (fun -> stack -> thisVar);
-			if (! newText) return BR_NOCOMMENT;
+			if (! newText) return BR_ERROR;
 			trimStack (fun -> stack);
-			if (! getValueType (objT, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+			if (! getValueType (objT, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 			trimStack (fun -> stack);
 			p = wrapSpeech (newText, objT, fileNum, sayIt);
 			fun -> timeLeft = p;
@@ -164,7 +164,7 @@ static builtReturn sayCore (int numParams, loadedFunction * fun, bool sayIt)
 	}
 	
 	fatal ("Function should have either 2 or 3 parameters");
-	return BR_NOCOMMENT;
+	return BR_ERROR;
 }
 
 #pragma mark -
@@ -254,18 +254,18 @@ builtIn(getMatchingFiles)
 {
 	UNUSEDALL
 	char * newText = getTextFromAnyVar (fun -> stack -> thisVar);
-	if (! newText) return BR_NOCOMMENT;
+	if (! newText) return BR_ERROR;
 	trimStack (fun -> stack);
 	unlinkVar (fun -> reg);
 	
 	// Return value
 	fun -> reg.varType = SVT_STACK;
 	fun -> reg.varData.theStack = new stackHandler;
-	if (! checkNew (fun -> reg.varData.theStack)) return BR_NOCOMMENT;
+	if (! checkNew (fun -> reg.varData.theStack)) return BR_ERROR;
 	fun -> reg.varData.theStack -> first = NULL;
 	fun -> reg.varData.theStack -> last = NULL;
 	fun -> reg.varData.theStack -> timesUsed = 1;
-	if (! getSavedGamesStack (fun -> reg.varData.theStack, newText)) return BR_NOCOMMENT;
+	if (! getSavedGamesStack (fun -> reg.varData.theStack, newText)) return BR_ERROR;
 	delete newText;
 	newText = NULL;
 	return BR_CONTINUE;
@@ -284,7 +284,7 @@ builtIn(saveGame)
 	
 	char * aaaaa = encodeFilename (loadNow);
 	delete loadNow;
-	if (failSecurityCheck (aaaaa)) return BR_NOCOMMENT;		// Won't fail if encoded, how cool is that? OK, not very.
+	if (failSecurityCheck (aaaaa)) return BR_ERROR;		// Won't fail if encoded, how cool is that? OK, not very.
 	
 	loadNow = joinStrings (":", aaaaa);
 	delete aaaaa;
@@ -301,7 +301,7 @@ builtIn(fileExists)
 	trimStack (fun -> stack);
 	char * aaaaa = encodeFilename (loadNow);
 	delete loadNow;
-	if (failSecurityCheck (aaaaa)) return BR_NOCOMMENT;
+	if (failSecurityCheck (aaaaa)) return BR_ERROR;
 	FILE * fp = fopen (aaaaa, "rb");
 	if (! fp) {
 		char currentDir[1000];
@@ -333,7 +333,7 @@ builtIn(loadGame)
 		fatal ("Can't load a saved game while the engine is frozen");
 	}
 	
-	if (failSecurityCheck (loadNow)) return BR_NOCOMMENT;
+	if (failSecurityCheck (loadNow)) return BR_ERROR;
 	FILE * fp = fopen (loadNow, "rb");
 	if (fp) {
 		fclose (fp);
@@ -359,13 +359,13 @@ builtIn(blankArea)
 {
 	UNUSEDALL
 	int x1, y1, x2, y2;
-	if (! getValueType (y2, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (y2, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (x2, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (x2, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (y1, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (y1, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (x1, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (x1, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	blankScreen (x1, y1, x2, y2);
 	return BR_CONTINUE;
@@ -382,11 +382,11 @@ builtIn(addOverlay)
 {
 	UNUSEDALL
 	int fileNumber, xPos, yPos;
-	if (! getValueType (yPos, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (yPos, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (xPos, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (xPos, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	loadBackDrop (fileNumber, xPos, yPos);
 	return BR_CONTINUE;
@@ -396,11 +396,11 @@ builtIn(mixOverlay)
 {
 	UNUSEDALL
 	int fileNumber, xPos, yPos;
-	if (! getValueType (yPos, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (yPos, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (xPos, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (xPos, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	mixBackDrop (fileNumber, xPos, yPos);
 	return BR_CONTINUE;
@@ -410,9 +410,9 @@ builtIn(pasteImage)
 {
 	UNUSEDALL
 	int x, y;
-	if (! getValueType (y, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (y, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (x, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (x, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	personaAnimation * pp = getAnimationFromVar (fun -> stack -> thisVar);
 	trimStack (fun -> stack);
@@ -429,24 +429,24 @@ builtIn(setSceneDimensions)
 {
 	UNUSEDALL
 	int x, y;
-	if (! getValueType (y, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (y, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (x, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (x, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	if (resizeBackdrop (x, y)) {
 		blankScreen (0, 0, x, y);
 		return BR_CONTINUE;
 	}
 	fatal ("Out of memory creating new backdrop.");
-	return BR_NOCOMMENT;
+	return BR_ERROR;
 }
 
 builtIn(aimCamera)
 {
 	UNUSEDALL
-	if (! getValueType (cameraY, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (cameraY, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (cameraX, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (cameraX, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	
 	cameraX -= (float)(winWidth >> 1)/ cameraZoom;
@@ -464,7 +464,7 @@ builtIn(zoomCamera)
 {
 	UNUSEDALL
 	int z;
-	if (! getValueType (z, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (z, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	
 	input.mouseX = input.mouseX * cameraZoom;
@@ -491,7 +491,7 @@ builtIn(pickOne)
 	UNUSEDALL
 	if (! numParams) {
 		fatal ("Built-in function should have at least 1 parameter");
-		return BR_NOCOMMENT;
+		return BR_ERROR;
 	}
 	int i = rand() % numParams;
 	
@@ -512,9 +512,9 @@ builtIn(substring)
 	
 	//debugOut ("BUILTIN: substring\n");
 	
-	if (! getValueType (length, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (length, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (start, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (start, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	wholeString = getTextFromAnyVar (fun -> stack -> thisVar);
 	trimStack (fun -> stack);
@@ -526,7 +526,7 @@ builtIn(substring)
 	newString = new char[length + 1];
 	if (! checkNew (newString)) {
 		//debugOut ("BUILTIN: substring exiting early.\n");
-		return BR_NOCOMMENT;
+		return BR_ERROR;
 	}
 	
 	for (a = 0; a < length; a ++) newString[a] = wholeString[start ++];
@@ -556,12 +556,12 @@ builtIn(newStack)
 	// Return value
 	fun -> reg.varType = SVT_STACK;
 	fun -> reg.varData.theStack = new stackHandler;
-	if (! checkNew (fun -> reg.varData.theStack)) return BR_NOCOMMENT;
+	if (! checkNew (fun -> reg.varData.theStack)) return BR_ERROR;
 	fun -> reg.varData.theStack -> first = NULL;
 	fun -> reg.varData.theStack -> last = NULL;
 	fun -> reg.varData.theStack -> timesUsed = 1;
 	while (numParams --) {
-		if (! addVarToStack (fun -> stack -> thisVar, fun -> reg.varData.theStack -> first)) return BR_NOCOMMENT;
+		if (! addVarToStack (fun -> stack -> thisVar, fun -> reg.varData.theStack -> first)) return BR_ERROR;
 		if (fun -> reg.varData.theStack -> last == NULL) {
 			fun -> reg.varData.theStack -> last = fun -> reg.varData.theStack -> first;
 		}
@@ -593,7 +593,7 @@ builtIn(stackSize)
 			break;
 	}
 	fatal ("Parameter isn't a stack or a fast array.");
-	return BR_NOCOMMENT;
+	return BR_ERROR;
 }
 
 builtIn(copyStack)
@@ -601,10 +601,10 @@ builtIn(copyStack)
 	UNUSEDALL
 	if (fun -> stack -> thisVar.varType != SVT_STACK) {
 		fatal ("Parameter isn't a stack.");
-		return BR_NOCOMMENT;
+		return BR_ERROR;
 	}
 	// Return value
-	if (! copyStack (fun -> stack -> thisVar, fun -> reg)) return BR_NOCOMMENT;
+	if (! copyStack (fun -> stack -> thisVar, fun -> reg)) return BR_ERROR;
 	trimStack (fun -> stack);
 	return BR_CONTINUE;
 }
@@ -614,11 +614,11 @@ builtIn(pushToStack)
 	UNUSEDALL
 	if (fun -> stack -> next -> thisVar.varType != SVT_STACK) {
 		fatal ("Parameter isn't a stack");
-		return BR_NOCOMMENT;
+		return BR_ERROR;
 	}
 	
 	if (! addVarToStack (fun -> stack -> thisVar, fun -> stack -> next -> thisVar.varData.theStack -> first))
-		return BR_NOCOMMENT;
+		return BR_ERROR;
 	
 	if (fun -> stack -> next -> thisVar.varData.theStack -> first -> next == NULL)
 		fun -> stack -> next -> thisVar.varData.theStack -> last = fun -> stack -> next -> thisVar.varData.theStack -> first;
@@ -633,13 +633,13 @@ builtIn(enqueue)
 	UNUSEDALL
 	if (fun -> stack -> next -> thisVar.varType != SVT_STACK) {
 		fatal ("Parameter isn't a stack");
-		return BR_NOCOMMENT;
+		return BR_ERROR;
 	}
 	
 	if (fun -> stack -> next -> thisVar.varData.theStack -> first == NULL)
 	{
 		if (! addVarToStack (fun -> stack -> thisVar, fun -> stack -> next -> thisVar.varData.theStack -> first))
-			return BR_NOCOMMENT;
+			return BR_ERROR;
 		
 		fun -> stack -> next -> thisVar.varData.theStack -> last = fun -> stack -> next -> thisVar.varData.theStack -> first;
 	}
@@ -647,7 +647,7 @@ builtIn(enqueue)
 	{
 		if (! addVarToStack (fun -> stack -> thisVar,
 							 fun -> stack -> next -> thisVar.varData.theStack -> last -> next))
-			return BR_NOCOMMENT;
+			return BR_ERROR;
 		fun -> stack -> next -> thisVar.varData.theStack -> last = fun -> stack -> next -> thisVar.varData.theStack -> last -> next;
 	}
 	
@@ -661,7 +661,7 @@ builtIn(deleteFromStack)
 	UNUSEDALL
 	if (fun -> stack -> next -> thisVar.varType != SVT_STACK) {
 		fatal ("Parameter isn't a stack.");
-		return BR_NOCOMMENT;
+		return BR_ERROR;
 	}
 	
 	// Return value
@@ -682,7 +682,7 @@ builtIn(deleteAllFromStack)
 	UNUSEDALL
 	if (fun -> stack -> next -> thisVar.varType != SVT_STACK) {
 		fatal ("Parameter isn't a stack.");
-		return BR_NOCOMMENT;
+		return BR_ERROR;
 	}
 	
 	// Return value
@@ -703,11 +703,11 @@ builtIn(popFromStack)
 	UNUSEDALL
 	if (fun -> stack -> thisVar.varType != SVT_STACK) {
 		fatal ("Parameter isn't a stack.");
-		return BR_NOCOMMENT;
+		return BR_ERROR;
 	}
 	if (fun -> stack -> thisVar.varData.theStack -> first == NULL) {
 		fatal ("The stack's empty.");
-		return BR_NOCOMMENT;
+		return BR_ERROR;
 	}
 	
 	// Return value
@@ -722,11 +722,11 @@ builtIn(peekStart)
 	UNUSEDALL
 	if (fun -> stack -> thisVar.varType != SVT_STACK) {
 		fatal ("Parameter isn't a stack.");
-		return BR_NOCOMMENT;
+		return BR_ERROR;
 	}
 	if (fun -> stack -> thisVar.varData.theStack -> first == NULL) {
 		fatal ("The stack's empty.");
-		return BR_NOCOMMENT;
+		return BR_ERROR;
 	}
 	
 	// Return value
@@ -740,11 +740,11 @@ builtIn(peekEnd)
 	UNUSEDALL
 	if (fun -> stack -> thisVar.varType != SVT_STACK) {
 		fatal ("Parameter isn't a stack.");
-		return BR_NOCOMMENT;
+		return BR_ERROR;
 	}
 	if (fun -> stack -> thisVar.varData.theStack -> first == NULL) {
 		fatal ("The stack's empty.");
-		return BR_NOCOMMENT;
+		return BR_ERROR;
 	}
 	
 	// Return value
@@ -759,7 +759,7 @@ builtIn(random)
 	int num;
 	
 	if (! getValueType (num, SVT_INT, fun -> stack -> thisVar))
-		return BR_NOCOMMENT;
+		return BR_ERROR;
 	
 	trimStack (fun -> stack);
 	if (num <= 0) num = 1;
@@ -784,7 +784,7 @@ builtIn (setStatusColour)
 	int red, green, blue;
 	
 	if (! getRGBParams(red, green, blue, fun))
-		return BR_NOCOMMENT;
+		return BR_ERROR;
 	
 	statusBarColour ((byte) red, (byte) green, (byte) blue);
 	return BR_CONTINUE;
@@ -796,7 +796,7 @@ builtIn (setLitStatusColour)
 	int red, green, blue;
 	
 	if (! getRGBParams(red, green, blue, fun))
-		return BR_NOCOMMENT;
+		return BR_ERROR;
 	
 	statusBarLitColour ((byte) red, (byte) green, (byte) blue);
 	return BR_CONTINUE;
@@ -808,7 +808,7 @@ builtIn (setPasteColour)
 	int red, green, blue;
 	
 	if (! getRGBParams(red, green, blue, fun))
-		return BR_NOCOMMENT;
+		return BR_ERROR;
 	
 	setFontColour (pastePalette, (byte) red, (byte) green, (byte) blue);
 	return BR_CONTINUE;
@@ -820,7 +820,7 @@ builtIn (setBlankColour)
 	int red, green, blue;
 	
 	if (! getRGBParams(red, green, blue, fun))
-		return BR_NOCOMMENT;
+		return BR_ERROR;
 	
 	currentBlankColour = makeColour (red & 255, green & 255, blue & 255);
 	setVariable (fun -> reg, SVT_INT, 1);
@@ -833,7 +833,7 @@ builtIn (setBurnColour)
 	int red, green, blue;
 	
 	if (! getRGBParams(red, green, blue, fun))
-		return BR_NOCOMMENT;
+		return BR_ERROR;
 	
 	currentBurnR = red;
 	currentBurnG = green;
@@ -847,17 +847,17 @@ builtIn(setFont)
 {
 	UNUSEDALL
 	int fileNumber, newHeight;
-	if (! getValueType (newHeight, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (newHeight, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	//				newDebug ("  Height:", newHeight);
 	trimStack (fun -> stack);
 	char * newText = getTextFromAnyVar (fun -> stack -> thisVar);
-	if (! newText) return BR_NOCOMMENT;
+	if (! newText) return BR_ERROR;
 	//				newDebug ("  Character supported:", newText);
 	trimStack (fun -> stack);
-	if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
 	//				newDebug ("  File:", fileNumber);
 	trimStack (fun -> stack);
-	if (! loadFont (fileNumber, newText, newHeight)) return BR_NOCOMMENT;
+	if (! loadFont (fileNumber, newText, newHeight)) return BR_ERROR;
 	//				newDebug ("  Done!");
 	delete newText;
 	
@@ -868,7 +868,7 @@ builtIn(inFont)
 {
 	UNUSEDALL
 	char * newText = getTextFromAnyVar (fun -> stack -> thisVar);
-	if (! newText) return BR_NOCOMMENT;
+	if (! newText) return BR_ERROR;
 	trimStack (fun -> stack);
 	
 	// Return value
@@ -882,9 +882,9 @@ builtIn(pasteString)
 	char * newText = getTextFromAnyVar (fun -> stack -> thisVar);
 	trimStack (fun -> stack);
 	int y, x;
-	if (! getValueType (y, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (y, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (x, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (x, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	if (x == IN_THE_CENTRE) x = (winWidth - stringWidth (newText)) >> 1;
 	fixFont (pastePalette);
@@ -898,7 +898,7 @@ builtIn(anim)
 	UNUSEDALL
 	if (numParams < 2) {
 		fatal ("Built-in function anim() must have at least 2 parameters.");
-		return BR_NOCOMMENT;
+		return BR_ERROR;
 	}
 	
 	// First store the frame numbers and take 'em off the stack
@@ -906,12 +906,12 @@ builtIn(anim)
 	
 	// Only remaining paramter is the file number
 	int fileNumber;
-	if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	
 	// Load the required sprite bank
 	loadedSpriteBank * sprBanky = loadBankForAnim (fileNumber);
-	if (! sprBanky) return BR_NOCOMMENT;	// File not found, fatal done already
+	if (! sprBanky) return BR_ERROR;	// File not found, fatal done already
 	setBankFile (ba, sprBanky);
 	
 	// Return value
@@ -924,15 +924,15 @@ builtIn(costume)
 {
 	UNUSEDALL
 	persona * newPersona = new persona;
-	if (! checkNew (newPersona)) return BR_NOCOMMENT;
+	if (! checkNew (newPersona)) return BR_ERROR;
 	newPersona -> numDirections = numParams / 3;
 	if (numParams == 0 || newPersona -> numDirections * 3 != numParams) {
 		fatal ("Illegal number of parameters (should be greater than 0 and divisible by 3)");
-		return BR_NOCOMMENT;
+		return BR_ERROR;
 	}
 	int iii;
 	newPersona -> animation = new personaAnimation * [numParams];
-	if (! checkNew (newPersona -> animation)) return BR_NOCOMMENT;
+	if (! checkNew (newPersona -> animation)) return BR_ERROR;
 	for (iii = numParams - 1; iii >= 0; iii --) {
 		newPersona -> animation[iii] = getAnimationFromVar (fun -> stack -> thisVar);
 		trimStack (fun -> stack);
@@ -947,7 +947,7 @@ builtIn(launch)
 {
 	UNUSEDALL
 	char * newTextA = getTextFromAnyVar (fun -> stack -> thisVar);
-	if (! newTextA) return BR_NOCOMMENT;
+	if (! newTextA) return BR_ERROR;
 	
 	char * newText = encodeFilename (newTextA);
 	delete newTextA;
@@ -970,7 +970,7 @@ builtIn(launch)
 #endif
 		launchMe = joinStrings (gameDir, newText);
 		delete newText;
-		if (! launchMe) return BR_NOCOMMENT;
+		if (! launchMe) return BR_ERROR;
 	}
 	setGraphicsWindow(false);
 	setVariable (fun -> reg, SVT_INT, 1);
@@ -983,7 +983,7 @@ builtIn(pause)
 {
 	UNUSEDALL
 	int theTime;
-	if (! getValueType (theTime, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (theTime, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	if (theTime > 0) {
 		fun -> timeLeft = theTime - 1;
@@ -1004,9 +1004,9 @@ builtIn(callEvent)
 {
 	UNUSEDALL
 	int obj1, obj2;
-	if (! getValueType (obj2, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (obj2, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (obj1, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (obj1, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	
 	int fNum = getCombinationFunction (obj1, obj2);
@@ -1052,7 +1052,7 @@ builtIn(quitGame)
 	reallyWantToQuit = true;
 	quit_event.type=SDL_QUIT;
 	SDL_PushEvent(&quit_event);
-	return BR_NOCOMMENT;
+	return BR_CONTINUE;
 }
 
 #pragma mark -
@@ -1062,13 +1062,13 @@ builtIn(startMusic)
 {
 	UNUSEDALL
 	int fromTrack, musChan, fileNumber;
-	if (! getValueType (fromTrack, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (fromTrack, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (musChan, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (musChan, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! playMOD (fileNumber, musChan, fromTrack)) return BR_CONTINUE; //BR_NOCOMMENT;
+	if (! playMOD (fileNumber, musChan, fromTrack)) return BR_CONTINUE; //BR_ERROR;
 	return BR_CONTINUE;
 }
 
@@ -1076,7 +1076,7 @@ builtIn(stopMusic)
 {
 	UNUSEDALL
 	int v;
-	if (! getValueType (v, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (v, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	stopMOD (v);
 	return BR_CONTINUE;
@@ -1086,9 +1086,9 @@ builtIn(setMusicVolume)
 {
 	UNUSEDALL
 	int musChan, v;
-	if (! getValueType (v, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (v, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (musChan, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (musChan, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	setMusicVolume (musChan, v);
 	return BR_CONTINUE;
@@ -1098,7 +1098,7 @@ builtIn(setDefaultMusicVolume)
 {
 	UNUSEDALL
 	int v;
-	if (! getValueType (v, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (v, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	setDefaultMusicVolume (v);
 	return BR_CONTINUE;
@@ -1108,9 +1108,9 @@ builtIn(playSound)
 {
 	UNUSEDALL
 	int fileNumber;
-	if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! startSound (fileNumber, false)) return BR_CONTINUE;	// Was BR_NOCOMMENT
+	if (! startSound (fileNumber, false)) return BR_CONTINUE;	// Was BR_ERROR
 	return BR_CONTINUE;
 }
 builtIn(loopSound)
@@ -1120,12 +1120,12 @@ builtIn(loopSound)
 	
 	if (numParams < 1) {
 		fatal ("Built-in function loopSound() must have at least 1 parameter.");
-		return BR_NOCOMMENT;
+		return BR_ERROR;
 	} else if (numParams < 2) {
 		
-		if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+		if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
 		trimStack (fun -> stack);
-		if (! startSound (fileNumber, true)) return BR_CONTINUE;	// Was BR_NOCOMMENT
+		if (! startSound (fileNumber, true)) return BR_CONTINUE;	// Was BR_ERROR
 		return BR_CONTINUE;
 	} else {
 		// We have more than one sound to play!
@@ -1143,7 +1143,7 @@ builtIn(loopSound)
 		while (numParams) {
 			if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) {
 				fatal ("Illegal parameter given built-in function loopSound().");
-				return BR_NOCOMMENT;
+				return BR_ERROR;
 			}
 			s = new soundList;
 			s-> next = old;
@@ -1171,7 +1171,7 @@ builtIn(stopSound)
 {
 	UNUSEDALL
 	int v;
-	if (! getValueType (v, SVT_FILE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (v, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	huntKillSound (v);
 	return BR_CONTINUE;
@@ -1181,7 +1181,7 @@ builtIn(setDefaultSoundVolume)
 {
 	UNUSEDALL
 	int v;
-	if (! getValueType (v, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (v, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	setDefaultSoundVolume (v);
 	return BR_CONTINUE;
@@ -1191,9 +1191,9 @@ builtIn(setSoundVolume)
 {
 	UNUSEDALL
 	int musChan, v;
-	if (! getValueType (v, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (v, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (musChan, SVT_FILE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (musChan, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	setSoundVolume (musChan, v);
 	return BR_CONTINUE;
@@ -1204,11 +1204,11 @@ builtIn(setSoundLoopPoints)
 {
 	UNUSEDALL
 	int musChan, theEnd, theStart;
-	if (! getValueType (theEnd, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (theEnd, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (theStart, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (theStart, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (musChan, SVT_FILE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (musChan, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	setSoundLoop (musChan, theStart, theEnd);
 	return BR_CONTINUE;
@@ -1224,7 +1224,7 @@ builtIn(setFloor)
 		int v;
 		getValueType (v, SVT_FILE, fun -> stack -> thisVar);
 		trimStack (fun -> stack);
-		if (! setFloor (v)) return BR_NOCOMMENT;
+		if (! setFloor (v)) return BR_ERROR;
 	} else {
 		trimStack (fun -> stack);
 		setFloorNull ();
@@ -1246,7 +1246,7 @@ builtIn(setZBuffer)
 		int v;
 		getValueType (v, SVT_FILE, fun -> stack -> thisVar);
 		trimStack (fun -> stack);
-		if (! setZBuffer (v)) return BR_NOCOMMENT;
+		if (! setZBuffer (v)) return BR_ERROR;
 	} else {
 		trimStack (fun -> stack);
 		killZBuffer ();
@@ -1259,7 +1259,7 @@ builtIn(setLightMap)
 	UNUSEDALL
 	switch (numParams) {
 		case 2:
-			if (! getValueType (lightMapMode, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+			if (! getValueType (lightMapMode, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 			trimStack (fun -> stack);
 			lightMapMode %= LIGHTMAPMODE_NUM;
 			// No break;
@@ -1269,7 +1269,7 @@ builtIn(setLightMap)
 				int v;
 				getValueType (v, SVT_FILE, fun -> stack -> thisVar);
 				trimStack (fun -> stack);
-				if (! loadLightMap (v)) return BR_NOCOMMENT;
+				if (! loadLightMap (v)) return BR_ERROR;
 				setVariable (fun -> reg, SVT_INT, 1);
 			} else {
 				trimStack (fun -> stack);
@@ -1280,7 +1280,7 @@ builtIn(setLightMap)
 			
 		default:
 			fatal ("Function should have either 2 or 3 parameters");
-			return BR_NOCOMMENT;
+			return BR_ERROR;
 	}
 	return BR_CONTINUE;
 }
@@ -1292,11 +1292,11 @@ builtIn(setLightMap)
 builtIn(setSpeechMode)
 {
 	UNUSEDALL
-	if (! getValueType (speechMode, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (speechMode, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	if (speechMode < 0 || speechMode > 2) {
 		fatal ("Valid parameters are be SPEECHANDTEXT, SPEECHONLY or TEXTONLY");
-		return BR_NOCOMMENT;
+		return BR_ERROR;
 	}
 	return BR_CONTINUE;
 }
@@ -1337,9 +1337,9 @@ builtIn(rename)
 	UNUSEDALL
 	char * newText = getTextFromAnyVar (fun -> stack -> thisVar);
 	int objT;
-	if (! newText) return BR_NOCOMMENT;
+	if (! newText) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (objT, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (objT, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	objectType * o = findObjectType (objT);
 	delete o -> screenName;
@@ -1351,7 +1351,7 @@ builtIn (getObjectX)
 {
 	UNUSEDALL
 	int objectNumber;
-	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	
 	onScreenPerson * pers = findPerson (objectNumber);
@@ -1372,7 +1372,7 @@ builtIn (getObjectY)
 {
 	UNUSEDALL
 	int objectNumber;
-	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	
 	onScreenPerson * pers = findPerson (objectNumber);
@@ -1394,24 +1394,24 @@ builtIn(addScreenRegion)
 {
 	UNUSEDALL
 	int sX, sY, x1, y1, x2, y2, di, objectNumber;
-	if (! getValueType (di, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (di, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (sY, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (sY, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (sX, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (sX, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (y2, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (y2, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (x2, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (x2, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (y1, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (y1, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (x1, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (x1, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	if (addScreenRegion (x1, y1, x2, y2, sX, sY, di, objectNumber)) return BR_CONTINUE;
-	return BR_NOCOMMENT;
+	return BR_ERROR;
 	
 }
 
@@ -1419,7 +1419,7 @@ builtIn(removeScreenRegion)
 {
 	UNUSEDALL
 	int objectNumber;
-	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	removeScreenRegion (objectNumber);
 	return BR_CONTINUE;
@@ -1446,24 +1446,24 @@ builtIn(addCharacter)
 	int x, y, objectNumber;
 	
 	p = getCostumeFromVar (fun -> stack -> thisVar);
-	if (p == NULL) return BR_NOCOMMENT;
+	if (p == NULL) return BR_ERROR;
 	
 	trimStack (fun -> stack);
-	if (! getValueType (y, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (y, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (x, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (x, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	if (addPerson (x, y, objectNumber, p)) return BR_CONTINUE;
-	return BR_NOCOMMENT;
+	return BR_ERROR;
 }
 
 builtIn(hideCharacter)
 {
 	UNUSEDALL
 	int objectNumber;
-	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	setShown (false, objectNumber);
 	return BR_CONTINUE;
@@ -1473,7 +1473,7 @@ builtIn(showCharacter)
 {
 	UNUSEDALL
 	int objectNumber;
-	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	setShown (true, objectNumber);
 	return BR_CONTINUE;
@@ -1491,9 +1491,9 @@ builtIn(setCharacterDrawMode)
 {
 	UNUSEDALL
 	int obj, di;
-	if (! getValueType (di, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (di, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (obj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (obj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	setDrawMode (di, obj);
 	return BR_CONTINUE;
@@ -1502,9 +1502,9 @@ builtIn(setCharacterTransparency)
 {
 	UNUSEDALL
 	int obj, x;
-	if (! getValueType (x, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (x, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (obj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (obj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	setPersonTransparency (obj, x);
 	return BR_CONTINUE;
@@ -1513,15 +1513,15 @@ builtIn(setCharacterColourise)
 {
 	UNUSEDALL
 	int obj, r, g, b, mix;
-	if (! getValueType (mix, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (mix, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (b, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (b, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (g, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (g, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (r, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (r, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (obj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (obj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	setPersonColourise (obj, r, g, b, mix);
 	return BR_CONTINUE;
@@ -1531,9 +1531,9 @@ builtIn(setScale)
 {
 	UNUSEDALL
 	int val1, val2;
-	if (! getValueType (val2, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (val2, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (val1, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (val1, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	setScale ((short int) val1, (short int) val2);
 	return BR_CONTINUE;
@@ -1543,7 +1543,7 @@ builtIn(stopCharacter)
 {
 	UNUSEDALL
 	int obj;
-	if (! getValueType (obj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (obj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	
 	// Return value
@@ -1555,7 +1555,7 @@ builtIn(pasteCharacter)
 {
 	UNUSEDALL
 	int obj;
-	if (! getValueType (obj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (obj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	
 	onScreenPerson * thisPerson = findPerson (obj);
@@ -1582,9 +1582,9 @@ builtIn(animate)
 	UNUSEDALL
 	int obj;
 	personaAnimation * pp = getAnimationFromVar (fun -> stack -> thisVar);
-	if (pp == NULL) return BR_NOCOMMENT;
+	if (pp == NULL) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (obj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (obj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	animatePerson (obj, pp);
 	setVariable (fun -> reg, SVT_INT, timeForAnim (pp));
@@ -1596,9 +1596,9 @@ builtIn(setCostume)
 	UNUSEDALL
 	int obj;
 	persona * pp = getCostumeFromVar (fun -> stack -> thisVar);
-	if (pp == NULL) return BR_NOCOMMENT;
+	if (pp == NULL) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (obj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (obj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	animatePerson (obj, pp);
 	return BR_CONTINUE;
@@ -1608,9 +1608,9 @@ builtIn(floatCharacter)
 {
 	UNUSEDALL
 	int obj, di;
-	if (! getValueType (di, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (di, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (obj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (obj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	setVariable (fun -> reg, SVT_INT, floatCharacter (di, obj));
 	return BR_CONTINUE;
@@ -1620,9 +1620,9 @@ builtIn(setCharacterWalkSpeed)
 {
 	UNUSEDALL
 	int obj, di;
-	if (! getValueType (di, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (di, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (obj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (obj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	setVariable (fun -> reg, SVT_INT, setCharacterWalkSpeed (di, obj));
 	return BR_CONTINUE;
@@ -1632,9 +1632,9 @@ builtIn(turnCharacter)
 {
 	UNUSEDALL
 	int obj, di;
-	if (! getValueType (di, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (di, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (obj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (obj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	setVariable (fun -> reg, SVT_INT, turnPersonToFace (obj, di));
 	return BR_CONTINUE;
@@ -1644,9 +1644,9 @@ builtIn(setCharacterExtra)
 {
 	UNUSEDALL
 	int obj, di;
-	if (! getValueType (di, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (di, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (obj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (obj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	setVariable (fun -> reg, SVT_INT, setPersonExtra (obj, di));
 	return BR_CONTINUE;
@@ -1656,7 +1656,7 @@ builtIn(removeCharacter)
 {
 	UNUSEDALL
 	int objectNumber;
-	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	removeOneCharacter (objectNumber);
 	return BR_CONTINUE;
@@ -1669,11 +1669,11 @@ static builtReturn moveChr(int numParams, loadedFunction * fun, bool force, bool
 		{
 			int x, y, objectNumber;
 			
-			if (! getValueType (y, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+			if (! getValueType (y, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 			trimStack (fun -> stack);
-			if (! getValueType (x, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+			if (! getValueType (x, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 			trimStack (fun -> stack);
-			if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+			if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 			trimStack (fun -> stack);
 			
 			if (force) {
@@ -1691,9 +1691,9 @@ static builtReturn moveChr(int numParams, loadedFunction * fun, bool force, bool
 			int toObj, objectNumber;
 			screenRegion * reggie;
 			
-			if (! getValueType (toObj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+			if (! getValueType (toObj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 			trimStack (fun -> stack);
-			if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+			if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 			trimStack (fun -> stack);
 			reggie = getRegionForObject (toObj);
 			if (reggie == NULL) return BR_CONTINUE;
@@ -1715,7 +1715,7 @@ static builtReturn moveChr(int numParams, loadedFunction * fun, bool force, bool
 			
 		default:
 			fatal ("Built-in function must have either 2 or 3 parameters.");
-			return BR_NOCOMMENT;
+			return BR_ERROR;
 	}
 }
 
@@ -1762,7 +1762,7 @@ builtIn(statusText)
 {
 	UNUSEDALL
 	char * newText = getTextFromAnyVar (fun -> stack -> thisVar);
-	if (! newText) return BR_NOCOMMENT;
+	if (! newText) return BR_ERROR;
 	trimStack (fun -> stack);
 	setStatusBar (newText);
 	delete newText;
@@ -1773,7 +1773,7 @@ builtIn(lightStatus)
 {
 	UNUSEDALL
 	int val;
-	if (! getValueType (val, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (val, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	setLitStatus (val);
 	return BR_CONTINUE;
@@ -1783,9 +1783,9 @@ builtIn(positionStatus)
 {
 	UNUSEDALL
 	int x, y;
-	if (! getValueType (y, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (y, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (x, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (x, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	positionStatus (x, y);
 	return BR_CONTINUE;
@@ -1795,7 +1795,7 @@ builtIn(alignStatus)
 {
 	UNUSEDALL
 	int val;
-	if (! getValueType (val, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (val, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	nowStatus -> alignStatus = (short) val;
 	return BR_CONTINUE;
@@ -1829,7 +1829,7 @@ builtIn (onLeftMouse)
 		currentEvents -> leftMouseFunction = functionNum;
 		return BR_CONTINUE;
 	}
-	return BR_NOCOMMENT;
+	return BR_ERROR;
 }
 
 builtIn (onLeftMouseUp)
@@ -1841,7 +1841,7 @@ builtIn (onLeftMouseUp)
 		currentEvents -> leftMouseUpFunction = functionNum;
 		return BR_CONTINUE;
 	}
-	return BR_NOCOMMENT;
+	return BR_ERROR;
 }
 
 builtIn (onRightMouse)
@@ -1853,7 +1853,7 @@ builtIn (onRightMouse)
 		currentEvents -> rightMouseFunction = functionNum;
 		return BR_CONTINUE;
 	}
-	return BR_NOCOMMENT;
+	return BR_ERROR;
 }
 
 builtIn (onRightMouseUp)
@@ -1865,7 +1865,7 @@ builtIn (onRightMouseUp)
 		currentEvents -> rightMouseUpFunction = functionNum;
 		return BR_CONTINUE;
 	}
-	return BR_NOCOMMENT;
+	return BR_ERROR;
 }
 
 builtIn (onFocusChange)
@@ -1877,7 +1877,7 @@ builtIn (onFocusChange)
 		currentEvents -> focusFunction = functionNum;
 		return BR_CONTINUE;
 	}
-	return BR_NOCOMMENT;
+	return BR_ERROR;
 }
 
 builtIn (onMoveMouse)
@@ -1889,7 +1889,7 @@ builtIn (onMoveMouse)
 		currentEvents -> moveMouseFunction = functionNum;
 		return BR_CONTINUE;
 	}
-	return BR_NOCOMMENT;
+	return BR_ERROR;
 }
 
 builtIn (onKeyboard)
@@ -1901,7 +1901,7 @@ builtIn (onKeyboard)
 		currentEvents -> spaceFunction = functionNum;
 		return BR_CONTINUE;
 	}
-	return BR_NOCOMMENT;
+	return BR_ERROR;
 }
 
 builtIn (spawnSub)
@@ -1910,10 +1910,10 @@ builtIn (spawnSub)
 	int functionNum;
 	if (getFuncNumForCallback (numParams, fun, functionNum))
 	{
-		if (! startNewFunctionNum (functionNum, 0, NULL, noStack)) return BR_NOCOMMENT;
+		if (! startNewFunctionNum (functionNum, 0, NULL, noStack)) return BR_ERROR;
 		return BR_CONTINUE;
 	}
-	return BR_NOCOMMENT;
+	return BR_ERROR;
 }
 
 builtIn (cancelSub)
@@ -1930,14 +1930,14 @@ builtIn (cancelSub)
 		}
 		return BR_CONTINUE;
 	}
-	return BR_NOCOMMENT;
+	return BR_ERROR;
 }
 
 builtIn(stringWidth)
 {
 	UNUSEDALL
 	char * theText = getTextFromAnyVar (fun -> stack -> thisVar);
-	if (! theText) return BR_NOCOMMENT;
+	if (! theText) return BR_ERROR;
 	trimStack (fun -> stack);
 	
 	// Return value
@@ -1950,7 +1950,7 @@ builtIn(hardScroll)
 {
 	UNUSEDALL
 	int v;
-	if (! getValueType (v, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (v, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	hardScroll (v);
 	return BR_CONTINUE;
@@ -1961,7 +1961,7 @@ builtIn(isScreenRegion)
 {
 	UNUSEDALL
 	int objectNumber;
-	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	setVariable (fun -> reg, SVT_INT, getRegionForObject (objectNumber) != NULL);
 	return BR_CONTINUE;
@@ -1971,7 +1971,7 @@ builtIn(setSpeechSpeed)
 {
 	UNUSEDALL
 	int number;
-	if (! getValueType (number, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (number, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	speechSpeed = number * 0.01;
 	setVariable (fun -> reg, SVT_INT, 1);
@@ -1982,7 +1982,7 @@ builtIn(setFontSpacing)
 {
 	UNUSEDALL
 	int fontSpaceI;
-	if (! getValueType (fontSpaceI, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (fontSpaceI, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	fontSpace = fontSpaceI;
 	trimStack (fun -> stack);
 	setVariable (fun -> reg, SVT_INT, 1);
@@ -1993,7 +1993,7 @@ builtIn(transitionLevel)
 {
 	UNUSEDALL
 	int number;
-	if (! getValueType (number, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (number, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	
 	if (number < 0)
@@ -2021,9 +2021,9 @@ builtIn(spinCharacter)
 {
 	UNUSEDALL
 	int number, objectNumber;
-	if (! getValueType (number, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (number, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	
 	onScreenPerson * thisPerson = findPerson (objectNumber);
@@ -2043,7 +2043,7 @@ builtIn(getCharacterDirection)
 {
 	UNUSEDALL
 	int objectNumber;
-	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	onScreenPerson * thisPerson = findPerson (objectNumber);
 	if (thisPerson) {
@@ -2058,7 +2058,7 @@ builtIn(isCharacter)
 {
 	UNUSEDALL
 	int objectNumber;
-	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	onScreenPerson * thisPerson = findPerson (objectNumber);
 	setVariable (fun -> reg, SVT_INT, thisPerson != NULL);
@@ -2069,7 +2069,7 @@ builtIn(normalCharacter)
 {
 	UNUSEDALL
 	int objectNumber;
-	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	onScreenPerson * thisPerson = findPerson (objectNumber);
 	if (thisPerson)
@@ -2086,7 +2086,7 @@ builtIn(isMoving)
 {
 	UNUSEDALL
 	int objectNumber;
-	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	onScreenPerson * thisPerson = findPerson (objectNumber);
 	if (thisPerson)
@@ -2102,9 +2102,9 @@ builtIn(fetchEvent)
 {
 	UNUSEDALL
 	int obj1, obj2;
-	if (! getValueType (obj2, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (obj2, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (obj1, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (obj1, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	
 	int fNum = getCombinationFunction (obj1, obj2);
@@ -2126,7 +2126,7 @@ builtIn(deleteFile)
 	trimStack (fun -> stack);
 	char * nam = encodeFilename (namNormal);
 	delete namNormal;
-	if (failSecurityCheck (nam)) return BR_NOCOMMENT;
+	if (failSecurityCheck (nam)) return BR_ERROR;
 	setVariable (fun -> reg, SVT_INT, remove (nam));
 	delete nam;
 	
@@ -2141,13 +2141,13 @@ builtIn(renameFile)
 	temp = getTextFromAnyVar (fun -> stack -> thisVar);
 	char * newnam = encodeFilename (temp);
 	trimStack (fun -> stack);
-	if (failSecurityCheck (newnam)) return BR_NOCOMMENT;
+	if (failSecurityCheck (newnam)) return BR_ERROR;
 	delete temp;
 	
 	temp = getTextFromAnyVar (fun -> stack -> thisVar);
 	char * nam = encodeFilename (temp);
 	trimStack (fun -> stack);
-	if (failSecurityCheck (nam)) return BR_NOCOMMENT;
+	if (failSecurityCheck (nam)) return BR_ERROR;
 	delete temp;
 	
 	setVariable (fun -> reg, SVT_INT, rename (nam, newnam));
@@ -2162,9 +2162,9 @@ builtIn(cacheSound)
 {
 	UNUSEDALL
 	int fileNumber;
-	if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (cacheSound (fileNumber) == -1) return BR_NOCOMMENT;
+	if (cacheSound (fileNumber) == -1) return BR_ERROR;
 	return BR_CONTINUE;
 }
 
@@ -2174,9 +2174,9 @@ builtIn(burnString)
 	char * newText = getTextFromAnyVar (fun -> stack -> thisVar);
 	trimStack (fun -> stack);
 	int y, x;
-	if (! getValueType (y, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (y, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (x, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (x, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	if (x == IN_THE_CENTRE) x = (winWidth - stringWidth (newText)) >> 1;
 	fixFont (pastePalette);
@@ -2189,9 +2189,9 @@ builtIn(setCharacterSpinSpeed)
 {
 	UNUSEDALL
 	int speed, who;
-	if (! getValueType (speed, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (speed, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (who, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (who, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	
 	onScreenPerson * thisPerson = findPerson (who);
@@ -2209,9 +2209,9 @@ builtIn(setCharacterAngleOffset)
 {
 	UNUSEDALL
 	int angle, who;
-	if (! getValueType (angle, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (angle, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (who, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (who, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	
 	onScreenPerson * thisPerson = findPerson (who);
@@ -2230,7 +2230,7 @@ builtIn(transitionMode)
 {
 	UNUSEDALL
 	int n;
-	if (! getValueType (n, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (n, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	fadeMode = n;
 	trimStack (fun -> stack);
 	setVariable (fun -> reg, SVT_INT, 1);
@@ -2252,11 +2252,11 @@ builtIn(getSoundCache)
 	UNUSEDALL
 	fun -> reg.varType = SVT_STACK;
 	fun -> reg.varData.theStack = new stackHandler;
-	if (! checkNew (fun -> reg.varData.theStack)) return BR_NOCOMMENT;
+	if (! checkNew (fun -> reg.varData.theStack)) return BR_ERROR;
 	fun -> reg.varData.theStack -> first = NULL;
 	fun -> reg.varData.theStack -> last = NULL;
 	fun -> reg.varData.theStack -> timesUsed = 1;
-	if (! getSoundCacheStack (fun -> reg.varData.theStack)) return BR_NOCOMMENT;
+	if (! getSoundCacheStack (fun -> reg.varData.theStack)) return BR_ERROR;
 	return BR_CONTINUE;
 }
 
@@ -2265,19 +2265,19 @@ builtIn(saveCustomData)
 	UNUSEDALL
 	// saveCustomData (thisStack, fileName);
 	char * fileNameB = getTextFromAnyVar (fun -> stack -> thisVar);
-	if (! checkNew (fileNameB)) return BR_NOCOMMENT;
+	if (! checkNew (fileNameB)) return BR_ERROR;
 	
 	char * fileName = encodeFilename (fileNameB);
 	delete fileNameB;
 	
-	if (failSecurityCheck (fileName)) return BR_NOCOMMENT;
+	if (failSecurityCheck (fileName)) return BR_ERROR;
 	trimStack (fun -> stack);
 	
 	if (fun -> stack -> thisVar.varType != SVT_STACK) {
 		fatal ("First parameter isn't a stack");
-		return BR_NOCOMMENT;
+		return BR_ERROR;
 	}
-	if (! stackToFile (fileName, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! stackToFile (fileName, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	delete fileName;
 	return BR_CONTINUE;
@@ -2288,22 +2288,22 @@ builtIn(loadCustomData)
 	UNUSEDALL
 	
 	char * newTextA = getTextFromAnyVar (fun -> stack -> thisVar);
-	if (! checkNew (newTextA)) return BR_NOCOMMENT;
+	if (! checkNew (newTextA)) return BR_ERROR;
 	
 	char * newText = encodeFilename (newTextA);
 	delete newTextA;
 	
-	if (failSecurityCheck (newText)) return BR_NOCOMMENT;
+	if (failSecurityCheck (newText)) return BR_ERROR;
 	trimStack (fun -> stack);
 	
 	unlinkVar (fun -> reg);
 	fun -> reg.varType = SVT_STACK;
 	fun -> reg.varData.theStack = new stackHandler;
-	if (! checkNew (fun -> reg.varData.theStack)) return BR_NOCOMMENT;
+	if (! checkNew (fun -> reg.varData.theStack)) return BR_ERROR;
 	fun -> reg.varData.theStack -> first = NULL;
 	fun -> reg.varData.theStack -> last = NULL;
 	fun -> reg.varData.theStack -> timesUsed = 1;
-	if (! fileToStack (newText, fun -> reg.varData.theStack)) return BR_NOCOMMENT;
+	if (! fileToStack (newText, fun -> reg.varData.theStack)) return BR_ERROR;
 	delete newText;
 	return BR_CONTINUE;
 }
@@ -2312,7 +2312,7 @@ builtIn(setCustomEncoding)
 {
 	UNUSEDALL
 	int n;
-	if (! getValueType (n, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (n, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	saveEncoding = n;
 	trimStack (fun -> stack);
 	setVariable (fun -> reg, SVT_INT, 1);
@@ -2323,7 +2323,7 @@ builtIn(freeSound)
 {
 	UNUSEDALL
 	int v;
-	if (! getValueType (v, SVT_FILE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (v, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	huntKillFreeSound (v);
 	return BR_CONTINUE;
@@ -2334,17 +2334,17 @@ builtIn(parallaxAdd)
 	UNUSEDALL
 	if (frozenStuff) {
 		fatal ("Can't set background parallax image while frozen");
-		return BR_NOCOMMENT;
+		return BR_ERROR;
 	} else {
 		int wrapX, wrapY, v;
-		if (! getValueType (wrapY, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+		if (! getValueType (wrapY, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 		trimStack (fun -> stack);
-		if (! getValueType (wrapX, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+		if (! getValueType (wrapX, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 		trimStack (fun -> stack);
-		if (! getValueType (v, SVT_FILE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+		if (! getValueType (v, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
 		trimStack (fun -> stack);
 		
-		if (! loadParallax (v, wrapX, wrapY)) return BR_NOCOMMENT;
+		if (! loadParallax (v, wrapX, wrapY)) return BR_ERROR;
 		setVariable (fun -> reg, SVT_INT, 1);
 	}
 	return BR_CONTINUE;
@@ -2362,19 +2362,19 @@ builtIn(getPixelColour)
 {
 	UNUSEDALL
 	int x, y;
-	if (! getValueType (y, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (y, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (x, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (x, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	
 	unlinkVar (fun -> reg);
 	fun -> reg.varType = SVT_STACK;
 	fun -> reg.varData.theStack = new stackHandler;
-	if (! checkNew (fun -> reg.varData.theStack)) return BR_NOCOMMENT;
+	if (! checkNew (fun -> reg.varData.theStack)) return BR_ERROR;
 	fun -> reg.varData.theStack -> first = NULL;
 	fun -> reg.varData.theStack -> last = NULL;
 	fun -> reg.varData.theStack -> timesUsed = 1;
-	if (! getRGBIntoStack (x, y, fun -> reg.varData.theStack)) return BR_NOCOMMENT;
+	if (! getRGBIntoStack (x, y, fun -> reg.varData.theStack)) return BR_ERROR;
 	
 	return BR_CONTINUE;
 }
@@ -2387,7 +2387,7 @@ builtIn(makeFastArray)
 		{
 			bool success = makeFastArrayFromStack (fun -> reg, fun -> stack -> thisVar.varData.theStack);
 			trimStack (fun -> stack);
-			return success ? BR_CONTINUE : BR_NOCOMMENT;
+			return success ? BR_CONTINUE : BR_ERROR;
 		}
 			break;
 			
@@ -2395,7 +2395,7 @@ builtIn(makeFastArray)
 		{
 			int i = fun -> stack -> thisVar.varData.intValue;
 			trimStack (fun -> stack);
-			return makeFastArraySize (fun -> reg, i) ? BR_CONTINUE : BR_NOCOMMENT;
+			return makeFastArraySize (fun -> reg, i) ? BR_CONTINUE : BR_ERROR;
 		}
 			break;
 			
@@ -2403,14 +2403,14 @@ builtIn(makeFastArray)
 			break;
 	}
 	fatal ("Parameter must be a number or a stack.");
-	return BR_NOCOMMENT;
+	return BR_ERROR;
 }
 
 builtIn(getCharacterScale)
 {
 	UNUSEDALL
 	int objectNumber;
-	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	
 	onScreenPerson * pers = findPerson (objectNumber);
@@ -2453,9 +2453,9 @@ builtIn(showThumbnail)
 {
 	UNUSEDALL
 	int x, y;
-	if (! getValueType (y, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (y, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (x, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (x, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	
 	// Encode the name! Encode the name!
@@ -2476,15 +2476,15 @@ builtIn(showThumbnail)
 builtIn(setThumbnailSize)
 {
 	UNUSEDALL
-	if (! getValueType (thumbHeight, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (thumbHeight, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (thumbWidth, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (thumbWidth, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	if (thumbWidth < 0 || thumbHeight < 0 || thumbWidth > winWidth || thumbHeight > winHeight) {
 		char buff[50];
 		sprintf (buff, "%d x %d", thumbWidth, thumbHeight);
 		fatal ("Invalid thumbnail size", buff);
-		return BR_NOCOMMENT;
+		return BR_ERROR;
 	}
 	return BR_CONTINUE;
 }
@@ -2493,12 +2493,12 @@ builtIn(hasFlag)
 {
 	UNUSEDALL
 	int objNum, flagIndex;
-	if (! getValueType (flagIndex, SVT_INT, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (flagIndex, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (objNum, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_NOCOMMENT;
+	if (! getValueType (objNum, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	objectType * objT = findObjectType (objNum);
-	if (! objT) return BR_NOCOMMENT;
+	if (! objT) return BR_ERROR;
 	setVariable (fun -> reg, SVT_INT, objT->flags & (1 << flagIndex));
 	return BR_CONTINUE;
 }
@@ -2506,7 +2506,7 @@ builtIn(hasFlag)
 builtIn(snapshotGrab)
 {
 	UNUSEDALL
-	return snapshot () ? BR_CONTINUE : BR_NOCOMMENT;
+	return snapshot () ? BR_CONTINUE : BR_ERROR;
 }
 
 builtIn(snapshotClear)
@@ -2543,7 +2543,7 @@ builtIn(quitWithFatalError)
 	char * mess = getTextFromAnyVar (fun -> stack -> thisVar);
 	trimStack (fun -> stack);
 	fatal (mess);
-	return BR_NOCOMMENT;
+	return BR_ERROR;
 }
 
 builtIn(_rem_setCharacterAA)
@@ -2630,18 +2630,18 @@ builtReturn callBuiltIn (int whichFunc, int numParams, loadedFunction * fun) {
 						 (paramNum[whichFunc] == 1) ? "" : "s");
 				
 				fatal (copyString (buff));
-				return BR_NOCOMMENT;
+				return BR_ERROR;
 			}
 		}
-	}
-	
-	if (builtInFunctionArray[whichFunc].func)
-	{
-		//fprintf (stderr, "Calling %i: %s\n", whichFunc, builtInFunctionNames[whichFunc]);
-		return builtInFunctionArray[whichFunc].func (numParams, fun);
-	}
+
+		if (builtInFunctionArray[whichFunc].func)
+		{
+			//fprintf (stderr, "Calling %i: %s\n", whichFunc, builtInFunctionNames[whichFunc]);
+			return builtInFunctionArray[whichFunc].func (numParams, fun);
+		}
+	}	
 	
 	fatal ("Unknown / unimplemented built-in function.");
-	return BR_NOCOMMENT;
+	return BR_ERROR;
 }
 

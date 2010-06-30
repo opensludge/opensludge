@@ -103,7 +103,7 @@ void setGameFilePath (char * f) {
 
 void tick () {
 	walkAllPeople ();
-	handleInput ();
+	handleInput ();	
 	sludgeDisplay ();
 }
 

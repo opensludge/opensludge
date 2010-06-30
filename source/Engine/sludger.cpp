@@ -56,6 +56,8 @@ extern int dialogValue, sceneWidth, sceneHeight;
 extern char * launchMe;
 extern variable * launchResult;
 
+extern bool reallyWantToQuit;
+
 int numBIFNames = 0;
 char * * allBIFNames = NULL;
 int numUserFunc = 0;
@@ -608,40 +610,40 @@ bool continueFunction (loadedFunction * fun) {
 					builtReturn br = callBuiltIn (fun -> reg.varData.intValue, param, fun);
 				    //fprintf (stderr, "Function returned. \n");    fflush (stderr);
 
-				switch (br) {
-					case BR_NOCOMMENT:
-					return false;
+					switch (br) {
+						case BR_ERROR:
+							return fatal("Unknown error. This shouldn't happen. Please notify the SLUDGE developers.");
 
-					case BR_PAUSE:
-					pauseFunction (fun);
-					// No break!
-
-					case BR_KEEP_AND_PAUSE:
-					keepLooping = false;
-					break;
-
-					case BR_ALREADY_GONE:
-					keepLooping = false;
-					advanceNow = false;
-					break;
-
-					case BR_CALLAFUNC:
-					{
-						int i = fun -> reg.varData.intValue;
-						setVariable (fun -> reg, SVT_INT, 1);
+						case BR_PAUSE:
 						pauseFunction (fun);
-						if (numBIFNames) setFatalInfo (
-							(fun -> originalNumber < numUserFunc) ? allUserFunc[fun -> originalNumber] : "Unknown user function",
-							(i < numUserFunc) ? allUserFunc[i] : "Unknown user function");
-						if (! startNewFunctionNum (i, 0, fun, noStack, false)) return false;
-						fun = allRunningFunctions;
-						advanceNow = false;		// So we don't do anything else with "fun"
-					}
-					break;
+						// No break!
 
-					default:
-					break;
-				}
+						case BR_KEEP_AND_PAUSE:
+						keepLooping = false;
+						break;
+
+						case BR_ALREADY_GONE:
+						keepLooping = false;
+						advanceNow = false;
+						break;
+
+						case BR_CALLAFUNC:
+						{
+							int i = fun -> reg.varData.intValue;
+							setVariable (fun -> reg, SVT_INT, 1);
+							pauseFunction (fun);
+							if (numBIFNames) setFatalInfo (
+								(fun -> originalNumber < numUserFunc) ? allUserFunc[fun -> originalNumber] : "Unknown user function",
+								(i < numUserFunc) ? allUserFunc[i] : "Unknown user function");
+							if (! startNewFunctionNum (i, 0, fun, noStack, false)) return false;
+							fun = allRunningFunctions;
+							advanceNow = false;		// So we don't do anything else with "fun"
+						}
+						break;
+
+						default:
+						break;
+					}
 				}
 				break;
 
@@ -989,7 +991,8 @@ bool runSludge () {
 					thisFunction -> isSpeech = false;
 					killAllSpeech ();
 				}
-				if (! continueFunction (thisFunction)) return false;
+				if (! continueFunction (thisFunction)) 
+					return false;
 			}
 		}
 
