@@ -201,6 +201,10 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 		if (uniform >= 0) glUniform1i(uniform, 1);
 		uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
 		if (uniform >= 0) glUniform1i(uniform, 0);
+		uniform = glGetUniformLocation(shader.smartScaler, "scale");
+		float scale = (float)realWinWidth/(float)winWidth*0.25;
+		if (scale > 1.0) scale = 1.0;
+		if (uniform >= 0) glUniform1f(uniform, scale);
 		
 	}
 	Vertex = shaderFileRead("fixScaleSprite.vert");

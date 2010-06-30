@@ -691,7 +691,6 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 		lty2 = (float) (y2+cameraY) / sceneHeight;
 	}
 
-
 	if (! mirror) {
 		glTexCoord2f(tx1, ty1); glMultiTexCoord2f(GL_TEXTURE1, ltx1, lty1); glVertex3f(x1, y1, z);
 		glTexCoord2f(tx2, ty1);	glMultiTexCoord2f(GL_TEXTURE1, ltx2, lty1); glVertex3f(x2, y1, z);

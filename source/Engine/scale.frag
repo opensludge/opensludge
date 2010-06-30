@@ -6,10 +6,11 @@
 uniform sampler2D Texture;
 uniform sampler2D lightTexture;
 uniform bool useLightTexture;
+uniform float scale;
 
 void main()
 {
-	vec2 fw = fwidth(gl_TexCoord[0].xy)*0.5;
+	vec2 fw = fwidth(gl_TexCoord[0].xy)*scale;
 
 	vec2 sd1 = vec2( fw.x,fw.y);
 	vec2 sd2 = vec2(-fw.x,fw.y);
@@ -28,6 +29,7 @@ void main()
 
 	vec4 temp1 = m2*(s00 + s22) + m1*(s02 + s20);
 
+//	gl_FragColor = (temp1/(m1+m2)) * 0.5;
 	gl_FragColor = c11*0.333333 + (temp1/(m1+m2)) * 0.333333;
 
 	if (gl_FragColor.a<0.001) discard;

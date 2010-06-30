@@ -422,9 +422,8 @@ void sludgeDisplay () {
 	glDepthMask (GL_FALSE);
 
 	drawBackDrop ();				// Draw the room
-
 	drawZBuffer(cameraX, cameraY, false);
-
+	
 	glEnable(GL_DEPTH_TEST);
 	drawPeople ();					// Then add any moving characters...
 	glDisable(GL_DEPTH_TEST);
