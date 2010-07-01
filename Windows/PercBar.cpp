@@ -1,7 +1,4 @@
-#ifdef _WIN32
-
 #include "PercBar.h"
-#include "wintext.h"
 #include "WINTERFA.H"
 
 #define BOXX		13
@@ -12,15 +9,18 @@
 
 unsigned int percTotal[2] = {100, 100}, lastVal[2] = {0, 0};
 
-void clearRect (int i, whichPerc whichBox) {
+void clearRect (int i, int whichBox) {
+    /*
 	percTotal[whichBox] = i ? i : 1;
 	percRect (i ? 0 : 1, whichBox);
+	*/
 }
 
-void percRect (unsigned int i, whichPerc whichBox) {
+void percRect (unsigned int i, int whichBox) {
+    /*
 	HDC hdc = GetDC (compWin);
 	char buffff[10];
-	
+
 	HPEN myPen = CreatePen (PS_SOLID, 0, RGB (0, 0, 0));
 	HBRUSH myBrush = CreateSolidBrush (RGB (255, 255, 0));
 	HPEN lastPen = (HPEN) SelectObject (hdc, myPen);
@@ -65,6 +65,6 @@ void percRect (unsigned int i, whichPerc whichBox) {
 	SelectObject (hdc, lastPen);
 	DeleteObject (myPen);
 	ReleaseDC (compWin, hdc);
+	*/
 }
 
-#endif
