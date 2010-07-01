@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "debug.h"
 #include "stringy.h"
 #include "shaders.h"
 #ifdef _WIN32
@@ -24,39 +25,39 @@ extern char *bundleFolder;
 //Function from: http://www.evl.uic.edu/aej/594/code/ogl.cpp
 //Read in a textfile (GLSL program)
 // we need to pass it as a string to the GLSL driver
-char *shaderFileRead(char *name) 
+char *shaderFileRead(char *name)
 {
 	FILE *fp;
 	char *content = NULL;
-	
+
 	//fprintf(stderr, "bundleFolder is %s\n", bundleFolder);
-	
+
 	char * fn = joinStrings (bundleFolder, name);
-	
+
 	int count=0;
-	
+
 	if (fn != NULL) {
-		
+
 		fp = fopen(fn,"rt");
-		
+
 		if (fp != NULL) {
-			
+
 			fseek(fp, 0, SEEK_END);
 			count = ftell(fp);
 			rewind(fp);
-			
+
 			if (count > 0) {
 				content = (char *)malloc(sizeof(char) * (count+1));
 				count = fread(content,sizeof(char),count,fp);
 				content[count] = '\0';
 			}
 			fclose(fp);
-			
+
 		}
 	}
-	
+
 	delete fn;
-	
+
 	return content;
 }
 
@@ -71,7 +72,7 @@ printOglError (const char *file,
 	glErr = glGetError ();
 	while (glErr != GL_NO_ERROR)
     {
-		fprintf (stderr, "glError in file %s @ line %d: %s\n", file, line, gluErrorString (glErr));
+		debugOut("glError in file %s @ line %d: %s\n", file, line, gluErrorString (glErr));
 		retCode = 1;
 		glErr = glGetError ();
     }
@@ -96,11 +97,11 @@ printShaderInfoLog (GLuint shader)
 		infoLog = new GLchar [infologLength];
 		if (infoLog == NULL)
         {
-			fprintf (stderr, "ERROR: Could not allocate InfoLog buffer");
+			debugOut("ERROR: Could not allocate InfoLog buffer");
 			return;
         }
 		glGetShaderInfoLog (shader, infologLength, &charsWritten, infoLog);
-		fprintf (stderr, "Shader InfoLog:\n%s\n\n", infoLog);
+		debugOut("Shader InfoLog:\n%s\n\n", infoLog);
 		delete infoLog;
     }
 	printOpenGLError();  // Check for OpenGL errors
@@ -123,11 +124,11 @@ printProgramInfoLog (GLuint program)
 		infoLog = new GLchar [infologLength];
 		if (infoLog == NULL)
         {
-			fprintf (stderr, "ERROR: Could not allocate InfoLog buffer");
+			debugOut( "ERROR: Could not allocate InfoLog buffer");
 			return;
         }
 		glGetProgramInfoLog (program, infologLength, &charsWritten, infoLog);
-		fprintf (stderr, "Program InfoLog:\n%s\n\n", infoLog);
+		debugOut( "Program InfoLog:\n%s\n\n", infoLog);
 		delete infoLog;
     }
 	printOpenGLError ();  // Check for OpenGL errors
@@ -147,7 +148,7 @@ int buildShaders (const GLchar *vertexShader, const GLchar *fragmentShader)
 	glShaderSource(VS, 1, &vertexShader, NULL);
 	glShaderSource(FS, 1, &fragmentShader, NULL);
 
-	fprintf (stderr, "Compiling vertex shader... ");
+	debugOut("Compiling vertex shader... \n");
 
 	// Compile vertex shader and print log
 	glCompileShader(VS);
@@ -155,20 +156,18 @@ int buildShaders (const GLchar *vertexShader, const GLchar *fragmentShader)
 	glGetShaderiv(VS, GL_COMPILE_STATUS, &vertCompiled);
 	printShaderInfoLog (VS);
 
-	fprintf (stderr, "\n");
-	fprintf (stderr, "Compiling fragment shader... ");
+	debugOut("\nCompiling fragment shader... \n");
 
 	// Compile fragment shader and print log
 	glCompileShader(FS);
 	printOpenGLError();
 	glGetShaderiv(FS, GL_COMPILE_STATUS, &fragCompiled);
 	printShaderInfoLog (FS);
-	fprintf (stderr, "\n");
 
 	if (!vertCompiled || !fragCompiled)
 		return 0;
 
-	fprintf (stderr, "Shaders compiled. \n");
+	debugOut( "\nShaders compiled. \n");
 
 
 	// Create a program object and attach the two compiled shaders
@@ -189,7 +188,7 @@ int buildShaders (const GLchar *vertexShader, const GLchar *fragmentShader)
 	if (!linked)
 		return 0;
 
-	fprintf (stderr, "Shader program linked. \n");
+	debugOut("Shader program linked. \n");
 
 	return prog;
 }

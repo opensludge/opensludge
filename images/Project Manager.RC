@@ -1,6 +1,6 @@
 #include <windows.h>
-#include "WINTERFA.H"
-#include "version.h"
+#include "..\Windows\WINTERFA.H"
+#include "..\source\CommonCode\version.h"
 
 DLG_MAIN DIALOG 11, 17, 311, 248
 STYLE WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX
@@ -15,7 +15,7 @@ FONT 8, "Arial"
   PUSHBUTTON "Project properties",		ID_DISPLAY,			199, 66, 104, 14, WS_TABSTOP
   PUSHBUTTON "Compile project",			ID_PROJECT_COMPILE, 199, 84, 104, 14, WS_TABSTOP
   PUSHBUTTON "Compile and run project",	ID_PROJECT_RUN,		199, 102, 104, 14, WS_TABSTOP
-  
+
   PUSHBUTTON "About",					ID_ABOUT,			199, 120, 50, 14, WS_TABSTOP
   PUSHBUTTON "Help!",					ID_SLUDGE_HELP,		253, 120, 50, 14, WS_TABSTOP
 
@@ -28,7 +28,7 @@ FONT 8, "Arial"
 
   PUSHBUTTON "Add file",		ID_CONTENTS_ADD_FILE,		15,	160, 78, 14, WS_TABSTOP
   PUSHBUTTON "Find in files",	ID_CONTENTS_FIND_IN_FILE,   96,	160, 78, 14, WS_TABSTOP
- 
+
  GROUPBOX "Project settings", -1,			2,	182, 307, 50, BS_GROUPBOX
 
   RTEXT "Input filename:", -1,				8,  193, 51,  8
@@ -74,7 +74,7 @@ FONT 8, "Arial"
 {
  CTEXT "Enter the width and height to be used by the Z-BUFFER MAKER and FLOOR MAKER programs",
  							-1,			5,  5,  170,  16
- 							
+
  RTEXT "Width:", 			-1,			20,  30, 25,   8
  EDITTEXT ID_EDIT_WINWIDTH,				50,  29, 35,  10, WS_BORDER | WS_TABSTOP
 
@@ -98,7 +98,7 @@ FONT 8, "Arial"
  PUSHBUTTON "Cancel", IDCANCEL,		60, 116, 50,  14,  WS_TABSTOP
 }
 
-1235	BITMAP "resources/sludgeLogo.bmp"
+1235	BITMAP "sludgeLogo.bmp"
 
 1234 DIALOG 150, 40, 300, 105
 STYLE WS_VISIBLE | WS_CAPTION | WS_SYSMENU
@@ -118,7 +118,7 @@ CAPTION "Project properties"
 FONT 8, "Arial"
 {
  GROUPBOX "Display settings", -1, 		2, 		2, 		207, 	117, 		BS_GROUPBOX
-  AUTOCHECKBOX "Full-screen if possible", ID_FULLSCREEN, 
+  AUTOCHECKBOX "Full-screen if possible", ID_FULLSCREEN,
   										8,		12,		95,		10,			WS_TABSTOP
   AUTOCHECKBOX "Dither 24-bit images", ID_DITHERIMAGES,
   										108,	12,		95,		10,			WS_TABSTOP
@@ -169,9 +169,9 @@ FONT 8, "Arial"
 {
  CTEXT "The following options will only be used if you're running a registered version of the developmet kit!",
  							   -1, 4, 2, 127, 38
- 							   
+
  GROUPBOX "Start-up settings", -1, 2, 30, 131, 48, BS_GROUPBOX
- 
+
   AUTOCHECKBOX "Run minimised", ID_STARTUP_INVISIBLE, 8, 40, 119, 10, WS_TABSTOP
   AUTOCHECKBOX "Display SLUDGE logo", ID_STARTUP_DISPLAY_SLUDGE, 8, 53, 119, 10, WS_TABSTOP
   AUTOCHECKBOX "Display LOADING caption", ID_STARTUP_DISPLAY_LOADING, 8, 66, 119, 10, WS_TABSTOP
@@ -186,7 +186,7 @@ CAPTION "Character rendering"
 FONT 8, "Arial"
 {
  GROUPBOX "Default anti-aliasing settings for characters", -1, 2, 2, 207, 48, BS_GROUPBOX
- 
+
   AUTOCHECKBOX "Anti-aliasing enabled", ID_RENDERING_AA_DEF_ENABLED, 8, 12, 95, 10, WS_TABSTOP
 
   CTEXT "Softness (horizontal):",		-1,			8,		25, 	95, 	8
@@ -196,7 +196,7 @@ FONT 8, "Arial"
   EDITTEXT ID_RENDERING_AA_DEF_SOFT_Y,				108,	35, 	95,		10, 		WS_BORDER | WS_TABSTOP
 
  GROUPBOX "Initial anti-aliasing maximum settings", -1, 2, 52, 207, 48, BS_GROUPBOX
- 
+
   AUTOCHECKBOX "Anti-aliasing enabled", ID_RENDERING_AA_MAX_ENABLED, 8, 62, 95, 10, WS_TABSTOP
   AUTOCHECKBOX "Allow .ini file override", ID_RENDERING_AA_MAX_READINI, 108, 62, 95, 10, WS_TABSTOP
 
@@ -214,7 +214,7 @@ FONT 8, "Arial"
 1 MENU
 BEGIN
     POPUP "&File"
-        begin
+        BEGIN
             MENUITEM "&New SLUDGE project", ID_PROJECT_NEW
             MENUITEM "&Open SLUDGE project", ID_PROJECT_LOAD
             MENUITEM "&Save",  ID_PROJECT_SAVE
@@ -223,8 +223,8 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "&Close",    ID_PROJECT_CLOSE
             MENUITEM "E&xit",    ID_EXIT
-        end
-    popup "&Project"
+        END
+    POPUP "&Project"
         BEGIN
             MENUITEM "&Add file", 			ID_CONTENTS_ADD_FILE
             MENUITEM "&Find in files",   	ID_CONTENTS_FIND_IN_FILE
@@ -234,7 +234,7 @@ BEGIN
             MENUITEM "&Compile",    		ID_PROJECT_COMPILE
             MENUITEM "Compile and &run",    ID_PROJECT_RUN
         END
-    popup "&SLUDGE Settings"
+    POPUP "&SLUDGE Settings"
         BEGIN
             MENUITEM "&Keep compressed images", ID_KEEP_IMAGES
             MENUITEM "&Write strings to text file", ID_KEEP_STRINGS
@@ -243,7 +243,7 @@ BEGIN
             MENUITEM "&File locations", ID_SETTINGSBOX
             MENUITEM "Window &sizes", ID_SIZEBOX
         END
-    popup "&Programs"
+    POPUP "&Programs"
         BEGIN
             MENUITEM "Launch &z-buffer maker", ID_LAUNCH_Z
             MENUITEM "Launch &sprite bank editor", ID_LAUNCH_SPRITE
@@ -269,9 +269,9 @@ BEGIN
 END
 
 
-3 ICON "resources/Icon.ico"
-4 ICON "resources/scriptIcon.ico"
-5 ICON "resources/projIcon.ico"
+3 ICON "projectManagerIcon.ico"
+4 ICON "scriptIcon.ico"
+5 ICON "projIcon.ico"
 
 1 VERSIONINFO
  FILEVERSION 0,1,0,0

@@ -1,5 +1,6 @@
 #include <SDL/SDL.h>
 
+#include "debug.h"
 #include "platform-dependent.h"
 #include "specialsettings.h"
 #include "graphics.h"
@@ -11,7 +12,7 @@
 
 #include "language.h" // for settings
 
-int winWidth, winHeight;
+unsigned int winWidth, winHeight;
 int viewportHeight, viewportWidth;
 int viewportOffsetX = 0, viewportOffsetY = 0;
 
@@ -23,7 +24,7 @@ extern int specialSettings;
 
 extern GLuint backdropTextureName;
 extern GLuint snapshotTextureName;
-extern int sceneWidth, sceneHeight;
+extern unsigned int sceneWidth, sceneHeight;
 extern zBufferData zBuffer;
 extern int lightMapNumber;
 
@@ -58,9 +59,9 @@ void setPixelCoords (bool pixels) {
 		glLoadIdentity();
 		GLdouble w = (GLdouble) winWidth / cameraZoom;
 		GLdouble h = (GLdouble) winHeight / cameraZoom;
-		
+
 		glOrtho(0, w, h, 0, 1.0, -1.0);
-		
+
 //		glOrtho(0, winWidth, winHeight, 0, 1.0, -1.0);
 
 		glMatrixMode(GL_MODELVIEW);
@@ -74,8 +75,8 @@ bool runningFullscreen = false;
 // Used for switching, and for initial window creation.
 void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 
-	GLubyte *snapTexture;
-	
+	GLubyte *snapTexture = NULL;
+
 	Uint32 videoflags = 0;
 
 	if (! desktopW) {
@@ -112,7 +113,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 				picHeight = getNextPOT(picHeight);
 			}
 			snapTexture = new GLubyte [picHeight*picWidth*4];
-			
+
 			glBindTexture (GL_TEXTURE_2D, snapshotTextureName);
 			glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, snapTexture);
 		}
@@ -180,20 +181,20 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 		SDL_Quit();
 		exit(2);
 	}
-	fprintf (stderr, "Video mode %d %d set successfully.\n", realWinWidth, realWinHeight);
+	debugOut( "Video mode %d %d set successfully.\n", realWinWidth, realWinHeight);
 
 	GLint uniform;
-	
+
 	const GLchar *Vertex = shaderFileRead("scale.vert");
 	const GLchar *Fragment = shaderFileRead("scale.frag");
-	
+
 	if (! Vertex || ! Fragment) {
-		fprintf(stderr, "Error loading shader program!\n");
+		debugOut("Error loading shader program!\n");
 		shader.smartScaler = 0;
 	} else {
-	
+
 		shader.smartScaler = buildShaders (Vertex, Fragment);
-		fprintf (stderr, "Built shader program: %d (smartScaler)\n", shader.smartScaler);
+		debugOut( "Built shader program: %d (smartScaler)\n", shader.smartScaler);
 		glUseProgram(shader.smartScaler);
 		uniform = glGetUniformLocation(shader.smartScaler, "Texture");
 		if (uniform >= 0) glUniform1i(uniform, 0);
@@ -205,18 +206,18 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 		float scale = (float)realWinWidth/(float)winWidth*0.25;
 		if (scale > 1.0) scale = 1.0;
 		if (uniform >= 0) glUniform1f(uniform, scale);
-		
+
 	}
 	Vertex = shaderFileRead("fixScaleSprite.vert");
 	Fragment = shaderFileRead("fixScaleSprite.frag");
 
 	if (! Vertex || ! Fragment) {
-		fprintf(stderr, "Error loading shader program!\n");
+		debugOut( "Error loading shader program!\n");
 		shader.paste = 0;
 	} else {
-		
+
 		shader.paste = buildShaders (Vertex, Fragment);
-		fprintf (stderr, "Built shader program: %d (fixScaleSprite)\n", shader.paste);
+		debugOut( "Built shader program: %d (fixScaleSprite)\n", shader.paste);
 		glUseProgram(shader.paste);
 		uniform = glGetUniformLocation(shader.paste, "tex0");
 		if (uniform >= 0) glUniform1i(uniform, 0);
@@ -227,7 +228,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 		uniform = glGetUniformLocation(shader.paste, "useLightTexture");
 		if (uniform >= 0) glUniform1i(uniform, 0);
 	}
-	
+
 	glUseProgram(0);
 
 
@@ -282,7 +283,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 			glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, winWidth, winHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, snapTexture);
 			delete snapTexture;
 		}
-		
+
 		reloadSpriteTextures ();
 		reloadParallaxTextures ();
 		zBuffer.texName = 0;
@@ -324,19 +325,19 @@ void setupOpenGLStuff() {
 	if (GLEE_VERSION_2_0) {
 		// Yes! Textures can be any size!
 		NPOT_textures = true;
-		fprintf (stderr, "OpenGL 2.0! All is good.\n");
+		debugOut( "OpenGL 2.0! All is good.\n");
 	} else {
 		if (GLEE_VERSION_1_5) {
-			fprintf (stderr, "OpenGL 1.5!\n");
+			debugOut("OpenGL 1.5!\n");
 		}
 		else if (GLEE_VERSION_1_4) {
-			fprintf (stderr, "OpenGL 1.4!\n");
+			debugOut("OpenGL 1.4!\n");
 		}
 		else if (GLEE_VERSION_1_3) {
-			fprintf (stderr, "OpenGL 1.3!\n");
+			debugOut( "OpenGL 1.3!\n");
 		}
 		else if (GLEE_VERSION_1_2) {
-			fprintf (stderr, "OpenGL 1.2!\n");
+			debugOut( "OpenGL 1.2!\n");
 		}
 		if (GLEE_ARB_texture_non_power_of_two) {
 			// Yes! Textures can be any size!
@@ -344,34 +345,34 @@ void setupOpenGLStuff() {
 		} else {
 			// Workaround needed for lesser graphics cards. Let's hope this works...
 			NPOT_textures = false;
-			fprintf (stderr, "Warning: Old graphics card! GLEE_ARB_texture_non_power_of_two not supported.\n");
+			debugOut( "Warning: Old graphics card! GLEE_ARB_texture_non_power_of_two not supported.\n");
 		}
 
 		if (GLEE_ARB_shading_language_100) {
-			fprintf (stderr, "ARB_shading_language_100 supported.\n");
+			debugOut("ARB_shading_language_100 supported.\n");
 		} else {
-			fprintf (stderr, "Warning: Old graphics card! ARB_shading_language_100 not supported. Try updating your drivers.\n");
+			debugOut("Warning: Old graphics card! ARB_shading_language_100 not supported. Try updating your drivers.\n");
 		}
 		if (GLEE_ARB_shader_objects) {
-			fprintf (stderr, "ARB_shader_objects supported.\n");
+			debugOut("ARB_shader_objects supported.\n");
 		} else {
-			fprintf (stderr, "Warning: Old graphics card! ARB_shader_objects not supported.\n");
+			debugOut("Warning: Old graphics card! ARB_shader_objects not supported.\n");
 		}
 		if (GLEE_ARB_vertex_shader) {
-			fprintf (stderr, "ARB_vertex_shader supported.\n");
+			debugOut("ARB_vertex_shader supported.\n");
 		} else {
-			fprintf (stderr, "Warning: Old graphics card! ARB_vertex_shader not supported.\n");
+			debugOut("Warning: Old graphics card! ARB_vertex_shader not supported.\n");
 		}
 		if (GLEE_ARB_fragment_shader) {
-			fprintf (stderr, "ARB_fragment_shader supported.\n");
+			debugOut("ARB_fragment_shader supported.\n");
 		} else {
-			fprintf (stderr, "Warning: Old graphics card! ARB_fragment_shader not supported.\n");
+			debugOut("Warning: Old graphics card! ARB_fragment_shader not supported.\n");
 		}
 	}
 
 	int n;
 	glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, (GLint *) &n);
-	fprintf (stderr, "Max texture image units: %d\n", n);
+	debugOut("Max texture image units: %d\n", n);
 
 
 }

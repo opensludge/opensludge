@@ -45,7 +45,7 @@ char * readString (FILE * fp) {
 	for (a = 0; a < len; a ++) {
 		s[a] = (char) (fgetc (fp) - 1);
 	}
-	s[len] = NULL;
+	s[len] = 0;
 	//debugOut ("MOREIO: readString: %s\n", s);
 	return s;
 }
@@ -57,7 +57,7 @@ float floatSwap( float f )
 		float f;
 		unsigned char b[4];
 	} dat1, dat2;
-	
+
 	dat1.f = f;
 	dat2.b[0] = dat1.b[3];
 	dat2.b[1] = dat1.b[2];
@@ -70,7 +70,7 @@ float floatSwap( float f )
 float getFloat (FILE * fp) {
 	float f;
 	fread (& f, sizeof (float), 1, fp);
-	
+
 #ifdef	__BIG_ENDIAN__
 	return floatSwap(f);
 #else
@@ -88,10 +88,10 @@ void putFloat (float f, FILE * fp) {
 short shortSwap( short s )
 {
 	unsigned char b1, b2;
-	
+
 	b1 = s & 255;
 	b2 = (s >> 8) & 255;
-	
+
 	return (b1 << 8) + b2;
 }
 
@@ -123,9 +123,9 @@ int32_t get4bytes (FILE * fp) {
 	f2 = fgetc (fp);
 	f3 = fgetc (fp);
 	f4 = fgetc (fp);
-	
+
 	unsigned int x = f1 + f2*256 + f3*256*256 + f4*256*256*256;
-	
+
 	return x;
 
 /*
@@ -139,14 +139,14 @@ int32_t get4bytes (FILE * fp) {
 void put4bytes (unsigned int i, FILE * fp) {
 	//	fwrite (&i, sizeof (long int), 1, fp);
 	unsigned char f1, f2, f3, f4;
-			
+
 	f4 = i / (256*256*256);
-	i = i % (256*256*256); 
+	i = i % (256*256*256);
 	f3 = i / (256*256);
-	i = i % (256*256); 
+	i = i % (256*256);
 	f2 = i / 256;
 	f1 = i % 256;
-	
+
 	fputc (f1, fp);
 	fputc (f2, fp);
 	fputc (f3, fp);
@@ -172,7 +172,7 @@ char * encodeFilename (char * nameIn) {
 
 				default:	newName[i++] = *nameIn;							break;
 			}
-			newName[i] = NULL;
+			newName[i] = 0;
 			nameIn ++;
 		}
 		return newName;
@@ -185,7 +185,7 @@ char * encodeFilename (char * nameIn) {
 			if (nameIn[a] == '\\') nameIn[a] ='/';
 #endif
 		}
-		
+
 		return copyString (nameIn);
 	}
 }
@@ -217,7 +217,7 @@ char * decodeFilename (char * nameIn) {
 			i ++;
 
 		}
-		newName[i] = NULL;
+		newName[i] = 0;
 		return newName;
 	} else {
 		return copyString (nameIn);

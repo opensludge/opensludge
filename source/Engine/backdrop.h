@@ -10,7 +10,8 @@ enum {
 	LIGHTMAPMODE_NUM
 };
 
-extern int winWidth, winHeight, sceneWidth, sceneHeight, lightMapMode;
+extern unsigned int winWidth, winHeight, sceneWidth, sceneHeight;
+extern int lightMapMode;
 
 struct parallaxLayer {
 	GLubyte * texture;

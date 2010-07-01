@@ -52,7 +52,8 @@
 
 extern personaAnimation * mouseCursorAnim;
 extern spritePalette pastePalette;
-extern int dialogValue, sceneWidth, sceneHeight;
+extern int dialogValue;
+extern unsigned int sceneWidth, sceneHeight;
 extern char * launchMe;
 extern variable * launchResult;
 
@@ -405,7 +406,9 @@ bool checkColourChange (bool reset) {
 	static GLuint oldPixel;
 	static GLuint pixel;
 
-	glReadPixels(viewportOffsetX+input.mouseX*viewportWidth/((float)winWidth/cameraZoom), viewportOffsetY+(((float)winHeight/cameraZoom) - input.mouseY)*viewportHeight/((float)winHeight/cameraZoom), 1, 1, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8, &pixel);
+	glReadPixels((GLint)(viewportOffsetX+input.mouseX*viewportWidth/((float)winWidth/cameraZoom)),
+        (GLint)(viewportOffsetY+(((float)winHeight/cameraZoom) - input.mouseY)*viewportHeight/((float)winHeight/cameraZoom)),
+        1, 1, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8, &pixel);
 
 	if (reset || oldPixel != pixel) {
 		oldPixel = pixel;
@@ -423,7 +426,7 @@ void sludgeDisplay () {
 
 	drawBackDrop ();				// Draw the room
 	drawZBuffer(cameraX, cameraY, false);
-	
+
 	glEnable(GL_DEPTH_TEST);
 	drawPeople ();					// Then add any moving characters...
 	glDisable(GL_DEPTH_TEST);
@@ -990,7 +993,7 @@ bool runSludge () {
 					thisFunction -> isSpeech = false;
 					killAllSpeech ();
 				}
-				if (! continueFunction (thisFunction)) 
+				if (! continueFunction (thisFunction))
 					return false;
 			}
 		}
@@ -1050,7 +1053,7 @@ int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, l
 
 	loadFunctionCode (newFunc);
 
-	if (newFunc -> numArgs != numParamsExpected) return fatal ("Wrong number of parameters!");
+	if (newFunc -> numArgs != (int)numParamsExpected) return fatal ("Wrong number of parameters!");
 	if (newFunc -> numArgs > newFunc -> numLocals) return fatal ("More arguments than local variable space!");
 
 	// Now, lets copy the parameters from the calling function's stack...
@@ -1078,7 +1081,7 @@ int startNewFunctionNum (unsigned int funcNum, unsigned int numParamsExpected, l
 
 int lastFramesPerSecond = -1;
 int thisFramesPerSecond = -1;
-int lastSeconds = 0;
+Uint32 lastSeconds = 0;
 
 bool handleInput () {
 	static int l = 0;

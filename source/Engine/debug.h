@@ -4,5 +4,5 @@
 #if DEBUGGING
 	void debugOut(char * a, ...);
 #else
-	#define debugOut(a)
+	#define debugOut(...)
 #endif

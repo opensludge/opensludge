@@ -44,6 +44,9 @@
 			<Add library="kernel32" />
 		</Linker>
 		<Unit filename="..\WINCOMP.CPP" />
+		<Unit filename="..\..\images\Project Manager.RC">
+			<Option compilerVar="WINDRES" />
+		</Unit>
 		<Unit filename="..\..\source\CommonCode\functionlist.h" />
 		<Unit filename="..\..\source\CommonCode\specialsettings.h" />
 		<Unit filename="..\..\source\CommonCode\tga.cpp" />
@@ -61,7 +64,9 @@
 		<Unit filename="..\..\source\ProjectManager\savedata.h" />
 		<Unit filename="..\..\source\ProjectManager\settings.cpp" />
 		<Unit filename="..\..\source\ProjectManager\settings.h" />
+		<Unit filename="..\..\source\SpriteBankEditor\SPLITTER.CPP" />
 		<Unit filename="..\..\source\Translator\SPLITTER.HPP" />
+		<Unit filename="..\..\source\Translator\WIN MESSBOX.CPP" />
 		<Extensions>
 			<code_completion />
 			<debugger />

@@ -342,7 +342,7 @@ void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette
 	float btx2;
 	float bty1;
 	float bty2;
-	
+
 	int diffX = single.width;
 	int diffY = single.height;
 
@@ -359,8 +359,8 @@ void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette
 		btx2 = (float) (x1+single.width) / sceneWidth;
 		bty1 = (float) y1 / sceneHeight;
 		bty2 = (float) (y1+single.height) / sceneHeight;
-	}	
-	
+	}
+
 	if (x1 < 0) diffX += x1;
 	if (y1 < 0) diffY += y1;
 	if (x1 + diffX > sceneWidth) diffX = sceneWidth - x1;
@@ -378,7 +378,7 @@ void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette
 		while (yoffset < diffY) {
 			int h = (diffY-yoffset < viewportHeight) ? diffY-yoffset : viewportHeight;
 
-			// Render the sprite to the backdrop 
+			// Render the sprite to the backdrop
 			// (using mulitexturing, so the backdrop is seen where alpha < 1.0)
 			glActiveTexture(GL_TEXTURE2);
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
@@ -387,7 +387,7 @@ void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette
 			glUseProgram(shader.paste);
 			GLint uniform = glGetUniformLocation(shader.paste, "useLightTexture");
 			if (uniform >= 0) glUniform1i(uniform, 0); // No lighting
-			
+
 			glColor4ub (fontPal.originalRed, fontPal.originalGreen, fontPal.originalBlue, 255);
 			glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
 			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
@@ -402,9 +402,9 @@ void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette
 			// Copy Our ViewPort To The Texture
 			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
 			glUseProgram(0);
-			
+
 			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, (int) ((x1<0) ? xoffset: x1+xoffset), (int) ((y1<0) ? yoffset: y1+yoffset), (int) ((x1<0) ?viewportOffsetX-x1:viewportOffsetX), (int) ((y1<0) ?viewportOffsetY-y1:viewportOffsetY), w, h);
-			
+
 			yoffset += viewportHeight;
 		}
 		xoffset += viewportWidth;
@@ -504,7 +504,7 @@ void fontSprite (int x, int y, sprite & single, const spritePalette & fontPal) {
 		GLuint uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
 		if (uniform >= 0) glUniform1i(uniform, 0);
 	}
-	
+
 	glEnable(GL_BLEND);
 
 	glBegin(GL_QUADS);
@@ -530,21 +530,21 @@ void flipFontSprite (int x, int y, sprite & single, const spritePalette & fontPa
 	float y1 = (float)y - (float)single.yhot/cameraZoom;
 	float x2 = x1 + (float)single.width/cameraZoom;
 	float y2 = y1 + (float)single.height/cameraZoom;
-	
+
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // GL_MODULATE instead of decal mixes the colours!
 	glColor3ub (fontPal.originalRed, fontPal.originalGreen, fontPal.originalBlue);
 	glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
-	
+
 	if (gameSettings.antiAlias) {
 		glUseProgram(shader.smartScaler);
 		GLuint uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
 		if (uniform >= 0) glUniform1i(uniform, 0);
 	}
-	
+
 	glEnable(GL_BLEND);
-	
+
 	glBegin(GL_QUADS);
-	
+
 	glTexCoord2f(tx1, ty1);	glVertex3f(x2, y1, 0.0);
 	glTexCoord2f(tx2, ty1);	glVertex3f(x1, y1, 0.0);
 	glTexCoord2f(tx2, ty2);	glVertex3f(x1, y2, 0.0);
@@ -553,7 +553,7 @@ void flipFontSprite (int x, int y, sprite & single, const spritePalette & fontPa
 	glEnd();
 	glDisable(GL_BLEND);
 	glUseProgram(0);
-	
+
 }
 
 
@@ -578,40 +578,40 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 
 	float x = thisPerson->x;
 	float y = thisPerson->y;
-	
+
 	float scale = thisPerson-> scale;
 	bool light = ! (thisPerson->extra & EXTRA_NOLITE);
-	
+
 	if (scale <= 0.05) return false;
 
 	float tx1 = (float)(single.tex_x) / fontPal.tex_w[single.texNum];
 	float ty1 = (float) 1.0/fontPal.tex_h[single.texNum];
 	float tx2 = (float)(single.tex_x + single.width) / fontPal.tex_w[single.texNum];
-	float ty2 = (float)(single.height+1)/fontPal.tex_h[single.texNum];	
-	
-	int diffX = ((float)single.width) * scale;
-	int diffY = ((float)single.height) * scale;
+	float ty2 = (float)(single.height+1)/fontPal.tex_h[single.texNum];
+
+	int diffX = (int)(((float)single.width) * scale);
+	int diffY = (int)(((float)single.height) * scale);
 
 	int x1, y1, x2, y2;
-	
+
 	if (thisPerson -> extra & EXTRA_FIXTOSCREEN) {
 		x = x / cameraZoom;
 		y = y / cameraZoom;
 		if (single.xhot < 0)
-			x1 = x - (mirror ? (float) (single.width - single.xhot) : (float)(single.xhot+1) ) * scale/cameraZoom;
+			x1 = x - (int)((mirror ? (float) (single.width - single.xhot) : (float)(single.xhot+1) ) * scale/cameraZoom);
 		else
-			x1 = x - (mirror ? (float) (single.width - (single.xhot+1)) : (float)single.xhot ) * scale / cameraZoom;
-		y1 = y - (single.yhot - thisPerson->floaty) * scale / cameraZoom;
-		x2 = x1 + diffX / cameraZoom;
-		y2 = y1 + diffY / cameraZoom;
+			x1 = x - (int)((mirror ? (float) (single.width - (single.xhot+1)) : (float)single.xhot ) * scale / cameraZoom);
+		y1 = y - (int)((single.yhot - thisPerson->floaty) * scale / cameraZoom);
+		x2 = x1 + (int)(diffX / cameraZoom);
+		y2 = y1 + (int)(diffY / cameraZoom);
 	} else {
 		x -= cameraX;
 		y -= cameraY;
 		if (single.xhot < 0)
-			x1 = x - (mirror ? (float) (single.width - single.xhot) : (float)(single.xhot+1) ) * scale;
+			x1 = x - (int)((mirror ? (float) (single.width - single.xhot) : (float)(single.xhot+1) ) * scale);
 		else
-			x1 = x - (mirror ? (float) (single.width - (single.xhot+1)) : (float)single.xhot ) * scale;
-		y1 = y - (single.yhot - thisPerson->floaty) * scale;
+			x1 = x - (int)((mirror ? (float) (single.width - (single.xhot+1)) : (float)single.xhot ) * scale);
+		y1 = y - (int)((single.yhot - thisPerson->floaty) * scale);
 		x2 = x1 + diffX;
 		y2 = y1 + diffY;
 	}
@@ -633,14 +633,14 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 
 	if (light && lightMap.data) {
 		if (lightMapMode == LIGHTMAPMODE_HOTSPOT) {
-			int lx=x+cameraX;
-			int ly=y+cameraY;
-			
+			int lx=(int)(x+cameraX);
+			int ly=(int)(y+cameraY);
+
 			if (lx<0) lx = 0;
 			else if (lx>=sceneWidth) lx = sceneWidth-1;
 			if (ly<0) ly = 0;
 			else if (ly>=sceneHeight) ly = sceneHeight-1;
-			
+
 			GLubyte *target;
 			if (! NPOT_textures) {
 				target = lightMap.data + (ly*getNextPOT(sceneWidth) + lx)*4;
@@ -675,7 +675,7 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 		GLuint uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
 		if (uniform >= 0) glUniform1i(uniform, light && lightMapMode == LIGHTMAPMODE_PIXEL && lightMap.data);
 	}
-	
+
 	glBegin(GL_QUADS);
 
 	float ltx1, ltx2, lty1, lty2;
@@ -725,11 +725,11 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 
 // Paste a scaled sprite onto the backdrop
 void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, onScreenPerson * thisPerson, int camX, int camY, bool mirror) {
-	
+
 	float scale = thisPerson-> scale;
 	bool useZB = ! (thisPerson->extra & EXTRA_NOZB);
 	bool light = ! (thisPerson->extra & EXTRA_NOLITE);
-	
+
 	if (scale <= 0.05) return;
 
 	float tx1 = (float)(single.tex_x) / fontPal.tex_w[single.texNum];
@@ -737,14 +737,14 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 	float tx2 = (float)(single.tex_x + single.width) / fontPal.tex_w[single.texNum];
 	float ty2 = (float)(single.height+1)/fontPal.tex_h[single.texNum];
 
-	int diffX = ((float)single.width) * scale;
-	int diffY = ((float)single.height) * scale;
+	int diffX = (int)(((float)single.width) * scale);
+	int diffY = (int)(((float)single.height) * scale);
 	int x1;
 	if (single.xhot < 0)
-		x1 = x - (mirror ? (float) (single.width - single.xhot) : (float)(single.xhot+1) ) * scale;
+		x1 = x - (int)((mirror ? (float) (single.width - single.xhot) : (float)(single.xhot+1) ) * scale);
 	else
-		x1 = x - (mirror ? (float) (single.width - (single.xhot+1)) : (float)single.xhot ) * scale;
-	int y1 = y - (single.yhot - thisPerson->floaty) * scale;
+		x1 = x - (int)((mirror ? (float) (single.width - (single.xhot+1)) : (float)single.xhot ) * scale);
+	int y1 = y - (int)((single.yhot - thisPerson->floaty) * scale);
 
 	float spriteWidth = diffX;
 	float spriteHeight = diffY;
@@ -814,7 +814,7 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 		bty1 = lty1 = (float) y1 / sceneHeight;
 		bty2 = lty2 = (float) (y1+spriteHeight) / sceneHeight;
 	}
-	
+
 	setPixelCoords (true);
 	int xoffset = 0;
 	while (xoffset < diffX) {

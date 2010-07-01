@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "allfiles.h"
+#include "debug.h"
 #include "variable.h"
 #include "newfatal.h"
 #include "moreio.h"
@@ -99,7 +100,7 @@ bool fileToStack (char * filename, stackHandler * sH) {
 	if (! fp) {
 		char currentDir[1000];
 		if (! getcwd (currentDir, 998)) {
-			fprintf(stderr, "Can't get current directory.\n");
+			debugOut("Can't get current directory.\n");
 		}
 
 		chdir (gamePath);

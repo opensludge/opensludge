@@ -129,7 +129,7 @@ bool playMOD (int f, int a, int fromTrack) {
 			setMusicVolume (a, defVol);
 
 			if (! BASS_ChannelPlay (mod[a], true) )
-				fprintf(stderr, "playMOD: Error %d!\n", BASS_ErrorGetCode());
+				debugOut("playMOD: Error %d!\n", BASS_ErrorGetCode());
 
 			BASS_ChannelSetPosition (mod[a], MAKELONG(fromTrack, 0), BASS_POS_MUSIC_ORDER);
 			BASS_ChannelFlags(mod[a], BASS_SAMPLE_LOOP|BASS_MUSIC_RAMP, BASS_SAMPLE_LOOP|BASS_MUSIC_RAMP);
@@ -145,7 +145,7 @@ void setMusicVolume (int a, int v) {
 	{
 		ret = BASS_ChannelSetAttribute (mod[a], BASS_ATTRIB_VOL, (float) v / 256);
 		if (! ret) {
-			fprintf (stderr, "setMusicVolume: Error %d\n", BASS_ErrorGetCode());
+			debugOut("setMusicVolume: Error %d\n", BASS_ErrorGetCode());
 		}
 	}
 }

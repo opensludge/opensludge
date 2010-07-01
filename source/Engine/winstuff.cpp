@@ -3,6 +3,7 @@
 #include <shellapi.h>
 
 #include "allfiles.h"
+#include "debug.h"
 
 #include "winstuff.h"
 #include "platform-dependent.h"
@@ -123,7 +124,7 @@ int showSetupWindow() {
 
  	hInst = GetModuleHandle(NULL);
 
-    if (! hInst) fprintf (stderr, "ERROR: No hInst!\n");
+    if (! hInst) debugOut("ERROR: No hInst!\n");
 
     if (DialogBox (hInst, "SETUPWINDOW", NULL, setupDlgProc)) return true;
     return false;

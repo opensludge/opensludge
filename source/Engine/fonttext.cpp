@@ -47,11 +47,11 @@ void pasteString (char * theText, int xOff, int y, spritePalette & thePal) {
 
 	if (! fontLoaded) return;
 
-	xOff += (float)(fontSpace >> 1) / cameraZoom;
+	xOff += (int)((float)(fontSpace >> 1) / cameraZoom);
 	for (a = 0; theText[a]; a ++) {
 		mySprite = & theFont.sprites[fontTable[(unsigned char) theText[a]]];
 		fontSprite (xOff, y, * mySprite, thePal);
-		xOff += (double)(mySprite -> width + fontSpace) / cameraZoom;
+		xOff += (int)((double)(mySprite -> width + fontSpace) / cameraZoom);
 	}
 }
 

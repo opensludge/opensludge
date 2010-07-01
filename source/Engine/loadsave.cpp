@@ -40,7 +40,7 @@ extern spriteBank theFont;							// "	"	"
 extern FILETIME fileTime;							// In sludger.cpp
 extern int speechMode;								// "	"	"
 extern int lightMapNumber;							// In backdrop.cpp
-extern int sceneWidth, sceneHeight;					// "	"	"
+extern unsigned int sceneWidth, sceneHeight;		// "	"	"
 extern int cameraX, cameraY;						// "	"	"
 extern float cameraZoom;
 extern unsigned char brightnessLevel;				// "	"	"
@@ -52,7 +52,7 @@ extern unsigned short saveEncoding;					// in savedata.cpp
 extern unsigned char currentBurnR, currentBurnG, currentBurnB;
 extern unsigned int currentBlankColour;				// in backdrop.cpp
 extern parallaxLayer * parallaxStuff;				//		"
-extern int lightMapMode;							//		"
+extern int lightMapMode;					//		"
 extern int languageNum;
 
 
@@ -395,7 +395,7 @@ bool saveGame (char * fname) {
 	put2bytes (cameraX, fp);
 	put2bytes (cameraY, fp);
 	putFloat(cameraZoom, fp);
-	
+
 	fputc (brightnessLevel, fp);
 	saveHSI (fp);
 
@@ -593,7 +593,7 @@ bool loadGame (char * fname) {
 			getFloat (fp);
 			getFloat (fp);
 		}
-		
+
 		blur_loadSettings(fp);
 	}
 

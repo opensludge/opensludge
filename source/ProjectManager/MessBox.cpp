@@ -43,21 +43,21 @@ void clearComments () {
 
 
 void addComment (int errorType, const char * comment, const char * filename/*, int lineNumber*/) {
-	
+	/*
 	errorLinkToFile * newLink = new errorLinkToFile;
 	if (! newLink) return;
-	
+
 	if (filename && filename[0] == '\0')
-		filename = NULL;	
-	
+		filename = NULL;
+
 	char * s = copyString(comment);
 	char * s2, *s3;
-	
+
 	// Extract real strings...
 	while (s2 = strstr(s, "_string")) {
 		unsigned long i = 0;
 		int ac = 0;
-		
+
 		s3 = s2 + 7;
 		int looping = true;
 		while (s3[ac] && looping) {
@@ -69,7 +69,7 @@ void addComment (int errorType, const char * comment, const char * filename/*, i
 			} else {
 				looping = false;
 			}
-			if (looping) ac ++;			
+			if (looping) ac ++;
 		}
 		s3+=ac;
 		s2[1] = 0;
@@ -83,7 +83,7 @@ void addComment (int errorType, const char * comment, const char * filename/*, i
 	while (s2 = strstr(s, "_file")) {
 		unsigned long i = 0;
 		int ac = 0;
-		
+
 		s3 = s2 + 7;
 		int looping = true;
 		while (s3[ac] && looping) {
@@ -95,7 +95,7 @@ void addComment (int errorType, const char * comment, const char * filename/*, i
 			} else {
 				looping = false;
 			}
-			if (looping) ac ++;			
+			if (looping) ac ++;
 		}
 		s3+=ac;
 		s2[1] = 0;
@@ -104,22 +104,22 @@ void addComment (int errorType, const char * comment, const char * filename/*, i
 		s = joinStrings(s, returnElement (allFileHandles, i), "'", s3);
 		delete s2;
 	}
-	
+
 	newLink->errorType = errorType;
 	newLink->overview = copyString (s);
 	newLink->filename = filename ? copyString (filename) : NULL;
 	newLink->lineNumber = 0;
 	newLink->next = errorList;
 	errorList = newLink;
-	
+
 	char * after = filename ? joinStrings (" (in ", filename, ")") : copyString ("");
 	newLink->fullText = joinStrings (errorTypeStrings[errorType], s, after);
-	
+
 	compilerCommentsUpdated();
-	
+
 //	fprintf (stderr, "addComment: %s\n", newLink->fullText);
 	delete after;
-	
+	*/
 	numErrors ++;
 }
 

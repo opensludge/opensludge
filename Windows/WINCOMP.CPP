@@ -19,9 +19,6 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 
 bool keepImages, keepStrings, verboseMode;
 
-extern chrRenderingSettingsStruct chrRenderingSettings;
-
-
 
 #include "dialogueBoxInOut.h"
 
@@ -40,7 +37,7 @@ char * searchString = NULL;
 #define MESSP(id,m,w,l) SendDlgItemMessage(hDlg,id,m,(WPARAM)w,(LPARAM)l)
 
 void setChanged (bool newVal);
-
+/*
 static bool advancedLoadSaveSetup (HWND hDlg, dlgOperation operation)
 {
 	return (dialogueBoxTransferValue_Checkbox (hDlg, ID_STARTUP_INVISIBLE, 			& settings.startupInvisible,   operation) &&
@@ -52,23 +49,7 @@ LRESULT CALLBACK projectAdvancedFunc(HWND hDlg, UINT message, WPARAM wParam, LPA
 {
 	dialogueBoxHandler (hDlg, message, wParam, lParam, advancedLoadSaveSetup);
 }
-
-static bool renderingLoadSaveSetup (HWND hDlg, dlgOperation operation)
-{
-	return (dialogueBoxTransferValue_Checkbox (hDlg, ID_RENDERING_AA_DEF_ENABLED, & chrRenderingSettings.defEnabled,   operation) &&
-			dialogueBoxTransferValue_Checkbox (hDlg, ID_RENDERING_AA_MAX_ENABLED, & chrRenderingSettings.maxEnabled,   operation) &&
-			dialogueBoxTransferValue_Checkbox (hDlg, ID_RENDERING_AA_MAX_READINI, & chrRenderingSettings.maxReadIni,   operation) &&
-			dialogueBoxTransferValue_Int	  (hDlg, ID_RENDERING_AA_DEF_SOFT_X,  & chrRenderingSettings.defSoftnessX, operation, "Default softness (horizontal)") &&
-			dialogueBoxTransferValue_Int	  (hDlg, ID_RENDERING_AA_DEF_SOFT_Y,  & chrRenderingSettings.defSoftnessY, operation, "Default softness (vertical)") &&
-			dialogueBoxTransferValue_Int	  (hDlg, ID_RENDERING_AA_MAX_SOFT_X,  & chrRenderingSettings.maxSoftnessX, operation, "Maximum softness (horizontal)") &&
-			dialogueBoxTransferValue_Int	  (hDlg, ID_RENDERING_AA_MAX_SOFT_Y,  & chrRenderingSettings.maxSoftnessY, operation, "Maximum softness (vertical)"));
-}
-
-LRESULT CALLBACK projectRenderingFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	dialogueBoxHandler (hDlg, message, wParam, lParam, renderingLoadSaveSetup);
-}
-
+*/
 LRESULT CALLBACK prefsBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) {
 	static OPENFILENAME ofn;
 	static char path[MAX_PATH];
@@ -174,7 +155,7 @@ LRESULT CALLBACK prefsBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 					settings.ditherImages = isChecked (hDlg, ID_DITHERIMAGES);
 					settings.winMouseImage = MESSP (ID_MOUSE_IMAGE, CB_GETCURSEL, 0, 0);
 //					hideWinMouse = isChecked (hDlg, ID_HIDEMOUSE);
-					setChanged (true);
+//					setChanged (true);
 				}
 
 				case IDCANCEL:
@@ -182,12 +163,9 @@ LRESULT CALLBACK prefsBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 				return (true);
 
 				case ID_MOREOPTIONS:
-				DialogBox(inst, MAKEINTRESOURCE(DLG_PROJECT_ADVANCED), hDlg, (DLGPROC)projectAdvancedFunc);
+				//DialogBox(inst, MAKEINTRESOURCE(DLG_PROJECT_ADVANCED), hDlg, (DLGPROC)projectAdvancedFunc);
 				break;
 
-				case ID_RENDERING:
-				DialogBox(inst, MAKEINTRESOURCE(DLG_PROJECT_RENDERING), hDlg, (DLGPROC)projectRenderingFunc);
-				break;
 			}
 			break;
 	}
@@ -333,7 +311,7 @@ LRESULT CALLBACK resourcesBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 				if (SendDlgItemMessage (hDlg, ID_FILELIST, LB_GETSEL, (WPARAM) i, (LPARAM) 0)) {
 					char * me = new char[SendDlgItemMessage (hDlg, ID_FILELIST, LB_GETTEXTLEN, (WPARAM) i, (LPARAM) 0) + 1];
 					SendDlgItemMessage (hDlg, ID_FILELIST, LB_GETTEXT, (WPARAM) i, (LPARAM) me);
-					editFile (me, hDlg);
+//					editFile (me, hDlg);
 					delete me;
 				}
 			}
@@ -420,7 +398,7 @@ LRESULT CALLBACK aboutBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 		case WM_COMMAND:
 			switch (LOWORD(wParam)) {
 				case IDOK:
-				gotoSite (hDlg, "http://www.hungrysoftware.com/");
+//				gotoSite (hDlg, "http://www.hungrysoftware.com/");
 				break;
 
 				case IDCANCEL:
@@ -566,11 +544,11 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 		switch (LOWORD(w)) {
 			case ID_EDIT_NAME:
 			case ID_EDIT_OUTPUTFILE:
-			if (HIWORD(w) == 1024) setChanged (true);
+//			if (HIWORD(w) == 1024) setChanged (true);
 			break;
 
 			case ID_SETTINGSBOX:
-			DialogBox(inst, MAKEINTRESOURCE(DLG_FILE_LOCATIONS), h, (DLGPROC)settingsBoxFunc);
+			//DialogBox(inst, MAKEINTRESOURCE(DLG_FILE_LOCATIONS), h, (DLGPROC)settingsBoxFunc);
 			break;
 
 			case ID_SIZEBOX:
@@ -592,6 +570,7 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 				ofn.lpstrFile=file;
 				ofn.lpstrTitle = "Add a file to the current project...";
 				ofn.Flags=OFN_HIDEREADONLY|OFN_EXPLORER;
+				/*
 				if (GetOpenFileName(&ofn)) {
 					memcpy(path,file,ofn.nFileOffset);
 					path[ofn.nFileOffset-1]=0;
@@ -627,23 +606,23 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 					}
 
 					if (ok) {
-						addFileToProject (file);
+						//addFileToProject (file);
 						setChanged (true);
 					}
-				}
+				}*/
 			}
 			break;
 
 			case ID_PROJECT_SAVE:
-			saveProject (loadedFile);
+			//saveProject (loadedFile);
 			break;
 
 			case ID_PROJECT_REVERT:
-			loadProject (loadedFile);
+			//loadProject (loadedFile);
 			break;
 
 			case ID_PROJECT_CLOSE:		// My menu thingy
-			closeProject ();
+			//closeProject ();
 			break;
 
 			case IDCANCEL:				// X button
@@ -652,7 +631,7 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 			break;
 
 			case ID_UPGRADES:
-			checkForUpgrades (h);
+			//checkForUpgrades (h);
 			break;
 
 			case ID_LAUNCH_FLOOR:
@@ -660,9 +639,9 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 			case ID_LAUNCH_ENGINE:
 			case ID_LAUNCH_TRANS:
 			case ID_LAUNCH_SPRITE:
-			launchOtherKitProgram (LOWORD(w), h);
+			//launchOtherKitProgram (LOWORD(w), h);
 			break;
-
+/*
 			case ID_PROJECT_SAVEAS:
 			{
 				char file[MAX_PATH]="";
@@ -682,7 +661,7 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 				}
 			}
 			break;
-
+*/
 			case ID_PROJECT_NEW:
 			{
 				char file[MAX_PATH]="New.slp";
@@ -691,14 +670,16 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 				ofn.lpstrTitle = "Create a new SLUDGE project...";
 				ofn.lpstrFile=file;
 				ofn.Flags=OFN_HIDEREADONLY|OFN_EXPLORER;
+				/*
 				if (GetSaveFileName(&ofn)) {
 					memcpy(path,file,ofn.nFileOffset);
 					path[ofn.nFileOffset-1]=0;
 					fixExtension (file, "slp");
 					if (checkOverwrite (file)) {
-						newProject (file);
+						//newProject (file);
 					}
 				}
+				*/
 			}
 			break;
 
@@ -716,7 +697,7 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 
 			case ID_SLUDGE_HELP:
 //			WinHelp (mainWin, helpFile, HELP_FINDER, 0);
-			editFile (helpFile, mainWin);
+			//editFile (helpFile, mainWin);
 			break;
 
 /*			case ID_CONTENTS_NEW_PROJECT:
@@ -731,7 +712,7 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 				for (i = 0; i < n; i ++) {
 					if (MESS (ID_FILELIST, LB_GETSEL, i, 0)) {
 						MESS (ID_FILELIST, LB_DELETESTRING, i, 0);
-						setChanged (true);
+						//setChanged (true);
 						i --;
 						n --;
 					}
@@ -746,14 +727,14 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 				for (i = 0; i < n; i ++) {
 					if (MESS (ID_FILELIST, LB_GETSEL, i, 0)) {
 						char * fn = getFileFromBox (i);
-						editFile (fn, h);
+//						editFile (fn, h);
 //						runProg (editor, "", fn);
 						delete fn;
 					}
 				}
 			}
 			break;
-
+/*
 			case ID_KEEP_IMAGES:
 			if (putRegSetting ("compilerKillImages", keepImages)) {
 				keepImages = ! keepImages;
@@ -774,7 +755,8 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 				setTick (ID_VERBOSE, verboseMode);
 			}
 			break;
-
+*/
+/*
 			case ID_PROJECT_LOAD:
 			{
 				char file[MAX_PATH]="";
@@ -789,6 +771,7 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 				}
 			}
 			break;
+			*/
 		}
 		break;
 
@@ -797,7 +780,7 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 		// Set up the menu
 		myMenu = LoadMenu (inst, MAKEINTRESOURCE(1));
 		SetMenu (h, myMenu);
-		verifyOtherKitPrograms ();
+//		verifyOtherKitPrograms ();
 
 		mainWin=h;
 		SetClassLong(h, GCL_HICON, (LONG) LoadIcon(inst, MAKEINTRESOURCE(3)));
@@ -821,9 +804,9 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 
 		if (loader[0]) {
 //			messageBox ("Trying to load...", loader);
-			loadProject (loader);
+//			loadProject (loader);
 		} else {
-			updateTitle ();
+//			updateTitle ();
 		}
 		return 1;
 
@@ -832,7 +815,7 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 		return false;
 
 		case WM_DESTROY:
-		WinHelp (mainWin, helpFile, HELP_QUIT, 0);
+		//WinHelp (mainWin, helpFile, HELP_QUIT, 0);
 		PostQuitMessage(0);
 		return 1;
 	}
@@ -890,7 +873,7 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine,
 			WaitMessage();
 	}
 
-	cleanUpFiles ();
+//	cleanUpFiles ();
 	return 0;
 }
 

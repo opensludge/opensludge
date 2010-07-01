@@ -53,7 +53,7 @@ parallaxLayer * parallaxStuff = NULL;
 
 int cameraPX = 0, cameraPY = 0;
 
-int sceneWidth, sceneHeight;
+unsigned int sceneWidth, sceneHeight;
 int lightMapNumber;
 unsigned int currentBlankColour = makeColour (0, 0, 0);
 
@@ -73,17 +73,17 @@ void saveSnapshot(FILE * fp) {
 		fputc (0, fp);
 	}
 }
-	
+
 bool snapshot () {
-	
+
 	nosnapshot ();
 	if (! freeze ()) return false;
-	
+
 	glEnable (GL_TEXTURE_2D);
 	setPixelCoords (true);
-	
+
 	glGenTextures (1, &snapshotTextureName);
-	int w = winWidth; 
+	int w = winWidth;
 	int h = winHeight;
 	if (! NPOT_textures) {
 		w = getNextPOT(winWidth);
@@ -91,7 +91,7 @@ bool snapshot () {
 		snapTexW = ((double)winWidth) / w;
 		snapTexH = ((double)winHeight) / h;
 	}
-	
+
 	glBindTexture(GL_TEXTURE_2D, snapshotTextureName);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -103,35 +103,35 @@ bool snapshot () {
 	glDepthMask (GL_TRUE);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear The Screen
 	glDepthMask (GL_FALSE);
-	
+
 	drawBackDrop ();				// Draw the room
 	drawZBuffer(cameraX, cameraY, false);
-	
+
 	glEnable(GL_DEPTH_TEST);
 	drawPeople ();					// Then add any moving characters...
 	glDisable(GL_DEPTH_TEST);
 	viewSpeech ();					// ...and anything being said
 	drawStatusBar ();
-	
-	
+
+
 	// Copy Our ViewPort To The Texture
-	glBindTexture(GL_TEXTURE_2D, snapshotTextureName);	
+	glBindTexture(GL_TEXTURE_2D, snapshotTextureName);
 	glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, viewportOffsetX, viewportOffsetY, winWidth, winHeight);
 
 	setPixelCoords (false);
-	
+
 	unfreeze (false);
 	return true;
 }
 
 bool restoreSnapshot (FILE * fp) {
-	int picWidth = get2bytes (fp);
-	int picHeight = get2bytes (fp);
-	
+	unsigned int picWidth = get2bytes (fp);
+	unsigned int picHeight = get2bytes (fp);
+
 	if ((picWidth != winWidth) || (picHeight != winHeight))
 		return false;
 
-	int t1, t2, n;
+	unsigned int t1, t2, n;
 	unsigned short c;
 
 	GLubyte * target;
@@ -171,7 +171,7 @@ bool restoreSnapshot (FILE * fp) {
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, snapshotTexture);
-	
+
 	delete snapshotTexture;
 	snapshotTexture = NULL;
 
@@ -212,11 +212,11 @@ void killParallax () {
 bool reserveBackdrop () {
 	cameraX = 0;
 	cameraY = 0;
-	input.mouseX = input.mouseX * cameraZoom;
-	input.mouseY = input.mouseY * cameraZoom;	
+	input.mouseX = (int)((float)input.mouseX * cameraZoom);
+	input.mouseY = (int)((float)input.mouseY * cameraZoom);
 	cameraZoom = 1.0;
-	input.mouseX = input.mouseX / cameraZoom;
-	input.mouseY = input.mouseY / cameraZoom;
+	input.mouseX = (int)((float)input.mouseX / cameraZoom);
+	input.mouseY = (int)((float)input.mouseY / cameraZoom);
 	setPixelCoords(false);
 	int picWidth = sceneWidth;
 	int picHeight = sceneHeight;
@@ -291,8 +291,8 @@ void blankScreen (int x1, int y1, int x2, int y2) {
 
 	if (y1 < 0) y1 = 0;
 	if (x1 < 0) x1 = 0;
-	if (x2 > sceneWidth) x2 = sceneWidth;
-	if (y2 > sceneHeight) y2 = sceneHeight;
+	if (x2 > (int) sceneWidth) x2 = (int)sceneWidth;
+	if (y2 > (int) sceneHeight) y2 = (int)sceneHeight;
 
 	int picWidth = x2-x1;
 	int picHeight = y2-y1;
@@ -340,11 +340,11 @@ void hardScroll (int distance) {
 
 	setPixelCoords (true);
 
-	int xoffset = 0;
+	unsigned int xoffset = 0;
 	while (xoffset < sceneWidth) {
 		int w = (sceneWidth-xoffset < viewportWidth) ? sceneWidth-xoffset : viewportWidth;
 
-		int yoffset = 0;
+		unsigned int yoffset = 0;
 		while (yoffset < sceneHeight) {
 			int h = (sceneHeight-yoffset < viewportHeight) ? sceneHeight-yoffset : viewportHeight;
 
@@ -385,11 +385,11 @@ void drawHorizontalLine (unsigned int x1, unsigned int y, unsigned int x2) {
 void darkScreen () {
 	setPixelCoords (true);
 
-	int xoffset = 0;
+	unsigned int xoffset = 0;
 	while (xoffset < sceneWidth) {
 		int w = (sceneWidth-xoffset < viewportWidth) ? sceneWidth-xoffset : viewportWidth;
 
-		int yoffset = 0;
+		unsigned int yoffset = 0;
 		while (yoffset < sceneHeight) {
 			int h = (sceneHeight-yoffset < viewportHeight) ? sceneHeight-yoffset : viewportHeight;
 
@@ -465,8 +465,8 @@ void drawBackDrop () {
 		while (ps->next) ps = ps->next;
 
 		while (ps) {
-			ps -> cameraX = sortOutPCamera (cameraX, ps -> fractionX, sceneWidth - (float)winWidth/cameraZoom, ps -> width - (float)winWidth/cameraZoom);
-			ps -> cameraY = sortOutPCamera (cameraY, ps -> fractionY, sceneHeight - (float)winHeight/cameraZoom, ps -> height - (float)winHeight/cameraZoom);
+			ps -> cameraX = sortOutPCamera (cameraX, ps -> fractionX, (int)(sceneWidth - (float)winWidth/cameraZoom), (int)(ps -> width - (float)winWidth/cameraZoom));
+			ps -> cameraY = sortOutPCamera (cameraY, ps -> fractionY, (int)(sceneHeight - (float)winHeight/cameraZoom), (int)(ps -> height - (float)winHeight/cameraZoom));
 
 			glBindTexture (GL_TEXTURE_2D, ps->textureName);
 			glBegin(GL_QUADS);
@@ -581,7 +581,7 @@ bool loadLightMap (int v) {
 			return fatal ("Light map width and height don't match scene width and height. That is required for lightmaps in HOTSPOT mode.");
 		}
 	}
- 
+
 	if (! NPOT_textures) {
 		newPicWidth = getNextPOT(lightMap.w);
 		newPicHeight = getNextPOT(lightMap.h);
@@ -700,40 +700,40 @@ bool loadParallax (unsigned short v, unsigned short fracX, unsigned short fracY)
 
 	int picWidth;
 	int picHeight;
-	
+
 	long file_pointer = ftell (bigDataFile);
-	
+
 	png_structp png_ptr;
 	png_infop info_ptr, end_info;
-	
-	
+
+
 	int fileIsPNG = true;
-	
+
 	// Is this a PNG file?
-	
+
 	char tmp[10];
 	fread(tmp, 1, 8, bigDataFile);
     if (png_sig_cmp((png_byte *) tmp, 0, 8)) {
 		// No, it's old-school HSI
 		fileIsPNG = false;
 		fseek(bigDataFile, file_pointer, SEEK_SET);
-		
+
 		picWidth = nP -> width = get2bytes (bigDataFile);
 		picHeight = nP -> height = get2bytes (bigDataFile);
 	} else {
 		// Read the PNG header
-		
+
 		png_ptr = png_create_read_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 		if (!png_ptr) {
 			return false;
 		}
-		
+
 		info_ptr = png_create_info_struct(png_ptr);
 		if (!info_ptr) {
 			png_destroy_read_struct(&png_ptr, (png_infopp) NULL, (png_infopp) NULL);
 			return false;
 		}
-		
+
 		end_info = png_create_info_struct(png_ptr);
 		if (!end_info) {
 			png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
@@ -741,35 +741,35 @@ bool loadParallax (unsigned short v, unsigned short fracX, unsigned short fracY)
 		}
 		png_init_io(png_ptr, bigDataFile);		// Tell libpng which file to read
 		png_set_sig_bytes(png_ptr, 8);	// 8 bytes already read
-		
+
 		png_read_info(png_ptr, info_ptr);
-		
+
 		png_uint_32 width, height;
 		int bit_depth, color_type, interlace_type, compression_type, filter_method;
 		png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, &interlace_type, &compression_type, &filter_method);
-		
+
 		picWidth = nP -> width = width;
 		picHeight = nP -> height = height;
-		
+
 		if (bit_depth < 8) png_set_packing(png_ptr);
 		png_set_expand(png_ptr);
 		if (color_type == PNG_COLOR_TYPE_GRAY || color_type == PNG_COLOR_TYPE_GRAY_ALPHA) png_set_gray_to_rgb(png_ptr);
 		if (bit_depth == 16) png_set_strip_16(png_ptr);
-		
+
 		png_set_add_alpha(png_ptr, 0xff, PNG_FILLER_AFTER);
-		
+
 		png_read_update_info(png_ptr, info_ptr);
 		png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, &interlace_type, &compression_type, &filter_method);
-		
+
 		//int rowbytes = png_get_rowbytes(png_ptr, info_ptr);
-		
+
 	}
-	
+
 	if (! NPOT_textures) {
 		picWidth = getNextPOT(picWidth);
 		picHeight = getNextPOT(picHeight);
 	}
-	
+
 	nP -> fileNum = v;
 	nP -> fractionX = fracX;
 	nP -> fractionY = fracY;
@@ -802,12 +802,12 @@ bool loadParallax (unsigned short v, unsigned short fracX, unsigned short fracY)
 		unsigned char * row_pointers[nP -> height];
 		for (int i = 0; i < nP -> height; i++)
 			row_pointers[i] = nP -> texture + 4*i*picWidth;
-		
+
 		png_read_image(png_ptr, (png_byte **) row_pointers);
 		png_read_end(png_ptr, NULL);
 		png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
 	} else {
-			
+
 		int t1, t2, n;
 		unsigned short c;
 		GLubyte * target;
@@ -1007,7 +1007,7 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 	glEnable (GL_TEXTURE_2D);
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
-	
+
 	float btx1;
 	float btx2;
 	float bty1;
@@ -1023,8 +1023,8 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 		bty1 = (float) y / sceneHeight;
 		bty2 = (float) (y+realPicHeight) / sceneHeight;
 	}
-	
-	
+
+
 	setPixelCoords (true);
 
 	int xoffset = 0;
@@ -1038,29 +1038,29 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 			glClear(GL_COLOR_BUFFER_BIT);	// Clear The Screen
 
 			if (backdropExists) {
-				// Render the sprite to the backdrop 
+				// Render the sprite to the backdrop
 				// (using mulitexturing, so the old backdrop is seen where alpha < 1.0)
 				glActiveTexture(GL_TEXTURE2);
 				glBindTexture (GL_TEXTURE_2D, backdropTextureName);
 				glActiveTexture(GL_TEXTURE0);
-				
+
 				glUseProgram(shader.paste);
 				GLint uniform = glGetUniformLocation(shader.paste, "useLightTexture");
 				if (uniform >= 0) glUniform1i(uniform, 0); // No lighting
-				
+
 				glColor4f(1.0, 1.0, 1.0, 1.0);
 				glBindTexture(GL_TEXTURE_2D, tmpTex);
 				glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-				
+
 				glBegin(GL_QUADS);
 				glTexCoord2f(0.0, 0.0); glMultiTexCoord2f(GL_TEXTURE2, btx1, bty1); 	glVertex3f(-xoffset, -yoffset, 0.0);
 				glTexCoord2f(texCoordW, 0.0); glMultiTexCoord2f(GL_TEXTURE2, btx2, bty1); 	glVertex3f(realPicWidth-xoffset, -yoffset, 0.0);
 				glTexCoord2f(texCoordW, texCoordH); glMultiTexCoord2f(GL_TEXTURE2, btx2, bty2); 	glVertex3f(realPicWidth-xoffset, realPicHeight-yoffset, 0.0);
 				glTexCoord2f(0.0, texCoordH); glMultiTexCoord2f(GL_TEXTURE2, btx1, bty2); 	glVertex3f(-xoffset, realPicHeight-yoffset, 0.0);
 				glEnd();
-				
+
 				glUseProgram(0);
-				
+
 			} else {
 				// It's all new - nothing special to be done.
 
@@ -1073,7 +1073,7 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 				glTexCoord2f(texCoordW, texCoordH); glVertex3f(realPicWidth-xoffset, -yoffset+realPicHeight, 0.0);
 				glTexCoord2f(0.0, texCoordH); glVertex3f(-xoffset, -yoffset+realPicHeight, 0.0);
 				glEnd();
-				
+
 			}
 
 			// Copy Our ViewPort To The Texture
@@ -1252,8 +1252,8 @@ bool mixHSI (FILE * fp, int x, int y) {
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
 	setPixelCoords (true);
-	
-	
+
+
 	int xoffset = 0;
 	while (xoffset < picWidth) {
 		int w = (picWidth-xoffset < viewportWidth) ? picWidth-xoffset : viewportWidth;
@@ -1264,31 +1264,31 @@ bool mixHSI (FILE * fp, int x, int y) {
 
 			glClear(GL_COLOR_BUFFER_BIT);	// Clear The Screen
 
-			// Render the sprite to the backdrop 
+			// Render the sprite to the backdrop
 			// (using mulitexturing, so the backdrop is seen where alpha < 1.0)
 			glActiveTexture(GL_TEXTURE2);
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
 			glActiveTexture(GL_TEXTURE0);
-			
+
 			glUseProgram(shader.paste);
 			GLint uniform = glGetUniformLocation(shader.paste, "useLightTexture");
 			if (uniform >= 0) glUniform1i(uniform, 0); // No lighting
-			
+
 			glColor4f(1.0, 1.0, 1.0, 0.5);
 			glBindTexture(GL_TEXTURE_2D, tmpTex);
 			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-			
+
 			glBegin(GL_QUADS);
 			glTexCoord2f(tx1, ty1); glMultiTexCoord2f(GL_TEXTURE2, btx1, bty1); 	glVertex3f(-xoffset, -yoffset, 0.0);
 			glTexCoord2f(tx2, ty1); glMultiTexCoord2f(GL_TEXTURE2, btx2, bty1); 	glVertex3f(picWidth-xoffset, -yoffset, 0.0);
 			glTexCoord2f(tx2, ty2); glMultiTexCoord2f(GL_TEXTURE2, btx2, bty2); 	glVertex3f(picWidth-xoffset, picHeight-yoffset, 0.0);
 			glTexCoord2f(tx1, ty2); glMultiTexCoord2f(GL_TEXTURE2, btx1, bty2); 	glVertex3f(-xoffset, picHeight-yoffset, 0.0);
 			glEnd();
-			
+
 			// Copy Our ViewPort To The Texture
 			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
 			glUseProgram(0);
-			
+
 			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, (int) ((x<0) ? xoffset: x+xoffset), (int) ((y<0) ? yoffset: y+yoffset), (int) ((x<0) ?viewportOffsetX-x:viewportOffsetX), (int) ((y<0) ?viewportOffsetY-y:viewportOffsetY), w, h);
 
 			yoffset += viewportHeight;

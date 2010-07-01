@@ -28,7 +28,7 @@ extern GLubyte * backdropTexture;
 extern double backdropTexW, backdropTexH;
 
 
-extern int winWidth, winHeight;
+extern unsigned int winWidth, winHeight;
 extern int viewportHeight, viewportWidth;
 extern int viewportOffsetX, viewportOffsetY;
 extern int realWinWidth, realWinHeight;

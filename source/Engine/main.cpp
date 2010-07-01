@@ -24,6 +24,7 @@
 // For unicode conversion
 #include <iconv.h>
 
+#include "debug.h"
 #include "platform-dependent.h"
 #include "language.h"
 #include "stringy.h"
@@ -76,7 +77,7 @@ void setGameFilePath (char * f) {
 	char currentDir[1000];
 
 	if (! getcwd (currentDir, 998)) {
-		fprintf(stderr, "Can't get current directory.\n");
+		debugOut("Can't get current directory.\n");
 	}
 
 	int got = -1, a;
@@ -94,7 +95,7 @@ void setGameFilePath (char * f) {
 	gamePath = new char[400];
 
 	if (! getcwd (gamePath, 398)) {
-		fprintf(stderr, "Can't get game directory.\n");
+		debugOut( "Can't get game directory.\n");
 	}
 
 	chdir (currentDir);
@@ -103,7 +104,7 @@ void setGameFilePath (char * f) {
 
 void tick () {
 	walkAllPeople ();
-	handleInput ();	
+	handleInput ();
 	sludgeDisplay ();
 }
 
@@ -428,7 +429,7 @@ int main(int argc, char *argv[]) try
 
 	}
 
-	fprintf (stderr, "Bye!\n"); fflush (stderr);
+	debugOut( "Bye!\n\n");
 
 	delete [] gamePath;
 
