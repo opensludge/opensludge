@@ -18,8 +18,6 @@ void addComment (int errorType, const char *, const char * filename);
 bool addComment (int errorType, const char * txt1, const char * txt2, const char * filename);
 void clearComments ();
 
-void userClickedErrorLine (int n);
-
 bool ask (const char * txt);
 
 struct errorLinkToFile

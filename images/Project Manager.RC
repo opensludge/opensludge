@@ -67,26 +67,6 @@ FONT 8, "Arial"
  PUSHBUTTON "Cancel", 	IDCANCEL,		60, 46, 50, 14, WS_TABSTOP
 }
 
-DLG_WINDOW_SIZES DIALOG 100, 100, 180, 85
-STYLE WS_VISIBLE | WS_CAPTION | WS_SYSMENU
-CAPTION "Window sizes"
-FONT 8, "Arial"
-{
- CTEXT "Enter the width and height to be used by the Z-BUFFER MAKER and FLOOR MAKER programs",
- 							-1,			5,  5,  170,  16
-
- RTEXT "Width:", 			-1,			20,  30, 25,   8
- EDITTEXT ID_EDIT_WINWIDTH,				50,  29, 35,  10, WS_BORDER | WS_TABSTOP
-
- RTEXT "Height:", 			-1,			90,  30, 25,   8
- EDITTEXT ID_EDIT_WINHEIGHT,			120, 29, 35,  10, WS_BORDER | WS_TABSTOP
-
- PUSHBUTTON "Use window/screen size of current project",
- 				ID_USE_PROJECT_SIZE,	9, 46, 162, 14, WS_TABSTOP
-
- DEFPUSHBUTTON "OK", 	IDOK,			9, 66, 76, 14, WS_TABSTOP
- PUSHBUTTON "Cancel", 	IDCANCEL,		95, 66, 76, 14, WS_TABSTOP
-}
 
 DLG_SEARCH_RESULTS DIALOG 100, 100, 260, 135
 STYLE WS_VISIBLE | WS_CAPTION | WS_SYSMENU
@@ -120,8 +100,6 @@ FONT 8, "Arial"
  GROUPBOX "Display settings", -1, 		2, 		2, 		207, 	117, 		BS_GROUPBOX
   AUTOCHECKBOX "Full-screen if possible", ID_FULLSCREEN,
   										8,		12,		95,		10,			WS_TABSTOP
-  AUTOCHECKBOX "Dither 24-bit images", ID_DITHERIMAGES,
-  										108,	12,		95,		10,			WS_TABSTOP
 
   CTEXT "Window/screen width:", -1,		8,  	25, 	95,  	8
   EDITTEXT ID_EDIT_WINWIDTH,			8,		35, 	95, 	10, 		WS_BORDER | WS_TABSTOP
@@ -132,7 +110,7 @@ FONT 8, "Arial"
   LTEXT "Mouse cursor:", -1,			8,   	55, 	58,  	8
   COMBOBOX ID_MOUSE_IMAGE, 				68,  	53, 	135, 	54, 		CBS_DROPDOWNLIST | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
 
-  CTEXT "Custom icon (TGA file; leave blank for none):",
+  CTEXT "Custom icon (TGA or PNG file; leave blank for none):",
   							-1,			8,  	70, 	195,  	16
   EDITTEXT ID_EDIT_CUSTOMICON,			8,		80, 	195, 	10, 		WS_BORDER | WS_TABSTOP | ES_AUTOHSCROLL
 
@@ -155,7 +133,6 @@ FONT 8, "Arial"
   								-1,		218,  	58,		195,	16
   EDITTEXT ID_EDIT_DATAFOLDER,			218,	76,		195,	10,			WS_BORDER | WS_TABSTOP
 
- PUSHBUTTON "Rendering", ID_RENDERING,	215,  94, 98, 14, WS_TABSTOP
  PUSHBUTTON "Advanced", ID_MOREOPTIONS,	317,  94, 98, 14, WS_TABSTOP
 
  PUSHBUTTON "OK",		IDOK,			215,  112, 98, 14, WS_TABSTOP
@@ -167,9 +144,6 @@ STYLE WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 CAPTION "Advanced"
 FONT 8, "Arial"
 {
- CTEXT "The following options will only be used if you're running a registered version of the developmet kit!",
- 							   -1, 4, 2, 127, 38
-
  GROUPBOX "Start-up settings", -1, 2, 30, 131, 48, BS_GROUPBOX
 
   AUTOCHECKBOX "Run minimised", ID_STARTUP_INVISIBLE, 8, 40, 119, 10, WS_TABSTOP
@@ -178,36 +152,6 @@ FONT 8, "Arial"
 
  PUSHBUTTON "OK",		IDOK,			5,  85, 60, 14, WS_TABSTOP
  PUSHBUTTON "Cancel", 	IDCANCEL,		70, 85, 60, 14, WS_TABSTOP
-}
-
-DLG_PROJECT_RENDERING DIALOG 10, 120, 211, 124
-STYLE WS_VISIBLE | WS_CAPTION | WS_SYSMENU
-CAPTION "Character rendering"
-FONT 8, "Arial"
-{
- GROUPBOX "Default anti-aliasing settings for characters", -1, 2, 2, 207, 48, BS_GROUPBOX
-
-  AUTOCHECKBOX "Anti-aliasing enabled", ID_RENDERING_AA_DEF_ENABLED, 8, 12, 95, 10, WS_TABSTOP
-
-  CTEXT "Softness (horizontal):",		-1,			8,		25, 	95, 	8
-  EDITTEXT ID_RENDERING_AA_DEF_SOFT_X,				8,		35, 	95,		10, 		WS_BORDER | WS_TABSTOP
-
-  CTEXT "Softness (vertical):",			-1,			108,	25, 	95, 	8
-  EDITTEXT ID_RENDERING_AA_DEF_SOFT_Y,				108,	35, 	95,		10, 		WS_BORDER | WS_TABSTOP
-
- GROUPBOX "Initial anti-aliasing maximum settings", -1, 2, 52, 207, 48, BS_GROUPBOX
-
-  AUTOCHECKBOX "Anti-aliasing enabled", ID_RENDERING_AA_MAX_ENABLED, 8, 62, 95, 10, WS_TABSTOP
-  AUTOCHECKBOX "Allow .ini file override", ID_RENDERING_AA_MAX_READINI, 108, 62, 95, 10, WS_TABSTOP
-
-  CTEXT "Softness (horizontal):",		-1,			8,		75, 	95, 	8
-  EDITTEXT ID_RENDERING_AA_MAX_SOFT_X,				8,		85, 	95,		10, 		WS_BORDER | WS_TABSTOP
-
-  CTEXT "Softness (vertical):",			-1,			108,	75, 	95, 	8
-  EDITTEXT ID_RENDERING_AA_MAX_SOFT_Y,				108,	85, 	95,		10, 		WS_BORDER | WS_TABSTOP
-
- PUSHBUTTON "OK",		IDOK,			5,  105, 98, 14, WS_TABSTOP
- PUSHBUTTON "Cancel", 	IDCANCEL,		108,105, 98, 14, WS_TABSTOP
 }
 
 
@@ -219,7 +163,6 @@ BEGIN
             MENUITEM "&Open SLUDGE project", ID_PROJECT_LOAD
             MENUITEM "&Save",  ID_PROJECT_SAVE
             MENUITEM "Save &as...",  ID_PROJECT_SAVEAS
-            MENUITEM "&Revert",  ID_PROJECT_REVERT
             MENUITEM SEPARATOR
             MENUITEM "&Close",    ID_PROJECT_CLOSE
             MENUITEM "E&xit",    ID_EXIT
@@ -241,7 +184,6 @@ BEGIN
             MENUITEM "&Verbose errors (development mode)", ID_VERBOSE
             MENUITEM SEPARATOR
             MENUITEM "&File locations", ID_SETTINGSBOX
-            MENUITEM "Window &sizes", ID_SIZEBOX
         END
     POPUP "&Programs"
         BEGIN
@@ -286,8 +228,6 @@ BEGIN
             VALUE "LegalCopyright", COPYRIGHT_TEXT"\0"
             VALUE "About SLUDGE", "Er... well, SLUDGE stands for Scripting Language for Unhindered Development of a Gaming Environment. So there. What, you thought this was a help file?\0"
             VALUE "About the project manager", "The SLUDGE project manager is part of the SLUDGE development kit. Use it to create and maintain your SLUDGE projects, and to launch the compiler.\0"
-            VALUE "SLUDGE on the WWW", "When you get a free moment, you could do worse than to pop over to http://hungrysoftware.com/ and check out the SLUDGE resources. You know you want to, fool.\0"
-            VALUE "UPX on the WWW", "This SLUDGE executable has been compressed using the UPX executable packer. For more information, please visit the UPX website. It's at http://upx.sf.com/ and it's lovely.\0"
         END
     END
 END

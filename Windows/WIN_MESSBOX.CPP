@@ -5,8 +5,6 @@
 #include "MessBox.h"
 #include "SPLITTER.HPP"
 
-extern HWND warningWindowH;
-extern HWND compWin;
 extern HWND mainWin;
 
 
@@ -16,7 +14,7 @@ extern HWND mainWin;
 void compilerCommentsUpdated()
 {
 }
-
+/*
 static void warningOpenSourceFile (char * fileName) {
     /*
 	char * wholePath = new char[strlen (sourceDirectory) + strlen (fileName) + 2];
@@ -29,13 +27,11 @@ static void warningOpenSourceFile (char * fileName) {
 		}
 		delete wholePath;
 	}
-	*/
 }
 
 void userClickedErrorLine (int whichEntry)
 {
-    /*
-	int n = (numErrors - 1 ) - whichEntry;
+ 	int n = (numErrors - 1 ) - whichEntry;
 	errorLinkToFile * link = errorList;
 
 	while (link && n > 0)
@@ -63,8 +59,8 @@ void userClickedErrorLine (int whichEntry)
 		}
 		delete wholeThing;
 	}
-	*/
 }
+*/
 
 
 void messageBox (const char * tx2, const char * tx1) {
@@ -102,5 +98,5 @@ bool errorBox (const char * txt1, unsigned int number) {
 }
 
 bool ask (const char * txt) {
-	return MessageBox (mainWin, txt, "SLUDGE Translation Editor", MB_YESNO | MB_SETFOREGROUND) == IDYES;
+	return MessageBox (mainWin, txt, "SLUDGE Development Kit", MB_YESNO | MB_SETFOREGROUND) == IDYES;
 }

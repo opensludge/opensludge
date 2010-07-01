@@ -117,7 +117,7 @@ void addComment (int errorType, const char * comment, const char * filename/*, i
 
 	compilerCommentsUpdated();
 
-//	fprintf (stderr, "addComment: %s\n", newLink->fullText);
+	fprintf (stderr, "addComment: %s\n", newLink->fullText);
 	delete after;
 
 	numErrors ++;

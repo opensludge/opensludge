@@ -18,8 +18,9 @@
 			<Target title="Release">
 				<Option output="bin\Release\SLUDGE Development Kit" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj\Release\" />
-				<Option type="0" />
+				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option use_console_runner="0" />
 				<Compiler>
 					<Add option="-O2" />
 				</Compiler>
@@ -38,11 +39,13 @@
 			<Add directory="..\..\source\Translator" />
 			<Add directory="..\..\source\ZBufferMaker" />
 			<Add directory="C:\Programmering" />
+			<Add directory="..\..\..\zlib" />
 		</Compiler>
 		<Linker>
 			<Add library="gdi32" />
 			<Add library="user32" />
 			<Add library="kernel32" />
+			<Add library="Comdlg32" />
 			<Add library="..\..\..\libpng\libpng.a" />
 			<Add library="..\..\..\zlib\libz.a" />
 		</Linker>

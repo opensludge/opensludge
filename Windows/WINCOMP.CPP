@@ -6,10 +6,12 @@
 #include <stdio.h>
 #include <unistd.h>
 
+#include "Compiler.hpp"
 #include "WINTERFA.H"
 #include "MOREIO.H"
 #include "MessBox.h"
 #include "wincomp.h"
+#include "Project.hpp"
 #include "settings.h"
 #include "SPLITTER.HPP"
 #include "Interface.h"
@@ -22,6 +24,10 @@ bool keepImages, keepStrings, verboseMode;
 
 #include "dialogueBoxInOut.h"
 
+char *fileList[1000];
+int fileListNum=0;
+
+char loadedFile[MAX_PATH]="";
 
 HWND mainWin=NULL;
 HINSTANCE inst;
@@ -39,8 +45,9 @@ char * searchString = NULL;
 void setChanged (bool newVal);
 
 
-void setCompilerText (const compilerStatusText, const char * theText)
+void setCompilerText (const compilerStatusText w, const char * theText)
 {
+    fprintf(stderr, "Compiler text: %s\n", theText);
 }
 
 void setCompilerStats (int funcs, int objTypes, int files, int globals, int strings)
@@ -62,8 +69,8 @@ LRESULT CALLBACK projectAdvancedFunc(HWND hDlg, UINT message, WPARAM wParam, LPA
 }
 */
 LRESULT CALLBACK prefsBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) {
-	static OPENFILENAME ofn;
-	static char path[MAX_PATH];
+//	static OPENFILENAME ofn;
+//	static char path[MAX_PATH];
 	switch (message) {
         case WM_INITDIALOG:
         {
@@ -174,7 +181,7 @@ LRESULT CALLBACK prefsBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 				return (true);
 
 				case ID_MOREOPTIONS:
-				//DialogBox(inst, MAKEINTRESOURCE(DLG_PROJECT_ADVANCED), hDlg, (DLGPROC)projectAdvancedFunc);
+//				DialogBox(inst, MAKEINTRESOURCE(DLG_PROJECT_ADVANCED), hDlg, (DLGPROC)projectAdvancedFunc);
 				break;
 
 			}
@@ -244,7 +251,7 @@ LRESULT CALLBACK resourcesBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 				char t, lastOne;
 				parseMode pM;
 				char buffer[256];
-				int numBuff;
+				int numBuff=0;
 
 				for (i = 0; i < n; i ++) {
 					if (SendDlgItemMessage (mainWin, ID_FILELIST, LB_GETSEL, (WPARAM) i, (LPARAM) 0)) {
@@ -399,8 +406,8 @@ void drawLogo (HWND hDlg, int x, int y) {
 
 LRESULT CALLBACK aboutBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message) {
-//        case WM_INITDIALOG:
-//      	return true;
+        case WM_INITDIALOG:
+      	return true;
 
         case WM_PAINT:
 		drawLogo (hDlg, 149, 12);
@@ -538,6 +545,20 @@ void fixExtension (char * buff, char * ext) {
 	}
 }
 
+void updateFileList()
+{
+	MESS(ID_FILELIST, LB_RESETCONTENT, 0, 0);
+    for (int i = 0; i < fileListNum; i++)
+    {
+        int pos = (int) MESS(ID_FILELIST, LB_ADDSTRING, 0, fileList[i]);
+        // Set the array index of the player as item data.
+        // This enables us to retrieve the item from the array
+        // even after the items are sorted by the list box.
+        MESS(ID_FILELIST, LB_SETITEMDATA, pos, i);
+        fprintf (stderr, "%d: %s\n", i, fileList[i]);
+    }
+}
+
 BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 
 	static OPENFILENAME ofn;
@@ -559,7 +580,7 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 			break;
 
 			case ID_SETTINGSBOX:
-			//DialogBox(inst, MAKEINTRESOURCE(DLG_FILE_LOCATIONS), h, (DLGPROC)settingsBoxFunc);
+//			DialogBox(inst, MAKEINTRESOURCE(DLG_FILE_LOCATIONS), h, (DLGPROC)settingsBoxFunc);
 			break;
 
 			case ID_SIZEBOX:
@@ -569,10 +590,6 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 			case ID_DISPLAY:
 			DialogBox(inst, MAKEINTRESOURCE(DLG_PROJECT_PROPERTIES), h, (DLGPROC)prefsBoxFunc);
 			break;
-
-//			case ID_REGISTER:
-//			DialogBox(inst, MAKEINTRESOURCE(DLG_REGISTRATION_INFO), h, (DLGPROC)regBoxFunc);
-//			break;
 
 			case ID_CONTENTS_ADD_FILE:
 			{
@@ -621,28 +638,29 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 						setChanged (true);
 					}
 				}*/
+				updateFileList();
 			}
 			break;
 
 			case ID_PROJECT_SAVE:
-			//saveProject (loadedFile);
-			break;
-
-			case ID_PROJECT_REVERT:
-			//loadProject (loadedFile);
+                saveProject (loadedFile, fileList, &fileListNum);
 			break;
 
 			case ID_PROJECT_CLOSE:		// My menu thingy
-			//closeProject ();
+                closeProject (fileList, &fileListNum);
+                updateFileList();
+			break;
+
+			case ID_PROJECT_COMPILE:
+            {
+                int success = false;
+                compileEverything(loadedFile, fileList, &fileListNum);
+            }
 			break;
 
 			case IDCANCEL:				// X button
 			case ID_EXIT:
 			PostQuitMessage (0);
-			break;
-
-			case ID_UPGRADES:
-			//checkForUpgrades (h);
 			break;
 
 			case ID_LAUNCH_FLOOR:
@@ -652,12 +670,11 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 			case ID_LAUNCH_SPRITE:
 			//launchOtherKitProgram (LOWORD(w), h);
 			break;
-/*
+
 			case ID_PROJECT_SAVEAS:
 			{
 				char file[MAX_PATH]="";
 				messageBox ("Important! If you save this project into a different directory, the project manager and compiler will not be able to find the SLUDGE scripts (as all locations are relative to the location of the project file).", "To move an entire project to a new location, please use Windows to copy all the required files, or clear the list of files and add them again.");
-				sprintf (file, loadedFile);
 				ofn.lpstrFilter="SLUDGE projects (*.SLP)\0*.slp\0\0";
 				ofn.lpstrFile=file;
 				ofn.lpstrTitle = "Save this SLUDGE project as...";
@@ -667,30 +684,31 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 					path[ofn.nFileOffset-1]=0;
 					fixExtension (file, "slp");
 					if (checkOverwrite (file)) {
-						saveProject (file);
+						saveProject (file, fileList, &fileListNum);
+                        sprintf (file, loadedFile);
 					}
 				}
 			}
 			break;
-*/
+
 			case ID_PROJECT_NEW:
 			{
 				char file[MAX_PATH]="New.slp";
-//				sprintf (file, loadedFile);
 				ofn.lpstrFilter="SLUDGE projects (*.SLP)\0*.slp\0\0";
 				ofn.lpstrTitle = "Create a new SLUDGE project...";
 				ofn.lpstrFile=file;
 				ofn.Flags=OFN_HIDEREADONLY|OFN_EXPLORER;
-				/*
 				if (GetSaveFileName(&ofn)) {
 					memcpy(path,file,ofn.nFileOffset);
 					path[ofn.nFileOffset-1]=0;
 					fixExtension (file, "slp");
 					if (checkOverwrite (file)) {
-						//newProject (file);
+					    fileListNum = 0;
+						doNewProject (file, fileList, &fileListNum);
+                        sprintf (file, loadedFile);
 					}
 				}
-				*/
+				updateFileList();
 			}
 			break;
 
@@ -711,13 +729,9 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 			//editFile (helpFile, mainWin);
 			break;
 
-/*			case ID_CONTENTS_NEW_PROJECT:
-			MESS(ID_FILELIST, LB_RESETCONTENT, 0, 0);
-			break;
-*/
-
 			case ID_CONTENTS_DELETE_FILE:
 			{
+			    /*
 				int i, n = MESS (ID_FILELIST, LB_GETCOUNT, 0, 0);
 
 				for (i = 0; i < n; i ++) {
@@ -727,7 +741,8 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 						i --;
 						n --;
 					}
-				}
+				}*/
+				updateFileList();
 			}
 			break;
 
@@ -767,7 +782,7 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 			}
 			break;
 */
-/*
+
 			case ID_PROJECT_LOAD:
 			{
 				char file[MAX_PATH]="";
@@ -778,11 +793,12 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 				if (GetOpenFileName(&ofn)) {
 					memcpy(path,file,ofn.nFileOffset);
 					path[ofn.nFileOffset-1]=0;
-					loadProject (file);
+					loadProject (file, fileList, &fileListNum);
+					updateFileList();
+					sprintf (file, loadedFile);
 				}
 			}
 			break;
-			*/
 		}
 		break;
 
@@ -834,7 +850,7 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 }
 
 const char * getTempDir () {
-	char la[] = "%temp";
+	char la[] = "%temp%";
 	char buffer[500];
 	char * returnVal = NULL;
 
