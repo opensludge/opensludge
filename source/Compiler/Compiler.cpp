@@ -30,7 +30,7 @@
 #include "settings.h"
 #include "HSI.H"
 #include "ObjType.h"
-#include "wintext.h"
+#include "Interface.h"
 
 enum { CSTEP_INIT,
 	   CSTEP_PARSE,

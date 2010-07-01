@@ -19,7 +19,6 @@
 		2F18B660100CB9C30009A1CB /* GLee.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F18B65E100CB9C20009A1CB /* GLee.h */; };
 		2F18B665100CBA620009A1CB /* SPLITTER.CPP in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA4700FFCEBE6005E5C36 /* SPLITTER.CPP */; };
 		2F18B6AD100CBE5A0009A1CB /* SPLITTER.HPP in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA4890FFCEBE6005E5C36 /* SPLITTER.HPP */; };
-		2F18B7B3100CC25F0009A1CB /* wintext.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA4910FFCEBE6005E5C36 /* wintext.h */; };
 		2F1B9A63100CF81C00BD9739 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 2F1B9A62100CF81C00BD9739 /* Credits.html */; };
 		2F1BD59310172D890014BFBB /* ProjectDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2F1BD59210172D890014BFBB /* ProjectDocument.nib */; };
 		2F2FF54E102C2598005439DA /* zDocument.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F2FF54C102C2598005439DA /* zDocument.h */; };
@@ -96,7 +95,6 @@
 		2FD220B6101B567700F4CA41 /* zIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 2FD220B5101B567700F4CA41 /* zIcon.icns */; };
 		2FD220B8101B569300F4CA41 /* scriptIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 2FD220B7101B569300F4CA41 /* scriptIcon.icns */; };
 		2FD220BA101B569D00F4CA41 /* Compiler.icns in Resources */ = {isa = PBXBuildFile; fileRef = 2FD220B9101B569D00F4CA41 /* Compiler.icns */; };
-		2FD4CACA1019074900265F6E /* PercBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA4040FFCEBE6005E5C36 /* PercBar.cpp */; };
 		2FDA7B9D1026204F00DC8F16 /* flags.icns in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA7B9C1026204F00DC8F16 /* flags.icns */; };
 		2FDE2F331030DEBE00FAAA65 /* floormodeicon1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDE2F321030DEBE00FAAA65 /* floormodeicon1.png */; };
 		2FDE2F351030DED900FAAA65 /* floormodeicon2.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDE2F341030DED900FAAA65 /* floormodeicon2.png */; };
@@ -145,7 +143,6 @@
 				2F7EA5080FFCEBE6005E5C36 /* settings.h in Copy Frameworks into .app bundle */,
 				2F18B660100CB9C30009A1CB /* GLee.h in Copy Frameworks into .app bundle */,
 				2F18B6AD100CBE5A0009A1CB /* SPLITTER.HPP in Copy Frameworks into .app bundle */,
-				2F18B7B3100CC25F0009A1CB /* wintext.h in Copy Frameworks into .app bundle */,
 				2F373F6F100E0686009F6880 /* Project.hpp in Copy Frameworks into .app bundle */,
 				2F820CCD100E10AE0004738F /* MessBox.h in Copy Frameworks into .app bundle */,
 				2F61A6FD100F50D000EBE4B0 /* Compiler.hpp in Copy Frameworks into .app bundle */,
@@ -223,7 +220,6 @@
 		2F7EA3FC0FFCEBE6005E5C36 /* LINKER.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; path = LINKER.H; sourceTree = "<group>"; };
 		2F7EA4010FFCEBE6005E5C36 /* OBJTYPE.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = OBJTYPE.CPP; sourceTree = "<group>"; };
 		2F7EA4020FFCEBE6005E5C36 /* OBJTYPE.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; path = OBJTYPE.H; sourceTree = "<group>"; };
-		2F7EA4040FFCEBE6005E5C36 /* PercBar.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = PercBar.cpp; sourceTree = "<group>"; };
 		2F7EA4050FFCEBE6005E5C36 /* PercBar.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PercBar.h; sourceTree = "<group>"; };
 		2F7EA4060FFCEBE6005E5C36 /* PREPROC.CPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = PREPROC.CPP; sourceTree = "<group>"; };
 		2F7EA4070FFCEBE6005E5C36 /* PREPROC.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; path = PREPROC.H; sourceTree = "<group>"; };
@@ -245,7 +241,6 @@
 		2F7EA4860FFCEBE6005E5C36 /* sosfile.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = sosfile.cpp; sourceTree = "<group>"; };
 		2F7EA4870FFCEBE6005E5C36 /* sosfile.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = sosfile.h; sourceTree = "<group>"; };
 		2F7EA4890FFCEBE6005E5C36 /* SPLITTER.HPP */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = SPLITTER.HPP; path = ../Translator/SPLITTER.HPP; sourceTree = "<group>"; };
-		2F7EA4910FFCEBE6005E5C36 /* wintext.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = wintext.h; sourceTree = "<group>"; };
 		2F7EA4A20FFCEBE6005E5C36 /* zbuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = zbuffer.cpp; sourceTree = "<group>"; };
 		2F7EA4A30FFCEBE6005E5C36 /* zbuffer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = zbuffer.h; sourceTree = "<group>"; };
 		2F820CC9100E10AE0004738F /* MessBox.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = MessBox.cpp; sourceTree = "<group>"; };
@@ -437,13 +432,11 @@
 				2F7EA3FC0FFCEBE6005E5C36 /* LINKER.H */,
 				2F7EA4010FFCEBE6005E5C36 /* OBJTYPE.CPP */,
 				2F7EA4020FFCEBE6005E5C36 /* OBJTYPE.H */,
-				2F7EA4040FFCEBE6005E5C36 /* PercBar.cpp */,
 				2F7EA4050FFCEBE6005E5C36 /* PercBar.h */,
 				2F7EA4060FFCEBE6005E5C36 /* PREPROC.CPP */,
 				2F7EA4070FFCEBE6005E5C36 /* PREPROC.H */,
 				2F7EA4080FFCEBE6005E5C36 /* REALPROC.CPP */,
 				2F7EA4090FFCEBE6005E5C36 /* REALPROC.H */,
-				2F7EA4910FFCEBE6005E5C36 /* wintext.h */,
 				2F7EA4140FFCEBE6005E5C36 /* TOKENS.CPP */,
 				2F7EA4150FFCEBE6005E5C36 /* TOKENS.H */,
 				2F7EA4160FFCEBE6005E5C36 /* translation.cpp */,
@@ -622,7 +615,6 @@
 				2FF7AE531012195300F6AF98 /* SpriteBank.m in Sources */,
 				2F9355B01012670D00099D24 /* ProjectDocument.m in Sources */,
 				2F81D1AF1013C9D400276F1B /* SPRITES.CPP in Sources */,
-				2FD4CACA1019074900265F6E /* PercBar.cpp in Sources */,
 				2F1505EE101DCDE4006F9068 /* FloorDocument.m in Sources */,
 				2F15065B101DD528006F9068 /* FloorMaker.cpp in Sources */,
 				2FCE93A91029CA5000315052 /* TranslationDocument.m in Sources */,
