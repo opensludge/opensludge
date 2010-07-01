@@ -5,7 +5,7 @@
 
 #include "MOREIO.H"
 #include "SPLITTER.HPP"
-#include "wintext.h"
+#include "Interface.h"
 #include "MessBox.h"
 #include "TGA.h"
 
@@ -34,25 +34,25 @@ int loadBackDropForCompiler (char * fileName) {
 	unsigned short int t1, t2;
 	palCol thePalette[256];
 
-	// Open the file	
+	// Open the file
 	FILE * fp = fopen (fileName, "rb");
 	if (fp == NULL) {
 		return false;
 	}
-	
+
 	// Grab the header
 	TGAHeader imageHeader;
 	char * errorBack;
 	errorBack = readTGAHeader (imageHeader, fp, thePalette);
 	if (errorBack) {
 //		alert (errorBack);
-		return false;		
+		return false;
 	}
-	
+
 	if (imageHeader.pixelDepth < 24) {
 
 		initBackDropForCompiler (imageHeader.width, imageHeader.height);
-		
+
 		unsigned short (* readColFunction) (FILE *, int, palCol[], int, int) =
 			imageHeader.compressed ? readCompressedColour : readAColour;
 
@@ -70,9 +70,9 @@ int loadBackDropForCompiler (char * fileName) {
 
 		backDrop32Image = new unsigned char [imageHeader.height * imageHeader.width * 4];
 		if (! backDrop32Image) return false;
-		
+
 		unsigned char r,g,b,a;
-		
+
 		for (int t2 = imageHeader.height-1; t2>=0; t2 --) {
 			for (int t1 = 0; t1 < imageHeader.width; t1 ++) {
 				if (! imageHeader.compressed) {
@@ -80,15 +80,15 @@ int loadBackDropForCompiler (char * fileName) {
 				} else {
 					grabRGBACompressed (fp, imageHeader.pixelDepth, r, g, b, a, thePalette);
 				}
-				
+
 				backDrop32Image[t2*imageHeader.width*4+t1*4] = r;
 				backDrop32Image[t2*imageHeader.width*4+t1*4+1] = g;
 				backDrop32Image[t2*imageHeader.width*4+t1*4+2] = b;
 				backDrop32Image[t2*imageHeader.width*4+t1*4+3] = a;
 			}
-		}		
+		}
 	}
-	
+
 	int i = ftell (fp);
 	fclose (fp);
 	return i;
@@ -132,37 +132,37 @@ int saveHSI (char * filename) {
 int savePNG (char * filename, int w, int h, unsigned char * data) {
 	FILE * fp = fopen (filename, "wb");
 	if (! fp) return 0;
-	
+
 	png_structp png_ptr = png_create_write_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 	if (!png_ptr) {
 		fclose (fp);
 		return false;
 	}
-	
+
 	png_infop info_ptr = png_create_info_struct(png_ptr);
 	if (!info_ptr){
 		png_destroy_write_struct(&png_ptr, (png_infopp)NULL);
 		fclose (fp);
 		return false;
-	}	
-	
+	}
+
 	png_init_io(png_ptr, fp);
-		
+
 	png_set_IHDR(png_ptr, info_ptr, w, h,
-				 8, PNG_COLOR_TYPE_RGB_ALPHA, PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);		
-	
+				 8, PNG_COLOR_TYPE_RGB_ALPHA, PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
+
 	unsigned char * row_pointers[h];
-	
+
 	for (int i = 0; i < h; i++) {
 		row_pointers[i] = data + 4*i*w;
 	}
-	
-	png_set_rows(png_ptr, info_ptr, row_pointers);	
-    png_write_png(png_ptr, info_ptr, PNG_TRANSFORM_IDENTITY, NULL);	
+
+	png_set_rows(png_ptr, info_ptr, row_pointers);
+    png_write_png(png_ptr, info_ptr, PNG_TRANSFORM_IDENTITY, NULL);
 
 	int i = ftell (fp);
 	fclose (fp);
-	return i;	
+	return i;
 }
 
 
@@ -181,7 +181,7 @@ bool convertTGA (char * filename) {
 		if (backdrop32) {
 			j = savePNG (filename, HORZ_RES, VERT_RES, backDrop32Image);
 			delete backDrop32Image;
-			
+
 			if (! j) return false;
 		} else {
 			j = saveHSI (filename);

@@ -1,7 +1,7 @@
 #ifdef __cplusplus
 extern "C" {
-#endif		
-	
+#endif
+
 
 enum whichPerc {P_TOP, P_BOTTOM};
 

@@ -10,9 +10,9 @@
 #include "MOREIO.H"
 #include "MessBox.h"
 #include "wincomp.h"
-#include "wintext.h"
 #include "settings.h"
 #include "SPLITTER.HPP"
+#include "Interface.h"
 #include "launch.h"
 
 enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
@@ -37,6 +37,17 @@ char * searchString = NULL;
 #define MESSP(id,m,w,l) SendDlgItemMessage(hDlg,id,m,(WPARAM)w,(LPARAM)l)
 
 void setChanged (bool newVal);
+
+
+void setCompilerText (const compilerStatusText, const char * theText)
+{
+}
+
+void setCompilerStats (int funcs, int objTypes, int files, int globals, int strings)
+{
+}
+
+
 /*
 static bool advancedLoadSaveSetup (HWND hDlg, dlgOperation operation)
 {
@@ -523,7 +534,7 @@ void fixExtension (char * buff, char * ext) {
 		buff[a + 1] = ext[0];
 		buff[a + 2] = ext[1];
 		buff[a + 3] = ext[2];
-		buff[a + 4] = NULL;
+		buff[a + 4] = 0;
 	}
 }
 

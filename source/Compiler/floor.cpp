@@ -3,7 +3,6 @@
 
 #include "MOREIO.H"
 #include "SPLITTER.HPP"
-#include "wintext.h"
 #include "MessBox.h"
 
 bool convertFloor (char * filename) {
@@ -14,12 +13,12 @@ bool convertFloor (char * filename) {
 	stringArray * knownCo = NULL;
 	stringArray * splitBits;
 	stringArray * sA;
-	
+
 	FILE * outFile = fopen (filename, "wb");
 	if (! outFile) return addComment (ERRORTYPE_SYSTEMERROR, "Can't write compiled floor file", filename, NULL);
 
 	sA = splitString (wholeFile, '*');
-	
+
 	destroyFirst (sA);
 
 	fputc (countElements (sA), outFile);

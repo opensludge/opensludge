@@ -12,7 +12,6 @@
 #include "settings.h"
 #include "translation.h"
 #include "MOREIO.H"
-#include "wintext.h"
 #include "MessBox.h"
 #include "version.h"
 #include "Interface.h"
@@ -270,10 +269,8 @@ bool gotoSourceDirectory () {
 
 bool gotoTempDirectory () {
 	if (! tempDirectory) {
-#ifndef _WIN32
 		tempDirectory = joinStrings(getTempDir(), "/SLUDGE_Tmp_XXXXXX");
 		fixPath (tempDirectory, true);
-#endif
 		if (mktemp (tempDirectory)) {
 #ifdef WIN32
 			if (mkdir (tempDirectory))
@@ -328,9 +325,7 @@ void writeFinalData (FILE * mainFile) {
 
 	if (programSettings.compilerVerbose) {
 		fputc (1, mainFile);
-#ifndef _WIN32
 		writeDebugData (mainFile);
-#endif
 	} else {
 		fputc (0, mainFile);
 	}
@@ -364,9 +359,7 @@ void writeFinalData (FILE * mainFile) {
 
 	writeString (settings.runtimeDataFolder, mainFile);
 
-#ifndef _WIN32
 	addTranslationIDTable (mainFile, settings.originalLanguage);
-#endif
 
 	// Max anti-alias settings
 	fputc (chrRenderingSettings.maxReadIni, mainFile);

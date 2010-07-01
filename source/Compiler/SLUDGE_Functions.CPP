@@ -9,7 +9,7 @@
 #include "MOREIO.H"
 #include "MessBox.h"
 #include "PercBar.h"
-#include "wintext.h"
+#include "Interface.h"
 #include "ALLKNOWN.H"
 
 extern char * inThisClass;
@@ -59,7 +59,7 @@ void outputHalfCode (compilationSpace & theSpace, sludgeCommand theCommand, cons
 	fputc (HALF_FIND,		theSpace.writeToFile);
 	fputc (theCommand,		theSpace.writeToFile);
 	writeString (stringy,	theSpace.writeToFile);
-	
+
 	theSpace.numLines ++;
 }
 
@@ -67,10 +67,10 @@ int outputMarkerCode (compilationSpace & theSpace, sludgeCommand theCommand) {
 	fputc (HALF_MARKER,						theSpace.writeToFile);
 	fputc (theCommand,						theSpace.writeToFile);
 	put2bytes (theSpace.numMarkers,			theSpace.writeToFile);
-	
+
 	theSpace.numLines ++;
 	theSpace.numMarkers ++;
-	
+
 	return theSpace.numMarkers - 1;
 }
 
@@ -78,7 +78,7 @@ void outputDoneCode (compilationSpace & theSpace, sludgeCommand theCommand, int 
 	fputc (HALF_DONE,		theSpace.writeToFile);
 	fputc (theCommand,		theSpace.writeToFile);
 	put2bytes (value,		theSpace.writeToFile);
-	
+
 	theSpace.numLines ++;
 }
 
@@ -86,15 +86,15 @@ bool startFunction (int num,
 					int argNum,
 					compilationSpace & theSpace,
 					const char * theName, bool unfr, bool dbMe, const char * fileName) {
-					
+
 	char file1[30], file2[30];
-	
+
 	setCompilerText (COMPILER_TXT_ITEM, theName);
 	sprintf (file1, "_F%05i.dat", num);
 	sprintf (file2, "_F%05iM.dat", num);
-	
+
 	if (! gotoTempDirectory ()) return false;
-		
+
 	theSpace.writeToFile = fopen (file1, "wb");
 	theSpace.markerFile = fopen (file2, "wb");
 	theSpace.numMarkers = 0;
@@ -133,21 +133,21 @@ bool finishFunctionNew (compilationSpace & theSpace, stringArray * localVars) {
 		writeString (localVars->string, theSpace.writeToFile);
 		localVars = localVars->next;
 	}
-	
+
 	fclose (theSpace.writeToFile);
 	fclose (theSpace.markerFile);
 
 	sprintf (filename, "_F%05iN.DAT", theSpace.myNum);
-	
+
 	theFileHandle = fopen (filename, "wb");
 	if (! theFileHandle) return false;
 
 	fputc (localNum, theFileHandle);
 	fputc (theSpace.numMarkers, theFileHandle);
 	put2bytes (theSpace.numLines, theFileHandle);
-	
+
 	fclose (theFileHandle);
-	
+
 	return true;
 }
 
@@ -177,7 +177,7 @@ bool handleIf (char * theIf, stringArray * & localVars, compilationSpace & theSp
 	if (! compileSourceBlock (getCondition -> string, localVars, theSpace, filename)) {
 		addComment (ERRORTYPE_PROJECTERROR, "Can't compile condition in if statement", filename);
 		return false;
-	}	
+	}
 
 	char * elseString = "";
 	while (theRest) {
@@ -239,7 +239,7 @@ bool niceLoop (char * condition, char * & middle, char * endy, stringArray * & l
 
 	// Condition
 	if (! compileSourceLine (condition, localVars, theSpace, nullArray, NULL)) return false;
-	
+
 	if (trimStart (middle, '{')) {
 		if (! trimEnd (middle, '}')) return addComment (ERRORTYPE_PROJECTERROR, "No matching }", middle, NULL);
 	}
@@ -268,7 +268,7 @@ bool handleWhile (char * theCode, stringArray * & localVars, compilationSpace & 
 	if (countElements (getCondition) != 2) return addComment (ERRORTYPE_PROJECTERROR, "Bad while (no condition)", theCode, NULL);
 	if (! niceLoop (getCondition -> string, getCondition -> next -> string, NULL, localVars, theSpace, filename)) {
 		return addComment (ERRORTYPE_PROJECTERROR, "Bad loop stuff (while loop)", getCondition -> string, NULL);
-	} 
+	}
 	destroyAll (getCondition);
 	return true;
 }
@@ -377,7 +377,7 @@ YNF checkMaths (const char * sourceCode, stringArray * & localVarNames, compilat
 			done = true;
 			if (splitMaths -> string[0] && splitMaths -> next -> string[0]) {
 				switch (aa) {
-				
+
 					case MATHS_SET:
 					if (! compileSourceLine (splitMaths -> next -> string, localVarNames, theSpace, nullArray, NULL)) return YNF_FAIL;
 					reply = (YNF) handleVar (splitMaths -> string, localVarNames, SLU_SET_LOCAL, SLU_SET_GLOBAL, SLU_INDEXSET, theSpace, true);
@@ -393,7 +393,7 @@ YNF checkMaths (const char * sourceCode, stringArray * & localVarNames, compilat
 					addComment (ERRORTYPE_PROJECTERROR, "++ and -- must only be used with one variable at a time!", sourceCode, NULL);
 					reply = YNF_FAIL;
 					break;
-					
+
 					case MATHS_PLUS_EQ:
 					case MATHS_MINUS_EQ:
 					case MATHS_MULT_EQ:
@@ -411,7 +411,7 @@ YNF checkMaths (const char * sourceCode, stringArray * & localVarNames, compilat
 						reply = YNF_FAIL;
 					}
 					break;
-					
+
 					default:
 					if (! compileSourceLine (splitMaths -> string, localVarNames, theSpace, nullArray, NULL)) return YNF_FAIL;
 					destroyFirst (splitMaths);
@@ -431,7 +431,7 @@ YNF checkMaths (const char * sourceCode, stringArray * & localVarNames, compilat
 					case MATHS_DECREMENT:
 					reply = (YNF) handleVar (splitMaths -> string, localVarNames, SLU_DECREMENT_L, SLU_DECREMENT_G, SLU_DECREMENT_I, theSpace, false);
 					break;
-				}				
+				}
 			} else {
 				destroyFirst (splitMaths);
 				switch (aa) {
@@ -517,11 +517,11 @@ bool expandTypeDefOK (char * & theString) {
 				return false;
 			}
 			break;
-			
+
 			case YNF_NO:
 			return true;
 			break;
-			
+
 			case YNF_FAIL:
 			return false;
 			break;
@@ -586,7 +586,7 @@ bool getArrayIndex (const char * sourceCode, stringArray * & localVarNames, comp
 	// Get rid of the array name and then the closing bracket...
 	if (! destroyFirst (splitParams)) return addComment (ERRORTYPE_PROJECTERROR, "Bad [] index", sourceCode, filename);
 	trimEnd (splitParams -> string, ']');
-	
+
 	// Push the array onto the run-time stack and compile index number
 	outputDoneCode (theSpace, SLU_QUICK_PUSH, 0);
 	if (! compileSourceLine (splitParams -> string, localVarNames, theSpace, nullArray, filename)) return false;
@@ -774,7 +774,7 @@ int defineFunction (char * funcName, char * args, char * sourceCode, bool unfree
 	localVarNames = splitString (args, ',', REPEAT);
 	if (! localVarNames -> string[0]) destroyFirst (localVarNames);
 	addToStringArray (functionFiles, fileName);
-	
+
 	if (! startFunction (funcNum, countElements (localVarNames), localSpace, funcName, unfreezable, debugMe, fileName)) {
 		return -1;
 	}
@@ -793,7 +793,7 @@ void initBuiltInFunc ()
 #define FUNC(special,name) addToStringArray(builtInFunc, #name);
 #include "functionList.h"
 #undef FUNC
-	
+
 	addToStringArray (typeDefFrom, "NULL");			addToStringArray (typeDefTo, "0");
 
 	addToStringArray (typeDefFrom, "FALSE");		addToStringArray (typeDefTo, "0");
@@ -869,7 +869,7 @@ void initBuiltInFunc ()
 	addToStringArray (typeDefFrom, "renameGame");			addToStringArray (typeDefTo, "renameFile");
 	addToStringArray (typeDefFrom, "getSavedGames");		addToStringArray (typeDefTo, "getMatchingFiles");
 	addToStringArray (typeDefFrom, "setCharacterColorize");		addToStringArray (typeDefTo, "setCharacterColourise");
-	
+
 	addToStringArray (typeDefFrom, "FRONT");		addToStringArray (typeDefTo, "1");
 	addToStringArray (typeDefFrom, "FIXEDSIZE");	addToStringArray (typeDefTo, "2");
 	addToStringArray (typeDefFrom, "NOZBUFFER");	addToStringArray (typeDefTo, "4");
@@ -937,7 +937,7 @@ bool outdoorSub (char * code, const char * fileName) {
 	tokenType t;
 
 	getArguments = splitString (getContents -> string, '(', ONCE);
-	
+
 	getSpecial = splitString (getArguments -> string, ' ');
 	destroyFirst (getArguments);
 
@@ -947,11 +947,11 @@ bool outdoorSub (char * code, const char * fileName) {
 			case TOK_UNFREEZABLE:
 			unfreezable = true;
 			break;
-			
+
 			case TOK_DEBUG:
 			debugMe = true;
 			break;
-			
+
 			default:
 			return addComment (ERRORTYPE_PROJECTERROR, "Syntax error... this isn't an option which can be applied to a function", getSpecial -> string, fileName);
 		}
@@ -998,9 +998,9 @@ void writeDebugData (FILE * mainFile) {
 		writeString (funcName -> string, mainFile);
 		funcName = funcName -> next;
 	}
-	
+
 	// User defined functions...
-	
+
 	funcName = functionNames;
 	put2bytes (countElements (funcName), mainFile);
 	while (funcName) {
@@ -1009,7 +1009,7 @@ void writeDebugData (FILE * mainFile) {
 	}
 
 	// Resource files...
-	
+
 	funcName = allFileHandles;
 	put2bytes (countElements (funcName), mainFile);
 	while (funcName) {

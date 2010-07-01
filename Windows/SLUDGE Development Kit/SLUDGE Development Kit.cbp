@@ -37,12 +37,16 @@
 			<Add directory="..\..\source\SpriteBankEditor" />
 			<Add directory="..\..\source\Translator" />
 			<Add directory="..\..\source\ZBufferMaker" />
+			<Add directory="C:\Programmering" />
 		</Compiler>
 		<Linker>
 			<Add library="gdi32" />
 			<Add library="user32" />
 			<Add library="kernel32" />
+			<Add library="..\..\..\libpng\libpng.a" />
+			<Add library="..\..\..\zlib\libz.a" />
 		</Linker>
+		<Unit filename="..\PercBar.cpp" />
 		<Unit filename="..\WINCOMP.CPP" />
 		<Unit filename="..\..\images\Project Manager.RC">
 			<Option compilerVar="WINDRES" />
@@ -52,6 +56,16 @@
 		<Unit filename="..\..\source\CommonCode\tga.cpp" />
 		<Unit filename="..\..\source\CommonCode\tga.h" />
 		<Unit filename="..\..\source\CommonCode\version.h" />
+		<Unit filename="..\..\source\Compiler\ALLKNOWN.CPP" />
+		<Unit filename="..\..\source\Compiler\HSI.CPP" />
+		<Unit filename="..\..\source\Compiler\OBJTYPE.CPP" />
+		<Unit filename="..\..\source\Compiler\REALPROC.CPP" />
+		<Unit filename="..\..\source\Compiler\SLUDGE_Functions.CPP" />
+		<Unit filename="..\..\source\Compiler\TOKENS.CPP" />
+		<Unit filename="..\..\source\Compiler\checkUsed.cpp" />
+		<Unit filename="..\..\source\Compiler\dumpfiles.cpp" />
+		<Unit filename="..\..\source\Compiler\floor.cpp" />
+		<Unit filename="..\..\source\Compiler\translation.cpp" />
 		<Unit filename="..\..\source\ProjectManager\Interface.h" />
 		<Unit filename="..\..\source\ProjectManager\MESSBOX.H" />
 		<Unit filename="..\..\source\ProjectManager\MOREIO.H" />

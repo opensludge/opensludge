@@ -7,8 +7,8 @@
 #include "MOREIO.H"
 #include "TOKENS.H"
 #include "OBJTYPE.H"
+#include "interface.h"
 #include "MessBox.h"
-#include "wintext.h"
 #include "ALLKNOWN.H"
 
 int subNum = 0;
@@ -28,7 +28,7 @@ bool globalVar (char * theString, stringArray * & globalVars, compilationSpace &
 		if (! checkValidName (getVarName->string, "Not a valid global variable name", filename)) return false;
 //		if (! checkNotKnown (getVarName -> string)) return false;
 		char * variableName = joinStrings (inThisClass, getVarName -> string);
-		
+
 		if (! checkNotKnown (variableName, filename)) return false;
 		addToStringArray (globalVars, variableName);
 		addToStringArray (globalVarFileOrigins, filename);
@@ -82,7 +82,7 @@ bool realWork (int fileNumber, stringArray * & globalVars, compilationSpace & gl
 				if (! destroyFirst (removeTokenString)) return addComment (ERRORTYPE_PROJECTERROR, "Bad global variable definition", theBits -> string, origName->string);
 				if (! globalVar (removeTokenString -> string, globalVars, globalSpace, origName->string)) return false;
 				break;
-				
+
 				case TOK_FLAG:
 				case TOK_FLAGS:
 				if (! destroyFirst (removeTokenString)) return addComment (ERRORTYPE_PROJECTERROR, "Bad flags definition", theBits -> string, origName->string);

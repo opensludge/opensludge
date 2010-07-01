@@ -2,6 +2,7 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "interface.h"
 #include "SPLITTER.HPP"
 #include "SLUDGE_Functions.H"
 #include "settings.h"
@@ -9,8 +10,6 @@
 #include "MOREIO.H"
 #include "REALPROC.H"
 #include "MessBox.h"
-#include "wintext.h"
-#include "wintext.h"
 #include "checkUsed.h"
 
 stringArray * objectTypeNames = NULL;
@@ -196,12 +195,12 @@ bool createObjectType (char * code, const char * fName, stringArray * & globalVa
 			} else if (strcmp ("speechGap", getBitType -> string) == 0) {
 				if (! destroyFirst (getBitType)) return addComment (ERRORTYPE_PROJECTERROR, "Syntax error in speechGap element of objectType", getBits -> string, fName);
 				speechGap = stringToInt (getBitType -> string, ERRORTYPE_PROJECTERROR);
-				
+
 			} else if (strcmp ("flag", getBitType -> string) == 0 ||
 					   strcmp ("flags", getBitType -> string) == 0) {
 				if (! destroyFirst (getBitType)) return addComment (ERRORTYPE_PROJECTERROR, "Syntax error in flags element of objectType", getBits -> string, fName);
 				flags |= handleFlags (getBitType -> string);
-				
+
 			} else if (strcmp ("walkSpeed", getBitType -> string) == 0) {
 				if (! destroyFirst (getBitType)) return addComment (ERRORTYPE_PROJECTERROR, "Syntax error in walkSpeed element of objectType", getBits -> string, fName);
 				walkSpeed = stringToInt (getBitType -> string, ERRORTYPE_PROJECTERROR);
@@ -247,15 +246,15 @@ bool createObjectType (char * code, const char * fName, stringArray * & globalVa
 	fputc (walkSpeed, objFile);
 	put4bytes (wrapSpeech, objFile);
 	put2bytes (spinSpeed, objFile);
-	
+
 	fputc (aaOnOff, objFile);
 	putFloat (aaBlurX / 16.f, objFile);
 	putFloat (aaBlurY / 16.f, objFile);
-	
+
 	put2bytes (flags, objFile);
 
 	fclose (objFile);
-	
+
 	return true;
 }
 
@@ -308,7 +307,7 @@ bool linkObjectFile (FILE * mainFile, FILE * indexFile, int i, unsigned long cal
 		addComment (3, buff, NULL);
 	}
 #endif
-	
+
 	delete objNam;
 	delete fileNam;
 	fclose (theNumFile);
@@ -325,10 +324,11 @@ bool linkObjectFile (FILE * mainFile, FILE * indexFile, int i, unsigned long cal
 		f = findElement (functionNames, funcToCall);
 		if (f == -1) return addComment (ERRORTYPE_PROJECTERROR, "Not a function name", funcToCall, NULL);
 		put2bytes (f, mainFile);
-		
+
 		setUsed (CHECKUSED_FUNCTIONS, f);
 
-		delete objNam, funcToCall;
+		delete objNam;
+		delete funcToCall;
 	}
 	fclose (fileIn);
 	sprintf (fbuff, "obj%05i.nu~", i);

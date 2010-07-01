@@ -6,7 +6,7 @@
 #include "SPLITTER.HPP"
 #include "MOREIO.H"
 #include "MessBox.h"
-#include "wintext.h"
+#include "Interface.h"
 #include "settings.h"
 #include "dumpfiles.h"
 
@@ -54,28 +54,28 @@ void clearTranslations ()
 
 void registerTranslationFile (char * filename) {
 	char * name = NULL;
-	
+
 	FILE * fp = fopen (filename, "rt");
-	
+
 	if (fp == NULL) {
 		addComment (ERRORTYPE_PROJECTERROR, "Can't open translation file for reading", NULL, filename);
 		return;
 	}
-	
+
 	char * theLine = readText (fp);
 	if (strcmp (theLine, "### SLUDGE Translation File ###")) {
 		fclose (fp);
 		addComment (ERRORTYPE_PROJECTERROR, "Not a valid SLUDGE translation file", NULL, filename);
 		return;
 	}
-	
+
 	mode theMode = TM_COMMENTS;
 	int ID = -1;
-	
+
 	do {
 		delete theLine;
 		theLine = readText (fp);
-		
+
 		if (theLine && theLine[0]) {
 			if (theLine[0] == '[' && theLine[strlen (theLine) - 1] == ']') {
 				if (strcmp (theLine, "[DATA]") == 0) {
@@ -93,23 +93,23 @@ void registerTranslationFile (char * filename) {
 				} else if (theMode == TM_NAME) {
 					name = copyString (theLine);
 				}
-				
+
 			}
 		}
 	} while (theLine && theMode != TM_DATA);
-	
+
 	fclose (fp);
-	
+
 	if (theMode != TM_DATA) {
 		addComment (ERRORTYPE_PROJECTERROR, "This translation file doesn't seem to contain any translation data", NULL, filename);
 		return;
 	}
-	
+
 	if (ID < 0 || ID > 0xFFFF) {
 		addComment (ERRORTYPE_PROJECTERROR, "This translation file doesn't have a valid ID (either no ID is specified or the ID given is too high a number, negative or non-numerical)", NULL, filename);
 		return;
 	}
-	
+
 	addNewTraReg (filename, ID, name);
 }
 
@@ -120,7 +120,7 @@ bool cacheTranslationData (char * f) {
 	if (! gotoSourceDirectory ()) return false;
 	FILE * fp = fopen (f, "rt");
 	if (! fp) return addComment (ERRORTYPE_PROJECTERROR, "Translation file has suddenly gone missing", NULL, f);
-	
+
 	bool unfinished = false;
 
 	char * theLine = NULL;
@@ -128,7 +128,7 @@ bool cacheTranslationData (char * f) {
 		delete theLine;
 		theLine = readText (fp);
 	} while (theLine && strcmp (theLine, "[DATA]"));
-	
+
 	if (! theLine) return addComment (ERRORTYPE_PROJECTERROR, "No [DATA] all of a sudden in file", NULL, f);
 	delete theLine;
 
@@ -159,7 +159,7 @@ bool cacheTranslationData (char * f) {
 	} while (theLine);
 
 	fclose (fp);
-	
+
 	return true;
 }
 
@@ -172,7 +172,7 @@ char * translateMe (char * originalIn, char * filename) {
 	while (trimStart (original, ' ')) spacesAtStart ++;
 	while (trimEnd (original, ' ')) spacesAtEnd ++;
 //	addComment (original);
-	
+
 	char * trans = NULL;
 	int locInArray = findElement (transFrom, original);
 
@@ -183,7 +183,7 @@ char * translateMe (char * originalIn, char * filename) {
 		if (original[0]) addComment (ERRORTYPE_PROJECTWARNING, "No translation for", original, filename);
 		trans = original;
 	}
-	
+
 	for (int i = 0; i < spacesAtStart; i ++) {
 		original = joinStrings (" ", trans);
 		delete trans;
@@ -201,9 +201,9 @@ char * translateMe (char * originalIn, char * filename) {
 
 bool addTranslationData (translationReg * trans, stringArray * theSA, FILE * mainFile) {
 	if (! cacheTranslationData (trans->filename)) return false;
-	
+
 	FILE * projectFile, * indexFile;
-	
+
 	int indexSize = countElements (theSA) * 4 + ftell (mainFile) + 4;
 
 	if (! gotoTempDirectory ()) return false;
@@ -239,7 +239,7 @@ bool addTranslationData (translationReg * trans, stringArray * theSA, FILE * mai
 		return true;
 	} else {
 		return false;
-	}	
+	}
 }
 
 bool addAllTranslationData (stringArray * theSA, FILE * mainFile) {
@@ -264,7 +264,7 @@ void addTranslationIDTable (FILE * mainFile, char * name) {
 			writeString ("No translation", mainFile);
 		}
 	}
-	
+
 	while (temp) {
 		put2bytes (temp -> ID, mainFile);
 		if (temp->name)
@@ -272,6 +272,6 @@ void addTranslationIDTable (FILE * mainFile, char * name) {
 		else
 			writeString ("Unnamed translation", mainFile);
 		temp = temp -> next;
-	}	
+	}
 }
 
