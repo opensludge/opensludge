@@ -48,6 +48,7 @@
 		</Linker>
 		<Unit filename="..\PercBar.cpp" />
 		<Unit filename="..\WINCOMP.CPP" />
+		<Unit filename="..\WIN_MESSBOX.CPP" />
 		<Unit filename="..\..\images\Project Manager.RC">
 			<Option compilerVar="WINDRES" />
 		</Unit>
@@ -57,8 +58,11 @@
 		<Unit filename="..\..\source\CommonCode\tga.h" />
 		<Unit filename="..\..\source\CommonCode\version.h" />
 		<Unit filename="..\..\source\Compiler\ALLKNOWN.CPP" />
+		<Unit filename="..\..\source\Compiler\Compiler.cpp" />
 		<Unit filename="..\..\source\Compiler\HSI.CPP" />
+		<Unit filename="..\..\source\Compiler\LINKER.CPP" />
 		<Unit filename="..\..\source\Compiler\OBJTYPE.CPP" />
+		<Unit filename="..\..\source\Compiler\PREPROC.CPP" />
 		<Unit filename="..\..\source\Compiler\REALPROC.CPP" />
 		<Unit filename="..\..\source\Compiler\SLUDGE_Functions.CPP" />
 		<Unit filename="..\..\source\Compiler\TOKENS.CPP" />

@@ -43,7 +43,7 @@ void clearComments () {
 
 
 void addComment (int errorType, const char * comment, const char * filename/*, int lineNumber*/) {
-	/*
+
 	errorLinkToFile * newLink = new errorLinkToFile;
 	if (! newLink) return;
 
@@ -119,7 +119,7 @@ void addComment (int errorType, const char * comment, const char * filename/*, i
 
 //	fprintf (stderr, "addComment: %s\n", newLink->fullText);
 	delete after;
-	*/
+
 	numErrors ++;
 }
 

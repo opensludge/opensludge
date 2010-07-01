@@ -8,7 +8,7 @@
 #include "settings.h"
 #include "MessBox.h"
 #include "LINKER.H"
-#include "wintext.h"
+#include "Interface.h"
 #include "checkUsed.h"
 
 extern stringArray * functionNames;
@@ -36,11 +36,11 @@ bool runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray 
 	halfCode halfType;
 	long int numGlobalsSet = 0;
 	bool unfreezable, debugMe;
-	
+
 	put4bytes (ftell (mainFile) + calcIndexSize, indexFile);
 
 	if (! gotoTempDirectory ()) return false;
-	
+
 	sprintf (filename, "_F%05i.DAT", functionNum);
 	readObj = fopen (filename, "rb");
 	if (readObj == NULL) return addComment (ERRORTYPE_SYSTEMERROR, "Can't open", filename, NULL);
@@ -67,7 +67,7 @@ bool runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray 
 	numMarkers = fgetc (totalsFile);
 	numLines = get2bytes (totalsFile);
 	fclose (totalsFile);
-	
+
 	bool * localsUsed = new bool[numLocals];
 	memset (localsUsed, 0, sizeof(bool) * numLocals);
 
@@ -103,7 +103,7 @@ bool runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray 
 		if (! gotoTempDirectory ()) return false;
 		fprintf (debugFile, "%i parameters...\n%i locals...\n\n", numArg, numLocals);
 	}
-	
+
 	char * functionName = originalName;
 	// delete originalName;
 	// Now the assembludge
@@ -152,7 +152,7 @@ bool runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray 
 				b = SLU_LOAD_GLOBAL;
 				value = findElement (globalVarNames, bigName);
 				if (value != -1) break;
-				
+
 				b = SLU_LOAD_FUNC;
 				value = findElement (functionNames, bigName);
 				if (value != -1) break;
@@ -160,7 +160,7 @@ bool runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray 
 				b = SLU_LOAD_GLOBAL;
 				value = findElement (globalVarNames, grabbedText);
 				if (value != -1) break;
-				
+
 				b = SLU_LOAD_FUNC;
 				value = findElement (functionNames, grabbedText);
 				if (value != -1) break;
@@ -198,7 +198,7 @@ bool runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray 
 
 		fputc (b, mainFile);
 		put2bytes (value, mainFile);
-		
+
 		if (functionNum == 0) {		// Extra error checking for global init function
 			if (b == SLU_LOAD_GLOBAL && value >= numGlobalsSet) {
 				addComment (ERRORTYPE_PROJECTERROR, "Trying to initialise a global variable using a later (or earlier and undefined) one", theOriginalFilename);
@@ -207,11 +207,11 @@ bool runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray 
 				numGlobalsSet = value + 1;
 			}
 		}
-		
+
 		if (debugMe) {
 			if (b == SLU_LOAD_STRING)
 				originalName = joinStrings (returnElement (allSourceStrings, value), "");
-		
+
 			char padder[2] = {'\t', NULL};
 			if (strlen (sludgeText[b]) > 10) padder[0] = NULL;
 			if (originalName) {
@@ -237,7 +237,7 @@ bool runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray 
 		}
 		delete localName;
 	}
-	
+
 	delete localsUsed;
 	delete classNameDot;
 	delete functionName;

@@ -87,7 +87,7 @@ void runCompiledGame () {
 		//		errorBox (ERRORTYPE_SYSTEMERROR, "Execute", wholePath, NULL);
 		//TODO unsigned long reply = (unsigned long) ShellExecute (h, "open", wholePath, NULL, NULL, SW_SHOWNORMAL);
 		//		errorBox (ERRORTYPE_SYSTEMERROR, "Got reply", wholePath, NULL);
-		
+
 		/*
 		if (reply <= 31)
 		{
@@ -110,15 +110,15 @@ void setCompileStep (int a, int totalBits)
 {
 	compileStep = a;
 	data1 = 0;
-	
+
 	setCompilerText (COMPILER_TXT_ACTION, stageName[a]);
 	fprintf (stderr, "%s\n", stageName[a]);
-	
+
 	if (a <= CSTEP_DONE)
 	{
 		setCompilerText (COMPILER_TXT_FILENAME, "");
 		setCompilerText (COMPILER_TXT_ITEM, "");
-		
+
 		clearRect (CSTEP_DONE, P_TOP);
 		percRect (a, P_TOP);
 		clearRect (totalBits, P_BOTTOM);
@@ -137,11 +137,11 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 			addComment (ERRORTYPE_PROJECTERROR, "No files in project!", NULL);
 			return false;
 		}
-	
+
 		addToStringArray (allSourceStrings, "");
 		addToStringArray (allSourceStrings, settings.windowName);
 		addToStringArray (allSourceStrings, settings.quitMessage);
-		clearComments();	
+		clearComments();
 		setCompileStep (CSTEP_PARSE, *numFiles);
 		setCompilerStats (0, 0, 0, 0, 0);
 		break;
@@ -154,7 +154,7 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 				char * tx = fileList[data1];
 				fixPath(tx, true);
 				setCompilerText (COMPILER_TXT_FILENAME, tx);
-				
+
 				char * compareMe = tx + (strlen (tx) - 4);
 				char * lowExt = compareMe;
 				while (*lowExt) {
@@ -164,7 +164,7 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 				if (strcmp (compareMe, ".sld") == 0) {
 					doDefines (tx, allSourceStrings, allFileHandles);
 				} else if (strcmp (compareMe, ".slu") == 0) {
-					if (! preProcess (tx, numProcessed ++, allSourceStrings, allFileHandles)) 
+					if (! preProcess (tx, numProcessed ++, allSourceStrings, allFileHandles))
 						return false;
 				} else if (strcmp (compareMe, ".tra") == 0) {
 					registerTranslationFile (tx);
@@ -175,7 +175,7 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 			data1++;
 		}
 		break;
-		
+
 		case CSTEP_COMPILEINIT:
 		numStringsFound = countElements (allSourceStrings);
 		numFilesFound = countElements (allFileHandles);
@@ -183,7 +183,7 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 		if (! startFunction (protoFunction ("_globalInitFunction", ""), 0, globalSpace, "_globalInitFunction", true, false, "-")){
 			addComment (ERRORTYPE_INTERNALERROR, "Couldn't create global variable initialisation code segment", NULL);
 			return false;
-		}	
+		}
 		break;
 
 		case CSTEP_COMPILE:
@@ -192,7 +192,7 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 			setCompileStep (CSTEP_AFTERCOMPILE, 1);
 			break;
 		}
-		
+
 		percRect (data1, P_BOTTOM);
 		if (! realWork (data1, globalVarNames, globalSpace))
 			return false;
@@ -204,7 +204,7 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 		outputHalfCode (globalSpace, SLU_LOAD_GLOBAL, "init");
 		outputDoneCode (globalSpace, SLU_CALLIT, 0);
 		finishFunctionNew (globalSpace, NULL);
-	
+
 		setCompilerStats (countElements (functionNames) - 1,
 			countElements (objectTypeNames),
 			countElements (allFileHandles),
@@ -215,7 +215,7 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 		setUsed(CHECKUSED_FUNCTIONS, 0);
 
 		checkUsedInit (CHECKUSED_GLOBALS, countElements (globalVarNames));
-		
+
 		stringArray * silenceChecker = allFileHandles;
 		while (silenceChecker) {
 			if (audioFile (silenceChecker -> string)) silent = false;
@@ -228,9 +228,9 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 		}
 
 		FILE * textFile = (programSettings.compilerWriteStrings) ? openFinalFile (" text.txt", "wt") : NULL;
-	
+
 		writeFinalData (projectFile);
-	
+
 		// ADD ICON ------------------------------------
 		if (settings.customIcon && settings.customIcon[0]) {
 			setCompilerText (COMPILER_TXT_ACTION, "Adding custom icon");
@@ -256,13 +256,13 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 			fputc (0, projectFile);
 		}
 		//----------------------------------------------
-	
+
 		put2bytes (countElements (globalVarNames), projectFile);
 
 		if (! saveStrings (projectFile, textFile, allSourceStrings)) {
 			fclose (projectFile);
 			addComment (ERRORTYPE_SYSTEMERROR, "Can't save string bank(s)", NULL);
-			return false;			
+			return false;
 		}
 
 		if (! gotoTempDirectory ()) {
@@ -274,10 +274,10 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 
 		allTheFunctionNamesTemp = functionNames;
 		iSize = countElements (functionNames) * 4 + ftell (projectFile) + 4;
-	
+
 		setCompileStep (CSTEP_LINKSCRIPTS, countElements(functionNames));
 		break;
-		
+
 		case CSTEP_LINKSCRIPTS:
 		if (data1 < countElements(functionNames)) {
 			percRect (data1, P_BOTTOM);
@@ -289,7 +289,7 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 			setCompileStep (CSTEP_AFTERLINKSCRIPTS, 1);
 		}
 		break;
-		
+
 		case CSTEP_AFTERLINKSCRIPTS:
 		put4bytes (ftell (tempIndex) + ftell (tempData), projectFile);
 		fclose (tempIndex);
@@ -306,7 +306,7 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 		setCompileStep (CSTEP_LINKOBJECTS, tot);
 
 		break;
-		
+
 		case CSTEP_LINKOBJECTS:
 		if (data1 < tot) {
 			percRect (data1, P_BOTTOM);
@@ -319,7 +319,7 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 			setCompileStep (CSTEP_AFTERLINKOBJECTS, 0);
 		}
 		break;
-		
+
 		case CSTEP_AFTERLINKOBJECTS:
 		put4bytes (ftell (tempIndex) + ftell (tempData), projectFile);
 		fclose (tempIndex);
@@ -337,7 +337,7 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 
 		setCompileStep (CSTEP_DUMPFILES, 1);
 		break;
-		
+
 		case CSTEP_DUMPFILES:
 		if (! dumpFiles (projectFile, allFileHandles)) {
 			fclose (projectFile);
@@ -349,7 +349,7 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 		if (gameFile) deleteString (gameFile);
 		gameFile = joinStrings (settings.finalFile, settings.forceSilent ? " (silent).slg" : ".slg");
 		unlink (gameFile);
-		
+
 		if (rename (fromName, gameFile))
 		{
 			addComment (ERRORTYPE_SYSTEMERROR, "Couldn't rename the compiled game file... it's been left with the name", fromName, NULL);
@@ -369,8 +369,8 @@ int compileEverything (char * project, char **fileList, int *numFiles) {
 		setCompilerText (COMPILER_TXT_ACTION, "Error initialising!");
 		setCompilerText (COMPILER_TXT_FILENAME, "Could not find the folder for the source files.");
 		return false;
-	}		
-	
+	}
+
 	initBuiltInFunc ();
 
 	compileStep = CSTEP_INIT;
@@ -385,7 +385,7 @@ int compileEverything (char * project, char **fileList, int *numFiles) {
 			success = false;
 		}
 	}
-		
+
 	destroyAll (functionNames);
 	destroyAll (objectTypeNames);
 	destroyAll (globalVarNames);
@@ -394,7 +394,7 @@ int compileEverything (char * project, char **fileList, int *numFiles) {
 	destroyAll (allKnownFlags);
 	destroyAll (allSourceStrings);
 	destroyAll (allFileHandles);
-		
+
 	killTempDir();
 	return success;
 }
