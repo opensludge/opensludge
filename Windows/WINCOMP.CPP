@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include "Compiler.hpp"
 #include "WINTERFA.H"
 #include "MOREIO.H"
 #include "MessBox.h"
@@ -47,7 +46,7 @@ void setChanged (bool newVal);
 
 void setCompilerText (const compilerStatusText w, const char * theText)
 {
-    fprintf(stderr, "Compiler text: %s\n", theText);
+    //fprintf(stderr, "Compiler text: %s\n", theText);
 }
 
 void setCompilerStats (int funcs, int objTypes, int files, int globals, int strings)
@@ -179,10 +178,6 @@ LRESULT CALLBACK prefsBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 				case IDCANCEL:
 				EndDialog(hDlg, true);
 				return (true);
-
-				case ID_MOREOPTIONS:
-//				DialogBox(inst, MAKEINTRESOURCE(DLG_PROJECT_ADVANCED), hDlg, (DLGPROC)projectAdvancedFunc);
-				break;
 
 			}
 			break;
@@ -559,6 +554,8 @@ void updateFileList()
     }
 }
 
+void compileWindow ();
+
 BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 
 	static OPENFILENAME ofn;
@@ -591,57 +588,6 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 			DialogBox(inst, MAKEINTRESOURCE(DLG_PROJECT_PROPERTIES), h, (DLGPROC)prefsBoxFunc);
 			break;
 
-			case ID_CONTENTS_ADD_FILE:
-			{
-				char file[MAX_PATH]="";
-				ofn.lpstrFilter="SLUDGE scripts (*.SLU)\0*.slu\0SLUDGE definition files (*.SLD)\0*.sld\0SLUDGE translation files (*.TRA)\0*.tra\0";
-				ofn.lpstrFile=file;
-				ofn.lpstrTitle = "Add a file to the current project...";
-				ofn.Flags=OFN_HIDEREADONLY|OFN_EXPLORER;
-				/*
-				if (GetOpenFileName(&ofn)) {
-					memcpy(path,file,ofn.nFileOffset);
-					path[ofn.nFileOffset-1]=0;
-					switch (ofn.nFilterIndex) {
-						case 1:
-						fixExtension (file, "slu");
-						break;
-
-						case 2:
-						fixExtension (file, "sld");
-						break;
-
-						case 3:
-						fixExtension (file, "tra");
-						break;
-					}
-					FILE * tester = fopen (file, "rb");
-
-					bool ok = true;
-					if (tester) {
-						fclose (tester);
-					} else {
-						char * q1 = joinStrings ("The file \"", file);
-						char * q2 = joinStrings (q1, "\" doesn't exist at the moment. Do you want to create it now?");
-						delete q1;
-						ok = MessageBox (mainWin, q2, "Non-existant file!", MB_YESNO | MB_SETFOREGROUND) == IDYES;
-						delete q2;
-
-						if (ok) {
-							tester = fopen (file, "wb");
-							fclose (tester);
-						}
-					}
-
-					if (ok) {
-						//addFileToProject (file);
-						setChanged (true);
-					}
-				}*/
-				updateFileList();
-			}
-			break;
-
 			case ID_PROJECT_SAVE:
                 saveProject (loadedFile, fileList, &fileListNum);
 			break;
@@ -652,10 +598,7 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 			break;
 
 			case ID_PROJECT_COMPILE:
-            {
-                int success = false;
-                compileEverything(loadedFile, fileList, &fileListNum);
-            }
+                compileWindow();
 			break;
 
 			case IDCANCEL:				// X button
@@ -729,19 +672,67 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 			//editFile (helpFile, mainWin);
 			break;
 
+			case ID_CONTENTS_ADD_FILE:
+			{
+				char file[MAX_PATH]="";
+				ofn.lpstrFilter="SLUDGE scripts (*.SLU)\0*.slu\0SLUDGE definition files (*.SLD)\0*.sld\0SLUDGE translation files (*.TRA)\0*.tra\0";
+				ofn.lpstrFile=file;
+				ofn.lpstrTitle = "Add a file to the current project...";
+				ofn.Flags=OFN_HIDEREADONLY|OFN_EXPLORER;
+
+				if (GetOpenFileName(&ofn)) {
+					memcpy(path,file,ofn.nFileOffset);
+					path[ofn.nFileOffset-1]=0;
+					switch (ofn.nFilterIndex) {
+						case 1:
+						fixExtension (file, "slu");
+						break;
+
+						case 2:
+						fixExtension (file, "sld");
+						break;
+
+						case 3:
+						fixExtension (file, "tra");
+						break;
+					}
+					FILE * tester = fopen (file, "rb");
+
+					bool ok = true;
+					if (tester) {
+						fclose (tester);
+					} else {
+						char * q1 = joinStrings ("The file \"", file);
+						char * q2 = joinStrings (q1, "\" doesn't exist at the moment. Do you want to create it now?");
+						delete q1;
+						ok = MessageBox (mainWin, q2, "Non-existant file!", MB_YESNO | MB_SETFOREGROUND) == IDYES;
+						delete q2;
+
+						if (ok) {
+							tester = fopen (file, "wb");
+							fclose (tester);
+						}
+					}
+
+					if (ok) {
+					    getSourceDirFromName(loadedFile);
+						addFileToProject (file, sourceDirectory, fileList, &fileListNum);
+						//setChanged (true);
+                        updateFileList();
+					}
+				}
+			}
+			break;
+
 			case ID_CONTENTS_DELETE_FILE:
 			{
-			    /*
-				int i, n = MESS (ID_FILELIST, LB_GETCOUNT, 0, 0);
-
-				for (i = 0; i < n; i ++) {
-					if (MESS (ID_FILELIST, LB_GETSEL, i, 0)) {
-						MESS (ID_FILELIST, LB_DELETESTRING, i, 0);
-						//setChanged (true);
-						i --;
-						n --;
-					}
-				}*/
+                int i, o, num = fileListNum;
+                for (i=0, o=0; i<num; i++, o++) {
+					if (! MESS (ID_FILELIST, LB_GETSEL, i, 0)) continue;
+                    removeFileFromList (o, fileList, &fileListNum);
+                    o--;
+                }
+				//setChanged (true);
 				updateFileList();
 			}
 			break;
@@ -804,6 +795,8 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 
 		case WM_INITDIALOG:
 
+		fprintf (stderr, "...\n");
+
 		// Set up the menu
 		myMenu = LoadMenu (inst, MAKEINTRESOURCE(1));
 		SetMenu (h, myMenu);
@@ -818,7 +811,7 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 		ofn.hInstance=inst;
 		ofn.nMaxFile=MAX_PATH;
 		ofn.lpstrInitialDir=path;
-//      noSettings ();
+        noSettings ();
 
 		keepImages = ! programSettings.compilerKillImages;
 		setTick (ID_KEEP_IMAGES, keepImages);
@@ -884,9 +877,11 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine,
                                     IMAGE_BITMAP, 0, 0,
                                     LR_CREATEDIBSECTION);
 
+    fprintf (stderr, "Hello!");
 	if (! CreateDialog(hInstance, MAKEINTRESOURCE(DLG_MAIN), NULL, dialogproc)) {
 		return 0;
 	}
+    fprintf (stderr, "Hello!");
 
 	while (1) {
 		if (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE)) {

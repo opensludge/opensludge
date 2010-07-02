@@ -21,6 +21,7 @@
 
 
 #define DLG_MAIN						500
+#define DLG_COMPILE                     501
 #define DLG_FILE_LOCATIONS				600
 #define DLG_WINDOW_SIZES				626
 #define DLG_PROJECT_PROPERTIES			650

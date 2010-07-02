@@ -88,7 +88,7 @@ bool errorBox (const char * txt1, const char * txt2) {
 bool errorBox (const char * txt1, unsigned int number) {
 	char * a = new char[strlen (txt1) + 30];
 	if (a) {
-		sprintf (a, "%s:\n%lu", txt1, number);
+		sprintf (a, "%s:\n%d", txt1, number);
 		messageBox (er, a);
 		delete a;
 	} else {

@@ -268,12 +268,9 @@ bool gotoSourceDirectory () {
 }
 
 bool gotoTempDirectory () {
-    fprintf (stderr, "gotoTempDirectory\n");
 	if (! tempDirectory) {
-        fprintf (stderr, "no temp dir exists...\n");
 		tempDirectory = joinStrings(getTempDir(), "/SLUDGE_Tmp_XXXXXX");
 		fixPath (tempDirectory, true);
-        fprintf (stderr, "Let's make it %s!\n", tempDirectory);
 		if (mktemp (tempDirectory)) {
 #ifdef WIN32
 			if (mkdir (tempDirectory))

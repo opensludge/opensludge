@@ -1,8 +1,8 @@
 #include <windows.h>
-#include "version.h"
-#include "WINTERFA.H"
+#include "..\Windows\WINTERFA.H"
+#include "..\source\CommonCode\version.h"
 
-DIALOG_1 DIALOG 100, 80, 229, 186
+DLG_COMPILE DIALOG 100, 80, 229, 186
 STYLE WS_CAPTION | WS_VISIBLE
 //EXSTYLE WS_EX_TOPMOST
 CAPTION "Compiling..."
@@ -14,7 +14,7 @@ FONT 8, "Arial"
 
    LTEXT "Name:",		-1,				8,	 12,	30,  8
    LTEXT "", 			COM_PROJTEXT,	42,  12,	176, 8
- 
+
  GROUPBOX "Progress",	-1,				2,	 28,	225, 76
 
    LTEXT "Task:",		-1,				8,	 38,	30,  8
@@ -60,24 +60,5 @@ FONT 8, "Arial"
 	LISTBOX ID_WARNINGLIST,		6,	6, 408, 78, LBS_NOTIFY | WS_BORDER | WS_BORDER | WS_VSCROLL | WS_GROUP | WS_TABSTOP
 }
 
-IDI_ICON1 ICON "resources/compiler.ico"
-
-1 VERSIONINFO
- FILEVERSION 0,1,0,0
- PRODUCTVERSION 0,1,0,0
-BEGIN
-    BLOCK "StringFileInfo"
-    BEGIN
-        BLOCK "040904E4"
-        BEGIN
-            VALUE "FileVersion", TEXT_VERSION"\0"
-            VALUE "FileDescription", "SLUDGE Compiler\0"
-            VALUE "LegalCopyright", COPYRIGHT_TEXT"\0"
-            VALUE "About SLUDGE", "Er... well, SLUDGE stands for Scripting Language for Unhindered Development of a Gaming Environment. So there. What, you thought this was a help file?\0"
-            VALUE "About the compiler", "The SLUDGE compiler will only work when a SLUDGE project is specified as its parameter. Best bet is to use the SLUDGE project manager and run the compiler from there. Trust me.\0"
-            VALUE "SLUDGE on the WWW", "When you get a free moment, you could do worse than to pop over to http://hungrysoftware.com/ and check out the SLUDGE resources. You know you want to, fool.\0"
-            VALUE "UPX on the WWW", "This SLUDGE executable has been compressed using the UPX executable packer. For more information, please visit the UPX website. It's at http://upx.sf.com/ and it's lovely.\0"
-        END
-    END
-END
+IDI_ICON1 ICON "compiler.ico"
 

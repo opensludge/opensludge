@@ -41,18 +41,6 @@ FONT 8, "Arial"
   EDITTEXT ID_EDIT_OUTPUTFILE,	61, 216, 242, 10, WS_BORDER | WS_TABSTOP
 }
 
-DLG_FILE_LOCATIONS DIALOG 100, 100, 300, 50
-STYLE WS_VISIBLE | WS_CAPTION | WS_SYSMENU
-CAPTION "File locations"
-FONT 8, "Arial"
-{
- LTEXT "Text editor:", -1,			5,  5, 250,  8
- EDITTEXT ID_TEXT_EDITOR,			5, 15, 250, 10, WS_BORDER | WS_TABSTOP | ES_AUTOHSCROLL
- PUSHBUTTON "Browse", ID_TEXT_BROWSE,	260, 13, 35, 12, WS_TABSTOP
-
- PUSHBUTTON "OK",		IDOK,		5, 31, 50, 14, WS_TABSTOP
- PUSHBUTTON "Cancel", 	IDCANCEL,	60, 31, 50, 14, WS_TABSTOP
-}
 
 666 DIALOG 100, 100, 160, 65
 STYLE WS_VISIBLE | WS_CAPTION | WS_SYSMENU
@@ -125,7 +113,7 @@ FONT 8, "Arial"
   AUTOCHECKBOX "Make silent version", ID_MAKESILENT,
   										218,	12,		95,		10,			WS_TABSTOP
 
-  CTEXT "Quit message (this will only be used if NOT running full-screen):",
+  CTEXT "Quit message (used if closed by the Operating System):",
    							-1,			218,  	25, 	195,  	16
   EDITTEXT ID_EDIT_QUITMESSAGE,			218,	43, 	195, 	10, 		WS_BORDER | WS_TABSTOP | ES_AUTOHSCROLL
 
@@ -133,27 +121,9 @@ FONT 8, "Arial"
   								-1,		218,  	58,		195,	16
   EDITTEXT ID_EDIT_DATAFOLDER,			218,	76,		195,	10,			WS_BORDER | WS_TABSTOP
 
- PUSHBUTTON "Advanced", ID_MOREOPTIONS,	317,  94, 98, 14, WS_TABSTOP
-
  PUSHBUTTON "OK",		IDOK,			215,  112, 98, 14, WS_TABSTOP
  PUSHBUTTON "Cancel", 	IDCANCEL,		317,  112, 98, 14, WS_TABSTOP
 }
-
-DLG_PROJECT_ADVANCED DIALOG 10, 120, 135, 104
-STYLE WS_VISIBLE | WS_CAPTION | WS_SYSMENU
-CAPTION "Advanced"
-FONT 8, "Arial"
-{
- GROUPBOX "Start-up settings", -1, 2, 30, 131, 48, BS_GROUPBOX
-
-  AUTOCHECKBOX "Run minimised", ID_STARTUP_INVISIBLE, 8, 40, 119, 10, WS_TABSTOP
-  AUTOCHECKBOX "Display SLUDGE logo", ID_STARTUP_DISPLAY_SLUDGE, 8, 53, 119, 10, WS_TABSTOP
-  AUTOCHECKBOX "Display LOADING caption", ID_STARTUP_DISPLAY_LOADING, 8, 66, 119, 10, WS_TABSTOP
-
- PUSHBUTTON "OK",		IDOK,			5,  85, 60, 14, WS_TABSTOP
- PUSHBUTTON "Cancel", 	IDCANCEL,		70, 85, 60, 14, WS_TABSTOP
-}
-
 
 1 MENU
 BEGIN
@@ -182,8 +152,6 @@ BEGIN
             MENUITEM "&Keep compressed images", ID_KEEP_IMAGES
             MENUITEM "&Write strings to text file", ID_KEEP_STRINGS
             MENUITEM "&Verbose errors (development mode)", ID_VERBOSE
-            MENUITEM SEPARATOR
-            MENUITEM "&File locations", ID_SETTINGSBOX
         END
     POPUP "&Programs"
         BEGIN
@@ -192,22 +160,12 @@ BEGIN
             MENUITEM "Launch &floor maker", ID_LAUNCH_FLOOR
             MENUITEM "Launch &translation editor", ID_LAUNCH_TRANS
             MENUITEM "Launch SLUDGE &engine", ID_LAUNCH_ENGINE
-            MENUITEM SEPARATOR
-            MENUITEM "&Check for upgrades", ID_UPGRADES
         END
-#ifndef NOHELP
     POPUP "&Help"
         BEGIN
             MENUITEM "&About SLUDGE", ID_ABOUT
             MENUITEM "&SLUDGE documentation", ID_SLUDGE_HELP
         END
-#else
-    POPUP "&Info"
-        BEGIN
-            MENUITEM "&About SLUDGE...", ID_ABOUT
-            MENUITEM "&SLUDGE documentation", ID_SLUDGE_HELP
-        END
-#endif /*NOHELP*/
 END
 
 
