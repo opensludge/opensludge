@@ -189,8 +189,6 @@ char * newString (const char * old)
  *
  */
 void killTempDir() {
-	// TODO!
-#ifndef WIN32
 	gotoTempDirectory ();
 
 	struct dirent **eps;
@@ -208,7 +206,6 @@ void killTempDir() {
 	gotoSourceDirectory ();
 	rmdir(tempDirectory);
 	tempDirectory = NULL;
-#endif
 }
 
 static void fileWriteBool (FILE * fp, const char * theString, bool theBool)

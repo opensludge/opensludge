@@ -68,7 +68,6 @@
 		2F7EA4CB0FFCEBE6005E5C36 /* translation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA4160FFCEBE6005E5C36 /* translation.cpp */; };
 		2F7EA4CC0FFCEBE6005E5C36 /* translation.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA4170FFCEBE6005E5C36 /* translation.h */; };
 		2F7EA4CD0FFCEBE6005E5C36 /* TYPEDEF.H in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA4180FFCEBE6005E5C36 /* TYPEDEF.H */; };
-		2F7EA4ED0FFCEBE6005E5C36 /* dialogueBoxInOut.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA43A0FFCEBE6005E5C36 /* dialogueBoxInOut.h */; };
 		2F7EA4EF0FFCEBE6005E5C36 /* launch.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA43C0FFCEBE6005E5C36 /* launch.h */; };
 		2F7EA5060FFCEBE6005E5C36 /* savedata.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F7EA4550FFCEBE6005E5C36 /* savedata.h */; };
 		2F7EA5070FFCEBE6005E5C36 /* settings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F7EA4560FFCEBE6005E5C36 /* settings.cpp */; };
@@ -137,7 +136,6 @@
 				2F7EA4CA0FFCEBE6005E5C36 /* TOKENS.H in Copy Frameworks into .app bundle */,
 				2F7EA4CC0FFCEBE6005E5C36 /* translation.h in Copy Frameworks into .app bundle */,
 				2F7EA4CD0FFCEBE6005E5C36 /* TYPEDEF.H in Copy Frameworks into .app bundle */,
-				2F7EA4ED0FFCEBE6005E5C36 /* dialogueBoxInOut.h in Copy Frameworks into .app bundle */,
 				2F7EA4EF0FFCEBE6005E5C36 /* launch.h in Copy Frameworks into .app bundle */,
 				2F7EA5060FFCEBE6005E5C36 /* savedata.h in Copy Frameworks into .app bundle */,
 				2F7EA5080FFCEBE6005E5C36 /* settings.h in Copy Frameworks into .app bundle */,
@@ -230,7 +228,6 @@
 		2F7EA4160FFCEBE6005E5C36 /* translation.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = translation.cpp; sourceTree = "<group>"; };
 		2F7EA4170FFCEBE6005E5C36 /* translation.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = translation.h; sourceTree = "<group>"; };
 		2F7EA4180FFCEBE6005E5C36 /* TYPEDEF.H */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; path = TYPEDEF.H; sourceTree = "<group>"; };
-		2F7EA43A0FFCEBE6005E5C36 /* dialogueBoxInOut.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = dialogueBoxInOut.h; sourceTree = "<group>"; };
 		2F7EA43C0FFCEBE6005E5C36 /* launch.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = launch.h; sourceTree = "<group>"; };
 		2F7EA4550FFCEBE6005E5C36 /* savedata.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = savedata.h; sourceTree = "<group>"; };
 		2F7EA4560FFCEBE6005E5C36 /* settings.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = settings.cpp; sourceTree = "<group>"; };
@@ -468,7 +465,6 @@
 				2F820CC9100E10AE0004738F /* MessBox.cpp */,
 				2F820CCA100E10AE0004738F /* MessBox.h */,
 				2F820CCB100E10AE0004738F /* MOREIO.cpp */,
-				2F7EA43A0FFCEBE6005E5C36 /* dialogueBoxInOut.h */,
 				2F7EA43C0FFCEBE6005E5C36 /* launch.h */,
 				2F7EA4550FFCEBE6005E5C36 /* savedata.h */,
 				2F7EA4560FFCEBE6005E5C36 /* settings.cpp */,
