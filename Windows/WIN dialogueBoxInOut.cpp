@@ -1,3 +1,4 @@
+/*
 #ifdef WIN32
 
 #include <windows.h>
@@ -37,7 +38,7 @@ bool dialogueBoxHandler(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam, i
 					{
 						return true;
 					}
-					
+
 					callback (hDlg, DIALOGUE_TRANSFER_STORE);
 					setChanged (true);
 				}
@@ -61,7 +62,7 @@ bool dialogueBoxTransferValue_Int (HWND hDlg, int id, int * theInt, dlgOperation
 		case DIALOGUE_TRANSFER_PUTINTOBOX:
 	   	SetDlgItemInt (hDlg, id, *theInt, 0);
 	   	break;
-	   	
+
 	   	case DIALOGUE_TRANSFER_CHECK:
 	   	{
 	   		unsigned int blah = GetDlgItemInt (hDlg, id, &success, 0);
@@ -74,12 +75,12 @@ bool dialogueBoxTransferValue_Int (HWND hDlg, int id, int * theInt, dlgOperation
 	   		}
 	   	}
    		break;
-   		
+
    		case DIALOGUE_TRANSFER_STORE:
    		*theInt = GetDlgItemInt (hDlg, id, &success, 0);
    		break;
 	}
-	
+
 	return success;
 }
 
@@ -90,13 +91,14 @@ bool dialogueBoxTransferValue_Checkbox (HWND hDlg, int id, bool * theBool, dlgOp
 		case DIALOGUE_TRANSFER_PUTINTOBOX:
 		CheckDlgButton (hDlg, id, *theBool ? BST_CHECKED : BST_UNCHECKED);
 	   	break;
-	   	
+
 		case DIALOGUE_TRANSFER_STORE:
 		*theBool = isChecked (hDlg, id);
    		break;
 	}
-	
+
 	return true;
 }
 
 #endif
+*/

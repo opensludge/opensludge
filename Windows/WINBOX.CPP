@@ -1,5 +1,5 @@
 #ifdef WIN32
-
+/*
 #include <windows.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -65,5 +65,5 @@ bool APIENTRY warningBoxFunc (HWND h, UINT m, WPARAM w, LPARAM l) {
 	return 0;
 }
 
-
+*/
 #endif

@@ -1,11 +1,9 @@
 #ifdef WIN32
 
 #include <windows.h>
-#include "winstuff.h"
-#include "winterface.h"
-#include "backdrop.h"
-#include "line.h"
-#include "data.h"
+#include <ctype.h>
+#include "Interface.h"
+#include "winterfa.h"
 #include "MOREIO.H"
 
 int getRegInt (char * complete, int def) {
@@ -13,18 +11,18 @@ int getRegInt (char * complete, int def) {
 	int r;
 	int grab;
 	unsigned long si = 4;
-	
+
 	if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, "Software\\Hungry Software\\SLUDGE Compiler", 0, KEY_READ, & gotcha) != ERROR_SUCCESS) return def;
 	r = RegQueryValueEx (gotcha, complete, NULL, NULL, (unsigned char *) & grab, & si);
 	RegCloseKey (gotcha);
-		
+
 	return (r == ERROR_SUCCESS) ? grab : def;
 }
 
 int WINWIDTH = getRegInt ("utilityWidth", 640);
 int WINHEIGHT = getRegInt ("utilityHeight", 480);
 
-extern int HORZ_RES, VERT_RES, xShift, yShift;
+//extern int HORZ_RES, VERT_RES, xShift, yShift;
 
 #define SHOWFLOOR 0x789A
 #define HIDEFLOOR (0x10000 - SHOWFLOOR)
@@ -37,7 +35,7 @@ extern int HORZ_RES, VERT_RES, xShift, yShift;
 
 HINSTANCE hInst;  				// Handle of the main instance
 HWND hMainWindow;
-myBitmapInfo screenBMPInfo; // bitmap information/palette
+//myBitmapInfo screenBMPInfo; // bitmap information/palette
 HBITMAP videoBuffer;        // handle to the buffer bitmap
 HDC bufferDC;               // handle to the memory DC containing the
 							// buffer bitmap
@@ -46,7 +44,7 @@ unsigned short int * back;
 
 const char * windowName = "SLUDGE Floor Maker";
 const char * className = "SLUDGE_FLOOR32";
-char * loadedFile = NULL;
+extern char * loadedFile;
 
 int mouseX = WINWIDTH / 2, mouseY = WINHEIGHT / 2, screenMouseX = WINWIDTH/2, screenMouseY = WINHEIGHT/2;
 int lastMouseX = 320, lastMouseY = 200;
@@ -62,7 +60,7 @@ HCURSOR noWayCursor;
 HCURSOR arrowsCursor;
 HCURSOR moverCursor;
 
-HMENU myMenu;
+extern HMENU myMenu;
 int currentMode = 0;
 
 //----------------------------------------------
@@ -100,9 +98,9 @@ void updateTitle () {
 			b ++;
 		}
 	}
-	sprintf (buff, "SLUDGE Floor Maker: %s%s", notSaved ? "* " : "",
+	sprintf (buff, "SLUDGE Development Kit: %s%s", notSaved ? "* " : "",
 		loadedFile ? loadedFile + a : "Untitled");
-	//SetWindowText (hMainWindow, buff);
+	SetWindowText (hMainWindow, buff);
 }
 
 bool InitInstance (HINSTANCE hInstance, int nCmdShow) {
@@ -122,7 +120,7 @@ bool InitInstance (HINSTANCE hInstance, int nCmdShow) {
 									 clientRect.top,
 									 clientRect.right - clientRect.left,
 									 clientRect.bottom - clientRect.top,
-									 NULL, 
+									 NULL,
 									 myMenu,
 									 hInstance, NULL);
 
@@ -136,58 +134,7 @@ bool InitInstance (HINSTANCE hInstance, int nCmdShow) {
 		  return (true);
 }
 
-bool initVideo(HWND hWnd) {
-	int i;
-	HDC hdc;
 
-	// Fill in bitmap header information
-
-	screenBMPInfo.bmiHeader.biSize=sizeof(BITMAPINFOHEADER);
-	screenBMPInfo.bmiHeader.biWidth=WINWIDTH;
-	screenBMPInfo.bmiHeader.biHeight=-WINHEIGHT;
-	screenBMPInfo.bmiHeader.biPlanes=1;
-	screenBMPInfo.bmiHeader.biBitCount=16;
-	screenBMPInfo.bmiHeader.biCompression=BI_BITFIELDS;
-	screenBMPInfo.bmiHeader.biSizeImage=0;
-	screenBMPInfo.bmiHeader.biXPelsPerMeter=0;
-	screenBMPInfo.bmiHeader.biYPelsPerMeter=0;
-	screenBMPInfo.bmiHeader.biClrUsed=256;
-	screenBMPInfo.bmiHeader.biClrImportant=0;
-
-	screenBMPInfo.bitMask[0]=0xF800;
-	screenBMPInfo.bitMask[1]=0x07E0;
-	screenBMPInfo.bitMask[2]=0x001F;
-
-	hdc=GetDC(hWnd);
-
-	// Attempt to create a memory DC for the buffer
-	bufferDC=CreateCompatibleDC(hdc);
-
-	if(bufferDC==NULL) return fatal ("Could not create compatible memory DC");
-
-	// Get pointer and handle to buffer DIB
-	screen=NULL;
-	videoBuffer=CreateDIBSection(hdc,(BITMAPINFO *)&screenBMPInfo,
-										  DIB_RGB_COLORS,(void **)&screen,NULL,0);
-
-	// Select the buffer DIB into the memory device context
-	i=(int)SelectObject(bufferDC,videoBuffer);
-
-	if((i==NULL) || (i==GDI_ERROR)) {
-		MessageBox(hWnd,"Could not select buffer DIB into device context",
-					  "initVideo(...) error",MB_ICONSTOP | MB_OK);
-		return(false);
-	};
-	ReleaseDC (hWnd, hdc);
-
-		blokeyCursor	= LoadCursor (hInst, MAKEINTRESOURCE (100));
-		snapCursor		= LoadCursor (hInst, MAKEINTRESOURCE (101));
-		noWayCursor		= LoadCursor (hInst, MAKEINTRESOURCE (102));
-		arrowsCursor	= LoadCursor (hInst, MAKEINTRESOURCE (103));
-		moverCursor		= LoadCursor (hInst, MAKEINTRESOURCE (104));
-
-	return(true);
-}
 
 bool CenterWindow (HWND hwndChild, HWND hwndParent) {
 		  RECT    rChild, rParent, rWorkArea;
@@ -261,7 +208,7 @@ void fixExtension (char * buff, char * ext) {
 		buff[a + 4] = NULL;
 	}
 }
-
+/*
 void fixShift () {
 	if (xShift < 0) xShift = 0;
 	if (yShift < 0) yShift = 0;
@@ -286,8 +233,8 @@ void scrollAtEdges () {
 	} else {
 		h --;
 	}
-	
-	if (h) fixShift ();	
+
+	if (h) fixShift ();
 }
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
@@ -298,7 +245,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 
 	switch (message) {
 		case WM_CREATE:
-		if (! initVideo (hWnd)) fatal ("Can't create video controller");
+//		if (! initVideo (hWnd)) fatal ("Can't create video controller");
 		CenterWindow (hWnd, GetDesktopWindow ());
 		ShowWindow (hWnd, SW_SHOWNORMAL);
 		GetCurrentDirectory(MAX_PATH,path);
@@ -326,12 +273,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			case ID_MODE_SPLITLINE:
 			changeMode (LOWORD (wParam));
 			break;
-			
+
 			case ID_EXIT:
 			case IDCANCEL:
 			PostQuitMessage (0);
 			break;
-			
+
 			case ID_IMAGE_CLEAR:
 			blankScreen ();
 			drawSoFar (SHOWFLOOR);
@@ -358,7 +305,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 				backDropToScreenBuffer ();
 			}
 			break;
-			
+
 			case ID_FLOOR_SAVE:
 			if (loadedFile) {
 				saveToFile (loadedFile);
@@ -380,7 +327,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 				updateTitle ();
 			}
 			break;
-			
+
 			case ID_FLOOR_LOAD:
 			file[0]=NULL;
 			ofn.lpstrFilter="SLUDGE floor files (*.FLO)\0*.flo\0\0";
@@ -397,7 +344,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 				updateTitle ();
 			}
 			break;
-			
+
 			case ID_VIEW_MARKVERT:
 			drawSoFar (HIDEFLOOR);
 			toggleMenuOption (ID_VIEW_MARKVERT, markVertices);
@@ -422,7 +369,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			{
 				bool keepGoing = true;
 				drawSoFar (HIDEFLOOR);
-				SetCursor (snapCursor);	
+				SetCursor (snapCursor);
 				while (keepGoing) {
 					keepGoing = false;
 					i = addVertex (mouseX, mouseY);
@@ -430,11 +377,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 						case 0:
 						fatal ("Out of memory... can't add vertex");
 						break;
-						
+
 						case 3:
 						alert ("That vertex is already used in this polygon, but isn't the start point. Not added.");
 						break;
-										
+
 						case 2:
 						if (ask ("Can't add another vertex as the floor is already complete... do you want to start a NEW polygon at this point?")) {
 							addPoly ();
@@ -447,7 +394,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 				backDropToScreenBuffer ();
 			}
 			break;
-	
+
 			case ID_MODE_KILLVERTEX:
 			drawSoFar (HIDEFLOOR);
 			killVertex (mouseX, mouseY);
@@ -455,7 +402,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			backDropToScreenBuffer ();
 			SetCursor (noWayCursor);
 			break;
-			
+
 			case ID_MODE_SPLITLINE:
 			case ID_MODE_SPLIT:
 			SetCursor (snapToClosest (mouseX, mouseY) ? snapCursor : noWayCursor);
@@ -465,7 +412,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 				startLineY = mouseY;
 				drawLine (mouseX, mouseY, mouseX, mouseY, SHOWSPLIT);
 			}
-			break;		
+			break;
 
 			case ID_MODE_MOVE:
 			if (snapToClosest (mouseX, mouseY)) {
@@ -477,10 +424,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			} else {
 				SetCursor (noWayCursor);
 			}
-			break;		
+			break;
 		}
 		break;
-		
+
 		case WM_RBUTTONDOWN:
 		if (! draggingSplit) {
 			startLineX = screenMouseX;
@@ -495,17 +442,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			draggingRight = false;
 		}
 		// No break;
-		
+
 		case WM_LBUTTONUP:
 		switch (currentMode) {
 			case ID_MODE_DEFINE:
 			SetCursor (snapToClosest (mouseX, mouseY) ? snapCursor : blokeyCursor);
 			break;
-			
+
 			case ID_MODE_KILLVERTEX:
 			SetCursor (snapToClosest (mouseX, mouseY) ? snapCursor : noWayCursor);
 			break;
-			
+
 			case ID_MODE_SPLIT:
 			case ID_MODE_SPLITLINE:
 			SetCursor (snapToClosest (mouseX, mouseY) ? snapCursor : noWayCursor);
@@ -522,7 +469,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 				draggingSplit = false;
 			}
 			break;
-			
+
 			case ID_MODE_MOVE:
 			if (draggingSplit) {
 
@@ -530,7 +477,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 
 				// Snap to the closest point unless it's the point we
 				// started from...
-				
+
 				SetCursor (arrowsCursor);
 				drawSoFar (HIDEFLOOR);
 				if (! moveVertices (startLineX, startLineY, mouseX, mouseY)) {
@@ -545,7 +492,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			break;
 		}
 		break;
-		
+
 		case WM_MOUSEMOVE:
 		lastMouseX = mouseX;
 		lastMouseY = mouseY;
@@ -568,11 +515,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 				case ID_MODE_DEFINE:
 				SetCursor (snapToClosest (mouseX, mouseY) ? snapCursor : blokeyCursor);
 				break;
-			
+
 				case ID_MODE_KILLVERTEX:
 				SetCursor (snapToClosest (mouseX, mouseY) ? snapCursor : noWayCursor);
 				break;
-			
+
 				case ID_MODE_SPLIT:
 				case ID_MODE_SPLITLINE:
 				SetCursor (snapToClosest (mouseX, mouseY) ? snapCursor : noWayCursor);
@@ -583,7 +530,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 					backDropToScreenBuffer ();
 				}
 				break;
-			
+
 				case ID_MODE_MOVE:
 				if (draggingSplit) {
 					scrollAtEdges ();
@@ -641,6 +588,6 @@ bool InitApplication(HINSTANCE hInstance) {
 	 wc.lpszClassName = className;
 
 	 return RegisterClass (& wc);
-}
+}*/
 
 #endif

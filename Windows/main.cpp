@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
+#include "Compiler.hpp"
 #include "WINTERFA.H"
 #include "MOREIO.H"
 #include "MessBox.h"
@@ -28,7 +29,7 @@ int fileListNum=0;
 
 char loadedFile[MAX_PATH]="";
 
-HWND mainWin=NULL;
+HWND mainWin=NULL, compWin = NULL;
 HINSTANCE inst;
 HMENU myMenu;
 
@@ -43,16 +44,8 @@ char * searchString = NULL;
 
 void setChanged (bool newVal);
 
-
-void setCompilerText (const compilerStatusText w, const char * theText)
-{
-    //fprintf(stderr, "Compiler text: %s\n", theText);
-}
-
-void setCompilerStats (int funcs, int objTypes, int files, int globals, int strings)
-{
-}
-
+void fixExtension (char * buff, char * ext);
+BOOL APIENTRY dialogComp(HWND h, UINT m, WPARAM w, LPARAM l);
 
 /*
 static bool advancedLoadSaveSetup (HWND hDlg, dlgOperation operation)
@@ -475,7 +468,6 @@ void setTick (int what, bool yesNo) {
 void activateMenus (bool on) {
 	EnableWindow (GetDlgItem (mainWin, ID_FILELIST), on);
 	EnableWindow (GetDlgItem (mainWin, ID_PROJECT_COMPILE), on);
-	EnableWindow (GetDlgItem (mainWin, ID_PROJECT_RUN), on);
 	EnableWindow (GetDlgItem (mainWin, ID_DISPLAY), on);
 	EnableWindow (GetDlgItem (mainWin, ID_PROJECT_SAVE), on /*&& changed*/);
 	EnableWindow (GetDlgItem (mainWin, ID_CONTENTS_ADD_FILE), on);
@@ -490,7 +482,6 @@ void activateMenus (bool on) {
 //	EnableWindow (GetDlgItem (mainWin, ID_EDIT_WINHEIGHT), on);
 
 	EnableMenuItem (myMenu, ID_PROJECT_COMPILE, on ? MF_ENABLED : MF_GRAYED);
-	EnableMenuItem (myMenu, ID_PROJECT_RUN, on ? MF_ENABLED : MF_GRAYED);
 	EnableMenuItem (myMenu, ID_PROJECT_SAVEAS, on ? MF_ENABLED : MF_GRAYED);
 	EnableMenuItem (myMenu, ID_PROJECT_CLOSE, on ? MF_ENABLED : MF_GRAYED);
 	EnableMenuItem (myMenu, ID_CONTENTS_ADD_FILE, on ? MF_ENABLED : MF_GRAYED);
@@ -526,20 +517,6 @@ bool checkOverwrite (char * fn) {
 	return true;
 }
 
-void fixExtension (char * buff, char * ext) {
-	int a = strlen (buff);
-	if (buff[a - 4] != '.' ||
-		(tolower (buff[a - 3]) != ext[0]) ||
-		(tolower (buff[a - 2]) != ext[1]) ||
-		(tolower (buff[a - 1]) != ext[2])) {
-		buff[a] = '.';
-		buff[a + 1] = ext[0];
-		buff[a + 2] = ext[1];
-		buff[a + 3] = ext[2];
-		buff[a + 4] = 0;
-	}
-}
-
 void updateFileList()
 {
 	MESS(ID_FILELIST, LB_RESETCONTENT, 0, 0);
@@ -554,7 +531,6 @@ void updateFileList()
     }
 }
 
-void compileWindow ();
 
 BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 
@@ -598,7 +574,10 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 			break;
 
 			case ID_PROJECT_COMPILE:
-                compileWindow();
+                if (compWin)
+                    DestroyWindow (compWin);
+
+                CreateDialog(inst, MAKEINTRESOURCE(DLG_COMPILE), mainWin, dialogComp);
 			break;
 
 			case IDCANCEL:				// X button
@@ -744,8 +723,7 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 				for (i = 0; i < n; i ++) {
 					if (MESS (ID_FILELIST, LB_GETSEL, i, 0)) {
 						char * fn = getFileFromBox (i);
-//						editFile (fn, h);
-//						runProg (editor, "", fn);
+						editFile (fn, h);
 						delete fn;
 					}
 				}
@@ -794,8 +772,6 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 		break;
 
 		case WM_INITDIALOG:
-
-		fprintf (stderr, "...\n");
 
 		// Set up the menu
 		myMenu = LoadMenu (inst, MAKEINTRESOURCE(1));
@@ -877,11 +853,9 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine,
                                     IMAGE_BITMAP, 0, 0,
                                     LR_CREATEDIBSECTION);
 
-    fprintf (stderr, "Hello!");
 	if (! CreateDialog(hInstance, MAKEINTRESOURCE(DLG_MAIN), NULL, dialogproc)) {
 		return 0;
 	}
-    fprintf (stderr, "Hello!");
 
 	while (1) {
 		if (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE)) {
@@ -895,7 +869,6 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine,
 			WaitMessage();
 	}
 
-//	cleanUpFiles ();
 	return 0;
 }
 
