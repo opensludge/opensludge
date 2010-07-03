@@ -885,7 +885,7 @@ void initBuiltInFunc ()
 }
 
 void doDefines (char * fn, stringArray * & strings, stringArray * & fileHandles) {
-	FILE * fp = fopen (fn, "rt");
+	FILE * fp = fopen (fn, "rb");
 	if (fp) {
 		for (;;) {
 			char * t = readText (fp);

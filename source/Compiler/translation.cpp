@@ -55,7 +55,7 @@ void clearTranslations ()
 void registerTranslationFile (char * filename) {
 	char * name = NULL;
 
-	FILE * fp = fopen (filename, "rt");
+	FILE * fp = fopen (filename, "rb");
 
 	if (fp == NULL) {
 		addComment (ERRORTYPE_PROJECTERROR, "Can't open translation file for reading", NULL, filename);
@@ -118,7 +118,7 @@ stringArray * transTo = NULL;
 
 bool cacheTranslationData (char * f) {
 	if (! gotoSourceDirectory ()) return false;
-	FILE * fp = fopen (f, "rt");
+	FILE * fp = fopen (f, "rb");
 	if (! fp) return addComment (ERRORTYPE_PROJECTERROR, "Translation file has suddenly gone missing", NULL, f);
 
 	bool unfinished = false;

@@ -279,7 +279,7 @@ LRESULT CALLBACK resourcesBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 						char * extension = tx + strlen(tx) - 4;
 //						errorBox ("Extension", extension);
 						if (strlen (tx) > 4 && strcmp (extension, ".slu") == 0) {
-							fp = fopen (tx, "rt");
+							fp = fopen (tx, "rb");
 							if (fp) {
 //								errorBox ("Searching through", tx);
 								pM = PM_NORMAL;
