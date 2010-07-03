@@ -27,7 +27,7 @@ bool keepImages, keepStrings, verboseMode;
 char *fileList[1000];
 int fileListNum=0;
 
-char loadedFile[MAX_PATH]="";
+char *loadedFile = NULL;
 
 HWND mainWin=NULL, compWin = NULL;
 HINSTANCE inst;
@@ -46,6 +46,8 @@ void setChanged (bool newVal);
 
 void fixExtension (char * buff, char * ext);
 BOOL APIENTRY dialogComp(HWND h, UINT m, WPARAM w, LPARAM l);
+void updateTitle ();
+void setLoadedFile (char * t);
 
 /*
 static bool advancedLoadSaveSetup (HWND hDlg, dlgOperation operation)
@@ -66,18 +68,17 @@ LRESULT CALLBACK prefsBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 	switch (message) {
         case WM_INITDIALOG:
         {
+        	SetDlgItemText (hDlg, ID_EDIT_NAME, settings.windowName);
+        	SetDlgItemText (hDlg, ID_EDIT_OUTPUTFILE, settings.finalFile);
+
         	SetDlgItemInt (hDlg, ID_EDIT_WINWIDTH, settings.screenWidth, 0);
         	SetDlgItemInt (hDlg, ID_EDIT_WINHEIGHT, settings.screenHeight, 0);
         	SetDlgItemInt (hDlg, ID_EDIT_SPEED, settings.frameSpeed, 0);
         	SetDlgItemText (hDlg, ID_EDIT_QUITMESSAGE, settings.quitMessage);
         	SetDlgItemText (hDlg, ID_EDIT_CUSTOMICON, settings.customIcon);
         	SetDlgItemText (hDlg, ID_EDIT_DATAFOLDER, settings.runtimeDataFolder);
+        	SetDlgItemText (hDlg, ID_EDIT_LANGUAGE, settings.originalLanguage);
 
-		MESSP (ID_MOUSE_IMAGE, CB_ADDSTRING, 0, "Standard arrow");
-		MESSP (ID_MOUSE_IMAGE, CB_ADDSTRING, 0, "XOR crosshairs");
-		MESSP (ID_MOUSE_IMAGE, CB_ADDSTRING, 0, "Invisible");
-		MESSP (ID_MOUSE_IMAGE, CB_ADDSTRING, 0, "Big arrow");
-		MESSP (ID_MOUSE_IMAGE, CB_SETCURSEL, settings.winMouseImage, 0);
 
         	if (settings.runFullScreen) CheckDlgButton (hDlg, ID_FULLSCREEN, BST_CHECKED);
         	if (settings.forceSilent) CheckDlgButton (hDlg, ID_MAKESILENT, BST_CHECKED);
@@ -126,6 +127,28 @@ LRESULT CALLBACK prefsBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 					settings.screenWidth = newWidth;
 					settings.screenHeight = newHeight;
 
+					// GET FINAL FILE
+					le = GetWindowTextLength (GetDlgItem (hDlg, ID_EDIT_OUTPUTFILE)) + 1;
+					newText = new char[le];
+					if (newText) {
+						GetWindowText (GetDlgItem (hDlg, ID_EDIT_OUTPUTFILE), newText, le);
+						if (settings.finalFile) delete settings.finalFile;
+						settings.finalFile = newText;
+					} else {
+						errorBox ("Out of memory...", "Can't update quit message.");
+					}
+
+					// GET WINDOW NAME
+					le = GetWindowTextLength (GetDlgItem (hDlg, ID_EDIT_NAME)) + 1;
+					newText = new char[le];
+					if (newText) {
+						GetWindowText (GetDlgItem (hDlg, ID_EDIT_NAME), newText, le);
+						if (settings.windowName) delete settings.windowName;
+						settings.windowName = newText;
+					} else {
+						errorBox ("Out of memory...", "Can't update window name.");
+					}
+
 					// GET QUIT MESSAGE
 					le = GetWindowTextLength (GetDlgItem (hDlg, ID_EDIT_QUITMESSAGE)) + 1;
 					newText = new char[le];
@@ -159,12 +182,21 @@ LRESULT CALLBACK prefsBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 						errorBox ("Out of memory...", "Can't update run-time data folder name.");
 					}
 
+					// GET LANGUAGE
+					le = GetWindowTextLength (GetDlgItem (hDlg, ID_EDIT_LANGUAGE)) + 1;
+					newText = new char[le];
+					if (newText) {
+						GetWindowText (GetDlgItem (hDlg, ID_EDIT_LANGUAGE), newText, le);
+						if (settings.originalLanguage) delete settings.originalLanguage;
+						settings.originalLanguage = newText;
+					} else {
+						errorBox ("Out of memory...", "Can't update language name.");
+					}
+
 					// GET MORE STUFF
 					settings.runFullScreen = isChecked (hDlg, ID_FULLSCREEN);
 					settings.forceSilent = isChecked (hDlg, ID_MAKESILENT);
 					settings.ditherImages = isChecked (hDlg, ID_DITHERIMAGES);
-					settings.winMouseImage = MESSP (ID_MOUSE_IMAGE, CB_GETCURSEL, 0, 0);
-//					hideWinMouse = isChecked (hDlg, ID_HIDEMOUSE);
 //					setChanged (true);
 				}
 
@@ -404,7 +436,7 @@ LRESULT CALLBACK aboutBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 		case WM_COMMAND:
 			switch (LOWORD(wParam)) {
 				case IDOK:
-//				gotoSite (hDlg, "http://www.hungrysoftware.com/");
+				gotoSite (hDlg, "http://www.adventuredevelopers.com/forum/index.php?board=14.0");
 				break;
 
 				case IDCANCEL:
@@ -475,8 +507,6 @@ void activateMenus (bool on) {
 	EnableWindow (GetDlgItem (mainWin, ID_CONTENTS_RESOURCES), on);
 	EnableWindow (GetDlgItem (mainWin, ID_CONTENTS_EDIT_FILE), on);
 	EnableWindow (GetDlgItem (mainWin, ID_CONTENTS_DELETE_FILE), on);
-	EnableWindow (GetDlgItem (mainWin, ID_EDIT_NAME), on);
-	EnableWindow (GetDlgItem (mainWin, ID_EDIT_OUTPUTFILE), on);
 //	EnableWindow (GetDlgItem (mainWin, ID_EDIT_QUITMESSAGE), on);
 //	EnableWindow (GetDlgItem (mainWin, ID_EDIT_WINWIDTH), on);
 //	EnableWindow (GetDlgItem (mainWin, ID_EDIT_WINHEIGHT), on);
@@ -547,11 +577,6 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 
 		case WM_COMMAND:
 		switch (LOWORD(w)) {
-			case ID_EDIT_NAME:
-			case ID_EDIT_OUTPUTFILE:
-//			if (HIWORD(w) == 1024) setChanged (true);
-			break;
-
 			case ID_SETTINGSBOX:
 //			DialogBox(inst, MAKEINTRESOURCE(DLG_FILE_LOCATIONS), h, (DLGPROC)settingsBoxFunc);
 			break;
@@ -566,11 +591,16 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 
 			case ID_PROJECT_SAVE:
                 saveProject (loadedFile, fileList, &fileListNum);
+                updateTitle();
+
 			break;
 
 			case ID_PROJECT_CLOSE:		// My menu thingy
                 closeProject (fileList, &fileListNum);
                 updateFileList();
+                delete loadedFile;
+                loadedFile = NULL;
+                updateTitle();
 			break;
 
 			case ID_PROJECT_COMPILE:
@@ -607,7 +637,8 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 					fixExtension (file, "slp");
 					if (checkOverwrite (file)) {
 						saveProject (file, fileList, &fileListNum);
-                        sprintf (file, loadedFile);
+                        setLoadedFile (file);
+                        updateTitle();
 					}
 				}
 			}
@@ -627,7 +658,8 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 					if (checkOverwrite (file)) {
 					    fileListNum = 0;
 						doNewProject (file, fileList, &fileListNum);
-                        sprintf (file, loadedFile);
+                        setLoadedFile (file);
+                        updateTitle();
 					}
 				}
 				updateFileList();
@@ -764,7 +796,8 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 					path[ofn.nFileOffset-1]=0;
 					loadProject (file, fileList, &fileListNum);
 					updateFileList();
-					sprintf (file, loadedFile);
+                    setLoadedFile (file);
+                    updateTitle();
 				}
 			}
 			break;
@@ -807,7 +840,7 @@ BOOL APIENTRY dialogproc (HWND h, UINT m, WPARAM w, LPARAM l) {
 		return 1;
 
         case WM_PAINT:
-		drawLogo (h, 301, 257);
+		drawLogo (h, 301, 18);
 		return false;
 
 		case WM_DESTROY:

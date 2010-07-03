@@ -35,6 +35,7 @@ int WINHEIGHT = getRegInt ("utilityHeight", 480);
 
 HINSTANCE hInst;  				// Handle of the main instance
 HWND hMainWindow;
+extern HWND mainWin;
 //myBitmapInfo screenBMPInfo; // bitmap information/palette
 HBITMAP videoBuffer;        // handle to the buffer bitmap
 HDC bufferDC;               // handle to the memory DC containing the
@@ -98,9 +99,10 @@ void updateTitle () {
 			b ++;
 		}
 	}
-	sprintf (buff, "SLUDGE Development Kit: %s%s", notSaved ? "* " : "",
-		loadedFile ? loadedFile + a : "Untitled");
-	SetWindowText (hMainWindow, buff);
+	sprintf (buff, "%s%s - SLUDGE Development Kit",
+		loadedFile ? loadedFile + a : "Untitled",
+		notSaved ? "* " : "");
+	SetWindowText (mainWin, buff);
 }
 
 bool InitInstance (HINSTANCE hInstance, int nCmdShow) {

@@ -92,7 +92,6 @@
 		<Unit filename="..\..\source\ProjectManager\settings.h" />
 		<Unit filename="..\..\source\SpriteBankEditor\SPLITTER.CPP" />
 		<Unit filename="..\..\source\Translator\SPLITTER.HPP" />
-		<Unit filename="..\..\source\Translator\WIN MESSBOX.CPP" />
 		<Extensions>
 			<code_completion />
 			<debugger />

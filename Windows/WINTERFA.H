@@ -74,8 +74,6 @@
 #define ID_SIZEBOX						1853
 
 #define ID_LOADED_FILE					2000
-#define ID_EDIT_NAME					2001
-#define ID_EDIT_OUTPUTFILE				2002
 
 // For the file locations dialog box...
 #define ID_TEXT_EDITOR					2500
@@ -85,10 +83,12 @@
 #define ID_USE_PROJECT_SIZE				2502
 
 // For the display dialog box...
+#define ID_EDIT_NAME					2001
+#define ID_EDIT_OUTPUTFILE				2002
 #define ID_EDIT_QUITMESSAGE				2003
 #define ID_EDIT_WINWIDTH				2004
 #define ID_EDIT_WINHEIGHT				2005
-#define ID_MOUSE_IMAGE					2500
+#define ID_EDIT_LANGUAGE				2500
 #define ID_FULLSCREEN					2501
 #define ID_EDIT_SPEED					2502
 #define ID_EDIT_CUSTOMICON				2503

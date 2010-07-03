@@ -189,6 +189,7 @@ char * newString (const char * old)
  *
  */
 void killTempDir() {
+    /*
 	gotoTempDirectory ();
 
 	struct dirent **eps;
@@ -202,8 +203,9 @@ void killTempDir() {
 		}
 		free (eps);
 	}
-
+*/
 	gotoSourceDirectory ();
+
 	rmdir(tempDirectory);
 	tempDirectory = NULL;
 }

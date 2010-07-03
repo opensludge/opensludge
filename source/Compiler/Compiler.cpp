@@ -79,33 +79,6 @@ char * gameFile = NULL;
 static int data1 = 0, numProcessed = 0;
 
 
-void runCompiledGame () {
-	char * wholePath = new char[strlen (sourceDirectory) + strlen (settings.finalFile) + 20];
-	if (wholePath)
-	{
-		sprintf (wholePath, "%s\\%s%s", sourceDirectory, settings.finalFile, settings.forceSilent ? " (silent).slg" : ".slg");
-		//		errorBox (ERRORTYPE_SYSTEMERROR, "Execute", wholePath, NULL);
-		//TODO unsigned long reply = (unsigned long) ShellExecute (h, "open", wholePath, NULL, NULL, SW_SHOWNORMAL);
-		//		errorBox (ERRORTYPE_SYSTEMERROR, "Got reply", wholePath, NULL);
-
-		/*
-		if (reply <= 31)
-		{
-			errorBox (ERRORTYPE_SYSTEMERROR, "Compiled OK, but can't determine the location of the SLUDGE engine on this machine...", NULL, NULL);
-			errorBox (ERRORTYPE_SYSTEMERROR, "You HAVE installed the SLUDGE engine, haven't you?", NULL, NULL);
-			errorBox (ERRORTYPE_SYSTEMERROR, "If not, please visit http://www.hungrysoftware.com/tools/sludge/ and download it.", NULL, NULL);
-			errorBox (ERRORTYPE_SYSTEMERROR, "You need only do this once - as soon as you've got a copy, your games will run automatically. Thanks!", NULL, NULL);
-		}
-		else
-		{
-			DestroyWindow (h);
-		}*/
-		delete wholePath;
-	}
-}
-
-
-
 void setCompileStep (int a, int totalBits)
 {
 	compileStep = a;

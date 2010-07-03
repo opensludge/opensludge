@@ -32,7 +32,21 @@ extern char *fileList[];
 extern int fileListNum;
 extern char loadedFile[];
 
+void runCompiledGame () {
+	char * wholePath = new char[strlen (sourceDirectory) + strlen (settings.finalFile) + 20];
+	if (wholePath)
+	{
+		sprintf (wholePath, "%s\\%s%s", sourceDirectory, settings.finalFile, settings.forceSilent ? " (silent).slg" : ".slg");
+		unsigned long reply = (unsigned long) ShellExecute (mainWin, "open", wholePath, NULL, NULL, SW_SHOWNORMAL);
 
+		if (reply <= 31)
+		{
+			errorBox ("Compiled OK, but can't determine the location of the SLUDGE engine on this machine...",
+                        "You HAVE installed the SLUDGE engine, haven't you?");
+		}
+		delete wholePath;
+	}
+}
 
 void clearRect (int i, int whichBox) {
 	percTotal[whichBox] = i ? i : 1;
@@ -58,8 +72,6 @@ void percRect (unsigned int i, int whichBox) {
 		sprintf (buffff, "");
 		i = 0;
 	}
-
-    fprintf (stderr, "whichBox: %d i: %d\n", whichBox, i);
 
 	if (whichBox) {
 		if (i) {
@@ -107,7 +119,6 @@ void setCompilerText (const compilerStatusText w, const char * theText)
             break;
     }
     if (id) SendDlgItemMessage(compWin, id, WM_SETTEXT, 0, (LPARAM)theText);
-    //fprintf(stderr, "Compiler text: %s\n", theText);
 }
 
 void setCompilerStats (int funcs, int objTypes, int files, int globals, int strings)
@@ -133,6 +144,10 @@ BOOL APIENTRY dialogComp(HWND h, UINT m, WPARAM w, LPARAM l) {
 	switch (m) {
 		case WM_COMMAND:
 		if (LOWORD (w) == IDCANCEL) {
+			DestroyWindow (h);
+			return 1;
+		} else if (LOWORD (w) == IDOK) {
+		    runCompiledGame();
 			DestroyWindow (h);
 			return 1;
 		}

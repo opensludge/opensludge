@@ -2,21 +2,21 @@
 #include "..\Windows\WINTERFA.H"
 #include "..\source\CommonCode\version.h"
 
-DLG_MAIN DIALOG 11, 17, 311, 248
+DLG_MAIN DIALOG 11, 17, 311, 200
 STYLE WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX
-CAPTION "Hungry Software SLUDGE Project Manager"
+CAPTION "SLUDGE Development Kit"
 FONT 8, "Arial"
 {
- GROUPBOX "", -1,		193, 138,  116, 42
- GROUPBOX "Project management", -1,							193, 2,  116, 136, BS_GROUPBOX
-  PUSHBUTTON "Create new project",		ID_PROJECT_NEW,		199, 12, 104, 14, WS_TABSTOP
-  PUSHBUTTON "Open existing project", 	ID_PROJECT_LOAD,	199, 30, 104, 14, WS_TABSTOP
-  PUSHBUTTON "Save project",			ID_PROJECT_SAVE,	199, 48, 104, 14, WS_TABSTOP
-  PUSHBUTTON "Project properties",		ID_DISPLAY,			199, 66, 104, 14, WS_TABSTOP
-  PUSHBUTTON "Compile project",			ID_PROJECT_COMPILE, 199, 84, 104, 14, WS_TABSTOP
+ GROUPBOX "", -1,		193, 2,  116, 42
+ GROUPBOX "Project management", -1,							193, 46,  116, 134, BS_GROUPBOX
+  PUSHBUTTON "Create new project",		ID_PROJECT_NEW,		199, 60, 104, 14, WS_TABSTOP
+  PUSHBUTTON "Open existing project", 	ID_PROJECT_LOAD,	199, 78, 104, 14, WS_TABSTOP
+  PUSHBUTTON "Save project",			ID_PROJECT_SAVE,	199, 96, 104, 14, WS_TABSTOP
+  PUSHBUTTON "Project properties",		ID_DISPLAY,			199, 114, 104, 14, WS_TABSTOP
+  PUSHBUTTON "Compile project",			ID_PROJECT_COMPILE, 199, 132, 104, 14, WS_TABSTOP
 
-  PUSHBUTTON "About",					ID_ABOUT,			199, 120, 50, 14, WS_TABSTOP
-  PUSHBUTTON "Help!",					ID_SLUDGE_HELP,		253, 120, 50, 14, WS_TABSTOP
+  PUSHBUTTON "About",					ID_ABOUT,			199, 160, 50, 14, WS_TABSTOP
+  PUSHBUTTON "Help!",					ID_SLUDGE_HELP,		253, 160, 50, 14, WS_TABSTOP
 
  GROUPBOX "Files in this project", -1,					 2,	2, 187, 178, BS_GROUPBOX
   LISTBOX ID_FILELIST,									 8,	12, 174, 122, LBS_NOTIFY | WS_BORDER | LBS_EXTENDEDSEL | WS_BORDER | WS_VSCROLL | WS_GROUP | WS_TABSTOP | LBS_NOINTEGRALHEIGHT
@@ -28,16 +28,6 @@ FONT 8, "Arial"
   PUSHBUTTON "Add file",		ID_CONTENTS_ADD_FILE,		15,	160, 78, 14, WS_TABSTOP
   PUSHBUTTON "Find in files",	ID_CONTENTS_FIND_IN_FILE,   96,	160, 78, 14, WS_TABSTOP
 
- GROUPBOX "Project settings", -1,			2,	182, 307, 50, BS_GROUPBOX
-
-  RTEXT "Input filename:", -1,				8,  193, 51,  8
-  EDITTEXT ID_LOADED_FILE,				 	61, 192, 242, 10, WS_BORDER | WS_DISABLED
-
-  RTEXT "Project name:", -1,	8,  205, 51,  8
-  EDITTEXT ID_EDIT_NAME,		61, 204, 242, 10, WS_BORDER | WS_TABSTOP
-
-  RTEXT "Output file:",	 -1,	8,  217, 51,  8
-  EDITTEXT ID_EDIT_OUTPUTFILE,	61, 216, 242, 10, WS_BORDER | WS_TABSTOP
 }
 
 
@@ -72,56 +62,62 @@ STYLE WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 CAPTION "About SLUDGE"
 FONT 8, "Arial"
 {
- CTEXT "SLUDGE: Scripting Language for Unhindered Development of a Gaming Environment v"TEXT_VERSION,	-1, 2, 42, 296, 10
- CTEXT "Visit Hungry Software online at http://www.hungrysoftware.com/",								-1, 2, 52, 296, 10
+ CTEXT "SLUDGE: Scripting Language for Unhindered Development of a Gaming Environment",	-1, 2, 42, 296, 10
+ CTEXT "Version " TEXT_VERSION,								-1, 2, 52, 296, 10
 
- PUSHBUTTON "To the SLUDGE web site... and victory!",	IDOK,		7, 66, 286, 14, WS_TABSTOP
- PUSHBUTTON "OK",		IDCANCEL,		7, 84, 286, 14, WS_TABSTOP
+ PUSHBUTTON "To the official SLUDGE forum... and victory!",	IDOK,		27, 66, 246, 14, WS_TABSTOP
+ PUSHBUTTON "OK",		IDCANCEL,		27, 84, 246, 14, WS_TABSTOP
 }
 
-DLG_PROJECT_PROPERTIES DIALOG 120, 20, 421, 130
+DLG_PROJECT_PROPERTIES DIALOG 120, 20, 421, 180
 STYLE WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 CAPTION "Project properties"
 FONT 8, "Arial"
 {
- GROUPBOX "Display settings", -1, 		2, 		2, 		207, 	117, 		BS_GROUPBOX
-  AUTOCHECKBOX "Full-screen if possible", ID_FULLSCREEN,
-  										8,		12,		95,		10,			WS_TABSTOP
+  GROUPBOX "Project settings", -1,			2,	2, 307, 40, BS_GROUPBOX
 
-  CTEXT "Window/screen width:", -1,		8,  	25, 	95,  	8
-  EDITTEXT ID_EDIT_WINWIDTH,			8,		35, 	95, 	10, 		WS_BORDER | WS_TABSTOP
+  RTEXT "Project name:", -1,	8,  13, 51,  8
+  EDITTEXT ID_EDIT_NAME,		61, 12, 242, 10, WS_BORDER | WS_TABSTOP
 
-  CTEXT "Window/screen height:", -1, 	108, 	25, 	95,  	8
-  EDITTEXT ID_EDIT_WINHEIGHT,		 	108, 	35, 	95, 	10, 		WS_BORDER | WS_TABSTOP
+  RTEXT "Output file:",	 -1,	8,  25, 51,  8
+  EDITTEXT ID_EDIT_OUTPUTFILE,	61, 24, 242, 10, WS_BORDER | WS_TABSTOP
 
-  LTEXT "Mouse cursor:", -1,			8,   	55, 	58,  	8
-  COMBOBOX ID_MOUSE_IMAGE, 				68,  	53, 	135, 	54, 		CBS_DROPDOWNLIST | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+GROUPBOX "Display settings", -1, 		2, 		52, 		207, 	117, 		BS_GROUPBOX
+
+  CTEXT "Window/screen width:", -1,		8,  	65, 	95,  	8
+  EDITTEXT ID_EDIT_WINWIDTH,			8,		75, 	95, 	10, 		WS_BORDER | WS_TABSTOP
+
+  CTEXT "Window/screen height:", -1, 	108, 	65, 	95,  	8
+  EDITTEXT ID_EDIT_WINHEIGHT,		 	108, 	75, 	95, 	10, 		WS_BORDER | WS_TABSTOP
+
+  CTEXT "Game language:", -1,			8,   	88, 	95,  	8
+  EDITTEXT ID_EDIT_LANGUAGE,		 	8,   	98, 	95, 	10, 		WS_BORDER | WS_TABSTOP
 
   CTEXT "Custom icon (TGA or PNG file; leave blank for none):",
-  							-1,			8,  	70, 	195,  	16
-  EDITTEXT ID_EDIT_CUSTOMICON,			8,		80, 	195, 	10, 		WS_BORDER | WS_TABSTOP | ES_AUTOHSCROLL
+  							-1,			8,  	111, 	195,  	16
+  EDITTEXT ID_EDIT_CUSTOMICON,			8,		121, 	195, 	10, 		WS_BORDER | WS_TABSTOP | ES_AUTOHSCROLL
 
-  CTEXT "Ms/frame:",		-1,			8,		94, 	95, 	8
-  EDITTEXT ID_EDIT_SPEED,				8,		104, 	95,		10, 		WS_BORDER | WS_TABSTOP
+  CTEXT "Ms/frame:",		-1,			8,		134, 	95, 	8
+  EDITTEXT ID_EDIT_SPEED,				8,		144, 	95,		10, 		WS_BORDER | WS_TABSTOP
 
-  CTEXT "Frame/sec:",		-1,			108,	94, 	95, 	8
-  EDITTEXT ID_EDIT_SPEED2,				108,	104, 	95, 	10, 		WS_BORDER | WS_DISABLED
+  CTEXT "Frame/sec:",		-1,			108,	134, 	95, 	8
+  EDITTEXT ID_EDIT_SPEED2,				108,	144, 	95, 	10, 		WS_BORDER | WS_DISABLED
 
- GROUPBOX "Miscellaneous", -1, 			212,	2, 		207, 	89, 		BS_GROUPBOX
+ GROUPBOX "Miscellaneous", -1, 			212,	52, 	207, 	89, 		BS_GROUPBOX
 
-  AUTOCHECKBOX "Make silent version", ID_MAKESILENT,
-  										218,	12,		95,		10,			WS_TABSTOP
+  AUTOCHECKBOX "Force silent", ID_MAKESILENT,
+  										218,	70,		95,		10,			WS_TABSTOP
 
   CTEXT "Quit message (used if closed by the Operating System):",
-   							-1,			218,  	25, 	195,  	16
-  EDITTEXT ID_EDIT_QUITMESSAGE,			218,	43, 	195, 	10, 		WS_BORDER | WS_TABSTOP | ES_AUTOHSCROLL
+   							-1,			218,  	88, 	195,  	16
+  EDITTEXT ID_EDIT_QUITMESSAGE,			218,	98, 	195, 	10, 		WS_BORDER | WS_TABSTOP | ES_AUTOHSCROLL
 
-  CTEXT "Keep all saved games and custom data in this folder (leave blank to keep files in same folder as game):",
-  								-1,		218,  	58,		195,	16
-  EDITTEXT ID_EDIT_DATAFOLDER,			218,	76,		195,	10,			WS_BORDER | WS_TABSTOP
+  CTEXT "Save games in subfolder:",
+  								-1,		218,  	111,		195,	16
+  EDITTEXT ID_EDIT_DATAFOLDER,			218,	121,	195,	10,			WS_BORDER | WS_TABSTOP
 
- PUSHBUTTON "OK",		IDOK,			215,  112, 98, 14, WS_TABSTOP
- PUSHBUTTON "Cancel", 	IDCANCEL,		317,  112, 98, 14, WS_TABSTOP
+ PUSHBUTTON "OK",		IDOK,			215,  152, 98, 14, WS_TABSTOP
+ PUSHBUTTON "Cancel", 	IDCANCEL,		317,  152, 98, 14, WS_TABSTOP
 }
 
 1 MENU
@@ -151,6 +147,7 @@ BEGIN
             MENUITEM "&Write strings to text file", ID_KEEP_STRINGS
             MENUITEM "&Verbose errors (development mode)", ID_VERBOSE
         END
+        /*
     POPUP "&Programs"
         BEGIN
             MENUITEM "Launch &z-buffer maker", ID_LAUNCH_Z
@@ -159,6 +156,7 @@ BEGIN
             MENUITEM "Launch &translation editor", ID_LAUNCH_TRANS
             MENUITEM "Launch SLUDGE &engine", ID_LAUNCH_ENGINE
         END
+        */
     POPUP "&Help"
         BEGIN
             MENUITEM "&About SLUDGE", ID_ABOUT
