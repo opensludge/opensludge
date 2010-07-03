@@ -49,11 +49,11 @@
 			<Add library="..\..\..\zlib\libz.a" />
 		</Linker>
 		<Unit filename="..\Compiler Window.CPP" />
-		<Unit filename="..\WIN dialogueBoxInOut.cpp" />
-		<Unit filename="..\WINBOX.CPP" />
 		<Unit filename="..\WINSTUFF.CPP" />
 		<Unit filename="..\WINTERFA.H" />
 		<Unit filename="..\WIN_MESSBOX.CPP" />
+		<Unit filename="..\dialogueBoxInOut.cpp" />
+		<Unit filename="..\dialogueBoxInOut.h" />
 		<Unit filename="..\launch.cpp" />
 		<Unit filename="..\main.cpp" />
 		<Unit filename="..\wintext.cpp" />
@@ -85,7 +85,6 @@
 		<Unit filename="..\..\source\ProjectManager\MessBox.cpp" />
 		<Unit filename="..\..\source\ProjectManager\Project.cpp" />
 		<Unit filename="..\..\source\ProjectManager\Project.hpp" />
-		<Unit filename="..\..\source\ProjectManager\dialogueBoxInOut.h" />
 		<Unit filename="..\..\source\ProjectManager\launch.h" />
 		<Unit filename="..\..\source\ProjectManager\savedata.h" />
 		<Unit filename="..\..\source\ProjectManager\settings.cpp" />

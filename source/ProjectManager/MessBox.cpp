@@ -115,12 +115,12 @@ void addComment (int errorType, const char * comment, const char * filename/*, i
 	char * after = filename ? joinStrings (" (in ", filename, ")") : copyString ("");
 	newLink->fullText = joinStrings (errorTypeStrings[errorType], s, after);
 
-	compilerCommentsUpdated();
-
 	fprintf (stderr, "addComment: %s\n", newLink->fullText);
 	delete after;
 
 	numErrors ++;
+
+	compilerCommentsUpdated();
 }
 
 bool addComment (int errorType, const char * txt1, const char * txt2, const char * filename) {

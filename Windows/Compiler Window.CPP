@@ -22,6 +22,7 @@
 
 unsigned int percTotal[2] = {100, 100}, lastVal[2] = {0, 0};
 extern HWND compWin;
+HWND warningWindowH = NULL;
 extern HWND mainWin;
 extern HINSTANCE inst;
 
@@ -31,6 +32,80 @@ extern stringArray * functionNames;
 extern char *fileList[];
 extern int fileListNum;
 extern char loadedFile[];
+
+static void warningOpenSourceFile (char * fileName) {
+	char * wholePath = new char[strlen (sourceDirectory) + strlen (fileName) + 2];
+	if (wholePath) {
+		sprintf (wholePath, "%s\\%s", sourceDirectory, fileName);
+		if ((unsigned long) ShellExecute (warningWindowH, "open",
+										  wholePath, NULL, NULL,
+										  SW_SHOWNORMAL) <= 31) {
+			errorBox ("Couldn't launch ", wholePath);
+		}
+		delete wholePath;
+	}
+}
+
+
+void userClickedErrorLine (int whichEntry)
+{
+ 	int n = (numErrors - 1 ) - whichEntry;
+	errorLinkToFile * link = errorList;
+
+	while (link && n > 0)
+	{
+		n --;
+		link = link->next;
+	}
+
+	if (link && link->filename)
+	{
+		if (MessageBox (warningWindowH, link->fullText, "SLUDGE Compiler warning", MB_YESNO | MB_APPLMODAL | MB_SETFOREGROUND) == IDYES)
+		{
+			warningOpenSourceFile(link->filename);
+		}
+	}
+}
+
+BOOL APIENTRY warningBoxFunc (HWND h, UINT m, WPARAM w, LPARAM l) {
+	switch (m) {
+		case WM_COMMAND:
+            switch (LOWORD (w)) {
+                case ID_WARNINGLIST:
+                    if (HIWORD(w) == LBN_DBLCLK)
+                    {
+                        int n = SendMessage (GetDlgItem (h, ID_WARNINGLIST), LB_GETCURSEL, 0, 0);
+                        if (n != LB_ERR)
+                            userClickedErrorLine(n);
+                    }
+                    return 1;
+               }
+
+		case WM_INITDIALOG:
+            warningWindowH = h;
+            return 1;
+	}
+
+	return 0;
+}
+
+void compilerCommentsUpdated()
+{
+    if (! warningWindowH) {
+        CreateDialog(inst, MAKEINTRESOURCE(WARNINGDIALOG), NULL, warningBoxFunc);
+    }
+    SendDlgItemMessage(warningWindowH, ID_WARNINGLIST, LB_RESETCONTENT, (WPARAM) 0, (LPARAM) 0);
+    struct errorLinkToFile * index = errorList;
+    if (! index) return;
+    int i = numErrors - 1;
+    while (i>=0) {
+        SendDlgItemMessage(warningWindowH, ID_WARNINGLIST, LB_ADDSTRING, (WPARAM) 0, (LPARAM) index->fullText);
+        if (! (index = index->next)) return;
+        i--;
+    }
+}
+
+
 
 void runCompiledGame () {
 	char * wholePath = new char[strlen (sourceDirectory) + strlen (settings.finalFile) + 20];
@@ -66,7 +141,7 @@ void percRect (unsigned int i, int whichBox) {
 
  	if (percTotal[whichBox]) {
         if (i > percTotal[whichBox]) i = percTotal[whichBox];
-		sprintf (buffff, "%i%", (i * 100) / percTotal[whichBox]);
+		sprintf (buffff, "%i%%", (i * 100) / percTotal[whichBox]);
 		i = (i * BOXWIDTH) / percTotal[whichBox];
 	} else {
 		sprintf (buffff, "");
@@ -177,6 +252,8 @@ BOOL APIENTRY dialogComp(HWND h, UINT m, WPARAM w, LPARAM l) {
             return 1;
 
 		case WM_DESTROY:
+            if (warningWindowH) DestroyWindow (warningWindowH);
+
             compWin = NULL;
             return 0;
 	}
