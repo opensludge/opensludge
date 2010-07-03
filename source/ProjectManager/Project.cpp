@@ -74,7 +74,7 @@ void deleteString(char * s) {
 bool loadProject (const char * filename, char **fileList, int *numFiles) {
 	char * readLine;
 
-	FILE * fp = fopen (filename, "rt");
+	FILE * fp = fopen (filename, "rb");
 	if (! fp) return false;
 
 	readSettings (fp);
