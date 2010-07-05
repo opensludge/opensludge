@@ -40,148 +40,63 @@ extern unsigned int sceneWidth, sceneHeight;
 
 void shufflePeople ();
 
-void freezePeople (int oldX, int oldY) {
+GLuint freezeTextureName = 0;
 
-	shufflePeople ();
-
-	onScreenPerson * thisPerson = allPeople;
-	personaAnimation * myAnim;
-
-	while (thisPerson) {
-		if (thisPerson -> show) {
-			myAnim = thisPerson -> myAnim;
-			if (myAnim != thisPerson -> lastUsedAnim) {
-				thisPerson -> lastUsedAnim = myAnim;
-				thisPerson -> frameNum = 0;
-				thisPerson -> frameTick = myAnim -> frames[0].howMany;
-			}
-			int fNumSign = myAnim -> frames[thisPerson -> frameNum].frameNum;
-			int m = fNumSign < 0;
-			int fNum = abs (fNumSign);
-
-			if (fNum >= myAnim -> theSprites -> bank.total) {
-				fNum = 0;
-				m = 2 - m;
-			}
-			if (m != 2) {
-				int meX, meY;
-				if (thisPerson -> extra & EXTRA_FIXTOSCREEN) {
-					meX = (int)thisPerson -> x;
-					meY = (int)thisPerson -> y;
-				} else {
-					meX = (int)thisPerson -> x - oldX;
-					meY = (int)thisPerson -> y - oldY;
-				}
-				fixScaleSprite (meX, meY, myAnim -> theSprites -> bank.sprites[fNum], myAnim -> theSprites -> bank.myPalette, thisPerson, oldX, oldY, m);
-			}
-		}
-		thisPerson = thisPerson -> next;
+void freezeGraphics() {
+	glViewport (0, 0, winWidth, winHeight);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(0, (GLdouble) winWidth / cameraZoom, 0, (GLdouble) winHeight / cameraZoom, 1.0, -1.0);
+	glMatrixMode(GL_MODELVIEW);
+	
+	glGenTextures (1, &freezeTextureName);
+	int w = winWidth;
+	int h = winHeight;
+	if (! NPOT_textures) {
+		w = getNextPOT(winWidth);
+		h = getNextPOT(winHeight);
 	}
-}
-
-inline int sortOutPCamera (int cX, int fX, int sceneMax, int boxMax) {
-	return (fX == 65535) ?
-	(sceneMax ? ((cX * boxMax) / sceneMax) : 0)
-	:
-	((cX * fX) / 100);
-}
-
-/*
- / freezeBackdrop
- / This function is used to copy the old backdrop when doing a freeze
- */
-void freezeBackDrop (frozenStuffStruct * newFreezer) {
-
-	GLuint fromHere = newFreezer -> backdropTextureName;
-	int orW = newFreezer -> sceneWidth;
-	int orH = newFreezer -> sceneHeight;
-	int orX = newFreezer -> cameraX;
-	int orY = newFreezer -> cameraY;
-	if (orX < 0) orX = 0;
-	else if (orX > newFreezer ->sceneWidth - winWidth) orX = newFreezer ->sceneWidth - winWidth;
-	if (orY < 0) orY = 0;
-	else if (orY > newFreezer ->sceneHeight - winHeight) orY = newFreezer ->sceneHeight - winHeight;
-	parallaxLayer * parallaxS = newFreezer -> parallaxStuff;
-
-	setPixelCoords (true);
-
-	glColor4f(1.0, 1.0, 1.0, 1.0);
-	glEnable (GL_TEXTURE_2D);
-	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glEnable(GL_BLEND);
+	
+	glBindTexture(GL_TEXTURE_2D, freezeTextureName);
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+	
+	// Render scene
+	glDepthMask (GL_TRUE);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear The Screen
-
-	unsigned int xoffset = 0;
-
-	while (xoffset < winWidth) {
-		int w = (winWidth-xoffset < viewportWidth) ? winWidth-xoffset : viewportWidth;
-
-		unsigned int yoffset = 0;
-		while (yoffset < orH) {
-			int h = (winHeight-yoffset < viewportHeight) ? winHeight-yoffset : viewportHeight;
-
-			if (parallaxS) {
-				parallaxLayer * ps = parallaxS;
-
-				while (ps->next) ps = ps->next;
-
-				while (ps) {
-					ps -> cameraX = sortOutPCamera (orX, ps -> fractionX, orW - w, ps -> width - winWidth);
-					ps -> cameraY = sortOutPCamera (orY, ps -> fractionY, orH - h, ps -> height - winHeight);
-
-					glBindTexture (GL_TEXTURE_2D, ps->textureName);
-					glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-					glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-					glBegin(GL_QUADS);
-
-					float texw = (ps->wrapS) ? (float) orW / ps->width: 1.0;
-					float wt = (ps->wrapS) ? orW : ps->width;
-					float texh = (ps->wrapT) ? (float) orH / ps->height: 1.0;
-					float ht = (ps->wrapT) ? orH : ps->height;
-
-					glTexCoord2f(0.0, 0.0); glVertex3f(-ps -> cameraX-xoffset, -ps -> cameraY-yoffset, 0.1);
-					glTexCoord2f(texw, 0.0); glVertex3f(wt -ps -> cameraX-xoffset, -ps -> cameraY-yoffset, 0.1);
-					glTexCoord2f(texw, texh); glVertex3f(wt -ps -> cameraX-xoffset, ht -ps -> cameraY-yoffset, 0.1);
-					glTexCoord2f(0.0, texh); glVertex3f(-ps -> cameraX-xoffset, ht -ps -> cameraY-yoffset, 0.1);
-
-					glEnd();
-
-					ps = ps -> prev;
-				}
-			}
-
-
-			// Render the backdrop
-			glBindTexture (GL_TEXTURE_2D, fromHere);
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			glColor4f(1.0, 1.0, 1.0, 1.0);
-
-			glBegin(GL_QUADS);
-			glTexCoord2f(0.0, 0.0); glVertex3f(-orX-xoffset, -orY-yoffset, 0);
-			glTexCoord2f(backdropTexW, 0.0); glVertex3f(orW-orX-xoffset, -orY-yoffset, 0);
-			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(orW-orX-xoffset, orH-orY-yoffset, 0);
-			glTexCoord2f(0.0, backdropTexH); glVertex3f(-orX-xoffset, orH-orY-yoffset, 0);
-			glEnd();
-
-			// Copy Our ViewPort To The Texture
-			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
-			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0+xoffset, 0+yoffset, viewportOffsetX, viewportOffsetY, w, h);
-
-			yoffset += viewportHeight;
-		}
-		xoffset += viewportWidth;
-	}
-
-
+	glDepthMask (GL_FALSE);
+	
+	// Temporarily disable AA
+	int antiAlias = gameSettings.antiAlias;
+	gameSettings.antiAlias = 0;
+	
+	drawBackDrop ();				// Draw the room
+	drawZBuffer(cameraX, cameraY, false);
+	
+	glEnable(GL_DEPTH_TEST);
+	drawPeople ();					// Then add any moving characters...
+	glDisable(GL_DEPTH_TEST);
+	
+	gameSettings.antiAlias = antiAlias;
+	
+	// Copy Our ViewPort To The Texture
+	glBindTexture(GL_TEXTURE_2D, freezeTextureName);
+	glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, winWidth, winHeight);
+	
+	glViewport (viewportOffsetX, viewportOffsetY, viewportWidth, viewportHeight);
 	setPixelCoords(false);
-	backdropExists = true;
 }
 
 
 bool freeze () {
 	frozenStuffStruct * newFreezer = new frozenStuffStruct;
 	if (! checkNew (newFreezer)) return false;
+	
+	// Grab a copy of the current scene
+	freezeGraphics();
 
 	newFreezer -> backdropTextureName = backdropTextureName;
 
@@ -225,26 +140,10 @@ bool freeze () {
 		backdropTexW = (double) sceneWidth / picWidth;
 		backdropTexH = (double) sceneHeight / picHeight;
 	}
-	freezeBackDrop (newFreezer);
-
-	// Put the lightmap and z-buffer back JUST for drawing the people...
-	lightMap.data = newFreezer -> lightMapTexture;
-	lightMap.name = newFreezer -> lightMapTextureName;
-	zBuffer.tex = newFreezer -> zBufferImage;
-	zBuffer.numPanels = newFreezer -> zPanels;
-
-	int oldX = newFreezer -> cameraX;
-	int oldY = newFreezer -> cameraY;
-	if (oldX < 0) oldX = 0;
-	else if (oldX > newFreezer -> sceneWidth - winWidth) oldX = newFreezer -> sceneWidth - winWidth;
-	if (oldY < 0) oldY = 0;
-	else if (oldY > newFreezer -> sceneHeight - winHeight) oldY = newFreezer -> sceneHeight - winHeight;
-
-	freezePeople (oldX, oldY);
-	lightMap.data = NULL;
-	lightMap.name = 0;
-	zBuffer.tex = NULL;
-	zBuffer.numPanels = 0;
+	
+	// Copy the old scene to the new backdrop
+	glDeleteTextures (1, &backdropTextureName);
+	backdropTextureName = freezeTextureName;
 
 	// Free texture memory used by old stuff
 	parallaxStuff = newFreezer -> parallaxStuff;

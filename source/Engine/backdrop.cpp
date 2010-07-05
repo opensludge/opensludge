@@ -113,7 +113,6 @@ bool snapshot () {
 	viewSpeech ();					// ...and anything being said
 	drawStatusBar ();
 
-
 	// Copy Our ViewPort To The Texture
 	glBindTexture(GL_TEXTURE_2D, snapshotTextureName);
 	glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, viewportOffsetX, viewportOffsetY, winWidth, winHeight);
