@@ -1,1129 +1,778 @@
-<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN"><html><head><meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1"><!-- Sitemap 1.0 --></head><BODY><OBJECT type="text/site properties">	<param name="Window Styles" value="0x800025"></OBJECT><UL>
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<!-- Sitemap 1.0 -->
+</HEAD><BODY>
+<OBJECT type="text/site properties">
+	<param name="Window Styles" value="0x800025">
+</OBJECT>
+<UL>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Welcome to SLUDGE!">
-		<param name="Local" value="Welcome_to_SLUDGE!.html">
+		<param name="Local" value="SLUDGEDevKitHelp\SLUDGE Dev Kit Help.html">
 		</OBJECT>
 	<UL>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="Copyright">
-			<param name="Local" value="Copyright.html">
+			<param name="Local" value="SLUDGEDevKitHelp\Copyright.html">
 			</OBJECT>
-	</UL>
-	<UL>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="Download Free SLUDGE Examples">
-			<param name="Local" value="Download_Free_SLUDGE_Examples.html">
+			<param name="Local" value="SLUDGEDevKitHelp\Download_Free_SLUDGE_Examples.html">
 			</OBJECT>
-	</UL>
-	<UL>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="File Formats Used by SLUDGE">
-			<param name="Local" value="File_Formats_Used_by_SLUDGE.html">
+			<param name="Local" value="SLUDGEDevKitHelp\File_Formats_Used_by_SLUDGE.html">
 			</OBJECT>
-	</UL>
-	<UL>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="Introduction to SLUDGE Concepts">
-			<param name="Local" value="Introduction_to_SLUDGE_Concepts.html">
+			<param name="Local" value="SLUDGEDevKitHelp\Introduction_to_SLUDGE_Concepts.html">
 			</OBJECT>
-	</UL>
-	<UL>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="Overview: Creating a Game">
-			<param name="Local" value="Overview__Creating_a_Game.html">
+			<param name="Local" value="SLUDGEDevKitHelp\Overview__Creating_a_Game.html">
 			</OBJECT>
-	</UL>
-	<UL>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="SLUDGE Language Reference Manual">
-			<param name="Local" value="SLUDGE_Language_Reference_Manual.html">
+			<param name="Local" value="SLUDGEDevKitHelp\SLUDGE_Language_Reference_Manual.html">
 			</OBJECT>
 		<UL>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="Alphabetical List of Built-in Functions">
-				<param name="Local" value="Alphabetical_List_of_Built-in_Functions.html">
+				<param name="Local" value="SLUDGEDevKitHelp\Alphabetical_List_of_Built-in_Functions.html">
 				</OBJECT>
 			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="addCharacter">
-					<param name="Local" value="addCharacter.html">
+					<param name="Local" value="SLUDGEDevKitHelp\addCharacter.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="addOverlay">
-					<param name="Local" value="addOverlay.html">
+					<param name="Local" value="SLUDGEDevKitHelp\addOverlay.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="addScreenRegion">
-					<param name="Local" value="addScreenRegion.html">
+					<param name="Local" value="SLUDGEDevKitHelp\addScreenRegion.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="addStatus">
-					<param name="Local" value="addStatus.html">
+					<param name="Local" value="SLUDGEDevKitHelp\addStatus.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="aimCamera">
-					<param name="Local" value="aimCamera.html">
+					<param name="Local" value="SLUDGEDevKitHelp\aimCamera.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="alignStatus">
-					<param name="Local" value="alignStatus.html">
+					<param name="Local" value="SLUDGEDevKitHelp\alignStatus.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="anim">
-					<param name="Local" value="anim.html">
+					<param name="Local" value="SLUDGEDevKitHelp\anim.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="animate">
-					<param name="Local" value="animate.html">
+					<param name="Local" value="SLUDGEDevKitHelp\animate.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="blankArea">
-					<param name="Local" value="blankArea.html">
+					<param name="Local" value="SLUDGEDevKitHelp\blankArea.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="blankScreen">
-					<param name="Local" value="blankScreen.html">
+					<param name="Local" value="SLUDGEDevKitHelp\blankScreen.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="bodgeFilenames">
-					<param name="Local" value="bodgeFilenames.html">
+					<param name="Local" value="SLUDGEDevKitHelp\bodgeFilenames.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="cacheSound">
-					<param name="Local" value="cacheSound.html">
+					<param name="Local" value="SLUDGEDevKitHelp\cacheSound.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="callEvent">
-					<param name="Local" value="callEvent.html">
+					<param name="Local" value="SLUDGEDevKitHelp\callEvent.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="cancelSub">
-					<param name="Local" value="cancelSub.html">
+					<param name="Local" value="SLUDGEDevKitHelp\cancelSub.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="captureAllKeys">
-					<param name="Local" value="captureAllKeys.html">
+					<param name="Local" value="SLUDGEDevKitHelp\captureAllKeys.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="clearStatus">
-					<param name="Local" value="clearStatus.html">
+					<param name="Local" value="SLUDGEDevKitHelp\clearStatus.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="completeTimers">
-					<param name="Local" value="completeTimers.html">
+					<param name="Local" value="SLUDGEDevKitHelp\completeTimers.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="copyStack">
-					<param name="Local" value="copyStack.html">
+					<param name="Local" value="SLUDGEDevKitHelp\copyStack.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="costume">
-					<param name="Local" value="costume.html">
+					<param name="Local" value="SLUDGEDevKitHelp\costume.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="darkBackground">
-					<param name="Local" value="darkBackground.html">
+					<param name="Local" value="SLUDGEDevKitHelp\darkBackground.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="deleteFile">
-					<param name="Local" value="deleteFile.html">
+					<param name="Local" value="SLUDGEDevKitHelp\deleteFile.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="deleteFromStack and deleteAllFromStack">
-					<param name="Local" value="deleteFromStack_and_deleteAllFromStack.html">
+					<param name="Local" value="SLUDGEDevKitHelp\deleteFromStack_and_deleteAllFromStack.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="dequeue">
-					<param name="Local" value="dequeue.html">
+					<param name="Local" value="SLUDGEDevKitHelp\dequeue.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="enqueue">
-					<param name="Local" value="enqueue.html">
+					<param name="Local" value="SLUDGEDevKitHelp\enqueue.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="fetchEvent">
-					<param name="Local" value="fetchEvent.html">
+					<param name="Local" value="SLUDGEDevKitHelp\fetchEvent.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="fileExists">
-					<param name="Local" value="fileExists.html">
+					<param name="Local" value="SLUDGEDevKitHelp\fileExists.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="floatCharacter">
-					<param name="Local" value="floatCharacter.html">
+					<param name="Local" value="SLUDGEDevKitHelp\floatCharacter.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="forceCharacter">
-					<param name="Local" value="forceCharacter.html">
+					<param name="Local" value="SLUDGEDevKitHelp\forceCharacter.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="freeSound">
-					<param name="Local" value="freeSound.html">
+					<param name="Local" value="SLUDGEDevKitHelp\freeSound.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="freeze">
-					<param name="Local" value="freeze.html">
+					<param name="Local" value="SLUDGEDevKitHelp\freeze.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="getCharacterDirection">
-					<param name="Local" value="getCharacterDirection.html">
+					<param name="Local" value="SLUDGEDevKitHelp\getCharacterDirection.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="getCharacterScale">
-					<param name="Local" value="getCharacterScale.html">
+					<param name="Local" value="SLUDGEDevKitHelp\getCharacterScale.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="getFramesPerSecond">
-					<param name="Local" value="getFramesPerSecond.html">
+					<param name="Local" value="SLUDGEDevKitHelp\getFramesPerSecond.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="getLanguageID">
-					<param name="Local" value="getLanguageID.html">
+					<param name="Local" value="SLUDGEDevKitHelp\getLanguageID.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="getMatchingFiles">
-					<param name="Local" value="getMatchingFiles.html">
+					<param name="Local" value="SLUDGEDevKitHelp\getMatchingFiles.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="getMouseScreenX and getMouseScreenY">
-					<param name="Local" value="getMouseScreenX_and_getMouseScreenY.html">
+					<param name="Local" value="SLUDGEDevKitHelp\getMouseScreenX_and_getMouseScreenY.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="getMouseX and getMouseY">
-					<param name="Local" value="getMouseX_and_getMouseY.html">
+					<param name="Local" value="SLUDGEDevKitHelp\getMouseX_and_getMouseY.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="getObjectX and getObjectY">
-					<param name="Local" value="getObjectX_and_getObjectY.html">
+					<param name="Local" value="SLUDGEDevKitHelp\getObjectX_and_getObjectY.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="getOverObject">
-					<param name="Local" value="getOverObject.html">
+					<param name="Local" value="SLUDGEDevKitHelp\getOverObject.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="getPixelColour (getPixelColor)">
-					<param name="Local" value="getPixelColour_(getPixelColor).html">
+					<param name="Local" value="SLUDGEDevKitHelp\getPixelColour_(getPixelColor).html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="getSoundCache">
-					<param name="Local" value="getSoundCache.html">
+					<param name="Local" value="SLUDGEDevKitHelp\getSoundCache.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="getStatusText">
-					<param name="Local" value="getStatusText.html">
+					<param name="Local" value="SLUDGEDevKitHelp\getStatusText.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="hardScroll">
-					<param name="Local" value="hardScroll.html">
+					<param name="Local" value="SLUDGEDevKitHelp\hardScroll.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="hasFlag">
-					<param name="Local" value="hasFlag.html">
+					<param name="Local" value="SLUDGEDevKitHelp\hasFlag.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="hideCharacter">
-					<param name="Local" value="hideCharacter.html">
+					<param name="Local" value="SLUDGEDevKitHelp\hideCharacter.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="howFrozen">
-					<param name="Local" value="howFrozen.html">
+					<param name="Local" value="SLUDGEDevKitHelp\howFrozen.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="isCharacter">
-					<param name="Local" value="isCharacter.html">
+					<param name="Local" value="SLUDGEDevKitHelp\isCharacter.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="isMoving">
-					<param name="Local" value="isMoving.html">
+					<param name="Local" value="SLUDGEDevKitHelp\isMoving.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="isScreenRegion">
-					<param name="Local" value="isScreenRegion.html">
+					<param name="Local" value="SLUDGEDevKitHelp\isScreenRegion.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="jumpCharacter">
-					<param name="Local" value="jumpCharacter.html">
+					<param name="Local" value="SLUDGEDevKitHelp\jumpCharacter.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="launch">
-					<param name="Local" value="launch_and_launchWith.html">
+					<param name="Local" value="SLUDGEDevKitHelp\launch_and_launchWith.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="lightStatus">
-					<param name="Local" value="lightStatus.html">
+					<param name="Local" value="SLUDGEDevKitHelp\lightStatus.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="loadCustomData and saveCustomData">
-					<param name="Local" value="loadCustomData_and_saveCustomData.html">
+					<param name="Local" value="SLUDGEDevKitHelp\loadCustomData_and_saveCustomData.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="loadGame">
-					<param name="Local" value="loadGame.html">
+					<param name="Local" value="SLUDGEDevKitHelp\loadGame.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="loopSound">
-					<param name="Local" value="loopSound.html">
+					<param name="Local" value="SLUDGEDevKitHelp\loopSound.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="mixOverlay">
-					<param name="Local" value="mixOverlay.html">
+					<param name="Local" value="SLUDGEDevKitHelp\mixOverlay.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="moveCharacter">
-					<param name="Local" value="moveCharacter.html">
+					<param name="Local" value="SLUDGEDevKitHelp\moveCharacter.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="newStack">
-					<param name="Local" value="newStack.html">
+					<param name="Local" value="SLUDGEDevKitHelp\newStack.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="normalCharacter">
-					<param name="Local" value="normalCharacter.html">
+					<param name="Local" value="SLUDGEDevKitHelp\normalCharacter.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="onFocusChange">
-					<param name="Local" value="onFocusChange.html">
+					<param name="Local" value="SLUDGEDevKitHelp\onFocusChange.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="onKeyboard">
-					<param name="Local" value="onKeyboard.html">
+					<param name="Local" value="SLUDGEDevKitHelp\onKeyboard.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="onLeftMouse">
-					<param name="Local" value="onLeftMouse.html">
+					<param name="Local" value="SLUDGEDevKitHelp\onLeftMouse.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="onLeftMouseUp">
-					<param name="Local" value="onLeftMouseUp.html">
+					<param name="Local" value="SLUDGEDevKitHelp\onLeftMouseUp.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="onMoveMouse">
-					<param name="Local" value="onMoveMouse.html">
+					<param name="Local" value="SLUDGEDevKitHelp\onMoveMouse.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="onRightMouse">
-					<param name="Local" value="onRightMouse.html">
+					<param name="Local" value="SLUDGEDevKitHelp\onRightMouse.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="onRightMouseUp">
-					<param name="Local" value="onRightMouseUp.html">
+					<param name="Local" value="SLUDGEDevKitHelp\onRightMouseUp.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="parallaxAdd">
-					<param name="Local" value="parallaxAdd.html">
+					<param name="Local" value="SLUDGEDevKitHelp\parallaxAdd.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="parallaxClear">
-					<param name="Local" value="parallaxClear.html">
+					<param name="Local" value="SLUDGEDevKitHelp\parallaxClear.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="pasteCharacter">
-					<param name="Local" value="pasteCharacter.html">
+					<param name="Local" value="SLUDGEDevKitHelp\pasteCharacter.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="pasteImage">
-					<param name="Local" value="pasteImage.html">
+					<param name="Local" value="SLUDGEDevKitHelp\pasteImage.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="pasteString and burnString">
-					<param name="Local" value="pasteString_and_burnString.html">
+					<param name="Local" value="SLUDGEDevKitHelp\pasteString_and_burnString.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="pause">
-					<param name="Local" value="pause.html">
+					<param name="Local" value="SLUDGEDevKitHelp\pause.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="pickOne">
-					<param name="Local" value="pickOne.html">
+					<param name="Local" value="SLUDGEDevKitHelp\pickOne.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="playSound">
-					<param name="Local" value="playSound.html">
+					<param name="Local" value="SLUDGEDevKitHelp\playSound.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="popFromStack">
-					<param name="Local" value="popFromStack.html">
+					<param name="Local" value="SLUDGEDevKitHelp\popFromStack.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="positionStatus">
-					<param name="Local" value="positionStatus.html">
+					<param name="Local" value="SLUDGEDevKitHelp\positionStatus.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="pushToStack">
-					<param name="Local" value="pushToStack.html">
+					<param name="Local" value="SLUDGEDevKitHelp\pushToStack.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="quitGame">
-					<param name="Local" value="quitGame.html">
+					<param name="Local" value="SLUDGEDevKitHelp\quitGame.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="quitWithFatalError">
-					<param name="Local" value="quitWithFatalError.html">
+					<param name="Local" value="SLUDGEDevKitHelp\quitWithFatalError.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="random">
-					<param name="Local" value="random.html">
+					<param name="Local" value="SLUDGEDevKitHelp\random.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="removeAllCharacters">
-					<param name="Local" value="removeAllCharacters.html">
+					<param name="Local" value="SLUDGEDevKitHelp\removeAllCharacters.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="removeAllScreenRegions">
-					<param name="Local" value="removeAllScreenRegions.html">
+					<param name="Local" value="SLUDGEDevKitHelp\removeAllScreenRegions.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="removeCharacter">
-					<param name="Local" value="removeCharacter.html">
+					<param name="Local" value="SLUDGEDevKitHelp\removeCharacter.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="removeLastStatus">
-					<param name="Local" value="removeLastStatus.html">
+					<param name="Local" value="SLUDGEDevKitHelp\removeLastStatus.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="removeScreenRegion">
-					<param name="Local" value="removeScreenRegion.html">
+					<param name="Local" value="SLUDGEDevKitHelp\removeScreenRegion.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="rename">
-					<param name="Local" value="rename.html">
+					<param name="Local" value="SLUDGEDevKitHelp\rename.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="renameFile">
-					<param name="Local" value="renameFile.html">
+					<param name="Local" value="SLUDGEDevKitHelp\renameFile.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="saveGame">
-					<param name="Local" value="saveGame.html">
+					<param name="Local" value="SLUDGEDevKitHelp\saveGame.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="say and think">
-					<param name="Local" value="say_and_think.html">
+					<param name="Local" value="SLUDGEDevKitHelp\say_and_think.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="setBackgroundEffect and doBackgroundEffect">
-					<param name="Local" value="setBackgroundEffect.html">
+					<param name="Local" value="SLUDGEDevKitHelp\setBackgroundEffect.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="setBlankColour (setBlankColor)">
-					<param name="Local" value="setBlankColour_(setBlankColor).html">
+					<param name="Local" value="SLUDGEDevKitHelp\setBlankColour_(setBlankColor).html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="setBurnColour (setBurnColor)">
-					<param name="Local" value="setBurnColour_(setBurnColor).html">
+					<param name="Local" value="SLUDGEDevKitHelp\setBurnColour_(setBurnColor).html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="setCharacterAngleOffset">
-					<param name="Local" value="setCharacterAngleOffset.html">
+					<param name="Local" value="SLUDGEDevKitHelp\setCharacterAngleOffset.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="setCharacterAntiAliasing">
-					<param name="Local" value="setCharacterAntiAliasing.html">
+					<param name="Local" value="SLUDGEDevKitHelp\setCharacterAntiAliasing.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="setCharacterDrawMode">
-					<param name="Local" value="setCharacterDrawMode.html">
+					<param name="Local" value="SLUDGEDevKitHelp\setCharacterDrawMode.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="setCharacterExtra">
-					<param name="Local" value="setCharacterExtra.html">
+					<param name="Local" value="SLUDGEDevKitHelp\setCharacterExtra.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="setCharacterSpinSpeed">
-					<param name="Local" value="setCharacterSpinSpeed.html">
+					<param name="Local" value="SLUDGEDevKitHelp\setCharacterSpinSpeed.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="setCharacterWalkSpeed">
-					<param name="Local" value="setCharacterWalkSpeed.html">
+					<param name="Local" value="SLUDGEDevKitHelp\setCharacterWalkSpeed.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="setCostume">
-					<param name="Local" value="setCostume.html">
+					<param name="Local" value="SLUDGEDevKitHelp\setCostume.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="setCursor">
-					<param name="Local" value="setCursor.html">
+					<param name="Local" value="SLUDGEDevKitHelp\setCursor.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="setCustomEncoding">
-					<param name="Local" value="setCustomEncoding.html">
+					<param name="Local" value="SLUDGEDevKitHelp\setCustomEncoding.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="setDefaultMusicVolume">
-					<param name="Local" value="setDefaultMusicVolume.html">
+					<param name="Local" value="SLUDGEDevKitHelp\setDefaultMusicVolume.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="setDefaultSoundVolume">
-					<param name="Local" value="setDefaultSoundVolume.html">
+					<param name="Local" value="SLUDGEDevKitHelp\setDefaultSoundVolume.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="setFloor">
-					<param name="Local" value="setFloor.html">
+					<param name="Local" value="SLUDGEDevKitHelp\setFloor.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="setFont">
-					<param name="Local" value="setFont.html">
+					<param name="Local" value="SLUDGEDevKitHelp\setFont.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="setFontSpacing">
-					<param name="Local" value="setFontSpacing.html">
+					<param name="Local" value="SLUDGEDevKitHelp\setFontSpacing.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="setLightMap">
-					<param name="Local" value="setLightMap.html">
+					<param name="Local" value="SLUDGEDevKitHelp\setLightMap.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="setLitStatusColour (setLitStatusColor)">
-					<param name="Local" value="setLitStatusColour_(setLitStatusColor).html">
+					<param name="Local" value="SLUDGEDevKitHelp\setLitStatusColour_(setLitStatusColor).html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="setMaximumAntiAliasing">
-					<param name="Local" value="setMaximumAntiAliasing.html">
+					<param name="Local" value="SLUDGEDevKitHelp\setMaximumAntiAliasing.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="setMusicVolume">
-					<param name="Local" value="setMusicVolume.html">
+					<param name="Local" value="SLUDGEDevKitHelp\setMusicVolume.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="setPasteColour (setPasteColor)">
-					<param name="Local" value="setPasteColour_(setPasteColor).html">
+					<param name="Local" value="SLUDGEDevKitHelp\setPasteColour_(setPasteColor).html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="setScale">
-					<param name="Local" value="setScale.html">
+					<param name="Local" value="SLUDGEDevKitHelp\setScale.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="setSceneDimensions">
-					<param name="Local" value="setSceneDimensions.html">
+					<param name="Local" value="SLUDGEDevKitHelp\setSceneDimensions.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="setSoundLoopPoints">
-					<param name="Local" value="setSoundLoopPoints.html">
+					<param name="Local" value="SLUDGEDevKitHelp\setSoundLoopPoints.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="setSoundVolume">
-					<param name="Local" value="setSoundVolume.html">
+					<param name="Local" value="SLUDGEDevKitHelp\setSoundVolume.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="setSpeechMode">
-					<param name="Local" value="setSpeechMode.html">
+					<param name="Local" value="SLUDGEDevKitHelp\setSpeechMode.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="setSpeechSpeed">
-					<param name="Local" value="setSpeechSpeed.html">
+					<param name="Local" value="SLUDGEDevKitHelp\setSpeechSpeed.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="setStatusColour (setStatusColor)">
-					<param name="Local" value="setStatusColour_(setStatusColor).html">
+					<param name="Local" value="SLUDGEDevKitHelp\setStatusColour_(setStatusColor).html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="setThumbnailSize">
-					<param name="Local" value="setThumbnailSize.html">
+					<param name="Local" value="SLUDGEDevKitHelp\setThumbnailSize.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="setZBuffer">
-					<param name="Local" value="setZBuffer.html">
+					<param name="Local" value="SLUDGEDevKitHelp\setZBuffer.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="showBoxes">
-					<param name="Local" value="showBoxes.html">
+					<param name="Local" value="SLUDGEDevKitHelp\showBoxes.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="showCharacter">
-					<param name="Local" value="showCharacter.html">
+					<param name="Local" value="SLUDGEDevKitHelp\showCharacter.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="showFloor">
-					<param name="Local" value="showFloor.html">
+					<param name="Local" value="SLUDGEDevKitHelp\showFloor.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="showThumbnail">
-					<param name="Local" value="showThumbnail.html">
+					<param name="Local" value="SLUDGEDevKitHelp\showThumbnail.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="skipSpeech">
-					<param name="Local" value="skipSpeech.html">
+					<param name="Local" value="SLUDGEDevKitHelp\skipSpeech.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="snapshotClear">
-					<param name="Local" value="snapshotClear.html">
+					<param name="Local" value="SLUDGEDevKitHelp\snapshotClear.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="snapshotGrab">
-					<param name="Local" value="snapshotGrab.html">
+					<param name="Local" value="SLUDGEDevKitHelp\snapshotGrab.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="somethingSpeaking">
-					<param name="Local" value="somethingSpeaking.html">
+					<param name="Local" value="SLUDGEDevKitHelp\somethingSpeaking.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="spawnSub">
-					<param name="Local" value="spawnSub.html">
+					<param name="Local" value="SLUDGEDevKitHelp\spawnSub.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="stackSize">
-					<param name="Local" value="stackSize.html">
+					<param name="Local" value="SLUDGEDevKitHelp\stackSize.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="startMusic">
-					<param name="Local" value="startMusic.html">
+					<param name="Local" value="SLUDGEDevKitHelp\startMusic.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="statusText">
-					<param name="Local" value="statusText.html">
+					<param name="Local" value="SLUDGEDevKitHelp\statusText.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="stopCharacter">
-					<param name="Local" value="stopCharacter.html">
+					<param name="Local" value="SLUDGEDevKitHelp\stopCharacter.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="stopMusic">
-					<param name="Local" value="stopMusic.html">
+					<param name="Local" value="SLUDGEDevKitHelp\stopMusic.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="stopSound">
-					<param name="Local" value="stopSound.html">
+					<param name="Local" value="SLUDGEDevKitHelp\stopSound.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="stringLength">
-					<param name="Local" value="stringLength.html">
+					<param name="Local" value="SLUDGEDevKitHelp\stringLength.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="stringWidth">
-					<param name="Local" value="stringWidth.html">
+					<param name="Local" value="SLUDGEDevKitHelp\stringWidth.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="substring">
-					<param name="Local" value="substring.html">
+					<param name="Local" value="SLUDGEDevKitHelp\substring.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="transitionMode and transitionLevel">
-					<param name="Local" value="transitionMode_and_transitionLevel.html">
+					<param name="Local" value="SLUDGEDevKitHelp\transitionMode_and_transitionLevel.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="turnCharacter and spinCharacter">
-					<param name="Local" value="turnCharacter_and_spinCharacter.html">
+					<param name="Local" value="SLUDGEDevKitHelp\turnCharacter_and_spinCharacter.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="unfreeze">
-					<param name="Local" value="unfreeze.html">
+					<param name="Local" value="SLUDGEDevKitHelp\unfreeze.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="wait">
-					<param name="Local" value="wait.html">
+					<param name="Local" value="SLUDGEDevKitHelp\wait.html">
 					</OBJECT>
 			</UL>
-		</UL>
-		<UL>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="Built-in Constants">
-				<param name="Local" value="Built-in_Constants.html">
+				<param name="Local" value="SLUDGEDevKitHelp\Built-in_Constants.html">
 				</OBJECT>
-		</UL>
-		<UL>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="File Handling">
-				<param name="Local" value="File_Handling.html">
+				<param name="Local" value="SLUDGEDevKitHelp\File_Handling.html">
 				</OBJECT>
-		</UL>
-		<UL>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="Functions (subs)">
-				<param name="Local" value="Functions_(subs).html">
+				<param name="Local" value="SLUDGEDevKitHelp\Functions_(subs).html">
 				</OBJECT>
 			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="Passing Functions as Variables">
-					<param name="Local" value="Passing_Functions_as_Variables.html">
+					<param name="Local" value="SLUDGEDevKitHelp\Passing_Functions_as_Variables.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="Unfreezable Functions">
-					<param name="Local" value="Unfreezable_Functions.html">
+					<param name="Local" value="SLUDGEDevKitHelp\Unfreezable_Functions.html">
 					</OBJECT>
 			</UL>
-		</UL>
-		<UL>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="Loops and Conditionals">
-				<param name="Local" value="Loops_and_Conditionals.html">
+				<param name="Local" value="SLUDGEDevKitHelp\Loops_and_Conditionals.html">
 				</OBJECT>
-		</UL>
-		<UL>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="Multiple Languages in a Single Game">
-				<param name="Local" value="Multiple_Languages_in_a_Single_Game.html">
+				<param name="Local" value="SLUDGEDevKitHelp\Multiple_Languages_in_a_Single_Game.html">
 				</OBJECT>
-		</UL>
-		<UL>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="Object Types and Events">
-				<param name="Local" value="Object_Types_and_Events.html">
+				<param name="Local" value="SLUDGEDevKitHelp\Object_Types_and_Events.html">
 				</OBJECT>
-			<UL>
-				<LI> <OBJECT type="text/sitemap">
-					<param name="Name" value="Anti-aliasing">
-					<param name="Local" value="antialiasing.html">
-					</OBJECT>
-			</UL>
 			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="Member Variables and Member Functions">
-					<param name="Local" value="Member_Variables_and_Member_Functions.html">
+					<param name="Local" value="SLUDGEDevKitHelp\Member_Variables_and_Member_Functions.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="Object Types as Characters">
-					<param name="Local" value="Object_Types_as_Characters.html">
+					<param name="Local" value="SLUDGEDevKitHelp\Object_Types_as_Characters.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="Object Types as Screen Regions">
-					<param name="Local" value="Object_Types_as_Screen_Regions.html">
+					<param name="Local" value="SLUDGEDevKitHelp\Object_Types_as_Screen_Regions.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="Reusing Code for or from Events">
-					<param name="Local" value="Reusing_Code_for_or_from_Events.html">
+					<param name="Local" value="SLUDGEDevKitHelp\Reusing_Code_for_or_from_Events.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="Setting Default Events">
-					<param name="Local" value="Setting_Default_Events.html">
+					<param name="Local" value="SLUDGEDevKitHelp\Setting_Default_Events.html">
 					</OBJECT>
 			</UL>
-		</UL>
-		<UL>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="Scrolling Scenes">
-				<param name="Local" value="Scrolling_Scenes.html">
+				<param name="Local" value="SLUDGEDevKitHelp\Scrolling_Scenes.html">
 				</OBJECT>
-		</UL>
-		<UL>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="The Background Image">
-				<param name="Local" value="The_Background_Image.html">
+				<param name="Local" value="SLUDGEDevKitHelp\The_Background_Image.html">
 				</OBJECT>
-		</UL>
-		<UL>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="The World's Easiest Load/Save Mechanism">
-				<param name="Local" value="The_World's_Easiest_Load_Save_Mechanism.html">
+				<param name="Local" value="SLUDGEDevKitHelp\The_World's_Easiest_Load_Save_Mechanism.html">
 				</OBJECT>
-		</UL>
-		<UL>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="Using Audio in SLUDGE">
-				<param name="Local" value="Using_Audio_in_SLUDGE.html">
+				<param name="Local" value="SLUDGEDevKitHelp\Using_Audio_in_SLUDGE.html">
 				</OBJECT>
-		</UL>
-		<UL>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="Using Constants in SLUDGE">
-				<param name="Local" value="Using_Constants_in_SLUDGE.html">
+				<param name="Local" value="SLUDGEDevKitHelp\Using_Constants_in_SLUDGE.html">
 				</OBJECT>
-		</UL>
-		<UL>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="Variables">
-				<param name="Local" value="Variables.html">
+				<param name="Local" value="SLUDGEDevKitHelp\Variables.html">
 				</OBJECT>
 			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="The Multi-Purpose Stack / Array / Queue Type">
-					<param name="Local" value="The_Multi-Purpose_Stack___Array___Queue_Type.html">
+					<param name="Local" value="SLUDGEDevKitHelp\The_Multi-Purpose_Stack___Array___Queue_Type.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="Treating Variables as Booleans">
-					<param name="Local" value="Treating_Variables_as_Booleans.html">
+					<param name="Local" value="SLUDGEDevKitHelp\Treating_Variables_as_Booleans.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="Treating Variables as Strings">
-					<param name="Local" value="Treating_Variables_as_Strings.html">
+					<param name="Local" value="SLUDGEDevKitHelp\Treating_Variables_as_Strings.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="Variable Operations">
-					<param name="Local" value="Variable_Operations.html">
+					<param name="Local" value="SLUDGEDevKitHelp\Variable_Operations.html">
 					</OBJECT>
 				<UL>
 					<LI> <OBJECT type="text/sitemap">
 						<param name="Name" value="Problems with +=, -=, *=, /= and %= in SLUDGE">
-						<param name="Local" value="Problems_with_+=,_-=,__=,__=_and_%=_in_SLUDGE.html">
+						<param name="Local" value="SLUDGEDevKitHelp\Problems_with_+=,_-=,__=,__=_and_%=_in_SLUDGE.html">
 						</OBJECT>
 				</UL>
 			</UL>
 		</UL>
-	</UL>
-	<UL>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="The Programs">
-			<param name="Local" value="The_Programs.html">
+			<param name="Local" value="SLUDGEDevKitHelp\The_Programs.html">
 			</OBJECT>
 		<UL>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="About the SLUDGE Compiler">
-				<param name="Local" value="About_the_SLUDGE_Compiler.html">
+				<param name="Local" value="SLUDGEDevKitHelp\About_the_SLUDGE_Compiler.html">
 				</OBJECT>
-		</UL>
-		<UL>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="About the SLUDGE Floor Maker">
-				<param name="Local" value="About_the_SLUDGE_Floor_Maker.html">
+				<param name="Local" value="SLUDGEDevKitHelp\About_the_SLUDGE_Floor_Maker.html">
 				</OBJECT>
-		</UL>
-		<UL>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="About the SLUDGE Project Manager">
-				<param name="Local" value="About_the_SLUDGE_Project_Manager.html">
+				<param name="Local" value="SLUDGEDevKitHelp\About_the_SLUDGE_Project_Manager.html">
 				</OBJECT>
 			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="Project Manager: Menus">
-					<param name="Local" value="Project_Manager__Menus.html">
+					<param name="Local" value="SLUDGEDevKitHelp\Project_Manager__Menus.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="Project Manager: &quot;Files in this project&quot; Section">
-					<param name="Local" value="Project_Manager___quot;Files_in_this_project_quot;_Section.html">
+					<param name="Local" value="SLUDGEDevKitHelp\Project_Manager___quot;Files_in_this_project_quot;_Section.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="Project Manager: &quot;Project management&quot; Section">
-					<param name="Local" value="Project_Manager___quot;Project_management_quot;_Section.html">
+					<param name="Local" value="SLUDGEDevKitHelp\Project_Manager___quot;Project_management_quot;_Section.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="Project Manager: &quot;Project properties&quot; Dialog">
-					<param name="Local" value="Project_Manager___quot;Project_properties_quot;_Dialog.html">
+					<param name="Local" value="SLUDGEDevKitHelp\Project_Manager___quot;Project_properties_quot;_Dialog.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="Project Manager: &quot;Project settings&quot; Section">
-					<param name="Local" value="Project_Manager___quot;Project_settings_quot;_Section.html">
+					<param name="Local" value="SLUDGEDevKitHelp\Project_Manager___quot;Project_settings_quot;_Section.html">
 					</OBJECT>
-			</UL>
-			<UL>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="Spellchecking the Strings in your Game">
-					<param name="Local" value="Spellchecking_the_Strings_in_your_Game.html">
+					<param name="Local" value="SLUDGEDevKitHelp\Spellchecking_the_Strings_in_your_Game.html">
 					</OBJECT>
 			</UL>
-		</UL>
-		<UL>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="About the SLUDGE Sprite Bank Editor">
-				<param name="Local" value="About_the_SLUDGE_Sprite_Bank_Editor.html">
+				<param name="Local" value="SLUDGEDevKitHelp\About_the_SLUDGE_Sprite_Bank_Editor.html">
 				</OBJECT>
-		</UL>
-		<UL>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="About the SLUDGE Z-Buffer Maker">
-				<param name="Local" value="About_the_SLUDGE_Z-Buffer_Maker.html">
+				<param name="Local" value="SLUDGEDevKitHelp\About_the_SLUDGE_Z-Buffer_Maker.html">
 				</OBJECT>
-		</UL>
-		<UL>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value=".ini Files for Compiled SLUDGE Games">
-				<param name="Local" value="ini.html">
+				<param name="Local" value="SLUDGEDevKitHelp\ini.html">
 				</OBJECT>
 		</UL>
 	</UL>
 </UL>
-</BODY></html>
+</BODY></HTML>
