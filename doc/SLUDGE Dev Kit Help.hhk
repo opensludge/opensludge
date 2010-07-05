@@ -1667,9 +1667,19 @@
 		<param name="Local" value="SLUDGEDevKitHelp\setBurnColour_(setBurnColor).html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="setCharacterAngleOffset">
+		<param name="Name" value="setCharacterAngleOffset">
+		<param name="Local" value="SLUDGEDevKitHelp\setCharacterAngleOffset.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="setCharacterAntiAliasing">
 		<param name="Name" value="setCharacterAntiAliasing (built-in function)">
 		<param name="Local" value="SLUDGEDevKitHelp\setCharacterAntiAliasing.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="setCharacterColourise">
+		<param name="Name" value="setCharacterColourise">
+		<param name="Local" value="SLUDGEDevKitHelp\setCharacterColourise.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="setCharacterDrawMode">
@@ -1685,6 +1695,11 @@
 		<param name="Name" value="setCharacterSpinSpeed">
 		<param name="Name" value="setCharacterSpinSpeed (built-in function)">
 		<param name="Local" value="SLUDGEDevKitHelp\setCharacterSpinSpeed.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="setCharacterTransparency">
+		<param name="Name" value="setCharacterTransparency">
+		<param name="Local" value="SLUDGEDevKitHelp\setCharacterTransparency.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="setCharacterWalkSpeed">
@@ -1935,6 +1950,11 @@
 		<param name="Name" value="wait">
 		<param name="Name" value="wait (built-in function)">
 		<param name="Local" value="SLUDGEDevKitHelp\wait.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="zoomCamera">
+		<param name="Name" value="zoomCamera">
+		<param name="Local" value="SLUDGEDevKitHelp\zoomCamera.html">
 		</OBJECT>
 </UL>
 </BODY></HTML>
