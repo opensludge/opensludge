@@ -10,7 +10,7 @@
 #include "Project.hpp"
 
 #include "settings.h"
-#include "wintext.h"
+#include "Interface.h"
 
 // -- These are from "MessBox.h"
 struct errorLinkToFile
