@@ -26,11 +26,28 @@ extern char **languageName;
 	return self;
 }
 
-
+extern unsigned char * gameLogo;
 
 // Load all the options, and check the boxes that reflect the current settings
 - (void)windowDidLoad
 {
+	if (gameLogo) {
+		NSImage * l = [[NSImage alloc] initWithSize: NSMakeSize(310, 88)];
+		NSBitmapImageRep *imrep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes: &gameLogo 
+																		  pixelsWide:310 
+																		  pixelsHigh:88 
+																	   bitsPerSample:8 
+																	 samplesPerPixel:4 
+																			hasAlpha:YES 
+																			isPlanar:NO 
+																	  colorSpaceName:NSDeviceRGBColorSpace 
+																		 bytesPerRow:1240 
+																		bitsPerPixel:32];
+		[l addRepresentation: imrep];
+		[logo setImage: l];
+		[l release];
+		[imrep release];
+	}
 	[fullScreenCheck setState:gameSettings.userFullScreen != 0];
 	[aaCheck setState:gameSettings.antiAlias != 0];
 	[languageList removeAllItems];

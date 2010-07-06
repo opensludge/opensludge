@@ -358,6 +358,7 @@ extern char * gameFile;
 {
 	[prefQuit setStringValue:[NSString stringWithUTF8String: settings.quitMessage]];
 	[prefIcon setStringValue:[NSString stringWithUTF8String: settings.customIcon]];
+	[prefLogo setStringValue:[NSString stringWithUTF8String: settings.customLogo]];
 	[prefData setStringValue:[NSString stringWithUTF8String: settings.runtimeDataFolder]];
 	[prefFile setStringValue:[NSString stringWithUTF8String: settings.finalFile]];
 	[prefName setStringValue:[NSString stringWithUTF8String: settings.windowName]];
@@ -379,6 +380,7 @@ extern char * gameFile;
 	killSettingsStrings();
 	settings.quitMessage = newString ([[prefQuit stringValue] UTF8String]);
 	settings.customIcon = newString ([[prefIcon stringValue] UTF8String]);
+	settings.customLogo = newString ([[prefLogo stringValue] UTF8String]);
 	settings.runtimeDataFolder = newString ([[prefData stringValue]UTF8String]);
 	settings.finalFile = newString ([[prefFile stringValue]UTF8String]);
 	settings.windowName = newString ([[prefName stringValue]UTF8String]);

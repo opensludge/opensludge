@@ -21,6 +21,7 @@
 	IBOutlet NSWindow *projectPrefs;
 	IBOutlet NSTextField *prefQuit;
 	IBOutlet NSTextField *prefIcon;
+	IBOutlet NSTextField *prefLogo;
 	IBOutlet NSTextField *prefData;
 	IBOutlet NSTextField *prefFile;
 	IBOutlet NSTextField *prefName;

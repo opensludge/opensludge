@@ -9,6 +9,7 @@
 
 
 @interface StartController : NSWindowController {
+	IBOutlet NSImageView *logo;
 	IBOutlet NSButton *fullScreenCheck;
 	IBOutlet NSPopUpButton *languageList;
 	IBOutlet NSButton *aaCheck;
