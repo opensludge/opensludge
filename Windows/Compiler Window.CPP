@@ -60,10 +60,12 @@ void userClickedErrorLine (int whichEntry)
 
 	if (link && link->filename)
 	{
-		if (MessageBox (warningWindowH, link->fullText, "SLUDGE Compiler warning", MB_YESNO | MB_APPLMODAL | MB_SETFOREGROUND) == IDYES)
+	    char * t = joinStrings(link->fullText, "\n\nOpen the file?");
+		if (MessageBox (warningWindowH, t, "SLUDGE Compiler warning", MB_YESNO | MB_APPLMODAL | MB_SETFOREGROUND) == IDYES)
 		{
 			warningOpenSourceFile(link->filename);
 		}
+		delete t;
 	}
 }
 
@@ -91,6 +93,7 @@ BOOL APIENTRY warningBoxFunc (HWND h, UINT m, WPARAM w, LPARAM l) {
 
 void compilerCommentsUpdated()
 {
+//    fprintf (stderr, "Hello.");
     if (! warningWindowH) {
         CreateDialog(inst, MAKEINTRESOURCE(WARNINGDIALOG), NULL, warningBoxFunc);
     }
@@ -253,7 +256,7 @@ BOOL APIENTRY dialogComp(HWND h, UINT m, WPARAM w, LPARAM l) {
 
 		case WM_DESTROY:
             if (warningWindowH) DestroyWindow (warningWindowH);
-
+            warningWindowH = NULL;
             compWin = NULL;
             return 0;
 	}

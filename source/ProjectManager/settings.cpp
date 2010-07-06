@@ -32,6 +32,8 @@ void noSettings () {
 	settings.quitMessage = joinStrings ("Are you sure you want to quit?", "");
 	if (settings.customIcon) delete settings.customIcon;
 	settings.customIcon = joinStrings ("", "");
+	if (settings.customLogo) delete settings.customLogo;
+	settings.customLogo = joinStrings ("", "");
 	if (settings.runtimeDataFolder) delete settings.runtimeDataFolder;
 	settings.runtimeDataFolder = joinStrings ("save", "");
 	if (settings.finalFile) delete settings.finalFile;
@@ -73,6 +75,10 @@ void readDir (char * t) {
 		} else if (strcmp (splitLine -> string, "customicon") == 0) {
 			if (settings.customIcon) delete settings.customIcon;
 			settings.customIcon = joinStrings ("", splitLine -> next -> string);
+
+		} else if (strcmp (splitLine -> string, "customlogo") == 0) {
+			if (settings.customLogo) delete settings.customLogo;
+			settings.customLogo = joinStrings ("", splitLine -> next -> string);
 
 		} else if (strcmp (splitLine -> string, "datafolder") == 0) {
 			if (settings.runtimeDataFolder) delete settings.runtimeDataFolder;
@@ -168,6 +174,7 @@ void killSettingsStrings ()
 {
 	if (settings.quitMessage) delete settings.quitMessage;
 	if (settings.customIcon) delete settings.customIcon;
+	if (settings.customLogo) delete settings.customLogo;
 	if (settings.runtimeDataFolder) delete settings.runtimeDataFolder;
 	if (settings.finalFile) delete settings.finalFile;
 	if (settings.windowName) delete settings.windowName;
@@ -223,6 +230,7 @@ void writeSettings (FILE * fp) {
 	fprintf 		(fp, "datafolder=%s\n", 			settings.runtimeDataFolder);
 	fprintf 		(fp, "quitmessage=%s\n", 			settings.quitMessage);
 	fprintf 		(fp, "customicon=%s\n", 			settings.customIcon);
+	fprintf 		(fp, "customlogo=%s\n", 			settings.customLogo);
 	fprintf 		(fp, "mouse=%lu\n", 				settings.winMouseImage);
 	fprintf 		(fp, "fullscreen=%c\n", 			settings.runFullScreen ? 'Y':'N');
 	fprintf 		(fp, "makesilent=%c\n", 			settings.forceSilent ? 'Y':'N');

@@ -71,6 +71,9 @@ int languageNum = -1;
 unsigned char * gameIcon = NULL;
 int iconW = 0, iconH = 0;
 
+unsigned char * gameLogo = NULL;
+int logoW = 0, logoH = 0;
+
 int gameVersion;
 int specialSettings;
 FILETIME fileTime;
@@ -221,8 +224,9 @@ bool initSludge (char * filename) {
 	delete checker;
 	checker = NULL;
 
+    unsigned char customIconLogo = fgetc (fp);
 
-	if (fgetc (fp)) {
+	if (customIconLogo & 1) {
 		// There is an icon - read it!
 		int n;
 
@@ -230,7 +234,6 @@ bool initSludge (char * filename) {
 
 		png_structp png_ptr;
 		png_infop info_ptr, end_info;
-
 
 		int fileIsPNG = true;
 
@@ -315,10 +318,129 @@ bool initSludge (char * filename) {
                         n = 1;
                     }
                     while (n --) {
-                        *p++ = (Uint8) redValue(c);
+                       *p++ = (Uint8) redValue(c);
                         *p++ = (Uint8) greenValue(c);
                         *p++ = (Uint8) blueValue(c);
                         *p++ = (Uint8) (c == transCol) ? 0 : 255;
+
+                        t1++;
+                    }
+                }
+            }
+        }
+	}
+
+	if (customIconLogo & 2) {
+		// There is an logo - read it!
+		int n;
+
+		long file_pointer = ftell (fp);
+
+		png_structp png_ptr;
+		png_infop info_ptr, end_info;
+
+		int fileIsPNG = true;
+
+		// Is this a PNG file?
+
+		char tmp[10];
+		fread(tmp, 1, 8, fp);
+		if (png_sig_cmp((png_byte *) tmp, 0, 8)) {
+			// No, it's old-school HSI
+			fileIsPNG = false;
+			fseek(fp, file_pointer, SEEK_SET);
+
+			logoW = get2bytes (fp);
+			logoH = get2bytes (fp);
+		} else {
+			// Read the PNG header
+
+			png_ptr = png_create_read_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+			if (!png_ptr) {
+				return false;
+			}
+
+			info_ptr = png_create_info_struct(png_ptr);
+			if (!info_ptr) {
+				png_destroy_read_struct(&png_ptr, (png_infopp) NULL, (png_infopp) NULL);
+				return false;
+			}
+
+			end_info = png_create_info_struct(png_ptr);
+			if (!end_info) {
+				png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
+				return false;
+			}
+			png_init_io(png_ptr, fp);		// Tell libpng which file to read
+			png_set_sig_bytes(png_ptr, 8);	// 8 bytes already read
+
+			png_read_info(png_ptr, info_ptr);
+
+			png_uint_32 width, height;
+			int bit_depth, color_type, interlace_type, compression_type, filter_method;
+			png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, &interlace_type, &compression_type, &filter_method);
+
+			logoW = width;
+			logoH = height;
+
+			if (bit_depth < 8) png_set_packing(png_ptr);
+			png_set_expand(png_ptr);
+			if (color_type == PNG_COLOR_TYPE_GRAY || color_type == PNG_COLOR_TYPE_GRAY_ALPHA) png_set_gray_to_rgb(png_ptr);
+			if (bit_depth == 16) png_set_strip_16(png_ptr);
+#ifdef WIN32
+            // Windows wants a BGR bitmap
+            if (color_type == PNG_COLOR_TYPE_RGB ||
+                color_type == PNG_COLOR_TYPE_RGB_ALPHA)
+                    png_set_bgr(png_ptr);
+#endif
+
+			png_set_add_alpha(png_ptr, 0xff, PNG_FILLER_AFTER);
+
+			png_read_update_info(png_ptr, info_ptr);
+			png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, &interlace_type, &compression_type, &filter_method);
+
+		}
+
+        if ((logoW != 310) || (logoH != 88)) return fatal ("Game logo have wrong dimensions. (Should be 310x88)");
+
+        gameLogo = new unsigned char [logoW*logoH*4];
+        if (! gameLogo) return fatal ("Can't reserve memory for game logo.");
+
+        // int32_t transCol = 63519;
+        Uint8 *p = (Uint8 *) gameLogo;
+
+        if (fileIsPNG) {
+            unsigned char * row_pointers[logoH];
+            for (int i = 0; i<logoH; i++)
+                row_pointers[i] = p + 4*i*logoW;
+
+            png_read_image(png_ptr, (png_byte **) row_pointers);
+            png_read_end(png_ptr, NULL);
+            png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
+        } else {
+
+            for (int t2 = 0; t2 < logoH; t2 ++) {
+                int t1 = 0;
+                while (t1 < logoW) {
+                    unsigned short c = (unsigned short) get2bytes (fp);
+                    if (c & 32) {
+                        n = fgetc (fp) + 1;
+                        c -= 32;
+                    } else {
+                        n = 1;
+                    }
+                    while (n --) {
+#ifdef WIN32
+                        // Windows wants a BGR bitmap
+                       *p++ = (Uint8) blueValue(c);
+                        *p++ = (Uint8) greenValue(c);
+                        *p++ = (Uint8) redValue(c);
+#else
+                       *p++ = (Uint8) redValue(c);
+                        *p++ = (Uint8) greenValue(c);
+                        *p++ = (Uint8) blueValue(c);
+#endif
+                        *p++ = (Uint8) /*(c == transCol) ? 0 :*/ 255;
 
                         t1++;
                     }

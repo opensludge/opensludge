@@ -64,10 +64,18 @@ char * grabFileName () {
 extern char ** languageName;
 extern int * languageTable;
 
+HBITMAP hLogo = NULL;
+extern unsigned char * gameLogo;
+
 BOOL CALLBACK setupDlgProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message) {
     case WM_INITDIALOG:
+        if (gameLogo) {
+            hLogo = CreateBitmap(310, 88, 1, 32, gameLogo);
+            SendDlgItemMessage(hDlg, 1003, STM_SETIMAGE, (WPARAM)IMAGE_BITMAP, (LPARAM)hLogo);
+        }
+
         if (gameSettings.userFullScreen)
             CheckDlgButton (hDlg, 1000, BST_CHECKED);
         else
@@ -98,6 +106,7 @@ BOOL CALLBACK setupDlgProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
         return true;
 
     case WM_COMMAND:
+        if (hLogo) DeleteObject (hLogo);
         switch (LOWORD(wParam)) {
             case IDOK:
 

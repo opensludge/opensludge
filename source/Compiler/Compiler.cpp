@@ -174,82 +174,112 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 
 		case CSTEP_AFTERCOMPILE:
 
-		outputHalfCode (globalSpace, SLU_LOAD_GLOBAL, "init");
-		outputDoneCode (globalSpace, SLU_CALLIT, 0);
-		finishFunctionNew (globalSpace, NULL);
+		{
 
-		setCompilerStats (countElements (functionNames) - 1,
-			countElements (objectTypeNames),
-			countElements (allFileHandles),
-			countElements (globalVarNames),
-			countElements (allSourceStrings));
+            outputHalfCode (globalSpace, SLU_LOAD_GLOBAL, "init");
+            outputDoneCode (globalSpace, SLU_CALLIT, 0);
+            finishFunctionNew (globalSpace, NULL);
 
-		checkUsedInit (CHECKUSED_FUNCTIONS, countElements (functionNames));
-		setUsed(CHECKUSED_FUNCTIONS, 0);
+            setCompilerStats (countElements (functionNames) - 1,
+                countElements (objectTypeNames),
+                countElements (allFileHandles),
+                countElements (globalVarNames),
+                countElements (allSourceStrings));
 
-		checkUsedInit (CHECKUSED_GLOBALS, countElements (globalVarNames));
+            checkUsedInit (CHECKUSED_FUNCTIONS, countElements (functionNames));
+            setUsed(CHECKUSED_FUNCTIONS, 0);
 
-		stringArray * silenceChecker = allFileHandles;
-		while (silenceChecker) {
-			if (audioFile (silenceChecker -> string)) silent = false;
-			silenceChecker = silenceChecker -> next;
+            checkUsedInit (CHECKUSED_GLOBALS, countElements (globalVarNames));
+
+            stringArray * silenceChecker = allFileHandles;
+            while (silenceChecker) {
+                if (audioFile (silenceChecker -> string)) silent = false;
+                silenceChecker = silenceChecker -> next;
+            }
+            projectFile = openFinalFile (".sl~", "wb");
+            if (! projectFile) {
+                addComment (ERRORTYPE_SYSTEMERROR, "Can't open output file for writing", NULL);
+                return false;
+            }
+
+            FILE * textFile = (programSettings.compilerWriteStrings) ? openFinalFile (" text.txt", "wt") : NULL;
+
+            writeFinalData (projectFile);
+
+            unsigned char customIconLogo = 0;
+
+            if (settings.customIcon && settings.customIcon[0])
+                customIconLogo +=1;
+
+            if (settings.customLogo && settings.customLogo[0])
+                customIconLogo +=2;
+
+            fputc (customIconLogo, projectFile);
+
+            // ADD ICON ------------------------------------
+            if (customIconLogo & 1) {
+                setCompilerText (COMPILER_TXT_ACTION, "Adding custom icon");
+                setCompilerText (COMPILER_TXT_FILENAME, settings.customIcon);
+                setCompilerText (COMPILER_TXT_ITEM, "");
+                char * iconFile = joinStrings (settings.customIcon, "");
+                if (getFileType (iconFile) == FILETYPE_TGA) {
+                    convertTGA (iconFile);
+                    if (! dumpFileInto (projectFile, iconFile)) {
+                        fclose (projectFile);
+                        return addComment (ERRORTYPE_PROJECTERROR, "Error adding custom icon (file not found or not a valid TGA file)", settings.customIcon, NULL);
+                    }
+                } else {
+                    if (! dumpFileInto (projectFile, iconFile)) {
+                        fclose (projectFile);
+                        return addComment (ERRORTYPE_PROJECTERROR, "Error adding custom icon", settings.customIcon, NULL);
+                    }
+                }
+                delete iconFile;
+            }
+            // ADD LOGO ------------------------------------
+            if (customIconLogo & 2) {
+                setCompilerText (COMPILER_TXT_ACTION, "Adding custom logo");
+                setCompilerText (COMPILER_TXT_FILENAME, settings.customLogo);
+                setCompilerText (COMPILER_TXT_ITEM, "");
+                char * logoFile = joinStrings (settings.customLogo, "");
+                if (getFileType (logoFile) == FILETYPE_TGA) {
+                    convertTGA (logoFile);
+                    if (! dumpFileInto (projectFile, logoFile)) {
+                        fclose (projectFile);
+                        return addComment (ERRORTYPE_PROJECTERROR, "Error adding custom logo (file not found or not a valid TGA file)", settings.customLogo, NULL);
+                    }
+                } else {
+                    if (! dumpFileInto (projectFile, logoFile)) {
+                        fclose (projectFile);
+                        return addComment (ERRORTYPE_PROJECTERROR, "Error adding custom logo", settings.customLogo, NULL);
+                    }
+                }
+                delete logoFile;
+            }
+            //----------------------------------------------
+
+            put2bytes (countElements (globalVarNames), projectFile);
+
+            if (! saveStrings (projectFile, textFile, allSourceStrings)) {
+                fclose (projectFile);
+                addComment (ERRORTYPE_SYSTEMERROR, "Can't save string bank(s)", NULL);
+                return false;
+            }
+
+            if (! gotoTempDirectory ()) {
+                fclose (projectFile);
+                return false;
+            }
+            tempIndex = fopen ("SLUDGE1.tmp", "wb");
+            tempData = fopen ("SLUDGE2.tmp", "wb");
+
+            allTheFunctionNamesTemp = functionNames;
+            iSize = countElements (functionNames) * 4 + ftell (projectFile) + 4;
+
+            setCompileStep (CSTEP_LINKSCRIPTS, countElements(functionNames));
+            break;
+
 		}
-		projectFile = openFinalFile (".sl~", "wb");
-		if (! projectFile) {
-			addComment (ERRORTYPE_SYSTEMERROR, "Can't open output file for writing", NULL);
-			return false;
-		}
-
-		FILE * textFile = (programSettings.compilerWriteStrings) ? openFinalFile (" text.txt", "wt") : NULL;
-
-		writeFinalData (projectFile);
-
-		// ADD ICON ------------------------------------
-		if (settings.customIcon && settings.customIcon[0]) {
-			setCompilerText (COMPILER_TXT_ACTION, "Adding custom icon");
-			setCompilerText (COMPILER_TXT_FILENAME, settings.customIcon);
-			setCompilerText (COMPILER_TXT_ITEM, "");
-			char * iconFile = joinStrings (settings.customIcon, "");
-			if (getFileType (iconFile) == FILETYPE_TGA) {
-				convertTGA (iconFile);
-				fputc (1, projectFile);
-				if (! dumpFileInto (projectFile, iconFile)) {
-					fclose (projectFile);
-					return addComment (ERRORTYPE_PROJECTERROR, "Error adding custom icon (file not found or not a valid TGA file)", settings.customIcon, NULL);
-				}
-			} else {
-				fputc (1, projectFile);
-				if (! dumpFileInto (projectFile, iconFile)) {
-					fclose (projectFile);
-					return addComment (ERRORTYPE_PROJECTERROR, "Error adding custom icon", settings.customIcon, NULL);
-				}
-			}
-			delete iconFile;
-		} else {
-			fputc (0, projectFile);
-		}
-		//----------------------------------------------
-
-		put2bytes (countElements (globalVarNames), projectFile);
-
-		if (! saveStrings (projectFile, textFile, allSourceStrings)) {
-			fclose (projectFile);
-			addComment (ERRORTYPE_SYSTEMERROR, "Can't save string bank(s)", NULL);
-			return false;
-		}
-
-		if (! gotoTempDirectory ()) {
-			fclose (projectFile);
-			return false;
-		}
-		tempIndex = fopen ("SLUDGE1.tmp", "wb");
-		tempData = fopen ("SLUDGE2.tmp", "wb");
-
-		allTheFunctionNamesTemp = functionNames;
-		iSize = countElements (functionNames) * 4 + ftell (projectFile) + 4;
-
-		setCompileStep (CSTEP_LINKSCRIPTS, countElements(functionNames));
-		break;
 
 		case CSTEP_LINKSCRIPTS:
 		if (data1 < countElements(functionNames)) {
@@ -352,6 +382,7 @@ int compileEverything (char * project, char **fileList, int *numFiles) {
 		{
 			setCompileStep (CSTEP_ERROR, 1);
 			gotoSourceDirectory ();
+            fclose (projectFile);
 			char * killName = joinStrings (settings.finalFile, ".sl~");
 			unlink (killName);
 			delete killName;

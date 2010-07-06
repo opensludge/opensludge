@@ -69,7 +69,7 @@ FONT 8, "Arial"
  PUSHBUTTON "OK",		IDCANCEL,		27, 84, 246, 14, WS_TABSTOP
 }
 
-DLG_PROJECT_PROPERTIES DIALOG 120, 20, 421, 180
+DLG_PROJECT_PROPERTIES DIALOG 120, 20, 421, 190
 STYLE WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 CAPTION "Project properties"
 FONT 8, "Arial"
@@ -82,7 +82,7 @@ FONT 8, "Arial"
   RTEXT "Output file:",	 -1,	8,  25, 51,  8
   EDITTEXT ID_EDIT_OUTPUTFILE,	61, 24, 242, 10, WS_BORDER | WS_TABSTOP
 
-GROUPBOX "Display settings", -1, 		2, 		52, 		207, 	117, 		BS_GROUPBOX
+GROUPBOX "Display settings", -1, 		2, 		52, 	207, 	130, 		BS_GROUPBOX
 
   CTEXT "Window/screen width:", -1,		8,  	65, 	95,  	8
   EDITTEXT ID_EDIT_WINWIDTH,			8,		75, 	95, 	10, 		WS_BORDER | WS_TABSTOP
@@ -97,27 +97,31 @@ GROUPBOX "Display settings", -1, 		2, 		52, 		207, 	117, 		BS_GROUPBOX
   							-1,			8,  	111, 	195,  	16
   EDITTEXT ID_EDIT_CUSTOMICON,			8,		121, 	195, 	10, 		WS_BORDER | WS_TABSTOP | ES_AUTOHSCROLL
 
-  CTEXT "Ms/frame:",		-1,			8,		134, 	95, 	8
-  EDITTEXT ID_EDIT_SPEED,				8,		144, 	95,		10, 		WS_BORDER | WS_TABSTOP
+  CTEXT "Custom logo for setup window (must be 310x88 pixels):",
+  							-1,			8,  	134, 	195,  	16
+  EDITTEXT ID_EDIT_CUSTOMLOGO,			8,		144, 	195, 	10, 		WS_BORDER | WS_TABSTOP | ES_AUTOHSCROLL
 
-  CTEXT "Frame/sec:",		-1,			108,	134, 	95, 	8
-  EDITTEXT ID_EDIT_SPEED2,				108,	144, 	95, 	10, 		WS_BORDER | WS_DISABLED
+  CTEXT "Ms/frame:",		-1,			8,		157, 	95, 	8
+  EDITTEXT ID_EDIT_SPEED,				8,		167, 	95,		10, 		WS_BORDER | WS_TABSTOP
 
- GROUPBOX "Miscellaneous", -1, 			212,	52, 	207, 	89, 		BS_GROUPBOX
+  CTEXT "Frame/sec:",		-1,			108,	157, 	95, 	8
+  EDITTEXT ID_EDIT_SPEED2,				108,	167, 	95, 	10, 		WS_BORDER | WS_DISABLED
 
-  AUTOCHECKBOX "Force silent", ID_MAKESILENT,
-  										218,	70,		95,		10,			WS_TABSTOP
+ GROUPBOX "Miscellaneous", -1, 			212,	52, 	207, 	100, 		BS_GROUPBOX
 
   CTEXT "Quit message (used if closed by the Operating System):",
-   							-1,			218,  	88, 	195,  	16
-  EDITTEXT ID_EDIT_QUITMESSAGE,			218,	98, 	195, 	10, 		WS_BORDER | WS_TABSTOP | ES_AUTOHSCROLL
+   							-1,			218,  	65, 	195,  	16
+  EDITTEXT ID_EDIT_QUITMESSAGE,			218,	75, 	195, 	10, 		WS_BORDER | WS_TABSTOP | ES_AUTOHSCROLL
 
   CTEXT "Save games in subfolder:",
-  								-1,		218,  	111,		195,	16
-  EDITTEXT ID_EDIT_DATAFOLDER,			218,	121,	195,	10,			WS_BORDER | WS_TABSTOP
+  								-1,		218,  	88,		195,	16
+  EDITTEXT ID_EDIT_DATAFOLDER,			218,	98, 	195,	10,			WS_BORDER | WS_TABSTOP
 
- PUSHBUTTON "OK",		IDOK,			215,  152, 98, 14, WS_TABSTOP
- PUSHBUTTON "Cancel", 	IDCANCEL,		317,  152, 98, 14, WS_TABSTOP
+  AUTOCHECKBOX "Force silent", ID_MAKESILENT,
+  										218,	121,	95,		10,			WS_TABSTOP
+
+ PUSHBUTTON "OK",		IDOK,			215,  167, 98, 14, WS_TABSTOP
+ PUSHBUTTON "Cancel", 	IDCANCEL,		317,  167, 98, 14, WS_TABSTOP
 }
 
 1 MENU

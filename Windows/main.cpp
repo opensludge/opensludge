@@ -76,6 +76,7 @@ LRESULT CALLBACK prefsBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
         	SetDlgItemInt (hDlg, ID_EDIT_SPEED, settings.frameSpeed, 0);
         	SetDlgItemText (hDlg, ID_EDIT_QUITMESSAGE, settings.quitMessage);
         	SetDlgItemText (hDlg, ID_EDIT_CUSTOMICON, settings.customIcon);
+        	SetDlgItemText (hDlg, ID_EDIT_CUSTOMLOGO, settings.customLogo);
         	SetDlgItemText (hDlg, ID_EDIT_DATAFOLDER, settings.runtimeDataFolder);
         	SetDlgItemText (hDlg, ID_EDIT_LANGUAGE, settings.originalLanguage);
 
@@ -169,6 +170,17 @@ LRESULT CALLBACK prefsBoxFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 						settings.customIcon = newText;
 					} else {
 						errorBox ("Out of memory...", "Can't update custom icon filename.");
+					}
+
+					// GET LOGO FILENAME
+					le = GetWindowTextLength (GetDlgItem (hDlg, ID_EDIT_CUSTOMLOGO)) + 1;
+					newText = new char[le];
+					if (newText) {
+						GetWindowText (GetDlgItem (hDlg, ID_EDIT_CUSTOMLOGO), newText, le);
+						if (settings.customLogo) delete settings.customLogo;
+						settings.customLogo = newText;
+					} else {
+						errorBox ("Out of memory...", "Can't update custom logo filename.");
 					}
 
 					// GET DATA FOLDER NAME

@@ -23,6 +23,7 @@ struct settingsStruct
 {
 	char *quitMessage;
 	char *customIcon;
+	char *customLogo;
 	char *runtimeDataFolder;
 
 	char *finalFile;
