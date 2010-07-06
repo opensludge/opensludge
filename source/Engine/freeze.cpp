@@ -144,6 +144,7 @@ bool freeze () {
 	// Copy the old scene to the new backdrop
 	glDeleteTextures (1, &backdropTextureName);
 	backdropTextureName = freezeTextureName;
+	backdropExists = true;
 
 	// Free texture memory used by old stuff
 	parallaxStuff = newFreezer -> parallaxStuff;
