@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="SLUDGE Sprite Bank Editor" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin\Debug\SLUDGE Sprite Bank Editor" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Debug\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin\Release\SLUDGE Sprite Bank Editor" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Release\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add directory="..\..\source\CommonCode" />
+			<Add directory="..\..\source\Compiler" />
+			<Add directory="..\..\source\FloorMaker" />
+			<Add directory="..\..\source\ProjectManager" />
+			<Add directory="..\..\source\SpriteBankEditor" />
+			<Add directory="..\..\source\Translator" />
+			<Add directory="..\..\source\ZBufferMaker" />
+			<Add directory="C:\Programmering" />
+			<Add directory="..\..\..\zlib" />
+			<Add directory="..\..\..\Glee\" />
+		</Compiler>
+		<Linker>
+			<Add library="gdi32" />
+			<Add library="user32" />
+			<Add library="kernel32" />
+			<Add library="Comdlg32" />
+			<Add library="..\..\..\libpng\libpng.a" />
+			<Add library="..\..\..\zlib\libz.a" />
+			<Add library="Opengl32" />
+		</Linker>
+		<Unit filename="..\..\..\Glee\GLee.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\..\Glee\GLee.h" />
+		<Unit filename="..\WINSTUFF.CPP" />
+		<Unit filename="..\WINTERFA.H" />
+		<Unit filename="..\WIN_MESSBOX.CPP" />
+		<Unit filename="..\dialogueBoxInOut.cpp" />
+		<Unit filename="..\dialogueBoxInOut.h" />
+		<Unit filename="..\spriteBank.cpp" />
+		<Unit filename="..\wintext.cpp" />
+		<Unit filename="..\..\images\Spritebank Editor.RC">
+			<Option compilerVar="WINDRES" />
+		</Unit>
+		<Unit filename="..\..\source\CommonCode\functionlist.h" />
+		<Unit filename="..\..\source\CommonCode\specialsettings.h" />
+		<Unit filename="..\..\source\CommonCode\tga.cpp" />
+		<Unit filename="..\..\source\CommonCode\tga.h" />
+		<Unit filename="..\..\source\CommonCode\version.h" />
+		<Unit filename="..\..\source\ProjectManager\Interface.h" />
+		<Unit filename="..\..\source\ProjectManager\MESSBOX.H" />
+		<Unit filename="..\..\source\ProjectManager\MOREIO.H" />
+		<Unit filename="..\..\source\ProjectManager\MOREIO.cpp" />
+		<Unit filename="..\..\source\ProjectManager\Project.hpp" />
+		<Unit filename="..\..\source\ProjectManager\launch.h" />
+		<Unit filename="..\..\source\ProjectManager\savedata.h" />
+		<Unit filename="..\..\source\ProjectManager\settings.h" />
+		<Unit filename="..\..\source\SpriteBankEditor\SPLITTER.CPP" />
+		<Unit filename="..\..\source\Translator\SPLITTER.HPP" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

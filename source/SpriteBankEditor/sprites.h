@@ -6,9 +6,9 @@
 
 #ifdef __cplusplus
 extern "C" {
-#endif	
+#endif
 
-#ifndef HWND
+#ifndef WIN32
 #define HWND int
 #endif
 
@@ -57,8 +57,8 @@ void deleteSprite (int i, struct spriteBank *sprites);
 bool loadSpriteFromPNG (const char * file, struct spriteBank *sprites, int index);
 bool loadSpriteFromTGA (const char * file, struct spriteBank *sprites, int index);
 
-void doFontification (struct spriteBank *sprites, unsigned int fontifySpaceWidth);	
-	
+void doFontification (struct spriteBank *sprites, unsigned int fontifySpaceWidth);
+
 bool convertSpriteBank8to32 (struct spriteBank *sprites);
 bool exportToPNG (const char * file, struct spriteBank *sprites, int index);
 

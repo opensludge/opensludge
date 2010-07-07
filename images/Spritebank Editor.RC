@@ -1,6 +1,6 @@
 #include <windows.h>
-#include "WINTERFA.H"
-#include "version.h"
+#include "..\Windows\WINTERFA.H"
+#include "..\source\CommonCode\version.h"
 
 500 DIALOG 11, 17, 312, 237
 STYLE WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX
@@ -10,9 +10,11 @@ FONT 8, "Arial"
  PUSHBUTTON "New",			ID_PROJECT_NEW,		53,		29,	50,	14, WS_TABSTOP
  PUSHBUTTON "Open",			ID_PROJECT_LOAD,	105,	29,	50,	14, WS_TABSTOP
  PUSHBUTTON "Save",			ID_PROJECT_SAVE,	157,	29,	50,	14, WS_TABSTOP
- PUSHBUTTON "Save as...",	ID_PROJECT_SAVEAS,	209,	29,	50,	14, WS_TABSTOP 
- 
+ PUSHBUTTON "Save as...",	ID_PROJECT_SAVEAS,	209,	29,	50,	14, WS_TABSTOP
+
  GROUPBOX "Viewing area", -1, 124,	47, 	186,	164, BS_GROUPBOX
+  CONTROL "", 1000, WC_STATIC, SS_SUNKEN | SS_OWNERDRAW, 127, 50, 180, 158
+
  GROUPBOX "Current file", -1, 	2,	2,		308,	22, BS_GROUPBOX
   CTEXT "", ID_LOADED_FILE,   	8,	12,		296,	8
 
@@ -21,10 +23,10 @@ FONT 8, "Arial"
   LTEXT "", ID_NUM_SPRITES,   	61,	57,		53,		8
   RTEXT "Colours used:", -1, 	8,	67,		51,		8
   LTEXT "", ID_NUM_COLOURS,   	61,	67,		53,		8
-  
+
   PUSHBUTTON "View palette",	ID_VIEWPAL,
 								8,	77,		102,		14, WS_TABSTOP
- 
+
  GROUPBOX "Current sprite", -1, 2,	100,		115,	111, BS_GROUPBOX
   RTEXT "Sprite #:", -1, 		8,	110,		31,		8
   LTEXT "", ID_SPRITENUM,   	41,	110,		73,		8
@@ -47,7 +49,7 @@ FONT 8, "Arial"
 
   CHECKBOX	"Add new colours to palette when loading sprites", ID_ADDCOLOURS,
   													2,   215, 180, 8, WS_TABSTOP
-  													
+
   PUSHBUTTON "",				ID_FIXAXIS,			300, 215,   9, 8, WS_TABSTOP
   RTEXT "Centre sprite in viewing area", 	-1,	 	192, 215, 103, 8
 }
@@ -82,7 +84,7 @@ FONT 8, "Arial"
   RTEXT "Y:", -1, 				8,	24, 11,	8
   EDITTEXT ID_Y,				21,	23,	25,	10
 
-  DEFPUSHBUTTON "Apply",	IDOK,		54,	6,		48,		14, WS_TABSTOP  
+  DEFPUSHBUTTON "Apply",	IDOK,		54,	6,		48,		14, WS_TABSTOP
   PUSHBUTTON "Close",	IDCANCEL,		54,	23,		48,		14, WS_TABSTOP
   PUSHBUTTON "Centre",	ID_HOT_CENTRE,	2,	40,	100,	14, WS_TABSTOP
   PUSHBUTTON "Base",	ID_HOT_BASE,	2,	56,	100,	14, WS_TABSTOP
@@ -100,14 +102,14 @@ FONT 8, "Arial"
   LTEXT " Number of colours:",				-1,				 	8,	 36, 100,  8
   EDITTEXT									ID_FON_COLOURS, 	110, 35, 24,  10, WS_TABSTOP
 
-  DEFPUSHBUTTON "Go!",						IDOK,				2,	66,	67,	14, WS_TABSTOP  
+  DEFPUSHBUTTON "Go!",						IDOK,				2,	66,	67,	14, WS_TABSTOP
   PUSHBUTTON "Cancel",						IDCANCEL,			73,	66,	67,	14, WS_TABSTOP
 }
 
 1 MENU
 BEGIN
     POPUP "&File"
-        begin
+        BEGIN
             MENUITEM "&New", ID_PROJECT_NEW
             MENUITEM "&Open", ID_PROJECT_LOAD
             MENUITEM "&Save",  ID_PROJECT_SAVE
@@ -117,13 +119,13 @@ BEGIN
             MENUITEM "&Fontify", ID_FONTIFY
             MENUITEM SEPARATOR
             MENUITEM "E&xit",    IDCANCEL
-        end
-    popup "Sprite &bank"
+        END
+    POPUP "Sprite &bank"
         BEGIN
             MENUITEM "&View palette", ID_VIEWPAL
             MENUITEM "&Trim all", ID_BANKTRIM
 	END
-    popup "Current &sprite"
+    POPUP "Current &sprite"
         BEGIN
             MENUITEM "&Save to file", ID_SPRITESAVE
             MENUITEM "&Load from file",   ID_SPRITELOAD
@@ -135,7 +137,7 @@ BEGIN
         END
 END
 
-3 ICON "resources/Icon.ico"
+3 ICON "SpriteIcon.ico"
 
 1 VERSIONINFO
  FILEVERSION 0,1,0,0
