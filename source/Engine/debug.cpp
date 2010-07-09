@@ -9,10 +9,14 @@ void debugOut(char * a, ...) {
 		va_list argptr;
 		va_start(argptr, a);
 
+#if defined __unix__ && !(defined __APPLE__)
+		vfprintf(stderr, a, argptr);
+#else
 		FILE * fp = fopen ("debuggy.txt", "at");
 		if (fp) {
 			vfprintf (fp, a, argptr);
 			fclose (fp);
 		}
+#endif
 	}
 }
