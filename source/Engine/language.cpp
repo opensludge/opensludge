@@ -69,8 +69,9 @@ void readIniFile (char * filename) {
 	gameSettings.userFullScreen = true;
 	gameSettings.refreshRate = 0;
 	gameSettings.antiAlias = true;
-    gameSettings.fixedPixels = false;
-    gameSettings.noStartWindow = false;
+	gameSettings.fixedPixels = false;
+	gameSettings.noStartWindow = false;
+	gameSettings.debugMode = false;
 
 	delete langName;
 	langName = NULL;
@@ -117,6 +118,10 @@ void readIniFile (char * filename) {
 					{
 						gameSettings.noStartWindow = stringToInt (secondSoFar);
 					}
+					else if (strcmp (lineSoFar, "DEBUGMODE") == 0)
+					{
+						gameSettings.debugMode = stringToInt (secondSoFar);
+					}
 				}
 				here = 0;
 				doingSecond = false;
@@ -155,6 +160,7 @@ void saveIniFile (char * filename) {
 	fprintf (fp, "ANTIALIAS=%d\n", gameSettings.antiAlias);
 	fprintf (fp, "FIXEDPIXELS=%d\n", gameSettings.fixedPixels);
 	fprintf (fp, "NOSTARTWINDOW=%d\n", gameSettings.noStartWindow);
+	fprintf (fp, "DEBUGMODE=%d\n", gameSettings.debugMode);
 
 	fclose (fp);
 }

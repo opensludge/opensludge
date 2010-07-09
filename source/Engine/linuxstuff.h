@@ -9,6 +9,8 @@ struct cmdlineSettingsStruct
 	bool userFullScreen;
 	bool aaSet;
 	bool antiAlias;
+	bool debugModeSet;
+	bool debugMode;
 };
 
 void printCmdlineUsage();

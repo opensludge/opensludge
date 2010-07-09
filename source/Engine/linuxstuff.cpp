@@ -25,6 +25,7 @@ void printCmdlineUsage() {
 	fprintf(stdout, "-w,		--window		Set display mode to windowed\n");
 	fprintf(stdout, "-l<number>,	--language=<number>	Set language to <number> (>=0)\n");
 	fprintf(stdout, "-a<number>,	--antialias=<number>	Turn antialiasing on (1) or off (0)\n");
+	fprintf(stdout, "-d<number>,	--debug=<number>	Turn debug mode on (1) or off (0)\n");
 	fprintf(stdout, "-h,		--help			Print this help message\n\n");
 	fprintf(stdout, "Options are saved, so you don't need to specify them every time.\n");
 	fprintf(stdout, "If you entered a wrong language number, use -l0 to reset the language to the default setting.\n");
@@ -36,6 +37,8 @@ bool parseCmdlineParameters(int argc, char *argv[]) {
 	int retval = true;
 	cmdlineSettings.fullscreenSet = false;
 	cmdlineSettings.languageSet = false;
+	cmdlineSettings.aaSet = false;
+	cmdlineSettings.debugModeSet = false;
 	while (1)
 	{
 		static struct option long_options[] =
@@ -44,11 +47,12 @@ bool parseCmdlineParameters(int argc, char *argv[]) {
 			{"window",	no_argument,	   0, 'w' },
 			{"language",	required_argument, 0, 'l' },
 			{"antialias",	required_argument, 0, 'a' },
+			{"debug",	required_argument, 0, 'd' },
 			{"help",	no_argument,	   0, 'h' },
 			{0,0,0,0} /* This is a filler for -1 */
 		};
 		int option_index = 0;
-		char c = getopt_long (argc, argv, "fwl:a:h", long_options, &option_index);
+		char c = getopt_long (argc, argv, "fwl:a:d:h", long_options, &option_index);
 		if (c == -1) break;
 			switch (c) {
 		case 'f':
@@ -66,6 +70,10 @@ bool parseCmdlineParameters(int argc, char *argv[]) {
 		case 'a':
 			cmdlineSettings.aaSet = true;
 			cmdlineSettings.antiAlias = atoi(optarg);
+			break;
+		case 'd':
+			cmdlineSettings.debugModeSet = true;
+			cmdlineSettings.debugMode = atoi(optarg);
 			break;
 		case 'h':
 		default:
@@ -93,6 +101,9 @@ int showSetupWindow() {
 	}
 	if (cmdlineSettings.aaSet) {
 		gameSettings.antiAlias = cmdlineSettings.antiAlias;
+	}
+	if (cmdlineSettings.debugModeSet) {
+		gameSettings.debugMode = cmdlineSettings.debugMode;
 	}
 	return 1;
 }

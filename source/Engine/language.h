@@ -10,6 +10,7 @@ struct settingsStruct
 	int antiAlias;
 	bool fixedPixels;
 	bool noStartWindow;
+	bool debugMode;
 };
 
 extern settingsStruct gameSettings;

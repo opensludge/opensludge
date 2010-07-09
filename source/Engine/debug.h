@@ -1,8 +1,1 @@
-#define DEBUGGING		0
-
-
-#if DEBUGGING
-	void debugOut(char * a, ...);
-#else
-	#define debugOut(...)
-#endif
+void debugOut(char * a, ...);
