@@ -129,8 +129,8 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 		videoflags = SDL_OPENGL | SDL_FULLSCREEN;
 
         if (gameSettings.fixedPixels) {
-            viewportHeight = realWinWidth = winWidth;
-            viewportWidth = realWinHeight = winHeight;
+            viewportWidth = realWinWidth = winWidth;
+            viewportHeight = realWinHeight = winHeight;
             viewportOffsetY = 0;
             viewportOffsetX = 0;
         } else {
@@ -156,8 +156,8 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 		videoflags = SDL_OPENGL;
 
         if (gameSettings.fixedPixels) {
-            viewportHeight = realWinWidth = winWidth;
-            viewportWidth = realWinHeight = winHeight;
+            viewportWidth = realWinWidth = winWidth;
+            viewportHeight = realWinHeight = winHeight;
             viewportOffsetY = 0;
             viewportOffsetX = 0;
         } else {
