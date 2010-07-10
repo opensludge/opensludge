@@ -141,10 +141,10 @@ bool restoreSnapshot (FILE * fp) {
 		snapTexH = ((double)winHeight) / picHeight;
 	}
 	GLubyte * snapshotTexture = new GLubyte [picHeight*picWidth*4];
-
+	
 	for (t2 = 0; t2 < winHeight; t2 ++) {
 		t1 = 0;
-		while (t1 < winHeight) {
+		while (t1 < winWidth) {
 			c = (unsigned short) get2bytes (fp);
 			if (c & 32) {
 				n = fgetc (fp) + 1;
