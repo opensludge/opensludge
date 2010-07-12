@@ -25,6 +25,7 @@ void printCmdlineUsage() {
 	fprintf(stdout, "-w,		--window		Set display mode to windowed\n");
 	fprintf(stdout, "-l<number>,	--language=<number>	Set language to <number> (>=0)\n");
 	fprintf(stdout, "-a<number>,	--antialias=<number>	Turn antialiasing on (1) or off (0)\n");
+	fprintf(stdout, "					or choose linear interpolation (-1)\n");
 	fprintf(stdout, "-d<number>,	--debug=<number>	Turn debug mode on (1) or off (0)\n");
 	fprintf(stdout, "-h,		--help			Print this help message\n\n");
 	fprintf(stdout, "Options are saved, so you don't need to specify them every time.\n");
