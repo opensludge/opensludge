@@ -81,10 +81,16 @@ BOOL CALLBACK setupDlgProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
         else
             CheckDlgButton (hDlg, 1000, BST_UNCHECKED);
 
-        if (gameSettings.antiAlias)
-            CheckDlgButton (hDlg, 1002, BST_CHECKED);
+        SendDlgItemMessage(hDlg, 1002, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>((LPCTSTR)"Default (best looking)"));
+        SendDlgItemMessage(hDlg, 1002, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>((LPCTSTR)"Linear (faster but blurry)"));
+        SendDlgItemMessage(hDlg, 1002, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>((LPCTSTR)"Off (blocky graphics)"));
+
+        if (gameSettings.antiAlias < 0)
+            SendDlgItemMessage(hDlg, 1002, CB_SETCURSEL, 1, 0);
+        else if (gameSettings.antiAlias)
+            SendDlgItemMessage(hDlg, 1002, CB_SETCURSEL, 0, 0);
         else
-            CheckDlgButton (hDlg, 1002, BST_UNCHECKED);
+            SendDlgItemMessage(hDlg, 1002, CB_SETCURSEL, 2, 0);
 
         if (gameSettings.numLanguages) {
           char text[20];
@@ -111,7 +117,11 @@ BOOL CALLBACK setupDlgProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
             case IDOK:
 
             gameSettings.userFullScreen = (IsDlgButtonChecked(hDlg, 1000) == BST_CHECKED);
-            gameSettings.antiAlias = (IsDlgButtonChecked(hDlg, 1002) == BST_CHECKED);
+            gameSettings.antiAlias = SendDlgItemMessage(hDlg, 1002, CB_GETCURSEL, 0, 0);
+            if (gameSettings.antiAlias == 0) gameSettings.antiAlias = 1;
+            else if (gameSettings.antiAlias == 1) gameSettings.antiAlias = -1;
+            else if (gameSettings.antiAlias == 2) gameSettings.antiAlias = 0;
+
             if (gameSettings.numLanguages) {
                 gameSettings.languageID = SendDlgItemMessage(hDlg, 1001, CB_GETCURSEL, 0, 0);
                 if (gameSettings.languageID < 0) gameSettings.languageID = 0;
