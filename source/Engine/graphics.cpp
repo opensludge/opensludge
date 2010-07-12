@@ -52,9 +52,14 @@ void setPixelCoords (bool pixels) {
 
 		glClear(GL_COLOR_BUFFER_BIT);
 	} else {
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
+		if (gameSettings.antiAlias < 0) {
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		} else {
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		}
+		
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		GLdouble w = (GLdouble) winWidth / cameraZoom;
@@ -208,6 +213,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 		if (uniform >= 0) glUniform1f(uniform, scale);
 
 	}
+		
 	Vertex = shaderFileRead("fixScaleSprite.vert");
 	Fragment = shaderFileRead("fixScaleSprite.frag");
 
@@ -261,9 +267,14 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
+			if (gameSettings.antiAlias < 0) {
+				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			} else {
+				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			}
+			
 			// Restore the backdrop
 			glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, sceneWidth, sceneHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture);
 

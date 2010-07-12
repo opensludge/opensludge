@@ -305,8 +305,13 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 		glBindTexture (GL_TEXTURE_2D, loadhere.myPalette.tex_names[tex_num]);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		if (gameSettings.antiAlias < 0) {
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		} else {
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		}
 		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, totalwidth[tex_num], maxheight[tex_num], 0, GL_RGBA, GL_UNSIGNED_BYTE, tmp[tex_num]);
 
 		delete tmp[tex_num];
@@ -316,8 +321,13 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 			glBindTexture (GL_TEXTURE_2D, loadhere.myPalette.burnTex_names[tex_num]);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			if (gameSettings.antiAlias < 0) {
+				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			} else {
+				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			}
 			glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, totalwidth[tex_num], maxheight[tex_num], 0, GL_RGBA, GL_UNSIGNED_BYTE, tmp2[tex_num]);
 
 			delete tmp2[tex_num];
@@ -499,7 +509,7 @@ void fontSprite (int x, int y, sprite & single, const spritePalette & fontPal) {
 	glColor3ub (fontPal.originalRed, fontPal.originalGreen, fontPal.originalBlue);
 	glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
 
-	if (gameSettings.antiAlias) {
+	if (gameSettings.antiAlias == 1) {
 		glUseProgram(shader.smartScaler);
 		GLuint uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
 		if (uniform >= 0) glUniform1i(uniform, 0);
@@ -535,7 +545,7 @@ void flipFontSprite (int x, int y, sprite & single, const spritePalette & fontPa
 	glColor3ub (fontPal.originalRed, fontPal.originalGreen, fontPal.originalBlue);
 	glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
 
-	if (gameSettings.antiAlias) {
+	if (gameSettings.antiAlias == 1) {
 		glUseProgram(shader.smartScaler);
 		GLuint uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
 		if (uniform >= 0) glUniform1i(uniform, 0);
@@ -670,7 +680,7 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 
 	glEnable(GL_BLEND);
 
-	if (gameSettings.antiAlias) {
+	if (gameSettings.antiAlias == 1) {
 		glUseProgram(shader.smartScaler);
 		GLuint uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
 		if (uniform >= 0) glUniform1i(uniform, light && lightMapMode == LIGHTMAPMODE_PIXEL && lightMap.data);

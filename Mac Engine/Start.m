@@ -49,7 +49,9 @@ extern unsigned char * gameLogo;
 		[imrep release];
 	}
 	[fullScreenCheck setState:gameSettings.userFullScreen != 0];
-	[aaCheck setState:gameSettings.antiAlias != 0];
+	
+	[aaCheck selectItemWithTag: gameSettings.antiAlias];
+	
 	[languageList removeAllItems];
 	if (gameSettings.numLanguages) {
 		for (int i=0; i<= gameSettings.numLanguages; i++) {
@@ -71,7 +73,7 @@ extern int *languageTable;
 -(IBAction)okButton:(id)sender
 {
 	gameSettings.userFullScreen = [fullScreenCheck state];
-	gameSettings.antiAlias = [aaCheck state];
+	gameSettings.antiAlias = [[aaCheck selectedItem] tag];
 	if (gameSettings.numLanguages) {
 		gameSettings.languageID = [languageList indexOfSelectedItem];
 		if (gameSettings.languageID < 0) gameSettings.languageID = 0;

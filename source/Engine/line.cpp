@@ -62,8 +62,6 @@ void drawLine(int x1, int y1, int x2, int y2) {
 			glEnable (GL_TEXTURE_2D);
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
 			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			
 			glBegin(GL_QUADS);
 			glTexCoord2f(0.0, 0.0); glVertex3f(-x-xoffset, 1-y-yoffset, 0.0);

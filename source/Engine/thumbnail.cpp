@@ -53,9 +53,14 @@ bool saveThumbnail (FILE * fp) {
 		glTexCoord2f(0.0, backdropTexH); glVertex3f(0.0, thumbHeight-1, 0.0);
 		glEnd();
 
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
+		if (gameSettings.antiAlias < 0) {
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		} else {
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		}
+		
 		// Copy Our ViewPort To The Texture
 		glBindTexture(GL_TEXTURE_2D, thumbnailTextureName);
 		glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, viewportOffsetX, viewportOffsetY, thumbWidth, thumbHeight);

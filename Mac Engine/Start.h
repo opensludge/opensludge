@@ -12,7 +12,7 @@
 	IBOutlet NSImageView *logo;
 	IBOutlet NSButton *fullScreenCheck;
 	IBOutlet NSPopUpButton *languageList;
-	IBOutlet NSButton *aaCheck;
+	IBOutlet NSPopUpButton *aaCheck;
 }
 - (IBAction)okButton: (id)sender;
 - (IBAction)cancelButton: (id)sender;
