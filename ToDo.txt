@@ -1,3 +1,5 @@
+* Bug-fix (Mac Dev Kit): settings is global across projects! Not good.
+
 This is a possible to-do list. Not everything here may be a good idea, but it's a collection of ideas and wishes so they don't are forgotten.
 
 * Allow launching of one SLUDGE game from within another.

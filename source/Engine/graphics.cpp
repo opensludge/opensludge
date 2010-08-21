@@ -194,7 +194,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 	const GLchar *Fragment = shaderFileRead("scale.frag");
 
 	if (! Vertex || ! Fragment) {
-		debugOut("Error loading shader program!\n");
+		msgBox ("Error loading shader program!", "Disabling anti-aliasing.");
 		shader.smartScaler = 0;
 	} else {
 
@@ -218,7 +218,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 	Fragment = shaderFileRead("fixScaleSprite.frag");
 
 	if (! Vertex || ! Fragment) {
-		debugOut( "Error loading shader program!\n");
+		msgBox( "Error loading pasting shader program!", "Some graphics may be corrupted.");
 		shader.paste = 0;
 	} else {
 
