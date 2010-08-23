@@ -190,35 +190,43 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 
 	GLint uniform;
 
-	const GLchar *Vertex = shaderFileRead("scale.vert");
-	const GLchar *Fragment = shaderFileRead("scale.frag");
 
-	if (! Vertex || ! Fragment) {
-		msgBox ("Error loading shader program!", "Disabling anti-aliasing.");
-		shader.smartScaler = 0;
-	} else {
+    const GLchar *Vertex;
+    const GLchar *Fragment;
 
-		shader.smartScaler = buildShaders (Vertex, Fragment);
-		debugOut( "Built shader program: %d (smartScaler)\n", shader.smartScaler);
-		glUseProgram(shader.smartScaler);
-		uniform = glGetUniformLocation(shader.smartScaler, "Texture");
-		if (uniform >= 0) glUniform1i(uniform, 0);
-		uniform = glGetUniformLocation(shader.smartScaler, "lightTexture");
-		if (uniform >= 0) glUniform1i(uniform, 1);
-		uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
-		if (uniform >= 0) glUniform1i(uniform, 0);
-		uniform = glGetUniformLocation(shader.smartScaler, "scale");
-		float scale = (float)realWinWidth/(float)winWidth*0.25;
-		if (scale > 1.0) scale = 1.0;
-		if (uniform >= 0) glUniform1f(uniform, scale);
+	if (gameSettings.antiAlias > 0) {
 
+        Vertex = shaderFileRead("scale.vert");
+        Fragment = shaderFileRead("scale.frag");
+
+        if (! Vertex || ! Fragment) {
+            msgBox ("Error loading \"scale\" shader program!", "Using linear anti-aliasing instead.");
+            gameSettings.antiAlias = -1;
+            shader.smartScaler = 0;
+        } else {
+
+            shader.smartScaler = buildShaders (Vertex, Fragment);
+            debugOut( "Built shader program: %d (smartScaler)\n", shader.smartScaler);
+            glUseProgram(shader.smartScaler);
+            uniform = glGetUniformLocation(shader.smartScaler, "Texture");
+            if (uniform >= 0) glUniform1i(uniform, 0);
+            uniform = glGetUniformLocation(shader.smartScaler, "lightTexture");
+            if (uniform >= 0) glUniform1i(uniform, 1);
+            uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
+            if (uniform >= 0) glUniform1i(uniform, 0);
+            uniform = glGetUniformLocation(shader.smartScaler, "scale");
+            float scale = (float)realWinWidth/(float)winWidth*0.25;
+            if (scale > 1.0) scale = 1.0;
+            if (uniform >= 0) glUniform1f(uniform, scale);
+
+        }
 	}
 
 	Vertex = shaderFileRead("fixScaleSprite.vert");
 	Fragment = shaderFileRead("fixScaleSprite.frag");
 
 	if (! Vertex || ! Fragment) {
-		msgBox( "Error loading pasting shader program!", "Some graphics may be corrupted.");
+		msgBox( "Error loading \"fixScaleSprite\" shader program!", "Some graphics may be corrupted.");
 		shader.paste = 0;
 	} else {
 
