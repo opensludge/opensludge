@@ -59,7 +59,7 @@ void setPixelCoords (bool pixels) {
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		}
-		
+
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		GLdouble w = (GLdouble) winWidth / cameraZoom;
@@ -213,7 +213,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 		if (uniform >= 0) glUniform1f(uniform, scale);
 
 	}
-		
+
 	Vertex = shaderFileRead("fixScaleSprite.vert");
 	Fragment = shaderFileRead("fixScaleSprite.frag");
 
@@ -274,7 +274,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			}
-			
+
 			// Restore the backdrop
 			glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, sceneWidth, sceneHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture);
 

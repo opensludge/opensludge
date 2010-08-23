@@ -4,6 +4,7 @@
 #include "allfiles.h"
 #include "backdrop.h"
 #include "colours.h"
+#include "debug.h"
 #include "graphics.h"
 #include "newfatal.h"
 #include "moreio.h"
@@ -314,7 +315,7 @@ bool blurScreen () {
 
 		for (y = 0; y < s_matrixEffectHeight; y ++)
 		{
-			sourceLine[y] = new unsigned char[(s_matrixEffectWidth - 1 + sceneWidth)*4];
+			sourceLine[y] = new unsigned char[(s_matrixEffectWidth - 1 + picWidth)*4];
 			ok &= (sourceLine[y] != NULL);
 		}
 

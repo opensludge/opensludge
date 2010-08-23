@@ -11,6 +11,7 @@
 
 #include "allfiles.h"
 
+#include "debug.h"
 #include "newfatal.h"
 #include "colours.h"
 #include "fileset.h"
@@ -142,7 +143,7 @@ bool restoreSnapshot (FILE * fp) {
 	}
 	GLubyte * snapshotTexture = new GLubyte [picHeight*picWidth*4];
 	if (! snapshotTexture) return fatal("Out of memory while restoring snapshot.");
-	
+
 	for (t2 = 0; t2 < winHeight; t2 ++) {
 		t1 = 0;
 		while (t1 < winWidth) {
@@ -243,7 +244,7 @@ bool reserveBackdrop () {
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	}
-		
+
 	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture);
 
 	return true;
@@ -367,7 +368,7 @@ void hardScroll (int distance) {
 			glTexCoord2f(0.0, backdropTexH); glVertex3f(-xoffset, sceneHeight-distance-yoffset, 0.0);
 			glEnd();
 
-			
+
 			// Copy Our ViewPort To The Texture
 			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
 			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, xoffset, yoffset, viewportOffsetX, viewportOffsetY, w, h);
@@ -376,7 +377,7 @@ void hardScroll (int distance) {
 		}
 		xoffset += viewportWidth;
 	}
-	setPixelCoords (false);	
+	setPixelCoords (false);
 }
 
 void drawVerticalLine (unsigned int x, unsigned int y1, unsigned int y2) {
@@ -684,7 +685,7 @@ void reloadParallaxTextures () {
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		}
-		
+
 		if (! NPOT_textures) {
 			glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, getNextPOT(nP->width), getNextPOT(nP->height), 0, GL_RGBA, GL_UNSIGNED_BYTE, nP->texture);
 		} else {
@@ -869,7 +870,7 @@ bool loadParallax (unsigned short v, unsigned short fracX, unsigned short fracY)
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	}
-	
+
 	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, nP->texture);
 
 	finishAccess ();
@@ -1108,7 +1109,7 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 	glDeleteTextures(1, &tmpTex);
 
 	setPixelCoords (false);
-	
+
 	backdropExists = true;
 	return true;
 }
@@ -1127,7 +1128,6 @@ bool mixHSI (FILE * fp, int x, int y) {
 	int fileIsPNG = true;
 
 	// Is this a PNG file?
-
 	char tmp[10];
 	fread(tmp, 1, 8, fp);
     if (png_sig_cmp((png_byte *) tmp, 0, 8)) {
@@ -1190,6 +1190,7 @@ bool mixHSI (FILE * fp, int x, int y) {
 	float btx2, tx2;
 	float bty1, ty1;
 	float bty2, ty2;
+
 	if (! NPOT_textures) {
 		tx1 = 0.0;
 		ty1 = 0.0;
@@ -1198,9 +1199,9 @@ bool mixHSI (FILE * fp, int x, int y) {
 		picWidth = getNextPOT(picWidth);
 		picHeight = getNextPOT(picHeight);
 		btx1 = backdropTexW * x / sceneWidth;
-		btx2 = backdropTexW * (x+picWidth) / sceneWidth;
+		btx2 = backdropTexW * (x+realPicWidth) / sceneWidth;
 		bty1 = backdropTexH * y / sceneHeight;
-		bty2 = backdropTexH * (y+picHeight) / sceneHeight;
+		bty2 = backdropTexH * (y+realPicHeight) / sceneHeight;
 	} else {
 		tx1 = 0.0;
 		ty1 = 0.0;
@@ -1211,6 +1212,7 @@ bool mixHSI (FILE * fp, int x, int y) {
 		bty1 = (float) y / sceneHeight;
 		bty2 = (float) (y+picHeight) / sceneHeight;
 	}
+
 	int t1, t2, n;
 	unsigned short c;
 	GLubyte * target;
@@ -1268,6 +1270,7 @@ bool mixHSI (FILE * fp, int x, int y) {
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	}
+
 	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture);
 
 	glEnable (GL_TEXTURE_2D);
@@ -1277,12 +1280,12 @@ bool mixHSI (FILE * fp, int x, int y) {
 
 
 	int xoffset = 0;
-	while (xoffset < picWidth) {
-		int w = (picWidth-xoffset < viewportWidth) ? picWidth-xoffset : viewportWidth;
+	while (xoffset < realPicWidth) {
+		int w = (realPicWidth-xoffset < viewportWidth) ? realPicWidth-xoffset : viewportWidth;
 
 		int yoffset = 0;
-		while (yoffset < picHeight) {
-			int h = (picHeight-yoffset < viewportHeight) ? picHeight-yoffset : viewportHeight;
+		while (yoffset < realPicHeight) {
+			int h = (realPicHeight-yoffset < viewportHeight) ? realPicHeight-yoffset : viewportHeight;
 
 			glClear(GL_COLOR_BUFFER_BIT);	// Clear The Screen
 
@@ -1302,9 +1305,9 @@ bool mixHSI (FILE * fp, int x, int y) {
 
 			glBegin(GL_QUADS);
 			glTexCoord2f(tx1, ty1); glMultiTexCoord2f(GL_TEXTURE2, btx1, bty1); 	glVertex3f(-xoffset, -yoffset, 0.0);
-			glTexCoord2f(tx2, ty1); glMultiTexCoord2f(GL_TEXTURE2, btx2, bty1); 	glVertex3f(picWidth-xoffset, -yoffset, 0.0);
-			glTexCoord2f(tx2, ty2); glMultiTexCoord2f(GL_TEXTURE2, btx2, bty2); 	glVertex3f(picWidth-xoffset, picHeight-yoffset, 0.0);
-			glTexCoord2f(tx1, ty2); glMultiTexCoord2f(GL_TEXTURE2, btx1, bty2); 	glVertex3f(-xoffset, picHeight-yoffset, 0.0);
+			glTexCoord2f(tx2, ty1); glMultiTexCoord2f(GL_TEXTURE2, btx2, bty1); 	glVertex3f(realPicWidth-xoffset, -yoffset, 0.0);
+			glTexCoord2f(tx2, ty2); glMultiTexCoord2f(GL_TEXTURE2, btx2, bty2); 	glVertex3f(realPicWidth-xoffset, realPicHeight-yoffset, 0.0);
+			glTexCoord2f(tx1, ty2); glMultiTexCoord2f(GL_TEXTURE2, btx1, bty2); 	glVertex3f(-xoffset, realPicHeight-yoffset, 0.0);
 			glEnd();
 
 			// Copy Our ViewPort To The Texture

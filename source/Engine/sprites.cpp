@@ -805,6 +805,7 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 	glBindTexture (GL_TEXTURE_2D, backdropTextureName);
 	glActiveTexture(GL_TEXTURE0);
 
+
 	float ltx1, btx1;
 	float ltx2, btx2;
 	float lty1, bty1;
@@ -832,6 +833,7 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 
 		int yoffset = 0;
 		while (yoffset < diffY) {
+
 			int h = (diffY-yoffset< viewportHeight) ? (int) (diffY-yoffset) : viewportHeight;
 
 			// Render the scene - first the old backdrop (so that it'll show through when the z-buffer is active
@@ -857,10 +859,13 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 				glEnable(GL_DEPTH_TEST);
 			}
 
-			// Then the sprite
-			glUseProgram(shader.paste);
-			GLint uniform = glGetUniformLocation(shader.paste, "useLightTexture");
-			if (uniform >= 0) glUniform1i(uniform, light && lightMapMode == LIGHTMAPMODE_PIXEL && lightMap.data);
+            if (shader.paste) {
+                // Then the sprite
+                glUseProgram(shader.paste);
+                GLint uniform = glGetUniformLocation(shader.paste, "useLightTexture");
+                if (uniform >= 0) glUniform1i(uniform, light && lightMapMode == LIGHTMAPMODE_PIXEL && lightMap.data);
+            }
+
 			setDrawMode (thisPerson);
 
 			glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);

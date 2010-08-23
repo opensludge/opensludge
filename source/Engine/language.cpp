@@ -147,7 +147,6 @@ void readIniFile (char * filename) {
 		} while (keepGoing);
 
 		fclose (fp);
-		fprintf (stderr, "ANTIALIAS=%d\n", gameSettings.antiAlias);
 	}
 }
 
@@ -159,7 +158,6 @@ void saveIniFile (char * filename) {
 	fprintf (fp, "LANGUAGE=%d\n", gameSettings.languageID);
 	fprintf (fp, "WINDOW=%d\n", ! gameSettings.userFullScreen);
 	fprintf (fp, "ANTIALIAS=%d\n", gameSettings.antiAlias);
-	fprintf (stderr, "ANTIALIAS=%d\n", gameSettings.antiAlias);
 	fprintf (fp, "FIXEDPIXELS=%d\n", gameSettings.fixedPixels);
 	fprintf (fp, "NOSTARTWINDOW=%d\n", gameSettings.noStartWindow);
 	fprintf (fp, "DEBUGMODE=%d\n", gameSettings.debugMode);
