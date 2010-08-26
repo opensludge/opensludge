@@ -7,14 +7,14 @@
 #include <sys/stat.h>
 
 
-#include "SLUDGE_Functions.H"
-#include "SPLITTER.HPP"
+#include "sludge_functions.h"
+#include "splitter.hpp"
 #include "settings.h"
 #include "translation.h"
-#include "MOREIO.H"
-#include "MessBox.h"
+#include "moreio.h"
+#include "messbox.h"
 #include "version.h"
-#include "Interface.h"
+#include "interface.h"
 
 settingsStruct settings;
 programSettingsStruct programSettings;

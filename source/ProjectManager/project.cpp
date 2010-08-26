@@ -12,11 +12,11 @@
 #include <string.h>
 
 #include "settings.h"
-#include "MoreIO.h"
-#include "SPLITTER.HPP"
-#include "MessBox.h"
-#include "Project.hpp"
-#include "Interface.h"
+#include "moreio.h"
+#include "splitter.hpp"
+#include "messbox.h"
+#include "project.hpp"
+#include "interface.h"
 
 char * getFileFromList (char **fileList, int index) {
 	return fileList[index];

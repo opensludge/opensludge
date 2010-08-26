@@ -1,15 +1,15 @@
 #include <stdio.h>
 #include <unistd.h>
 
-//#include "TYPEDEF.H"
-#include "SPLITTER.HPP"
-#include "SLUDGE_Functions.H"
-#include "MOREIO.H"
-#include "TOKENS.H"
-#include "OBJTYPE.H"
+//#include "typedef.h"
+#include "splitter.hpp"
+#include "sludge_functions.h"
+#include "moreio.h"
+#include "tokens.h"
+#include "objtype.h"
 #include "interface.h"
-#include "MessBox.h"
-#include "ALLKNOWN.H"
+#include "messbox.h"
+#include "allknown.h"
 
 int subNum = 0;
 //extern HWND compWin;

@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include "TGA.h"
-#include "MessBox.h"
-#include "MOREIO.H"
+#include "tga.h"
+#include "messbox.h"
+#include "moreio.h"
 #include "sprites.h"
 #include "zbuffer.h"
 

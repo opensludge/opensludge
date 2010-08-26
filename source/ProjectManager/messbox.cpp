@@ -10,9 +10,9 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "MessBox.h"
-#include "MoreIO.h"
-#include "SPLITTER.HPP"
+#include "messbox.h"
+#include "moreio.h"
+#include "splitter.hpp"
 
 
 extern stringArray * allSourceStrings;

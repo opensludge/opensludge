@@ -2,13 +2,13 @@
 #include <unistd.h>
 #include <string.h>
 
-#include "SPLITTER.HPP"
-#include "PercBar.h"
-#include "Interface.h"
+#include "splitter.hpp"
+#include "percbar.h"
+#include "interface.h"
 #include "settings.h"
-#include "HSI.H"
-#include "MessBox.h"
-#include "MOREIO.H"
+#include "hsi.h"
+#include "messbox.h"
+#include "moreio.h"
 #include "floor.h"
 #include "translation.h"
 #include "dumpfiles.h"

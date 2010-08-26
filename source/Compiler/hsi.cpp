@@ -3,11 +3,11 @@
 
 #include <libpng/png.h>
 
-#include "MOREIO.H"
-#include "SPLITTER.HPP"
-#include "Interface.h"
-#include "MessBox.h"
-#include "TGA.h"
+#include "moreio.h"
+#include "splitter.hpp"
+#include "interface.h"
+#include "messbox.h"
+#include "tga.h"
 
 unsigned short int * * backDropImage;
 bool backdrop32;

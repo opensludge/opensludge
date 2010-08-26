@@ -2,10 +2,10 @@
 #include <string.h>
 #include <libpng/png.h>
 
-#include "TGA.h"
+#include "tga.h"
 #include "sprites.h"
-#include "MoreIO.h"
-#include "MessBox.h"
+#include "moreio.h"
+#include "messbox.h"
 
 void forgetSpriteBank (spriteBank * forgetme) {
 	unsigned int index;

@@ -3,14 +3,14 @@
 #include <unistd.h>
 
 #include "interface.h"
-#include "SPLITTER.HPP"
-#include "SLUDGE_Functions.H"
+#include "splitter.hpp"
+#include "sludge_functions.h"
 #include "settings.h"
-#include "ALLKNOWN.H"
-#include "MOREIO.H"
-#include "REALPROC.H"
-#include "MessBox.h"
-#include "checkUsed.h"
+#include "allknown.h"
+#include "moreio.h"
+#include "realproc.h"
+#include "messbox.h"
+#include "checkused.h"
 
 stringArray * objectTypeNames = NULL;
 extern stringArray * functionNames;

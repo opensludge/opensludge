@@ -12,12 +12,12 @@
 #include <limits.h>
 #include <ctype.h>
 
-#include "MessBox.h"
-#include "MOREIO.H"
+#include "messbox.h"
+#include "moreio.h"
 #include "settings.h"
-#include "SPLITTER.HPP"
+#include "splitter.hpp"
 
-#include "Translator.h"
+#include "translator.h"
 
 #define HEADERLINE	"### SLUDGE Translation File ###"
 

@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "MOREIO.H"
-#include "SPLITTER.HPP"
-#include "MessBox.h"
+#include "moreio.h"
+#include "splitter.hpp"
+#include "messbox.h"
 
 bool convertFloor (char * filename) {
 	char * wholeFile = grabWholeFile (filename);

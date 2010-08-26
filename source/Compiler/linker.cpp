@@ -2,14 +2,14 @@
 #include <unistd.h>
 #include <string.h>
 
-#include "MOREIO.H"
-#include "SPLITTER.HPP"
-#include "SLUDGE_Functions.H"
+#include "moreio.h"
+#include "splitter.hpp"
+#include "sludge_functions.h"
 #include "settings.h"
-#include "MessBox.h"
-#include "LINKER.H"
-#include "Interface.h"
-#include "checkUsed.h"
+#include "messbox.h"
+#include "linker.h"
+#include "interface.h"
+#include "checkused.h"
 
 extern stringArray * functionNames;
 extern stringArray * allKnownFlags;
