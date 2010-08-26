@@ -90,13 +90,13 @@ void writeString (const char * txt, FILE * fp) {
 }
 
 char * readText (FILE * fp) {
-	fpos_t startPos;
+	long int startPos;
 	int stringSize = 0;
 	bool keepGoing = true;
 	char gotChar;
 	char * reply;
 
-	fgetpos (fp, & startPos);
+	startPos = ftell (fp);
 	while (keepGoing) {
 		gotChar = (char) fgetc (fp);
 		if ((gotChar == '\n') || feof (fp)) {
@@ -124,23 +124,23 @@ char * readText (FILE * fp) {
 char * grabWholeFile (char * theName) {
 	FILE * inputFile;
 	char * allText;
-	fpos_t size;
+	long int size;
 
 	inputFile = fopen (theName, "rb");
 	if (! inputFile) return NULL;//fatal ("Can't read file", theName);
 
 	fseek (inputFile, 0, 2);		// Jump to the end
-	fgetpos (inputFile, & size);	// Get the position
+	size = ftell (inputFile);	// Get the position
 	fseek (inputFile, 0, 0);		// Back to the start
 
 //	if (size >= MAXINT - 2) fatal ("File too big to read into memory", theName);
 
 	// Allocate memory... then read and close the file
 
-	allText = new char[(int) size + 1];
+	allText = new char[size + 1];
 //	checkNew (allText);
-	fread (allText, (int) size, 1, inputFile);
-   allText[(int) size] = NULL;
+	fread (allText, size, 1, inputFile);
+   allText[size] = NULL;
 	fclose (inputFile);
 
 	return allText;
