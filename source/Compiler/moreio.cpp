@@ -1,5 +1,6 @@
 //#include <windows.h>
 #include <stdio.h>
+#include <stdint.h>
 #include <string.h>
 //#include <io.h>
 
@@ -27,13 +28,13 @@ void put2bytes (unsigned int numtoput, FILE * fp) {
 	fputc ((unsigned char) (numtoput % 256), fp);
 }
 
-void put4bytes (long int i, FILE * fp) {
-	fwrite (&i, sizeof (long int), 1, fp);
+void put4bytes (int32_t i, FILE * fp) {
+	fwrite (&i, sizeof (int32_t), 1, fp);
 }
 
-long get4bytes (FILE * fp) {
-	long f;
-	fread (& f, sizeof (long), 1, fp);
+int32_t get4bytes (FILE * fp) {
+	int32_t f;
+	fread (& f, sizeof (int32_t), 1, fp);
 	return f;
 }
 

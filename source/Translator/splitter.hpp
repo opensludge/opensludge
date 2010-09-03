@@ -1,6 +1,8 @@
 #ifndef _SPLITTER_H_
 #define _SPLITTER_H_
 
+#include <stdint.h>
+
 struct stringArray {
 	char * string;
 	struct stringArray * next;
@@ -31,7 +33,7 @@ bool trimStart (char * & thisString, char trimChar);
 bool trimEnd (char * & thisString, char trimChar);
 
 // Making something with a char *
-long stringToInt (const char * textNumber, int errorType);
+int32_t stringToInt (const char * textNumber, int errorType);
 char * joinStrings (const char * a, const char * b);
 char * joinStrings (const char * a, const char * b, const char * c);
 char * joinStrings (const char * a, const char * b, const char * c, const char * d);

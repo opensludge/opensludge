@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdint.h>
 #include <string.h>
 
 #include "messbox.h"
@@ -137,8 +138,8 @@ char * joinQuote (char * a, char * b, char q1, char q2) {
 	return nS;
 }
 
-long stringToInt (const char * textNumber, int errorType) {
-	unsigned long i = 0;
+int32_t stringToInt (const char * textNumber, int errorType) {
+	uint32_t i = 0;
 	int ac = 0;
 
 	while (textNumber[ac]) {
@@ -157,7 +158,7 @@ long stringToInt (const char * textNumber, int errorType) {
 		ac ++;			
 	}
 	
-	return (long) i;
+	return (int32_t) i;
 }
 
 stringArray * splitAtLast (const char * inString, const char findCharIn) {

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdint.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -33,7 +34,7 @@ void put2bytesR (int numtoput, FILE * fp) {
 	fputc ((char) (numtoput / 256), fp);
 }
 
-void put4bytes (long int i, FILE * fp) {
+void put4bytes (int32_t i, FILE * fp) {
 //	fwrite (&i, sizeof (long int), 1, fp);
 	unsigned char f1, f2, f3, f4;
 
@@ -62,7 +63,7 @@ char * copyString (const char * c) {
 	return r;
 }
 
-long get4bytes (FILE * fp) {
+int32_t get4bytes (FILE * fp) {
 	int f1, f2, f3, f4;
 	
 	f1 = fgetc (fp);

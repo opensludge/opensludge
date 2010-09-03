@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdint.h>
+
 #include "tga.h"
 #include "messbox.h"
 #include "moreio.h"
@@ -110,7 +112,7 @@ bool loadZBufferFromTGA (const char * fileName, spriteBank *loadhere) {
 
 bool loadZBufferFile (const char * name, spriteBank *loadhere) {
 	int n, i, x, y, zbWidth, zbHeight;
-	unsigned long stillToGo = 0;
+	uint32_t stillToGo = 0;
 	
 	FILE * fp = fopen (name, "rb");
 	if (! fp) return false;
@@ -189,9 +191,9 @@ void loadZTextures (spriteBank *loadhere){
 bool saveZBufferFile (const char * name, spriteBank *buffers) {
 	FILE * fp = fopen (name, "wb");
 	int n;
-	unsigned long totalPixels = buffers->sprites[0].width * (-buffers->sprites[0].height);
-	unsigned long thisPixel = 0;
-	unsigned long countPixels = 0;
+	uint32_t totalPixels = buffers->sprites[0].width * (-buffers->sprites[0].height);
+	uint32_t thisPixel = 0;
+	uint32_t countPixels = 0;
 	unsigned short thisColour;
 
 	fputc ('S', fp);
