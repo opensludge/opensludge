@@ -20,7 +20,7 @@ char * grabWholeFile (char * theName);
 void putSigned (short, FILE * fp);
 void put2bytes (unsigned int numtoput, FILE * fp);
 void put2bytesR (int numtoput, FILE * fp);
-void put4bytes (int32_t int i, FILE * fp);
+void put4bytes (int32_t i, FILE * fp);
 void writeString (const char * txt, FILE * fp);
 void putFloat (float f, FILE * fp);
 
