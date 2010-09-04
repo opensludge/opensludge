@@ -226,7 +226,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 	Fragment = shaderFileRead("fixScaleSprite.frag");
 
 	if (! Vertex || ! Fragment) {
-		msgBox( "Error loading \"fixScaleSprite\" shader program!", "Some graphics may be corrupted.");
+		msgBox( "Error loading \"fixScaleSprite\" shader program!", "Try updating the drivers for your graphics card. If that doesn't help - sorry, your graphics card simply doesn't have all features needed for this game. It will run anyway, but some graphics may be corrupted.");
 		shader.paste = 0;
 	} else {
 
@@ -242,7 +242,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 		uniform = glGetUniformLocation(shader.paste, "useLightTexture");
 		if (uniform >= 0) glUniform1i(uniform, 0);
 	}
-
+	
 	glUseProgram(0);
 
 

@@ -859,12 +859,10 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 				glEnable(GL_DEPTH_TEST);
 			}
 
-            if (shader.paste) {
-                // Then the sprite
-                glUseProgram(shader.paste);
-                GLint uniform = glGetUniformLocation(shader.paste, "useLightTexture");
-                if (uniform >= 0) glUniform1i(uniform, light && lightMapMode == LIGHTMAPMODE_PIXEL && lightMap.data);
-            }
+			// Then the sprite
+			glUseProgram(shader.paste);
+			GLint uniform = glGetUniformLocation(shader.paste, "useLightTexture");
+			if (uniform >= 0) glUniform1i(uniform, light && lightMapMode == LIGHTMAPMODE_PIXEL && lightMap.data);
 
 			setDrawMode (thisPerson);
 
