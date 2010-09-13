@@ -137,7 +137,7 @@ bool finishFunctionNew (compilationSpace & theSpace, stringArray * localVars) {
 	fclose (theSpace.writeToFile);
 	fclose (theSpace.markerFile);
 
-	sprintf (filename, "_F%05iN.DAT", theSpace.myNum);
+	sprintf (filename, "_F%05iN.dat", theSpace.myNum);
 
 	theFileHandle = fopen (filename, "wb");
 	if (! theFileHandle) return false;
@@ -791,7 +791,7 @@ void initBuiltInFunc ()
 {
 
 #define FUNC(special,name) addToStringArray(builtInFunc, #name);
-#include "functionList.h"
+#include "functionlist.h"
 #undef FUNC
 
 	addToStringArray (typeDefFrom, "NULL");			addToStringArray (typeDefTo, "0");
