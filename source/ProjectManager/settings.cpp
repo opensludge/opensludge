@@ -2,6 +2,7 @@
 #include <dirent.h>
 #include <string.h>
 #include <stdio.h>
+#include <stdint.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -305,8 +306,8 @@ FILE * openFinalFile (char * addMe, char * mode) {
 }
 
 typedef struct _FILETIME {
-	unsigned long dwLowDateTime;
-	unsigned long dwHighDateTime;
+	uint32_t dwLowDateTime;
+	uint32_t dwHighDateTime;
 } FILETIME;
 
 
