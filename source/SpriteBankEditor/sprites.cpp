@@ -647,6 +647,8 @@ void addSprite (int i, struct spriteBank *sprites) {
 		newsprites [i2].texNum = i2;
 		newsprites [i2].data = NULL;
 		sprites->myPalette.tex_names[i2] = 0;
+		sprites->myPalette.tex_w[i2] = 0;
+		sprites->myPalette.tex_h[i2] = 0;
 		glGenTextures (1, &sprites->myPalette.tex_names[i2]);
 		i2--;
 	}
@@ -659,6 +661,8 @@ void addSprite (int i, struct spriteBank *sprites) {
 		newsprites [i2].texNum = i2;
 		newsprites [i2].data = sprites->sprites[i1].data;
 		sprites->myPalette.tex_names[i2] = sprites->myPalette.tex_names[i1];
+		sprites->myPalette.tex_w[i2] = sprites->myPalette.tex_w[i1];
+		sprites->myPalette.tex_h[i2] = sprites->myPalette.tex_h[i1];
 		i2--;
 		if (i1 == i) {
 			newsprites [i2].width = 0;
@@ -669,6 +673,8 @@ void addSprite (int i, struct spriteBank *sprites) {
 			newsprites [i2].texNum = i2;
 			newsprites [i2].data = NULL;
 			sprites->myPalette.tex_names[i2] = 0;
+			sprites->myPalette.tex_w[i2] = 0;
+			sprites->myPalette.tex_h[i2] = 0;
 			glGenTextures (1, &sprites->myPalette.tex_names[i2]);
 			i2--;
 		}
