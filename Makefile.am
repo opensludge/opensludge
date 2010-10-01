@@ -1,1 +1,9 @@
-SUBDIRS = source
+if COND_ENGINE
+  MAYBE_SOURCE = source
+endif
+
+if COND_DEVKIT
+  MAYBE_GTK_DEV_KIT = GTK_Dev_Kit
+endif
+
+SUBDIRS = $(MAYBE_SOURCE) $(MAYBE_GTK_DEV_KIT)

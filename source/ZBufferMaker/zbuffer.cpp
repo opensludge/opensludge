@@ -204,7 +204,7 @@ bool saveZBufferFile (const char * name, spriteBank *buffers) {
 	put2bytes (-buffers->sprites[0].height, fp);
 	fputc (buffers->total, fp);
 	for (n = 0; n < buffers->total; n ++) {
-		put2bytes (buffers->sprites[n].tex_x, fp);
+		put2bytes (buffers->sprites[n].special, fp);
 	}
 		
 	while (thisPixel < totalPixels) {

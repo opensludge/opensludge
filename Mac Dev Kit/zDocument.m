@@ -130,7 +130,7 @@
 - (int)bufferY
 {
 	if (! buffer) return 0;
-	return backdrop.sprites[buffer].tex_x;
+	return backdrop.sprites[buffer].special;
 }
 
 
@@ -163,7 +163,7 @@
 		int b = [doc buffer];
 		if (b<1) return;
 		
-		int y1 =  backdrop->sprites[b].tex_x;
+		int y1 =  backdrop->sprites[b].special;
 		
 		while (keepOn) {
 			theEvent = [[self window] nextEventMatchingMask: NSLeftMouseUpMask | NSLeftMouseDraggedMask];
