@@ -209,7 +209,7 @@ int addVertex (int x, int y, struct polyList *firstPoly) {
 		newVertex = newVertex -> next;
 	}
 	
-	// Let's return 0 if we can't create a new vertexLest thingy...
+	// Let's return 0 if we can't create a new vertexList thingy...
 	newVertex = new vertexList;
 	if (newVertex == NULL) return 0;
 	
@@ -365,7 +365,7 @@ void splitLine (int x1, int y1, int x2, int y2, struct polyList *firstPoly) {
 void splitPoly (int x1, int y1, int x2, int y2, struct polyList **firstPoly) {
 	
 	if (x1 == x2 && y1 == y2) return;
-	
+
 	vertexList * gotCorner1, * gotCorner2, * vTemp;
 	bool swap;
 	
@@ -377,8 +377,13 @@ void splitPoly (int x1, int y1, int x2, int y2, struct polyList **firstPoly) {
 		vertexList * vL = pL -> firstVertex;
 		if (vL) {
 			while (vL -> next) {
-				if (vL -> x == x1 && vL -> y == y1) gotCorner1 = vL;
+				if (vL -> x == x1 && vL -> y == y1) {
+					// If selected vertices are already connected, return.
+					if (vL -> next -> x == x2 && vL -> next -> y == y2) return;
+					gotCorner1 = vL;
+				}
 				if (vL -> x == x2 && vL -> y == y2) {
+					if (vL -> next -> x == x1 && vL -> next -> y == y1) return;
 					gotCorner2 = vL;
 					if (gotCorner1 == NULL) swap = true;
 				}
