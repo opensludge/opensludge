@@ -569,7 +569,7 @@ bool loadSpriteTexture (spriteBank *loadhere, int index) {
 		int h = loadhere->myPalette.tex_h[index];
 		int w = loadhere->myPalette.tex_w[index];
 		
-		GLubyte tmp[w*h*4];		
+		GLubyte *tmp = new GLubyte[w*h*4];		
 		memset (tmp, 0, w*h*4);
 
 		fromhere = 0;
@@ -597,6 +597,7 @@ bool loadSpriteTexture (spriteBank *loadhere, int index) {
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, tmp);
+		delete[] tmp;
 	} else {
 		loadhere->myPalette.tex_w[index] = loadhere->sprites[index].width;
 		loadhere->myPalette.tex_h[index] = loadhere->sprites[index].height;
@@ -609,7 +610,7 @@ bool loadSpriteTexture (spriteBank *loadhere, int index) {
 		int h = loadhere->myPalette.tex_h[index];
 		int w = loadhere->myPalette.tex_w[index];
 		
-		GLubyte tmp[w*h*4];		
+		GLubyte *tmp = new GLubyte[w*h*4];
 		memset (tmp, 0, w*h*4);
 		
 		fromhere = 0;
@@ -629,6 +630,7 @@ bool loadSpriteTexture (spriteBank *loadhere, int index) {
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, tmp);
+		delete[] tmp;
 	}
 		
 	return true;
