@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
-#include <libpng/png.h>
+#include <png.h>
 
 #include "tga.h"
 #include "sprites.h"

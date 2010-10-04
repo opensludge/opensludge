@@ -11,6 +11,7 @@ AC_CONFIG_HEADERS([config.h])
 AC_PROG_CXX
 AC_PROG_CC
 AC_PROG_INSTALL
+PKG_PROG_PKG_CONFIG()
 
 AC_ARG_ENABLE([engine], [AC_HELP_STRING([--disable-engine], [don't build the SLUDGE Engine])])
 AC_ARG_ENABLE([devkit], [AC_HELP_STRING([--enable-devkit], [build the SLUDGE DevKit])])
@@ -23,8 +24,15 @@ if test "x$enable_devkit" = x; then
   enable_devkit="no"
 fi
 
+# Are we cross compiling for windows?
+case "${host}" in
+        *mingw32*) WIN32="yes" ;;
+        *cygwin*) WIN32="yes" ;;
+        *) WIN32="no" ;;
+esac
+AM_CONDITIONAL([COND_WIN32], test x"$WIN32" = xyes)
+
 # Checks for libraries.
-AC_CHECK_LIB([png], [png_sig_cmp])
 AC_CHECK_LIB([glee], [GLeeInit])
 AC_CHECK_LIB([GLee], [GLeeInit])
 
@@ -39,30 +47,14 @@ if test "x$enable_devkit" = xyes; then
   PKG_CHECK_MODULES([GTK], [gtk+-2.0 gthread-2.0 gobject-2.0 gtkglext-1.0 gmodule-2.0])
 fi
 
+PKG_CHECK_MODULES([LIBPNG], [libpng])
+
 # Checks for header files.
 AC_CHECK_HEADERS([limits.h malloc.h stddef.h stdint.h stdlib.h string.h sys/time.h unistd.h])
-AC_CHECK_HEADERS([png.h GLee.h getopt.h])
+AC_CHECK_HEADERS([GLee.h getopt.h])
 
 if test "x$enable_engine" = xyes; then
   AC_CHECK_HEADERS([GL/glu.h SDL/SDL.h SDL/SDL_syswm.h AL/alure.h])
-fi
-
-# Check if libpng-config finds libpng.
-mylibpngldflags=`libpng-config --ldflags`
-if test $? -eq 0
-  then
-    if test ${mylibpngldflags%%\ *}
-      then
-        ac_cv_lib_png_png_sig_cmp="yes"
-    fi
-fi
-mylibpngcflags=`libpng-config --cflags`
-if test $? -eq 0
-  then
-    if test ${mylibpngcflags%%\ *}
-      then
-        ac_cv_header_png_h="yes"
-    fi
 fi
 
 # Checks for typedefs, structures, and compiler characteristics.
@@ -93,15 +85,16 @@ SLUDGE configuration:
 
 Please make sure that the following libraries and headers are installed:
 "
-echo "libpng          ..."$ac_cv_lib_png_png_sig_cmp
-if test $ac_cv_lib_glee_GLeeInit
-  then
-    echo "GLee            ..."$ac_cv_lib_glee_GLeeInit
+if test $ac_cv_lib_GLee_GLeeInit; then
+  if test "x$ac_cv_lib_glee_GLeeInit" = xyes; then
+    echo "GLee            ...yes"
   else
     echo "GLee            ..."$ac_cv_lib_GLee_GLeeInit
+  fi
+else
+    echo "GLee            ..."$ac_cv_lib_glee_GLeeInit
 fi
 echo ""
-echo "png.h           ..."$ac_cv_header_png_h
 echo "GLee.h          ..."$ac_cv_header_GLee_h
 echo "getopt.h        ..."$ac_cv_header_getopt_h
 

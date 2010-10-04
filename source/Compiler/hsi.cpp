@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <libpng/png.h>
+#include <png.h>
 
 #include "moreio.h"
 #include "splitter.hpp"
