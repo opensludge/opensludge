@@ -45,16 +45,77 @@ void addFileToList (char * file, char **resourceList, int *numResources)
 	(*numResources)++;
 }
 
-void removeFileFromList (int index, char **resourceList, int *numResources)
+void removeFileFromList (int index, char **fileList, int *numFiles)
 {
-	if (index>=*numResources) return;
-	delete resourceList[index];
+	if (index>=*numFiles) return;
+	delete fileList[index];
 	int i = index + 1;
-	while (i < *numResources) {
-		resourceList[i-1] = resourceList[i];
+	while (i < *numFiles) {
+		fileList[i-1] = fileList[i];
 		i++;
 	}
-	(*numResources)--;
+	(*numFiles)--;
+}
+
+void populateResourceList (const char * scriptName, char **resourceList, int *numResources)
+{
+	FILE * fp;
+	char t, lastOne;
+	enum parseMode pM;
+	char buffer[256];
+	int numBuff;
+
+	gotoSourceDirectory ();
+
+	const char * extension = scriptName + strlen(scriptName) - 4;	
+	if (strlen (scriptName) > 4 && strcmp (extension, ".slu") == 0) {
+		fp = fopen (scriptName, "rt");
+		if (fp) {
+			pM = PM_NORMAL;
+			t = ' ';
+			for (;;) {
+				lastOne = t;
+				t = fgetc (fp);
+				if (feof (fp)) break;
+				switch (pM) {
+					case PM_NORMAL:
+						if (t == '\'') {
+							pM = PM_FILENAME;
+							numBuff = 0;
+						}
+						if (t == '\"') pM = PM_QUOTE;
+						if (t == '#') pM = PM_COMMENT;
+							break;
+							
+					case PM_COMMENT:
+						if (t == '\n') pM = PM_NORMAL;
+						break;
+							
+					case PM_QUOTE:
+						if (t == '\"' && lastOne != '\\') pM = PM_NORMAL;
+						break;
+							
+					case PM_FILENAME:
+						if (t == '\'' && lastOne != '\\') {
+							buffer[numBuff] = 0;
+							pM = PM_NORMAL;
+							addFileToList (buffer, resourceList, numResources);
+						} else {
+							buffer[numBuff++] = t;
+							if (numBuff == 250) {
+								buffer[numBuff++] = 0;
+								errorBox ("Resource filename too long!", buffer);
+								numBuff = 0;
+							}
+						}
+						break;
+				}
+			}
+			fclose (fp);
+		} else {
+			errorBox ("Can't open script file to look for resources", scriptName);
+		}
+	}
 }
 
 char * getFullPath (const char * file) {

@@ -34,8 +34,6 @@ extern int numErrors;
 ProjectDocument * me;
 NSModalSession session = nil;
 
-enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
-
 @implementation ProjectDocument
 
 - (id)init
@@ -109,74 +107,17 @@ enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 	if ([aNotification object] == projectFiles) {
 		if ([projectFiles numberOfSelectedRows]) {
 			[removeFileButton setEnabled:YES];
-			
-			FILE * fp;
-			char t, lastOne;
-			enum parseMode pM;
-			char buffer[256];
-			int numBuff;
-			
-      		char * tx;
 			clearFileList (resourceList, &numResources);
 			UInt8 project[1024];
 			if (! CFURLGetFileSystemRepresentation((CFURLRef) [self fileURL], true, project, 1023))
 				return;
 			getSourceDirFromName ((char *) project);
-			gotoSourceDirectory ();
+
 			int i;
 			for (i = 0; i < fileListNum; i ++) {
 				if (! [projectFiles isRowSelected:i]) continue;
-				
-				tx = fileList[i];
-				char * extension = tx + strlen(tx) - 4;						
-				if (strlen (tx) > 4 && strcmp (extension, ".slu") == 0) {
-					fp = fopen (tx, "rt");
-					if (fp) {
-						pM = PM_NORMAL;
-						t = ' ';
-						for (;;) {
-							lastOne = t;
-							t = fgetc (fp);
-							if (feof (fp)) break;
-							switch (pM) {
-								case PM_NORMAL:
-									if (t == '\'') {
-										pM = PM_FILENAME;
-										numBuff = 0;
-									}
-									if (t == '\"') pM = PM_QUOTE;
-									if (t == '#') pM = PM_COMMENT;
-										break;
-										
-								case PM_COMMENT:
-									if (t == '\n') pM = PM_NORMAL;
-									break;
-										
-								case PM_QUOTE:
-									if (t == '\"' && lastOne != '\\') pM = PM_NORMAL;
-									break;
-										
-								case PM_FILENAME:
-									if (t == '\'' && lastOne != '\\') {
-										buffer[numBuff] = 0;
-										pM = PM_NORMAL;
-										addFileToList (buffer, resourceList, &numResources);
-									} else {
-										buffer[numBuff++] = t;
-										if (numBuff == 250) {
-											buffer[numBuff++] = 0;
-											errorBox ("Resource filename too long!", buffer);
-											numBuff = 0;
-										}
-									}
-									break;
-							}
-						}
-						fclose (fp);
-					} else {
-						errorBox ("Can't open script file to look for resources", tx);
-					}
-				}
+								
+				populateResourceList (fileList[i], resourceList, &numResources);
 			}
 			[resourceFiles noteNumberOfRowsChanged];
 		} else {

@@ -9,10 +9,14 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+enum parseMode {PM_NORMAL, PM_QUOTE, PM_COMMENT, PM_FILENAME};
 	
 void clearFileList(char **fileList, int *numFiles);
 void addFileToList (char * file, char **fileList, int *numFiles);
-void removeFileFromList (int index, char **resourceList, int *numResources);
+void removeFileFromList (int index, char **fileList, int *numFiles);
+
+void populateResourceList (const char * scriptName, char **resourceList, int *numResources);
 
 bool loadProject (const char * filename, char **fileList, int *numFiles);
 bool saveProject (const char * filename, char **fileList, int *numFiles);
