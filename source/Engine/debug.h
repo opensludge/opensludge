@@ -1,1 +1,1 @@
-void debugOut(char * a, ...);
+void debugOut(const char * a, ...);

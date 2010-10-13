@@ -25,7 +25,7 @@ extern char *bundleFolder;
 //Function from: http://www.evl.uic.edu/aej/594/code/ogl.cpp
 //Read in a textfile (GLSL program)
 // we need to pass it as a string to the GLSL driver
-char *shaderFileRead(char *name)
+char *shaderFileRead(const char *name)
 {
 	FILE *fp;
 	char *content = NULL;

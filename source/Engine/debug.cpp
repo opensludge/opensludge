@@ -4,7 +4,7 @@
 #include "debug.h"
 #include "language.h"
 
-void debugOut(char * a, ...) {
+void debugOut(const char * a, ...) {
 	if (! gameSettings.debugMode) return;
 
 	va_list argptr;

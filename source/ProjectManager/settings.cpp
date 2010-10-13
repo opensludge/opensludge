@@ -225,32 +225,32 @@ static void fileWriteBool (FILE * fp, const char * theString, bool theBool)
 
 void writeSettings (FILE * fp) {
 
-	fprintf 		(fp, "[SETTINGS]\nwindowname=%s\n", settings.windowName);
-	fprintf 		(fp, "finalfile=%s\n", 				settings.finalFile);
-	fprintf 		(fp, "language=%s\n", 				settings.originalLanguage);
-	fprintf 		(fp, "datafolder=%s\n", 			settings.runtimeDataFolder);
-	fprintf 		(fp, "quitmessage=%s\n", 			settings.quitMessage);
-	fprintf 		(fp, "customicon=%s\n", 			settings.customIcon);
-	fprintf 		(fp, "customlogo=%s\n", 			settings.customLogo);
-	fprintf 		(fp, "mouse=%lu\n", 				settings.winMouseImage);
-	fprintf 		(fp, "fullscreen=%c\n", 			settings.runFullScreen ? 'Y':'N');
-	fprintf 		(fp, "makesilent=%c\n", 			settings.forceSilent ? 'Y':'N');
-	fprintf 		(fp, "showlogo=%c\n", 				settings.startupShowLogo ? 'Y':'N');
-	fprintf 		(fp, "showloading=%c\n", 			settings.startupShowLoading ? 'Y':'N');
-	fprintf 		(fp, "invisible=%c\n", 				settings.startupInvisible ? 'Y':'N');
-	fileWriteBool 		(fp, "ditherimages", 				settings.ditherImages);
-	fprintf 	  	(fp, "width=%lu\n",				settings.screenWidth);
-	fprintf 	  	(fp, "height=%lu\n", 				settings.screenHeight);
-	fprintf 		(fp, "speed=%lu\n", 				settings.frameSpeed);
+	fprintf 		(fp, "[SETTINGS]\nwindowname=%s\n",	settings.windowName);
+	fprintf 		(fp, "finalfile=%s\n", 			settings.finalFile);
+	fprintf 		(fp, "language=%s\n", 			settings.originalLanguage);
+	fprintf 		(fp, "datafolder=%s\n", 		settings.runtimeDataFolder);
+	fprintf 		(fp, "quitmessage=%s\n", 		settings.quitMessage);
+	fprintf 		(fp, "customicon=%s\n", 		settings.customIcon);
+	fprintf 		(fp, "customlogo=%s\n", 		settings.customLogo);
+	fprintf 		(fp, "mouse=%i\n", 			settings.winMouseImage);
+	fprintf 		(fp, "fullscreen=%c\n", 		settings.runFullScreen ? 'Y':'N');
+	fprintf 		(fp, "makesilent=%c\n", 		settings.forceSilent ? 'Y':'N');
+	fprintf 		(fp, "showlogo=%c\n", 			settings.startupShowLogo ? 'Y':'N');
+	fprintf 		(fp, "showloading=%c\n", 		settings.startupShowLoading ? 'Y':'N');
+	fprintf 		(fp, "invisible=%c\n", 			settings.startupInvisible ? 'Y':'N');
+	fileWriteBool 		(fp, "ditherimages", 			settings.ditherImages);
+	fprintf 	  	(fp, "width=%i\n",			settings.screenWidth);
+	fprintf 	  	(fp, "height=%i\n", 			settings.screenHeight);
+	fprintf 		(fp, "speed=%i\n", 			settings.frameSpeed);
 
-	fileWriteBool	(fp, "chrRender_def_enabled", 		chrRenderingSettings.defEnabled);
-	fprintf 	 	(fp, "chrRender_def_softX=%lu\n",	chrRenderingSettings.defSoftnessX);
-	fprintf 	 	(fp, "chrRender_def_softY=%lu\n",	chrRenderingSettings.defSoftnessY);
+	fileWriteBool		(fp, "chrRender_def_enabled", 		chrRenderingSettings.defEnabled);
+	fprintf 	 	(fp, "chrRender_def_softX=%i\n",	chrRenderingSettings.defSoftnessX);
+	fprintf 	 	(fp, "chrRender_def_softY=%i\n",	chrRenderingSettings.defSoftnessY);
 
-	fileWriteBool	(fp, "chrRender_max_enabled", 		chrRenderingSettings.maxEnabled);
-	fileWriteBool	(fp, "chrRender_max_readIni", 		chrRenderingSettings.maxReadIni);
-	fprintf 	 	(fp, "chrRender_max_softX=%lu\n",	chrRenderingSettings.maxSoftnessX);
-	fprintf 	 	(fp, "chrRender_max_softY=%lu\n",	chrRenderingSettings.maxSoftnessY);
+	fileWriteBool		(fp, "chrRender_max_enabled", 		chrRenderingSettings.maxEnabled);
+	fileWriteBool		(fp, "chrRender_max_readIni", 		chrRenderingSettings.maxReadIni);
+	fprintf 	 	(fp, "chrRender_max_softX=%i\n",	chrRenderingSettings.maxSoftnessX);
+	fprintf 	 	(fp, "chrRender_max_softY=%i\n",	chrRenderingSettings.maxSoftnessY);
 
 	fprintf 		(fp, "\n[FILES]\n");
 }
