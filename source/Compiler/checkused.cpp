@@ -11,7 +11,7 @@ void checkUsedInit (int type, int n)
 	memset (flagUsed[type], 0, sizeof(bool) * n);
 }
 
-void warnAboutUnused (int type, stringArray * temp, char * preamble, stringArray * files) {
+void warnAboutUnused (int type, stringArray * temp, const char * preamble, stringArray * files) {
 	int i = 0;
 
 	if (! flagUsed[type])

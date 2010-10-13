@@ -28,7 +28,7 @@ bool loadZBufferFromTGA (const char * fileName, spriteBank *loadhere) {
 	
 	// Grab the header
 	TGAHeader imageHeader;
-	char * errorBack;
+	const char * errorBack;
 	errorBack = readTGAHeader (imageHeader, fp, thePalette);
 	if (errorBack) {
 		errorBox ("Error reading TGA file", errorBack);

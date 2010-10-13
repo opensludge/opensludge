@@ -7,6 +7,8 @@ AC_CONFIG_SRCDIR([source/CommonCode/tga.cpp])
 AM_INIT_AUTOMAKE
 AC_CONFIG_HEADERS([config.h])
 
+m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
+
 # Checks for programs.
 AC_PROG_CXX
 AC_PROG_CC
@@ -26,7 +28,7 @@ fi
 
 # Are we cross compiling for windows?
 case "${host}" in
-        *mingw32*) WIN32="yes" ;;
+        i[[3456789]]86-mingw32*) WIN32="yes" ;;
         *cygwin*) WIN32="yes" ;;
         *) WIN32="no" ;;
 esac

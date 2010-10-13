@@ -769,7 +769,7 @@ bool loadSpriteFromTGA (const char * file, struct spriteBank *sprites, int index
 		
 	// Grab the header
 	TGAHeader imageHeader;
-	char * errorBack;
+	const char * errorBack;
 	errorBack = readTGAHeader (imageHeader, fp, thePalette);
 	if (errorBack) {
 		fclose (fp);

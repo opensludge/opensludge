@@ -72,7 +72,7 @@ bool getSourceDirFromName (const char * filename);
 bool gotoSourceDirectory ();
 bool gotoTempDirectory ();
 void killTempDir();
-FILE * openFinalFile (char *, char *);
+FILE * openFinalFile (const char *, const char *);
 void writeFinalData (FILE * mainFile);
 
 void fixPath (char *filename, bool makeGood);

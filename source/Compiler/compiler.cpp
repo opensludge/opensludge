@@ -45,7 +45,7 @@ enum { CSTEP_INIT,
 	   CSTEP_DONE,
 	   CSTEP_ERROR };
 
-char * stageName[] = {
+const char * stageName[] = {
 	"Initialisation", "Parsing", "Precompile", "Compiling",
 	"Prelink", "Linking scripts", "Linking objects", "Linking objects",
 	"Converting resources", "Attaching resources", "Done", "Compiliation aborted!"

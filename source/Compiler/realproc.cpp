@@ -13,8 +13,8 @@
 
 int subNum = 0;
 //extern HWND compWin;
-char * emptyString = "";
-char * inThisClass = emptyString;
+const char * emptyString = "";
+const char * inThisClass = emptyString;
 //extern stringArray * & localVars;
 stringArray * globalVarFileOrigins;
 

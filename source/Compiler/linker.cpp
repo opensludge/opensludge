@@ -15,7 +15,7 @@ extern stringArray * functionNames;
 extern stringArray * allKnownFlags;
 extern stringArray * objectTypeNames;
 
-char * sludgeText[] = {"?????",
+const char * sludgeText[] = {"?????",
   "RETURN", "BRANCH", "BR_ZERO", "SET_GLOBAL",
   "SET_LOCAL", "LOAD_GLOBAL", "LOAD_LOCAL",
   "PLUS", "MINUS", "MULT", "DIVIDE",

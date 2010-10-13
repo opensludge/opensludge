@@ -57,7 +57,7 @@ void noSettings () {
 }
 
 
-unsigned int stringToInt (char * st) {
+unsigned int stringToInt (const char * st) {
 	unsigned int a = 0;
 	for (int i = 0; st[i]; i ++) {
 		a *= 10;
@@ -238,8 +238,8 @@ void writeSettings (FILE * fp) {
 	fprintf 		(fp, "showlogo=%c\n", 				settings.startupShowLogo ? 'Y':'N');
 	fprintf 		(fp, "showloading=%c\n", 			settings.startupShowLoading ? 'Y':'N');
 	fprintf 		(fp, "invisible=%c\n", 				settings.startupInvisible ? 'Y':'N');
-	fileWriteBool 	(fp, "ditherimages", 				settings.ditherImages);
-	fprintf 	  	(fp, "width=%lu\n",					settings.screenWidth);
+	fileWriteBool 		(fp, "ditherimages", 				settings.ditherImages);
+	fprintf 	  	(fp, "width=%lu\n",				settings.screenWidth);
 	fprintf 	  	(fp, "height=%lu\n", 				settings.screenHeight);
 	fprintf 		(fp, "speed=%lu\n", 				settings.frameSpeed);
 
@@ -294,7 +294,7 @@ bool gotoTempDirectory () {
 	return true;
 }
 
-FILE * openFinalFile (char * addMe, char * mode) {
+FILE * openFinalFile (const char * addMe, const char * mode) {
 	char * fullName = joinStrings (settings.finalFile, addMe);
 	if (! fullName) return NULL;
 

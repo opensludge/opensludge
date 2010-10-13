@@ -220,7 +220,7 @@ unsigned short readCompressedColour (FILE * fp, int bpc, palCol thePalette[], in
 	return makeColour (r, g, b);
 }
 
-char * readTGAHeader (TGAHeader & h, FILE * fp, palCol thePalette[]) {
+const char * readTGAHeader (TGAHeader & h, FILE * fp, palCol thePalette[]) {
 
 	h.IDBlockSize = fgetc (fp);
 	h.gotMap = fgetc (fp);

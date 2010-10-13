@@ -151,7 +151,7 @@ bool finishFunctionNew (compilationSpace & theSpace, stringArray * localVars) {
 	return true;
 }
 
-int protoFunction (char * funcName, char * fileName) {
+int protoFunction (const char * funcName, const char * fileName) {
 	addToStringArray (functionFiles, fileName);
 	return findOrAdd (functionNames, funcName);
 }
@@ -764,7 +764,7 @@ bool compileSourceBlock (const char * sourceCode, stringArray * & localVarNames,
 	return true;
 }
 
-int defineFunction (char * funcName, char * args, char * sourceCode, bool unfreezable, bool debugMe, const char * fileName) {
+int defineFunction (char * funcName, const char * args, char * sourceCode, bool unfreezable, bool debugMe, const char * fileName) {
 	int funcNum;
 	stringArray * localVarNames;
 	compilationSpace localSpace;

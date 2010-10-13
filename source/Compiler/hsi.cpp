@@ -42,7 +42,7 @@ int loadBackDropForCompiler (char * fileName) {
 
 	// Grab the header
 	TGAHeader imageHeader;
-	char * errorBack;
+	const char * errorBack;
 	errorBack = readTGAHeader (imageHeader, fp, thePalette);
 	if (errorBack) {
 //		alert (errorBack);

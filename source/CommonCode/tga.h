@@ -28,7 +28,7 @@ void grabRGBA (FILE * fp, int bpc, unsigned char & r, unsigned char & g, unsigne
 unsigned short int makeColour (unsigned char r, unsigned char g, unsigned char b);
 unsigned short readAColour (FILE * fp, int bpc, palCol thePalette[], int x, int y);
 unsigned short readCompressedColour (FILE * fp, int bpc, palCol thePalette[], int x, int y);
-char * readTGAHeader (TGAHeader & h, FILE * fp, palCol thePalette[]);
+const char * readTGAHeader (TGAHeader & h, FILE * fp, palCol thePalette[]);
 void setDither (int dither);
 bool getDither ();
 

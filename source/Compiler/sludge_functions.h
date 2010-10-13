@@ -16,8 +16,8 @@ struct compilationSpace {
 void initBuiltInFunc ();
 bool startFunction (int num, int argNum, compilationSpace & theSpace, const char * theName, bool unfr, bool dbMe, const char *);
 bool finishFunctionNew (compilationSpace & theSpace, stringArray * locals);
-int protoFunction (char * funcName, char * fileName);
-int defineFunction (char * funcName, char * args, char * sourceCode, bool unfr, bool dbMe, const char *);
+int protoFunction (const char * funcName, const char * fileName);
+int defineFunction (char * funcName, const char * args, char * sourceCode, bool unfr, bool dbMe, const char *);
 bool compileSourceBlock (const char *, stringArray * &, compilationSpace &, const char * filename);
 bool compileSourceLine (const char *, stringArray * &, compilationSpace &, stringArray * &, const char * filename);
 

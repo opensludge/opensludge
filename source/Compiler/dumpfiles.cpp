@@ -13,7 +13,7 @@
 #include "translation.h"
 #include "dumpfiles.h"
 
-bool dumpFileInto (FILE * writer, char * thisFile) {
+bool dumpFileInto (FILE * writer, const char * thisFile) {
 	int a;
 	FILE * reader = fopen (thisFile, "rb");
 	char buf[256];
@@ -28,7 +28,7 @@ bool dumpFileInto (FILE * writer, char * thisFile) {
 	return true;
 }
 
-int getFileType (char * filename) {
+int getFileType (const char * filename) {
 	int reply = FILETYPE_UNKNOWN;
 
 	if (strlen (filename) >= 4) {

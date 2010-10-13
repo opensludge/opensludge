@@ -18,7 +18,7 @@
 extern stringArray * allSourceStrings;
 extern stringArray * allFileHandles;
 
-char * errorTypeStrings[ERRORTYPE_NUM] =
+const char * errorTypeStrings[ERRORTYPE_NUM] =
 {
 	"WARNING: ",
 	"ERROR: ",

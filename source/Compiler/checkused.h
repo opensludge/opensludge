@@ -7,4 +7,4 @@ enum
 
 void checkUsedInit (int type, int n);
 void setUsed (int type, int i);
-void warnAboutUnused (int type, stringArray * temp, char * preamble, stringArray * files);
+void warnAboutUnused (int type, stringArray * temp, const char * preamble, stringArray * files);

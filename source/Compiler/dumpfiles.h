@@ -1,7 +1,7 @@
 bool dumpFiles (FILE *, stringArray * & theSA);
 bool saveStrings (FILE *, FILE *, stringArray *);
-bool dumpFileInto (FILE * writer, char * thisFile);
-int getFileType (char * filename);
+bool dumpFileInto (FILE * writer, const char * thisFile);
+int getFileType (const char * filename);
 
 enum {FILETYPE_UNKNOWN,
 	  FILETYPE_MIDI,
