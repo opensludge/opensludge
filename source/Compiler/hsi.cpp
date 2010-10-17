@@ -8,6 +8,7 @@
 #include "interface.h"
 #include "messbox.h"
 #include "tga.h"
+#include "compilerinfo.h"
 
 unsigned short int * * backDropImage;
 bool backdrop32;

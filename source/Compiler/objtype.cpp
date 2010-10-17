@@ -11,6 +11,7 @@
 #include "realproc.h"
 #include "messbox.h"
 #include "checkused.h"
+#include "compilerinfo.h"
 
 stringArray * objectTypeNames = NULL;
 extern stringArray * functionNames;

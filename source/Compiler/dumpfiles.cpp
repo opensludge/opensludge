@@ -3,7 +3,6 @@
 #include <string.h>
 
 #include "splitter.hpp"
-#include "percbar.h"
 #include "interface.h"
 #include "settings.h"
 #include "hsi.h"
@@ -12,6 +11,7 @@
 #include "floor.h"
 #include "translation.h"
 #include "dumpfiles.h"
+#include "compilerinfo.h"
 
 bool dumpFileInto (FILE * writer, const char * thisFile) {
 	int a;

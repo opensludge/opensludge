@@ -22,7 +22,6 @@
 #include "messbox.h"
 #include "preproc.h"
 #include "project.hpp"
-#include "percbar.h"
 #include "realproc.h"
 #include "splitter.hpp"
 #include "translation.h"
@@ -31,6 +30,7 @@
 #include "hsi.h"
 #include "objtype.h"
 #include "interface.h"
+#include "compilerinfo.h"
 
 enum { CSTEP_INIT,
 	   CSTEP_PARSE,
@@ -365,8 +365,9 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 	return true;
 }
 
-int compileEverything (char * project, char **fileList, int *numFiles) {
+int compileEverything (char * project, char **fileList, int *numFiles, void (*infoReceiver)(compilerInfo *)) {
 	int success = true;
+	setInfoReceiver(infoReceiver);
 	clearTranslations ();
 	if (! getSourceDirFromName (project)) {
 		setCompilerText (COMPILER_TXT_ACTION, "Error initialising!");
@@ -400,5 +401,6 @@ int compileEverything (char * project, char **fileList, int *numFiles) {
 	destroyAll (allFileHandles);
 
 	killTempDir();
+	setFinished(success);
 	return success;
 }

@@ -10,6 +10,7 @@
 #include "interface.h"
 #include "messbox.h"
 #include "allknown.h"
+#include "compilerinfo.h"
 
 int subNum = 0;
 //extern HWND compWin;

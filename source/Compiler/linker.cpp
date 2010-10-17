@@ -10,6 +10,7 @@
 #include "linker.h"
 #include "interface.h"
 #include "checkused.h"
+#include "compilerinfo.h"
 
 extern stringArray * functionNames;
 extern stringArray * allKnownFlags;

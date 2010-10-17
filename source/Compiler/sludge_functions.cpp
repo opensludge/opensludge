@@ -8,9 +8,9 @@
 #include "tokens.h"
 #include "moreio.h"
 #include "messbox.h"
-#include "percbar.h"
 #include "interface.h"
 #include "allknown.h"
+#include "compilerinfo.h"
 
 extern char * inThisClass;
 

@@ -13,6 +13,7 @@
 #include "messbox.h"
 #include "moreio.h"
 #include "splitter.hpp"
+#include "compilerinfo.h"
 
 
 extern stringArray * allSourceStrings;

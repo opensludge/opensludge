@@ -7,11 +7,13 @@
  *
  */
 
+#include "compilerinfo.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 		
-	int compileEverything (char * project, char **fileList, int *numFiles);
+	int compileEverything (char * project, char **fileList, int *numFiles, void (*infoReceiver)(compilerInfo *));
 	
 	
 #ifdef __cplusplus
