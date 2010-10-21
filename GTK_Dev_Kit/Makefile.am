@@ -91,8 +91,6 @@ dist_pkgdata_DATA = \
 	../images/floormodeicon3.png \
 	../images/floormodeicon4.png \
 	../images/floormodeicon5.png \
-	../images/Sludge/Sludge_16x16x32.png ../images/Sludge/Sludge_32x32x32.png \
-	../images/Sludge/Sludge_128x128x32.png ../images/Sludge/Sludge_256x256x32.png \
 	../images/floorIcon/floorIcon_16x16x32.png ../images/floorIcon/floorIcon_32x32x32.png \
 	../images/floorIcon/floorIcon_128x128x32.png ../images/floorIcon/floorIcon_256x256x32.png \
 	../images/zIcon/zIcon_16x16x32.png ../images/zIcon/zIcon_32x32x32.png \
