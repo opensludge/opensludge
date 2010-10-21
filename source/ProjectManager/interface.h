@@ -14,6 +14,8 @@ extern "C" {
 #endif
 
 const char * getTempDir ();
+bool askAQuestion (const char * head, const char * msg);
+bool errorBox (const char * head, const char * msg);
 
 #ifdef __cplusplus
 }

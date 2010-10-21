@@ -2,8 +2,6 @@
 void messageBox (const char *, const char *);
 void messageBox (const char * tx2, int f, int f2);
 
-extern "C" bool errorBox (const char *, const char *);
-
 enum
 {
 	ERRORTYPE_PROJECTWARNING,

@@ -5,7 +5,7 @@
 #include "tga.h"
 #include "sprites.h"
 #include "moreio.h"
-#include "messbox.h"
+#include "interface.h"
 
 void forgetSpriteBank (spriteBank * forgetme) {
 	unsigned int index;

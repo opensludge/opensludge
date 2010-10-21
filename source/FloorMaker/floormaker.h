@@ -39,10 +39,6 @@ void drawFloor (struct polyList * pL, float r, float g, float b);
 
 bool snapToClosest (int *x, int *y, struct polyList * firstPoly);
 
-// Found in OS-specific code
-bool askAQuestion (const char * head, const char * msg);
-bool errorBox (const char * head, const char * msg);
-
 #ifdef __cplusplus
 }
 #endif	

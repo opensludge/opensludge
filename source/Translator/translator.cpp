@@ -12,7 +12,7 @@
 #include <limits.h>
 #include <ctype.h>
 
-#include "messbox.h"
+#include "interface.h"
 #include "moreio.h"
 #include "settings.h"
 #include "splitter.hpp"

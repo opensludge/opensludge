@@ -2,7 +2,7 @@
 #include <stdint.h>
 
 #include "tga.h"
-#include "messbox.h"
+#include "interface.h"
 #include "moreio.h"
 #include "sprites.h"
 #include "zbuffer.h"

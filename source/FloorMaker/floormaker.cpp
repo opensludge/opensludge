@@ -13,6 +13,7 @@
 #include "GLee.h"
 
 #include "floormaker.h"
+#include "interface.h"
 
 bool polyIsComplete (struct polyList *firstPoly) {
 	if (firstPoly -> firstVertex == NULL) return false;
