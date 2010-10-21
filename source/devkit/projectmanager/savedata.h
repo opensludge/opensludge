@@ -1,1 +1,0 @@
-bool fileToStack (char * filename, stackHandler * sH);
