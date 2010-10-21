@@ -8,7 +8,7 @@ nobase_dist_doc_DATA=\
 	SLUDGEDevKitHelp/popFromStack.html \
 	SLUDGEDevKitHelp/setSoundLoopPoints.html \
 	SLUDGEDevKitHelp/About_the_SLUDGE_Project_Manager.html \
-	SLUDGEDevKitHelp/getPixelColour_\(getPixelColor\).html \
+	SLUDGEDevKitHelp/getPixelColour_(getPixelColor).html \
 	SLUDGEDevKitHelp/positionStatus.html \
 	SLUDGEDevKitHelp/setSoundVolume.html \
 	SLUDGEDevKitHelp/About_the_SLUDGE_Sprite_Bank_Editor.html \
@@ -21,19 +21,19 @@ nobase_dist_doc_DATA=\
 	SLUDGEDevKitHelp/setSpeechSpeed.html \
 	SLUDGEDevKitHelp/About_the_SLUDGE_Z-Buffer_Maker.html \
 	SLUDGEDevKitHelp/hardScroll.html \
-	SLUDGEDevKitHelp/Project_Manager___quot\;Files_in_this_project_quot\;_Section.html \
-	SLUDGEDevKitHelp/setStatusColour_\(setStatusColor\).html \
+	SLUDGEDevKitHelp/Project_Manager__Files_in_this_project_Section.html \
+	SLUDGEDevKitHelp/setStatusColour_(setStatusColor).html \
 	SLUDGEDevKitHelp/addCharacter.html \
 	SLUDGEDevKitHelp/hasFlag.html \
-	SLUDGEDevKitHelp/Project_Manager___quot\;Project_management_quot\;_Section.html \
+	SLUDGEDevKitHelp/Project_Manager__Project_management_Section.html \
 	SLUDGEDevKitHelp/setThumbnailSize.html \
 	SLUDGEDevKitHelp/addOverlay.html \
 	SLUDGEDevKitHelp/hideCharacter.html \
-	SLUDGEDevKitHelp/Project_Manager___quot\;Project_properties_quot\;_Dialog.html \
+	SLUDGEDevKitHelp/Project_Manager__Project_properties_Dialog.html \
 	SLUDGEDevKitHelp/Setting_Default_Events.html \
 	SLUDGEDevKitHelp/addScreenRegion.html \
 	SLUDGEDevKitHelp/howFrozen.html \
-	SLUDGEDevKitHelp/Project_Manager___quot\;Project_settings_quot\;_Section.html \
+	SLUDGEDevKitHelp/Project_Manager__Project_settings_Section.html \
 	SLUDGEDevKitHelp/setZBuffer.html \
 	SLUDGEDevKitHelp/addStatus.html \
 	SLUDGEDevKitHelp/pushToStack.html \
@@ -102,11 +102,11 @@ nobase_dist_doc_DATA=\
 	SLUDGEDevKitHelp/statusText.html \
 	SLUDGEDevKitHelp/copyStack.html \
 	SLUDGEDevKitHelp/moviePlaying.html \
-	SLUDGEDevKitHelp/setBlankColour_\(setBlankColor\).html \
+	SLUDGEDevKitHelp/setBlankColour_(setBlankColor).html \
 	SLUDGEDevKitHelp/stopCharacter.html \
 	SLUDGEDevKitHelp/costume.html \
 	SLUDGEDevKitHelp/movieStart.html \
-	SLUDGEDevKitHelp/setBurnColour_\(setBurnColor\).html \
+	SLUDGEDevKitHelp/setBurnColour_(setBurnColor).html \
 	SLUDGEDevKitHelp/stopMusic.html \
 	SLUDGEDevKitHelp/darkBackground.html \
 	SLUDGEDevKitHelp/Multiple_Languages_in_a_Single_Game.html \
@@ -163,7 +163,7 @@ nobase_dist_doc_DATA=\
 	SLUDGEDevKitHelp/Overview__Creating_a_Game.html \
 	SLUDGEDevKitHelp/setFloor.html \
 	SLUDGEDevKitHelp/unfreeze.html \
-	SLUDGEDevKitHelp/Functions_\(subs\).html \
+	SLUDGEDevKitHelp/Functions_(subs).html \
 	SLUDGEDevKitHelp/parallaxAdd.html \
 	SLUDGEDevKitHelp/setFont.html \
 	SLUDGEDevKitHelp/updateDisplay.html \
@@ -177,7 +177,7 @@ nobase_dist_doc_DATA=\
 	SLUDGEDevKitHelp/Using_Constants_in_SLUDGE.html \
 	SLUDGEDevKitHelp/getFramesPerSecond.html \
 	SLUDGEDevKitHelp/pasteCharacter.html \
-	SLUDGEDevKitHelp/setLitStatusColour_\(setLitStatusColor\).html \
+	SLUDGEDevKitHelp/setLitStatusColour_(setLitStatusColor).html \
 	SLUDGEDevKitHelp/Variable_Operations.html \
 	SLUDGEDevKitHelp/getLanguageID.html \
 	SLUDGEDevKitHelp/pasteImage.html \
@@ -189,7 +189,7 @@ nobase_dist_doc_DATA=\
 	SLUDGEDevKitHelp/wait.html \
 	SLUDGEDevKitHelp/getMouseScreenX_and_getMouseScreenY.html \
 	SLUDGEDevKitHelp/pause.html \
-	SLUDGEDevKitHelp/setPasteColour_\(setPasteColor\).html \
+	SLUDGEDevKitHelp/setPasteColour_(setPasteColor).html \
 	SLUDGEDevKitHelp/zoomCamera.html \
 	SLUDGEDevKitHelp/getMouseX_and_getMouseY.html \
 	SLUDGEDevKitHelp/pickOne.html \

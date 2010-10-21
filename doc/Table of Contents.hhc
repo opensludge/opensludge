@@ -753,19 +753,19 @@
 					</OBJECT>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="Project Manager: &quot;Files in this project&quot; Section">
-					<param name="Local" value="SLUDGEDevKitHelp\Project_Manager___quot;Files_in_this_project_quot;_Section.html">
+					<param name="Local" value="SLUDGEDevKitHelp\Project_Manager__Files_in_this_project_Section.html">
 					</OBJECT>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="Project Manager: &quot;Project management&quot; Section">
-					<param name="Local" value="SLUDGEDevKitHelp\Project_Manager___quot;Project_management_quot;_Section.html">
+					<param name="Local" value="SLUDGEDevKitHelp\Project_Manager__Project_management_Section.html">
 					</OBJECT>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="Project Manager: &quot;Project properties&quot; Dialog">
-					<param name="Local" value="SLUDGEDevKitHelp\Project_Manager___quot;Project_properties_quot;_Dialog.html">
+					<param name="Local" value="SLUDGEDevKitHelp\Project_Manager__Project_properties_Dialog.html">
 					</OBJECT>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="Project Manager: &quot;Project settings&quot; Section">
-					<param name="Local" value="SLUDGEDevKitHelp\Project_Manager___quot;Project_settings_quot;_Section.html">
+					<param name="Local" value="SLUDGEDevKitHelp\Project_Manager__Project_settings_Section.html">
 					</OBJECT>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="Spellchecking the Strings in your Game">
