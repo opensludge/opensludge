@@ -17,6 +17,7 @@ PKG_PROG_PKG_CONFIG()
 
 AC_ARG_ENABLE([engine], [AC_HELP_STRING([--disable-engine], [don't build the SLUDGE Engine])])
 AC_ARG_ENABLE([devkit], [AC_HELP_STRING([--enable-devkit], [build the SLUDGE DevKit])])
+AC_ARG_ENABLE([doc], [AC_HELP_STRING([--enable-doc], [install the SLUDGE documentation])])
 
 # Set default targets:
 if test "x$enable_engine" = x; then
@@ -24,6 +25,9 @@ if test "x$enable_engine" = x; then
 fi
 if test "x$enable_devkit" = x; then
   enable_devkit="no"
+fi
+if test "x$enable_doc" = x; then
+  enable_doc="no"
 fi
 
 # Are we cross compiling for windows?
@@ -81,11 +85,13 @@ AC_CHECK_FUNCS([atexit getcwd memset mkdir rmdir sqrt strstr strtol])
 
 AM_CONDITIONAL([COND_ENGINE], [test "x$enable_engine" = xyes])
 AM_CONDITIONAL([COND_DEVKIT], [test "x$enable_devkit" = xyes])
+AM_CONDITIONAL([COND_DOC], [test "x$enable_doc" = xyes])
 
 AC_CONFIG_FILES([Makefile
                  source/Makefile
                  source/Engine/Makefile
-                 GTK_Dev_Kit/Makefile])
+                 GTK_Dev_Kit/Makefile
+                 doc/Makefile])
 AC_OUTPUT
 
 echo "
@@ -130,9 +136,10 @@ if test x"$WIN32" = xyes; then
 echo "...the SLUDGE DevKit for Windows"
 else
 echo ""
-echo "SLUDGE Engine   ..."$enable_engine
-echo "SLUDGE DevKit   ..."$enable_devkit
+echo "SLUDGE Engine        ..."$enable_engine
+echo "SLUDGE DevKit        ..."$enable_devkit
+echo "SLUDGE documentation ..."$enable_doc
 echo "
-Use the options --disable-engine and/or --enable-devkit to (de)select components.
+Use the options --disable-engine, --enable-devkit and/or --enable-doc to (de)select components.
 "
 fi

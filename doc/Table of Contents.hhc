@@ -10,7 +10,7 @@
 <UL>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Welcome to SLUDGE!">
-		<param name="Local" value="SLUDGEDevKitHelp\SLUDGE Dev Kit Help.html">
+		<param name="Local" value="SLUDGEDevKitHelp\SLUDGE_Dev_Kit_Help.html">
 		</OBJECT>
 	<UL>
 		<LI> <OBJECT type="text/sitemap">
@@ -690,7 +690,7 @@
 				</OBJECT>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="The World's Easiest Load/Save Mechanism">
-				<param name="Local" value="SLUDGEDevKitHelp\The_World's_Easiest_Load_Save_Mechanism.html">
+				<param name="Local" value="SLUDGEDevKitHelp\The_Worlds_Easiest_Load_Save_Mechanism.html">
 				</OBJECT>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="Using Audio in SLUDGE">

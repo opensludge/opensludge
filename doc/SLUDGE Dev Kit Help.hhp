@@ -2,7 +2,7 @@
 Compatibility=1.1 or later
 Compiled file=SLUDGE Dev Kit Help.chm
 Contents file=Table of Contents.hhc
-Default topic=SLUDGEDevKitHelp\SLUDGE Dev Kit Help.html
+Default topic=SLUDGEDevKitHelp\SLUDGE_Dev_Kit_Help.html
 Display compile progress=No
 Index file=SLUDGE Dev Kit Help.hhk
 Language=0x809 Engelska (Storbritannien)
@@ -172,7 +172,7 @@ SLUDGEDevKitHelp\showCharacter.html
 SLUDGEDevKitHelp\showFloor.html
 SLUDGEDevKitHelp\showThumbnail.html
 SLUDGEDevKitHelp\skipSpeech.html
-SLUDGEDevKitHelp\SLUDGE Dev Kit Help.html
+SLUDGEDevKitHelp\SLUDGE_Dev_Kit_Help.html
 SLUDGEDevKitHelp\SLUDGE_Language_Reference_Manual.html
 SLUDGEDevKitHelp\snapshotClear.html
 SLUDGEDevKitHelp\snapshotGrab.html
@@ -191,7 +191,7 @@ SLUDGEDevKitHelp\substring.html
 SLUDGEDevKitHelp\The_Background_Image.html
 SLUDGEDevKitHelp\The_Multi-Purpose_Stack___Array___Queue_Type.html
 SLUDGEDevKitHelp\The_Programs.html
-SLUDGEDevKitHelp\The_World's_Easiest_Load_Save_Mechanism.html
+SLUDGEDevKitHelp\The_Worlds_Easiest_Load_Save_Mechanism.html
 SLUDGEDevKitHelp\transitionMode_and_transitionLevel.html
 SLUDGEDevKitHelp\Treating_Variables_as_Booleans.html
 SLUDGEDevKitHelp\Treating_Variables_as_Strings.html
