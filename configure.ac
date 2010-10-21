@@ -34,6 +34,12 @@ case "${host}" in
 esac
 AM_CONDITIONAL([COND_WIN32], test x"$WIN32" = xyes)
 
+# Always build the Dev Kit for windows:
+if test x"$WIN32" = xyes; then
+  enable_engine="no"
+  enable_devkit="yes"
+fi
+
 # Checks for libraries.
 AC_CHECK_LIB([glee], [GLeeInit])
 AC_CHECK_LIB([GLee], [GLeeInit])
@@ -119,10 +125,14 @@ Note that Alure needs VorbisFile, FLAC and DUMB to provide full sound support.
 fi
 
 echo "
-Will build...
-"
+Will build..."
+if test x"$WIN32" = xyes; then
+echo "...the SLUDGE DevKit for Windows"
+else
+echo ""
 echo "SLUDGE Engine   ..."$enable_engine
 echo "SLUDGE DevKit   ..."$enable_devkit
 echo "
 Use the options --disable-engine and/or --enable-devkit to (de)select components.
 "
+fi
