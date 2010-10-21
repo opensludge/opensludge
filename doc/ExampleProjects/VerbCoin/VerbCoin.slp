@@ -1,0 +1,25 @@
+[SETTINGS]
+windowname=SLUDGE verb coin example
+finalfile=Verb coin example
+datafolder=
+quitmessage=Aw... I was having fun then. Do you really want to make me miserable?
+customicon=
+mouse=2
+fullscreen=N
+makesilent=N
+width=640
+height=480
+speed=50
+
+[FILES]
+init.slu
+iface\arrow_icons.slu
+iface\coin_interface.slu
+iface\inventory.slu
+iface\keyboard.slu
+iface\stop_and_go.slu
+iface\verbs.slu
+iface\talk.slu
+ego\ego.slu
+inside\room.slu
+outside\room.slu

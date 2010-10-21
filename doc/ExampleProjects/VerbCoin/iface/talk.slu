@@ -1,0 +1,95 @@
+# At last... interactive conversations!
+
+# Use "addSpeechChoice (spokenLine, returnValue)" to build up a set of
+# conversation choices... the "spokenLine" parameter is visible on the
+# screen, and the "returnValue" parameter is sent back from getSpeechChoice
+# should the player choose that line.
+
+# The "character" parameter in "getSpeechChoice (character)" determines
+# who says the line which was chosen. If you pass in NULL then nobody
+# speaks and getSpeechChoice ends immediately.
+
+# See the new version of the outside/room.slu file for examples.
+
+var speechChoices = newStack ();
+var gotSpeechClick;
+
+sub addSpeechChoice (a, b) {
+
+	# Is the stack of choices empty? If so, change the status bar
+	# settings and mouse icon...
+	if (! speechChoices) {
+		clearStatus ();
+		alignStatus (LEFT);
+		setStatusColour (255, 200, 55);
+		setCursor (anim ('iface/mouse.duc', 0))
+	}
+
+	# Add a new status bar and set the text...
+	addStatus ();
+	statusText (a);
+
+	# Remember the return values by adding them to a stack...
+	pushToStack (speechChoices, b);
+}
+
+sub getSpeechChoice (character) {
+	hideCharacter (inventoryIcon);
+	onLeftMouse (speechClick);
+	loop {
+		var selected = (537 - getMouseY ()) / 32 - 1;
+		gotSpeechClick = FALSE;
+		lightStatus (selected - 1);
+
+		# Give the player a chance to click the mouse button...
+		pause (1);
+
+		# ...and check whether they did
+		if (gotSpeechClick) {
+
+			# Make sure they clicked a line of text
+			if (selected >= 1 && selected <= stackSize (speechChoices)) {
+
+				# Find and store the text to be spoken...
+				while (selected > 1) {
+					selected --;
+					removeLastStatus ();
+					popFromStack (speechChoices);
+				}
+				var theValue = getStatusText ();
+
+				# Remove all the remaining status bars and get rid of the mouse handler
+				clearStatus ();
+				onLeftMouse ();
+
+				# We'd better put the status bar set-up back to
+				# how it was before...
+				addStatus ();
+				alignStatus (CENTRE);
+				setStatusColour (255, 255, 255);
+				lightStatus (-1);
+
+				# Bring back the inventory icon
+				showCharacter (inventoryIcon);
+
+				# And turn the mouse back into the busy icon...
+				setCursor (anim ('iface/mouse.duc', 1));
+
+				# Only say the line if character != NULL
+				if (character) say (character, theValue);
+
+				# Remember the value we want to return and then
+				# empty the stack
+				theValue = popFromStack (speechChoices);
+				speechChoices = newStack ();
+
+				# Finally we return the value the player chose
+				return theValue;
+			}
+		}
+	}
+}
+
+sub speechClick () {
+	gotSpeechClick = TRUE;
+}

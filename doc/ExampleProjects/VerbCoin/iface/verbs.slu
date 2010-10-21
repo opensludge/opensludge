@@ -1,0 +1,50 @@
+# The "Look at..." action
+objectType lookAt ("Look at ") {
+	event default {
+		say (ego, "Oooh, well looky here.");
+	}
+}
+
+# The "Pick up..." action
+objectType pickUp ("Pick up ") {
+	event default {
+		say (ego, "Pick that up? No way!");
+	}
+}
+
+# The "Talk to..." action
+objectType talkTo ("Talk to ") {
+	event default {
+		say (ego, "Boo!");
+	}
+}
+
+# The "Use..." action
+objectType use ("Use ") {
+	event default {
+		say (ego, "I wouldn't know what to do with that.");
+	}
+}
+
+# An event for setting a different mouse cursor when hovering over a
+# particular object type
+objectType oneCursor ("") {}
+
+# An event for object types with only one action
+objectType onlyAction ("") {}
+
+# This is so that we can define default reactions
+objectType default ("") {}
+
+# This is so that we can walk to characters as well as screen regions
+objectType walkToPerson ("") {}
+
+# Try and combine two object types... make sure we do something if it
+# doesn't work
+sub findEvent (a, b) {
+	if (! callEvent (a, b))
+		if (! callEvent (b, a))
+			if (! callEvent (default, a))
+				if (! callEvent (default, b))
+					say (ego, pickOne ("I can't use this stuff together.", "How would I combine them? Make sense!", "I don't see how that would work."));
+}

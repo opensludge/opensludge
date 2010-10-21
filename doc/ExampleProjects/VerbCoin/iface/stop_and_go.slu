@@ -1,0 +1,79 @@
+var busy = TRUE;
+
+sub go () {
+	onLeftMouse (leftClick);
+	onRightMouse (dropObj);
+	busy = FALSE;
+	onFocusChange (handleFocus);
+
+	# We haven't been updating, so let's do this ourselves
+	handleFocus (getOverObject ());
+}
+
+sub dropObj () {
+	currentInvItem = NULL;
+	handleFocus (getOverObject ());
+}
+
+sub stop () {
+	onFocusChange ();
+	statusText ("");
+	onLeftMouse ();
+	onRightMouse (skipper);
+	setCursor (anim ('iface/mouse.duc', 1));
+	busy = TRUE;
+}
+
+sub skipper () {
+	skipSpeech ();
+}
+
+sub handleFocus (o) {
+	if (o) {
+		if (! callEvent (oneCursor, o)) setCursor (anim ('iface/mouse.duc', 2));
+	} else {
+		setCursor (anim ('iface/mouse.duc', 0));
+	}
+	drawStatusLine (o);
+}
+
+sub drawStatusLine (overObject) {
+	if (! busy) {
+		if (currentInvItem) {
+			if (overObject && overObject != currentInvItem) {
+				statusText ("Use " + currentInvItem + " with " + overObject);
+			} else {
+				statusText ("Use " + currentInvItem + " with");
+			}				
+		} else {
+			statusText ((overObject ? overObject : "") + (thisObject ? thisObject : ""));
+		}
+	}
+}
+
+var currentRoom = NULL;
+var lastRoom = NULL;
+
+sub gotoRoom (r) {
+	# Get rid of all the object types
+	removeAllCharacters ();
+	removeAllScreenRegions ();
+
+	# Get rid of the floor and z-buffer, in case the new room forgets to load any
+	setFloor (NULL);
+	setZBuffer (NULL);
+	
+	# Finish any running timers we might have on the go
+	completeTimers ();
+
+	# Fix the variables lastRoom and currentRoom
+	# (We don't NEED them, but they are useful in scripts)
+	lastRoom = currentRoom;
+	currentRoom = r;
+
+	addCharacter (inventoryIcon, 20, 455, anim ('iface/mouse.duc', 5));
+	setCharacterExtra (inventoryIcon, ICON);
+
+	# Now, finally call the function to build the new room
+	r ();
+}

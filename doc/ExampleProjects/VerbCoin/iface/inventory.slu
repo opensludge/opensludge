@@ -1,0 +1,111 @@
+var inventory = newStack (drinksCan, drinksCan, drinksCan, drinksCan, drinksCan, drinksCan, drinksCan, drinksCan, drinksCan, drinksCan, drinksCan, drinksCan, drinksCan, drinksCan, drinksCan, drinksCan, drinksCan, drinksCan, drinksCan, drinksCan, drinksCan, mushroom);
+var icon;
+var currentInvItem = NULL;
+
+objectType inventoryIcon ("inventory") {
+	event oneCursor = arrowTarget;
+	event onlyAction {
+		var rowsNeeded = (stackSize (inventory) - 1) / 9;
+		var x = 1000, y = 190 - rowsNeeded * 25;
+		freeze ();
+
+		darkBackground ();
+		mixOverlay ('iface/invback.tga', CENTRE, CENTRE);
+
+		var invItems = copyStack (inventory);
+
+		# Big black crosshair showing the centre of the screen
+		# blankArea (0, 239, 639, 240);
+		# blankArea (319, 0, 320, 479);
+
+		while (invItems) {
+			if (x > 550) {
+				if (stackSize (invItems) < 9) {
+					x = 345 - stackSize (invItems) * 25;
+				} else {
+					x = 120;
+				}
+				y += 50;
+			}
+			var thisItem = popFromStack (invItems);
+			callEvent (getIcon, thisItem);
+			pasteImage (icon, x, y);
+			addScreenRegion (thisItem, x - 18, y - 18, x + 18, y + 18, 0, 0, 0);
+			x += 50;
+		}
+		addStatus ();
+		invGo ();
+		while (howFrozen ()) pause (1);
+	}
+}
+
+objectType getIcon ("") {
+}
+
+objectType inventoryClick ("") {
+}
+
+objectType mushroom ("mushroom") {
+	event getIcon {
+		icon = anim ('iface/mushroom.duc', 0);
+	}
+	event ego {
+		say (ego, "I'm not about to eat anything from the same food-group as athlete's foot.");
+	}
+	event duck {
+		say (ego, "Hey, duck! Want a mushroom?");
+		say (duck, "Er, no...");
+		say (ego, "Ah well. I'll wander around with it for a little longer, then.");
+	}
+}
+
+objectType drinksCan ("fizzy drink") {
+	event getIcon {
+		icon = anim ('iface/mouse.duc', 4);
+	}
+	event default {
+		say (ego, "No way! My precious drink deserves better than that...");
+	}
+	event ego {
+		deleteFromStack (inventory, drinksCan);
+		turnCharacter (ego, SOUTH);
+		say (ego, "Mmmmm! Thirst-quenching!");
+		pause (20);
+		say (ego, "* hic *");
+		say (ego, "Pardon.");
+	}
+}
+
+sub invGo () {
+	busy = FALSE;
+	onLeftMouse (invClick);
+	onRightMouse (invRight);
+	onFocusChange (handleFocus);
+	handleFocus (getOverObject ());
+}
+
+sub invRight () {
+	currentInvItem = NULL;
+	invGo ();
+}
+
+sub invClick () {
+	var o = getOverObject ();
+	if (! o) {
+		unfreeze ();
+		handleFocus (NULL);
+	} else if (currentInvItem && currentInvItem != o) {
+		stop ();
+		findEvent (currentInvItem, o);
+		currentInvItem = NULL;
+		invGo ();
+	} else {
+		stop ();
+
+		# By default, clicking an inventory object selects it...
+		# that's unless it's got an "inventoryClick" event
+		if (! callEvent (inventoryClick, o)) currentInvItem = o;
+
+		invGo ();
+	}
+}

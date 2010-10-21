@@ -1,0 +1,35 @@
+var beenInRoom = FALSE;
+
+sub insideRoom () {
+	startMusic ('inside/music.mod', 0, 0);
+	addOverlay ('inside/room.tga', 0, 0);
+	setFloor ('inside/room.flo');
+	setZBuffer ('inside/room.zbu');
+	setScale (200, 50);
+	addScreenRegion (innerExit, 265, 83, 466, 352, 346, 348, NORTH);
+	addCharacter (ego, 368, 278, makeEgoAnim ());
+	forceCharacter (ego, 445, 289);
+	forceCharacter (ego, 450, 310);
+	forceCharacter (ego, 431, 328);
+	moveCharacter (ego, 346, 348);
+	if (! beenInRoom) {
+		say (ego, "This room doesn't look very finished.");
+		say (ego, "Good job this is only an example game.");
+	}
+}
+
+objectType innerExit ("tunnel") {
+	event oneCursor = arrowEast;
+	event onlyAction {
+		if (! beenInRoom) {
+			say (ego, "Notice how I'm drawn behind the walls when I walk through this tunnel.");
+			say (ego, "Ah, z-buffering, what a wonderful invention...");
+			beenInRoom = TRUE;
+		}
+		forceCharacter (ego, 431, 328);
+		forceCharacter (ego, 450, 310);
+		forceCharacter (ego, 445, 289);
+		forceCharacter (ego, 368, 278);
+		gotoRoom (outsideRoom);
+	}
+}

@@ -1,0 +1,57 @@
+<HTML>
+ <HEAD>
+  <TITLE>SLUDGE Translation Editor Help</TITLE>
+ </HEAD>
+
+ <BODY BGCOLOR=#DDDDEE TEXT=#334455 LINK=#775533 VLINK=#775533 ALINK=#997755>
+  <FONT FACE=ARIEL>
+   <H2 ALIGN=CENTER>SLUDGE Translation Editor Help</H2>
+   
+   <OL>
+    <LI><A HREF=#whatis>What is the SLUDGE Translation Editor?</A>
+    <LI><A HREF=#adding>Adding strings to a translation file</A>
+    <LI><A HREF=#edit>Editing a translation file</A>
+    <LI><A HREF=#find>Finding a specific string</A>
+    <LI><A HREF=#save>Saving a translation file</A>
+   </OL>
+
+   <A NAME=whatis><H3 ALIGN=CENTER>What is the SLUDGE Translation Editor?</H3></A>
+
+   Wow, you downloaded and installed this thing without knowing what it is? OK, in short... it's a program
+   which helps you create translation data for SLUDGE games. You know, so you can play the same game in
+   multiple languages without lots of rewriting of code. You can check for updates and download other SLUDGE
+   stuff from <A HREF=http://www.hungrysoftware.com/>http://www.hungrysoftware.com/</A>.<P>
+
+   The SLUDGE Translation Editor has been specifically designed so that you don't need to understand the SLUDGE
+   language in order to create a translation file. Neither do you need to be the author of the game being
+   translated, neither do you need access to the source code. If you've written a SLUDGE game and want someone to
+   create you a translation file, simply build them a file with everything left in the NEW STRINGS NOT YET
+   TRANSLATED category and send it to them. If, on the other hand, you've been inlisted to create a translation file for someone else's game, skip straight to the <A HREF=#edit>editing section</A> of this file.<P>
+
+   <A NAME=adding><H3 ALIGN=CENTER>Adding strings to a translation file</H3></A>
+   
+   If you're starting a new translation file you'll obviously need to import some strings from somewhere. (Also, if you're working with an existing translation file and the strings in the project you're translating change you may well need to update the strings you're translating.) To import all the strings used in a SLUDGE project, choose "Add strings" from the menu bar and then "Update/create from project". Select your project file and hit the OK button. The SLUDGE Translation Editor will scan through the project and pull out all the strings that it contains. Any new strings that it finds will be added to the loaded translation data (if you're starting a new file from scratch all the strings will be added, because it'll know about no strings already).<P>
+
+   Should there be any newly-added strings, they will appear in the category NEW STRINGS NOT YET TRANSLATED and the category will appear automatically.<P>
+   
+   <A NAME=edit><H3 ALIGN=CENTER>Editing a translation file</H3></A>
+
+   If the file you want to edit isn't currently loaded, open it using the "Open" option on the "File" menu or double click the translation file icon, which should start the SLUDGE Translation Editor and load the file automatically.<P>
+
+   There are three categories into which strings can be divided, and each string will be found in one (and only one) of these categories. The category NEW STRINGS NOT YET TRANSLATED contains all the strings which haven't yet been dealt with. To take care of this, select the category NEW STRINGS NOT YET TRANSLATED from the drop-down selection box. Pick a string, and it should appear in the area at the bottom of the screen. If the string needs to be translated, type your translation into the box containing the text "Please enter a translation here, or uncheck the box above...". If the string doesn't require translating - for example, a file name or a string that looks like ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@()*&# - then simply uncheck the box labelled "Requires translating...". In either case, when you're happy with your changes, hit "Commit changes" and the string will vanish from the NEW STRINGS NOT YET TRANSLATED category.<P>
+
+   Strings which have had the "Requires translating..." box unchecked can be found in the category STRINGS NOT REQUIRING TRANSLATIONS. Strings which have been translated can be found in the category STRINGS WITH TRANSLATIONS. You can select these categories using the drop-down selection box and change the settings for each string in the same way as above - remember to hit "Commit changes" when you're done.<P>
+
+   <A NAME=find><H3 ALIGN=CENTER>Finding a specific string</H3></A>
+   
+   There are times when you'll want to hunt out a specific string and change your translation, perhaps after playing the game and not being happy with how things have worked out, or perhaps after being corrected by someone who speaks the language into which you're translating your game better than you. Fear not! You no longer have to look through the big long list of strings yourself to find what you're after - you can get the program to do it for you. Hit the "Search" button and type in a bit of the string you're looking for. Any strings that contain the text you enter will now appear in the main list under the heading SEARCH RESULTS. Even if it finds a couple of strings, you should be able to work out which one(s) you want to alter.<P>
+   
+   The program will also match your text against any existing translations in the file. So, if you've translated "Hello" into "Bonjour" and "On the table" into "Sur la table", searching for "on" will match both (because of the translation of the first line, and the original text of the second).<P>
+
+   <A NAME=save><H3 ALIGN=CENTER>Saving a translation file</H3></A>
+   
+   When you've finished working on your translation file, you can save it using the "File" menu. Choose the "Save" option from the menu if you want to overwrite the file from which the data was loaded (or to which the data was last saved). Choose "Save as" if you want to save the data into a new file.<P>
+   If, at any time, you want to undo all your changes since you last loaded or saved the current file, choose "Revert" from the "File" menu. The file will be reloaded from disk.<P>
+  </FONT>
+ </BODY>
+</HTML>

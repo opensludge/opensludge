@@ -1,0 +1,33 @@
+# The main character. If you don't want to be able to perform actions on
+# this character, change the name to the empty string ("").
+objectType ego ("Egor the ego") {
+	speechColour 128, 255, 128;
+	event lookAt {
+		say (ego, "Yep... that's me.");
+	}
+	event talkTo {
+		say (ego, "Talking to myself would be a sign of madness.");
+		say (ego, "Wouldn't it, Egor? Yep. Thanks! Hey, any time.");
+	}
+	event pickUp {
+		say (ego, "Levitation was never one of my strong points.");
+	}
+	event use {
+		say (ego, "Slap myself? Poke myself in the eyes? Not going to happen.");
+	}
+}
+
+# This function returns the ego's standard costume - which beats including it in
+# every room definition
+sub makeEgoAnim () {
+	return costume (
+		# STANDING STILL...
+		anim ('ego/alien.duc', 4),
+		anim ('ego/alien.duc', 11),
+		# WALKING...
+		anim ('ego/alien.duc', wait (0, 2), wait (1, 2), wait (2, 2), wait (3, 2)),
+		anim ('ego/alien.duc', wait (7, 2), wait (8, 2), wait (9, 2), wait (10, 2)),
+		# TALKING...
+		anim ('ego/alien.duc', wait (6, 2), wait (4, 2), 5, 6, 5, 4, 6, 4, 5),
+		anim ('ego/alien.duc', 11));
+}

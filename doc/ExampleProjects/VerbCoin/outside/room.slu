@@ -1,0 +1,147 @@
+sub outsideRoom () {
+	startMusic ('outside/music.mod', 0, 0);
+	addOverlay ('outside/room.tga', 0, 0);
+	setFloor ('outside/room.flo');
+	setScale (200, 150);
+	setZBuffer ('outside/room.zbu');
+
+	addScreenRegion (notice, 140, 272, 165, 299, 140, 300, NORTH);
+	addScreenRegion (exit, 52, 284, 96, 358, 83, 344, WEST);
+
+	addCharacter (duck, 200, 350, costume (
+		anim ('outside/duck.duc', 0, 1, 2, 2, 1, 0, 3, 3),
+		NULL,
+		anim ('outside/duck.duc', 4, 5, 5, 4, 3, 4, 3, 5, 4, 3)
+	));
+
+	if (lastRoom == insideRoom) {
+		addCharacter (ego, 34, 346, makeEgoAnim ());
+		moveCharacter (ego, 83, 344);
+	} else {
+		addCharacter (ego, 420, 400, makeEgoAnim ());
+		say (ego, "Here we are, then... the source code for the verb coin example!");
+		say (duck, "Does that mean people can change what I say?");
+		say (ego, "Er, I suppose so...");
+		say (duck, "Uh-oh. I have a bad feeling about this.");
+	}
+}
+
+objectType exit ("tunnel") {
+	event oneCursor = arrowEast;
+	event onlyAction {
+		if (! beenInRoom) {
+			say (ego, "This tunnel is here to show off object types with only one action.");
+			say (ego, "As you probably noticed, clicking it doesn't make the verb coin appear.");
+		}
+		forceCharacter (ego, 34, 346);
+		gotoRoom (insideRoom);
+	}
+}
+
+objectType notice ("notice") {
+	event lookAt {
+		say (ego, "It says \"WELCOME TO SLUDGE VERSION 1.3\".");
+		say (ego, "It goes on for paragraphs. It's all very dull and boring.");
+	}
+	event pickUp {
+		say (ego, "Why would I need to carry a notice around with me?");
+	}
+}
+
+var duckCounter = 0;
+
+objectType duck ("orange duck") {
+	speechColour 255, 150, 0;
+	event lookAt {
+		say (ego, "I hate it when lazy coders just reuse graphics from their other games.");
+		turnCharacter (ego, SOUTH);
+		say (ego, "I'm brand new, of course. Ahem.");
+	}
+	event talkTo {
+
+		# If we've never spoken to the duck before, let's have a little
+		# automated bit first...
+		if (duckCounter == 0) {
+			say (ego, "Quack?");
+			say (duck, "Ooh, you speak Duck?");
+			say (ego, "Not really. That's the only phrase I know.");
+			duckCounter = 1;
+		}
+
+		# We want to do this again and again and again...
+		loop {
+			# Build up a set of choices, based on what we've said so far...
+			if (duckCounter == 1) addSpeechChoice ("So what are you doing here?", 1);
+			if (duckCounter > 1) addSpeechChoice ("Tell me about this \"Out Of Order\" thing, then.", 2);
+			if (duckCounter == 2) addSpeechChoice ("I don't really go for computer games much.", 3);
+			
+			# These are different lines of text, but they both have the same effect... a return value of 4
+			if (duckCounter == 3) addSpeechChoice ("You know, you're very irritating. Very.", 4);
+			if (duckCounter == 4) addSpeechChoice ("Who am I kidding? You ARE irritating.", 4);
+
+			# This one is always added
+			addSpeechChoice ("Well, I've got stuff to do...", 0);
+
+			# Now pause until the player picks one
+			var reply = getSpeechChoice (ego);
+
+			# Which one did they pick?
+			if (reply == 0) {
+				# This was the QUIT choice, in case you hadn't guessed
+				say (duck, "In this demo? You'll be lucky!");
+
+				# So now we want to escape from the function...
+				return;
+			} else if (reply == 1) {
+				say (duck, "Waiting for \"Out Of Order\" - sounds like it's going to be great.");
+				say (ego, "What's that? Never heard of it.");
+				say (duck, "Some computer game. I've heard I'm going to make a small cameo.");
+				say (ego, "Wow! A star is... er, hatched.");
+				duckCounter = 2;
+			} else if (reply == 2) {
+				say (duck, "What about it?");
+
+				# Let's have another interactive bit here
+				addSpeechChoice ("Does it feature better conversations than this?", "Are you saying I'm lousy company?");
+				addSpeechChoice ("Is it going to be huge?", "It consists of 30 rooms so far... huge enough for you?");
+				addSpeechChoice ("Er... nothing. it doesn't matter.", "OK. Whatever.");
+
+				# In each case, the value returned from getSpeechChoice is the duck's reply
+				# So let's just make the duck say whatever it returns...
+				say (duck, getSpeechChoice (ego));
+
+				# OK, so that little interactive bit is always the same, but with a few if statements
+				# it could change depending on what the player has picked before, or even depending on
+				# things in other parts of the game...
+			} else if (reply == 3) {
+				say (duck, "You don't know what you're missing.");
+				say (ego, "Oh yes I do. RSI.");
+				say (duck, "Ah yes, text adventures and Super Mega Wonder Hurdler 1985.");
+				say (duck, "Those were the days...");
+				duckCounter = 3;
+			} else if (reply == 4) {
+				say (duck, "What? WHAT?");
+
+				# OK, this bit's crowbarred into here to demonstrate choices which the ego
+				# doesn't automatically say... in this case, the return value is what the
+				# ego should say instead.
+
+				addSpeechChoice ("I said, YOU'RE VERY IRRITATING.", "I said...");
+				addSpeechChoice ("Jeez! Are you deaf as well as clinically insane?", "Jeez! Are you...");
+				addSpeechChoice ("A few spring rolls, though... soy sauce... noodles...", "A few spring...");
+
+				# With the parameter NULL, getSpeechChoice returns without making anything talk
+				say (ego, getSpeechChoice (NULL));
+				say (duck, "Grrrr!");
+				say (ego, "Yow!");
+				say (ego, "Nice ducky. Good ducky. Only kidding.");
+				duckCounter = 4;
+			}
+		}
+	}
+
+	event walkToPerson {
+		moveCharacter (ego, 180, 370);
+		turnCharacter (ego, NORTH);
+	}
+}

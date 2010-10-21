@@ -1,0 +1,14 @@
+[SETTINGS]
+windowname=Welcome to SLUDGE!
+finalfile=Welcome
+datafolder=
+quitmessage=Sure you want to quit?
+customicon=
+mouse=1
+fullscreen=N
+width=370
+height=170
+speed=40
+
+[FILES]
+script.slu

@@ -1,0 +1,124 @@
+# Which object to manipulate when displaying the verb coin...
+var thisObject = NULL;
+
+# What do we do when we left click the mouse?
+sub leftClick () {
+	var overObject = getOverObject ();
+
+	# In case we're walking already...
+	stopCharacter (ego);
+
+	# Did we click an object?
+	if (overObject) {
+		# Yep!
+
+		# Are we trying to combine objects?
+		if (currentInvItem && (overObject != inventoryIcon)) {
+			# Yep!
+
+			# Can we call a walkToPerson event for the object?
+			if (! callEvent (walkToPerson, overObject)) {
+				# Nope? OK, let's assume it's a fixed region then,
+				# and use moveCharacter instead
+				moveCharacter (ego, overObject);
+			}
+
+			# Only take control away once the ego's finished walking
+			stop ();
+
+			# Just in case the event sets currentInvItem to something
+			# else... we don't want to set it to NULL afterwards
+			var r = currentInvItem;
+			currentInvItem = NULL;
+
+			# Now let's do the action...
+			findEvent (r, overObject);
+
+			# And give control back to the player
+			go ();
+
+		} else if (callEvent (oneCursor, overObject)) {
+			# It has a special cursor - and therefore only one action
+
+			# Can we call a walkToPerson event for the object?
+			if (! callEvent (walkToPerson, overObject)) {
+				# Nope? OK, let's assume it's a fixed region then,
+				# and use moveCharacter instead
+				moveCharacter (ego, overObject);
+			}
+
+			# Only take control away once the ego's finished walking
+			stop ();
+
+			# Now let's do the only action...
+			callEvent (onlyAction, overObject);
+
+			# And give control back to the player
+			go ();
+
+		} else {
+			# The object has more than one action, so let's bring up the coin
+
+			# Work out the top-left corner for the coin image...
+			var x = getMouseScreenX () - 50;
+			var y = getMouseScreenY () - 52;
+			if (x < 0) x = 0;
+			if (y < 0) y = 0;
+			if (x > 640 - 102) x = 640 - 102;
+			if (y > 480 - 94) y = 480 - 94;
+
+			# Remember which object we're going to manipulate
+			thisObject = overObject;
+
+			# Freeze the screen
+			freeze ();
+
+			# Draw our coin
+			mixOverlay ('iface/verbcoin.tga', x, y);
+
+			# Add a screen region for each action...
+			addScreenRegion (lookAt,	x + 32,	y + 20,	x + 59,  y + 49, 0, 0, NORTH);
+			addScreenRegion (pickUp,	x + 74,	y,	x + 101, y + 24, 0, 0, NORTH);
+			addScreenRegion (talkTo,	x + 17,	y + 54,	x + 75,  y + 77, 0, 0, NORTH);
+			addScreenRegion (use,		x,	y + 1,	x + 23,  y + 21, 0, 0, NORTH);
+
+			# Pop!
+			playSound ('iface/pop.wav');
+
+			# Because we've frozen the old status bar, we need to add a new one
+			addStatus ();
+
+			# Same goes for the event handlers
+			onLeftMouse (pickVerb);
+			onFocusChange (handleFocus);
+
+			# Call handleFocus once ourselves, with the mouse pointing at NULL (nothing)
+			handleFocus (NULL);
+		}
+	} else {
+		if (currentInvItem) {
+			currentInvItem = NULL;
+			handleFocus (NULL);
+		} else {
+			# We didn't click an object. Just walk to the location of the mouse.
+			moveCharacter (ego, getMouseX (), getMouseY ());
+		}
+	}
+}
+
+# This is the code for clicking the left mouse button when the verb coin's up
+sub pickVerb () {
+	var gotVerb = getOverObject ();
+	var gotObject = thisObject;
+	thisObject = NULL;
+	unfreeze ();
+	handleFocus (NULL);
+	if (gotVerb) {
+		if (! callEvent (walkToPerson, gotObject)) {
+			moveCharacter (ego, gotObject);
+		}
+		stop ();
+		findEvent (gotVerb, gotObject);
+		go ();
+	}
+}
