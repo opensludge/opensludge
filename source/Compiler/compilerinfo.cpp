@@ -56,22 +56,22 @@ void percRect(unsigned int i, int whichBox)
 	(*setInfo)(info);
 }
 
-void setCompilerText(const int where, const char * tx)
+void setCompilerText (const compilerStatusText where, const char * theText)
 {
 	if (!setInfo) return;
-	if (!tx) return;
+	if (!theText) return;
 
 	compilerInfo *info = emptyCompilerInfo();
 
 	switch (where) {
 		case COMPILER_TXT_ACTION:
-			sprintf(info->task, "%s", tx);
+			sprintf(info->task, "%s", theText);
 			break;
 		case COMPILER_TXT_FILENAME:
-			sprintf(info->file, "%s", tx);
+			sprintf(info->file, "%s", theText);
 			break;
 		case COMPILER_TXT_ITEM:
-			sprintf(info->item, "%s", tx);
+			sprintf(info->item, "%s", theText);
 			break;
 	}
 	(*setInfo)(info);

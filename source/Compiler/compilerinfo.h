@@ -27,15 +27,14 @@ enum whichPerc {
 	P_BOTTOM
 };
 
-enum  compilerStatusText{
+enum compilerStatusText {
 	COMPILER_TXT_ACTION,
 	COMPILER_TXT_FILENAME,
 	COMPILER_TXT_ITEM
-} ;
+};
 
-void setCompilerText (const compilerStatusText, const char * theText);
+void setCompilerText (const compilerStatusText where, const char * theText);
 void setCompilerStats (int funcs, int objTypes, int files, int globals, int strings);	
-	
 	
 void setInfoReceiver(void (*infoReceiver)(compilerInfo *));
 void clearRect(int i, int whichBox);
