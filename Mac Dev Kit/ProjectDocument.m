@@ -419,3 +419,11 @@ void setCompilerStats (int funcs, int objTypes, int resources, int globals, int 
 void compilerCommentsUpdated() {
 	[me newComments];
 }
+
+// For Mac OS X, we don't use these functions:
+
+void setFinished(bool success)
+{}
+
+void setInfoReceiver(void (*infoReceiver)(compilerInfo *))
+{}

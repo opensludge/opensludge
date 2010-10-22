@@ -1,8 +1,8 @@
+#ifndef __APPLE__
+
+
 #include <stdio.h>
 #include "compilerinfo.h"
-
-
-#ifndef __APPLE__
 
 
 void (*setInfo)(compilerInfo *);
@@ -109,14 +109,5 @@ void setFinished(bool success)
 	info->finished = true;
 	(*setInfo)(info);
 }
-
-#else
-// For Mac OS X, we don't use these functions:
-
-void setFinished(bool success)
-{}
-
-void setInfoReceiver(void (*infoReceiver)(compilerInfo *))
-{}
 
 #endif
