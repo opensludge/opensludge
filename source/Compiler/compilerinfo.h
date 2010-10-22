@@ -33,7 +33,11 @@ enum compilerStatusText {
 	COMPILER_TXT_ITEM
 };
 
-void setCompilerText (const compilerStatusText where, const char * theText);
+#ifdef __APPLE__
+	void setCompilerText (const compilerStatusText, const char * theText);
+#else
+	void setCompilerText (const compilerStatusText where, const char * theText);
+#endif
 void setCompilerStats (int funcs, int objTypes, int files, int globals, int strings);	
 	
 void setInfoReceiver(void (*infoReceiver)(compilerInfo *));
