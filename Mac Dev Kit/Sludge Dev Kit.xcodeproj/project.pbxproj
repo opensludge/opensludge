@@ -108,6 +108,7 @@
 		2FF7AE531012195300F6AF98 /* SpriteBank.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FF7AE511012195300F6AF98 /* SpriteBank.m */; };
 		2FF7AE5D10121A0700F6AF98 /* SpriteBank.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2FF7AE5C10121A0700F6AF98 /* SpriteBank.nib */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		E850AB691271E77300224E49 /* compilerinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E850AB671271E77300224E49 /* compilerinfo.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -269,6 +270,8 @@
 		2FF7AE511012195300F6AF98 /* SpriteBank.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpriteBank.m; sourceTree = "<group>"; };
 		2FF7AE5C10121A0700F6AF98 /* SpriteBank.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = SpriteBank.nib; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Sludge Dev Kit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sludge Dev Kit.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E850AB671271E77300224E49 /* compilerinfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = compilerinfo.cpp; sourceTree = "<group>"; };
+		E850AB681271E77300224E49 /* compilerinfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = compilerinfo.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -420,6 +423,8 @@
 				2F7EA3F30FFCEBE6005E5C36 /* checkUsed.h */,
 				2F7EA3F40FFCEBE6005E5C36 /* CSLUDGE.H */,
 				2F7EA3F50FFCEBE6005E5C36 /* dumpfiles.cpp */,
+				E850AB671271E77300224E49 /* compilerinfo.cpp */,
+				E850AB681271E77300224E49 /* compilerinfo.h */,
 				2F7EA3F60FFCEBE6005E5C36 /* dumpfiles.h */,
 				2F7EA3F70FFCEBE6005E5C36 /* floor.cpp */,
 				2F7EA3F80FFCEBE6005E5C36 /* floor.h */,
@@ -538,7 +543,14 @@
 			isa = PBXProject;
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Sludge Dev Kit" */;
 			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* Sludge Dev Kit */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -618,6 +630,7 @@
 				2F2FF54F102C2598005439DA /* zDocument.m in Sources */,
 				2F2FF5C0102C4263005439DA /* zbuffer.cpp in Sources */,
 				2F981B9E10414BF00097177B /* ScriptDocument.m in Sources */,
+				E850AB691271E77300224E49 /* compilerinfo.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -688,6 +701,7 @@
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
+					"../../libpng-1.2.38/projects/xcode/build/Release/libpng.framework/Headers",
 					"$(HOME)/Library/Frameworks/SDL.framework/Headers",
 					/Library/Frameworks/SDL.framework/Headers,
 					"$(HEADER_SEARCH_PATHS)",
@@ -717,6 +731,7 @@
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
+					"../../libpng-1.2.38/projects/xcode/build/Release/libpng.framework/Headers",
 					"$(HOME)/Library/Frameworks/SDL.framework/Headers",
 					/Library/Frameworks/SDL.framework/Headers,
 					"$(HEADER_SEARCH_PATHS)",

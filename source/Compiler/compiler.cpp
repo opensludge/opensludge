@@ -368,6 +368,7 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 int compileEverything (char * project, char **fileList, int *numFiles, void (*infoReceiver)(compilerInfo *)) {
 	int success = true;
 	setInfoReceiver(infoReceiver);
+
 	clearTranslations ();
 	if (! getSourceDirFromName (project)) {
 		setCompilerText (COMPILER_TXT_ACTION, "Error initialising!");

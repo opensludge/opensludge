@@ -10,7 +10,6 @@
 #include "Project.hpp"
 
 #include "settings.h"
-#include "Interface.h"
 #include "compilerinfo.h"
 
 // -- These are from "MessBox.h"
@@ -113,11 +112,11 @@ NSModalSession session = nil;
 			if (! CFURLGetFileSystemRepresentation((CFURLRef) [self fileURL], true, project, 1023))
 				return;
 			getSourceDirFromName ((char *) project);
-
+			
 			int i;
 			for (i = 0; i < fileListNum; i ++) {
 				if (! [projectFiles isRowSelected:i]) continue;
-								
+				
 				populateResourceList (fileList[i], resourceList, &numResources);
 			}
 			[resourceFiles noteNumberOfRowsChanged];
@@ -153,7 +152,7 @@ NSModalSession session = nil;
 		if (! (index = index->next)) return;
 		i--;
 	}
-
+	
 	if (! index-> filename) {
 		errorBox (errorTypeStrings[index->errorType], index->overview);
 		return;
@@ -186,8 +185,8 @@ NSModalSession session = nil;
 		return numResources;
 }
 - (id)tableView:(NSTableView *)tv
-	objectValueForTableColumn:(NSTableColumn *)tableColumn
-						  row:(int)row
+objectValueForTableColumn:(NSTableColumn *)tableColumn
+			row:(int)row
 {
 	NSString *v;
 	if (tv == compilerErrors) {
@@ -260,13 +259,11 @@ NSModalSession session = nil;
 	session = [NSApp beginModalSessionForWindow:compilerWindow];
 	[closeCompilerButton setEnabled:NO];
 	[runGameButton setEnabled:NO];
-	[progress1 setMaxValue: 1];
-	[progress2 setMaxValue: 1];
 	[NSApp runModalSession:session];
-
+	
 	UInt8 buffer[1024];
 	if (CFURLGetFileSystemRepresentation((CFURLRef) [self fileURL], true, buffer, 1023)) {
-		success = compileEverything(buffer, fileList, &fileListNum, &receiveCompilerInfo);
+		success = compileEverything(buffer, fileList, &fileListNum);
 		val = true;
 	}
 	[closeCompilerButton setEnabled:YES];
@@ -339,52 +336,86 @@ extern char * gameFile;
 	[self updateChangeCount: NSChangeDone];
 }
 
-- (void) setCompilerInfo(compilerInfo *info)
+- (void) setProgress1max:(int)i
 {
-	if (info->progress1 > -1.)
-		[progress1 setDoubleValue: info->progress1];
-	if (info->progress2 > -1.)
-		[progress2 setDoubleValue: info->progress2];
-	if (info->task[0] != 0) {
-		NSString *s = [NSString stringWithUTF8String: info->task];
-		if (s)
+	[progress1 setMaxValue: i];
+}
+- (void) setProgress2max:(int)i
+{
+	[progress2 setMaxValue: i];
+}
+- (void) setProgress1val:(int)i
+{
+	[progress1 setDoubleValue: i];
+}
+- (void) setProgress2val:(int)i
+{
+	[progress2 setDoubleValue: i];
+}
+
+- (void) setText:(const char*) tx
+			here:(int) where {
+	
+	NSString *s = [NSString stringWithUTF8String: tx];
+	if (!s) return;
+	
+	switch (where) {
+		case COMPILER_TXT_ACTION:
 			[compTask setStringValue:s];
-	}
-	if (info->file[0] != 0){
-		NSString *s = [NSString stringWithUTF8String: info->file];
-		if (s)
+			break;
+		case COMPILER_TXT_FILENAME:
 			[compFile setStringValue:s];
-	}
-	if (info->item[0] != 0){
-		NSString *s = [NSString stringWithUTF8String: info->item];
-		if (s)
+			break;
+		case COMPILER_TXT_ITEM:
 			[compItem setStringValue:s];
+			break;
 	}
-	if (info->funcs > -1) {
-		[compFuncs setIntValue: info->funcs];
-	}
-	if (info->objs > -1) {
-		[compObjs setIntValue: info->objs];
-	}
-	if (info->globs > -1) {
-		[compGlobs setIntValue: info->globs];
-	}
-	if (info->strings > -1) {
-		[compStrings setIntValue: info->strings];
-	}
-	if (info->resources > -1) {
-		[compResources setIntValue: info->resources];
-	}
-	if (info->newComments) {
-		[compilerErrors noteNumberOfRowsChanged];
-		[tabView selectTabViewItemAtIndex:1];
-	}
+}
+
+- (void) setStats: (int) funcs 
+			  obj:(int)objTypes 
+			  res:(int)resources 
+			 glob:(int)globals 
+		  strings:(int)strings
+{
+	[compFuncs setIntValue: funcs];
+	[compObjs setIntValue: objTypes];
+	[compGlobs setIntValue: resources];
+	[compStrings setIntValue: globals];
+	[compResources setIntValue: strings];
+}
+
+- (void) newComments
+{
+	[compilerErrors noteNumberOfRowsChanged];
+	[tabView selectTabViewItemAtIndex:1];
 }
 
 @end
 
-void receiveCompilerInfo(compilerInfo *info){
-	[me setCompilerInfo: info];
+void percRect (unsigned int i, int whichBox) {
+	if (! whichBox) {
+		[me setProgress1val:i];
+	} else
+		[me setProgress2val:i];
+	[NSApp runModalSession:session];
+}
 
-	delete info;
+void clearRect (int i, int whichBox) {
+	if (! whichBox) {
+		[me setProgress1max:i?i:1];
+	} else
+		[me setProgress2max:i?i:1];
+}
+
+void setCompilerText (const where, const char * tx) {
+	[me setText:tx here:where];
+}
+
+void setCompilerStats (int funcs, int objTypes, int resources, int globals, int strings) {
+	[me setStats: funcs obj:objTypes res:resources glob:globals strings:strings];
+}
+
+void compilerCommentsUpdated() {
+	[me newComments];
 }

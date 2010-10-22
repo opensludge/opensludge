@@ -1,6 +1,9 @@
 #include <stdio.h>
-
 #include "compilerinfo.h"
+
+
+#ifndef __APPLE__
+
 
 void (*setInfo)(compilerInfo *);
 double progress1Max, progress2Max;
@@ -87,6 +90,7 @@ void setCompilerStats(int funcs, int objTypes, int resources, int globals, int s
 	(*setInfo)(info);
 }
 
+
 void compilerCommentsUpdated()
 {
 	if (!setInfo) return;
@@ -105,3 +109,14 @@ void setFinished(bool success)
 	info->finished = true;
 	(*setInfo)(info);
 }
+
+#else
+// For Mac OS X, we don't use these functions:
+
+void setFinished(bool success)
+{}
+
+void setInfoReceiver(void (*infoReceiver)(compilerInfo *))
+{}
+
+#endif

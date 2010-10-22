@@ -1,6 +1,10 @@
 #ifndef __COMPILERINFO_H__
 #define __COMPILERINFO_H__
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+	
 typedef struct
 {
 	double progress1;
@@ -27,14 +31,21 @@ enum  compilerStatusText{
 	COMPILER_TXT_ACTION,
 	COMPILER_TXT_FILENAME,
 	COMPILER_TXT_ITEM
-};
+} ;
 
+void setCompilerText (const compilerStatusText, const char * theText);
+void setCompilerStats (int funcs, int objTypes, int files, int globals, int strings);	
+	
+	
 void setInfoReceiver(void (*infoReceiver)(compilerInfo *));
 void clearRect(int i, int whichBox);
 void percRect(unsigned int i, int whichBox);
-void setCompilerText(const int where, const char * tx);
-void setCompilerStats(int funcs, int objTypes, int resources, int globals, int strings);
+
 void compilerCommentsUpdated();
 void setFinished(bool success);
 
+#ifdef __cplusplus
+}
+#endif
+		
 #endif
