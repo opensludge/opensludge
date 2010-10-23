@@ -114,8 +114,8 @@ AM_CPPFLAGS += \
         -mms-bitfields  \
 	-DDATADIR='"resources/"'
 
-AM_LDFLAGS = \
-         -Wl,-subsystem,windows
+#AM_LDFLAGS = \
+#         -Wl,-subsystem,windows
 
 sludge_floormaker_LDADD = FloorMakerResources.o @GTK_LIBS@ @LIBPNG_LIBS@
 sludge_zbuffermaker_LDADD = ZBufferMakerResources.o @GTK_LIBS@ @LIBPNG_LIBS@

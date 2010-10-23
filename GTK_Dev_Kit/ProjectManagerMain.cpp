@@ -237,10 +237,14 @@ main(int argc, char *argv[])
 	if (argc < 2) {
 		openThisFile = NULL;
 	} else if (! fileExists(openThisFile) ) {
-		fprintf(stderr, "Project file not found.\n");
+		errorBox("Project file not found!", joinTwoStrings("File not found:\n", openThisFile));
 		printCmdlineUsage();
 		return -1;
 	}
+
+	// On Windows, change to the program directory to
+	// make sure the necessary resource files are found:
+	winChangeToProgramDir(argv[0]);
 
 	if (!g_thread_supported ()){ g_thread_init (NULL); }
 	gdk_threads_init ();

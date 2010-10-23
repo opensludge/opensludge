@@ -103,6 +103,23 @@ void flipBackslashes(char **string)
 #endif
 }
 
+void winChangeToProgramDir(const char *programFullPath)
+{
+#ifdef __WIN32
+	char programPath[1000];
+	int lastSlash = 0;
+	sprintf(programPath, "%s", programFullPath);
+	for (int j = 0; programPath[j] != 0; j++) {
+		if (programPath[j] == '\\') {
+			programPath[j] = '/';
+			lastSlash = j;
+		}
+	}
+	programPath[lastSlash + 1] = NULL;
+	g_chdir(programPath);
+#endif
+}
+
 int sh_cmd (gchar * path, const gchar * cmd, gchar * args)
 {
 	char     *quoted_args;

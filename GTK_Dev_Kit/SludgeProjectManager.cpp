@@ -769,7 +769,10 @@ void SludgeProjectManager::on_compile()
 
 	g_chdir(workingDir);
 	theBuilder = gtk_builder_new();
-	gtk_builder_add_from_file(theBuilder, joinTwoStrings(DATADIR, "ProjectManager.glade"), NULL);
+	if (!gtk_builder_add_from_file(theBuilder, joinTwoStrings(DATADIR, "ProjectManager.glade"), NULL)) {
+		errorBox("Error!", joinTwoStrings("Failed to load resource file:\n", joinTwoStrings(DATADIR, "ProjectManager.glade")));
+		return;
+	}
 
 	compilerDialog = GTK_DIALOG (gtk_builder_get_object(theBuilder, "compiler_dialog"));
 	compProgress1 = GTK_PROGRESS_BAR (gtk_builder_get_object(theBuilder, "progressbar1"));
@@ -841,7 +844,10 @@ void SludgeProjectManager::on_project_settings()
 
 	g_chdir(workingDir);
 	theBuilder = gtk_builder_new();
-	gtk_builder_add_from_file(theBuilder, joinTwoStrings(DATADIR, "ProjectManager.glade"), NULL);
+	if (!gtk_builder_add_from_file(theBuilder, joinTwoStrings(DATADIR, "ProjectManager.glade"), NULL)) {
+		errorBox("Error!", joinTwoStrings("Failed to load resource file:\n", joinTwoStrings(DATADIR, "ProjectManager.glade")));
+		return;
+	}
 
 	projectSettingsDialog = GTK_DIALOG (gtk_builder_get_object(theBuilder, "project_settings_dialog"));
 	prefName = GTK_ENTRY (gtk_builder_get_object(theBuilder, "pref_name"));
@@ -899,7 +905,10 @@ void SludgeProjectManager::on_preferences()
 
 	g_chdir(workingDir);
 	theBuilder = gtk_builder_new();
-	gtk_builder_add_from_file(theBuilder, joinTwoStrings(DATADIR, "ProjectManager.glade"), NULL);
+	if (!gtk_builder_add_from_file(theBuilder, joinTwoStrings(DATADIR, "ProjectManager.glade"), NULL)) {
+		errorBox("Error!", joinTwoStrings("Failed to load resource file:\n", joinTwoStrings(DATADIR, "ProjectManager.glade")));
+		return;
+	}
 
 	preferenceDialog = GTK_DIALOG (gtk_builder_get_object(theBuilder, "preferences_dialog"));
 	prefKeepImages = GTK_TOGGLE_BUTTON (gtk_builder_get_object(theBuilder, "pref_keep_images"));

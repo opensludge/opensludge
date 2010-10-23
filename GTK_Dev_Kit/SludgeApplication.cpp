@@ -58,6 +58,7 @@ SludgeApplication::SludgeApplication(const char * gladeFileName, const char * ic
 	if (!gtk_builder_add_from_file (theXml, gladeFileName, NULL))
 	{
 		g_critical ("Failed to load the GTK file.\n");
+		errorBox("Error!", joinTwoStrings("Failed to load resource file:\n", gladeFileName));
 		return;
 	}
 

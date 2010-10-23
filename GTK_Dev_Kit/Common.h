@@ -31,4 +31,5 @@ bool errorBox (const char * head, const char * msg);
 char * joinTwoStrings (const char * a, const char * b);
 bool fileExists(char * file);
 void flipBackslashes(char **string);
+void winChangeToProgramDir(const char *programFullPath);
 int sh_cmd (char * path, const char * cmd, char * args);

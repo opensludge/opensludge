@@ -275,6 +275,10 @@ main(int argc, char *argv[])
 		return -1;
 	}
 
+	// On Windows, change to the program directory to
+	// make sure the necessary resource files are found:
+	winChangeToProgramDir(argv[0]);
+
 	if (!g_thread_supported ()){ g_thread_init (NULL); }
 	gdk_threads_init ();
 	gdk_threads_enter ();
