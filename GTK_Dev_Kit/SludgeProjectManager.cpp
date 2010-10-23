@@ -248,7 +248,7 @@ void SludgeProjectManager::listChanged(whichTreeview whichOne)
 		switch (whichOne) {
 			case FILE_TREEVIEW: //files
 			case RESOURCE_TREEVIEW: //resources
-				gtk_list_store_set(listStore, &iter, 0, list[i], -1);
+				gtk_list_store_set(listStore, &iter, 0, g_filename_to_utf8(list[i], -1, NULL, NULL, NULL), -1);
 				break;
 			case ERROR_TREEVIEW: //errors
 				index = errorList;
@@ -258,7 +258,7 @@ void SludgeProjectManager::listChanged(whichTreeview whichOne)
 					if (! (index = index->next)) return;
 					j--;
 				}
-				gtk_list_store_set(listStore, &iter, 0, index->fullText, -1);
+				gtk_list_store_set(listStore, &iter, 0, g_filename_to_utf8(index->fullText, -1, NULL, NULL, NULL), -1);
 				break;
 			default:
 				break;
@@ -515,7 +515,7 @@ void SludgeProjectManager::on_files_tree_selection_changed(GtkTreeSelection *the
 	GList * selectedRows;
     GtkTreeIter iter;
     GtkTreeModel *model;
-    gchar *tx;
+    gchar *tx, *tx1;
 
 	clearFileList(resourceList, &numResources);
 	if (currentFilename[0] == 0)
@@ -527,9 +527,11 @@ void SludgeProjectManager::on_files_tree_selection_changed(GtkTreeSelection *the
 	for (int j = 0; j < g_list_length(selectedRows); j++)
 	{
 		gtk_tree_model_get_iter(model, &iter, (GtkTreePath *)g_list_nth(selectedRows, j)->data);
-		gtk_tree_model_get(model, &iter, 0, &tx, -1);
+		gtk_tree_model_get(model, &iter, 0, &tx1, -1);
+		tx = g_locale_from_utf8(tx1, -1, NULL, NULL, NULL);
+		g_free(tx1);
 		populateResourceList(tx, resourceList, &numResources);
-        g_free(tx);
+		g_free(tx);
 
 		gtk_widget_set_sensitive(removeFileButton, TRUE);
 	}
@@ -546,7 +548,7 @@ void SludgeProjectManager::on_treeview_row_activated(GtkTreeView *theTreeView, G
 {
 	GtkTreeModel *treeModel;
 	const char *cmd;	
-	char *tx;
+	char *tx, *tx1;
 	if (currentFilename[0] == 0)
 		return;
 	getSourceDirFromName(currentFilename);
@@ -568,7 +570,9 @@ void SludgeProjectManager::on_treeview_row_activated(GtkTreeView *theTreeView, G
 	GtkTreeIter iter;
 	gtk_tree_model_get_iter(treeModel, &iter, thePath);
 
-	gtk_tree_model_get(treeModel, &iter, 0, &tx, -1);
+	gtk_tree_model_get(treeModel, &iter, 0, &tx1, -1);
+	tx = g_filename_from_utf8(tx1, -1, NULL, NULL, NULL);
+    g_free(tx1);
 
 	char * extension;
 	gint *indices;
@@ -732,7 +736,8 @@ void SludgeProjectManager::on_remove_file_clicked()
 	GtkTreeIter iter;
 	GtkTreePath *path;
 	GtkTreeModel *model;
-	gchar *tx;
+	gchar *indexStr;
+	int index;
 
 	if (! askAQuestion("Remove files?", "Do you want to remove the selected files from the project? (They will not be deleted from the disk.)")) {
 		return;
@@ -742,24 +747,22 @@ void SludgeProjectManager::on_remove_file_clicked()
 
 	for (int j = g_list_length(selectedRows) - 1; j >= 0; j--)
 	{
-		path = (GtkTreePath *)g_list_nth(selectedRows, j)->data;
-		gtk_tree_model_get_iter(model, &iter, path);
-		gtk_tree_model_get(model, &iter, 0, &tx, -1);
+		path = gtk_tree_model_sort_convert_path_to_child_path(
+					GTK_TREE_MODEL_SORT(model),
+					(GtkTreePath *)g_list_nth(selectedRows, j)->data);
 
-		for (int i = 0; i < fileListNum; i++) {
-			if (!strcmp(tx, fileList[i]))
-			{
-				removeFileFromList(i, fileList, &fileListNum);
-				setFileChanged();
-			}
-		}
-		gtk_tree_model_row_deleted(model, path);
-        g_free(tx);
+		indexStr = gtk_tree_path_to_string(path);
+		index = atoi(indexStr);
+        g_free(indexStr);
+
+		removeFileFromList(index, fileList, &fileListNum);
+		setFileChanged();
+
+		gtk_tree_model_get_iter(GTK_TREE_MODEL(filesListStore), &iter, path);
+		gtk_list_store_remove(filesListStore, &iter);
     }
 	g_list_foreach(selectedRows, (GFunc) gtk_tree_path_free, NULL);
 	g_list_free(selectedRows);
-
-	listChanged(FILE_TREEVIEW);
 }
 
 void SludgeProjectManager::on_compile()
