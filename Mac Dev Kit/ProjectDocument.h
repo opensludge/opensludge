@@ -61,4 +61,8 @@
 - (IBAction)runGame:(id)sender;
 - (IBAction)closeCompilerBox:(id)sender;
 
+
+- (void) getSettings;
+- (void) setSettings;
+
 @end

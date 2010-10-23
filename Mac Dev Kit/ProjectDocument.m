@@ -66,6 +66,7 @@ NSModalSession session = nil;
 	if (! CFURLGetFileSystemRepresentation((CFURLRef) [self fileURL], true, project, 1023))
 		return;
 	getSourceDirFromName ((char *) project);
+	[self getSettings];
 }	
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL 
@@ -89,6 +90,7 @@ NSModalSession session = nil;
 			ofType:(NSString *)typeName 
 			 error:(NSError **)outError
 {
+	[self setSettings];
 	if ([typeName isEqualToString:@"SLUDGE Project file"]) {	
 		UInt8 buffer[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
@@ -255,6 +257,9 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 {
 	bool val = false;
 	int success = false;
+	
+	[self setSettings];
+	
 	me = self;
 	session = [NSApp beginModalSessionForWindow:compilerWindow];
 	[closeCompilerButton setEnabled:NO];
@@ -297,6 +302,24 @@ extern char * gameFile;
 
 - (bool)showProjectPrefs
 {
+	
+	[NSApp beginSheet:projectPrefs
+	   modalForWindow:[self windowForSheet]
+		modalDelegate:nil
+	   didEndSelector:NULL
+		  contextInfo:NULL];
+	return true;
+}
+
+- (IBAction)endProjectPrefs:(id)sender{
+	
+	[NSApp endSheet:projectPrefs];
+	[projectPrefs orderOut:sender];
+	[self updateChangeCount: NSChangeDone];
+}
+
+- (void) getSettings
+{
 	[prefQuit setStringValue:[NSString stringWithUTF8String: settings.quitMessage]];
 	[prefIcon setStringValue:[NSString stringWithUTF8String: settings.customIcon]];
 	[prefLogo setStringValue:[NSString stringWithUTF8String: settings.customLogo]];
@@ -308,16 +331,10 @@ extern char * gameFile;
 	[prefWidth setIntValue:settings.screenWidth];
 	[prefSpeed setIntValue:settings.frameSpeed];
 	[prefSilent setIntValue: settings.forceSilent];
-	
-	[NSApp beginSheet:projectPrefs
-	   modalForWindow:[self windowForSheet]
-		modalDelegate:nil
-	   didEndSelector:NULL
-		  contextInfo:NULL];
-	return true;
 }
 
-- (IBAction)endProjectPrefs:(id)sender{
+- (void) setSettings
+{
 	killSettingsStrings();
 	settings.quitMessage = newString ([[prefQuit stringValue] UTF8String]);
 	settings.customIcon = newString ([[prefIcon stringValue] UTF8String]);
@@ -330,10 +347,6 @@ extern char * gameFile;
 	settings.screenWidth = [prefWidth intValue];
 	settings.frameSpeed = [prefSpeed intValue];
 	settings.forceSilent = [prefSilent intValue];	
-	
-	[NSApp endSheet:projectPrefs];
-	[projectPrefs orderOut:sender];
-	[self updateChangeCount: NSChangeDone];
 }
 
 - (void) setProgress1max:(int)i
