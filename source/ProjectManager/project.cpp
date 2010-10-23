@@ -119,11 +119,7 @@ void populateResourceList (const char * scriptName, char **resourceList, int *nu
 }
 
 char * getFullPath (const char * file) {
-#ifdef WIN32
-	return joinStrings (sourceDirectory, "\\", file);
-#else
 	return joinStrings (sourceDirectory, "/", file);
-#endif
 }
 
 void deleteString(char * s) {
@@ -200,22 +196,20 @@ void doNewProject (const char * filename, char **fileList, int *numFiles) {
 void addFileToProject (const char * wholeName, char * path, char **fileList, int *numFiles) {
 	int a = 0;
 	char * newName, * temp;
-#ifdef WIN32
-	char sep = '\\';
-#else
-	char sep = '/';
-#endif
+
 	while (wholeName[a] == path[a]) {
 		a ++;
 	}
 
-	if (! path[a] && wholeName[a] == sep) {
+	if (! path[a] && wholeName[a] == '/') {
 		newName = joinStrings ("", wholeName + a + 1);
+	} else if (! path[a] && path[a-1] == '/' && wholeName[a-1] == '/') {
+		newName = joinStrings ("", wholeName + a);
 	} else {
 		for (;;) {
 			if (a == 0)
 				break;
-			if (wholeName[a-1] == sep)
+			if (wholeName[a-1] == '/')
 				break;
 			a --;
 		}
@@ -223,12 +217,8 @@ void addFileToProject (const char * wholeName, char * path, char **fileList, int
 		newName = joinStrings ("", wholeName + a);
 		a--;
 		while (path[a]) {
-			if (path[a] == sep) {
-#ifdef WIN32
-				temp = joinStrings ("..\\", newName);
-#else
+			if (path[a] == '/') {
 				temp = joinStrings ("../", newName);
-#endif
 				delete newName;
 				newName = temp;
 			}

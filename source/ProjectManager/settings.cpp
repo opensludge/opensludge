@@ -403,6 +403,7 @@ bool getSourceDirFromName (const char * name) {
 		return false;
 	}
 	sourceDirectory = joinStrings (buff, "");
+	fixPath (sourceDirectory, true);
 	return true;
 }
 
@@ -412,11 +413,7 @@ bool getSourceDirFromName (const char * name) {
 void fixPath (char *filename, bool makeGood) {
 	if (! filename) return;
 	char * ptr;
-#ifdef _WIN32
-	while (ptr = strstr (filename, "/")) {
-		ptr[0] = '\\';
-	}
-#else
+
 	if (makeGood) {
 		while (ptr = strstr (filename, "\\")) {
 			ptr[0] = '/';
@@ -426,7 +423,6 @@ void fixPath (char *filename, bool makeGood) {
 			ptr[0] = '\\';
 		}
 	}
-#endif
 }
 
 
