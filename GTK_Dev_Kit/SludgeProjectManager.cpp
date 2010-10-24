@@ -220,17 +220,17 @@ void SludgeProjectManager::listChanged(whichTreeview whichOne)
 	char **list;
 
 	switch (whichOne) {
-		case FILE_TREEVIEW: //files
+		case FILE_TREEVIEW:
 			listStore = filesListStore;
 			numItems = fileListNum;
 			list = fileList;
 			break;
-		case RESOURCE_TREEVIEW: //resources
+		case RESOURCE_TREEVIEW:
 			listStore = resourcesListStore;
 			numItems = numResources;
 			list = resourceList;
 			break;
-		case ERROR_TREEVIEW: //errors
+		case ERROR_TREEVIEW:
 			listStore = errorsListStore;
 			numItems = numErrors;
 			break;
@@ -241,16 +241,25 @@ void SludgeProjectManager::listChanged(whichTreeview whichOne)
 	gtk_list_store_clear(listStore);
 
 	int i, j;
+	char *listitem;
 	struct errorLinkToFile * index;
 	for (i = 0; i < numItems; i++) {
 		GtkTreeIter iter;
 		gtk_list_store_append(listStore, &iter);
 		switch (whichOne) {
-			case FILE_TREEVIEW: //files
-			case RESOURCE_TREEVIEW: //resources
-				gtk_list_store_set(listStore, &iter, 0, g_filename_to_utf8(list[i], -1, NULL, NULL, NULL), -1);
+			case FILE_TREEVIEW:
+			case RESOURCE_TREEVIEW:
+			{
+				listitem = new char[1000];
+				listitem = strcpy(listitem, list[i]);
+				replaceInvalidCharacters(listitem);
+				gtk_list_store_set(listStore, &iter, 0, listitem, -1);
+				delete listitem;
+				listitem = NULL;
 				break;
-			case ERROR_TREEVIEW: //errors
+			}
+			case ERROR_TREEVIEW:
+			{
 				index = errorList;
 				if (! index) return;
 				j = numErrors-1;
@@ -258,8 +267,14 @@ void SludgeProjectManager::listChanged(whichTreeview whichOne)
 					if (! (index = index->next)) return;
 					j--;
 				}
-				gtk_list_store_set(listStore, &iter, 0, g_filename_to_utf8(index->fullText, -1, NULL, NULL, NULL), -1);
+				listitem = new char[1000];
+				listitem = strcpy(listitem, index->fullText);
+				replaceInvalidCharacters(listitem);
+				gtk_list_store_set(listStore, &iter, 0, listitem, -1);
+				delete listitem;
+				listitem = NULL;
 				break;
+			}
 			default:
 				break;
 		}
@@ -557,11 +572,11 @@ void SludgeProjectManager::on_treeview_row_activated(GtkTreeView *theTreeView, G
 	treeModel = gtk_tree_view_get_model(theTreeView);
 
 	switch (whichOne) {
-		case FILE_TREEVIEW: //files
-		case ERROR_TREEVIEW: //errors
+		case FILE_TREEVIEW:
+		case ERROR_TREEVIEW:
 			cmd = editor;
 			break;
-		case RESOURCE_TREEVIEW: //resources
+		case RESOURCE_TREEVIEW:
 			break;
 		default:
 			break;

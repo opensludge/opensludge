@@ -120,6 +120,20 @@ void winChangeToProgramDir(const char *programFullPath)
 #endif
 }
 
+void replaceInvalidCharacters(char *string)
+{
+	const gchar *end;
+	if (!g_utf8_validate(string, -1, &end)) {
+		for (int i = 0; string[i] != 0; i++) {
+			if (string[i] == end[0])
+				string[i] = '_';
+		}
+		replaceInvalidCharacters(string);
+	} else {
+		return;
+	}
+}
+
 int sh_cmd (gchar * path, const gchar * cmd, gchar * args)
 {
 	char     *quoted_args;

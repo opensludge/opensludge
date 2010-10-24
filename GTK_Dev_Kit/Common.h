@@ -32,4 +32,5 @@ char * joinTwoStrings (const char * a, const char * b);
 bool fileExists(char * file);
 void flipBackslashes(char **string);
 void winChangeToProgramDir(const char *programFullPath);
+void replaceInvalidCharacters(char *string);
 int sh_cmd (char * path, const char * cmd, char * args);
