@@ -120,7 +120,7 @@ void winChangeToProgramDir(const char *programFullPath)
 #endif
 }
 
-void replaceInvalidCharacters(char *string)
+void replaceInvalidCharacters(char *string, int *retval)
 {
 	const gchar *end;
 	if (!g_utf8_validate(string, -1, &end)) {
@@ -128,7 +128,8 @@ void replaceInvalidCharacters(char *string)
 			if (string[i] == end[0])
 				string[i] = '_';
 		}
-		replaceInvalidCharacters(string);
+		replaceInvalidCharacters(string, retval);
+		*retval = 0;
 	} else {
 		return;
 	}

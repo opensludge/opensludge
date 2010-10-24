@@ -86,7 +86,7 @@ const char * SludgeZBufferMaker::getFilterName()
 
 const char * SludgeZBufferMaker::getFilterPattern()
 {
-	return "*.zbu";
+	return "*.[zZ][bB][uU]";
 }
 
 const char * SludgeZBufferMaker::getUntitledFilename()
@@ -141,7 +141,7 @@ void SludgeZBufferMaker::postNew()
 	filter = gtk_file_filter_new();
 	gtk_file_filter_set_name(filter, "TGA images");
 	gtk_file_filter_add_mime_type(filter, "image/x-tga");
-	gtk_file_filter_add_pattern(filter, "*.tga");
+	gtk_file_filter_add_pattern(filter, "*.[tT][gG][aA]");
 	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER (dialog), filter);
 	gtk_file_chooser_set_filter(GTK_FILE_CHOOSER (dialog), filter);
 

@@ -113,7 +113,7 @@ const char * SludgeProjectManager::getFilterName()
 
 const char * SludgeProjectManager::getFilterPattern()
 {
-	return "*.slp";
+	return "*.[sS][lL][pP]";
 }
 
 const char * SludgeProjectManager::getUntitledFilename()
@@ -240,7 +240,7 @@ void SludgeProjectManager::listChanged(whichTreeview whichOne)
 
 	gtk_list_store_clear(listStore);
 
-	int i, j;
+	int i, j, fileContainingBadChars = -1;
 	char *listitem;
 	struct errorLinkToFile * index;
 	for (i = 0; i < numItems; i++) {
@@ -252,7 +252,11 @@ void SludgeProjectManager::listChanged(whichTreeview whichOne)
 			{
 				listitem = new char[1000];
 				listitem = strcpy(listitem, list[i]);
-				replaceInvalidCharacters(listitem);
+				int retval = 1;
+				replaceInvalidCharacters(listitem, &retval);
+				if (!retval) {
+					fileContainingBadChars = whichOne;
+				}
 				gtk_list_store_set(listStore, &iter, 0, listitem, -1);
 				delete listitem;
 				listitem = NULL;
@@ -269,7 +273,8 @@ void SludgeProjectManager::listChanged(whichTreeview whichOne)
 				}
 				listitem = new char[1000];
 				listitem = strcpy(listitem, index->fullText);
-				replaceInvalidCharacters(listitem);
+				int retval = 1;
+				replaceInvalidCharacters(listitem, &retval);
 				gtk_list_store_set(listStore, &iter, 0, listitem, -1);
 				delete listitem;
 				listitem = NULL;
@@ -279,6 +284,11 @@ void SludgeProjectManager::listChanged(whichTreeview whichOne)
 				break;
 		}
 	}
+
+	if (fileContainingBadChars == FILE_TREEVIEW)
+			errorBox("Invalid characters", "The project file contains script filenames with special characters that are encoded in something else than UTF-8. It's best not to use special characters for filenames.");
+	if (fileContainingBadChars == RESOURCE_TREEVIEW)
+			errorBox("Invalid characters", "The SLUDGE script contains resource filenames with special characters that are encoded in something else than UTF-8. It's best not to use special characters for filenames.");
 }
 
 void SludgeProjectManager::readIniFile() {

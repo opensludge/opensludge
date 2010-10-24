@@ -88,7 +88,7 @@ const char * SludgeFloorMaker::getFilterName()
 
 const char * SludgeFloorMaker::getFilterPattern()
 {
-	return "*.flo";
+	return "*.[fF][lL][oO]";
 }
 
 const char * SludgeFloorMaker::getUntitledFilename()
@@ -318,7 +318,7 @@ void SludgeFloorMaker::on_filechooserbutton_realize(GtkFileChooser *theChooser)
 	gtk_file_filter_set_name(pngtgafilter, "PNG/TGA images");
 	gtk_file_filter_add_mime_type(pngtgafilter, "image/png");
 	gtk_file_filter_add_mime_type(pngtgafilter, "image/x-tga");
-	gtk_file_filter_add_pattern(pngtgafilter, "*.tga");
+	gtk_file_filter_add_pattern(pngtgafilter, "*.[tT][gG][aA]");
 	gtk_file_chooser_add_filter(theChooser, pngtgafilter);
 
 	pngfilter = gtk_file_filter_new();
@@ -329,7 +329,7 @@ void SludgeFloorMaker::on_filechooserbutton_realize(GtkFileChooser *theChooser)
 	tgafilter = gtk_file_filter_new();
 	gtk_file_filter_set_name(tgafilter, "TGA images");
 	gtk_file_filter_add_mime_type(tgafilter, "image/x-tga");
-	gtk_file_filter_add_pattern(tgafilter, "*.tga");
+	gtk_file_filter_add_pattern(tgafilter, "*.[tT][gG][aA]");
 	gtk_file_chooser_add_filter(theChooser, tgafilter);
 
 	gtk_file_chooser_set_filter(theChooser, pngtgafilter);

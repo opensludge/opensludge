@@ -102,7 +102,7 @@ const char * SludgeSpriteBankEditor::getFilterName()
 
 const char * SludgeSpriteBankEditor::getFilterPattern()
 {
-	return "*.duc";
+	return "*.[dD][uU][cC]";
 }
 
 const char * SludgeSpriteBankEditor::getUntitledFilename()
@@ -361,7 +361,7 @@ int SludgeSpriteBankEditor::loadSprites(int toIndex, gboolean addNew)
 	gtk_file_filter_set_name(pngtgafilter, "PNG/TGA images");
 	gtk_file_filter_add_mime_type(pngtgafilter, "image/png");
 	gtk_file_filter_add_mime_type(pngtgafilter, "image/x-tga");
-	gtk_file_filter_add_pattern(pngtgafilter, "*.tga");
+	gtk_file_filter_add_pattern(pngtgafilter, "*.[tT][gG][aA]");
 	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER (dialog), pngtgafilter);
 
 	pngfilter = gtk_file_filter_new();
@@ -372,7 +372,7 @@ int SludgeSpriteBankEditor::loadSprites(int toIndex, gboolean addNew)
 	tgafilter = gtk_file_filter_new();
 	gtk_file_filter_set_name(tgafilter, "TGA images");
 	gtk_file_filter_add_mime_type(tgafilter, "image/x-tga");
-	gtk_file_filter_add_pattern(tgafilter, "*.tga");
+	gtk_file_filter_add_pattern(tgafilter, "*.[tT][gG][aA]");
 	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER (dialog), tgafilter);
 
 	gtk_file_chooser_set_filter(GTK_FILE_CHOOSER (dialog), pngtgafilter);
