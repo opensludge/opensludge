@@ -70,6 +70,7 @@ SludgeGLApplication::SludgeGLApplication(const char * gladeFileName, const char 
 		if (glConfig == NULL)
 		{
 			g_critical ("Aargh!  Cannot configure any type of OpenGL-capable context.  Exiting.\n");
+			initSuccess = FALSE;
 			return;
 		}
 	}

@@ -246,7 +246,8 @@ main(int argc, char *argv[])
 	}
 
 	// Run the window manager loop.
-	gtk_main();
+	if (zBufferMaker->initSuccess)
+		gtk_main();
 
 	delete zBufferMaker;
 

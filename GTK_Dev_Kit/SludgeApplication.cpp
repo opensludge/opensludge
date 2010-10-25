@@ -31,6 +31,7 @@
 SludgeApplication::SludgeApplication(const char * gladeFileName, const char * iconName, const char * configFile)
 {
 	configfile = configFile;
+	initSuccess = TRUE;
 
 	char buf[1000];
 	GdkPixbuf *pixbuf16, *pixbuf32, *pixbuf128, *pixbuf256;
@@ -59,6 +60,7 @@ SludgeApplication::SludgeApplication(const char * gladeFileName, const char * ic
 	{
 		g_critical ("Failed to load the GTK file.\n");
 		errorBox("Error!", joinTwoStrings("Failed to load resource file:\n", gladeFileName));
+		initSuccess = FALSE;
 		return;
 	}
 
@@ -70,6 +72,7 @@ SludgeApplication::SludgeApplication(const char * gladeFileName, const char * ic
 	if (theWindow == NULL)
 	{
 		g_critical ("Failed to get the window from the builder.\n");
+		initSuccess = FALSE;
 		return;
 	}
 

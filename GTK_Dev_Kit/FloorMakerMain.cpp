@@ -309,7 +309,8 @@ main(int argc, char *argv[])
 	}
 
 	// Run the window manager loop.
-	gtk_main ();
+	if (floorMaker->initSuccess)
+		gtk_main ();
 
 	delete floorMaker;
 

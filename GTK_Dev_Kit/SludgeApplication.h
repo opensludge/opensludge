@@ -32,6 +32,7 @@ protected:
 public:
 	GtkWidget *theWindow;
 	GtkBuilder *theXml;
+	gboolean initSuccess;
 
 
 private:
