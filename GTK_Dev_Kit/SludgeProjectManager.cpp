@@ -67,6 +67,8 @@ extern char * gameFile;
 SludgeProjectManager::SludgeProjectManager()
  : SludgeApplication(joinTwoStrings(DATADIR, "ProjectManager.glade"), "ProjIcon", "projectmanager")
 {
+	if (!initSuccess) return;
+
 	notebook = GTK_NOTEBOOK (gtk_builder_get_object(theXml, "notebook"));
 	saveItem = GTK_WIDGET (gtk_builder_get_object(theXml, "save"));
 	saveAsItem = GTK_WIDGET (gtk_builder_get_object(theXml, "save_as"));
@@ -703,24 +705,24 @@ void SludgeProjectManager::on_add_file_clicked()
 
 	filter = gtk_file_filter_new();
 	gtk_file_filter_set_name(filter, "SLU/SLD/TRA files");
-	gtk_file_filter_add_pattern(filter, "*.slu");
-	gtk_file_filter_add_pattern(filter, "*.sld");
-	gtk_file_filter_add_pattern(filter, "*.tra");
+	gtk_file_filter_add_pattern(filter, "*.[sS][lL][uU]");
+	gtk_file_filter_add_pattern(filter, "*.[sS][lL][dD]");
+	gtk_file_filter_add_pattern(filter, "*.[tT][rR][aA]");
 	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER (dialog), filter);
 
 	slufilter = gtk_file_filter_new();
 	gtk_file_filter_set_name(slufilter, "SLUDGE scripts (*.slu)");
-	gtk_file_filter_add_pattern(slufilter, "*.slu");
+	gtk_file_filter_add_pattern(slufilter, "*.[sS][lL][uU]");
 	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER (dialog), slufilter);
 
 	sldfilter = gtk_file_filter_new();
 	gtk_file_filter_set_name(sldfilter, "SLUDGE constant definition files (*.sld)");
-	gtk_file_filter_add_pattern(sldfilter, "*.sld");
+	gtk_file_filter_add_pattern(sldfilter, "*.[sS][lL][dD]");
 	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER (dialog), sldfilter);
 
 	trafilter = gtk_file_filter_new();
 	gtk_file_filter_set_name(trafilter, "SLUDGE translation files (*.tra)");
-	gtk_file_filter_add_pattern(trafilter, "*.tra");
+	gtk_file_filter_add_pattern(trafilter, "*.[tT][rR][aA]");
 	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER (dialog), trafilter);
 
 	gtk_file_chooser_set_filter(GTK_FILE_CHOOSER (dialog), filter);

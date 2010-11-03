@@ -44,6 +44,8 @@
 SludgeGLApplication::SludgeGLApplication(const char * gladeFileName, const char * iconName, const char * configFile)
  : SludgeApplication(gladeFileName, iconName, configFile)
 {
+	if (!initSuccess) return;
+
 	statusbarWidget = GTK_WIDGET (gtk_builder_get_object (theXml, "statusbar"));
 	cursorxLabel = GTK_LABEL (gtk_builder_get_object (theXml, "cursorx_label"));
 	cursoryLabel = GTK_LABEL (gtk_builder_get_object (theXml, "cursory_label"));

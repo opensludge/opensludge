@@ -29,6 +29,16 @@ sludge_spritebankeditor_SOURCES = \
 	../source/ProjectManager/moreio.cpp ../source/ProjectManager/moreio.h \
 	../source/CommonCode/tga.cpp ../source/CommonCode/tga.h
 
+sludge_translationeditor_SOURCES = \
+	TranslationEditorMain.cpp SludgeTranslationEditor.cpp SludgeTranslationEditor.h \
+	SludgeGLApplication.cpp SludgeGLApplication.h \
+	SludgeApplication.cpp SludgeApplication.h \
+	Common.cpp Common.h ../source/ProjectManager/interface.h \
+	../source/Translator/translator.cpp ../source/Translator/translator.h \
+	../source/SpriteBankEditor/splitter.cpp ../source/Translator/splitter.hpp \
+	../source/ProjectManager/settings.cpp ../source/ProjectManager/settings.h \
+	../source/ProjectManager/moreio.cpp ../source/ProjectManager/moreio.h
+
 sludge_projectmanager_SOURCES = \
 	ProjectManagerMain.cpp ProjectManagerMain.h \
 	SludgeProjectManager.cpp SludgeProjectManager.h \
@@ -111,11 +121,11 @@ AM_CPPFLAGS = -I$(top_srcdir)/source/CommonCode -I$(top_srcdir)/source/Compiler 
 
 if COND_WIN32
 AM_CPPFLAGS += \
-        -mms-bitfields  \
+	-mms-bitfields  \
 	-DDATADIR='"resources/"'
 
-#AM_LDFLAGS = \
-#         -Wl,-subsystem,windows
+AM_LDFLAGS = \
+	-Wl,-subsystem,windows
 
 sludge_floormaker_LDADD = FloorMakerResources.o @GTK_LIBS@ @LIBPNG_LIBS@
 sludge_zbuffermaker_LDADD = ZBufferMakerResources.o @GTK_LIBS@ @LIBPNG_LIBS@

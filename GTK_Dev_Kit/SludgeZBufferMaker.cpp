@@ -46,6 +46,8 @@
 SludgeZBufferMaker::SludgeZBufferMaker()
  : SludgeGLApplication(joinTwoStrings(DATADIR, "ZBufferMaker.glade"), "zIcon", "zbuffermaker")
 {
+	if (!initSuccess) return;
+
 	theSliderAdjustment = GTK_ADJUSTMENT (gtk_builder_get_object(theXml, "slider_adjustment"));
 	theYAdjustment = GTK_ADJUSTMENT (gtk_builder_get_object(theXml, "y_adjustment"));
 	theNumBuffersLabel = GTK_LABEL (gtk_builder_get_object(theXml, "num_buffers_label"));

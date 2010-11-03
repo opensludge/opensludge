@@ -124,10 +124,11 @@ bool loadTranslationFile (char * fileIn, transLine ** firstTransLine, char **lan
 					default:
 						switch (mode) {
 							case MODE_ID:
+							{
 								long id = strtol(line, NULL, 10); //stringToInt (line);
 								if (id > 0) *lanID = id;
 								break;
-								
+							}
 							case MODE_NAME:
 								if (strlen(line) && !(*langName)) {
 									(*langName) =  copyString (line);

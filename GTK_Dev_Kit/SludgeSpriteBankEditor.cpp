@@ -46,6 +46,8 @@
 SludgeSpriteBankEditor::SludgeSpriteBankEditor()
  : SludgeGLApplication(joinTwoStrings(DATADIR, "SpriteBankEditor.glade"), "spriteIcon", "spritebankeditor")
 {
+	if (!initSuccess) return;
+
 	ignoreModePalButtons = FALSE;
 
 	theSliderAdjustment = GTK_ADJUSTMENT (gtk_builder_get_object(theXml, "slider_adjustment"));

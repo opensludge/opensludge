@@ -49,6 +49,7 @@
 SludgeFloorMaker::SludgeFloorMaker()
  : SludgeGLApplication(joinTwoStrings(DATADIR, "FloorMaker.glade"), "floorIcon", "floormaker")
 {
+	if (!initSuccess) return;
 	init();
 }
 
