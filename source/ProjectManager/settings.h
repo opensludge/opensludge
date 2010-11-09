@@ -65,7 +65,6 @@ bool readSettings (FILE * fp);
 void writeSettings (FILE * fp);
 void noSettings ();
 void killSettingsStrings ();
-char * newString (const char * a);
 void chrRenderingSettingsFillDefaults(bool enable);
 
 bool getSourceDirFromName (const char * filename);

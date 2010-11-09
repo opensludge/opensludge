@@ -122,12 +122,6 @@ char * getFullPath (const char * file) {
 	return joinStrings (sourceDirectory, "/", file);
 }
 
-void deleteString(char * s) {
-	delete s;
-	s = NULL;
-}
-
-
 bool loadProject (const char * filename, char **fileList, int *numFiles) {
 	char * readLine;
 

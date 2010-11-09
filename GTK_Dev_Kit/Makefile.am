@@ -30,7 +30,8 @@ sludge_spritebankeditor_SOURCES = \
 	../source/CommonCode/tga.cpp ../source/CommonCode/tga.h
 
 sludge_translationeditor_SOURCES = \
-	TranslationEditorMain.cpp SludgeTranslationEditor.cpp SludgeTranslationEditor.h \
+	TranslationEditorMain.cpp TranslationEditorMain.h \
+	SludgeTranslationEditor.cpp SludgeTranslationEditor.h \
 	SludgeGLApplication.cpp SludgeGLApplication.h \
 	SludgeApplication.cpp SludgeApplication.h \
 	Common.cpp Common.h ../source/ProjectManager/interface.h \

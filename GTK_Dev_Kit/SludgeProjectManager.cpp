@@ -42,6 +42,7 @@
 #include "settings.h"
 #include "interface.h"
 #include "compiler.hpp"
+#include "moreio.h"
 #include "Common.h"
 
 #include "SludgeProjectManager.h"

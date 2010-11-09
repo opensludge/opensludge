@@ -26,7 +26,6 @@ void doNewProject (const char * filename, char **fileList, int *numFiles);
 void addFileToProject (const char * wholeName, char * path, char **fileList, int *numFiles);
 
 char * getFullPath (const char * file);
-void deleteString(char *);
 
 #ifdef __cplusplus
 }

@@ -56,6 +56,18 @@ unsigned int get2bytes (FILE * fp) {
 	return fgetc (fp) * 256 + fgetc (fp);
 }
 
+char * newString (const char * old)
+{
+	char * nS = new char[strlen (old) + 1];
+	//	checkNew (nS);
+	sprintf (nS, "%s", old);
+	return nS;
+}
+
+void deleteString(char * s) {
+	delete s;
+}
+
 char * copyString (const char * c) {
 	char * r = new char[strlen (c) + 1];
 	if (! r) return NULL;

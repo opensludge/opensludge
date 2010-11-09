@@ -181,14 +181,6 @@ void killSettingsStrings ()
 	if (settings.windowName) delete settings.windowName;
 }
 
-char * newString (const char * old)
-{
-	char * nS = new char[strlen (old) + 1];
-	//	checkNew (nS);
-	sprintf (nS, "%s", old);
-	return nS;
-}
-
 
 /* killTempDir - Removes the temporary directory
  *
