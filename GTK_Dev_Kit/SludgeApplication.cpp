@@ -119,7 +119,7 @@ SludgeApplication::~SludgeApplication()
 	}
 }
 
-void SludgeApplication::saveToFile(gboolean saveAs)
+void SludgeApplication::saveToFile()
 {
 	GtkWidget *dialog;
 	GtkFileFilter *filter;
@@ -319,17 +319,20 @@ void SludgeApplication::on_save()
 		if (!saveFile (currentFilename))
 		{
 			errorBox ("Error", "Saving file failed.");
+		} else {
+			gtk_window_set_title (GTK_WINDOW(theWindow), currentShortname);
+			fileChanged = FALSE;
 		}
 	}
 	else
 	{
-		saveToFile (FALSE);
+		saveToFile();
 	}
 }
 
 void SludgeApplication::on_save_as()
 {
-	saveToFile (TRUE);
+	saveToFile();
 }
 
 void SludgeApplication::on_about()

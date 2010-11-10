@@ -46,7 +46,7 @@ private:
 	virtual void postNew() = 0;
 	virtual void postOpen() = 0;
 
-	void saveToFile(gboolean saveAs);
+	void saveToFile();
 	gboolean reallyClose();
 
 protected:
