@@ -1,15 +1,28 @@
 [SETTINGS]
 windowname=SLUDGE verb coin example
 finalfile=Verb coin example
+language=English
 datafolder=
 quitmessage=Aw... I was having fun then. Do you really want to make me miserable?
 customicon=
+customlogo=
 mouse=2
 fullscreen=N
 makesilent=N
+showlogo=Y
+showloading=Y
+invisible=N
+ditherimages=Y
 width=640
 height=480
 speed=50
+chrRender_def_enabled=Y
+chrRender_def_softX=4
+chrRender_def_softY=4
+chrRender_max_enabled=Y
+chrRender_max_readIni=Y
+chrRender_max_softX=100
+chrRender_max_softY=100
 
 [FILES]
 init.slu
@@ -23,3 +36,4 @@ iface\talk.slu
 ego\ego.slu
 inside\room.slu
 outside\room.slu
+german.tra

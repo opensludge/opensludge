@@ -1,5 +1,8 @@
 sub init () {
-	setFont ('demofont.duc', "ÉABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\"'/?!.,;:()*%& -~`@", 32);
+	# setFont ('demofont.duc', "ÉABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\"'/?!.,;:()*%& -~`@", 32);
+	# Lets use the ISO-8859-1 subset of the "Hasty Pudding" font to
+	# get some more characters. Thanks to Rudolf ¦lavka for the font!
+	setFont ('nicupfontsmall.duc', "*ABCDEFGHIJKLMNOPQRSTUVWXYZÁÄÉËÍÓÔÖÚÜİabcdefghijklmnopqrstuvwxyzáäéëíóôöúüı0123456789\"'?!.,;:()*&-@$ ", 27);
 	setDefaultMusicVolume (150);
 	onKeyboard (keys);
 	addStatus ();
