@@ -1,4 +1,4 @@
-bin_PROGRAMS = sludge-floormaker sludge-zbuffermaker sludge-spritebankeditor sludge-projectmanager sludge-compiler
+bin_PROGRAMS = sludge-floormaker sludge-zbuffermaker sludge-spritebankeditor sludge-translationeditor sludge-projectmanager sludge-compiler
 
 sludge_floormaker_SOURCES = \
 	FloorMakerMain.cpp SludgeFloorMaker.cpp SludgeFloorMaker.h \
@@ -97,11 +97,14 @@ sludge_compiler_SOURCES = \
 dist_pkgdata_DATA = \
 	FloorMaker.glade ZBufferMaker.glade \
 	SpriteBankEditor.glade ProjectManager.glade \
+	TranslationEditor.glade \
 	../images/floormodeicon1.png \
 	../images/floormodeicon2.png \
 	../images/floormodeicon3.png \
 	../images/floormodeicon4.png \
 	../images/floormodeicon5.png \
+	../images/flags/flags_16x16x32.png ../images/flags/flags_32x32x32.png \
+	../images/flags/flags_128x128x32.png ../images/flags/flags_256x256x32.png \
 	../images/floorIcon/floorIcon_16x16x32.png ../images/floorIcon/floorIcon_32x32x32.png \
 	../images/floorIcon/floorIcon_128x128x32.png ../images/floorIcon/floorIcon_256x256x32.png \
 	../images/zIcon/zIcon_16x16x32.png ../images/zIcon/zIcon_32x32x32.png \
@@ -114,7 +117,8 @@ dist_pkgdata_DATA = \
 
 EXTRA_DIST = \
 	make_resources.sh \
-	FloorMaker.rc ZBufferMaker.rc SpriteBankEditor.rc ProjectManager.rc \
+	FloorMaker.rc ZBufferMaker.rc SpriteBankEditor.rc TranslationEditor.rc ProjectManager.rc \
+	../images/flags/flags_32x32x32.ico \
 	../images/floorIcon/floorIcon_32x32x32.ico ../images/zIcon/zIcon_32x32x32.ico \
 	../images/spriteIcon/spriteIcon_32x32x32.ico ../images/ProjIcon/ProjIcon_32x32x32.ico
 
@@ -131,6 +135,7 @@ AM_LDFLAGS = \
 sludge_floormaker_LDADD = FloorMakerResources.o @GTK_LIBS@ @LIBPNG_LIBS@
 sludge_zbuffermaker_LDADD = ZBufferMakerResources.o @GTK_LIBS@ @LIBPNG_LIBS@
 sludge_spritebankeditor_LDADD = SpriteBankEditorResources.o @GTK_LIBS@ @LIBPNG_LIBS@
+sludge_translationeditor_LDADD = TranslationEditorResources.o @GTK_LIBS@ @LIBPNG_LIBS@
 sludge_projectmanager_LDADD = ProjectManagerResources.o @GTK_LIBS@ @LIBPNG_LIBS@
 else
 AM_CPPFLAGS += \
@@ -139,6 +144,7 @@ AM_CPPFLAGS += \
 sludge_floormaker_LDADD = @GTK_LIBS@ @LIBPNG_LIBS@
 sludge_zbuffermaker_LDADD = @GTK_LIBS@ @LIBPNG_LIBS@
 sludge_spritebankeditor_LDADD = @GTK_LIBS@ @LIBPNG_LIBS@
+sludge_translationeditor_LDADD = @GTK_LIBS@ @LIBPNG_LIBS@
 sludge_projectmanager_LDADD = @GTK_LIBS@ @LIBPNG_LIBS@
 endif
 

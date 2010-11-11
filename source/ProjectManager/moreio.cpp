@@ -103,34 +103,26 @@ void writeString (const char * txt, FILE * fp) {
 }
 
 char * readText (FILE * fp) {
-	long int startPos;
-	int stringSize = 0;
-	bool keepGoing = true;
-	char gotChar;
 	char * reply;
-
-	startPos = ftell (fp);
-	while (keepGoing) {
-		gotChar = (char) fgetc (fp);
-		if ((gotChar == '\n') || feof (fp)) {
-			keepGoing = false;
+	int stringSize;
+	bool success = false;
+	for (int i = 1; !success; i++) {
+		stringSize = 500*i;
+		reply = new char[stringSize];
+		if (fgets ( reply, stringSize, fp )) {
+			if (strlen(reply) < stringSize) {
+				// Get rid of the newline character:
+				reply[strlen(reply)-1] = NULL;
+				success = true;
+			} else {
+				delete reply;
+			}
 		} else {
-			stringSize ++;
+			delete reply;
+			reply = NULL;
+			success = true;
 		}
 	}
-
-	if ((stringSize == 0) && (feof (fp))) {
-		reply = NULL;
-	} else {
-		fseek (fp, startPos, 0);
-		reply = new char[stringSize + 1];
-//		checkNew (reply);
-		fread (reply, stringSize, 1, fp);
-		if (reply[stringSize-1] == '\r') reply[stringSize-1] = 0;
-		fgetc (fp); // Skip the newline character
-		reply[stringSize] = NULL;
-	}
-
 	return reply;
 }
 

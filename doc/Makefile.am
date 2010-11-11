@@ -212,6 +212,7 @@ nobase_dist_doc_DATA=\
 	ExampleProjects/VerbCoin/demofont.duc ExampleProjects/VerbCoin/init.slu \
 	ExampleProjects/VerbCoin/VerbCoin.slp \
 	ExampleProjects/VerbCoin/ego/alien.duc ExampleProjects/VerbCoin/ego/ego.slu \
+	ExampleProjects/VerbCoin/german.tra \
 	ExampleProjects/VerbCoin/iface/arrow_icons.slu \
 	ExampleProjects/VerbCoin/iface/coin_interface.slu \
 	ExampleProjects/VerbCoin/iface/invback.tga \
@@ -229,6 +230,7 @@ nobase_dist_doc_DATA=\
 	ExampleProjects/VerbCoin/inside/room.slu \
 	ExampleProjects/VerbCoin/inside/room.tga \
 	ExampleProjects/VerbCoin/inside/room.zbu \
+	ExampleProjects/VerbCoin/nicupfontsmall.duc \
 	ExampleProjects/VerbCoin/outside/duck.duc \
 	ExampleProjects/VerbCoin/outside/music.mod \
 	ExampleProjects/VerbCoin/outside/room.flo \
