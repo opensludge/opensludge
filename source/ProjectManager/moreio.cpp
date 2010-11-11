@@ -107,10 +107,10 @@ char * readText (FILE * fp) {
 	int stringSize;
 	bool success = false;
 	for (int i = 1; !success; i++) {
-		stringSize = 500*i;
+		stringSize = 1000*i;
 		reply = new char[stringSize];
 		if (fgets ( reply, stringSize, fp )) {
-			if (strlen(reply) < stringSize) {
+			if (strlen(reply) < stringSize - 1) {
 				// Get rid of the newline character:
 				reply[strlen(reply)-1] = NULL;
 				success = true;
