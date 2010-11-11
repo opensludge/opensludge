@@ -607,6 +607,16 @@ void SludgeProjectManager::on_treeview_row_activated(GtkTreeView *theTreeView, G
 	struct errorLinkToFile * index;
 	int i, row;
 	switch (whichOne) {
+		case FILE_TREEVIEW:
+			extension = tx + strlen(tx) - 4;
+			if (!strcmp(extension, ".tra") || !strcmp(extension, ".TRA")) {
+#ifdef __WIN32
+				cmd = "sludge-translationeditor.exe";	
+#else
+				cmd = "sludge-translationeditor";	
+#endif
+			}
+			break;
 		case RESOURCE_TREEVIEW:
 			extension = tx + strlen(tx) - 4;	
 			if (strlen(tx) > 4) {
