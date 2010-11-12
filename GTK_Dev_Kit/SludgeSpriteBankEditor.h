@@ -87,6 +87,7 @@ public:
 	void on_delete_sprite_clicked();
 	void on_export_sprite_clicked();
 	void on_hscale_value_changed();
+	void on_fontify();
 
 	void on_zoom_100_clicked();
 	void on_zoom_fit_clicked();

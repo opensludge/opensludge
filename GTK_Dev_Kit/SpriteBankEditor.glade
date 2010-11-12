@@ -64,6 +64,20 @@
                       </object>
                     </child>
                     <child>
+                      <object class="GtkImageMenuItem" id="menuitem2">
+                        <property name="label" translatable="yes">Fontify</property>
+                        <property name="visible">True</property>
+                        <property name="image">image1</property>
+                        <property name="use_stock">False</property>
+                        <signal name="activate" handler="on_fontify"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkSeparatorMenuItem" id="menuitem3">
+                        <property name="visible">True</property>
+                      </object>
+                    </child>
+                    <child>
                       <object class="GtkImageMenuItem" id="imagemenuitem5">
                         <property name="label">gtk-quit</property>
                         <property name="visible">True</property>
@@ -600,5 +614,9 @@
     <property name="lower">-2000</property>
     <property name="upper">2000</property>
     <property name="step_increment">1</property>
+  </object>
+  <object class="GtkImage" id="image1">
+    <property name="visible">True</property>
+    <property name="stock">gtk-select-font</property>
   </object>
 </interface>

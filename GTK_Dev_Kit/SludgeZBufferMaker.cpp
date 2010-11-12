@@ -131,7 +131,6 @@ void SludgeZBufferMaker::postOpen()
 void SludgeZBufferMaker::postNew()
 {
 	GtkWidget *dialog;
-	GtkFileFilter *filter;
 
 	dialog = gtk_file_chooser_dialog_new("Load file to zBuffer",
 				      NULL,
@@ -140,12 +139,7 @@ void SludgeZBufferMaker::postNew()
 				      GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
 				      NULL);
 
-	filter = gtk_file_filter_new();
-	gtk_file_filter_set_name(filter, "TGA images");
-	gtk_file_filter_add_mime_type(filter, "image/x-tga");
-	gtk_file_filter_add_pattern(filter, "*.[tT][gG][aA]");
-	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER (dialog), filter);
-	gtk_file_chooser_set_filter(GTK_FILE_CHOOSER (dialog), filter);
+	setFileChooserFilters(GTK_FILE_CHOOSER (dialog), FALSE, TRUE);
 
 	if (currentFolder[0] != 0)
 	{

@@ -18,6 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <gtk/gtk.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -28,6 +30,7 @@ bool errorBox (const char * head, const char * msg);
 }
 #endif
 
+void setFileChooserFilters(GtkFileChooser *theFileChooser, gboolean png, gboolean tga);
 char * joinTwoStrings (const char * a, const char * b);
 bool fileExists(char * file);
 void flipBackslashes(char **string);

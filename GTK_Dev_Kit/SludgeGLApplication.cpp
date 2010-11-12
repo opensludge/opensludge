@@ -114,8 +114,10 @@ SludgeGLApplication::activateZoomButtons(int picwidth, int picheight)
 void
 SludgeGLApplication::deactivateZoomButtons()
 {
-	gtk_widget_set_sensitive (GTK_WIDGET(zoom100Button), FALSE);
-	gtk_widget_set_sensitive (GTK_WIDGET(zoomFitButton), FALSE);
+	if (zoom100Button)
+		gtk_widget_set_sensitive (GTK_WIDGET(zoom100Button), FALSE);
+	if (zoomFitButton)
+		gtk_widget_set_sensitive (GTK_WIDGET(zoomFitButton), FALSE);
 }
 
 void SludgeGLApplication::showStatusbar(int picwidth, int picheight)

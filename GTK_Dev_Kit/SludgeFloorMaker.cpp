@@ -313,27 +313,7 @@ void SludgeFloorMaker::setFloor(struct polyList * floor)
 
 void SludgeFloorMaker::on_filechooserbutton_realize(GtkFileChooser *theChooser)
 {	
-	GtkFileFilter *pngtgafilter, *pngfilter, *tgafilter;
-
-	pngtgafilter = gtk_file_filter_new();
-	gtk_file_filter_set_name(pngtgafilter, "PNG/TGA images");
-	gtk_file_filter_add_mime_type(pngtgafilter, "image/png");
-	gtk_file_filter_add_mime_type(pngtgafilter, "image/x-tga");
-	gtk_file_filter_add_pattern(pngtgafilter, "*.[tT][gG][aA]");
-	gtk_file_chooser_add_filter(theChooser, pngtgafilter);
-
-	pngfilter = gtk_file_filter_new();
-	gtk_file_filter_set_name(pngfilter, "PNG images");
-	gtk_file_filter_add_mime_type(pngfilter, "image/png");
-	gtk_file_chooser_add_filter(theChooser, pngfilter);
-
-	tgafilter = gtk_file_filter_new();
-	gtk_file_filter_set_name(tgafilter, "TGA images");
-	gtk_file_filter_add_mime_type(tgafilter, "image/x-tga");
-	gtk_file_filter_add_pattern(tgafilter, "*.[tT][gG][aA]");
-	gtk_file_chooser_add_filter(theChooser, tgafilter);
-
-	gtk_file_chooser_set_filter(theChooser, pngtgafilter);
+	setFileChooserFilters(theChooser, TRUE, TRUE);
 
 	if (currentFolder[0] != 0)
 	{

@@ -350,7 +350,6 @@ int SludgeSpriteBankEditor::loadSprites(int toIndex, gboolean addNew)
 	gboolean success;
 	int spritesLoaded = 0;
 	GtkWidget *dialog;
-	GtkFileFilter *pngtgafilter, *pngfilter, *tgafilter;
 
 	dialog = gtk_file_chooser_dialog_new("Load file as sprite",
 				      NULL,
@@ -359,25 +358,7 @@ int SludgeSpriteBankEditor::loadSprites(int toIndex, gboolean addNew)
 				      GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
 				      NULL);
 
-	pngtgafilter = gtk_file_filter_new();
-	gtk_file_filter_set_name(pngtgafilter, "PNG/TGA images");
-	gtk_file_filter_add_mime_type(pngtgafilter, "image/png");
-	gtk_file_filter_add_mime_type(pngtgafilter, "image/x-tga");
-	gtk_file_filter_add_pattern(pngtgafilter, "*.[tT][gG][aA]");
-	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER (dialog), pngtgafilter);
-
-	pngfilter = gtk_file_filter_new();
-	gtk_file_filter_set_name(pngfilter, "PNG images");
-	gtk_file_filter_add_mime_type(pngfilter, "image/png");
-	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER (dialog), pngfilter);
-
-	tgafilter = gtk_file_filter_new();
-	gtk_file_filter_set_name(tgafilter, "TGA images");
-	gtk_file_filter_add_mime_type(tgafilter, "image/x-tga");
-	gtk_file_filter_add_pattern(tgafilter, "*.[tT][gG][aA]");
-	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER (dialog), tgafilter);
-
-	gtk_file_chooser_set_filter(GTK_FILE_CHOOSER (dialog), pngtgafilter);
+	setFileChooserFilters(GTK_FILE_CHOOSER (dialog), TRUE, TRUE);
 
 	gtk_file_chooser_set_select_multiple(GTK_FILE_CHOOSER (dialog), TRUE);
 
@@ -551,7 +532,6 @@ void SludgeSpriteBankEditor::on_delete_sprite_clicked()
 void SludgeSpriteBankEditor::on_export_sprite_clicked()
 {
 	GtkWidget *dialog;
-	GtkFileFilter *filter;
 
 	dialog = gtk_file_chooser_dialog_new("Export sprite",
 				      NULL,
@@ -561,10 +541,7 @@ void SludgeSpriteBankEditor::on_export_sprite_clicked()
 				      NULL);
 	gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER (dialog), TRUE);
 
-	filter = gtk_file_filter_new();
-	gtk_file_filter_set_name(filter, "PNG images");
-	gtk_file_filter_add_mime_type(filter, "image/png");
-	gtk_file_chooser_set_filter(GTK_FILE_CHOOSER (dialog), filter);
+	setFileChooserFilters(GTK_FILE_CHOOSER (dialog), TRUE, FALSE);
 
 	gtk_file_chooser_set_current_name(GTK_FILE_CHOOSER (dialog), "Untitled Sprite.png");
 
@@ -599,6 +576,65 @@ void SludgeSpriteBankEditor::on_hscale_value_changed()
 	}
 	setupButtons();
 	render_timer_event(theDrawingarea);
+}
+
+void SludgeSpriteBankEditor::on_fontify()
+{
+	gboolean success;
+	int spritesLoaded = 0;
+	GtkWidget *dialog;
+
+	dialog = gtk_file_chooser_dialog_new("Load image as font",
+				      NULL,
+				      GTK_FILE_CHOOSER_ACTION_OPEN,
+				      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				      GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+				      NULL);
+
+	setFileChooserFilters(GTK_FILE_CHOOSER (dialog), TRUE, TRUE);
+
+	if (currentFolder[0] != 0)
+	{
+		gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER (dialog), currentFolder);
+	}
+
+	if (gtk_dialog_run(GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+	{
+		char *filename;
+		gboolean success = 0;
+
+		filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER (dialog));
+		if (filename == NULL) return;
+
+		flipBackslashes(&filename);
+
+		addSprite(spriteIndex(), &sprites);
+
+		if (strlen(filename) > 4) {
+			char * extension = filename + strlen(filename) - 4;
+			if        (!strcmp(extension, ".png") || !strcmp(extension, ".PNG")) {
+				success = loadSpriteFromPNG(filename, &sprites, spriteIndex());
+			} else if (!strcmp(extension, ".tga") || !strcmp(extension, ".TGA")) {
+				success = loadSpriteFromTGA(filename, &sprites, spriteIndex());
+			}
+		} else {
+			errorBox("Can't load image", "I don't recognise the file type. TGA and PNG are the supported file types.");
+		}
+
+		if (!success) {
+			deleteSprite(spriteIndex(), &sprites);
+		} else {
+			doFontification(&sprites, 10);
+			setFolderFromFilename(filename);
+			setFileChanged();
+			render_timer_event(theDrawingarea);
+		}
+
+		g_free(filename);
+	}
+	gtk_widget_destroy(dialog);
+
+	setupButtons();
 }
 
 void SludgeSpriteBankEditor::on_zoom_100_clicked()

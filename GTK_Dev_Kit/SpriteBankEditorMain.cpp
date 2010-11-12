@@ -215,6 +215,11 @@ G_MODULE_EXPORT void on_hscale_value_changed(GtkHScale *theScale, gpointer theUs
 {
 	spriteBankEditor->on_hscale_value_changed();
 }
+
+G_MODULE_EXPORT void on_fontify(GtkMenuItem *theItem, gpointer theUser_data)
+{
+	spriteBankEditor->on_fontify();
+}
 #ifdef __cplusplus
 }
 #endif

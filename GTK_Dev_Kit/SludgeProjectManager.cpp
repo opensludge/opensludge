@@ -609,7 +609,7 @@ void SludgeProjectManager::on_treeview_row_activated(GtkTreeView *theTreeView, G
 	switch (whichOne) {
 		case FILE_TREEVIEW:
 			extension = tx + strlen(tx) - 4;
-			if (!strcmp(extension, ".tra") || !strcmp(extension, ".TRA")) {
+			if ((strlen(tx) > 4) && (!strcmp(extension, ".tra") || !strcmp(extension, ".TRA"))) {
 #ifdef __WIN32
 				cmd = "sludge-translationeditor.exe";	
 #else
