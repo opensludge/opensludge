@@ -29,7 +29,8 @@ enum whichTreeview {
 enum whichProgram {
 	FLOORMAKER,
 	SPRITEBANKEDITOR,
-	ZBUFFERMAKER
+	ZBUFFERMAKER,
+	TRANSLATIONEDITOR
 };
 
 class SludgeProjectManager : public SludgeApplication {

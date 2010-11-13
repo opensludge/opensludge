@@ -172,6 +172,11 @@ G_MODULE_EXPORT void on_zbuffermaker_activate(GtkMenuItem *theItem, gpointer the
 	projectManager->on_program_activate(ZBUFFERMAKER);
 }
 
+G_MODULE_EXPORT void on_translationeditor_activate(GtkMenuItem *theItem, gpointer theUser_data)
+{
+	projectManager->on_program_activate(TRANSLATIONEDITOR);
+}
+
 G_MODULE_EXPORT void *compile_hook(gpointer nothing)
 {
 	projectManager->compile();

@@ -864,14 +864,32 @@ void SludgeProjectManager::on_comp_okbutton_clicked(GtkButton *theButton)
 
 void SludgeProjectManager::on_comp_gamebutton_clicked()
 {
-	char cmd[100];
+	char cmd[1000];
 	char *file = getFullPath(gameFile);
+
 #ifdef __WIN32
-	sprintf(cmd, "%s", "sludge-engine.exe");
+	int cmdSuccess;
+	int lastSlash = 0;
+	char engineDir[1000];
+	sprintf(engineDir, "%s", workingDir);
+
+	for (int k = 0; engineDir[k] != 0; k++) {
+		if (engineDir[k] == '\\') {
+			lastSlash = k;
+		}
+	}
+	sprintf(engineDir + lastSlash + 1, "Engine");
+	sprintf(cmd, "\"%s\\SLUDGE Engine.exe\"", engineDir);
+	cmdSuccess = sh_cmd(engineDir, cmd, file);
+
+	if (!cmdSuccess) {
+		errorBox("Couldn't find SLUDGE Engine", "The SLUDGE Engine was expected at ..\\Engine\\SLUDGE Engine.exe relative to the Project Manager executable. Make sure it's there to make the Run Game button work.");
+	}
 #else
 	sprintf(cmd, "%s", "sludge-engine");
-#endif
 	sh_cmd(workingDir, cmd, file);
+#endif
+
 	deleteString(file);
 }
 
@@ -988,33 +1006,30 @@ void SludgeProjectManager::on_preferences()
 
 void SludgeProjectManager::on_program_activate(whichProgram program)
 {
+	const char *exe;
+	char executable[200];
 #ifdef __WIN32
-	switch (program) {
-		case FLOORMAKER:
-			sh_cmd(workingDir, "sludge-floormaker.exe", NULL);
-			break;
-		case SPRITEBANKEDITOR:
-			sh_cmd(workingDir, "sludge-spritebankeditor.exe", NULL);
-			break;
-		case ZBUFFERMAKER:
-			sh_cmd(workingDir, "sludge-zbuffermaker.exe", NULL);
-			break;
-		default:
-			break;
-	}
+	exe = ".exe";
 #else
+	exe = "";
+#endif
+
 	switch (program) {
 		case FLOORMAKER:
-			sh_cmd(workingDir, "sludge-floormaker", NULL);
+			sprintf(executable, "sludge-floormaker%s", exe);
 			break;
 		case SPRITEBANKEDITOR:
-			sh_cmd(workingDir, "sludge-spritebankeditor", NULL);
+			sprintf(executable, "sludge-spritebankeditor%s", exe);
 			break;
 		case ZBUFFERMAKER:
-			sh_cmd(workingDir, "sludge-zbuffermaker", NULL);
+			sprintf(executable, "sludge-zbuffermaker%s", exe);
+			break;
+		case TRANSLATIONEDITOR:
+			sprintf(executable, "sludge-translationeditor%s", exe);
 			break;
 		default:
 			break;
 	}
-#endif
+
+	sh_cmd(workingDir, executable, NULL);
 }

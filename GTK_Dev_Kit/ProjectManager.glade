@@ -177,6 +177,16 @@
                         <signal name="activate" handler="on_zbuffermaker_activate"/>
                       </object>
                     </child>
+                    <child>
+                      <object class="GtkImageMenuItem" id="programs_translationeditor">
+                        <property name="label" translatable="yes">Launch _Translation Editor</property>
+                        <property name="visible">True</property>
+                        <property name="use_underline">True</property>
+                        <property name="image">image6</property>
+                        <property name="use_stock">False</property>
+                        <signal name="activate" handler="on_translationeditor_activate"/>
+                      </object>
+                    </child>
                   </object>
                 </child>
               </object>
@@ -1270,5 +1280,9 @@
   <object class="GtkImage" id="image5">
     <property name="visible">True</property>
     <property name="pixbuf">zIcon_16x16x32.png</property>
+  </object>
+  <object class="GtkImage" id="image6">
+    <property name="visible">True</property>
+    <property name="pixbuf">flags_16x16x32.png</property>
   </object>
 </interface>
