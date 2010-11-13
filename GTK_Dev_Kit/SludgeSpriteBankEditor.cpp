@@ -66,6 +66,8 @@ SludgeSpriteBankEditor::SludgeSpriteBankEditor()
 	showBoxButton = GTK_WIDGET (gtk_builder_get_object(theXml, "show_box"));
 	xSpinButton = GTK_WIDGET (gtk_builder_get_object(theXml, "x_spinbutton"));
 	ySpinButton = GTK_WIDGET (gtk_builder_get_object(theXml, "y_spinbutton"));
+	fontifyDialog = GTK_DIALOG (gtk_builder_get_object(theXml, "fontify_dialog"));
+	fontifySpinButton = GTK_SPIN_BUTTON (gtk_builder_get_object(theXml, "fontify_width"));
 
     init();
 }
@@ -580,9 +582,20 @@ void SludgeSpriteBankEditor::on_hscale_value_changed()
 
 void SludgeSpriteBankEditor::on_fontify()
 {
-	gboolean success;
-	int spritesLoaded = 0;
+	gboolean success = FALSE;
 	GtkWidget *dialog;
+	int spaceCharWidth;
+
+	gtk_spin_button_set_value(fontifySpinButton, 10.);
+
+	if (gtk_dialog_run(fontifyDialog) == GTK_RESPONSE_OK)
+	{
+		spaceCharWidth = gtk_spin_button_get_value_as_int(fontifySpinButton);
+		success = TRUE;
+	}
+	gtk_widget_hide(GTK_WIDGET(fontifyDialog));
+
+	if (!success) return;
 
 	dialog = gtk_file_chooser_dialog_new("Load image as font",
 				      NULL,
@@ -601,7 +614,7 @@ void SludgeSpriteBankEditor::on_fontify()
 	if (gtk_dialog_run(GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
 	{
 		char *filename;
-		gboolean success = 0;
+		success = FALSE;
 
 		filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER (dialog));
 		if (filename == NULL) return;
@@ -624,7 +637,7 @@ void SludgeSpriteBankEditor::on_fontify()
 		if (!success) {
 			deleteSprite(spriteIndex(), &sprites);
 		} else {
-			doFontification(&sprites, 10);
+			doFontification(&sprites, spaceCharWidth);
 			setFolderFromFilename(filename);
 			setFileChanged();
 			render_timer_event(theDrawingarea);

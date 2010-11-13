@@ -409,6 +409,7 @@
     <property name="default_width">300</property>
     <property name="type_hint">normal</property>
     <property name="has_separator">False</property>
+    <signal name="delete_event" handler="on_compiler_dialog_delete_event"/>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox1">
         <property name="visible">True</property>
@@ -656,6 +657,7 @@
     <property name="title" translatable="yes">Project Settings</property>
     <property name="type_hint">normal</property>
     <property name="has_separator">False</property>
+    <signal name="delete_event" handler="on_project_settings_dialog_delete_event"/>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox2">
         <property name="visible">True</property>
@@ -1031,6 +1033,7 @@
     <property name="title" translatable="yes">Project Settings</property>
     <property name="type_hint">normal</property>
     <property name="has_separator">False</property>
+    <signal name="delete_event" handler="on_preferences_dialog_delete_event"/>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox4">
         <property name="visible">True</property>
@@ -1227,10 +1230,11 @@
             <property name="layout_style">end</property>
             <child>
               <object class="GtkButton" id="button2">
-                <property name="label" translatable="yes">Cancel</property>
+                <property name="label">gtk-cancel</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -1240,10 +1244,11 @@
             </child>
             <child>
               <object class="GtkButton" id="save_settings1">
-                <property name="label" translatable="yes">OK</property>
+                <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>

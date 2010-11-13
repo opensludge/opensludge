@@ -34,6 +34,8 @@ private:
 	GtkToggleButton *modePalButton[3];
 	GtkWidget *insertButton, *deleteButton, *replaceButton, *exportButton, *centreButton, *baseButton;
 	GtkWidget *showBoxButton, *xSpinButton, *ySpinButton;
+	GtkDialog *fontifyDialog;
+	GtkSpinButton *fontifySpinButton;
 
 	int hotSpotX1, hotSpotY1, mouseLoc1x, mouseLoc1y;
 	gboolean ignoreModePalButtons;

@@ -194,7 +194,20 @@ void receiveCompilerInfo(compilerInfo *info)
 	g_idle_add(update_compile_window_hook, NULL);
 }
 
+G_MODULE_EXPORT gboolean on_project_settings_dialog_delete_event(GtkWidget *theWidget, GdkEvent  *theEvent, gpointer theUser_data)
+{
+	return gtk_widget_hide_on_delete(theWidget);
+}
 
+G_MODULE_EXPORT gboolean on_preferences_dialog_delete_event(GtkWidget *theWidget, GdkEvent  *theEvent, gpointer theUser_data)
+{
+	return gtk_widget_hide_on_delete(theWidget);
+}
+
+G_MODULE_EXPORT gboolean on_compiler_dialog_delete_event(GtkWidget *theWidget, GdkEvent  *theEvent, gpointer theUser_data)
+{
+	return gtk_widget_hide_on_delete(theWidget);
+}
 #ifdef __cplusplus
 }
 #endif

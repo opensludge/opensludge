@@ -78,6 +78,42 @@ SludgeProjectManager::SludgeProjectManager()
 	projectRunGameItem = GTK_WIDGET (gtk_builder_get_object(theXml, "project_run_game"));
 	addFileButton = GTK_WIDGET (gtk_builder_get_object(theXml, "add_file"));
 	removeFileButton = GTK_WIDGET (gtk_builder_get_object(theXml, "remove_file"));
+
+	compilerDialog = GTK_DIALOG (gtk_builder_get_object(theXml, "compiler_dialog"));
+	compProgress1 = GTK_PROGRESS_BAR (gtk_builder_get_object(theXml, "progressbar1"));
+	compProgress2 = GTK_PROGRESS_BAR (gtk_builder_get_object(theXml, "progressbar2"));
+	compTask = GTK_LABEL (gtk_builder_get_object(theXml, "comp_task"));
+	compFile = GTK_LABEL (gtk_builder_get_object(theXml, "comp_file"));
+	compItem = GTK_LABEL (gtk_builder_get_object(theXml, "comp_item"));
+	compFuncs = GTK_LABEL (gtk_builder_get_object(theXml, "comp_funcs"));
+	compObjs = GTK_LABEL (gtk_builder_get_object(theXml, "comp_objs"));
+	compGlobs = GTK_LABEL (gtk_builder_get_object(theXml, "comp_globs"));
+	compStrings = GTK_LABEL (gtk_builder_get_object(theXml, "comp_strings"));
+	compResources = GTK_LABEL (gtk_builder_get_object(theXml, "comp_resources"));
+	runGameButton = GTK_WIDGET (gtk_builder_get_object(theXml, "comp_gamebutton"));
+	closeCompilerButton = GTK_WIDGET (gtk_builder_get_object(theXml, "comp_okbutton"));
+
+	projectSettingsDialog = GTK_DIALOG (gtk_builder_get_object(theXml, "project_settings_dialog"));
+	prefName = GTK_ENTRY (gtk_builder_get_object(theXml, "pref_name"));
+	prefQuit = GTK_ENTRY (gtk_builder_get_object(theXml, "pref_quit"));
+	prefSave = GTK_ENTRY (gtk_builder_get_object(theXml, "pref_save"));
+	prefLanguage = GTK_ENTRY (gtk_builder_get_object(theXml, "pref_language"));
+	prefFilename = GTK_ENTRY (gtk_builder_get_object(theXml, "pref_filename"));
+	prefIcon = GTK_ENTRY (gtk_builder_get_object(theXml, "pref_icon"));
+	prefLogo = GTK_ENTRY (gtk_builder_get_object(theXml, "pref_logo"));
+	prefWidth = GTK_SPIN_BUTTON (gtk_builder_get_object(theXml, "pref_width"));
+	prefHeight = GTK_SPIN_BUTTON (gtk_builder_get_object(theXml, "pref_height"));
+	prefSpeed = GTK_SPIN_BUTTON (gtk_builder_get_object(theXml, "pref_speed"));
+	prefSilent = GTK_TOGGLE_BUTTON (gtk_builder_get_object(theXml, "pref_silent"));
+
+	preferenceDialog = GTK_DIALOG (gtk_builder_get_object(theXml, "preferences_dialog"));
+	prefKeepImages = GTK_TOGGLE_BUTTON (gtk_builder_get_object(theXml, "pref_keep_images"));
+	prefWriteStrings = GTK_TOGGLE_BUTTON (gtk_builder_get_object(theXml, "pref_write_strings"));
+	prefVerbose = GTK_TOGGLE_BUTTON (gtk_builder_get_object(theXml, "pref_verbose"));
+	prefEditor = GTK_ENTRY (gtk_builder_get_object(theXml, "pref_editor"));
+	prefImageViewer = GTK_ENTRY (gtk_builder_get_object(theXml, "pref_image_viewer"));
+	prefAudioPlayer = GTK_ENTRY (gtk_builder_get_object(theXml, "pref_audio_player"));
+	prefModPlayer = GTK_ENTRY (gtk_builder_get_object(theXml, "pref_mod_player"));
 	
 	if (!getcwd(workingDir, 998))
 		fprintf(stderr, "Couldn't get current working directory.");
@@ -805,33 +841,6 @@ void SludgeProjectManager::on_remove_file_clicked()
 
 void SludgeProjectManager::on_compile()
 {
-	GtkDialog *compilerDialog;
-	GtkBuilder *theBuilder;
-
-	g_chdir(workingDir);
-	theBuilder = gtk_builder_new();
-	if (!gtk_builder_add_from_file(theBuilder, joinTwoStrings(DATADIR, "ProjectManager.glade"), NULL)) {
-		errorBox("Error!", joinTwoStrings("Failed to load resource file:\n", joinTwoStrings(DATADIR, "ProjectManager.glade")));
-		return;
-	}
-
-	compilerDialog = GTK_DIALOG (gtk_builder_get_object(theBuilder, "compiler_dialog"));
-	compProgress1 = GTK_PROGRESS_BAR (gtk_builder_get_object(theBuilder, "progressbar1"));
-	compProgress2 = GTK_PROGRESS_BAR (gtk_builder_get_object(theBuilder, "progressbar2"));
-	compTask = GTK_LABEL (gtk_builder_get_object(theBuilder, "comp_task"));
-	compFile = GTK_LABEL (gtk_builder_get_object(theBuilder, "comp_file"));
-	compItem = GTK_LABEL (gtk_builder_get_object(theBuilder, "comp_item"));
-	compFuncs = GTK_LABEL (gtk_builder_get_object(theBuilder, "comp_funcs"));
-	compObjs = GTK_LABEL (gtk_builder_get_object(theBuilder, "comp_objs"));
-	compGlobs = GTK_LABEL (gtk_builder_get_object(theBuilder, "comp_globs"));
-	compStrings = GTK_LABEL (gtk_builder_get_object(theBuilder, "comp_strings"));
-	compResources = GTK_LABEL (gtk_builder_get_object(theBuilder, "comp_resources"));
-	runGameButton = GTK_WIDGET (gtk_builder_get_object(theBuilder, "comp_gamebutton"));
-	closeCompilerButton = GTK_WIDGET (gtk_builder_get_object(theBuilder, "comp_okbutton"));
-
-	gtk_builder_connect_signals( theBuilder, NULL );
-    g_object_unref( G_OBJECT( theBuilder ) );
-
 	//Switch to the "Compiler Errors" notebook to make sure the TableView is realized:
 	gtk_notebook_set_current_page(notebook, 1); 
 
@@ -859,7 +868,7 @@ void SludgeProjectManager::on_comp_okbutton_clicked(GtkButton *theButton)
 	GtkWidget *theDialog;
 	theDialog = gtk_widget_get_toplevel(GTK_WIDGET(theButton));
 
-	gtk_widget_destroy(theDialog);
+	gtk_widget_hide(theDialog);
 }
 
 void SludgeProjectManager::on_comp_gamebutton_clicked()
@@ -895,35 +904,6 @@ void SludgeProjectManager::on_comp_gamebutton_clicked()
 
 void SludgeProjectManager::on_project_settings()
 {
-	GtkDialog *projectSettingsDialog;
-	GtkEntry *prefName, *prefQuit, *prefSave, *prefLanguage, *prefFilename, *prefIcon, *prefLogo;
-	GtkSpinButton *prefWidth, *prefHeight, *prefSpeed;
-	GtkToggleButton *prefSilent;
-	GtkBuilder *theBuilder;
-
-	g_chdir(workingDir);
-	theBuilder = gtk_builder_new();
-	if (!gtk_builder_add_from_file(theBuilder, joinTwoStrings(DATADIR, "ProjectManager.glade"), NULL)) {
-		errorBox("Error!", joinTwoStrings("Failed to load resource file:\n", joinTwoStrings(DATADIR, "ProjectManager.glade")));
-		return;
-	}
-
-	projectSettingsDialog = GTK_DIALOG (gtk_builder_get_object(theBuilder, "project_settings_dialog"));
-	prefName = GTK_ENTRY (gtk_builder_get_object(theBuilder, "pref_name"));
-	prefQuit = GTK_ENTRY (gtk_builder_get_object(theBuilder, "pref_quit"));
-	prefSave = GTK_ENTRY (gtk_builder_get_object(theBuilder, "pref_save"));
-	prefLanguage = GTK_ENTRY (gtk_builder_get_object(theBuilder, "pref_language"));
-	prefFilename = GTK_ENTRY (gtk_builder_get_object(theBuilder, "pref_filename"));
-	prefIcon = GTK_ENTRY (gtk_builder_get_object(theBuilder, "pref_icon"));
-	prefLogo = GTK_ENTRY (gtk_builder_get_object(theBuilder, "pref_logo"));
-	prefWidth = GTK_SPIN_BUTTON (gtk_builder_get_object(theBuilder, "pref_width"));
-	prefHeight = GTK_SPIN_BUTTON (gtk_builder_get_object(theBuilder, "pref_height"));
-	prefSpeed = GTK_SPIN_BUTTON (gtk_builder_get_object(theBuilder, "pref_speed"));
-	prefSilent = GTK_TOGGLE_BUTTON (gtk_builder_get_object(theBuilder, "pref_silent"));
-
-	gtk_builder_connect_signals( theBuilder, NULL );
-    g_object_unref( G_OBJECT( theBuilder ) );
-
 	gtk_entry_set_text(prefName, settings.windowName ? settings.windowName : "");
 	gtk_entry_set_text(prefQuit, settings.quitMessage ? settings.quitMessage : "");
 	gtk_entry_set_text(prefSave, settings.runtimeDataFolder ? settings.runtimeDataFolder : "");
@@ -952,35 +932,11 @@ void SludgeProjectManager::on_project_settings()
 		settings.forceSilent = gtk_toggle_button_get_active(prefSilent);
 		setFileChanged();
 	}
-	gtk_widget_destroy(GTK_WIDGET(projectSettingsDialog));
+	gtk_widget_hide(GTK_WIDGET(projectSettingsDialog));
 }
 
 void SludgeProjectManager::on_preferences()
 {
-	GtkDialog *preferenceDialog;
-	GtkToggleButton *prefKeepImages, *prefWriteStrings, *prefVerbose;
-	GtkEntry *prefEditor, *prefImageViewer, *prefAudioPlayer, *prefModPlayer;
-	GtkBuilder *theBuilder;
-
-	g_chdir(workingDir);
-	theBuilder = gtk_builder_new();
-	if (!gtk_builder_add_from_file(theBuilder, joinTwoStrings(DATADIR, "ProjectManager.glade"), NULL)) {
-		errorBox("Error!", joinTwoStrings("Failed to load resource file:\n", joinTwoStrings(DATADIR, "ProjectManager.glade")));
-		return;
-	}
-
-	preferenceDialog = GTK_DIALOG (gtk_builder_get_object(theBuilder, "preferences_dialog"));
-	prefKeepImages = GTK_TOGGLE_BUTTON (gtk_builder_get_object(theBuilder, "pref_keep_images"));
-	prefWriteStrings = GTK_TOGGLE_BUTTON (gtk_builder_get_object(theBuilder, "pref_write_strings"));
-	prefVerbose = GTK_TOGGLE_BUTTON (gtk_builder_get_object(theBuilder, "pref_verbose"));
-	prefEditor = GTK_ENTRY (gtk_builder_get_object(theBuilder, "pref_editor"));
-	prefImageViewer = GTK_ENTRY (gtk_builder_get_object(theBuilder, "pref_image_viewer"));
-	prefAudioPlayer = GTK_ENTRY (gtk_builder_get_object(theBuilder, "pref_audio_player"));
-	prefModPlayer = GTK_ENTRY (gtk_builder_get_object(theBuilder, "pref_mod_player"));
-
-	gtk_builder_connect_signals( theBuilder, NULL );
-    g_object_unref( G_OBJECT( theBuilder ) );
-
 	gtk_toggle_button_set_active(prefKeepImages, !programSettings.compilerKillImages);
 	gtk_toggle_button_set_active(prefWriteStrings, programSettings.compilerWriteStrings);
 	gtk_toggle_button_set_active(prefVerbose, programSettings.compilerVerbose);
@@ -1001,7 +957,7 @@ void SludgeProjectManager::on_preferences()
 
 		saveIniFile();
 	}
-	gtk_widget_destroy (GTK_WIDGET(preferenceDialog));
+	gtk_widget_hide(GTK_WIDGET(preferenceDialog));
 }
 
 void SludgeProjectManager::on_program_activate(whichProgram program)

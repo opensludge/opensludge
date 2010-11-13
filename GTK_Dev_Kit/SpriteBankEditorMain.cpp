@@ -220,6 +220,11 @@ G_MODULE_EXPORT void on_fontify(GtkMenuItem *theItem, gpointer theUser_data)
 {
 	spriteBankEditor->on_fontify();
 }
+
+G_MODULE_EXPORT gboolean on_fontify_dialog_delete_event(GtkWidget *theWidget, GdkEvent  *theEvent, gpointer theUser_data)
+{
+	return gtk_widget_hide_on_delete(theWidget);
+}
 #ifdef __cplusplus
 }
 #endif

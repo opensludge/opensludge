@@ -54,10 +54,20 @@ private:
 	GtkWidget *saveItem, *saveAsItem, *projectPropertiesItem, *projectCompileItem, *projectRunGameItem;
 	GtkWidget *addFileButton, *removeFileButton;
 
+	GtkDialog *compilerDialog;
 	GtkProgressBar *compProgress1, *compProgress2;
 	GtkLabel *compTask, *compFile, *compItem, *compFuncs;
 	GtkLabel *compObjs, *compGlobs, *compStrings, *compResources;
 	GtkWidget *runGameButton, *closeCompilerButton;
+
+	GtkDialog *projectSettingsDialog;
+	GtkEntry *prefName, *prefQuit, *prefSave, *prefLanguage, *prefFilename, *prefIcon, *prefLogo;
+	GtkSpinButton *prefWidth, *prefHeight, *prefSpeed;
+	GtkToggleButton *prefSilent;
+
+	GtkDialog *preferenceDialog;
+	GtkToggleButton *prefKeepImages, *prefWriteStrings, *prefVerbose;
+	GtkEntry *prefEditor, *prefImageViewer, *prefAudioPlayer, *prefModPlayer;
 
 public:
 	GAsyncQueue *compilerInfoQueue;
