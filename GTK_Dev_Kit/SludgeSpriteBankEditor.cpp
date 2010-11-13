@@ -608,14 +608,14 @@ void SludgeSpriteBankEditor::on_fontify()
 
 		flipBackslashes(&filename);
 
-		addSprite(spriteIndex(), &sprites);
+		addSprite(0, &sprites);
 
 		if (strlen(filename) > 4) {
 			char * extension = filename + strlen(filename) - 4;
 			if        (!strcmp(extension, ".png") || !strcmp(extension, ".PNG")) {
-				success = loadSpriteFromPNG(filename, &sprites, spriteIndex());
+				success = loadSpriteFromPNG(filename, &sprites, 0);
 			} else if (!strcmp(extension, ".tga") || !strcmp(extension, ".TGA")) {
-				success = loadSpriteFromTGA(filename, &sprites, spriteIndex());
+				success = loadSpriteFromTGA(filename, &sprites, 0);
 			}
 		} else {
 			errorBox("Can't load image", "I don't recognise the file type. TGA and PNG are the supported file types.");
@@ -628,13 +628,12 @@ void SludgeSpriteBankEditor::on_fontify()
 			setFolderFromFilename(filename);
 			setFileChanged();
 			render_timer_event(theDrawingarea);
+			setupButtons();
 		}
 
 		g_free(filename);
 	}
 	gtk_widget_destroy(dialog);
-
-	setupButtons();
 }
 
 void SludgeSpriteBankEditor::on_zoom_100_clicked()

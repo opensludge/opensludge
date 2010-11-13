@@ -104,23 +104,29 @@ void writeString (const char * txt, FILE * fp) {
 
 char * readText (FILE * fp) {
 	char * reply;
-	int stringSize;
-	bool success = false;
-	for (int i = 1; !success; i++) {
-		stringSize = 1000*i;
+	int stringSize, i = 1;
+	bool goOn = true;
+	fpos_t startPosition;
+	fgetpos ( fp, &startPosition );
+	while (goOn) {
+		stringSize = 200*i;
 		reply = new char[stringSize];
 		if (fgets ( reply, stringSize, fp )) {
 			if (strlen(reply) < stringSize - 1) {
 				// Get rid of the newline character:
-				reply[strlen(reply)-1] = NULL;
-				success = true;
+				reply[strlen(reply)-1] = NULL;        // remove \n
+				if (reply[strlen(reply)-1] == '\x0D') // remove \r if present
+					reply[strlen(reply)-1] = NULL;
+				goOn = false;
 			} else {
 				delete reply;
+				fsetpos ( fp, &startPosition );
+				i++;
 			}
 		} else {
 			delete reply;
 			reply = NULL;
-			success = true;
+			goOn = false;
 		}
 	}
 	return reply;
