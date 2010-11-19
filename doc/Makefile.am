@@ -198,7 +198,7 @@ nobase_dist_doc_DATA=\
 	SLUDGEDevKitHelp/pickOne.html \
 	SLUDGEDevKitHelp/setScale.html \
 	SLUDGEDevKitHelp/The_Worlds_Easiest_Load_Save_Mechanism.html \
-	SLUDGEDevKitHelp/SLUDGE_Dev_Kit_Help.html \
+	SLUDGEDevKitHelp/index.html \
 	SLUDGEDevKitHelp/images/aa-0.jpg \
 	SLUDGEDevKitHelp/images/aa-20.jpg \
 	SLUDGEDevKitHelp/images/aa-4.jpg \
