@@ -1,4 +1,7 @@
 nobase_dist_doc_DATA=\
+	SLUDGE_Dev_Kit_Help.html \
+	SLUDGEDevKitHelp/HtmlMenu.html \
+	SLUDGEDevKitHelp/images/Sludge_128x128x32.png \
 	SLUDGEDevKitHelp/About_the_SLUDGE_Compiler.html \
 	SLUDGEDevKitHelp/getObjectX_and_getObjectY.html \
 	SLUDGEDevKitHelp/playSound.html \

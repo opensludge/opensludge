@@ -86,6 +86,7 @@ SludgeGLApplication::SludgeGLApplication(const char * gladeFileName, const char 
 	theRender_mutex = g_mutex_new();
 
 	haveStatusbar = FALSE;
+	zmul = 1.;
 }
 
 SludgeGLApplication::~SludgeGLApplication()

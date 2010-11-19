@@ -1,0 +1,433 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<title>SLUDGE Dev Kit Help menu</title>
+	<meta name="Author" content="Tobias Hansen">
+	<meta name="language" content="English">
+	<meta name="robots" content="follow">
+	<meta name="googlebot" content="index, follow">
+
+	<style type="text/css">
+	
+	html{
+		height:100%;
+	}
+	body{	
+		font-family: Trebuchet MS, Lucida Sans Unicode, Arial, sans-serif;
+		margin:0px;
+		padding:0px;
+		height:100%;
+		font-size:0.9em;
+		line-height:130%;
+		background-color:#FFF;
+		text-align:center;
+	}
+	
+	#mainContainer{
+		margin: 0 auto;
+		border-left:1px solid #000;
+		border-right:1px solid #000;
+		height:100%;
+		text-align:left;
+		background-color:#FFF;
+	}
+	#leftColumn{
+		width:180px;
+		float:left;
+		padding-left:20px;
+		padding-top:20px;
+	}
+	#topBar{
+		text-align:center;
+		padding-top:20px;
+	}
+	
+	/****************************************************************************************
+	* 	LAYOUT CSS FOR THE MENU
+	****************************************************************************************/
+	#SLUDGE_listMenu a{	/* Main menu items */
+		color:#000;
+		text-decoration:none;
+		font-weight:bold;
+
+	}
+	#SLUDGE_listMenu ul li a{	/* Sub menu */
+		color: #228822;
+		font-weight:normal;
+	}
+	#SLUDGE_listMenu ul li ul li a{	/* Sub Sub menu */
+		color: #000;
+		font-style:italic;
+		font-size:0.9em;
+		font-weight:normal;		
+	}
+	
+	#SLUDGE_listMenu .activeMenuLink{	/* Styling of active menu item */
+		color:blue;
+	}
+	
+	
+	/*
+	Bullets
+	*/	
+	#SLUDGE_listMenu li{
+		list-style-type:circle;	
+	}
+
+	#SLUDGE_listMenu li.hasChildren {
+		list-style-type:disc; 
+	} 
+	
+	/*
+	No margin and padding
+	*/
+	#SLUDGE_listMenu, #SLUDGE_listMenu ul{
+		margin:0px;
+		padding:0px;
+	}
+
+	/* Margin of sub menu items */
+	#SLUDGE_listMenu ul{
+		display:none;
+		margin-left:10px;
+	}
+	</style>
+	
+	<script type="text/javascript">
+	
+	/************************************************************************************************************
+	(C) www.dhtmlgoodies.com, October 2005
+	
+	This is a script from www.dhtmlgoodies.com. You will find this and a lot of other scripts at our website.	
+	
+	Terms of use:
+	You are free to use this script as long as the copyright message is kept intact. However, you may not
+	redistribute, sell or repost it without our permission.
+	
+	Thank you!
+	
+	www.dhtmlgoodies.com
+	Alf Magne Kalleland
+	
+	************************************************************************************************************/	
+
+	
+	var activeMenuItem = new Array();
+	
+	function isUlInArray(inputObj,ulObj){
+		while(inputObj && inputObj.id!='SLUDGE_listMenu'){
+			if(inputObj==ulObj)return true;
+			inputObj = inputObj.parentNode;			
+		}		
+		return false;
+	}
+	
+	function showHideSub(e,inputObj)
+	{
+		
+
+		if(!inputObj)inputObj=this;
+		var parentObj = inputObj.parentNode;
+		var ul = parentObj.getElementsByTagName('UL')[0];
+		if(activeMenuItem.length>0){
+			for(var no=0;no<activeMenuItem.length;no++){
+				if(!isUlInArray(ul,activeMenuItem[0]) && !isUlInArray(activeMenuItem[0],ul)){
+					activeMenuItem[no].style.display='none';
+					activeMenuItem.splice(no,1);
+					no--;
+				}
+			}			
+		}
+		if(ul.offsetHeight == 0){
+			ul.style.display='block';
+			activeMenuItem.push(ul);
+		}else{
+			ul.style.display='none';
+		}
+	}
+	
+	function showHidePath(inputObj)
+	{
+		var startTag = inputObj;
+		showHideSub(false,inputObj);
+		inputObj = inputObj.parentNode;
+		while(inputObj){			
+			inputObj = inputObj.parentNode;
+			if(inputObj.tagName=='LI')showHideSub(false,inputObj.getElementsByTagName('A')[0]);
+			if(inputObj.id=='SLUDGE_listMenu')inputObj=false;	
+		}		
+	}
+	
+	function initMenu()
+	{
+		var obj = document.getElementById('SLUDGE_listMenu');
+		var linkCounter=0;
+		var aTags = obj.getElementsByTagName('A');
+		var activeMenuItem = false;
+		var activeMenuLink = false;
+		var thisLocationArray = location.href.split(/\//);
+		var fileNameThis = thisLocationArray[thisLocationArray.length-1];
+		if(fileNameThis.indexOf('?')>0)fileNameThis = fileNameThis.substr(0,fileNameThis.indexOf('?'));
+		if(fileNameThis.indexOf('#')>0)fileNameThis = fileNameThis.substr(0,fileNameThis.indexOf('#'));
+
+		for(var no=0;no<aTags.length;no++){
+			var parent = aTags[no].parentNode;
+			var subs = parent.getElementsByTagName('UL');
+			if(subs.length>0){
+				aTags[no].onclick = showHideSub;	
+				linkCounter++;
+				aTags[no].id = 'aLink' + linkCounter;
+			}	
+			
+			if(aTags[no].href.indexOf(fileNameThis)>=0 && aTags[no].href.charAt(aTags[no].href.length-1)!='#'){				
+				if(aTags[no].parentNode.parentNode){								
+					var parentObj = aTags[no].parentNode.parentNode.parentNode;
+					var a = parentObj.getElementsByTagName('A')[0];
+					if(a.id && !activeMenuLink){
+						
+						activeMenuLink = aTags[no];
+						activeMenuItem = a.id;
+					}
+				}
+			}		
+		}		
+
+		if(activeMenuLink){
+			activeMenuLink.className='activeMenuLink';
+		}
+		if(activeMenuItem){
+			if(document.getElementById(activeMenuItem))showHidePath(document.getElementById(activeMenuItem));	
+		}
+	}
+	window.onload = initMenu;
+	</script>
+</head>
+<body>
+<div id="mainContainer">
+	<div id="topBar">
+		<img src="images/Sludge_128x128x32.png" alt="SLUDGE Logo" />
+	</div>
+	<div id="leftColumn">
+		<ul id="SLUDGE_listMenu">
+			<li class="hasChildren"><a href="SLUDGE_Dev_Kit_Help.html" target="Frame">Welcome to SLUDGE!</a>
+			<ul>
+				<li><a href="Introduction_to_SLUDGE_Concepts.html" target="Frame">Introduction to SLUDGE Concepts</a></li>
+				<li><a href="Overview__Creating_a_Game.html" target="Frame">Overview: Creating a Game</a></li>
+				<li><a href="File_Formats_Used_by_SLUDGE.html" target="Frame">File Formats Used by SLUDGE</a></li>
+				<li><a href="Copyright.html" target="Frame">Copyright</a></li>
+				<li><a href="Download_Free_SLUDGE_Examples.html" target="Frame">Download Free SLUDGE Examples</a></li>
+			</ul>
+			</li>
+			<li class="hasChildren"><a href="SLUDGE_Language_Reference_Manual.html" target="Frame">SLUDGE Language Reference Manual</a>
+			<ul>
+				<li class="hasChildren"><a href="Alphabetical_List_of_Built-in_Functions.html" target="Frame">Alphabetical List of Built-in Functions</a>
+				<ul>
+					<li><a href="addCharacter.html" target="Frame">addCharacter</a></li>
+					<li><a href="addOverlay.html" target="Frame">addOverlay</a></li>
+					<li><a href="addScreenRegion.html" target="Frame">addScreenRegion</a></li>
+					<li><a href="addStatus.html" target="Frame">addStatus</a></li>
+					<li><a href="aimCamera.html" target="Frame">aimCamera</a></li>
+					<li><a href="alignStatus.html" target="Frame">alignStatus</a></li>
+					<li><a href="anim.html" target="Frame">anim</a></li>
+					<li><a href="animate.html" target="Frame">animate</a></li>
+					<li><a href="blankArea.html" target="Frame">blankArea</a></li>
+					<li><a href="blankScreen.html" target="Frame">blankScreen</a></li>
+					<li><a href="bodgeFilenames.html" target="Frame">bodgeFilenames</a></li>
+					<li><a href="cacheSound.html" target="Frame">cacheSound</a></li>
+					<li><a href="callEvent.html" target="Frame">callEvent</a></li>
+					<li><a href="cancelSub.html" target="Frame">cancelSub</a></li>
+					<li><a href="captureAllKeys.html" target="Frame">captureAllKeys</a></li>
+					<li><a href="clearStatus.html" target="Frame">clearStatus</a></li>
+					<li><a href="completeTimers.html" target="Frame">completeTimers</a></li>
+					<li><a href="copyStack.html" target="Frame">copyStack</a></li>
+					<li><a href="costume.html" target="Frame">costume</a></li>
+					<li><a href="darkBackground.html" target="Frame">darkBackground</a></li>
+					<li><a href="deleteFile.html" target="Frame">deleteFile</a></li>
+					<li><a href="deleteFromStack_and_deleteAllFromStack.html" target="Frame">deleteFromStack and deleteAllFromStack</a></li>
+					<li><a href="dequeue.html" target="Frame">dequeue</a></li>
+					<li><a href="enqueue.html" target="Frame">enqueue</a></li>
+					<li><a href="fetchEvent.html" target="Frame">fetchEvent</a></li>
+					<li><a href="fileExists.html" target="Frame">fileExists</a></li>
+					<li><a href="floatCharacter.html" target="Frame">floatCharacter</a></li>
+					<li><a href="forceCharacter.html" target="Frame">forceCharacter</a></li>
+					<li><a href="freeSound.html" target="Frame">freeSound</a></li>
+					<li><a href="freeze.html" target="Frame">freeze</a></li>
+					<li><a href="getCharacterDirection.html" target="Frame">getCharacterDirection</a></li>
+					<li><a href="getCharacterScale.html" target="Frame">getCharacterScale</a></li>
+					<li><a href="getFramesPerSecond.html" target="Frame">getFramesPerSecond</a></li>
+					<li><a href="getLanguageID.html" target="Frame">getLanguageID</a></li>
+					<li><a href="getMatchingFiles.html" target="Frame">getMatchingFiles</a></li>
+					<li><a href="getMouseScreenX_and_getMouseScreenY.html" target="Frame">getMouseScreenX and getMouseScreenY</a></li>
+					<li><a href="getMouseX_and_getMouseY.html" target="Frame">getMouseX and getMouseY</a></li>
+					<li><a href="getObjectX_and_getObjectY.html" target="Frame">getObjectX and getObjectY</a></li>
+					<li><a href="getOverObject.html" target="Frame">getOverObject</a></li>
+					<li><a href="getPixelColour_(getPixelColor).html" target="Frame">getPixelColour (getPixelColor)</a></li>
+					<li><a href="getSoundCache.html" target="Frame">getSoundCache</a></li>
+					<li><a href="getStatusText.html" target="Frame">getStatusText</a></li>
+					<li><a href="hardScroll.html" target="Frame">hardScroll</a></li>
+					<li><a href="hasFlag.html" target="Frame">hasFlag</a></li>
+					<li><a href="hideCharacter.html" target="Frame">hideCharacter</a></li>
+					<li><a href="howFrozen.html" target="Frame">howFrozen</a></li>
+					<li><a href="isCharacter.html" target="Frame">isCharacter</a></li>
+					<li><a href="isMoving.html" target="Frame">isMoving</a></li>
+					<li><a href="isScreenRegion.html" target="Frame">isScreenRegion</a></li>
+					<li><a href="jumpCharacter.html" target="Frame">jumpCharacter</a></li>
+					<li><a href="launch_and_launchWith.html" target="Frame">launch</a></li>
+					<li><a href="lightStatus.html" target="Frame">lightStatus</a></li>
+					<li><a href="loadCustomData_and_saveCustomData.html" target="Frame">loadCustomData and saveCustomData</a></li>
+					<li><a href="loadGame.html" target="Frame">loadGame</a></li>
+					<li><a href="loopSound.html" target="Frame">loopSound</a></li>
+					<li><a href="mixOverlay.html" target="Frame">mixOverlay</a></li>
+					<li><a href="moveCharacter.html" target="Frame">moveCharacter</a></li>
+					<li><a href="newStack.html" target="Frame">newStack</a></li>
+					<li><a href="normalCharacter.html" target="Frame">normalCharacter</a></li>
+					<li><a href="onFocusChange.html" target="Frame">onFocusChange</a></li>
+					<li><a href="onKeyboard.html" target="Frame">onKeyboard</a></li>
+					<li><a href="onLeftMouse.html" target="Frame">onLeftMouse</a></li>
+					<li><a href="onLeftMouseUp.html" target="Frame">onLeftMouseUp</a></li>
+					<li><a href="onMoveMouse.html" target="Frame">onMoveMouse</a></li>
+					<li><a href="onRightMouse.html" target="Frame">onRightMouse</a></li>
+					<li><a href="onRightMouseUp.html" target="Frame">onRightMouseUp</a></li>
+					<li><a href="parallaxAdd.html" target="Frame">parallaxAdd</a></li>
+					<li><a href="parallaxClear.html" target="Frame">parallaxClear</a></li>
+					<li><a href="pasteCharacter.html" target="Frame">pasteCharacter</a></li>
+					<li><a href="pasteImage.html" target="Frame">pasteImage</a></li>
+					<li><a href="pasteString_and_burnString.html" target="Frame">pasteString and burnString</a></li>
+					<li><a href="pause.html" target="Frame">pause</a></li>
+					<li><a href="pickOne.html" target="Frame">pickOne</a></li>
+					<li><a href="playSound.html" target="Frame">playSound</a></li>
+					<li><a href="popFromStack.html" target="Frame">popFromStack</a></li>
+					<li><a href="positionStatus.html" target="Frame">positionStatus</a></li>
+					<li><a href="pushToStack.html" target="Frame">pushToStack</a></li>
+					<li><a href="quitGame.html" target="Frame">quitGame</a></li>
+					<li><a href="quitWithFatalError.html" target="Frame">quitWithFatalError</a></li>
+					<li><a href="random.html" target="Frame">random</a></li>
+					<li><a href="removeAllCharacters.html" target="Frame">removeAllCharacters</a></li>
+					<li><a href="removeAllScreenRegions.html" target="Frame">removeAllScreenRegions</a></li>
+					<li><a href="removeCharacter.html" target="Frame">removeCharacter</a></li>
+					<li><a href="removeLastStatus.html" target="Frame">removeLastStatus</a></li>
+					<li><a href="removeScreenRegion.html" target="Frame">removeScreenRegion</a></li>
+					<li><a href="rename.html" target="Frame">rename</a></li>
+					<li><a href="renameFile.html" target="Frame">renameFile</a></li>
+					<li><a href="saveGame.html" target="Frame">saveGame</a></li>
+					<li><a href="say_and_think.html" target="Frame">say and think</a></li>
+					<li><a href="setBackgroundEffect.html" target="Frame">setBackgroundEffect and doBackgroundEffect</a></li>
+					<li><a href="setBlankColour_(setBlankColor).html" target="Frame">setBlankColour (setBlankColor)</a></li>
+					<li><a href="setBurnColour_(setBurnColor).html" target="Frame">setBurnColour (setBurnColor)</a></li>
+					<li><a href="setCharacterAngleOffset.html" target="Frame">setCharacterAngleOffset</a></li>
+					<li><a href="setCharacterAntiAliasing.html" target="Frame">setCharacterAntiAliasing</a></li>
+					<li><a href="setCharacterColourise.html" target="Frame">setCharacterColourise</a></li>
+					<li><a href="setCharacterDrawMode.html" target="Frame">setCharacterDrawMode</a></li>
+					<li><a href="setCharacterExtra.html" target="Frame">setCharacterExtra</a></li>
+					<li><a href="setCharacterSpinSpeed.html" target="Frame">setCharacterSpinSpeed</a></li>
+					<li><a href="setCharacterTransparency.html" target="Frame">setCharacterTransparency</a></li>
+					<li><a href="setCharacterWalkSpeed.html" target="Frame">setCharacterWalkSpeed</a></li>
+					<li><a href="setCostume.html" target="Frame">setCostume</a></li>
+					<li><a href="setCursor.html" target="Frame">setCursor</a></li>
+					<li><a href="setCustomEncoding.html" target="Frame">setCustomEncoding</a></li>
+					<li><a href="setDefaultMusicVolume.html" target="Frame">setDefaultMusicVolume</a></li>
+					<li><a href="setDefaultSoundVolume.html" target="Frame">setDefaultSoundVolume</a></li>
+					<li><a href="setFloor.html" target="Frame">setFloor</a></li>
+					<li><a href="setFont.html" target="Frame">setFont</a></li>
+					<li><a href="setFontSpacing.html" target="Frame">setFontSpacing</a></li>
+					<li><a href="setLightMap.html" target="Frame">setLightMap</a></li>
+					<li><a href="setLitStatusColour_(setLitStatusColor).html" target="Frame">setLitStatusColour (setLitStatusColor)</a></li>
+					<li><a href="setMaximumAntiAliasing.html" target="Frame">setMaximumAntiAliasing</a></li>
+					<li><a href="setMusicVolume.html" target="Frame">setMusicVolume</a></li>
+					<li><a href="setPasteColour_(setPasteColor).html" target="Frame">setPasteColour (setPasteColor)</a></li>
+					<li><a href="setScale.html" target="Frame">setScale</a></li>
+					<li><a href="setSceneDimensions.html" target="Frame">setSceneDimensions</a></li>
+					<li><a href="setSoundLoopPoints.html" target="Frame">setSoundLoopPoints</a></li>
+					<li><a href="setSoundVolume.html" target="Frame">setSoundVolume</a></li>
+					<li><a href="setSpeechMode.html" target="Frame">setSpeechMode</a></li>
+					<li><a href="setSpeechSpeed.html" target="Frame">setSpeechSpeed</a></li>
+					<li><a href="setStatusColour_(setStatusColor).html" target="Frame">setStatusColour (setStatusColor)</a></li>
+					<li><a href="setThumbnailSize.html" target="Frame">setThumbnailSize</a></li>
+					<li><a href="setZBuffer.html" target="Frame">setZBuffer</a></li>
+					<li><a href="showBoxes.html" target="Frame">showBoxes</a></li>
+					<li><a href="showCharacter.html" target="Frame">showCharacter</a></li>
+					<li><a href="showFloor.html" target="Frame">showFloor</a></li>
+					<li><a href="showThumbnail.html" target="Frame">showThumbnail</a></li>
+					<li><a href="skipSpeech.html" target="Frame">skipSpeech</a></li>
+					<li><a href="snapshotClear.html" target="Frame">snapshotClear</a></li>
+					<li><a href="snapshotGrab.html" target="Frame">snapshotGrab</a></li>
+					<li><a href="somethingSpeaking.html" target="Frame">somethingSpeaking</a></li>
+					<li><a href="spawnSub.html" target="Frame">spawnSub</a></li>
+					<li><a href="stackSize.html" target="Frame">stackSize</a></li>
+					<li><a href="startMusic.html" target="Frame">startMusic</a></li>
+					<li><a href="statusText.html" target="Frame">statusText</a></li>
+					<li><a href="stopCharacter.html" target="Frame">stopCharacter</a></li>
+					<li><a href="stopMusic.html" target="Frame">stopMusic</a></li>
+					<li><a href="stopSound.html" target="Frame">stopSound</a></li>
+					<li><a href="stringLength.html" target="Frame">stringLength</a></li>
+					<li><a href="stringWidth.html" target="Frame">stringWidth</a></li>
+					<li><a href="substring.html" target="Frame">substring</a></li>
+					<li><a href="transitionMode_and_transitionLevel.html" target="Frame">transitionMode and transitionLevel</a></li>
+					<li><a href="turnCharacter_and_spinCharacter.html" target="Frame">turnCharacter and spinCharacter</a></li>
+					<li><a href="unfreeze.html" target="Frame">unfreeze</a></li>
+					<li><a href="wait.html" target="Frame">wait</a></li>
+					<li><a href="zoomCamera.html" target="Frame">zoomCamera</a></li>
+				</ul>
+				</li>
+
+
+				<li><a href="Built-in_Constants.html" target="Frame">Built-in Constants</a></li>
+				<li><a href="File_Handling.html" target="Frame">File Handling</a></li>
+				<li class="hasChildren"><a href="Functions_(subs).html" target="Frame">Functions (subs)</a>
+				<ul>
+					<li><a href="Passing_Functions_as_Variables.html" target="Frame">Passing Functions as Variables</a></li>
+					<li><a href="Unfreezable_Functions.html" target="Frame">Unfreezable Functions</a></li>
+				</ul>
+				</li>
+				<li><a href="Loops_and_Conditionals.html" target="Frame">Loops and Conditionals</a></li>
+				<li><a href="Multiple_Languages_in_a_Single_Game.html" target="Frame">Multiple Languages in a Single Game</a></li>
+				<li class="hasChildren"><a href="Object_Types_and_Events.html" target="Frame">Object Types and Events</a>
+				<ul>	
+					<li><a href="Member_Variables_and_Member_Functions.html" target="Frame">Member Variables and Member Functions</a></li>
+					<li><a href="Object_Types_as_Characters.html" target="Frame">Object Types as Characters</a></li>
+					<li><a href="Object_Types_as_Screen_Regions.html" target="Frame">Object Types as Screen Regions</a></li>
+					<li><a href="Reusing_Code_for_or_from_Events.html" target="Frame">Reusing Code for or from Events</a></li>
+					<li><a href="Setting_Default_Events.html" target="Frame">Setting Default Events</a></li>
+				</ul>
+				</li>				
+				<li><a href="Scrolling_Scenes.html" target="Frame">Scrolling Scenes</a></li>
+				<li><a href="The_Background_Image.html" target="Frame">The Background Image</a></li>
+				<li><a href="The_Worlds_Easiest_Load_Save_Mechanism.html" target="Frame">The World's Easiest Load/Save Mechanism</a></li>
+				<li><a href="Using_Audio_in_SLUDGE.html" target="Frame">Using Audio in SLUDGE</a></li>
+				<li><a href="Using_Constants_in_SLUDGE.html" target="Frame">Using Constants in SLUDGE</a></li>
+				<li class="hasChildren"><a href="Variables.html" target="Frame">Variables</a>
+				<ul>
+					<li><a href="The_Multi-Purpose_Stack___Array___Queue_Type.html" target="Frame">The Multi-Purpose Stack / Array / Queue Type</a></li>
+					<li><a href="Treating_Variables_as_Booleans.html" target="Frame">Treating Variables as Booleans</a></li>
+					<li><a href="Treating_Variables_as_Strings.html" target="Frame">Treating Variables as Strings</a></li>
+					<li><a href="Variable_Operations.html" target="Frame">Variable Operations</a></li>
+					<li><a href="Problems_with_+=,_-=,__=,__=_and_%=_in_SLUDGE.html" target="Frame">Problems with +=, -=, *=, /= and %= in SLUDGE</a></li>
+				</ul>
+				</li>
+			</ul>
+			</li>
+			<li class="hasChildren"><a href="The_Programs.html" target="Frame">The Programs</a>
+			<ul>
+				<li class="hasChildren"><a href="About_the_SLUDGE_Project_Manager.html" target="Frame">About the SLUDGE Project Manager</a>
+				<ul>
+					<li><a href="Project_Manager__Menus.html" target="Frame">Menus</a></li>
+					<li><a href="Project_Manager__Files_in_this_project_Section.html" target="Frame">"Files in this project" Section</a></li>
+					<li><a href="Project_Manager__Project_management_Section.html" target="Frame">"Project management" Section</a></li>
+					<li><a href="Project_Manager__Project_properties_Dialog.html" target="Frame">"Project properties" Dialog</a></li>
+					<li><a href="Project_Manager__Project_settings_Section.html" target="Frame">"Project settings" Section</a></li>
+					<li><a href="Spellchecking_the_Strings_in_your_Game.html" target="Frame">Spellchecking the Strings in your Game</a></li>
+				</ul>
+				</li>
+				<li><a href="About_the_SLUDGE_Sprite_Bank_Editor.html" target="Frame">About the SLUDGE Sprite Bank Editor</a></li>
+				<li><a href="About_the_SLUDGE_Floor_Maker.html" target="Frame">About the SLUDGE Floor Maker</a></li>
+				<li><a href="About_the_SLUDGE_Z-Buffer_Maker.html" target="Frame">About the SLUDGE Z-Buffer Maker</a></li>
+				<li><a href="About_the_SLUDGE_Translation_Editor.html" target="Frame">About the SLUDGE Translation Editor</a></li>
+				<li><a href="About_the_SLUDGE_Compiler.html" target="Frame">About the SLUDGE Compiler</a></li>
+				<li><a href="ini.html" target="Frame">.ini Files for Compiled SLUDGE Games<a></li>
+			</ul>
+			</li>
+		</ul>
+	</div>
+</div>
+</body>
+</html>
