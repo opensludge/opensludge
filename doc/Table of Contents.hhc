@@ -10,7 +10,7 @@
 <UL>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Welcome to SLUDGE!">
-		<param name="Local" value="SLUDGEDevKitHelp\SLUDGE_Dev_Kit_Help.html">
+		<param name="Local" value="SLUDGEDevKitHelp\index.html">
 		</OBJECT>
 	<UL>
 		<LI> <OBJECT type="text/sitemap">
