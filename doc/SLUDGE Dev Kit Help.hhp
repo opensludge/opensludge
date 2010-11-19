@@ -2,7 +2,7 @@
 Compatibility=1.1 or later
 Compiled file=SLUDGE Dev Kit Help.chm
 Contents file=Table of Contents.hhc
-Default topic=SLUDGEDevKitHelp\SLUDGE_Dev_Kit_Help.html
+Default topic=SLUDGEDevKitHelp\index.html
 Display compile progress=No
 Index file=SLUDGE Dev Kit Help.hhk
 Language=0x809 Engelska (Storbritannien)
@@ -68,6 +68,7 @@ SLUDGEDevKitHelp\hardScroll.html
 SLUDGEDevKitHelp\hasFlag.html
 SLUDGEDevKitHelp\hideCharacter.html
 SLUDGEDevKitHelp\howFrozen.html
+SLUDGEDevKitHelp\index.html
 SLUDGEDevKitHelp\ini.html
 SLUDGEDevKitHelp\Introduction_to_SLUDGE_Concepts.html
 SLUDGEDevKitHelp\isCharacter.html
@@ -172,7 +173,6 @@ SLUDGEDevKitHelp\showCharacter.html
 SLUDGEDevKitHelp\showFloor.html
 SLUDGEDevKitHelp\showThumbnail.html
 SLUDGEDevKitHelp\skipSpeech.html
-SLUDGEDevKitHelp\SLUDGE_Dev_Kit_Help.html
 SLUDGEDevKitHelp\SLUDGE_Language_Reference_Manual.html
 SLUDGEDevKitHelp\snapshotClear.html
 SLUDGEDevKitHelp\snapshotGrab.html
