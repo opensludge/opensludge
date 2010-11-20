@@ -5,74 +5,71 @@
 <BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
 <CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
 <TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>About the SLUDGE Sprite Bank Editor</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-Use the SLUDGE sprite bank editor to create the character, object and mouse cursor animation frames used in your game. With no sprite bank loaded, this is how the sprite bank editor appears on your screen.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<IMG SRC="images/image005.gif"><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Loading an existing sprite bank:</B></FONT><BR>
+</center><P>
+Use the SLUDGE sprite bank editor to create the character, object and mouse cursor animation frames used in your game. This is how the sprite bank editor looks like with Egor the Ego loaded.<P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-Click the &quot;Open&quot; button or choose &quot;Open&quot; from the &quot;File&quot; menu. Then, select a file to load.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Creating a new, empty sprite bank:</B></FONT><BR>
+<IMG SRC="images/spritebankeditor.png"><BR><P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-Click the &quot;New&quot; button or choose &quot;New&quot; from the &quot;File&quot; menu. The program will return to the state shown in the image above.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Adding a sprite to a sprite bank:</B></FONT><BR>
+<FONT FACE=arial color=#3A8F8B><H3>Loading an existing sprite bank</H3></FONT>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-First of all, find the location in the sprite bank where you'd like to load an image using the &quot;<b>&lt;</b>&quot; and &quot;<b>&gt;</b>&quot; buttons (or &quot;<b>&lt;&lt;</b>&quot; and &quot;<b>&gt;&gt;</b>&quot; to go straight to the start or end of the current sprite bank). You can then either insert an image before the selected sprite (by pressing &quot;Insert&quot;) or replace the selected sprite (by pressing &quot;Load from file&quot;).<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-If the checkbox at the bottom of the main window is selected (labelled &quot;Add new colours to palette when loading sprites&quot;) any new colours used by the image you're adding which aren't already in the palette are added automatically. Otherwise, if the image uses colours which don't appear in the sprite bank's palette, the closest colours which do exist in the palette will be used. If you're adding a sprite to a bank with no palette (for example, if you're creating a new bank from scratch) you will need to have the box checked, as otherwise there will be no colours from which to find a closest one.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Setting the hotspot for a sprite:</B></FONT><BR>
+Choose &quot;Open&quot; from the &quot;File&quot; menu. Then, select a file to load.<P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-The hotspot for a sprite is the point around which all scaling is to be done, and also the point which will be positioned at any given (x, y) when the sprite is displayed. For a mouse pointer, the hotspot should be positioned at the tip of the arrow or the centre of the crosshair (and so on). For a character, it is suggested that the hotspot is the point at ground level directly beneath the character's body, between the feet.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-When adding a sprite to a bank, you are taken to the hotspot dialog box automatically after loading the image. (If you're inserting a sprite, the co-ordinates are set to (0, 0); if you're replacing an existing sprite, the co-ordinates remain at their previous values.) Here, you can enter the co-ordinates of the hotspot by hand, making it easy to be pixel-perfect. Hit &quot;Apply&quot; to apply your changes. Alternatively, press &quot;Centre&quot; to set the hot-spot to the centre of the image (useful for inventory icons) or &quot;Base&quot; to set the hotspot to halfway across the bottom row of pixels (approximately the correct hotspot for characters, although you may need to then tinker with the values manually, as explained above). After you're happy with the positioning of the sprite, hit &quot;Close&quot;.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<IMG SRC="images/sbank_hotspot.gif"><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-To open the hotspot dialog box for an existing sprite, hit the button marked &quot;Hotspot&quot; on the main window.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Trimming a sprite:</B></FONT><BR>
+<FONT FACE=arial color=#3A8F8B><H3>Creating a new, empty sprite bank</H3></FONT>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-Should a sprite have transparent space around it, you can automatically trim the sprite by hitting the &quot;Trim&quot; button. The sprite's hotspot values will change if required, so that the sprite image itself doesn't move in the display window. You can also trim an entire sprite bank in one fell swoop, by selecting &quot;Trim all&quot; from the &quot;Sprite Bank&quot; menu.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Positioning sprites in the viewing window:</B></FONT><BR>
+Choose &quot;New&quot; from the &quot;File&quot; menu. The program will return to a state without sprites loaded.<P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-Sometimes the top, bottom or side of a sprite may stick out of the viewing area because of the location of the axes. In such a situation, hit the button marked &quot;Centre sprite in viewing area&quot; to move the sprite to the centre of the rectangular viewing region. Alternatively, position the mouse over the viewing region, hold down the mouse button and drag the mouse to move the viewing area yourself. When you're happy, release the mouse button.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Saving an individual sprite:</B></FONT><BR>
+<FONT FACE=arial color=#3A8F8B ><H3>Adding sprites to a sprite bank</H3></FONT>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-To save a sprite as a TGA file, first find the sprite you wish to save using the direction buttons (representing first, back 1, forward 1 and end of bank respectively). Then hit the &quot;Save to file&quot; button and choose where, and under which name, to save the image file.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Removing an individual sprite:</B></FONT><BR>
+First of all, find the location in the sprite bank where you'd like to load an image using the slider on the bottom. You can then either insert images before the selected sprite (by pressing &quot;Insert Sprite(s)...&quot;) or replace the selected sprite (and following sprites if you select multiple images) by pressing &quot;Replace Sprite(s)...&quot;. If you push the slider to the right end, you will find an empty spot which allows adding spites to the end of the sprite bank.<P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-To delete a sprite from a sprite bank, select it using the direction buttons and then hit the &quot;Delete&quot; button.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Saving a sprite bank:</B></FONT><BR>
+<FONT FACE=arial color=#3A8F8B><H3>Palette vs. 32-bit colour</H3></FONT>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-To save the currently loaded sprite bank, hit either the &quot;Save&quot; or &quot;Save as...&quot; button. Hitting &quot;Save&quot; will overwrite the file from which the sprite bank was loaded (or the file as which it was last saved, depending on which happened most recently). Hitting &quot;Save as...&quot; will prompt you to choose a location and name for the sprite bank file as which you wish to save. If the box at the top of the window reads &quot;New sprite bank&quot; the &quot;Save&quot; button will act in the same way as the &quot;Save as...&quot; button, as there is no file currently associated with the sprite bank.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Transparency in sprites:</B></FONT><BR>
+The palette stuff is a relict from when SLUDGE didn't support 32-bit colour. Just toggle the "32-bit colour" radio button and that's it.<P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-When loading and saving individual sprites from / as TGA image files, the colour magenta (#FF00FF or 255, 0, 255) is used as transparent; the same colour as is treated as transparent by in the <b><a href="addOverlay.html">addOverlay</a></b> and <b><a href="mixOverlay.html">mixOverlay</a></b> functions.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Viewing and working with the palette:</B></FONT><BR>
+Anyway, if the radio button "Palette (open)" is selected, any new colours used by the image you're adding which aren't already in the palette are added automatically. If "Palette (closed)" is activated and if the image uses colours which don't appear in the sprite bank's palette, the closest colours which do exist in the palette will be used. If you're adding a sprite to a bank with no palette (for example, if you're creating a new bank from scratch) you can't use a closed palette as otherwise there will be no colours from which to find a closest one. Each sprite bank can use only one palette, and the maximum number of colours is 255.<P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-Hit the &quot;View palette&quot; button to see the current palette. Each sprite bank can use only one palette, and the maximum number of colours is 255. In the palette dialog, you can automatically remove unused colours (thereby making the file size smaller and making it possible to add images which use a greater number of their own, new colours) and sort the palette by brightness.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<FONT FACE=arial color=#3A8F8B><H3>Setting the hotspot for a sprite</H3></FONT>
+
+The hotspot for a sprite is the point around which all scaling is to be done, and also the point which will be positioned at any given (x, y) when the sprite is displayed. For a mouse pointer, the hotspot should be positioned at the tip of the arrow or the centre of the crosshair (and so on). For a character, it is suggested that the hotspot is the point at ground level directly beneath the character's body, between the feet.<P>
+
+You can enter the co-ordinates of the hotspot on the right, making it easy to be pixel-perfect, but there are also the buttons &quot;Centre&quot; to set the hot-spot to the centre of the image (useful for inventory icons) and &quot;Base&quot; to set the hotspot to halfway across the bottom row of pixels (approximately the correct hotspot for characters, although you may need to then tinker with the values manually).<P>
+
+You can also use the mouse to move the sprites to another hotspot.<P>
+
+<FONT FACE=arial color=#3A8F8B><H3>Positioning sprites in the viewing window</H3></FONT>
+
+Sometimes the top, bottom or side of a sprite may stick out of the viewing area because of the location of the axes. In such a situation, position the mouse over the viewing region, hold down the right mouse button and drag the mouse to move the viewing area. When you're happy, release the mouse button.<P>
+
+<FONT FACE=arial color=#3A8F8B><H3>Saving an individual sprite</H3></FONT>
+
+To save a sprite as a PNG file, first select the sprite you wish to save. Then hit the &quot;Export sprite as...&quot; button and choose where, and under which name, to save the image file.<P>
+
+<FONT FACE=arial color=#3A8F8B><H3>Removing an individual sprite</H3></FONT>
+
+To delete a sprite from a sprite bank, select it using the slider and then hit the &quot;Delete Sprite&quot; button.<P>
+
+<FONT FACE=arial color=#3A8F8B><H3>Saving a sprite bank</H3></FONT>
+
+To save the currently loaded sprite bank, hit either the &quot;Save&quot; or &quot;Save as...&quot; item in the "File" menu. Hitting &quot;Save&quot; will overwrite the file from which the sprite bank was loaded (or the file as which it was last saved, depending on which happened most recently). Hitting &quot;Save as...&quot; will prompt you to choose a location and name for the sprite bank file as which you wish to save. If the title bar of the window reads &quot;SLUDGE Sprite Bank Editor&quot; the &quot;Save&quot; item will act in the same way as the &quot;Save as...&quot; item, as there is no file currently associated with the sprite bank.<P>
+
+<FONT FACE=arial color=#3A8F8B><H3>Transparency in sprites</H3></FONT>
+
+When loading and saving individual sprites from / as TGA image files, the colour magenta (#FF00FF or 255, 0, 255) is used as transparent; the same colour as is treated as transparent by in the <b><a href="addOverlay.html">addOverlay</a></b> and <b><a href="mixOverlay.html">mixOverlay</a></b> functions.<P>
+
+<FONT FACE=arial color=#3A8F8B><H3>Fontify</H3></FONT>
+
+Fontify is a function that makes it easier to get fonts into SLUDGE, but it can also be used if you prefer to create your sprites on a single image before converting them into a sprite bank. It searches an image for segments that are horizontally seperated by transparency and creates a sprite out of each segment. An additional space character is created at the end of the sprite bank. As an example, lets take this image (the checkerboard pattern indicates transparency):<P>
+
+<IMG SRC="images/ABC_image.png"><BR><P>
+
+Fontify turns it into a sprite bank with these four sprites:<P>
+
+<IMG SRC="images/ABC_spritebank.png"><BR><P>
+
+The green background is shown because the "Show sprite size" box is checked.<P>
+
+Fontify can be found in the "File" menu on Linux and Windows or in the "Tools" menu on Mac. After launching it you are first prompted for the width of the space character and then for an image to fontify.<P>
+
 <B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
 <IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
 <HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
