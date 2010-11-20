@@ -777,6 +777,10 @@
 				<param name="Local" value="SLUDGEDevKitHelp\About_the_SLUDGE_Sprite_Bank_Editor.html">
 				</OBJECT>
 			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="About the SLUDGE Translation Editor">
+				<param name="Local" value="SLUDGEDevKitHelp\About_the_SLUDGE_Translation_Editor.html">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="About the SLUDGE Z-Buffer Maker">
 				<param name="Local" value="SLUDGEDevKitHelp\About_the_SLUDGE_Z-Buffer_Maker.html">
 				</OBJECT>

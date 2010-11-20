@@ -1,0 +1,57 @@
+body {	
+	background-color:#FFFFFF;
+	color:#000000;
+	
+}
+a:link { 
+	color: #228822;
+}
+a:visited { 
+	color: #228822;
+}
+a:hover { 
+	color: #228822;
+}
+a:active { 
+	color: #33BB33;
+}
+
+H3 {
+	font-family:Arial;
+	color:#3A8F8B;
+}
+
+HR {
+	border:0;
+	height:2px;
+	color:#000000;
+	background-color:#000000;
+}
+
+td.heading {
+	font-family:Arial;
+	color:#DD0000;
+	font-size:large;
+	font-weight:bold;
+	height:80px;
+	width:292px;
+	background-image:url('images/sludgepale.gif');
+	text-align:center;
+	vertical-align:bottom;
+}
+
+P.copyright-notice {
+	font-size:x-small;
+	font-weight:bold;
+	margin-bottom:2px;
+}
+
+div.bash {
+	color: white;
+	font-family: monospace;
+	background-color: #454545;
+	border: 1px solid #666;
+	margin: 0.3em 1em;
+	clear: none;
+	overflow: auto;
+}

@@ -1,5 +1,6 @@
 nobase_dist_doc_DATA=\
 	SLUDGE_Dev_Kit_Help.html \
+	SLUDGEDevKitHelp/style.css \
 	SLUDGEDevKitHelp/HtmlMenu.html \
 	SLUDGEDevKitHelp/images/Sludge_128x128x32.png \
 	SLUDGEDevKitHelp/images/ABC_image.png \

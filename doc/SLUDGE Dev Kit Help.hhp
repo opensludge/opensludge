@@ -5,7 +5,7 @@ Contents file=Table of Contents.hhc
 Default topic=SLUDGEDevKitHelp\index.html
 Display compile progress=No
 Index file=SLUDGE Dev Kit Help.hhk
-Language=0x809 Engelska (Storbritannien)
+Language=0x809 English (United Kingdom)
 Title=SLUDGE Development Kit Help
 
 
@@ -205,6 +205,7 @@ SLUDGEDevKitHelp\wait.html
 SLUDGEDevKitHelp\Variable_Operations.html
 SLUDGEDevKitHelp\Variables.html
 SLUDGEDevKitHelp\zoomCamera.html
+SLUDGEDevKitHelp\About_the_SLUDGE_Translation_Editor.html
 
 [INFOTYPES]
 
