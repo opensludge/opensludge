@@ -1,42 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <TITLE>wait</TITLE>
+  <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
-<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
-<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>wait</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=20><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Syntax:</B></FONT><BR>
+<BODY>
+<HR>
+<table align="center"><td class="heading">wait</td></table>
+<HR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<font color=#BB4444 SIZE=+2><TT><B>wait (<i>spriteNumber, lengthOfTime</i>);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Purpose:</B></FONT><BR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<P>
+<H3>Syntax:</H3>
+
+</P>
+
+<P>
+<pre>wait (<i>spriteNumber, lengthOfTime</i>);</pre>
+</P>
+
+<P>
+<H3>Purpose:</H3>
+
+</P>
+
+<P>
 For use while creating an animation. Use this command to display a sprite for longer than one frame.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Return value:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-The function returns a structure containing both the <i>spriteNumber</i> and <i>lengthOfTime</i> data. This structure can then be used in the place of a number in the <b><a href="anim.html">anim</a></b> command. Internally, the structure is a 2-element stack.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Example:</B></FONT><BR>
+<P>
+<H3>Return value:</H3>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<FONT color=#BB4444><TT><B># These two animations will look exactly the same</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>var a = anim (1, 2, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 6, 7);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>var b = anim (1, 2, 3, wait (4, 9), 5, 6, 7);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>See also:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<b><a href="The_Multi-Purpose_Stack___Array___Queue_Type.html">The Multi-Purpose Stack / Array / Queue Type</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="animate.html">animate</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+<P>
+The function returns a structure containing both the <i>spriteNumber</i> and <i>lengthOfTime</i> data. This structure can then be used in the place of a number in the <a href="anim.html">anim</a> command. Internally, the structure is a 2-element stack.<BR>
+</P>
+
+<P>
+<H3>Example:</H3>
+
+</P>
+
+<P>
+<pre># These two animations will look exactly the same</pre>
+<pre>var a = anim (1, 2, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 6, 7);</pre>
+<pre>var b = anim (1, 2, 3, wait (4, 9), 5, 6, 7);</pre>
+</P>
+
+<P>
+<H3>See also:</H3>
+
+</P>
+
+<P>
+<a href="The_Multi-Purpose_Stack___Array___Queue_Type.html">The Multi-Purpose Stack / Array / Queue Type</a><BR>
+</P>
+
+<P>
+<a href="animate.html">animate</a><BR>
+</P>
+
+<P>
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
+</P>
+
+<P>
+<HR>
 </BODY>
 </html>

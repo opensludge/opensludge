@@ -1,51 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <TITLE>onRightMouse</TITLE>
+  <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
-<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
-<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>onRightMouse</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=20><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Syntax:</B></FONT><BR>
+<BODY>
+<HR>
+<table align="center"><td class="heading">onRightMouse</td></table>
+<HR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<font color=#BB4444 SIZE=+2><TT><B>onRightMouse (<i>handlerFunction</i>);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<font color=#BB4444 SIZE=+2><TT><B>onRightMouse ();</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Purpose:</B></FONT><BR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<P>
+<H3>Syntax:</H3>
+
+</P>
+
+<P>
+<pre>onRightMouse (<i>handlerFunction</i>);</pre>
+</P>
+
+<P>
+<pre>onRightMouse ();</pre>
+</P>
+
+<P>
+<H3>Purpose:</H3>
+
+</P>
+
+<P>
 Tells the computer which function to call when the right mouse button is clicked. The value of <i>handlerFunction</i> must be a pointer to a function which takes no parameters. The function will be called every time the user presses the right mouse button until another call to onRightMouse.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 If no parameter is given, the program stops calling the current right mouse button handler function. No function will be called when the user presses the right mouse button until another call to onRightMouse tells it otherwise.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 Note that only one handler for the right mouse button can be used at any one time. A subsequent call to onRightMouse will replace the current handler function.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Return value:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<P>
+<H3>Return value:</H3>
+
+</P>
+
+<P>
 No return value.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>See also:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<b><a href="Passing_Functions_as_Variables.html">Passing Functions as Variables</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="onFocusChange.html">onFocusChange</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="onKeyboard.html">onKeyboard</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="onLeftMouse.html">onLeftMouse</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="onLeftMouseUp.html">onLeftMouseUp</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="onMoveMouse.html">onMoveMouse</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="onRightMouseUp.html">onRightMouseUp</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+<P>
+<H3>See also:</H3>
+
+</P>
+
+<P>
+<a href="Passing_Functions_as_Variables.html">Passing Functions as Variables</a><BR>
+</P>
+
+<P>
+<a href="onFocusChange.html">onFocusChange</a><BR>
+</P>
+
+<P>
+<a href="onKeyboard.html">onKeyboard</a><BR>
+</P>
+
+<P>
+<a href="onLeftMouse.html">onLeftMouse</a><BR>
+</P>
+
+<P>
+<a href="onLeftMouseUp.html">onLeftMouseUp</a><BR>
+</P>
+
+<P>
+<a href="onMoveMouse.html">onMoveMouse</a><BR>
+</P>
+
+<P>
+<a href="onRightMouseUp.html">onRightMouseUp</a><BR>
+</P>
+
+<P>
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
+</P>
+
+<P>
+<HR>
 </BODY>
 </html>

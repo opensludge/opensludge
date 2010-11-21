@@ -1,53 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <TITLE>forceCharacter</TITLE>
+  <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
-<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
-<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>forceCharacter</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=20><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Syntax:</B></FONT><BR>
+<BODY>
+<HR>
+<table align="center"><td class="heading">forceCharacter</td></table>
+<HR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<font color=#BB4444 SIZE=+2><TT><B>forceCharacter (<i>thisCharacter, sX, sY</i>);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<font color=#BB4444 SIZE=+2><TT><B>forceCharacter (<i>thisCharacter, thisObject</i>);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Purpose:</B></FONT><BR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-Forces <i>thisCharacter</i> to walk to a new location on the screen, disregarding any floor which <b><a href="setFloor.html">setFloor</a></b> has currently set. The character will move from its current location to the new location in a straight line.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<P>
+<H3>Syntax:</H3>
+
+</P>
+
+<P>
+<pre>forceCharacter (<i>thisCharacter, sX, sY</i>);</pre>
+</P>
+
+<P>
+<pre>forceCharacter (<i>thisCharacter, thisObject</i>);</pre>
+</P>
+
+<P>
+<H3>Purpose:</H3>
+
+</P>
+
+<P>
+Forces <i>thisCharacter</i> to walk to a new location on the screen, disregarding any floor which <a href="setFloor.html">setFloor</a> has currently set. The character will move from its current location to the new location in a straight line.<BR>
+</P>
+
+<P>
 If the function call provides three parameters, the second and third parameters are assumed to be the co-ordinates of the new position (<i>sX</i>, <i>sY</i>).<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-If the function call provides only two parameters, the second is assumed to be an object <i>thisObject</i> which is already represented by a region on the screen using the <b><a href="addScreenRegion.html">addScreenRegion</a></b> command. If this is the case, upon arrival at the new location the character will turn to face the direction specified in the <b><a href="addScreenRegion.html">addScreenRegion</a></b> call (unless this has been set to -1).<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
+If the function call provides only two parameters, the second is assumed to be an object <i>thisObject</i> which is already represented by a region on the screen using the <a href="addScreenRegion.html">addScreenRegion</a> command. If this is the case, upon arrival at the new location the character will turn to face the direction specified in the <a href="addScreenRegion.html">addScreenRegion</a> call (unless this has been set to -1).<BR>
+</P>
+
+<P>
 In either of these cases, if the final co-ordinates to which the character is told to walk are (0, 0) the character will not move.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Return value:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<P>
+<H3>Return value:</H3>
+
+</P>
+
+<P>
 No return value.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>See also:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<b><a href="Object_Types_as_Characters.html">Object Types as Characters</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="addCharacter.html">addCharacter</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="hideCharacter.html">hideCharacter</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="isMoving.html">isMoving</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="jumpCharacter.html">jumpCharacter</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="moveCharacter.html">moveCharacter</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="showCharacter.html">showCharacter</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+<P>
+<H3>See also:</H3>
+
+</P>
+
+<P>
+<a href="Object_Types_as_Characters.html">Object Types as Characters</a><BR>
+</P>
+
+<P>
+<a href="addCharacter.html">addCharacter</a><BR>
+</P>
+
+<P>
+<a href="hideCharacter.html">hideCharacter</a><BR>
+</P>
+
+<P>
+<a href="isMoving.html">isMoving</a><BR>
+</P>
+
+<P>
+<a href="jumpCharacter.html">jumpCharacter</a><BR>
+</P>
+
+<P>
+<a href="moveCharacter.html">moveCharacter</a><BR>
+</P>
+
+<P>
+<a href="showCharacter.html">showCharacter</a><BR>
+</P>
+
+<P>
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
+</P>
+
+<P>
+<HR>
 </BODY>
 </html>

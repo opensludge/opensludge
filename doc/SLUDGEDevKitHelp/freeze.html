@@ -1,62 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <TITLE>freeze</TITLE>
+  <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
-<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
-<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>freeze</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=20><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Syntax:</B></FONT><BR>
+<BODY>
+<HR>
+<table align="center"><td class="heading">freeze</td></table>
+<HR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<font color=#BB4444 SIZE=+2><TT><B>freeze ();</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Purpose:</B></FONT><BR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<P>
+<H3>Syntax:</H3>
+
+</P>
+
+<P>
+<pre>freeze ();</pre>
+</P>
+
+<P>
+<H3>Purpose:</H3>
+
+</P>
+
+<P>
 Freezes execution of the current scene so that tasks (such as loading, saving, inventories or messages) can be performed in the foreground. A new background image is created which is identical to the original background image, but with characters pasted onto it. Characters, screen regions and floors are remembered but not added to the new background image. Any functions (other than the function which ran the freeze command) are paused - unless they have been declared unfreezable.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Return value:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<P>
+<H3>Return value:</H3>
+
+</P>
+
+<P>
 No return value.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Example:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<FONT color=#BB4444><TT><B>sub init () {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;onLeftMouse (pauseSub);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;loop {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Assuming a window size of 640 by 480, and a</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# 'splat.tga' image no bigger than 40 by 40</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;addOverlay ('splat.tga', random (600), random (440));</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pause (5);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;}</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>sub pauseSub () {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;freeze ();</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;darkBackground ();</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;pasteString (CENTRE, 240, &quot;Paused!&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;onLeftMouse (resumeSub);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>sub resumeSub () {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;unfreeze ();</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;onLeftMouse (pauseSub);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>See also:</B></FONT><BR>
+<P>
+<H3>Example:</H3>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<b><a href="Unfreezable_Functions.html">Unfreezable Functions</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="howFrozen.html">howFrozen</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="unfreeze.html">unfreeze</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</P>
+
+<P>
+<pre>sub init () {</pre>
+<pre>&nbsp;&nbsp;&nbsp;onLeftMouse (pauseSub);</pre>
+<pre>&nbsp;&nbsp;&nbsp;loop {</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Assuming a window size of 640 by 480, and a</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# 'splat.tga' image no bigger than 40 by 40</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;addOverlay ('splat.tga', random (600), random (440));</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pause (5);</pre>
+<pre>&nbsp;&nbsp;&nbsp;}</pre>
+<pre>}</pre>
+</P>
+
+<P>
+<pre>sub pauseSub () {</pre>
+<pre>&nbsp;&nbsp;&nbsp;freeze ();</pre>
+<pre>&nbsp;&nbsp;&nbsp;darkBackground ();</pre>
+<pre>&nbsp;&nbsp;&nbsp;pasteString (CENTRE, 240, &quot;Paused!&quot;);</pre>
+<pre>&nbsp;&nbsp;&nbsp;onLeftMouse (resumeSub);</pre>
+<pre>}</pre>
+</P>
+
+<P>
+<pre>sub resumeSub () {</pre>
+<pre>&nbsp;&nbsp;&nbsp;unfreeze ();</pre>
+<pre>&nbsp;&nbsp;&nbsp;onLeftMouse (pauseSub);</pre>
+<pre>}</pre>
+</P>
+
+<P>
+<H3>See also:</H3>
+
+</P>
+
+<P>
+<a href="Unfreezable_Functions.html">Unfreezable Functions</a><BR>
+</P>
+
+<P>
+<a href="howFrozen.html">howFrozen</a><BR>
+</P>
+
+<P>
+<a href="unfreeze.html">unfreeze</a><BR>
+</P>
+
+<P>
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
+</P>
+
+<P>
+<HR>
 </BODY>
 </html>

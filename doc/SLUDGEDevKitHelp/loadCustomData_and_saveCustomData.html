@@ -1,45 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <TITLE>loadCustomData and saveCustomData</TITLE>
+  <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
-<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
-<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>loadCustomData and saveCustomData</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=20><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Syntax:</B></FONT><BR>
+<BODY>
+<HR>
+<table align="center"><td class="heading">loadCustomData and saveCustomData</td></table>
+<HR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<font color=#BB4444 SIZE=+2><TT><B>loadCustomData (<i>filenameString</i>);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<font color=#BB4444 SIZE=+2><TT><B>saveCustomData (<i>thisStack</i>, <i>filenameString</i>);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Purpose:</B></FONT><BR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<P>
+<H3>Syntax:</H3>
+
+</P>
+
+<P>
+<pre>loadCustomData (<i>filenameString</i>);</pre>
+</P>
+
+<P>
+<pre>saveCustomData (<i>thisStack</i>, <i>filenameString</i>);</pre>
+</P>
+
+<P>
+<H3>Purpose:</H3>
+
+</P>
+
+<P>
 The saveCustomData function creates a file with the name <i>filenameString</i> and stores the contents of the variable <i>thisStack</i> (which must, as you probably guessed, be a stack) in the file. The loadCustomData function loads data back from a file that has been created using saveCustomData.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 Please note that you can't store custom data in <a href="ini.html">the main .ini file</a>. Use another name for your custom settings .ini file.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-The method by which loadCustomData and saveCustomData treat the files they act upon and the types of data which can be stored are determined by the current custom encoding setting - see <b><a href="setCustomEncoding.html">setCustomEncoding</a></b> for details. If a game attempts to read a file with a different custom encoding setting than the one which was used when the file was created then a fatal error will occur, in order to stop others reading your custom data files unless they know the setting you used.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Return value:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<P>
+The method by which loadCustomData and saveCustomData treat the files they act upon and the types of data which can be stored are determined by the current custom encoding setting - see <a href="setCustomEncoding.html">setCustomEncoding</a> for details. If a game attempts to read a file with a different custom encoding setting than the one which was used when the file was created then a fatal error will occur, in order to stop others reading your custom data files unless they know the setting you used.<BR>
+</P>
+
+<P>
+<H3>Return value:</H3>
+
+</P>
+
+<P>
 The loadCustomData function returns a stack containing the data which was just loaded. The saveCustomData function does not return a value.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>See also:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<b><a href="The_Multi-Purpose_Stack___Array___Queue_Type.html">The Multi-Purpose Stack / Array / Queue Type</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="loadGame.html">loadGame</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="newStack.html">newStack</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="saveGame.html">saveGame</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+<P>
+<H3>See also:</H3>
+
+</P>
+
+<P>
+<a href="The_Multi-Purpose_Stack___Array___Queue_Type.html">The Multi-Purpose Stack / Array / Queue Type</a><BR>
+</P>
+
+<P>
+<a href="loadGame.html">loadGame</a><BR>
+</P>
+
+<P>
+<a href="newStack.html">newStack</a><BR>
+</P>
+
+<P>
+<a href="saveGame.html">saveGame</a><BR>
+</P>
+
+<P>
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
+</P>
+
+<P>
+<HR>
 </BODY>
 </html>

@@ -1,63 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <TITLE>bodgeFilenames</TITLE>
+  <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
-<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
-<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>bodgeFilenames</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=20><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Syntax:</B></FONT><BR>
+<BODY>
+<HR>
+<table align="center"><td class="heading">bodgeFilenames</td></table>
+<HR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<font color=#BB4444 SIZE=+2><TT><B>bodgeFilenames (<I>enable</I>);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Purpose:</B></FONT><BR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<P>
+<H3>Syntax:</H3>
+
+</P>
+
+<P>
+<pre>bodgeFilenames (<I>enable</I>);</pre>
+</P>
+
+<P>
+<H3>Purpose:</H3>
+
+</P>
+
+<P>
 Turns on and off the fantastic SLUDGE filename bodging feature. The feature affects the following functions:<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="loadCustomData_and_saveCustomData.html">loadCustomData and saveCustomData</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="launch_and_launchWith.html">launch</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="loadGame.html">loadGame</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="saveGame.html">saveGame</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="showThumbnail.html">showThumbnail</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="deleteFile.html">deleteFile</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="renameFile.html">renameFile</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="getMatchingFiles.html">getMatchingFiles</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="fileExists.html">fileExists</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
+<a href="loadCustomData_and_saveCustomData.html">loadCustomData and saveCustomData</a><BR>
+</P>
+
+<P>
+<a href="launch_and_launchWith.html">launch</a><BR>
+</P>
+
+<P>
+<a href="loadGame.html">loadGame</a><BR>
+</P>
+
+<P>
+<a href="saveGame.html">saveGame</a><BR>
+</P>
+
+<P>
+<a href="showThumbnail.html">showThumbnail</a><BR>
+</P>
+
+<P>
+<a href="deleteFile.html">deleteFile</a><BR>
+</P>
+
+<P>
+<a href="renameFile.html">renameFile</a><BR>
+</P>
+
+<P>
+<a href="getMatchingFiles.html">getMatchingFiles</a><BR>
+</P>
+
+<P>
+<a href="fileExists.html">fileExists</a><BR>
+</P>
+
+<P>
 The <I>enable</I> value turns filename bodging on and off. With filename bodging disabled - as it is desabled by default - the above functions work as expected, and the parameters they take (and return, in some cases) have to be nice, normal filenames. That means the characters / and \ mean a file is in another folder, the character : means a file is on another drive and certain symbols like ? and * are just plain disallowed.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 With filename bodging enabled, however, these special characters are all allowed in filenames. This makes it possible for people playing your game to save their games with names like 'Where am I?' and '5: In the jungle' and 'Oh ****' and even names containing multiple odd characters like '8: "776010"? Is this good/bad?'.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-The way the system works is to change each illegal or special character into a code before operating on the file (or in the case of <b><a href="getMatchingFiles.html">getMatchingFiles</a></b> change each code back into the character it represents, so that in a list of saved games each file is listed with its original name).<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-You may have to enable filename bodging in certain parts of your game (for example, letting your player load and save) and disable it in others (for example if you're going to <b><a href="launch_and_launchWith.html">launch</a></b> a URL, or a help file in a different directory).<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Return value:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<P>
+The way the system works is to change each illegal or special character into a code before operating on the file (or in the case of <a href="getMatchingFiles.html">getMatchingFiles</a> change each code back into the character it represents, so that in a list of saved games each file is listed with its original name).<BR>
+</P>
+
+<P>
+You may have to enable filename bodging in certain parts of your game (for example, letting your player load and save) and disable it in others (for example if you're going to <a href="launch_and_launchWith.html">launch</a> a URL, or a help file in a different directory).<BR>
+</P>
+
+<P>
+<H3>Return value:</H3>
+
+</P>
+
+<P>
 The return value is the previous status of the filename bodging option - i.e. if filename bodging was previously enabled the return value is TRUE, otherwise it's FALSE. Hence, the following code will turn off filename bodging, launch a file and then put filename bodging back to whatever state it was in before:<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>var old_on_or_off = bodgeFilenames (FALSE);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>launch ("manual\\welcome.html");</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>bodgeFilenames (old_on_or_off);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>See also:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<b><a href="File_Handling.html">File Handling</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+<P>
+<pre>var old_on_or_off = bodgeFilenames (FALSE);</pre>
+<pre>launch ("manual\\welcome.html");</pre>
+<pre>bodgeFilenames (old_on_or_off);</pre>
+</P>
+
+<P>
+<H3>See also:</H3>
+
+</P>
+
+<P>
+<a href="File_Handling.html">File Handling</a><BR>
+</P>
+
+<P>
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
+</P>
+
+<P>
+<HR>
 </BODY>
 </html>

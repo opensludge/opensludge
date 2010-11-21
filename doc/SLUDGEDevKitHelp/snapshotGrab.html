@@ -1,32 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <TITLE>snapshotGrab</TITLE>
+  <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
-<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
-<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>snapshotGrab</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=20><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Syntax:</B></FONT><BR>
+<BODY>
+<HR>
+<table align="center"><td class="heading">snapshotGrab</td></table>
+<HR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<font color=#BB4444 SIZE=+2><TT><B>snapshotGrab ();</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Purpose:</B></FONT><BR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-Takes a snapshot of whatever is currently on the screen (or rather, the area of <b><a href="The_Background_Image.html">background image</A></B> that's currently visible, plus any characters on it - in other words, what the screen will look like the next time it is drawn provided nothing changes in the meantime).<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-This snapshot can then be used to crossfade one image into another, or even one room into another. To achieve this use the CROSSFADE transition mode and gradually change the transition level from 0 to 256 using the <b><a href="transitionMode_and_transitionLevel.html">transitionMode and transitionLevel</a></b> functions.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-When you no longer need your snapshot image, use <b><A href="snapshotClear.html">snapshotClear</A></B> to remove it from memory.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Return value:</B></FONT><BR>
+<P>
+<H3>Syntax:</H3>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+</P>
+
+<P>
+<pre>snapshotGrab ();</pre>
+</P>
+
+<P>
+<H3>Purpose:</H3>
+
+</P>
+
+<P>
+Takes a snapshot of whatever is currently on the screen (or rather, the area of <a href="The_Background_Image.html">background image</a> that's currently visible, plus any characters on it - in other words, what the screen will look like the next time it is drawn provided nothing changes in the meantime).<BR>
+</P>
+
+<P>
+This snapshot can then be used to crossfade one image into another, or even one room into another. To achieve this use the CROSSFADE transition mode and gradually change the transition level from 0 to 256 using the <a href="transitionMode_and_transitionLevel.html">transitionMode and transitionLevel</a> functions.<BR>
+</P>
+
+<P>
+When you no longer need your snapshot image, use <a href="snapshotClear.html">snapshotClear</a> to remove it from memory.<BR>
+</P>
+
+<P>
+<H3>Return value:</H3>
+
+</P>
+
+<P>
 No return value.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</P>
+
+<P>
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
+</P>
+
+<P>
+<HR>
 </BODY>
 </html>

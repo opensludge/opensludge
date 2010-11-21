@@ -1,145 +1,240 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <TITLE>setCharacterDrawMode</TITLE>
+  <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
-<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
-<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>setCharacterDrawMode</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=20><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Syntax:</B></FONT><BR>
+<BODY>
+<HR>
+<table align="center"><td class="heading">setCharacterDrawMode</td></table>
+<HR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<font color=#BB4444 SIZE=+2><TT><B>setCharacterDrawMode (<i>thisCharacter, mode</i>);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Purpose:</B></FONT><BR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<P>
+<H3>Syntax:</H3>
+
+</P>
+
+<P>
+<pre>setCharacterDrawMode (<i>thisCharacter, mode</i>);</pre>
+</P>
+
+<P>
+<H3>Purpose:</H3>
+
+</P>
+
+<P>
 Changes the way in which <i>thisCharacter</i> is displayed. Possible values for <i>mode</i> are:<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>NORMAL&nbsp;&nbsp;&nbsp;</b>The character is drawn at full brightness with full visibility.<BR>
-This is equivalent to calling: <b><a href="setCharacterColourise.html">setCharacterColourise</a> (char, 0, 0, 0, 0);</b> and
-<b><a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 0);</b><br>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+This is equivalent to calling: <a href="setCharacterColourise.html">setCharacterColourise</a> (char, 0, 0, 0, 0);</b> and
+<a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 0);</b><br>
+</P>
+
+<P>
 <b>TRANSPARENT1&nbsp;&nbsp;&nbsp;</b>The character is drawn at full brightness with 75% visibility.<BR>
-This is equivalent to calling: <b><a href="setCharacterColourise.html">setCharacterColourise</a> (char, 0, 0, 0, 0);</b> and
-<b><a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 64);</b><br>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+This is equivalent to calling: <a href="setCharacterColourise.html">setCharacterColourise</a> (char, 0, 0, 0, 0);</b> and
+<a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 64);</b><br>
+</P>
+
+<P>
 <b>TRANSPARENT2&nbsp;&nbsp;&nbsp;</b>The character is drawn at full brightness with 50% visibility.<BR>
-This is equivalent to calling: <b><a href="setCharacterColourise.html">setCharacterColourise</a> (char, 0, 0, 0, 0);</b> and
-<b><a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 128);</b><br>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+This is equivalent to calling: <a href="setCharacterColourise.html">setCharacterColourise</a> (char, 0, 0, 0, 0);</b> and
+<a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 128);</b><br>
+</P>
+
+<P>
 <b>TRANSPARENT&nbsp;&nbsp;&nbsp;</b>Identical to TRANSPARENT2.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>TRANSPARENT3&nbsp;&nbsp;&nbsp;</b>The character is drawn at full brightness with 25% visibility.<BR>
-This is equivalent to calling: <b><a href="setCharacterColourise.html">setCharacterColourise</a> (char, 0, 0, 0, 0);</b> and
-<b><a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 192);</b><br>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+This is equivalent to calling: <a href="setCharacterColourise.html">setCharacterColourise</a> (char, 0, 0, 0, 0);</b> and
+<a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 192);</b><br>
+</P>
+
+<P>
 <b>INVISIBLE&nbsp;&nbsp;&nbsp;</b>The character is not shown (note that the mouse <i>will </i>still react to it).<BR>
-This is equivalent to calling: <b><a href="setCharacterColourise.html">setCharacterColourise</a> (char, 0, 0, 0, 0);</b> and
-<b><a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 254);</b><br>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+This is equivalent to calling: <a href="setCharacterColourise.html">setCharacterColourise</a> (char, 0, 0, 0, 0);</b> and
+<a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 254);</b><br>
+</P>
+
+<P>
 <b>SHADOW1&nbsp;&nbsp;&nbsp;</b>The character is drawn as a silhouette with 75% visibility.<BR>
-This is equivalent to calling: <b><a href="setCharacterColourise.html">setCharacterColourise</a> (char, 255, 0, 0, 0);</b> and
-<b><a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 64);</b><br>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+This is equivalent to calling: <a href="setCharacterColourise.html">setCharacterColourise</a> (char, 255, 0, 0, 0);</b> and
+<a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 64);</b><br>
+</P>
+
+<P>
 <b>SHADOW2&nbsp;&nbsp;&nbsp;</b>The character is drawn at as a silhouette with 50% visibility.<BR>
-This is equivalent to calling: <b><a href="setCharacterColourise.html">setCharacterColourise</a> (char, 255, 0, 0, 0);</b> and
-<b><a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 128);</b><br>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+This is equivalent to calling: <a href="setCharacterColourise.html">setCharacterColourise</a> (char, 255, 0, 0, 0);</b> and
+<a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 128);</b><br>
+</P>
+
+<P>
 <b>SHADOW&nbsp;&nbsp;&nbsp;</b>Identical to SHADOW2.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>SHADOW3&nbsp;&nbsp;&nbsp;</b>The character is drawn at as a silhouette with 25% visibility.<BR>
-This is equivalent to calling: <b><a href="setCharacterColourise.html">setCharacterColourise</a> (char, 255, 0, 0, 0);</b> and
-<b><a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 192);</b><br>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+This is equivalent to calling: <a href="setCharacterColourise.html">setCharacterColourise</a> (char, 255, 0, 0, 0);</b> and
+<a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 192);</b><br>
+</P>
+
+<P>
 <b>DARK1&nbsp;&nbsp;&nbsp;</b>The character is drawn at 75% brightness with full visibility.<BR>
-This is equivalent to calling: <b><a href="setCharacterColourise.html">setCharacterColourise</a> (char, 64, 0, 0, 0);</b> and
-<b><a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 0);</b><br>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+This is equivalent to calling: <a href="setCharacterColourise.html">setCharacterColourise</a> (char, 64, 0, 0, 0);</b> and
+<a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 0);</b><br>
+</P>
+
+<P>
 <b>DARK2&nbsp;&nbsp;&nbsp;</b>The character is drawn at 50% brightness with full visibility.<BR>
-This is equivalent to calling: <b><a href="setCharacterColourise.html">setCharacterColourise</a> (char, 128, 0, 0, 0);</b> and
-<b><a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 0);</b><br>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+This is equivalent to calling: <a href="setCharacterColourise.html">setCharacterColourise</a> (char, 128, 0, 0, 0);</b> and
+<a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 0);</b><br>
+</P>
+
+<P>
 <b>DARK&nbsp;&nbsp;&nbsp;</b>Identical to DARK2.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>DARK3&nbsp;&nbsp;&nbsp;</b>The character is drawn at 25% brightness with full visibility.<BR>
-This is equivalent to calling: <b><a href="setCharacterColourise.html">setCharacterColourise</a> (char, 192, 0, 0, 0);</b> and
-<b><a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 0);</b><br>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+This is equivalent to calling: <a href="setCharacterColourise.html">setCharacterColourise</a> (char, 192, 0, 0, 0);</b> and
+<a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 0);</b><br>
+</P>
+
+<P>
 <b>DARK4&nbsp;&nbsp;&nbsp;</b>The character is drawn as a silhouette with full visibility.<BR>
-This is equivalent to calling: <b><a href="setCharacterColourise.html">setCharacterColourise</a> (char, 255, 0, 0, 0);</b> and
-<b><a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 0);</b><br>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+This is equivalent to calling: <a href="setCharacterColourise.html">setCharacterColourise</a> (char, 255, 0, 0, 0);</b> and
+<a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 0);</b><br>
+</P>
+
+<P>
 <b>BLACK&nbsp;&nbsp;&nbsp;</b>Identical to DARK4.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>FOGGY1&nbsp;&nbsp;&nbsp;</b>The character is drawn at 75% of its original colour, 25% medium grey.<BR>
-This is equivalent to calling: <b><a href="setCharacterColourise.html">setCharacterColourise</a> (char, 64, 128, 128, 128);</b> and
-<b><a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 0);</b><br>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+This is equivalent to calling: <a href="setCharacterColourise.html">setCharacterColourise</a> (char, 64, 128, 128, 128);</b> and
+<a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 0);</b><br>
+</P>
+
+<P>
 <b>FOGGY2&nbsp;&nbsp;&nbsp;</b>The character is drawn at 50% of its original colour, 50% medium grey.<BR>
-This is equivalent to calling: <b><a href="setCharacterColourise.html">setCharacterColourise</a> (char, 128, 128, 128, 128);</b> and
-<b><a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 0);</b><br>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+This is equivalent to calling: <a href="setCharacterColourise.html">setCharacterColourise</a> (char, 128, 128, 128, 128);</b> and
+<a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 0);</b><br>
+</P>
+
+<P>
 <b>FOGGY&nbsp;&nbsp;&nbsp;</b>Identical to FOGGY2.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>FOGGY3&nbsp;&nbsp;&nbsp;</b>The character is drawn at 25% of its original colour, 75% medium grey.<BR>
-This is equivalent to calling: <b><a href="setCharacterColourise.html">setCharacterColourise</a> (char, 192, 128, 128, 128);</b> and
-<b><a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 0);</b><br>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+This is equivalent to calling: <a href="setCharacterColourise.html">setCharacterColourise</a> (char, 192, 128, 128, 128);</b> and
+<a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 0);</b><br>
+</P>
+
+<P>
 <b>FOGGY4&nbsp;&nbsp;&nbsp;</b>The character is drawn as a solid block of medium grey.<BR>
-This is equivalent to calling: <b><a href="setCharacterColourise.html">setCharacterColourise</a> (char, 255, 128, 128, 128);</b> and
-<b><a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 0);</b><br>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+This is equivalent to calling: <a href="setCharacterColourise.html">setCharacterColourise</a> (char, 255, 128, 128, 128);</b> and
+<a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 0);</b><br>
+</P>
+
+<P>
 <b>GREY&nbsp;&nbsp;&nbsp;</b>Identical to FOGGY4.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>GRAY&nbsp;&nbsp;&nbsp;</b>Identical to FOGGY4.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>GLOW1&nbsp;&nbsp;&nbsp;</b>The character is drawn at 75% of its original colour, 25% bright white.<BR>
-This is equivalent to calling: <b><a href="setCharacterColourise.html">setCharacterColourise</a> (char, 64, 255, 255, 255);</b> and
-<b><a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 0);</b><br>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+This is equivalent to calling: <a href="setCharacterColourise.html">setCharacterColourise</a> (char, 64, 255, 255, 255);</b> and
+<a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 0);</b><br>
+</P>
+
+<P>
 <b>GLOW2&nbsp;&nbsp;&nbsp;</b>The character is drawn at 50% of its original colour, 50% bright white.<BR>
-This is equivalent to calling: <b><a href="setCharacterColourise.html">setCharacterColourise</a> (char, 128, 255, 255, 255);</b> and
-<b><a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 0);</b><br>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+This is equivalent to calling: <a href="setCharacterColourise.html">setCharacterColourise</a> (char, 128, 255, 255, 255);</b> and
+<a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 0);</b><br>
+</P>
+
+<P>
 <b>GLOW&nbsp;&nbsp;&nbsp;</b>Identical to GLOW2.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>GLOW3&nbsp;&nbsp;&nbsp;</b>The character is drawn at 25% of its original colour, 75% bright white.<BR>
-This is equivalent to calling: <b><a href="setCharacterColourise.html">setCharacterColourise</a> (char, 192, 255, 255, 255);</b> and
-<b><a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 0);</b><br>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+This is equivalent to calling: <a href="setCharacterColourise.html">setCharacterColourise</a> (char, 192, 255, 255, 255);</b> and
+<a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 0);</b><br>
+</P>
+
+<P>
 <b>GLOW4&nbsp;&nbsp;&nbsp;</b>The character is drawn as a solid block of bright white.<BR>
-This is equivalent to calling: <b><a href="setCharacterColourise.html">setCharacterColourise</a> (char, 255, 255, 255, 255);</b> and
-<b><a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 0);</b><br>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+This is equivalent to calling: <a href="setCharacterColourise.html">setCharacterColourise</a> (char, 255, 255, 255, 255);</b> and
+<a href="setCharacterTransparency.html">setCharacterTransparency</a> (char, 0);</b><br>
+</P>
+
+<P>
 <b>WHITE&nbsp;&nbsp;&nbsp;</b>Identical to GLOW4.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-If <i>thisCharacter</i> is an object type which is not currently represented on the screen as a character, the code has no effect. If <i>thisCharacter</i> has been hidden using the <b><a href="hideCharacter.html">hideCharacter</a></b> command, the character's draw mode is changed but the character is not made visible.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Return value:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<P>
+If <i>thisCharacter</i> is an object type which is not currently represented on the screen as a character, the code has no effect. If <i>thisCharacter</i> has been hidden using the <a href="hideCharacter.html">hideCharacter</a> command, the character's draw mode is changed but the character is not made visible.<BR>
+</P>
+
+<P>
+<H3>Return value:</H3>
+
+</P>
+
+<P>
 TRUE if <i>thisCharacter</i> is an object type which is currently represented on the screen as a character, otherwise FALSE (i.e. TRUE if the call to the function was a success).<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>See also:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<b><a href="Object_Types_as_Characters.html">Object Types as Characters</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="setCharacterColourise.html">setCharacterColourise</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="setCharacterTransparency.html">setCharacterTransparency</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="addCharacter.html">addCharacter</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="setCharacterExtra.html">setCharacterExtra</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="setLightMap.html">setLightMap</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="showCharacter.html">showCharacter</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+<P>
+<H3>See also:</H3>
+
+</P>
+
+<P>
+<a href="Object_Types_as_Characters.html">Object Types as Characters</a><BR>
+</P>
+
+<P>
+<a href="setCharacterColourise.html">setCharacterColourise</a><BR>
+</P>
+
+<P>
+<a href="setCharacterTransparency.html">setCharacterTransparency</a><BR>
+</P>
+
+<P>
+<a href="addCharacter.html">addCharacter</a><BR>
+</P>
+
+<P>
+<a href="setCharacterExtra.html">setCharacterExtra</a><BR>
+</P>
+
+<P>
+<a href="setLightMap.html">setLightMap</a><BR>
+</P>
+
+<P>
+<a href="showCharacter.html">showCharacter</a><BR>
+</P>
+
+<P>
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
+</P>
+
+<P>
+<HR>
 </BODY>
 </html>

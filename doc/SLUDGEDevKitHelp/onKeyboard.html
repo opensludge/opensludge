@@ -1,85 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <TITLE>onKeyboard</TITLE>
+  <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
-<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
-<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>onKeyboard</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=20><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Syntax:</B></FONT><BR>
+<BODY>
+<HR>
+<table align="center"><td class="heading">onKeyboard</td></table>
+<HR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<font color=#BB4444 SIZE=+2><TT><B>onKeyboard (<i>handlerFunction</i>);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<font color=#BB4444 SIZE=+2><TT><B>onKeyboard ();</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Purpose:</B></FONT><BR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<P>
+<H3>Syntax:</H3>
+
+</P>
+
+<P>
+<pre>onKeyboard (<i>handlerFunction</i>);</pre>
+</P>
+
+<P>
+<pre>onKeyboard ();</pre>
+</P>
+
+<P>
+<H3>Purpose:</H3>
+
+</P>
+
+<P>
 Tells the computer which function to call when a button on the keyboard is pressed. The value of <i>handlerFunction</i> must be a pointer to a function which takes one parameter. When a keyboard button is pressed, the function specified in <i>handlerFunction</i> will be called with the key which was pressed passed as a string to the parameter.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 If no parameter is given, the program stops calling the current keyboard handler function. No function will be called when the user presses a keyboard button until another call to onKeyboard tells the machine otherwise.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 Note that only one handler for the keyboard can be used at any one time. A subsequent call to onKeyboard will replace the current handler function.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 For normal characters, your keyboard handler will simply by passed the individual character as a string. For some special characters, however, the handler will be passed a longer string, the content of which specifies what key has been pressed:<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>&quot;ENTER&quot;&nbsp;&nbsp;&nbsp;</b>The player pressed either the enter or return key<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>&quot;BACKSPACE&quot;&nbsp;&nbsp;&nbsp;</b>The player pressed the backspace key<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>&quot;ESCAPE&quot;&nbsp;&nbsp;&nbsp;</b>The player pressed the escape key<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>&quot;F1&quot; - &quot;F12&quot;&nbsp;&nbsp;&nbsp;</b>The player pressed one of the function keys<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>&quot;DELETE&quot;&nbsp;&nbsp;&nbsp;</b>The player pressed the delete key<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>&quot;INSERT&quot;&nbsp;&nbsp;&nbsp;</b>The player pressed the insert key<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>&quot;HOME&quot;&nbsp;&nbsp;&nbsp;</b>The player pressed the home key<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>&quot;END&quot;&nbsp;&nbsp;&nbsp;</b>The player pressed the end key<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>&quot;PAGE UP&quot;&nbsp;&nbsp;&nbsp;</b>The player pressed the page up key<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>&quot;PAGE DOWN&quot;&nbsp;&nbsp;&nbsp;</b>The player pressed the page down key<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>&quot;UP&quot;, &quot;DOWN&quot;, &quot;LEFT&quot;, &quot;RIGHT&quot;&nbsp;&nbsp;&nbsp;</b>The player pressed one of the cursor keys<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>&quot;ALT+A&quot; - &quot;ALT+Z&quot;&nbsp;&nbsp;&nbsp;</b>The player held down Alt and pressed a letter<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>&quot;ALT+F1&quot; - &quot;ALT+F12&quot;&nbsp;&nbsp;&nbsp;</b>The player held down Alt and pressed a function key<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 Note that, at least on the machines on which SLUDGE has been tested so far, pressing F10 will generate an &quot;ALT+F10&quot; message, <b>not</b> an &quot;F10&quot; message as you'd reasonably expect. Also, it seems to be oblivious to users holding down Alt and hitting F6 for some reason. Go figure.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-To capture a wider range of keypresses, use the <b><a href="captureAllKeys.html">captureAllKeys</a></b> command.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Return value:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<P>
+To capture a wider range of keypresses, use the <a href="captureAllKeys.html">captureAllKeys</a> command.<BR>
+</P>
+
+<P>
+<H3>Return value:</H3>
+
+</P>
+
+<P>
 No return value.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>See also:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<b><a href="Passing_Functions_as_Variables.html">Passing Functions as Variables</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="onFocusChange.html">onFocusChange</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="onFocusChange.html">onFocusChange</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="onLeftMouse.html">onLeftMouse</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="onLeftMouseUp.html">onLeftMouseUp</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="onMoveMouse.html">onMoveMouse</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="onRightMouse.html">onRightMouse</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="onRightMouseUp.html">onRightMouseUp</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+<P>
+<H3>See also:</H3>
+
+</P>
+
+<P>
+<a href="Passing_Functions_as_Variables.html">Passing Functions as Variables</a><BR>
+</P>
+
+<P>
+<a href="onFocusChange.html">onFocusChange</a><BR>
+</P>
+
+<P>
+<a href="onFocusChange.html">onFocusChange</a><BR>
+</P>
+
+<P>
+<a href="onLeftMouse.html">onLeftMouse</a><BR>
+</P>
+
+<P>
+<a href="onLeftMouseUp.html">onLeftMouseUp</a><BR>
+</P>
+
+<P>
+<a href="onMoveMouse.html">onMoveMouse</a><BR>
+</P>
+
+<P>
+<a href="onRightMouse.html">onRightMouse</a><BR>
+</P>
+
+<P>
+<a href="onRightMouseUp.html">onRightMouseUp</a><BR>
+</P>
+
+<P>
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
+</P>
+
+<P>
+<HR>
 </BODY>
 </html>

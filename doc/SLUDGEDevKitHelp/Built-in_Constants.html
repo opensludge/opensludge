@@ -1,199 +1,384 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <TITLE>Built-in Constants</TITLE>
+  <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
-<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
-<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>Built-in Constants</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<BODY>
+<HR>
+<table align="center"><td class="heading">Built-in Constants</td></table>
+<HR>
+
+
+<P>
 If you know anything at all about the inner workings of a computer, you probably know this: numbers are everything. Or more to the point, everything is a number...<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 In SLUDGE, certain numbers have special meanings. However, the SLUDGE compiler - in a mad effort to be nice to you - lets you type in names instead of these special numbers so that your code makes more sense when you read it. Here, for your viewing pleasure, is a list of (hopefully) all the built-in constants you can use in you SLUDGE code together with what each one actually means.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-Remember, you can <b><a href="Using_Constants_in_SLUDGE.html">define your own constants</a></b> too...<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>General constants:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<P>
+Remember, you can <a href="Using_Constants_in_SLUDGE.html">define your own constants</a> too...<BR>
+</P>
+
+<P>
+<H3>General constants:</H3>
+
+</P>
+
+<P>
 These guys can be found all over the place.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>NULL</b> = 0<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>FALSE</b> = 0<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>TRUE</b> = 1<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>NORMAL</b> = 0<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Positioning constants:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-Used in a few places... for example <b><a href="addOverlay.html">addOverlay</a></b>.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<P>
+<H3>Positioning constants:</H3>
+
+</P>
+
+<P>
+Used in a few places... for example <a href="addOverlay.html">addOverlay</a>.<BR>
+</P>
+
+<P>
 <b>CENTER</b> = 65535<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>CENTRE</b> = 65535<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-The following values should only be used by <b><a href="alignStatus.html">alignStatus</a></b>.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
+The following values should only be used by <a href="alignStatus.html">alignStatus</a>.<BR>
+</P>
+
+<P>
 <b>LEFT</b> = 999<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>RIGHT</b> = 1001<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-The following constant has a special meaning if used as a parameter for <b><a href="parallaxAdd.html">parallaxAdd</a></b>.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
+The following constant has a special meaning if used as a parameter for <a href="parallaxAdd.html">parallaxAdd</a>.<BR>
+</P>
+
+<P>
 <b>AUTOFIT</b> = 65535<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Directions:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-Directions in SLUDGE are measured in degrees. The following values therefore make for more readable code, for example when you're calling <b><a href="addCharacter.html">addCharacter</a></b> or <b><a href="turnCharacter_and_spinCharacter.html">turnCharacter</a></b>.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<P>
+<H3>Directions:</H3>
+
+</P>
+
+<P>
+Directions in SLUDGE are measured in degrees. The following values therefore make for more readable code, for example when you're calling <a href="addCharacter.html">addCharacter</a> or <a href="turnCharacter_and_spinCharacter.html">turnCharacter</a>.<BR>
+</P>
+
+<P>
 <b>NORTH</b> = 0<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>NORTHEAST</b> = 45<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>EAST</b> = 90<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>SOUTHEAST</b> = 135<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>SOUTH</b> = 180<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>SOUTHWEST</b> = 225<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>WEST</b> = 270<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>NORTHWEST</b> = 315<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Character draw modes:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-Used by <b><a href="setCharacterDrawMode.html">setCharacterDrawMode</a></b>, curiously.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<P>
+<H3>Character draw modes:</H3>
+
+</P>
+
+<P>
+Used by <a href="setCharacterDrawMode.html">setCharacterDrawMode</a>, curiously.<BR>
+</P>
+
+<P>
 <B>TRANSPARENT3</B> = 1<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>TRANSPARENT2</B> = 2<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>TRANSPARENT</B> = 2<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>TRANSPARENT1</B> = 3<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>DARK1</B> = 4<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>DARK2</B> = 5<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>DARK</B> = 5<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>DARK3</B> = 6<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>DARK4</B> = 7<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>BLACK</B> = 7<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>SHADOW1</B> = 8<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>SHADOW2</B> = 9<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>SHADOW</B> = 9<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>SHADOW3</B> = 10<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>FOGGY1</B> = 11<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>FOGGY2</B> = 12<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>FOGGY</B> = 12<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>FOGGY3</B> = 13<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>FOGGY4</B> = 14<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>GREY</B> = 14<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>GRAY</B> = 14<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>GLOW1</B> = 15<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>GLOW2</B> = 16<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>GLOW</B> = 16<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>GLOW3</B> = 17<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>GLOW4</B> = 18<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>WHITE</B> = 18<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>INVISIBLE</B> = 19<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Extra character settings:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-Each character can have any combination of these settings... just add them together and throw them through the <b><a href="setCharacterExtra.html">setCharacterExtra</a></b> function.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<P>
+<H3>Extra character settings:</H3>
+
+</P>
+
+<P>
+Each character can have any combination of these settings... just add them together and throw them through the <a href="setCharacterExtra.html">setCharacterExtra</a> function.<BR>
+</P>
+
+<P>
 <B>FRONT</B> = 1<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>FIXEDSIZE</B> = 2<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>NOZBUFFER</B> = 4<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>FIXTOSCREEN</B> = 8<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>NOLIGHTMAP</B> = 16<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>NOREMOVE</B> = 32<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>RECTANGULAR</B> = 64<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 The following constant can be used to turn on the first 5 of the above settings in one fell swoop...<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>ICON</B> = 31 (i.e. FRONT + FIXEDSIZE + NOZBUFFER + FIXTOSCREEN + NOLIGHTMAP)<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Transition modes:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-You'd never guess you used these in <b><a href="transitionMode_and_transitionLevel.html">transitionMode</a></b>, would you?<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<P>
+<H3>Transition modes:</H3>
+
+</P>
+
+<P>
+You'd never guess you used these in <a href="transitionMode_and_transitionLevel.html">transitionMode</a>, would you?<BR>
+</P>
+
+<P>
 <B>FADE</B> = 0<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>DISOLVE</B> = 1<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>DISOLVE1</B> = 1<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>DISOLVE2</B> = 2<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>TVSTATIC</B> = 3<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>BLINDS</B> = 4<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>CROSSFADE</B> = 5<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>SNAPSHOTFADE</B> = 5<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>SNAPSHOTBOX</B> = 6<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Speech modes:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-Use these and <b><a href="setSpeechMode.html">setSpeechMode</a></b> to turn your game into a full talkie version...<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<P>
+<H3>Speech modes:</H3>
+
+</P>
+
+<P>
+Use these and <a href="setSpeechMode.html">setSpeechMode</a> to turn your game into a full talkie version...<BR>
+</P>
+
+<P>
 <B>TEXTONLY</B> = 0<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<B>SOUNDANDTEXT</B> = 1<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<B>SOUNDONLY</B> = 2<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Light map modes:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-When you use <b><a href="setLightMap.html">setLightMap</a></b> you can also change how lightmaps are to be applied. Use the following values.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<P>
+<B>SOUNDANDTEXT</B> = 1<BR>
+</P>
+
+<P>
+<B>SOUNDONLY</B> = 2<BR>
+</P>
+
+<P>
+<H3>Light map modes:</H3>
+
+</P>
+
+<P>
+When you use <a href="setLightMap.html">setLightMap</a> you can also change how lightmaps are to be applied. Use the following values.<BR>
+</P>
+
+<P>
 <B>HOTSPOT</B> = 0<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>PERPIXEL</B> = 1<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</P>
+
+<P>
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
+</P>
+
+<P>
+<HR>
 </BODY>
 </html>

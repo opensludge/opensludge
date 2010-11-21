@@ -1,72 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <TITLE>addCharacter</TITLE>
+  <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
-<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
-<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>addCharacter</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=20><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Syntax:</B></FONT><BR>
+<BODY>
+<HR>
+<table align="center"><td class="heading">addCharacter</td></table>
+<HR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<font color=#BB4444 SIZE=+2><TT><B>addCharacter (<i>thisObject, atX, atY, thisCostume</i>);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Purpose:</B></FONT><BR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-Adds a character on the screen which represents <i>thisObject</i>. The character can then be animated using the <b><a href="animate.html">animate</a></b> function, moved using <b><a href="moveCharacter.html">moveCharacter</a></b> and <b><a href="forceCharacter.html">forceCharacter</a></b> and so on. There is no specific character data type; the character can be controlled by referencing the object type <i>thisObject</i> which the character represents.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-The <i>thisCostume</i> parameter must be a complete costume (the result of a call to the <b><a href="costume.html">costume</a></b> function) or a single animation (the result of a call to the <b><a href="anim.html">anim</a></b> function).<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Return value:</B></FONT><BR>
+<P>
+<H3>Syntax:</H3>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+</P>
+
+<P>
+<pre>addCharacter (<i>thisObject, atX, atY, thisCostume</i>);</pre>
+</P>
+
+<P>
+<H3>Purpose:</H3>
+
+</P>
+
+<P>
+Adds a character on the screen which represents <i>thisObject</i>. The character can then be animated using the <a href="animate.html">animate</a> function, moved using <a href="moveCharacter.html">moveCharacter</a> and <a href="forceCharacter.html">forceCharacter</a> and so on. There is no specific character data type; the character can be controlled by referencing the object type <i>thisObject</i> which the character represents.<BR>
+</P>
+
+<P>
+The <i>thisCostume</i> parameter must be a complete costume (the result of a call to the <a href="costume.html">costume</a> function) or a single animation (the result of a call to the <a href="anim.html">anim</a> function).<BR>
+</P>
+
+<P>
+<H3>Return value:</H3>
+
+</P>
+
+<P>
 No return value.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Example:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<FONT color=#BB4444><TT><B>addCharacter (fakeEgo, 200, 300, anim ('ego.duc', 0, 1, 2));</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>var myCostume = costume (anim ('ego2.duc', 0), anim ('ego.duc', 1, 2, 3), anim ('ego.duc', 4, 5, 6));</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>addCharacter (ego, 500, 300, myCostume);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>See also:</B></FONT><BR>
+<P>
+<H3>Example:</H3>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<b><a href="Object_Types_as_Characters.html">Object Types as Characters</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="floatCharacter.html">floatCharacter</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="forceCharacter.html">forceCharacter</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="hideCharacter.html">hideCharacter</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="isCharacter.html">isCharacter</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="jumpCharacter.html">jumpCharacter</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="moveCharacter.html">moveCharacter</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="removeAllCharacters.html">removeAllCharacters</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="removeCharacter.html">removeCharacter</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="say_and_think.html">say and think</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="setCharacterDrawMode.html">setCharacterDrawMode</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="setCharacterExtra.html">setCharacterExtra</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="setCharacterWalkSpeed.html">setCharacterWalkSpeed</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="setCostume.html">setCostume</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="showCharacter.html">showCharacter</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</P>
+
+<P>
+<pre>addCharacter (fakeEgo, 200, 300, anim ('ego.duc', 0, 1, 2));</pre>
+</P>
+
+<P>
+<pre>var myCostume = costume (anim ('ego2.duc', 0), anim ('ego.duc', 1, 2, 3), anim ('ego.duc', 4, 5, 6));</pre>
+</P>
+
+<P>
+<pre>addCharacter (ego, 500, 300, myCostume);</pre>
+</P>
+
+<P>
+<H3>See also:</H3>
+
+</P>
+
+<P>
+<a href="Object_Types_as_Characters.html">Object Types as Characters</a><BR>
+</P>
+
+<P>
+<a href="floatCharacter.html">floatCharacter</a><BR>
+</P>
+
+<P>
+<a href="forceCharacter.html">forceCharacter</a><BR>
+</P>
+
+<P>
+<a href="hideCharacter.html">hideCharacter</a><BR>
+</P>
+
+<P>
+<a href="isCharacter.html">isCharacter</a><BR>
+</P>
+
+<P>
+<a href="jumpCharacter.html">jumpCharacter</a><BR>
+</P>
+
+<P>
+<a href="moveCharacter.html">moveCharacter</a><BR>
+</P>
+
+<P>
+<a href="removeAllCharacters.html">removeAllCharacters</a><BR>
+</P>
+
+<P>
+<a href="removeCharacter.html">removeCharacter</a><BR>
+</P>
+
+<P>
+<a href="say_and_think.html">say and think</a><BR>
+</P>
+
+<P>
+<a href="setCharacterDrawMode.html">setCharacterDrawMode</a><BR>
+</P>
+
+<P>
+<a href="setCharacterExtra.html">setCharacterExtra</a><BR>
+</P>
+
+<P>
+<a href="setCharacterWalkSpeed.html">setCharacterWalkSpeed</a><BR>
+</P>
+
+<P>
+<a href="setCostume.html">setCostume</a><BR>
+</P>
+
+<P>
+<a href="showCharacter.html">showCharacter</a><BR>
+</P>
+
+<P>
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
+</P>
+
+<P>
+<HR>
 </BODY>
 </html>

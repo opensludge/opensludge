@@ -1,59 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <TITLE>The Background Image</TITLE>
+  <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
-<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
-<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>The Background Image</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<BODY>
+<HR>
+<table align="center"><td class="heading">The Background Image</td></table>
+<HR>
+
+
+<P>
 There are two types of graphics used in SLUDGE - those which are drawn every frame (such as speech, status bars and so on) and those which make up the background image. The benefits of graphics which are drawn every frame are that elements can be moved, removed or changed without the risk of leaving remnants behind. Characters are the most obvious example of graphics which are drawn in this way - therefore it is simple to reposition or hide a character without having to reload any other elements of a scene which was previously obscured.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 The benefit of drawing graphics onto the background image is that there is no need to remember individually all the elements which make up a scene. This means that the engine can run as quickly as possible, because it need not draw (for example) a blank wall, then a door on top of the wall, then a handle on top of the door. Changing the background image is a one way process but, once done, no extra memory is taken up even if a large number of elements have been drawn onto it.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Commands which change the background image:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<b><a href="addOverlay.html">addOverlay</a></b> - loads a file and positions it on the screen. This can be used to load an entirely new backdrop, or to animate part of a scene (for example, by loading a number of frames of animation for a blinking light which are drawn one after another in a loop).<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="blankArea.html">blankArea</a></b> - draws a solid rectangle onto the background in the current blank colour, as specified by the <b><a href="setBlankColour_(setBlankColor).html">setBlankColour</a></b> function.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="blankArea.html">blankArea</a></b> - fills the entire background image with the current blank colour.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="pasteString_and_burnString.html">burnString</a></b> - &quot;burns&quot; text into the backdrop image (using the brightness of the greys in the current font to achieve a high-speed anti-aliased look on any background).<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="hardScroll.html">hardScroll</a></b> - moves the entire background image up or down any number of pixels, filling the area uncovered with the current blank colour. (Don't try and use this to create a scrolling room; it's something else entirely!)<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="mixOverlay.html">mixOverlay</a></b> - identical to <b><a href="addOverlay.html">addOverlay</a></b> but using 50% transparency.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="pasteCharacter.html">pasteCharacter</a></b> - fixes the current image for a particular character onto the background, scaled. Not all that useful, but handy for special effects such as character trails.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="pasteImage.html">pasteImage</a></b> - adds a sprite to the backdrop image. Normally, sprites are used for characters and the mouse cursor, but for an inventory actually drawing onto the background is a useful way of showing a large number of sprite bank images on-screen at once.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="pasteString_and_burnString.html">pasteString</a></b> - writes text onto the backdrop image. This is useful for menus, messages, credits and close-ups of books or computer screens, for example.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="setBackgroundEffect.html">setBackgroundEffect and doBackgroundEffect</a></b> - define and then perform an effect on the background image (eg. blur or emboss).<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="showBoxes.html">showBoxes</a></b> and <b><a href="showFloor.html">showFloor</a></b> - useful for debugging. These commands draw lines onto the background image showing the location of interactive screen regions (created by the <b><a href="addScreenRegion.html">addScreenRegion</a></b> function) and walkable areas (created by the <b><a href="setFloor.html">setFloor</a></b> function) respectively.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Commands for reading the background image:</B></FONT><BR>
+<P>
+<H3>Commands which change the background image:</H3>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<b><a href="getPixelColour_(getPixelColor).html">getPixelColour</a></b> - returns the colour of the pixel at a certain position on the background image.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Freezing the background image:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-It is also possible to <b><a href="freeze.html">freeze</a></b> the entire scene, which pastes all visible characters onto the background image (as well as removing all screen regions and pausing any running functions). Again, this is useful for messages and menus, as well as full-screen inventories, in which interaction with the objects on the screen may not be desirable. The <b><a href="unfreeze.html">unfreeze</a></b> command can then be used to bring back the previously frozen scene, putting back any characters and screen regions as well as restarting any paused functions.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-When you call the <b><a href="freeze.html">freeze</a></b> command, the width and height of the new background image will be set to the width and height of the window or screen, even when the frozen layer underneath has been resized using the <b><a href="setSceneDimensions.html">setSceneDimensions</a></b> function.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>See also:</B></FONT><BR>
+<P>
+<a href="addOverlay.html">addOverlay</a> - loads a file and positions it on the screen. This can be used to load an entirely new backdrop, or to animate part of a scene (for example, by loading a number of frames of animation for a blinking light which are drawn one after another in a loop).<BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<b><a href="Scrolling_Scenes.html">Scrolling Scenes</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+<P>
+<a href="blankArea.html">blankArea</a> - draws a solid rectangle onto the background in the current blank colour, as specified by the <a href="setBlankColour_(setBlankColor).html">setBlankColour</a> function.<BR>
+</P>
+
+<P>
+<a href="blankArea.html">blankArea</a> - fills the entire background image with the current blank colour.<BR>
+</P>
+
+<P>
+<a href="pasteString_and_burnString.html">burnString</a> - &quot;burns&quot; text into the backdrop image (using the brightness of the greys in the current font to achieve a high-speed anti-aliased look on any background).<BR>
+</P>
+
+<P>
+<a href="hardScroll.html">hardScroll</a> - moves the entire background image up or down any number of pixels, filling the area uncovered with the current blank colour. (Don't try and use this to create a scrolling room; it's something else entirely!)<BR>
+</P>
+
+<P>
+<a href="mixOverlay.html">mixOverlay</a> - identical to <a href="addOverlay.html">addOverlay</a> but using 50% transparency.<BR>
+</P>
+
+<P>
+<a href="pasteCharacter.html">pasteCharacter</a> - fixes the current image for a particular character onto the background, scaled. Not all that useful, but handy for special effects such as character trails.<BR>
+</P>
+
+<P>
+<a href="pasteImage.html">pasteImage</a> - adds a sprite to the backdrop image. Normally, sprites are used for characters and the mouse cursor, but for an inventory actually drawing onto the background is a useful way of showing a large number of sprite bank images on-screen at once.<BR>
+</P>
+
+<P>
+<a href="pasteString_and_burnString.html">pasteString</a> - writes text onto the backdrop image. This is useful for menus, messages, credits and close-ups of books or computer screens, for example.<BR>
+</P>
+
+<P>
+<a href="setBackgroundEffect.html">setBackgroundEffect and doBackgroundEffect</a> - define and then perform an effect on the background image (eg. blur or emboss).<BR>
+</P>
+
+<P>
+<a href="showBoxes.html">showBoxes</a> and <a href="showFloor.html">showFloor</a> - useful for debugging. These commands draw lines onto the background image showing the location of interactive screen regions (created by the <a href="addScreenRegion.html">addScreenRegion</a> function) and walkable areas (created by the <a href="setFloor.html">setFloor</a> function) respectively.<BR>
+</P>
+
+<P>
+<H3>Commands for reading the background image:</H3>
+
+</P>
+
+<P>
+<a href="getPixelColour_(getPixelColor).html">getPixelColour</a> - returns the colour of the pixel at a certain position on the background image.<BR>
+</P>
+
+<P>
+<H3>Freezing the background image:</H3>
+
+</P>
+
+<P>
+It is also possible to <a href="freeze.html">freeze</a> the entire scene, which pastes all visible characters onto the background image (as well as removing all screen regions and pausing any running functions). Again, this is useful for messages and menus, as well as full-screen inventories, in which interaction with the objects on the screen may not be desirable. The <a href="unfreeze.html">unfreeze</a> command can then be used to bring back the previously frozen scene, putting back any characters and screen regions as well as restarting any paused functions.<BR>
+</P>
+
+<P>
+When you call the <a href="freeze.html">freeze</a> command, the width and height of the new background image will be set to the width and height of the window or screen, even when the frozen layer underneath has been resized using the <a href="setSceneDimensions.html">setSceneDimensions</a> function.<BR>
+</P>
+
+<P>
+<H3>See also:</H3>
+
+</P>
+
+<P>
+<a href="Scrolling_Scenes.html">Scrolling Scenes</a><BR>
+</P>
+
+<P>
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
+</P>
+
+<P>
+<HR>
 </BODY>
 </html>

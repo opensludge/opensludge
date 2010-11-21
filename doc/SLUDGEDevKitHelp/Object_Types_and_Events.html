@@ -1,100 +1,179 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <TITLE>Object Types and Events</TITLE>
+  <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
-<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
-<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>Object Types and Events</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<BODY>
+<HR>
+<table align="center"><td class="heading">Object Types and Events</td></table>
+<HR>
+
+
+<P>
 An object type is a structure which is created outside of any functions and contains the default name for the object when it appears on screen. Actions are also created in this way. For example: <BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>objectType ego (&quot;Egor the ego&quot;) {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>objectType lookAt (&quot;Look at&quot;) {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>objectType pickUp (&quot;Pick up&quot;) {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>objectType hat (&quot;old battered top hat&quot;) {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-Object types can also specify chunks of code which should be run when the object type is combined with another object type using the built-in <b><a href="callEvent.html">callEvent</a></b> function.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>objectType box (&quot;box&quot;) {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;event lookAt {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;It's full of junk, none of which looks useful.&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;}</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;event pickUp {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;It looks too heavy to lift.&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;}</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
+<pre>objectType ego (&quot;Egor the ego&quot;) {</pre>
+<pre>}</pre>
+</P>
+
+<P>
+<pre>objectType lookAt (&quot;Look at&quot;) {</pre>
+<pre>}</pre>
+</P>
+
+<P>
+<pre>objectType pickUp (&quot;Pick up&quot;) {</pre>
+<pre>}</pre>
+</P>
+
+<P>
+<pre>objectType hat (&quot;old battered top hat&quot;) {</pre>
+<pre>}</pre>
+</P>
+
+<P>
+Object types can also specify chunks of code which should be run when the object type is combined with another object type using the built-in <a href="callEvent.html">callEvent</a> function.<BR>
+</P>
+
+<P>
+<pre>objectType box (&quot;box&quot;) {</pre>
+<pre>&nbsp;&nbsp;&nbsp;event lookAt {</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;It's full of junk, none of which looks useful.&quot;);</pre>
+<pre>&nbsp;&nbsp;&nbsp;}</pre>
+<pre>&nbsp;&nbsp;&nbsp;event pickUp {</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;It looks too heavy to lift.&quot;);</pre>
+<pre>&nbsp;&nbsp;&nbsp;}</pre>
+<pre>}</pre>
+</P>
+
+<P>
 With the above object type definitions, if a function was to call:<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>callEvent (lookAt, box);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
+<pre>callEvent (lookAt, box);</pre>
+</P>
+
+<P>
 ...the ego character would say the line &quot;It's full of junk, none of which looks useful.&quot;<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Elements of an objectType definition:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<P>
+<H3>Elements of an objectType definition:</H3>
+
+</P>
+
+<P>
 Here are all the different (optional) parts of an object type...<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>speechColour 128, 128, 128;</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-Use this to specify the colour in which the object will &quot;speak&quot;. You can use the reserved word speechColor too, for our overseas friends - it does exactly the same thing.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>speechGap 8;</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-This sets the distance, in pixels, between the top of an object and the text which appears on the screen when it talks. Useful if you're using a character to animate a mouth in a close-up, for example, but still want speech text to appear over the top of the whole face. The default is 8.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>walkSpeed 5;</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-Use this to set the default walk speed for a particular object type, should it be used as a character. 1 is the slowest possible, and numbers into (or higher than) double figures are pretty darn speedy. (Once an object type has been added to a scene, its walking speed can be changed on the fly using the <b><a href="setCharacterWalkSpeed.html">setCharacterWalkSpeed</a></b> function.) The default is 5.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>spinSpeed 45;</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-Specify how many degrees the object type can turn per frame when used as a character, either walking or told to turn using the <b><a href="turnCharacter_and_spinCharacter.html">spinCharacter</a></b> command. A value of 0 means that the character's spin speed is calculated automatically, based on the number of directions in the character's current costume. (A character's spin speed can also be changed on the fly using the <b><a href="setCharacterSpinSpeed.html">setCharacterSpinSpeed</a></b> function.) The default value is 0.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>wrapSpeech 40;</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-Use this to change the number of characters which can be displayed on the same line when the object type speaks. The default value is 30.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>event someOtherObject {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;# Code here</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-The code which is called when the object is combined with another object type - see above.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>event someOtherObject2 = someOtherSub;</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-Existing functions can be reused... see <b><a href="Reusing_Code_for_or_from_Events.html">Reusing Code for or from Events</a></b> for details.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>var someMemberVariable = 100;</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>sub someMemberFunction () { ... }</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-Yes, since SLUDGE v1.1, your object types can have member variables and functions... see <b><a href="Member_Variables_and_Member_Functions.html">Member Variables and Member Functions</a></b> for details.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>flag IS_TOO_HEAVY_TO_CARRY;</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>flags IS_TOO_HEAVY_TO_CARRY, ALIVE, NOT_AFRAID_OF_SPIDERS;</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-SLUDGE v1.4 added the concept of object flags. Give your objects any flag or flags you want - to create a new flag, just start talking about it in one of your object types. You can then check whether a particular object type has a particular flag set using the <b><A href="hasFlag.html">hasFlag</a></b> function. You can have a maximum of 16 flags in your game. The words "flag" and "flags" are interchangable - both are provided for code readability.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>More on this subject:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<b><a href="Setting_Default_Events.html">Setting Default Events</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="Object_Types_as_Characters.html">Object Types as Characters</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="Object_Types_as_Screen_Regions.html">Object Types as Screen Regions</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+<P>
+<pre>speechColour 128, 128, 128;</pre>
+</P>
+
+<P>
+Use this to specify the colour in which the object will &quot;speak&quot;. You can use the reserved word speechColor too, for our overseas friends - it does exactly the same thing.<BR>
+</P>
+
+<P>
+<pre>speechGap 8;</pre>
+</P>
+
+<P>
+This sets the distance, in pixels, between the top of an object and the text which appears on the screen when it talks. Useful if you're using a character to animate a mouth in a close-up, for example, but still want speech text to appear over the top of the whole face. The default is 8.<BR>
+</P>
+
+<P>
+<pre>walkSpeed 5;</pre>
+</P>
+
+<P>
+Use this to set the default walk speed for a particular object type, should it be used as a character. 1 is the slowest possible, and numbers into (or higher than) double figures are pretty darn speedy. (Once an object type has been added to a scene, its walking speed can be changed on the fly using the <a href="setCharacterWalkSpeed.html">setCharacterWalkSpeed</a> function.) The default is 5.<BR>
+</P>
+
+<P>
+<pre>spinSpeed 45;</pre>
+</P>
+
+<P>
+Specify how many degrees the object type can turn per frame when used as a character, either walking or told to turn using the <a href="turnCharacter_and_spinCharacter.html">spinCharacter</a> command. A value of 0 means that the character's spin speed is calculated automatically, based on the number of directions in the character's current costume. (A character's spin speed can also be changed on the fly using the <a href="setCharacterSpinSpeed.html">setCharacterSpinSpeed</a> function.) The default value is 0.<BR>
+</P>
+
+<P>
+<pre>wrapSpeech 40;</pre>
+</P>
+
+<P>
+Use this to change the number of characters which can be displayed on the same line when the object type speaks. The default value is 30.<BR>
+</P>
+
+<P>
+<pre>event someOtherObject {</pre>
+<pre>&nbsp;&nbsp;&nbsp;# Code here</pre>
+<pre>}</pre>
+</P>
+
+<P>
+The code which is called when the object is combined with another object type - see above.<BR>
+</P>
+
+<P>
+<pre>event someOtherObject2 = someOtherSub;</pre>
+</P>
+
+<P>
+Existing functions can be reused... see <a href="Reusing_Code_for_or_from_Events.html">Reusing Code for or from Events</a> for details.<BR>
+</P>
+
+<P>
+<pre>var someMemberVariable = 100;</pre>
+</P>
+
+<P>
+<pre>sub someMemberFunction () { ... }</pre>
+</P>
+
+<P>
+Yes, since SLUDGE v1.1, your object types can have member variables and functions... see <a href="Member_Variables_and_Member_Functions.html">Member Variables and Member Functions</a> for details.<BR>
+</P>
+
+<P>
+<pre>flag IS_TOO_HEAVY_TO_CARRY;</pre>
+</P>
+
+<P>
+<pre>flags IS_TOO_HEAVY_TO_CARRY, ALIVE, NOT_AFRAID_OF_SPIDERS;</pre>
+</P>
+
+<P>
+SLUDGE v1.4 added the concept of object flags. Give your objects any flag or flags you want - to create a new flag, just start talking about it in one of your object types. You can then check whether a particular object type has a particular flag set using the <a href="hasFlag.html">hasFlag</a> function. You can have a maximum of 16 flags in your game. The words "flag" and "flags" are interchangable - both are provided for code readability.<BR>
+</P>
+
+<P>
+<H3>More on this subject:</H3>
+
+</P>
+
+<P>
+<a href="Setting_Default_Events.html">Setting Default Events</a><BR>
+</P>
+
+<P>
+<a href="Object_Types_as_Characters.html">Object Types as Characters</a><BR>
+</P>
+
+<P>
+<a href="Object_Types_as_Screen_Regions.html">Object Types as Screen Regions</a><BR>
+</P>
+
+<P>
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
+</P>
+
+<P>
+<HR>
 </BODY>
 </html>

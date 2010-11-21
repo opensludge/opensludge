@@ -1,117 +1,226 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <TITLE>Variable Operations</TITLE>
+  <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
-<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
-<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>Variable Operations</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<BODY>
+<HR>
+<table align="center"><td class="heading">Variable Operations</td></table>
+<HR>
+
+
+<P>
 The following operations are supported in SLUDGE:<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>A + B</B><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 If both values are numbers, the result is the total of the two numbers. If one value is not a number, the result is a string containing the string representation of the first value followed by the string representation of the second. For example, 1+2 is the number 3, whereas 1+&quot;2&quot; is the string &quot;12&quot;.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>A - B</B><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 Both values must be numbers. The result is the first number minus the second.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>A * B</B><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 Both values must be numbers. The result is the first number multiplied by the second.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>A / B</B><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 Both values must be numbers. The result is the first number divided by the second. The second number cannot be 0.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>A % B</B><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 Both values must be numbers. The result is the remainder when the first number is divided by the second (or the modulus). The second number cannot be 0.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>A &amp;&amp; B</B><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 Both values are treated as boolean. The result is true if both values are TRUE, otherwise it is FALSE..<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>A || B</B><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 Both values are treated as boolean. The result is TRUE if either value is TRUE, otherwise it is FALSE.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>A = B</B><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 Changes the value of A so that it now contains the same data as B. The same value is given as the result, meaning that the code A=B=C=D=E=8 will set all five variables to the numerical value 8.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>A == B</B><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 The result is TRUE if both values are of the same type and if the contents match, otherwise it is FALSE.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>A != B</B><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 The result is FALSE if both values are of the same type and if the contents match, otherwise it is TRUE.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>A &gt; B</B><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 Both values must be numbers. The result is TRUE if the first number is greater than the second, otherwise it is FALSE.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>A &lt; B</B><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 Both values must be numbers. The result is TRUE if the first number is less than the second, otherwise it is FALSE.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>- A</B><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 The value must be a number. The result is 0 minus the original value.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>! A</B><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 The value is treated as boolean. The result is FALSE if the value is TRUE, and TRUE if the value is FALSE.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>A ? B : C</B><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 The first value is treated as boolean. The result is B if the value is TRUE and C if the value is FALSE.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>A ++</B><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 Increases the value of A by 1. A must be a number; if not, the code has no effect. The return value is the old value of A.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>A --</B><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 Decreases the value of A by 1. A must be a number; if not, the code has no effect. The return value is the old value of A.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <B>A += B</B><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-Adds A to B and stores the result in A. <b><a href="Problems_with_+=,_-=,__=,__=_and_%=_in_SLUDGE.html">*</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
+Adds A to B and stores the result in A. <a href="Problems_with_+=,_-=,__=,__=_and_%=_in_SLUDGE.html">*</a><BR>
+</P>
+
+<P>
 <B>A -= B</B><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-Takes B from A and stores the result in A. <b><a href="Problems_with_+=,_-=,__=,__=_and_%=_in_SLUDGE.html">*</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
+Takes B from A and stores the result in A. <a href="Problems_with_+=,_-=,__=,__=_and_%=_in_SLUDGE.html">*</a><BR>
+</P>
+
+<P>
 <B>A *= B</B><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-Multiplies A and B and stores the result in A. <b><a href="Problems_with_+=,_-=,__=,__=_and_%=_in_SLUDGE.html">*</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
+Multiplies A and B and stores the result in A. <a href="Problems_with_+=,_-=,__=,__=_and_%=_in_SLUDGE.html">*</a><BR>
+</P>
+
+<P>
 <B>A /= B</B><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-Divides A by B and stores the result in A. <b><a href="Problems_with_+=,_-=,__=,__=_and_%=_in_SLUDGE.html">*</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
+Divides A by B and stores the result in A. <a href="Problems_with_+=,_-=,__=,__=_and_%=_in_SLUDGE.html">*</a><BR>
+</P>
+
+<P>
 <B>A %= B</B><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-Performs the operation A % B and stores the result in A. <b><a href="Problems_with_+=,_-=,__=,__=_and_%=_in_SLUDGE.html">*</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
+Performs the operation A % B and stores the result in A. <a href="Problems_with_+=,_-=,__=,__=_and_%=_in_SLUDGE.html">*</a><BR>
+</P>
+
+<P>
 (For operations in which the value or values must be numbers, the engine will quit with a Fatal Error message box if non-numbers are used.)<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>More on this subject:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<b><a href="Problems_with_+=,_-=,__=,__=_and_%=_in_SLUDGE.html">Problems with +=, -=, *=, /= and %= in SLUDGE</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>See also:</B></FONT><BR>
+<P>
+<H3>More on this subject:</H3>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<b><a href="Treating_Variables_as_Booleans.html">Treating Variables as Booleans</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="Treating_Variables_as_Strings.html">Treating Variables as Strings</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</P>
+
+<P>
+<a href="Problems_with_+=,_-=,__=,__=_and_%=_in_SLUDGE.html">Problems with +=, -=, *=, /= and %= in SLUDGE</a><BR>
+</P>
+
+<P>
+<H3>See also:</H3>
+
+</P>
+
+<P>
+<a href="Treating_Variables_as_Booleans.html">Treating Variables as Booleans</a><BR>
+</P>
+
+<P>
+<a href="Treating_Variables_as_Strings.html">Treating Variables as Strings</a><BR>
+</P>
+
+<P>
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
+</P>
+
+<P>
+<HR>
 </BODY>
 </html>

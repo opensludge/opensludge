@@ -1,132 +1,217 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <TITLE>Passing Functions as Variables</TITLE>
+  <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
-<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
-<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>Passing Functions as Variables</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-A variable can be used to hold a number, a line of text, an object type... and a function. This is useful if you have a large number of functions which should all be called in the same way... for example, the functions which are used to set up the scenes of your game.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-Rather than having a program defined as follows...<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>var lastRoom;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# The room we just came from (string)</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>var thisRoom;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# The room we're in now (string)</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>sub goToDiningRoom () {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;removeAllCharacters ();</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;removeScreenRegions ();</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;lastRoom = thisRoom;</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;thisRoom = &quot;dining room&quot;;</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;completeTimers ();</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;addOverlay ('diningRoom.tga', 0, 0);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;setFloor ('diningRoom.flo');</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;# More dining room initialisation here</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>sub goToLounge () {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;removeAllCharacters ();</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;removeScreenRegions ();</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;lastRoom = thisRoom;</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;thisRoom = &quot;lounge&quot;;</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;completeTimers ();</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;addOverlay ('lounge.tga', 0, 0);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;setFloor ('lounge.flo');</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;# More lounge initialisation here</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-It would be beneficial to have a number of rooms and one function for changing between them.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>var lastRoom;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# The room we just came from (function handle)</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>var thisRoom;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# The room we're in now (function handle)</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>sub goToRoom (newRoom) {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;removeAllCharacters ();</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;removeScreenRegions ();</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;lastRoom = thisRoom;</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;thisRoom = newRoom;</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;completeTimers ();</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;newRoom ();</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>sub diningRoom () {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;addOverlay ('diningRoom.tga', 0, 0);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;setFloor ('diningRoom.flo');</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;# More dining room initialisation here</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>sub lounge () {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;addOverlay ('lounge.tga', 0, 0);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;setFloor ('lounge.flo');</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;# More lounge initialisation here</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-You can see that, at the end of the goToRoom sub, newRoom can be called just like a function even though it's actually a variable. This is because if your program was to include a line such as<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>goToRoom (lounge);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-...the value of newRoom would be a pointer to the lounge function. Therefore, the lounge function would be called. You can even pass pointers to functions which take variables, although there are probably very few situations where you would want to...<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>sub doRepeatingMaths (number, mathFunc, mathSign) {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;var total = number;</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;var newTotal;</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;for (var a = 0; a &lt; 5; a ++) {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newTotal = mathFunc (total, number);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, total + mathSign + number + &quot; = &quot; + newTotal);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;total = newTotal;</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;}</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>sub minus (a, b)&nbsp;&nbsp;&nbsp;{ return a - b; }</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>sub plus (a, b)&nbsp;&nbsp;&nbsp;{ return a + b; }</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>sub times (a, b)&nbsp;&nbsp;&nbsp;{ return a * b; }</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-Using the above code, a call to doRepeatingMaths (2, plus, &quot;+&quot;) would make the ego character say the following:<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-2+2 = 4<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-4+2 = 6<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-6+2 = 8<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-8+2 = 10<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-10+2 = 12<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-A call to doRepeatingMaths (3, times, &quot;*&quot;) would make the ego character say:<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-3*3 = 9<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-9*3 = 27<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-27*3 = 81<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-81*3 = 243<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-243*3 = 729<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>See also:</B></FONT><BR>
+<BODY>
+<HR>
+<table align="center"><td class="heading">Passing Functions as Variables</td></table>
+<HR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<b><a href="Variables.html">Variables</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="onFocusChange.html">onFocusChange</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="onKeyboard.html">onKeyboard</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="onLeftMouse.html">onLeftMouse</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="onMoveMouse.html">onMoveMouse</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="onRightMouse.html">onRightMouse</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+
+<P>
+A variable can be used to hold a number, a line of text, an object type... and a function. This is useful if you have a large number of functions which should all be called in the same way... for example, the functions which are used to set up the scenes of your game.<BR>
+</P>
+
+<P>
+Rather than having a program defined as follows...<BR>
+</P>
+
+<P>
+<pre>var lastRoom;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# The room we just came from (string)</pre>
+<pre>var thisRoom;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# The room we're in now (string)</pre>
+</P>
+
+<P>
+<pre>sub goToDiningRoom () {</pre>
+<pre>&nbsp;&nbsp;&nbsp;removeAllCharacters ();</pre>
+<pre>&nbsp;&nbsp;&nbsp;removeScreenRegions ();</pre>
+<pre>&nbsp;&nbsp;&nbsp;lastRoom = thisRoom;</pre>
+<pre>&nbsp;&nbsp;&nbsp;thisRoom = &quot;dining room&quot;;</pre>
+<pre>&nbsp;&nbsp;&nbsp;completeTimers ();</pre>
+</P>
+
+<P>
+<pre>&nbsp;&nbsp;&nbsp;addOverlay ('diningRoom.tga', 0, 0);</pre>
+<pre>&nbsp;&nbsp;&nbsp;setFloor ('diningRoom.flo');</pre>
+<pre>&nbsp;&nbsp;&nbsp;# More dining room initialisation here</pre>
+<pre>}</pre>
+</P>
+
+<P>
+<pre>sub goToLounge () {</pre>
+<pre>&nbsp;&nbsp;&nbsp;removeAllCharacters ();</pre>
+<pre>&nbsp;&nbsp;&nbsp;removeScreenRegions ();</pre>
+<pre>&nbsp;&nbsp;&nbsp;lastRoom = thisRoom;</pre>
+<pre>&nbsp;&nbsp;&nbsp;thisRoom = &quot;lounge&quot;;</pre>
+<pre>&nbsp;&nbsp;&nbsp;completeTimers ();</pre>
+</P>
+
+<P>
+<pre>&nbsp;&nbsp;&nbsp;addOverlay ('lounge.tga', 0, 0);</pre>
+<pre>&nbsp;&nbsp;&nbsp;setFloor ('lounge.flo');</pre>
+<pre>&nbsp;&nbsp;&nbsp;# More lounge initialisation here</pre>
+<pre>}</pre>
+</P>
+
+<P>
+It would be beneficial to have a number of rooms and one function for changing between them.<BR>
+</P>
+
+<P>
+<pre>var lastRoom;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# The room we just came from (function handle)</pre>
+<pre>var thisRoom;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# The room we're in now (function handle)</pre>
+</P>
+
+<P>
+<pre>sub goToRoom (newRoom) {</pre>
+<pre>&nbsp;&nbsp;&nbsp;removeAllCharacters ();</pre>
+<pre>&nbsp;&nbsp;&nbsp;removeScreenRegions ();</pre>
+<pre>&nbsp;&nbsp;&nbsp;lastRoom = thisRoom;</pre>
+<pre>&nbsp;&nbsp;&nbsp;thisRoom = newRoom;</pre>
+<pre>&nbsp;&nbsp;&nbsp;completeTimers ();</pre>
+<pre>&nbsp;&nbsp;&nbsp;newRoom ();</pre>
+<pre>}</pre>
+</P>
+
+<P>
+<pre>sub diningRoom () {</pre>
+<pre>&nbsp;&nbsp;&nbsp;addOverlay ('diningRoom.tga', 0, 0);</pre>
+<pre>&nbsp;&nbsp;&nbsp;setFloor ('diningRoom.flo');</pre>
+<pre>&nbsp;&nbsp;&nbsp;# More dining room initialisation here</pre>
+<pre>}</pre>
+</P>
+
+<P>
+<pre>sub lounge () {</pre>
+<pre>&nbsp;&nbsp;&nbsp;addOverlay ('lounge.tga', 0, 0);</pre>
+<pre>&nbsp;&nbsp;&nbsp;setFloor ('lounge.flo');</pre>
+<pre>&nbsp;&nbsp;&nbsp;# More lounge initialisation here</pre>
+<pre>}</pre>
+</P>
+
+<P>
+You can see that, at the end of the goToRoom sub, newRoom can be called just like a function even though it's actually a variable. This is because if your program was to include a line such as<BR>
+</P>
+
+<P>
+<pre>goToRoom (lounge);</pre>
+</P>
+
+<P>
+...the value of newRoom would be a pointer to the lounge function. Therefore, the lounge function would be called. You can even pass pointers to functions which take variables, although there are probably very few situations where you would want to...<BR>
+</P>
+
+<P>
+<pre>sub doRepeatingMaths (number, mathFunc, mathSign) {</pre>
+<pre>&nbsp;&nbsp;&nbsp;var total = number;</pre>
+<pre>&nbsp;&nbsp;&nbsp;var newTotal;</pre>
+</P>
+
+<P>
+<pre>&nbsp;&nbsp;&nbsp;for (var a = 0; a &lt; 5; a ++) {</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newTotal = mathFunc (total, number);</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, total + mathSign + number + &quot; = &quot; + newTotal);</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;total = newTotal;</pre>
+<pre>&nbsp;&nbsp;&nbsp;}</pre>
+<pre>}</pre>
+</P>
+
+<P>
+<pre>sub minus (a, b)&nbsp;&nbsp;&nbsp;{ return a - b; }</pre>
+</P>
+
+<P>
+<pre>sub plus (a, b)&nbsp;&nbsp;&nbsp;{ return a + b; }</pre>
+</P>
+
+<P>
+<pre>sub times (a, b)&nbsp;&nbsp;&nbsp;{ return a * b; }</pre>
+</P>
+
+<P>
+Using the above code, a call to doRepeatingMaths (2, plus, &quot;+&quot;) would make the ego character say the following:<BR>
+</P>
+
+<P>
+2+2 = 4<BR>
+</P>
+
+<P>
+4+2 = 6<BR>
+</P>
+
+<P>
+6+2 = 8<BR>
+</P>
+
+<P>
+8+2 = 10<BR>
+</P>
+
+<P>
+10+2 = 12<BR>
+</P>
+
+<P>
+A call to doRepeatingMaths (3, times, &quot;*&quot;) would make the ego character say:<BR>
+</P>
+
+<P>
+3*3 = 9<BR>
+</P>
+
+<P>
+9*3 = 27<BR>
+</P>
+
+<P>
+27*3 = 81<BR>
+</P>
+
+<P>
+81*3 = 243<BR>
+</P>
+
+<P>
+243*3 = 729<BR>
+</P>
+
+<P>
+<H3>See also:</H3>
+
+</P>
+
+<P>
+<a href="Variables.html">Variables</a><BR>
+</P>
+
+<P>
+<a href="onFocusChange.html">onFocusChange</a><BR>
+</P>
+
+<P>
+<a href="onKeyboard.html">onKeyboard</a><BR>
+</P>
+
+<P>
+<a href="onLeftMouse.html">onLeftMouse</a><BR>
+</P>
+
+<P>
+<a href="onMoveMouse.html">onMoveMouse</a><BR>
+</P>
+
+<P>
+<a href="onRightMouse.html">onRightMouse</a><BR>
+</P>
+
+<P>
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
+</P>
+
+<P>
+<HR>
 </BODY>
 </html>

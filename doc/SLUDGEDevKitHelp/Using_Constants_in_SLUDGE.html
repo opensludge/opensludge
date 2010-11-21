@@ -1,40 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <TITLE>Using Constants in SLUDGE</TITLE>
+  <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
-<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
-<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>Using Constants in SLUDGE</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-The SLUDGE compiler knows several constants already, such as NULL and FALSE (both of which are just other ways of saying 0), TRUE (which is another way of saying 1) and so on. Should you want to define your own custom constant values in SLUDGE, you can do this using definition files (with the extension &quot;.SLD&quot;). Constant values cannot be defined in SLUDGE scripts.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-To create and add a definition file to your project, choose the &quot;Add file&quot; button from the <b><a href="Project_Manager__Files_in_this_project_Section.html">Files in this project</a></b> section of the <b><a href="About_the_SLUDGE_Project_Manager.html">SLUDGE project manager</a></b> program. In the dialog box which appears, select the file type &quot;SLUDGE definition files (*.SLD)&quot; and type a name for the file you want to create.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-When you've created the file, select it from the list and press the &quot;Edit&quot; button. Put one definition on each line. For example...<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>AUTHORNAME = &quot;Tim&quot;</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>YEAR = 2002</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>NEXTYEAR = (YEAR + 1)</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-Should a definitions file contain the above lines, whenever the SLUDGE compiler finds the word AUTHORNAME it will think it's found the word Tim in speech marks; whenever it finds the word YEAR it will think it's found the number 2002; whenever it finds the word NEXTYEAR it will think it's found the expression YEAR + 1 in brackets (the YEAR part of which will then be expanded as above).<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-Any spaces either side of the separating equals sign are disregarded. Blank lines and lines starting with a &quot;#&quot; are ignored.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>What you can't do:</B></FONT><BR>
+<BODY>
+<HR>
+<table align="center"><td class="heading">Using Constants in SLUDGE</td></table>
+<HR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+
+<P>
+The SLUDGE compiler knows several constants already, such as NULL and FALSE (both of which are just other ways of saying 0), TRUE (which is another way of saying 1) and so on. Should you want to define your own custom constant values in SLUDGE, you can do this using definition files (with the extension &quot;.SLD&quot;). Constant values cannot be defined in SLUDGE scripts.<BR>
+</P>
+
+<P>
+To create and add a definition file to your project, choose the &quot;Add file&quot; button from the <a href="Project_Manager__Files_in_this_project_Section.html">Files in this project</a> section of the <a href="About_the_SLUDGE_Project_Manager.html">SLUDGE project manager</a> program. In the dialog box which appears, select the file type &quot;SLUDGE definition files (*.SLD)&quot; and type a name for the file you want to create.<BR>
+</P>
+
+<P>
+When you've created the file, select it from the list and press the &quot;Edit&quot; button. Put one definition on each line. For example...<BR>
+</P>
+
+<P>
+<pre>AUTHORNAME = &quot;Tim&quot;</pre>
+<pre>YEAR = 2002</pre>
+<pre>NEXTYEAR = (YEAR + 1)</pre>
+</P>
+
+<P>
+Should a definitions file contain the above lines, whenever the SLUDGE compiler finds the word AUTHORNAME it will think it's found the word Tim in speech marks; whenever it finds the word YEAR it will think it's found the number 2002; whenever it finds the word NEXTYEAR it will think it's found the expression YEAR + 1 in brackets (the YEAR part of which will then be expanded as above).<BR>
+</P>
+
+<P>
+Any spaces either side of the separating equals sign are disregarded. Blank lines and lines starting with a &quot;#&quot; are ignored.<BR>
+</P>
+
+<P>
+<H3>What you can't do:</H3>
+
+</P>
+
+<P>
 Only complete expressions can be used as constants. You <b>can't</b>, for example, say:<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>MINUS = -</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
+<pre>MINUS = -</pre>
+</P>
+
+<P>
 ...and then expect the following code to work:<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>var t = 100 MINUS 4;</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
+<pre>var t = 100 MINUS 4;</pre>
+</P>
+
+<P>
 But then why would you want to?<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</P>
+
+<P>
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
+</P>
+
+<P>
+<HR>
 </BODY>
 </html>

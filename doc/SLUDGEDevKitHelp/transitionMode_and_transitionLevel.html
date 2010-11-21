@@ -1,77 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <TITLE>transitionMode and transitionLevel</TITLE>
+  <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
-<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
-<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>transitionMode and transitionLevel</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=20><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Syntax:</B></FONT><BR>
+<BODY>
+<HR>
+<table align="center"><td class="heading">transitionMode and transitionLevel</td></table>
+<HR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<font color=#BB4444 SIZE=+2><TT><B>transitionMode (<i>mode</i>);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<font color=#BB4444 SIZE=+2><TT><B>transitionLevel (<i>level</i>);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Purpose:</B></FONT><BR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<P>
+<H3>Syntax:</H3>
+
+</P>
+
+<P>
+<pre>transitionMode (<i>mode</i>);</pre>
+</P>
+
+<P>
+<pre>transitionLevel (<i>level</i>);</pre>
+</P>
+
+<P>
+<H3>Purpose:</H3>
+
+</P>
+
+<P>
 The transitionMode function chooses which transition type is used by the game. Valid values for <i>mode</i> are:<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>FADE&nbsp;&nbsp;&nbsp;</b>Every pixel's brightness is faded to / from black.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>DISOLVE&nbsp;&nbsp;&nbsp;</b>A fixed selection of pixels is coloured over in black.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>DISOLVE1&nbsp;&nbsp;&nbsp;</b>The same as DISOLVE.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>DISOLVE2&nbsp;&nbsp;&nbsp;</b>A random selection of pixels is coloured over in black.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>TVSTATIC&nbsp;&nbsp;&nbsp;</b>A random selection of pixels is coloured over in random greys.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>BLINDS&nbsp;&nbsp;&nbsp;</b>The screen is divided into horizontal slices which open like blinds.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>SNAPSHOTFADE&nbsp;&nbsp;&nbsp;</b>The screen is faded to / from the current snapshot. *<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>CROSSFADE&nbsp;&nbsp;&nbsp;</b>The same as SNAPSHOTFADE.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>SNAPSHOTBOX&nbsp;&nbsp;&nbsp;</b>The screen appears in an expanding rectangle over the current snapshot. *<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 The transitionLevel function specifies how visible the current screen is, from 0 to 256 inclusive. A <i>level</i> value of 0 means the scene is not visible at all (normally pitch black). A <i>level</i> value of 256 means the scene is completely visible and not affected by the current transition mode at all.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 Note that the mouse cursor is <i>not</i> affected by transitions. All other elements - including speech, characters and status text - are affected.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
- * = See <b><A href="snapshotGrab.html">snapshotGrab</a></b> for more information. This transition mode has no effect if there is currently no snapshot in memory.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Example:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<FONT color=#BB4444><TT><B># Choose which mode we want to use</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>transitionMode (DISOLVE2);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B># Fade up</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>for (var a = 0; a &lt; 255; a += 10) {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;transitionLevel (a);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;pause (1);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>transitionLevel (256);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B># Wait a while</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>pause (100);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B># Fade down</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>for (var a = 255; a &gt; 0; a -= 10) {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;transitionLevel (a);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;pause (1);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>transitionLevel (0);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Return value:</B></FONT><BR>
+<P>
+ * = See <a href="snapshotGrab.html">snapshotGrab</a> for more information. This transition mode has no effect if there is currently no snapshot in memory.<BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<P>
+<H3>Example:</H3>
+
+</P>
+
+<P>
+<pre># Choose which mode we want to use</pre>
+<pre>transitionMode (DISOLVE2);</pre>
+</P>
+
+<P>
+<pre># Fade up</pre>
+<pre>for (var a = 0; a &lt; 255; a += 10) {</pre>
+<pre>&nbsp;&nbsp;&nbsp;transitionLevel (a);</pre>
+<pre>&nbsp;&nbsp;&nbsp;pause (1);</pre>
+<pre>}</pre>
+<pre>transitionLevel (256);</pre>
+</P>
+
+<P>
+<pre># Wait a while</pre>
+<pre>pause (100);</pre>
+</P>
+
+<P>
+<pre># Fade down</pre>
+<pre>for (var a = 255; a &gt; 0; a -= 10) {</pre>
+<pre>&nbsp;&nbsp;&nbsp;transitionLevel (a);</pre>
+<pre>&nbsp;&nbsp;&nbsp;pause (1);</pre>
+<pre>}</pre>
+<pre>transitionLevel (0);</pre>
+</P>
+
+<P>
+<H3>Return value:</H3>
+
+</P>
+
+<P>
 No return value.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</P>
+
+<P>
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
+</P>
+
+<P>
+<HR>
 </BODY>
 </html>

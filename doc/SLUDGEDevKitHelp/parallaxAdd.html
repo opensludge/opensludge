@@ -1,55 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <TITLE>parallaxAdd</TITLE>
+  <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
-<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
-<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>parallaxAdd</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=20><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Syntax:</B></FONT><BR>
+<BODY>
+<HR>
+<table align="center"><td class="heading">parallaxAdd</td></table>
+<HR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<font color=#BB4444 SIZE=+2><TT><B>parallaxAdd (<i>thisFile, scrollSpeedX, scrollSpeedY</i>);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Purpose:</B></FONT><BR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<P>
+<H3>Syntax:</H3>
+
+</P>
+
+<P>
+<pre>parallaxAdd (<i>thisFile, scrollSpeedX, scrollSpeedY</i>);</pre>
+</P>
+
+<P>
+<H3>Purpose:</H3>
+
+</P>
+
+<P>
 Loads an image from the file handle <i>thisFile</i> and uses it as a parallax layer, visible behind the background image. Parallax layers can scroll at different speeds to the background image, giving the illusion of depth to a scene as it moves.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 The value <i>scrollSpeedX</i> specifies how fast the parallax image will move as a percentage of the the background image as it scrolls. For example, if <i>scrollSpeedX</i> is 50, for every 2 pixels the main scene moves the parallax layer will move only 1. If you specify a scroll speed in this way, the width of the image must be a power of two (i.e. the width must be 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048 etc. pixels) in order for proper tiling to occur... that is, the image will repeat horizontally. The same is true of <i>scrollSpeedY</i> which specifies how fast the image moves vertically as a percentage of the movement of the main scene - if a value is specified here, the height of the image must be a power of 2.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 There is one special value which can be used in the place of either <i>scrollSpeedX</i> or <i>scrollSpeedY</i> or neither or both at any time - and that value is the word AUTOFIT. If <i>scrollSpeedX</i> is AUTOFIT, the horizontal scrolling speed of the parallax layer is calculated automatically (and consequently, there's no way the image will need to repeat, so the width need not be a power of 2). However, a new rule is imposed if using this setting - the image must be as wide as, or wider than, the game window. If <i>scrollSpeedY</i> is AUTOFIT, the vertical scrolling speed of the layer is calculated automatically and the height need not be a power of 2 - however, the height of the image must be greater than or equal to the height of the game window. Got all that? Good.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 One more thing - you can have multiple parallax layers at once, each with its own pair of scrolling speeds. The most recently added parallax layer will be visible through any areas of the scenery coloured bright cyan (0, 255, 255 or #00FFFF). Should there be a further parallax layer, it will be visible through any regions of the most recent coloured bright cyan, and so on, and so on. So, when loading multiple layers using this function, start with the furthest away. Also, for a realistic effect, make any layers that are further away scroll more slowly than those that are nearer the scene.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Return value:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<P>
+<H3>Return value:</H3>
+
+</P>
+
+<P>
 No return value.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Example:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<FONT color=#BB4444><TT><B># The width and height of each of these must be a</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B># power of 2...</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>parallaxAdd ('stars.tga', 10, 10);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>parallaxAdd ('mountains.tga', 25, 25);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B># This image must be at least as wide and tall as</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B># the game window...</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>parallaxAdd ('town roofs.tga', AUTOFIT, AUTOFIT);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>See also:</B></FONT><BR>
+<P>
+<H3>Example:</H3>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<b><a href="Scrolling_Scenes.html">Scrolling Scenes</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="parallaxClear.html">parallaxClear</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</P>
+
+<P>
+<pre># The width and height of each of these must be a</pre>
+<pre># power of 2...</pre>
+</P>
+
+<P>
+<pre>parallaxAdd ('stars.tga', 10, 10);</pre>
+<pre>parallaxAdd ('mountains.tga', 25, 25);</pre>
+</P>
+
+<P>
+<pre># This image must be at least as wide and tall as</pre>
+<pre># the game window...</pre>
+</P>
+
+<P>
+<pre>parallaxAdd ('town roofs.tga', AUTOFIT, AUTOFIT);</pre>
+</P>
+
+<P>
+<H3>See also:</H3>
+
+</P>
+
+<P>
+<a href="Scrolling_Scenes.html">Scrolling Scenes</a><BR>
+</P>
+
+<P>
+<a href="parallaxClear.html">parallaxClear</a><BR>
+</P>
+
+<P>
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
+</P>
+
+<P>
+<HR>
 </BODY>
 </html>

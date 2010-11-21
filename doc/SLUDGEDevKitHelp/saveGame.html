@@ -1,53 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <TITLE>saveGame</TITLE>
+  <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
-<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
-<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>saveGame</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=20><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Syntax:</B></FONT><BR>
+<BODY>
+<HR>
+<table align="center"><td class="heading">saveGame</td></table>
+<HR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<font color=#BB4444 SIZE=+2><TT><B>saveGame (<i>text</i>);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Purpose:</B></FONT><BR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-Creates a file with the name <i>text</i> which contains the current state of the SLUDGE engine. The <i>text</I> value must be a string <b>not</b> a <b><a href="File_Handling.html">file handle</a></b> for this command to work as expected! The <b><a href="loadGame.html">loadGame</a></b> command can then be used to load in one of these files to return the engine to exactly the same state.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-Your saved game files, as well as containing all the information needed to restore a player's progress at any time, can also (optionally) contain a thumbnail image. The size of the image generated and saved can be set using <b><a href="setThumbnailSize.html">setThumbnailSize</a></b>.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-Currently, games cannot be saved while anything is frozen (using the <b><a href="freeze.html">freeze</a></b> command).<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<P>
+<H3>Syntax:</H3>
+
+</P>
+
+<P>
+<pre>saveGame (<i>text</i>);</pre>
+</P>
+
+<P>
+<H3>Purpose:</H3>
+
+</P>
+
+<P>
+Creates a file with the name <i>text</i> which contains the current state of the SLUDGE engine. The <i>text</I> value must be a string <b>not</b> a <a href="File_Handling.html">file handle</a> for this command to work as expected! The <a href="loadGame.html">loadGame</a> command can then be used to load in one of these files to return the engine to exactly the same state.<BR>
+</P>
+
+<P>
+Your saved game files, as well as containing all the information needed to restore a player's progress at any time, can also (optionally) contain a thumbnail image. The size of the image generated and saved can be set using <a href="setThumbnailSize.html">setThumbnailSize</a>.<BR>
+</P>
+
+<P>
+Currently, games cannot be saved while anything is frozen (using the <a href="freeze.html">freeze</a> command).<BR>
+</P>
+
+<P>
 Note that when the loadGame command is called successfully and the engine returns to its state when the file was created, execution will restart after the call to saveGame, <b>not</b> after the call to loadGame. This is because everything - including the function which called the saveGame command - is saved to the file and therefore restored when loadGame is called. You can tell whether you've just loaded or saved a game by looking at the return value.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-This function supports filename bodging - for details see the <b><a href="bodgeFilenames.html">bodgeFilenames</A></B> command.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Return value:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<P>
+This function supports filename bodging - for details see the <a href="bodgeFilenames.html">bodgeFilenames</a> command.<BR>
+</P>
+
+<P>
+<H3>Return value:</H3>
+
+</P>
+
+<P>
 Returns TRUE if the state of the engine was just saved. Returns FALSE if the game has just restarted at this point after a call to loadGame.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>See also:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<b><a href="The_Worlds_Easiest_Load_Save_Mechanism.html">The World's Easiest Load/Save Mechanism</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="deleteFile.html">deleteFile</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="fileExists.html">fileExists</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="getMatchingFiles.html">getMatchingFiles</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="loadCustomData_and_saveCustomData.html">loadCustomData and saveCustomData</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="renameFile.html">renameFile</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="showThumbnail.html">showThumbnail</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+<P>
+<H3>See also:</H3>
+
+</P>
+
+<P>
+<a href="The_Worlds_Easiest_Load_Save_Mechanism.html">The World's Easiest Load/Save Mechanism</a><BR>
+</P>
+
+<P>
+<a href="deleteFile.html">deleteFile</a><BR>
+</P>
+
+<P>
+<a href="fileExists.html">fileExists</a><BR>
+</P>
+
+<P>
+<a href="getMatchingFiles.html">getMatchingFiles</a><BR>
+</P>
+
+<P>
+<a href="loadCustomData_and_saveCustomData.html">loadCustomData and saveCustomData</a><BR>
+</P>
+
+<P>
+<a href="renameFile.html">renameFile</a><BR>
+</P>
+
+<P>
+<a href="showThumbnail.html">showThumbnail</a><BR>
+</P>
+
+<P>
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
+</P>
+
+<P>
+<HR>
 </BODY>
 </html>

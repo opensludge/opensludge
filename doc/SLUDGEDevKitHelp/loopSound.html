@@ -1,50 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <TITLE>loopSound</TITLE>
+  <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
-<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
-<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>loopSound</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=20><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Syntax:</B></FONT><BR>
+<BODY>
+<HR>
+<table align="center"><td class="heading">loopSound</td></table>
+<HR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<font color=#BB4444 SIZE=+2><TT><B>loopSound (<i>sound [, sound [, sound...]]</i>);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<font color=#BB4444 SIZE=+2><TT><B>loopSound (<i>sound [, sound [, sound...]], loopStyle</i>);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Purpose:</B></FONT><BR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-Plays one or more sounds, starting immediately. The sound parameters must be <b><a href="File_Handling.html">file handles</a></b>. Supported sound formats are wave files (.WAV) and Ogg Vorbis (.OGG).<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<P>
+<H3>Syntax:</H3>
+
+</P>
+
+<P>
+<pre>loopSound (<i>sound [, sound [, sound...]]</i>);</pre>
+</P>
+
+<P>
+<pre>loopSound (<i>sound [, sound [, sound...]], loopStyle</i>);</pre>
+</P>
+
+<P>
+<H3>Purpose:</H3>
+
+</P>
+
+<P>
+Plays one or more sounds, starting immediately. The sound parameters must be <a href="File_Handling.html">file handles</a>. Supported sound formats are wave files (.WAV) and Ogg Vorbis (.OGG).<BR>
+</P>
+
+<P>
 If <i>loopStyle</i> is zero, the sounds are played in order and then stop.<BR>
 If <i>loopStyle</i> is one, the sounds are played in order and then the final sound is looped.<BR>
 If <i>loopStyle</i> is two, the whole playlist is looped.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-A call to <a href="stopSound.html">stopSound</a></b> with the currently playing sound will stop 
+</P>
+
+<P>
+A call to <a href="stopSound.html">stopSound</a> with the currently playing sound will stop 
 the sound, and cancel any sounds waiting in line to be played. But please note that stopSound only
 affects the currently playing sound: Stopping a sound that has finished playing, or one that hasn't
 yet started playing will have no effect.<br>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Return value:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<P>
+<H3>Return value:</H3>
+
+</P>
+
+<P>
 No return value.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>See also:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<b><a href="Using_Audio_in_SLUDGE.html">Using Audio in SLUDGE</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="cacheSound.html">cacheSound</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="playSound.html">playSound</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="stopSound.html">stopSound</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+<P>
+<H3>See also:</H3>
+
+</P>
+
+<P>
+<a href="Using_Audio_in_SLUDGE.html">Using Audio in SLUDGE</a><BR>
+</P>
+
+<P>
+<a href="cacheSound.html">cacheSound</a><BR>
+</P>
+
+<P>
+<a href="playSound.html">playSound</a><BR>
+</P>
+
+<P>
+<a href="stopSound.html">stopSound</a><BR>
+</P>
+
+<P>
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
+</P>
+
+<P>
+<HR>
 </BODY>
 </html>

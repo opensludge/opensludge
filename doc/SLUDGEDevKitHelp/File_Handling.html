@@ -1,84 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <TITLE>File Handling</TITLE>
+  <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
-<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
-<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>File Handling</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-If you've used C++ or Perl, you'll be used to the idea that text in double quotes &quot;like this&quot; and text in single quotes 'like this' can have different meanings. In SLUDGE, strings in single quotes are interpreted as file handles. That is, during compilation, instead of including the text in your finished game the <b><a href="About_the_SLUDGE_Compiler.html">SLUDGE compiler</a></b> includes the file itself. Therefore, &quot;Hello.tga&quot; represents the string Hello.tga (which can then be spoken, printed on the screen and so on). Alternatively, 'Hello.tga' represents the contents of the file Hello.tga (which can then be drawn on the screen or - for other file types - played as a sound or a piece of music, set as the new floor and so on).<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<BODY>
+<HR>
+<table align="center"><td class="heading">File Handling</td></table>
+<HR>
+
+
+<P>
+If you've used C++ or Perl, you'll be used to the idea that text in double quotes &quot;like this&quot; and text in single quotes 'like this' can have different meanings. In SLUDGE, strings in single quotes are interpreted as file handles. That is, during compilation, instead of including the text in your finished game the <a href="About_the_SLUDGE_Compiler.html">SLUDGE compiler</a> includes the file itself. Therefore, &quot;Hello.tga&quot; represents the string Hello.tga (which can then be spoken, printed on the screen and so on). Alternatively, 'Hello.tga' represents the contents of the file Hello.tga (which can then be drawn on the screen or - for other file types - played as a sound or a piece of music, set as the new floor and so on).<BR>
+</P>
+
+<P>
 Files which are referenced more than once are only included in your finished game in one place. If you have a huge file mentioned anywhere in a script and then mentioned again in another (or in the same script) you don't need to worry about it bumping up the size of your finished file with duplicated data - this is taken care of, and each referenced file will be added only once. Files which are not referenced will, of course, not be added at all.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 It is also worth noting that storing a file handle does not open the file. The line...<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>var myHandle = 'bigImageFile.tga';</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-...does not read the file into memory. It is only when a handle is used by a built-in function (such as <b><a href="addOverlay.html">addOverlay</a></b> in this case) that the file is loaded.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Built-in functions which load files from file handles:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<b><a href="addOverlay.html">addOverlay</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="anim.html">anim</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="cacheSound.html">cacheSound</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="loopSound.html">loopSound</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="mixOverlay.html">mixOverlay</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="playSound.html">playSound</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="say_and_think.html">say and think</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="setFloor.html">setFloor</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="setFont.html">setFont</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="setLightMap.html">setLightMap</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="setZBuffer.html">setZBuffer</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="startMusic.html">startMusic</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Other built-in functions which use file handles:</B></FONT><BR>
+<P>
+<pre>var myHandle = 'bigImageFile.tga';</pre>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<b><a href="freeSound.html">freeSound</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="getSoundCache.html">getSoundCache</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="setSoundLoopPoints.html">setSoundLoopPoints</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="setSoundVolume.html">setSoundVolume</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="stopSound.html">stopSound</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Curiously, these functions don't use file handles:</B></FONT><BR>
+<P>
+...does not read the file into memory. It is only when a handle is used by a built-in function (such as <a href="addOverlay.html">addOverlay</a> in this case) that the file is loaded.<BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<b><a href="deleteFile.html">deleteFile</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="fileExists.html">fileExists</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="getMatchingFiles.html">getMatchingFiles</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="launch_and_launchWith.html">launch and launchWith</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="loadCustomData_and_saveCustomData.html">loadCustomData and saveCustomData</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="loadGame.html">loadGame</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="renameFile.html">renameFile</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="saveGame.html">saveGame</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="showThumbnail.html">showThumbnail</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+<P>
+<H3>Built-in functions which load files from file handles:</H3>
+
+</P>
+
+<P>
+<a href="addOverlay.html">addOverlay</a><BR>
+</P>
+
+<P>
+<a href="anim.html">anim</a><BR>
+</P>
+
+<P>
+<a href="cacheSound.html">cacheSound</a><BR>
+</P>
+
+<P>
+<a href="loopSound.html">loopSound</a><BR>
+</P>
+
+<P>
+<a href="mixOverlay.html">mixOverlay</a><BR>
+</P>
+
+<P>
+<a href="playSound.html">playSound</a><BR>
+</P>
+
+<P>
+<a href="say_and_think.html">say and think</a><BR>
+</P>
+
+<P>
+<a href="setFloor.html">setFloor</a><BR>
+</P>
+
+<P>
+<a href="setFont.html">setFont</a><BR>
+</P>
+
+<P>
+<a href="setLightMap.html">setLightMap</a><BR>
+</P>
+
+<P>
+<a href="setZBuffer.html">setZBuffer</a><BR>
+</P>
+
+<P>
+<a href="startMusic.html">startMusic</a><BR>
+</P>
+
+<P>
+<H3>Other built-in functions which use file handles:</H3>
+
+</P>
+
+<P>
+<a href="freeSound.html">freeSound</a><BR>
+</P>
+
+<P>
+<a href="getSoundCache.html">getSoundCache</a><BR>
+</P>
+
+<P>
+<a href="setSoundLoopPoints.html">setSoundLoopPoints</a><BR>
+</P>
+
+<P>
+<a href="setSoundVolume.html">setSoundVolume</a><BR>
+</P>
+
+<P>
+<a href="stopSound.html">stopSound</a><BR>
+</P>
+
+<P>
+<H3>Curiously, these functions don't use file handles:</H3>
+
+</P>
+
+<P>
+<a href="deleteFile.html">deleteFile</a><BR>
+</P>
+
+<P>
+<a href="fileExists.html">fileExists</a><BR>
+</P>
+
+<P>
+<a href="getMatchingFiles.html">getMatchingFiles</a><BR>
+</P>
+
+<P>
+<a href="launch_and_launchWith.html">launch and launchWith</a><BR>
+</P>
+
+<P>
+<a href="loadCustomData_and_saveCustomData.html">loadCustomData and saveCustomData</a><BR>
+</P>
+
+<P>
+<a href="loadGame.html">loadGame</a><BR>
+</P>
+
+<P>
+<a href="renameFile.html">renameFile</a><BR>
+</P>
+
+<P>
+<a href="saveGame.html">saveGame</a><BR>
+</P>
+
+<P>
+<a href="showThumbnail.html">showThumbnail</a><BR>
+</P>
+
+<P>
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
+</P>
+
+<P>
+<HR>
 </BODY>
 </html>

@@ -1,68 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <TITLE>setCharacterExtra</TITLE>
+  <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
-<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
-<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>setCharacterExtra</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=20><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Syntax:</B></FONT><BR>
+<BODY>
+<HR>
+<table align="center"><td class="heading">setCharacterExtra</td></table>
+<HR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<font color=#BB4444 SIZE=+2><TT><B>setCharacterExtra (<i>thisCharacter, setting</i>);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Purpose:</B></FONT><BR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<P>
+<H3>Syntax:</H3>
+
+</P>
+
+<P>
+<pre>setCharacterExtra (<i>thisCharacter, setting</i>);</pre>
+</P>
+
+<P>
+<H3>Purpose:</H3>
+
+</P>
+
+<P>
 Changes the properties for <i>thisCharacter</i> which determine how it is to be drawn. The <i>setting</i> parameter should be one of the following enumerations, or the sum of two or more of the following should you wish to enable more than one of the effects.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>NORMAL&nbsp;&nbsp;&nbsp;</b>Use this option on its own if you wish to enable <i>none</i> of the following features.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b>FIXEDSIZE&nbsp;&nbsp;&nbsp;</b>The character is drawn at a fixed size, regardless of the current scale settings (see the <b><a href="setScale.html">setScale</a></b> command).<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
+<b>FIXEDSIZE&nbsp;&nbsp;&nbsp;</b>The character is drawn at a fixed size, regardless of the current scale settings (see the <a href="setScale.html">setScale</a> command).<BR>
+</P>
+
+<P>
 <b>FRONT&nbsp;&nbsp;&nbsp;</b>The character is drawn in front of all non-<b>FRONT</b> characters.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b>NOZBUFFER&nbsp;&nbsp;&nbsp;</b>The character is drawn in its entirety, regardless of any z-buffer (set using the <b><a href="setZBuffer.html">setZBuffer</a></b> function).<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b>FIXTOSCREEN&nbsp;&nbsp;&nbsp;</b>The character's x and y positions are used to determine where it is drawn on the screen/window (rather than in relation to the background image). In short... wherever the scene may scroll (using the <b><a href="aimCamera.html">aimCamera</a></b> function) the character's image will remain in the same place in relation to the SLUDGE window.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b>NOLIGHTMAP&nbsp;&nbsp;&nbsp;</b>The character isn't affected by the loaded light-map (set using the <b><a href="setLightMap.html">setLightMap</a></b> function).<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b>NOREMOVE&nbsp;&nbsp;&nbsp;</b>The character isn't removed by the <b><a href="removeAllCharacters.html">removeAllCharacters</a></b> function (it can still be removed by the <b><a href="removeCharacter.html">removeCharacter</a></b> function).<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
+<b>NOZBUFFER&nbsp;&nbsp;&nbsp;</b>The character is drawn in its entirety, regardless of any z-buffer (set using the <a href="setZBuffer.html">setZBuffer</a> function).<BR>
+</P>
+
+<P>
+<b>FIXTOSCREEN&nbsp;&nbsp;&nbsp;</b>The character's x and y positions are used to determine where it is drawn on the screen/window (rather than in relation to the background image). In short... wherever the scene may scroll (using the <a href="aimCamera.html">aimCamera</a> function) the character's image will remain in the same place in relation to the SLUDGE window.<BR>
+</P>
+
+<P>
+<b>NOLIGHTMAP&nbsp;&nbsp;&nbsp;</b>The character isn't affected by the loaded light-map (set using the <a href="setLightMap.html">setLightMap</a> function).<BR>
+</P>
+
+<P>
+<b>NOREMOVE&nbsp;&nbsp;&nbsp;</b>The character isn't removed by the <a href="removeAllCharacters.html">removeAllCharacters</a> function (it can still be removed by the <a href="removeCharacter.html">removeCharacter</a> function).<BR>
+</P>
+
+<P>
 <b>RECTANGULAR&nbsp;&nbsp;&nbsp;</b>When working out if the mouse is over this character, use the whole rectangular region not just the visible (non-transparent) pixels.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>ICON&nbsp;&nbsp;&nbsp;</b>A shorter (and marginally quicker) way to specify all of the following features: <b>FIXEDSIZE + FRONT + NOZBUFFER + FIXTOSCREEN + NOLIGHTMAP</b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-If <i>thisCharacter</i> is an object type which is not currently represented on the screen as a character, the code has no effect. If <i>thisCharacter</i> has been hidden using the <b><a href="hideCharacter.html">hideCharacter</a></b> command, the character's properties are changed but the character is not made visible.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Return value:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<P>
+If <i>thisCharacter</i> is an object type which is not currently represented on the screen as a character, the code has no effect. If <i>thisCharacter</i> has been hidden using the <a href="hideCharacter.html">hideCharacter</a> command, the character's properties are changed but the character is not made visible.<BR>
+</P>
+
+<P>
+<H3>Return value:</H3>
+
+</P>
+
+<P>
 TRUE if <i>thisCharacter</i> is an object type which is currently represented on the screen as a character, otherwise FALSE (i.e. TRUE if the call to the function was a success).<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Example:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<FONT color=#BB4444><TT><B>addCharacter (inventoryIcon, 600, 40, spinningInventoryBoxAnimation);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>setCharacterExtra (inventoryIcon, ICON + NOREMOVE);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>addCharacter (lensFlare, 600, 40, lensFlareAnimation);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>setCharacterExtra (inventoryIcon, FIXEDSIZE + NOZBUFFER + NOLIGHTMAP);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>See also:</B></FONT><BR>
+<P>
+<H3>Example:</H3>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<b><a href="Object_Types_as_Characters.html">Object Types as Characters</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="addCharacter.html">addCharacter</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="setCharacterDrawMode.html">setCharacterDrawMode</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="showCharacter.html">showCharacter</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</P>
+
+<P>
+<pre>addCharacter (inventoryIcon, 600, 40, spinningInventoryBoxAnimation);</pre>
+<pre>setCharacterExtra (inventoryIcon, ICON + NOREMOVE);</pre>
+</P>
+
+<P>
+<pre>addCharacter (lensFlare, 600, 40, lensFlareAnimation);</pre>
+<pre>setCharacterExtra (inventoryIcon, FIXEDSIZE + NOZBUFFER + NOLIGHTMAP);</pre>
+</P>
+
+<P>
+<H3>See also:</H3>
+
+</P>
+
+<P>
+<a href="Object_Types_as_Characters.html">Object Types as Characters</a><BR>
+</P>
+
+<P>
+<a href="addCharacter.html">addCharacter</a><BR>
+</P>
+
+<P>
+<a href="setCharacterDrawMode.html">setCharacterDrawMode</a><BR>
+</P>
+
+<P>
+<a href="showCharacter.html">showCharacter</a><BR>
+</P>
+
+<P>
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
+</P>
+
+<P>
+<HR>
 </BODY>
 </html>

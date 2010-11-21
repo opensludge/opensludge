@@ -1,73 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <TITLE>The World's Easiest Load/Save Mechanism</TITLE>
+  <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
-<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
-<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>The World's Easiest Load/Save Mechanism</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-In order to give your game a unique look and feel, it's entirely reasonable to want to code your own load and save routines with text entry, lists of existing games and so on. However, if you're just getting started on a game, here's the simplest way to get a loading and saving mechanism working. Set up a keyboard handler (if you don't have one already) and add these two lines (assuming the variable it's checking is called k - if not change the code appropriately).<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>if (k == &quot;s&quot;) saveGame (&quot;saved.gam&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>if (k == &quot;l&quot;) loadGame (&quot;saved.gam&quot;);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-Easy! Of course, you might want to do more than just call the <b><a href="saveGame.html">saveGame</a></b> and <b><a href="loadGame.html">loadGame</a></b> functions. You may want to let people pick a slot to save into, for example. Feel free to use and build on this...<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>objectType saveSlot1 (&quot;&quot;) {}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>objectType saveSlot1 (&quot;&quot;) {}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>objectType saveCancel (&quot;&quot;) {}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>sub myGameStuff (clickFunc) {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;freeze ();</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;pasteString (&quot;SLOT 1&quot;, 25, 65);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;addScreenRegion (saveSlot1, 20, 20, 100, 100, 0, 0, -1);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;pasteString (&quot;SLOT 2&quot;, 125, 65);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;addScreenRegion (saveSlot2, 120, 20, 200, 100, 0, 0, -1);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;pasteString (&quot;CANCEL&quot;, 125, 65);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;addScreenRegion (saveCancel, 120, 20, 200, 100, 0, 0, -1);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;onLeftMouse (clickFunc);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>sub saveGameClick () {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;var clickedWhat = getMouseOverObject ();</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;if (clickedWhat) unfreeze ();</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;if (clickedWhat == saveSlot1) saveGame (&quot;saved1.gam&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;if (clickedWhat == saveSlot2) saveGame (&quot;saved2.gam&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>sub loadGameClick () {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;var clickedWhat = getMouseOverObject ();</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;if (clickedWhat) unfreeze ();</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;if (clickedWhat == saveSlot1) loadGame (&quot;saved1.gam&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;if (clickedWhat == saveSlot2) loadGame (&quot;saved2.gam&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-And in your keyboard handler...<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>if (k == &quot;s&quot;) myGameStuff (saveGameClick);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>if (k == &quot;l&quot;) myGameStuff (loadGameClick);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-There are much more advanced load and save examples on the Hungry Software website - and <b><a href="Download_Free_SLUDGE_Examples.html">here's how to get there</a></b> if you'd rather dive in at the deep end and swim from there.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>See also:</B></FONT><BR>
+<BODY>
+<HR>
+<table align="center"><td class="heading">The World's Easiest Load/Save Mechanism</td></table>
+<HR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<b><a href="deleteFile.html">deleteFile</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="fileExists.html">fileExists</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="getMatchingFiles.html">getMatchingFiles</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="loadGame.html">loadGame</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="renameFile.html">renameFile</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="saveGame.html">saveGame</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+
+<P>
+In order to give your game a unique look and feel, it's entirely reasonable to want to code your own load and save routines with text entry, lists of existing games and so on. However, if you're just getting started on a game, here's the simplest way to get a loading and saving mechanism working. Set up a keyboard handler (if you don't have one already) and add these two lines (assuming the variable it's checking is called k - if not change the code appropriately).<BR>
+</P>
+
+<P>
+<pre>if (k == &quot;s&quot;) saveGame (&quot;saved.gam&quot;);</pre>
+<pre>if (k == &quot;l&quot;) loadGame (&quot;saved.gam&quot;);</pre>
+</P>
+
+<P>
+Easy! Of course, you might want to do more than just call the <a href="saveGame.html">saveGame</a> and <a href="loadGame.html">loadGame</a> functions. You may want to let people pick a slot to save into, for example. Feel free to use and build on this...<BR>
+</P>
+
+<P>
+<pre>objectType saveSlot1 (&quot;&quot;) {}</pre>
+</P>
+
+<P>
+<pre>objectType saveSlot1 (&quot;&quot;) {}</pre>
+</P>
+
+<P>
+<pre>objectType saveCancel (&quot;&quot;) {}</pre>
+</P>
+
+<P>
+<pre>sub myGameStuff (clickFunc) {</pre>
+<pre>&nbsp;&nbsp;&nbsp;freeze ();</pre>
+<pre>&nbsp;&nbsp;&nbsp;pasteString (&quot;SLOT 1&quot;, 25, 65);</pre>
+<pre>&nbsp;&nbsp;&nbsp;addScreenRegion (saveSlot1, 20, 20, 100, 100, 0, 0, -1);</pre>
+<pre>&nbsp;&nbsp;&nbsp;pasteString (&quot;SLOT 2&quot;, 125, 65);</pre>
+<pre>&nbsp;&nbsp;&nbsp;addScreenRegion (saveSlot2, 120, 20, 200, 100, 0, 0, -1);</pre>
+<pre>&nbsp;&nbsp;&nbsp;pasteString (&quot;CANCEL&quot;, 125, 65);</pre>
+<pre>&nbsp;&nbsp;&nbsp;addScreenRegion (saveCancel, 120, 20, 200, 100, 0, 0, -1);</pre>
+<pre>&nbsp;&nbsp;&nbsp;onLeftMouse (clickFunc);</pre>
+<pre>}</pre>
+</P>
+
+<P>
+<pre>sub saveGameClick () {</pre>
+<pre>&nbsp;&nbsp;&nbsp;var clickedWhat = getMouseOverObject ();</pre>
+<pre>&nbsp;&nbsp;&nbsp;if (clickedWhat) unfreeze ();</pre>
+<pre>&nbsp;&nbsp;&nbsp;if (clickedWhat == saveSlot1) saveGame (&quot;saved1.gam&quot;);</pre>
+<pre>&nbsp;&nbsp;&nbsp;if (clickedWhat == saveSlot2) saveGame (&quot;saved2.gam&quot;);</pre>
+<pre>}</pre>
+</P>
+
+<P>
+<pre>sub loadGameClick () {</pre>
+<pre>&nbsp;&nbsp;&nbsp;var clickedWhat = getMouseOverObject ();</pre>
+<pre>&nbsp;&nbsp;&nbsp;if (clickedWhat) unfreeze ();</pre>
+<pre>&nbsp;&nbsp;&nbsp;if (clickedWhat == saveSlot1) loadGame (&quot;saved1.gam&quot;);</pre>
+<pre>&nbsp;&nbsp;&nbsp;if (clickedWhat == saveSlot2) loadGame (&quot;saved2.gam&quot;);</pre>
+<pre>}</pre>
+</P>
+
+<P>
+And in your keyboard handler...<BR>
+</P>
+
+<P>
+<pre>if (k == &quot;s&quot;) myGameStuff (saveGameClick);</pre>
+<pre>if (k == &quot;l&quot;) myGameStuff (loadGameClick);</pre>
+</P>
+
+<P>
+There are much more advanced load and save examples on the Hungry Software website - and <a href="Download_Free_SLUDGE_Examples.html">here's how to get there</a> if you'd rather dive in at the deep end and swim from there.<BR>
+</P>
+
+<P>
+<H3>See also:</H3>
+
+</P>
+
+<P>
+<a href="deleteFile.html">deleteFile</a><BR>
+</P>
+
+<P>
+<a href="fileExists.html">fileExists</a><BR>
+</P>
+
+<P>
+<a href="getMatchingFiles.html">getMatchingFiles</a><BR>
+</P>
+
+<P>
+<a href="loadGame.html">loadGame</a><BR>
+</P>
+
+<P>
+<a href="renameFile.html">renameFile</a><BR>
+</P>
+
+<P>
+<a href="saveGame.html">saveGame</a><BR>
+</P>
+
+<P>
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
+</P>
+
+<P>
+<HR>
 </BODY>
 </html>

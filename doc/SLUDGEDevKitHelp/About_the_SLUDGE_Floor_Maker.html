@@ -1,70 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <TITLE>About the SLUDGE Floor Maker</TITLE>
+  <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
-<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
-<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>About the SLUDGE Floor Maker</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=20><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Description of SLUDGE floor plans:</B></FONT><BR>
+<BODY>
+<HR>
+<table align="center"><td class="heading">About the SLUDGE Floor Maker</td></table>
+<HR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+
+<P>
+<H3>Description of SLUDGE floor plans:</H3>
+
+</P>
+
+<P>
 A SLUDGE floor plan is a group of convex polygons which may, or may not, be joined together. If one polygon is joined to another by a line (i.e. they share two vertices) characters can walk from one polygon to the other by crossing the shared line. Note that SLUDGE does not support characters crossing from one polygon to another where they meet at a point (i.e. they share only one vertex).<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Creating a floor:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-(Please note that, by default, the size of the window used by the SLUDGE floor maker is 640x480 pixels. To use a different sized window, choose the <b>Window sizes</b> option from the <b>SLUDGE Settings</b> menu of the <b><a href="About_the_SLUDGE_Project_Manager.html">SLUDGE project manager</a></b> program.)<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<P>
+<H3>Creating a floor:</H3>
+
+</P>
+
+<P>
+(Please note that, by default, the size of the window used by the SLUDGE floor maker is 640x480 pixels. To use a different sized window, choose the <b>Window sizes</b> option from the <b>SLUDGE Settings</b> menu of the <a href="About_the_SLUDGE_Project_Manager.html">SLUDGE project manager</a> program.)<BR>
+</P>
+
+<P>
 To define the walkable area(s) for a scene, use the SLUDGE floor maker. First make sure that there's no floor in memory already by choosing <b>New</b> from the <b>File</b> menu (you do not need to do this if you've only just started the program, unless you started it by double-clicking an existing floor file).<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 Now, load the main image for the scene by selecting <b>Add from .TGA</b> from the <b>Image</b> menu.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-Work out in your head where you want characters to be able to walk. Characters should not be able to walk up to the very edges of the actual floor... instead, make the edge of the walkable area roughly one footstep away from any walls or obstacles which appear in the image. Confused? Try loading up a floor from one of the <b><a href="Download_Free_SLUDGE_Examples.html">free examples</a></b> and take a look.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
+Work out in your head where you want characters to be able to walk. Characters should not be able to walk up to the very edges of the actual floor... instead, make the edge of the walkable area roughly one footstep away from any walls or obstacles which appear in the image. Confused? Try loading up a floor from one of the <a href="Download_Free_SLUDGE_Examples.html">free examples</a> and take a look.<BR>
+</P>
+
+<P>
 Now, start putting the floor onto the screen. The boundary of a floor is made up of straight lines between corners (vertices, as they're called in the program). Choose <b>Define floor border</b> from the <b>Mode</b> menu. Click on the screen where you want to add a vertex. When you're done, click the first vertex again to complete the walkable area.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 If the floor is a concave shape (it has at least one corner which pokes in rather than sticks out) you'll need to split it into two or more convex shapes (which only contain vertices which point outwards). From the <b>Mode</b> menu, choose <b>Split into segements</b>. Click and hold the left mouse button while pointing at one of the inwardly-pointing vertices... now drag the line so that it ends at another vertex. A line will be added, splitting the appropriate segment of floor into two.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 (The reason for this is that if a character is told to walk from one point to another, and both points are within the same section, the engine assumes the character can move in a straight line. This is the main principle behind the path-finding method used in SLUDGE.)<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Scrolling:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<P>
+<H3>Scrolling:</H3>
+
+</P>
+
+<P>
 If your scene is larger than the SLUDGE floor maker window, you can scroll around the image by holding down the right mouse button and dragging the mouse in the direction in which you wish to move.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Changing a floor:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<P>
+<H3>Changing a floor:</H3>
+
+</P>
+
+<P>
 If you want to change a floor using the floor maker, make sure it's loaded and select the appropriate mode from the <b>Mode</b> menu. The modes are as follows:<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>Define floor border</b>: Already discussed above. If you want to add a section of floor outside of what's already been defined, you can use this mode to add a new polygon. If you want to create a floor plan with holes (for example, so that characters can walk around both sides of pillars) you must use this method.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>Split into segments</b>: Drag the mouse (with the left mouse button down) to create a line which splits one segment into two. Use this in order to make sure the floor is only made up of convex polygons. The line must start and end at vertices which are present in the same segment.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>Move vertices</b>: Drag the mouse (with the left mouse button down) to move a vertex to a new location. Vertices can even be dragged onto other, already existing vertices.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>Split lines in two</b>: Drag the mouse (with the left mouse button down) from one end to the other of an existing line. A new vertex will be created halfway along the selected line.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 <b>Remove vertex</b>: Click the left mouse button on a vertex and it will be removed. (Once a polygon has too few vertices it is removed.)<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Saving your floor:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<P>
+<H3>Saving your floor:</H3>
+
+</P>
+
+<P>
 To save your work, choose <b>Save</b> or <b>Save as...</b> from the <b>File</b> menu. Choosing <b>Save</b> will store your floor in the same file from which it was loaded, or to which it was saved last. (This filename is shown in the title bar of the window.) Choosing <b>Save as...</b> lets you select a new filename.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Loading an existing floor:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<P>
+<H3>Loading an existing floor:</H3>
+
+</P>
+
+<P>
 To load an existing floor, choose <b>Open</b> from the <b>File</b> menu. Alternatively, double-click on the floor file and the floor maker will start and load the file automatically.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Using floors in your game:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-To load a floor, use the <b><a href="setFloor.html">setFloor</a></b> command. From that moment onwards, characters told to move by use of the <b><a href="moveCharacter.html">moveCharacter</a></b> command will (a) only move to within your defined floor plan and (b) if starting within the floor plan never leave it, automatically walking around obstacles and furniture. (Characters can still be moved to points off the floor by the <b><a href="forceCharacter.html">forceCharacter</a></b> command.)<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+<P>
+<H3>Using floors in your game:</H3>
+
+</P>
+
+<P>
+To load a floor, use the <a href="setFloor.html">setFloor</a> command. From that moment onwards, characters told to move by use of the <a href="moveCharacter.html">moveCharacter</a> command will (a) only move to within your defined floor plan and (b) if starting within the floor plan never leave it, automatically walking around obstacles and furniture. (Characters can still be moved to points off the floor by the <a href="forceCharacter.html">forceCharacter</a> command.)<BR>
+</P>
+
+<P>
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
+</P>
+
+<P>
+<HR>
 </BODY>
 </html>

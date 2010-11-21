@@ -1,64 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <TITLE>.ini Files for Compiled SLUDGE Games</TITLE>
+  <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
-<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
-<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>.ini Files for Compiled SLUDGE Games</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<BODY>
+<HR>
+<table align="center"><td class="heading">.ini Files for Compiled SLUDGE Games</td></table>
+<HR>
+
+
+<P>
 When a game is launched, the SLUDGE engine also attempts to read a file of initialisation settings. On Windows, SLUDGE puts settings and saved games in the AppData folder, and on Mac it's ~/Library/Application Support. In that folder, SLUDGE looks for (or makes) a folder with the name of the game.  That's where the file with the initialisation settings should be. The file must have the same name as your compiled game file, but with the extension ".ini". For example, if the compiler builds you a compiled game file called "Turnip Quest VI.slg" your settings file would be called "Turnip Quest VI.ini". If you're going to rename your file so that it's called "mygame" or "mygame.dat" or "mygame.001" or something, your settings should be in a file called "mygame.ini". (If no matching file is found, that's fine... the game will run with the default settings.)<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 SLUDGE will write the current settings to that file after the startup window so that they'll be remembered.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 So, what can go in an .ini file? Well, the list is growing.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Choice of language</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<P>
+<H3>Choice of language</H3>
+
+</P>
+
+<P>
 <B>LANGUAGE=</B><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-If the SLUDGE game's .ini file contains a line which starts with "LANGUAGE=" the rest of the line is used as the ID number of the language the game should be played in. For more information, read how you can use <b><a href="Multiple_Languages_in_a_Single_Game.html">multiple Languages in a Single Game</a></b>.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-If no such line exists, or the .ini file does not exist, the default language ID is used - 0, meaning no translation.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Run game in a window</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<P>
+If the SLUDGE game's .ini file contains a line which starts with "LANGUAGE=" the rest of the line is used as the ID number of the language the game should be played in. For more information, read how you can use <a href="Multiple_Languages_in_a_Single_Game.html">multiple Languages in a Single Game</a>.<BR>
+</P>
+
+<P>
+If no such line exists, or the .ini file does not exist, the default language ID is used - 0, meaning no translation.<BR>
+</P>
+
+<P>
+<H3>Run game in a window</H3>
+
+</P>
+
+<P>
 <B>WINDOW=</B><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 If the game's .ini file contains a line which starts with "WINDOW=" the rest of the line defines whether the game should be run in a forced to run in a window. A non-zero number (for example, 1) means the game should be forced to run in a window. A value of "0" or anything else means it shouldn't. (Note that if the compiled game isn't meant to run full screen, this value won't force it to run full screen. It will have no effect.)<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 If no such line exists, or the .ini file does not exist, the default is 0. The game won't be forced to run in a window.<BR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Anti-aliasing</B></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+</P>
+
+<P>
+<H3>Anti-aliasing</H3>
+</P>
+
+<P>
 <B>ANTIALIAS=</B><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 Turns anti-aliasing on (a value of 1) or off (a value of 0).
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Disable scaling</B></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+</P>
+
+<P>
+<H3>Disable scaling</H3>
+</P>
+
+<P>
 <B>FIXEDPIXELS=</B><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 If the FIXEDPIXELS setting is non-zero, the engine disables the scaling of the game and simply creates a window with the exact size specified by the game.<BR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Disable startup window</B></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+</P>
+
+<P>
+<H3>Disable startup window</H3>
+</P>
+
+<P>
 <B>NOSTARTWINDOW=</B><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 If the NOSTARTWINDOW setting is non-zero, the engine won't display the settings window at startup.<BR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Other lines in the .ini file</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-You may not store any additional data in the file along with the above data, since anything else will get overwritten. Instead, you can store your own settings in another .ini file, and then read them using your own code using <b><a href="loadCustomData_and_saveCustomData.html">loadCustomData</a></b>.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+<P>
+<H3>Other lines in the .ini file</H3>
+
+</P>
+
+<P>
+You may not store any additional data in the file along with the above data, since anything else will get overwritten. Instead, you can store your own settings in another .ini file, and then read them using your own code using <a href="loadCustomData_and_saveCustomData.html">loadCustomData</a>.<BR>
+</P>
+
+<P>
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
+</P>
+
+<P>
+<HR>
 </BODY>
 </html>

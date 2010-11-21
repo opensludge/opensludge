@@ -1,50 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <TITLE>Project Manager: &quot;Files in this project&quot; Section</TITLE>
+  <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
-<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
-<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>Project Manager: &quot;Files in this project&quot; Section</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-The list at the top of this area shows all the scripts which make up this project. Each is a separate file. The file locations shown are based on the location of the currently loaded project file.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-The files shown here should be text files with the extension &quot;.SLU&quot; (for scripts), &quot;.SLD&quot; (for <b><a href="Using_Constants_in_SLUDGE.html">constants</a></b>) or &quot;.TRA&quot; (for <b><a href="Multiple_Languages_in_a_Single_Game.html">translation</a></b> files). The order of the files is not important (unless your script attempts to set the start value of a global variable to another which has not yet been created). Prototyping functions and externing variables from other files is not required.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-You can select a file in this list by clicking it with the mouse. You can also select multiple files - for example, by holding down your keyboard's control (&quot;Ctrl&quot;) key and clicking on subsequent files with the mouse.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-Below the list there are five buttons which are used to manipulate the files.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b>Edit:<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-</b>Any files selected in the list are opened for editing. (By default, Windows Notepad will be used. You can change this by opening the <b>SLUDGE Settings</b> <b><a href="Project_Manager__Menus.html">menu</a></b> and selecting <b>File locations</b>. If you’ve selected any <b><a href="Multiple_Languages_in_a_Single_Game.html">translation</a></b> files, they’ll always be opened in the appropriate editor, not the text editor.)<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b>Resources:<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-</b>A dialog box will appear listing all the resources which are used by the files selected above. (You can then launch these files from the dialog box, saving you having to track them down using Windows Explorer.)<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b>Delete:<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-</b>Removes the selected items from the list. (The files themselves are not deleted from your computer - they just won't be included the next time the project is compiled. If you want to physically delete the files from your machine, you must use Windows.)<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b>Add file:<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-</b>Adds a new, or an existing, file to the list. (A standard Windows file open box will appear from which you can select a file to add, or if you want to create a new file, type a filename. Use the box at the bottom of the dialog box to choose between scripts, <b><a href="Using_Constants_in_SLUDGE.html">constants</a></b> and <b><a href="Multiple_Languages_in_a_Single_Game.html">translation</a></b> data.)<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b>Find in files:<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-</b>Displays a dialog box which lets you search through the contents of the project for a specific string of characters. (The results are then displayed in the dialog box used by the Resources button.)<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>See also:</B></FONT><BR>
+<BODY>
+<HR>
+<table align="center"><td class="heading">Project Manager: &quot;Files in this project&quot; Section</td></table>
+<HR>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<b><a href="Project_Manager__Project_management_Section.html">Project Manager: &quot;Project management&quot; Section</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="Project_Manager__Project_settings_Section.html">Project Manager: &quot;Project settings&quot; Section</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<b><a href="SLUDGE_Language_Reference_Manual.html">SLUDGE Language Reference Manual</a></b><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+
+<P>
+The list at the top of this area shows all the scripts which make up this project. Each is a separate file. The file locations shown are based on the location of the currently loaded project file.<BR>
+</P>
+
+<P>
+The files shown here should be text files with the extension &quot;.SLU&quot; (for scripts), &quot;.SLD&quot; (for <a href="Using_Constants_in_SLUDGE.html">constants</a>) or &quot;.TRA&quot; (for <a href="Multiple_Languages_in_a_Single_Game.html">translation</a> files). The order of the files is not important (unless your script attempts to set the start value of a global variable to another which has not yet been created). Prototyping functions and externing variables from other files is not required.<BR>
+</P>
+
+<P>
+You can select a file in this list by clicking it with the mouse. You can also select multiple files - for example, by holding down your keyboard's control (&quot;Ctrl&quot;) key and clicking on subsequent files with the mouse.<BR>
+</P>
+
+<P>
+Below the list there are five buttons which are used to manipulate the files.<BR>
+</P>
+
+<P>
+<b>Edit:<BR>
+</P>
+
+<P>
+</b>Any files selected in the list are opened for editing. (By default, Windows Notepad will be used. You can change this by opening the <b>SLUDGE Settings</b> <a href="Project_Manager__Menus.html">menu</a> and selecting <b>File locations</b>. If you’ve selected any <a href="Multiple_Languages_in_a_Single_Game.html">translation</a> files, they’ll always be opened in the appropriate editor, not the text editor.)<BR>
+</P>
+
+<P>
+<b>Resources:<BR>
+</P>
+
+<P>
+</b>A dialog box will appear listing all the resources which are used by the files selected above. (You can then launch these files from the dialog box, saving you having to track them down using Windows Explorer.)<BR>
+</P>
+
+<P>
+<b>Delete:<BR>
+</P>
+
+<P>
+</b>Removes the selected items from the list. (The files themselves are not deleted from your computer - they just won't be included the next time the project is compiled. If you want to physically delete the files from your machine, you must use Windows.)<BR>
+</P>
+
+<P>
+<b>Add file:<BR>
+</P>
+
+<P>
+</b>Adds a new, or an existing, file to the list. (A standard Windows file open box will appear from which you can select a file to add, or if you want to create a new file, type a filename. Use the box at the bottom of the dialog box to choose between scripts, <a href="Using_Constants_in_SLUDGE.html">constants</a> and <a href="Multiple_Languages_in_a_Single_Game.html">translation</a> data.)<BR>
+</P>
+
+<P>
+<b>Find in files:<BR>
+</P>
+
+<P>
+</b>Displays a dialog box which lets you search through the contents of the project for a specific string of characters. (The results are then displayed in the dialog box used by the Resources button.)<BR>
+</P>
+
+<P>
+<H3>See also:</H3>
+
+</P>
+
+<P>
+<a href="Project_Manager__Project_management_Section.html">Project Manager: &quot;Project management&quot; Section</a><BR>
+</P>
+
+<P>
+<a href="Project_Manager__Project_settings_Section.html">Project Manager: &quot;Project settings&quot; Section</a><BR>
+</P>
+
+<P>
+<a href="SLUDGE_Language_Reference_Manual.html">SLUDGE Language Reference Manual</a><BR>
+</P>
+
+<P>
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
+</P>
+
+<P>
+<HR>
 </BODY>
 </html>

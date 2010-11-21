@@ -1,181 +1,276 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <TITLE>Loops and Conditionals</TITLE>
+  <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
-<BODY bgcolor=#FFFFFF TEXT=#000000 LINK=#228822 VLINK=#228822 ALINK=#33BB33>
-<CENTER><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-<TABLE WIDTH=292 BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD VALIGN=bottom ALIGN=center height=80 width=292 background="images/sludgepale.gif"><FONT FACE=arial color=#DD0000 SIZE=+1><B>Loops and Conditionals</B><BR></FONT></TABLE><HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
-</center><IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
+<BODY>
+<HR>
+<table align="center"><td class="heading">Loops and Conditionals</td></table>
+<HR>
+
+
+<P>
 The styles of looping structure which SLUDGE features are described in this section. Firstly:<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>The &quot;for&quot; loop:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<FONT color=#BB4444><TT><B>for (<i>initialisation</i>; <i>check</i>; <i>next</i>) {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;# Code here</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-Here, <i>initialisation</i>, <i>check</i> and <i>next</i> are all segments of code. The <i>initialisation</i> segment tells the program what to do at the start of the loop; the <i>check</i> segment tells the program how to test whether the loop needs to continue and will be treated as a boolean (see the <b><a href="Treating_Variables_as_Booleans.html">Treating Variables as Booleans</a></b> section), and the <i>next</i> segment tells the program what to do at the end of every loop (for example to get onto the next record or to make sure the loop won't continue forever).<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+<P>
+<H3>The &quot;for&quot; loop:</H3>
+
+</P>
+
+<P>
+<pre>for (<i>initialisation</i>; <i>check</i>; <i>next</i>) {</pre>
+<pre>&nbsp;&nbsp;&nbsp;# Code here</pre>
+<pre>}</pre>
+</P>
+
+<P>
+Here, <i>initialisation</i>, <i>check</i> and <i>next</i> are all segments of code. The <i>initialisation</i> segment tells the program what to do at the start of the loop; the <i>check</i> segment tells the program how to test whether the loop needs to continue and will be treated as a boolean (see the <a href="Treating_Variables_as_Booleans.html">Treating Variables as Booleans</a> section), and the <i>next</i> segment tells the program what to do at the end of every loop (for example to get onto the next record or to make sure the loop won't continue forever).<BR>
+</P>
+
+<P>
 The most common example of a for loop is the following:<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>var a;</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>for (a = 0; a &lt; 10; a ++) {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;# Code here</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
+<pre>var a;</pre>
+</P>
+
+<P>
+<pre>for (a = 0; a &lt; 10; a ++) {</pre>
+<pre>&nbsp;&nbsp;&nbsp;# Code here</pre>
+<pre>}</pre>
+</P>
+
+<P>
 Or a shorter version:<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>for (var a = 0; a &lt; 10; a ++) {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;# Code here</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
+<pre>for (var a = 0; a &lt; 10; a ++) {</pre>
+<pre>&nbsp;&nbsp;&nbsp;# Code here</pre>
+<pre>}</pre>
+</P>
+
+<P>
 This will set the value of a to 0, check whether a is less than 10 (it is), and then perform any code inside the body of the loop. This code can use the variable a, or even change it. After performing the code in the body of the loop, the program will execute the a++ segment (or &quot;increase the value of a by 1&quot;... a ++ is just a shorter way of saying a = a + 1). Now, a will have the value 1. The program will check whether it's less than 10 (it is), and so on. When the value of a reaches 10, the program will continue from the line of code after the closing bracket &quot;}&quot;.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 For loops are common in programming languages in exactly this form, and present in most programming languages in some form or another. <BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>The &quot;loop&quot; loop:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+<P>
+<H3>The &quot;loop&quot; loop:</H3>
+
+</P>
+
+<P>
 In C and C++ (and other languages) it is common to see the following code:<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>for (;;) {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;# Code here</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
+<pre>for (;;) {</pre>
+<pre>&nbsp;&nbsp;&nbsp;# Code here</pre>
+<pre>}</pre>
+</P>
+
+<P>
 The above means &quot;execute the code again and again forever&quot;. However, SLUDGE is a little stricter with its for loops and the above will not work! Instead, in order to remove the need for abusing for loops in this way (although I'm sure they don't mind) SLUDGE features an equivalent structure:<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>loop {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;# Code here</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
+<pre>loop {</pre>
+<pre>&nbsp;&nbsp;&nbsp;# Code here</pre>
+<pre>}</pre>
+</P>
+
+<P>
 Which also means &quot;execute the code again and again forever&quot;. You can escape from one of these loops - or from any function - by returning from the function within the code using the return. (Currently, SLUDGE contains no break statement.)<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>The &quot;while&quot; loop:</B></FONT><BR>
+</P>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
-<FONT color=#BB4444><TT><B>while (<i>check</i>) {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;# Code here</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-The code will be executed again and again until the value returned by <i>check</i> is TRUE (or equivalent - see the <b><a href="Treating_Variables_as_Booleans.html">Treating Variables as Booleans</a></b> section). Therefore <i>check</i> can be any segment of code which returns a value, whether a variable, a function call, a complex algorithm or whatever your program needs. If the value of <i>check</i> is FALSE when the program reaches the start of the loop, the contents of the loop are not executed at all.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=15><BR>
-<FONT FACE=arial color=#3A8F8B SIZE=+1><B>Using &quot;if&quot; and &quot;else&quot;:</B></FONT><BR>
+<P>
+<H3>The &quot;while&quot; loop:</H3>
 
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=13><BR>
+</P>
+
+<P>
+<pre>while (<i>check</i>) {</pre>
+<pre>&nbsp;&nbsp;&nbsp;# Code here</pre>
+<pre>}</pre>
+</P>
+
+<P>
+The code will be executed again and again until the value returned by <i>check</i> is TRUE (or equivalent - see the <a href="Treating_Variables_as_Booleans.html">Treating Variables as Booleans</a> section). Therefore <i>check</i> can be any segment of code which returns a value, whether a variable, a function call, a complex algorithm or whatever your program needs. If the value of <i>check</i> is FALSE when the program reaches the start of the loop, the contents of the loop are not executed at all.<BR>
+</P>
+
+<P>
+<H3>Using &quot;if&quot; and &quot;else&quot;:</H3>
+
+</P>
+
+<P>
 Sometimes you only want to perform a certain line (or section) of code in a particular situation. For example, if you're writing a function to handle keypresses, you will probably want to perform different actions for different keys...<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>sub handleKeyPress (key) {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;if (key == &quot;ESCAPE&quot;) quitGame ();</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
+<pre>sub handleKeyPress (key) {</pre>
+<pre>&nbsp;&nbsp;&nbsp;if (key == &quot;ESCAPE&quot;) quitGame ();</pre>
+<pre>}</pre>
+</P>
+
+<P>
 If you need to perform more than one line, group the lines together using curly braces (&quot;{&quot; and &quot;}&quot;).<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>var neverSpokenToFarmer = TRUE;</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>sub talkToFarmer () {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;say (ego, &quot;Hi...&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;if (neverSpokenToFarmer) {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (farmer, &quot;Hello? Who are you?&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;I'm Egor the ego. I'm on a quest.&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (farmer, &quot;What quest would that be, then?&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;I'm trying to learn SLUDGE.&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (farmer, &quot;Ar. Good luck to ya.&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;Can I ask you something?&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;neverSpokenToFarmer = FALSE;</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;}</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;say (farmer, &quot;I'm a bit busy. Sorry.&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
+<pre>var neverSpokenToFarmer = TRUE;</pre>
+</P>
+
+<P>
+<pre>sub talkToFarmer () {</pre>
+<pre>&nbsp;&nbsp;&nbsp;say (ego, &quot;Hi...&quot;);</pre>
+<pre>&nbsp;&nbsp;&nbsp;if (neverSpokenToFarmer) {</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (farmer, &quot;Hello? Who are you?&quot;);</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;I'm Egor the ego. I'm on a quest.&quot;);</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (farmer, &quot;What quest would that be, then?&quot;);</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;I'm trying to learn SLUDGE.&quot;);</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (farmer, &quot;Ar. Good luck to ya.&quot;);</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;Can I ask you something?&quot;);</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;neverSpokenToFarmer = FALSE;</pre>
+<pre>&nbsp;&nbsp;&nbsp;}</pre>
+<pre>&nbsp;&nbsp;&nbsp;say (farmer, &quot;I'm a bit busy. Sorry.&quot;);</pre>
+<pre>}</pre>
+</P>
+
+<P>
 In the above example, the value of neverSpokenToFarmer will be initially set to TRUE. So, the first time the function is called, the ego character will say &quot;Hi...&quot;, the farmer character will say &quot;Hello? Who are you?&quot; and so on. The value of neverSpokenToFarmer will then be set to FALSE, and the farmer character will say the line &quot;I'm a bit busy. Sorry.&quot;<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 If the function is called again, the condition in the if statement will not be true, and so the conversation will jump straight from the ego character saying &quot;Hi...&quot; to the farmer character saying &quot;I'm a bit busy. Sorry.&quot;<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
 Sometimes you may want to provide an alternative. For example, take the following example...<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>sub talkToChicken () {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;say (chicken, &quot;Have you spoken to the farmer yet?&quot;);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;if (neverSpokenToFarmer) {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;No.&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (chicken, &quot;Lucky you.&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;if (! neverSpokenToFarmer) {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;Yes.&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (chicken, &quot;Did he ask about me? Huh? Huh?&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;Nope, he didn't mention you at all.&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;}</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
+<pre>sub talkToChicken () {</pre>
+<pre>&nbsp;&nbsp;&nbsp;say (chicken, &quot;Have you spoken to the farmer yet?&quot;);</pre>
+</P>
+
+<P>
+<pre>&nbsp;&nbsp;&nbsp;if (neverSpokenToFarmer) {</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;No.&quot;);</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (chicken, &quot;Lucky you.&quot;);</pre>
+<pre>&nbsp;&nbsp;&nbsp;}</pre>
+</P>
+
+<P>
+<pre>&nbsp;&nbsp;&nbsp;if (! neverSpokenToFarmer) {</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;Yes.&quot;);</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (chicken, &quot;Did he ask about me? Huh? Huh?&quot;);</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;Nope, he didn't mention you at all.&quot;);</pre>
+<pre>&nbsp;&nbsp;&nbsp;}</pre>
+<pre>}</pre>
+</P>
+
+<P>
 This could be rewritten using the word else. The only place in which the word else can be used is straight after the group of commands to be executed by an if statement.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>sub talkToChicken () {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;say (chicken, &quot;Have you spoken to the farmer yet?&quot;);</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;if (neverSpokenToFarmer) {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;No.&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (chicken, &quot;Lucky you.&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;} else {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;Yes.&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (chicken, &quot;Did he ask about me? Huh? Huh?&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;Nope, he didn't mention you at all.&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;}</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
+<pre>sub talkToChicken () {</pre>
+<pre>&nbsp;&nbsp;&nbsp;say (chicken, &quot;Have you spoken to the farmer yet?&quot;);</pre>
+</P>
+
+<P>
+<pre>&nbsp;&nbsp;&nbsp;if (neverSpokenToFarmer) {</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;No.&quot;);</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (chicken, &quot;Lucky you.&quot;);</pre>
+<pre>&nbsp;&nbsp;&nbsp;} else {</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;Yes.&quot;);</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (chicken, &quot;Did he ask about me? Huh? Huh?&quot;);</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;Nope, he didn't mention you at all.&quot;);</pre>
+<pre>&nbsp;&nbsp;&nbsp;}</pre>
+<pre>}</pre>
+</P>
+
+<P>
 Using else followed immediately by another if statement, it is possible to write complex structures like this...<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>sub countEggs () {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;if (neverSpokenToFarmer) {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;I haven't introduced myself to the farmer.&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;If someone he's not met messes with his eggs...&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;Well, let's just say I'm not going to risk it.&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;} else if (numberOfEggs == 0) {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;No eggs? You're a pretty lousy chicken!&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (chicken, &quot;Hey, I've been doing paperwork all morning.&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;} else if (numberOfEggs == 1) {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;I can only see one egg.&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (chicken, &quot;Bite me.&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;But I forgot to bring my oven...&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;} else {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;There are &quot; + numberOfEggs + &quot; eggs here.&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (chicken, &quot;What can I say? I've been broody lately.&quot;);</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;}</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
+<pre>sub countEggs () {</pre>
+<pre>&nbsp;&nbsp;&nbsp;if (neverSpokenToFarmer) {</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;I haven't introduced myself to the farmer.&quot;);</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;If someone he's not met messes with his eggs...&quot;);</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;Well, let's just say I'm not going to risk it.&quot;);</pre>
+<pre>&nbsp;&nbsp;&nbsp;} else if (numberOfEggs == 0) {</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;No eggs? You're a pretty lousy chicken!&quot;);</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (chicken, &quot;Hey, I've been doing paperwork all morning.&quot;);</pre>
+<pre>&nbsp;&nbsp;&nbsp;} else if (numberOfEggs == 1) {</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;I can only see one egg.&quot;);</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (chicken, &quot;Bite me.&quot;);</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;But I forgot to bring my oven...&quot;);</pre>
+<pre>&nbsp;&nbsp;&nbsp;} else {</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;There are &quot; + numberOfEggs + &quot; eggs here.&quot;);</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (chicken, &quot;What can I say? I've been broody lately.&quot;);</pre>
+<pre>&nbsp;&nbsp;&nbsp;}</pre>
+<pre>}</pre>
+</P>
+
+<P>
 Note that there has always been some ambiguity with the following type of structure...<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>if (condition1)</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>if (condition2)</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B># Code here</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>else</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B># More code here</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
+<pre>if (condition1)</pre>
+<pre>if (condition2)</pre>
+<pre># Code here</pre>
+<pre>else</pre>
+<pre># More code here</pre>
+</P>
+
+<P>
 Does that mean this?<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>if (condition1) {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;if (condition2) {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Code here</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;} else {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# More code here</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;}</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
+<pre>if (condition1) {</pre>
+<pre>&nbsp;&nbsp;&nbsp;if (condition2) {</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Code here</pre>
+<pre>&nbsp;&nbsp;&nbsp;} else {</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# More code here</pre>
+<pre>&nbsp;&nbsp;&nbsp;}</pre>
+<pre>}</pre>
+</P>
+
+<P>
 Or this?<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<FONT color=#BB4444><TT><B>if (condition1) {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;if (condition2) {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Code here</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;}</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>} else {</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>&nbsp;&nbsp;&nbsp;# More code here</B></TT></FONT><BR>
-<FONT color=#BB4444><TT><B>}</B></TT></FONT><BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
+</P>
+
+<P>
+<pre>if (condition1) {</pre>
+<pre>&nbsp;&nbsp;&nbsp;if (condition2) {</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Code here</pre>
+<pre>&nbsp;&nbsp;&nbsp;}</pre>
+<pre>} else {</pre>
+<pre>&nbsp;&nbsp;&nbsp;# More code here</pre>
+<pre>}</pre>
+</P>
+
+<P>
 Well, in SLUDGE it means the second. Be warned. It's always best to use parentheses when using nested if structures to avoid potential problems and unexpected behaviour. Remember, your computer doesn't know what you mean unless you actually tell it... so be specific.<BR>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<B><FONT SIZE=1>SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software 2000-2006</FONT></B>
-<IMG SRC="images/blank.gif" WIDTH=1 HEIGHT=10><BR>
-<HR COLOR=#000000 VSPACE=1 NOSHADE SIZE=2>
+</P>
+
+<P>
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
+</P>
+
+<P>
+<HR>
 </BODY>
 </html>
