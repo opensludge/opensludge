@@ -16,7 +16,7 @@
 </P>
 
 <P>
-<pre>wait (<i>spriteNumber, lengthOfTime</i>);</pre>
+<pre class="syntax">wait (<i>spriteNumber, lengthOfTime</i>);</pre>
 </P>
 
 <P>
@@ -25,7 +25,7 @@
 </P>
 
 <P>
-For use while creating an animation. Use this command to display a sprite for longer than one frame.<BR>
+For use while creating an animation. Use this command to display a sprite for longer than one frame.
 </P>
 
 <P>
@@ -34,7 +34,7 @@ For use while creating an animation. Use this command to display a sprite for lo
 </P>
 
 <P>
-The function returns a structure containing both the <i>spriteNumber</i> and <i>lengthOfTime</i> data. This structure can then be used in the place of a number in the <a href="anim.html">anim</a> command. Internally, the structure is a 2-element stack.<BR>
+The function returns a structure containing both the <i>spriteNumber</i> and <i>lengthOfTime</i> data. This structure can then be used in the place of a number in the <a href="anim.html">anim</a> command. Internally, the structure is a 2-element stack.
 </P>
 
 <P>
@@ -43,9 +43,9 @@ The function returns a structure containing both the <i>spriteNumber</i> and <i>
 </P>
 
 <P>
-<pre># These two animations will look exactly the same</pre>
-<pre>var a = anim (1, 2, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 6, 7);</pre>
-<pre>var b = anim (1, 2, 3, wait (4, 9), 5, 6, 7);</pre>
+<pre># These two animations will look exactly the same
+var a = anim (1, 2, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 6, 7);
+var b = anim (1, 2, 3, wait (4, 9), 5, 6, 7);</pre>
 </P>
 
 <P>
@@ -54,18 +54,16 @@ The function returns a structure containing both the <i>spriteNumber</i> and <i>
 </P>
 
 <P>
-<a href="The_Multi-Purpose_Stack___Array___Queue_Type.html">The Multi-Purpose Stack / Array / Queue Type</a><BR>
+<a href="The_Multi-Purpose_Stack___Array___Queue_Type.html">The Multi-Purpose Stack / Array / Queue Type</a>
 </P>
 
 <P>
-<a href="animate.html">animate</a><BR>
+<a href="animate.html">animate</a>
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

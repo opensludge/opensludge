@@ -11,95 +11,91 @@
 
 
 <P>
-You can treat any variable as a string... that means these things are all allowed:<BR>
+You can treat any variable as a string... that means these things are all allowed:
 </P>
 
 <P>
-<pre>say (ego, myVariable);</pre>
+<pre>say (ego, myVariable);
+
+newVariable = &quot;The name of the ego character is \&quot;&quot; + ego + &quot;\&quot;.&quot;;
+
+statusText (57219);</pre>
 </P>
 
 <P>
-<pre>newVariable = &quot;The name of the ego character is \&quot;&quot; + ego + &quot;\&quot;.&quot;;</pre>
+Here's what you'll get when using each of the data types as a string.
 </P>
 
 <P>
-<pre>statusText (57219);</pre>
+<B>Undefined:</B>
 </P>
 
 <P>
-Here's what you'll get when using each of the data types as a string.<BR>
+Always equates to &quot;undefined&quot;.
 </P>
 
 <P>
-<B>Undefined:</B><BR>
+<B>Numbers:</B>
 </P>
 
 <P>
-Always equates to &quot;undefined&quot;.<BR>
+Equates to the decimal representing the number, as you'd expect, complete with minus sign if required.
 </P>
 
 <P>
-<B>Numbers:</B><BR>
+<B>Strings:</B>
 </P>
 
 <P>
-Equates to the decimal representing the number, as you'd expect, complete with minus sign if required.<BR>
+Equates to the current value of the string. Oddly.
 </P>
 
 <P>
-<B>Strings:</B><BR>
+<B>File handles:</B>
 </P>
 
 <P>
-Equates to the current value of the string. Oddly.<BR>
+If the game has been compiled in development mode, equates to the original name of the resource file. Otherwise, equates to &quot;file handle&quot;.
 </P>
 
 <P>
-<B>File handles:</B><BR>
+<B>Object types:</B>
 </P>
 
 <P>
-If the game has been compiled in development mode, equates to the original name of the resource file. Otherwise, equates to &quot;file handle&quot;.<BR>
+Equates to the on-screen name of the object type.
 </P>
 
 <P>
-<B>Object types:</B><BR>
+<B>Stacks:</B>
 </P>
 
 <P>
-Equates to the on-screen name of the object type.<BR>
+Equates to the string representation of each element, separated by a comma and a space. If the stack is empty, equates to &quot;empty stack&quot;.
 </P>
 
 <P>
-<B>Stacks:</B><BR>
+<B>Function handles:</B>
 </P>
 
 <P>
-Equates to the string representation of each element, separated by a comma and a space. If the stack is empty, equates to &quot;empty stack&quot;.<BR>
+Equates to &quot;pointer to function&quot; if the function is user-defined or &quot;pointer to BIF&quot; if the pointer is built-in (ie. one of the functions in the <a href="Alphabetical_List_of_Built-in_Functions.html">Alphabetical List of Built-in Functions</a> section).
 </P>
 
 <P>
-<B>Function handles:</B><BR>
+<B>Animations:</B>
 </P>
 
 <P>
-Equates to &quot;pointer to function&quot; if the function is user-defined or &quot;pointer to BIF&quot; if the pointer is built-in (ie. one of the functions in the <a href="Alphabetical_List_of_Built-in_Functions.html">Alphabetical List of Built-in Functions</a> section).<BR>
+Aliays equates to &quot;animation&quot;.
 </P>
 
 <P>
-<B>Animations:</B><BR>
+<B>Costume:</B>
 </P>
 
 <P>
-Aliays equates to &quot;animation&quot;.<BR>
-</P>
-
-<P>
-<B>Costume:</B><BR>
-</P>
-
-<P>
-Always equates to &quot;costume&quot;.<BR>
+Always equates to &quot;costume&quot;.
 </P>
 
 <P>
@@ -108,18 +104,16 @@ Always equates to &quot;costume&quot;.<BR>
 </P>
 
 <P>
-<a href="Variable_Operations.html">Variable Operations</a><BR>
+<a href="Variable_Operations.html">Variable Operations</a>
 </P>
 
 <P>
-<a href="Spellchecking_the_Strings_in_your_Game.html">Spellchecking the Strings in your Game</a><BR>
+<a href="Spellchecking_the_Strings_in_your_Game.html">Spellchecking the Strings in your Game</a>
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

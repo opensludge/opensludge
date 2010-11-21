@@ -16,19 +16,19 @@
 </P>
 
 <P>
-<pre>say (<i>thisObject, textToSay</i>);</pre>
+<pre class="syntax">say (<i>thisObject, textToSay</i>);</pre>
 </P>
 
 <P>
-<pre>say (<i>thisObject, textToSay, soundFile</i>);</pre>
+<pre class="syntax">say (<i>thisObject, textToSay, soundFile</i>);</pre>
 </P>
 
 <P>
-<pre>think (<i>thisObject, textToThink</i>);</pre>
+<pre class="syntax">think (<i>thisObject, textToThink</i>);</pre>
 </P>
 
 <P>
-<pre>think (<i>thisObject, textToThink, soundFile</i>);</pre>
+<pre class="syntax">think (<i>thisObject, textToThink, soundFile</i>);</pre>
 </P>
 
 <P>
@@ -37,39 +37,39 @@
 </P>
 
 <P>
-Makes <i>thisObject</i> say the contents of the <i>textToSay</i> parameter (or think the contents of the <i>textToThink </i>parameter). The text is shown on the screen in the speech colour defined in the object type definition. If a <i>soundFile</i> parameter is specified, the sound may be used instead of (or as well as) the text - this depends on the current <a href="setSpeechMode.html">setSpeechMode</a> setting.<BR>
+Makes <i>thisObject</i> say the contents of the <i>textToSay</i> parameter (or think the contents of the <i>textToThink </i>parameter). The text is shown on the screen in the speech colour defined in the object type definition. If a <i>soundFile</i> parameter is specified, the sound may be used instead of (or as well as) the text - this depends on the current <a href="setSpeechMode.html">setSpeechMode</a> setting.
 </P>
 
 <P>
-<b>If <i>thisObject</i> is a character:<BR>
+<b>If <i>thisObject</i> is a character:
 </P>
 
 <P>
-</b>Any displayed text will be shown over the head of the character.<b> </b>If the say command is being used, the character's current animation will be changed to the speaking animation (for the character facing its current direction) defined in the <a href="costume.html">costume</a> assigned to the character. When the character has finished speaking, the character's animation will change to the standing still animation. If the think command is being used, the character will not be made to animate.<BR>
+</b>Any displayed text will be shown over the head of the character.<b> </b>If the say command is being used, the character's current animation will be changed to the speaking animation (for the character facing its current direction) defined in the <a href="costume.html">costume</a> assigned to the character. When the character has finished speaking, the character's animation will change to the standing still animation. If the think command is being used, the character will not be made to animate.
 </P>
 
 <P>
-<b>If <i>thisObject</i> is a screen region:<BR>
+<b>If <i>thisObject</i> is a screen region:
 </P>
 
 <P>
-</b>Any displayed text will be shown above the last region to have been added which represents the object; that is, if there are three screen regions which represent the same object and the object is told to speak, the text will appear over the third region.<BR>
+</b>Any displayed text will be shown above the last region to have been added which represents the object; that is, if there are three screen regions which represent the same object and the object is told to speak, the text will appear over the third region.
 </P>
 
 <P>
-<b>If <i>thisObject</i> isn't a character or screen region:<BR>
+<b>If <i>thisObject</i> isn't a character or screen region:
 </P>
 
 <P>
-</b>Any displayed text will appear centred at the top of the screen.<BR>
+</b>Any displayed text will appear centred at the top of the screen.
 </P>
 
 <P>
-The function from which the say command is called will pause until the object stops speaking. The time this takes depends on the number of characters in <i>textToSay</i> or <i>textToThink </i>and is calculated by the SLUDGE engine at runtime. If the <i>soundFile</i> parameter is specified (and used), the time for which the function pauses is the length of time needed to play the sound.<BR>
+The function from which the say command is called will pause until the object stops speaking. The time this takes depends on the number of characters in <i>textToSay</i> or <i>textToThink </i>and is calculated by the SLUDGE engine at runtime. If the <i>soundFile</i> parameter is specified (and used), the time for which the function pauses is the length of time needed to play the sound.
 </P>
 
 <P>
-Valid file formats for the <i>soundFile</i> parameter are Windows wave files (.WAV) and Ogg Vorbis (.OGG), as in the <a href="playSound.html">playSound</a> and <a href="loopSound.html">loopSound</a> functions.<BR>
+Valid file formats for the <i>soundFile</i> parameter are Windows wave files (.WAV) and Ogg Vorbis (.OGG), as in the <a href="playSound.html">playSound</a> and <a href="loopSound.html">loopSound</a> functions.
 </P>
 
 <P>
@@ -78,7 +78,7 @@ Valid file formats for the <i>soundFile</i> parameter are Windows wave files (.W
 </P>
 
 <P>
-No return value.<BR>
+No return value.
 </P>
 
 <P>
@@ -87,34 +87,32 @@ No return value.<BR>
 </P>
 
 <P>
-<a href="addCharacter.html">addCharacter</a><BR>
+<a href="addCharacter.html">addCharacter</a>
 </P>
 
 <P>
-<a href="addScreenRegion.html">addScreenRegion</a><BR>
+<a href="addScreenRegion.html">addScreenRegion</a>
 </P>
 
 <P>
-<a href="cacheSound.html">cacheSound</a><BR>
+<a href="cacheSound.html">cacheSound</a>
 </P>
 
 <P>
-<a href="setSpeechSpeed.html">setSpeechSpeed</a><BR>
+<a href="setSpeechSpeed.html">setSpeechSpeed</a>
 </P>
 
 <P>
-<a href="skipSpeech.html">skipSpeech</a><BR>
+<a href="skipSpeech.html">skipSpeech</a>
 </P>
 
 <P>
-<a href="somethingSpeaking.html">somethingSpeaking</a><BR>
+<a href="somethingSpeaking.html">somethingSpeaking</a>
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

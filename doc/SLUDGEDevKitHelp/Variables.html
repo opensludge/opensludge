@@ -11,79 +11,79 @@
 
 
 <P>
-SLUDGE has only one variable structure - the &quot;var&quot; - which can hold many different types of data. The different data types which can be held in a SLUDGE variable are:<BR>
+SLUDGE has only one variable structure - the &quot;var&quot; - which can hold many different types of data. The different data types which can be held in a SLUDGE variable are:
 </P>
 
 <P>
-<B>Undefined:</B><BR>
+<B>Undefined:</B>
 </P>
 
 <P>
-Not much use, but it's the value to which variables are initialised, and the default return value from user defined functions.<BR>
+Not much use, but it's the value to which variables are initialised, and the default return value from user defined functions.
 </P>
 
 <P>
-<B>Numbers:</B><BR>
+<B>Numbers:</B>
 </P>
 
 <P>
-For those of you who know C or C++, they're long signed integers. For everyone else, they're big but they can't do decimal points. Whoever heard of an adventure game saying &quot;It's a bag of 482.66666666667 gold coins&quot;?<BR>
+For those of you who know C or C++, they're long signed integers. For everyone else, they're big but they can't do decimal points. Whoever heard of an adventure game saying &quot;It's a bag of 482.66666666667 gold coins&quot;?
 </P>
 
 <P>
-<B>Strings:</B><BR>
+<B>Strings:</B>
 </P>
 
 <P>
-Used for holding text. All of the other data types can be turned into strings automatically, making debugging a lot simpler - see the <a href="Treating_Variables_as_Strings.html">Treating Variables as Strings</a> page.<BR>
+Used for holding text. All of the other data types can be turned into strings automatically, making debugging a lot simpler - see the <a href="Treating_Variables_as_Strings.html">Treating Variables as Strings</a> page.
 </P>
 
 <P>
-<B>File handles:</B><BR>
+<B>File handles:</B>
 </P>
 
 <P>
-How do you get a picture, sound, sprite bank or floor into your code? Here's how. Read up on these in the <a href="File_Handling.html">File Handling</a> section.<BR>
+How do you get a picture, sound, sprite bank or floor into your code? Here's how. Read up on these in the <a href="File_Handling.html">File Handling</a> section.
 </P>
 
 <P>
-<B>Object types:</B><BR>
+<B>Object types:</B>
 </P>
 
 <P>
-Objects, actions and characters. More information on creating and using these is available in the <a href="Object_Types_and_Events.html">Object Types and Events</a> section.<BR>
+Objects, actions and characters. More information on creating and using these is available in the <a href="Object_Types_and_Events.html">Object Types and Events</a> section.
 </P>
 
 <P>
-<B>Stacks:</B><BR>
+<B>Stacks:</B>
 </P>
 
 <P>
-These double as arrays, but you don't have to set any boundaries. Stacks can hold any number (including 0) of other variables of any - or mixed - data types. And yes, that includes other stacks. See the section about <a href="The_Multi-Purpose_Stack___Array___Queue_Type.html">The Multi-Purpose Stack / Array / Queue Type</a> for more information.<BR>
+These double as arrays, but you don't have to set any boundaries. Stacks can hold any number (including 0) of other variables of any - or mixed - data types. And yes, that includes other stacks. See the section about <a href="The_Multi-Purpose_Stack___Array___Queue_Type.html">The Multi-Purpose Stack / Array / Queue Type</a> for more information.
 </P>
 
 <P>
-<B>Function handles:</B><BR>
+<B>Function handles:</B>
 </P>
 
 <P>
-Pass a function around like a variable! Fun, fun, fun. There's <a href="Passing_Functions_as_Variables.html">more information here</a>.<BR>
+Pass a function around like a variable! Fun, fun, fun. There's <a href="Passing_Functions_as_Variables.html">more information here</a>.
 </P>
 
 <P>
-<B>Animations:</B><BR>
+<B>Animations:</B>
 </P>
 
 <P>
-Created using the <a href="anim.html">anim</a> function.<BR>
+Created using the <a href="anim.html">anim</a> function.
 </P>
 
 <P>
-<B>Costumes:</B><BR>
+<B>Costumes:</B>
 </P>
 
 <P>
-Created using the <a href="costume.html">costume</a> function.<BR>
+Created using the <a href="costume.html">costume</a> function.
 </P>
 
 <P>
@@ -92,26 +92,22 @@ Created using the <a href="costume.html">costume</a> function.<BR>
 </P>
 
 <P>
-Variables can be local or global. Local variables (defined inside a function) exist for only the duration of the <a href="Functions_(subs).html">function</a> in which they are defined; global variables (defined outside of all the functions) are accessible to everything. For example:<BR>
+Variables can be local or global. Local variables (defined inside a function) exist for only the duration of the <a href="Functions_(subs).html">function</a> in which they are defined; global variables (defined outside of all the functions) are accessible to everything. For example:
 </P>
 
 <P>
-<pre>var thisIsGlobal = 5;</pre>
-</P>
+<pre>var thisIsGlobal = 5;
 
-<P>
-<pre>sub someFunction () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;var thisIsLocal = 10;</pre>
-<pre>&nbsp;&nbsp;&nbsp;say (ego, thisIsGlobal + thisIsLocal);</pre>
-<pre>&nbsp;&nbsp;&nbsp;# Fine</pre>
-<pre>}</pre>
-</P>
+sub someFunction () {
+   var thisIsLocal = 10;
+   say (ego, thisIsGlobal + thisIsLocal);
+   # Fine
+}
 
-<P>
-<pre>sub someOtherFunction () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;say (ego, thisIsGlobal + thisIsLocal);</pre>
-<pre>&nbsp;&nbsp;&nbsp;# Not fine... in this function we have no idea what &quot;thisIsLocal&quot; is</pre>
-<pre>}</pre>
+sub someOtherFunction () {
+   say (ego, thisIsGlobal + thisIsLocal);
+   # Not fine... in this function we have no idea what &quot;thisIsLocal&quot; is
+}</pre>
 </P>
 
 <P>
@@ -120,26 +116,24 @@ Variables can be local or global. Local variables (defined inside a function) ex
 </P>
 
 <P>
-<a href="Treating_Variables_as_Booleans.html">Treating Variables as Booleans</a><BR>
+<a href="Treating_Variables_as_Booleans.html">Treating Variables as Booleans</a>
 </P>
 
 <P>
-<a href="Treating_Variables_as_Strings.html">Treating Variables as Strings</a><BR>
+<a href="Treating_Variables_as_Strings.html">Treating Variables as Strings</a>
 </P>
 
 <P>
-<a href="The_Multi-Purpose_Stack___Array___Queue_Type.html">The Multi-Purpose Stack / Array / Queue Type</a><BR>
+<a href="The_Multi-Purpose_Stack___Array___Queue_Type.html">The Multi-Purpose Stack / Array / Queue Type</a>
 </P>
 
 <P>
-<a href="Variable_Operations.html">Variable Operations</a><BR>
+<a href="Variable_Operations.html">Variable Operations</a>
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

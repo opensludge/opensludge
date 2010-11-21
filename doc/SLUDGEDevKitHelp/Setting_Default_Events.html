@@ -11,114 +11,98 @@
 
 
 <P>
-In the <a href="Object_Types_and_Events.html">Object Types and Events</a> section of this help file this code was given as an example:<BR>
+In the <a href="Object_Types_and_Events.html">Object Types and Events</a> section of this help file this code was given as an example:
 </P>
 
 <P>
-<pre>objectType ego (&quot;&quot;) {</pre>
-<pre>}</pre>
+<pre>objectType ego (&quot;&quot;) {
+}
+
+objectType lookAt (&quot;Look at&quot;) {
+}
+
+objectType pickUp (&quot;Pick up&quot;) {
+}
+
+objectType box (&quot;box&quot;) {
+   event lookAt {
+      say (ego, &quot;It's full of junk, none of which looks useful.&quot;);
+   }
+}
+
+objectType hat (&quot;old battered top hat&quot;) {
+}</pre>
 </P>
 
 <P>
-<pre>objectType lookAt (&quot;Look at&quot;) {</pre>
-<pre>}</pre>
+However, if your code was to call one of the following lines:
 </P>
 
 <P>
-<pre>objectType pickUp (&quot;Pick up&quot;) {</pre>
-<pre>}</pre>
+<pre>callEvent (lookAt, hat);
+
+callEvent (pickUp, box);
+
+callEvent (pickUp, hat);</pre>
 </P>
 
 <P>
-<pre>objectType box (&quot;box&quot;) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;event lookAt {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;It's full of junk, none of which looks useful.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;}</pre>
-<pre>}</pre>
+...nothing would happen, as there are no events specified which match the parameters given. Therefore, in order to provide default reactions it is a good idea to create a default object type as follows:
 </P>
 
 <P>
-<pre>objectType hat (&quot;old battered top hat&quot;) {</pre>
-<pre>}</pre>
+<pre>objectType default (&quot;&quot;) {
+}</pre>
 </P>
 
 <P>
-However, if your code was to call one of the following lines:<BR>
+The lookAt and pickUp object types could then be expanded to include default code:
 </P>
 
 <P>
-<pre>callEvent (lookAt, hat);</pre>
+<pre>objectType lookAt (&quot;Look at&quot;) {
+   event default {
+      say (ego, &quot;Nothing interesting to look at there.&quot;);
+   }
+}
+
+objectType pickUp (&quot;Pick up&quot;) {
+   event default {
+      say (ego, &quot;I can't pick that up.&quot;);
+   }
+}</pre>
 </P>
 
 <P>
-<pre>callEvent (pickUp, box);</pre>
+Of course, the <a href="callEvent.html">callEvent</a> function doesn't know how to resort to this default behaviour, so it's best to provide your own function instead, such as this:
 </P>
 
 <P>
-<pre>callEvent (pickUp, hat);</pre>
+<pre>sub findEvent (action, object) {
+
+   # callEvent returns a value of TRUE if it's worked, so...
+   if (callEvent (action, object) != TRUE) {
+      callEvent (default, action);
+   }
+}</pre>
 </P>
 
 <P>
-...nothing would happen, as there are no events specified which match the parameters given. Therefore, in order to provide default reactions it is a good idea to create a default object type as follows:<BR>
+Of course, you'll probably want to combine objects with other objects - and sooner or later you'll probably forget a default event somewhere. Also, combining object A with object B should probably have the same effect as combining object B with object A. So, let's make our findEvent function even more complicated...
 </P>
 
 <P>
-<pre>objectType default (&quot;&quot;) {</pre>
-<pre>}</pre>
+<pre>sub findEvent (action, object) {
+   if (callEvent (action, object)) return;
+   if (callEvent (object, action)) return;
+   if (callEvent (default, action)) return;
+   if (callEvent (default, object)) return;
+   say (ego, &quot;I can't use these things together.&quot;);
+}</pre>
 </P>
 
 <P>
-The lookAt and pickUp object types could then be expanded to include default code:<BR>
-</P>
-
-<P>
-<pre>objectType lookAt (&quot;Look at&quot;) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;event default {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;Nothing interesting to look at there.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;}</pre>
-<pre>}</pre>
-</P>
-
-<P>
-<pre>objectType pickUp (&quot;Pick up&quot;) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;event default {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;I can't pick that up.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;}</pre>
-<pre>}</pre>
-</P>
-
-<P>
-Of course, the <a href="callEvent.html">callEvent</a> function doesn't know how to resort to this default behaviour, so it's best to provide your own function instead, such as this:<BR>
-</P>
-
-<P>
-<pre>sub findEvent (action, object) {</pre>
-</P>
-
-<P>
-<pre>&nbsp;&nbsp;&nbsp;# callEvent returns a value of TRUE if it's worked, so...</pre>
-<pre>&nbsp;&nbsp;&nbsp;if (callEvent (action, object) != TRUE) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;callEvent (default, action);</pre>
-<pre>&nbsp;&nbsp;&nbsp;}</pre>
-<pre>}</pre>
-</P>
-
-<P>
-Of course, you'll probably want to combine objects with other objects - and sooner or later you'll probably forget a default event somewhere. Also, combining object A with object B should probably have the same effect as combining object B with object A. So, let's make our findEvent function even more complicated...<BR>
-</P>
-
-<P>
-<pre>sub findEvent (action, object) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;if (callEvent (action, object)) return;</pre>
-<pre>&nbsp;&nbsp;&nbsp;if (callEvent (object, action)) return;</pre>
-<pre>&nbsp;&nbsp;&nbsp;if (callEvent (default, action)) return;</pre>
-<pre>&nbsp;&nbsp;&nbsp;if (callEvent (default, object)) return;</pre>
-<pre>&nbsp;&nbsp;&nbsp;say (ego, &quot;I can't use these things together.&quot;);</pre>
-<pre>}</pre>
-</P>
-
-<P>
-So let's say your function called:<BR>
+So let's say your function called:
 </P>
 
 <P>
@@ -126,14 +110,12 @@ So let's say your function called:<BR>
 </P>
 
 <P>
-First it would try to use the box with the hat. Then, because there was no event for that, it would try to use the hat with the box. Then it would try to use the default action in the box object type. Then the default action in the hat object type. Finally, because none of those events exist, the script would resort to making the ego say the immortal line &quot;I can't use these things together.&quot;<BR>
+First it would try to use the box with the hat. Then, because there was no event for that, it would try to use the hat with the box. Then it would try to use the default action in the box object type. Then the default action in the hat object type. Finally, because none of those events exist, the script would resort to making the ego say the immortal line &quot;I can't use these things together.&quot;
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

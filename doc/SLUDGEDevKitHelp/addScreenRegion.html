@@ -16,7 +16,7 @@
 </P>
 
 <P>
-<pre>addScreenRegion (<i>thisObject, left, top, right, bottom, sX, sY, direction</i>);</pre>
+<pre class="syntax">addScreenRegion (<i>thisObject, left, top, right, bottom, sX, sY, direction</i>);</pre>
 </P>
 
 <P>
@@ -25,15 +25,15 @@
 </P>
 
 <P>
-Adds a rectangular region on the screen which represents <i>thisObject</i>. The region is the rectangle from (<i>left</i>, <i>top</i>) to (<i>right</i>, <i>bottom</i>) inclusive.<BR>
+Adds a rectangular region on the screen which represents <i>thisObject</i>. The region is the rectangle from (<i>left</i>, <i>top</i>) to (<i>right</i>, <i>bottom</i>) inclusive.
 </P>
 
 <P>
-If a character is told to move to <i>thisObject</i> using either of the <a href="forceCharacter.html">forceCharacter</a> or <a href="moveCharacter.html">moveCharacter</a> commands, the position at which the character should try and stand is (<i>sX</i>, <i>sY</i>). If <i>direction</i> is -1, the character will be left facing in whatever direction it was last walking. Otherwise, the character will be turned to face <i>direction</i> (which can either be an angle, in degrees, or one of the enumerations NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST or NORTHWEST).<BR>
+If a character is told to move to <i>thisObject</i> using either of the <a href="forceCharacter.html">forceCharacter</a> or <a href="moveCharacter.html">moveCharacter</a> commands, the position at which the character should try and stand is (<i>sX</i>, <i>sY</i>). If <i>direction</i> is -1, the character will be left facing in whatever direction it was last walking. Otherwise, the character will be turned to face <i>direction</i> (which can either be an angle, in degrees, or one of the enumerations NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST or NORTHWEST).
 </P>
 
 <P>
-If characters should not move when told to walk to a certain object, set both <i>sX</i> and <i>sY</i> to 0. The value of <i>direction</i> is not used in this instance, although it must still be provided.<BR>
+If characters should not move when told to walk to a certain object, set both <i>sX</i> and <i>sY</i> to 0. The value of <i>direction</i> is not used in this instance, although it must still be provided.
 </P>
 
 <P>
@@ -42,7 +42,7 @@ If characters should not move when told to walk to a certain object, set both <i
 </P>
 
 <P>
-No return value.<BR>
+No return value.
 </P>
 
 <P>
@@ -51,30 +51,22 @@ No return value.<BR>
 </P>
 
 <P>
-<pre>objectType poster (&quot;poster&quot;) {</pre>
-<pre>}</pre>
-</P>
+<pre>objectType poster (&quot;poster&quot;) {
+}
 
-<P>
-<pre>objectType horizon (&quot;horizon&quot;) {</pre>
-<pre>}</pre>
-</P>
+objectType horizon (&quot;horizon&quot;) {
+}
 
-<P>
-<pre>sub init () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;addScreenRegion (poster, 100, 100, 150, 200, 125, 250, NORTH);</pre>
-<pre>&nbsp;&nbsp;&nbsp;addScreenRegion (horizon, 300, 150, 600, 170, 0, 0, -1);</pre>
-</P>
+sub init () {
+   addScreenRegion (poster, 100, 100, 150, 200, 125, 250, NORTH);
+   addScreenRegion (horizon, 300, 150, 600, 170, 0, 0, -1);
 
-<P>
-<pre>&nbsp;&nbsp;&nbsp;forceCharacter (ego, poster);</pre>
-<pre>&nbsp;&nbsp;&nbsp;# ego will now be standing at (125, 250) facing north</pre>
-</P>
+   forceCharacter (ego, poster);
+   # ego will now be standing at (125, 250) facing north
 
-<P>
-<pre>&nbsp;&nbsp;&nbsp;forceCharacter (ego, horizon);</pre>
-<pre>&nbsp;&nbsp;&nbsp;# That command won't move the ego anywhere</pre>
-<pre>}</pre>
+   forceCharacter (ego, horizon);
+   # That command won't move the ego anywhere
+}</pre>
 </P>
 
 <P>
@@ -83,30 +75,28 @@ No return value.<BR>
 </P>
 
 <P>
-<a href="Object_Types_and_Events.html">Object Types and Events</a><BR>
+<a href="Object_Types_and_Events.html">Object Types and Events</a>
 </P>
 
 <P>
-<a href="getOverObject.html">getOverObject</a><BR>
+<a href="getOverObject.html">getOverObject</a>
 </P>
 
 <P>
-<a href="isScreenRegion.html">isScreenRegion</a><BR>
+<a href="isScreenRegion.html">isScreenRegion</a>
 </P>
 
 <P>
-<a href="onFocusChange.html">onFocusChange</a><BR>
+<a href="onFocusChange.html">onFocusChange</a>
 </P>
 
 <P>
-<a href="removeAllScreenRegions.html">removeAllScreenRegions</a><BR>
+<a href="removeAllScreenRegions.html">removeAllScreenRegions</a>
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

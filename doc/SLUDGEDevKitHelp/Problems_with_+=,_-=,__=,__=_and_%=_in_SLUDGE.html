@@ -11,7 +11,7 @@
 
 
 <P>
-The above operations should not be performed on elements of a stack which are obtained using square brackets containing an index which is the result of code which may change one or more values (such as a function call or, ++ or --). The reason for this is that any code used to determine the index value will be performed twice. That is to say, this is safe...<BR>
+The above operations should not be performed on elements of a stack which are obtained using square brackets containing an index which is the result of code which may change one or more values (such as a function call or, ++ or --). The reason for this is that any code used to determine the index value will be performed twice. That is to say, this is safe...
 </P>
 
 <P>
@@ -19,7 +19,7 @@ The above operations should not be performed on elements of a stack which are ob
 </P>
 
 <P>
-This is safe...<BR>
+This is safe...
 </P>
 
 <P>
@@ -27,7 +27,7 @@ This is safe...<BR>
 </P>
 
 <P>
-This is safe...<BR>
+This is safe...
 </P>
 
 <P>
@@ -35,7 +35,7 @@ This is safe...<BR>
 </P>
 
 <P>
-But this isn't.<BR>
+But this isn't.
 </P>
 
 <P>
@@ -43,23 +43,19 @@ But this isn't.<BR>
 </P>
 
 <P>
-The reason for this is that these lines are partially expanded by the compiler before being compiled. The best way to think of this is that the first three examples are treated as...<BR>
+The reason for this is that these lines are partially expanded by the compiler before being compiled. The best way to think of this is that the first three examples are treated as...
 </P>
 
 <P>
-<pre>a = a / 7;</pre>
+<pre>a = a / 7;
+
+someStack[20] = someStack[20] + &quot;... or so it would seem.&quot;;
+
+anotherStack[4 * h + 2 - i] = anotherStack[4 * h + 2 - i] % blah[r ++];</pre>
 </P>
 
 <P>
-<pre>someStack[20] = someStack[20] + &quot;... or so it would seem.&quot;;</pre>
-</P>
-
-<P>
-<pre>anotherStack[4 * h + 2 - i] = anotherStack[4 * h + 2 - i] % blah[r ++];</pre>
-</P>
-
-<P>
-Therefore, the fourth example is treated as...<BR>
+Therefore, the fourth example is treated as...
 </P>
 
 <P>
@@ -67,7 +63,7 @@ Therefore, the fourth example is treated as...<BR>
 </P>
 
 <P>
-As you can see, the index part will be executed more than once. However don't assume your program will be compiled this way... future releases of the SLUDGE compiler may well fix the problem.<BR>
+As you can see, the index part will be executed more than once. However don't assume your program will be compiled this way... future releases of the SLUDGE compiler may well fix the problem.
 </P>
 
 <P>
@@ -76,18 +72,16 @@ As you can see, the index part will be executed more than once. However don't as
 </P>
 
 <P>
-<a href="Variable_Operations.html">Variable Operations</a><BR>
+<a href="Variable_Operations.html">Variable Operations</a>
 </P>
 
 <P>
-<a href="The_Multi-Purpose_Stack___Array___Queue_Type.html">The Multi-Purpose Stack / Array / Queue Type</a><BR>
+<a href="The_Multi-Purpose_Stack___Array___Queue_Type.html">The Multi-Purpose Stack / Array / Queue Type</a>
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

@@ -16,7 +16,7 @@
 </P>
 
 <P>
-<pre>addOverlay (<i>thisFile, atX, atY</i>);</pre>
+<pre class="syntax">addOverlay (<i>thisFile, atX, atY</i>);</pre>
 </P>
 
 <P>
@@ -25,15 +25,15 @@
 </P>
 
 <P>
-Loads an image from the file handle <i>thisFile</i> and overlays it onto the screen. Bright magenta (255, 0, 255 or #FF00FF) is used as the transparency colour, making is possible to add irregular shapes.<BR>
+Loads an image from the file handle <i>thisFile</i> and overlays it onto the screen. Bright magenta (255, 0, 255 or #FF00FF) is used as the transparency colour, making is possible to add irregular shapes.
 </P>
 
 <P>
-The values <i>atX</i> and <i>atY</i> define the top left corner of the area into which the image will be added. If the value of <i>atX</i> is CENTRE (or CENTER) the image will be added halfway across the window. If the value of <i>atY</i> is CENTRE (or CENTER) the image will be added halfway down the window.<BR>
+The values <i>atX</i> and <i>atY</i> define the top left corner of the area into which the image will be added. If the value of <i>atX</i> is CENTRE (or CENTER) the image will be added halfway across the window. If the value of <i>atY</i> is CENTRE (or CENTER) the image will be added halfway down the window.
 </P>
 
 <P>
-NB: Should any parallax layers exist, they will be visible &quot;through&quot; any areas of the background image filled in with bright cyan (0, 255, 255 or #00FFFF). You can add parallax layers using the <a href="parallaxAdd.html">parallaxAdd</a> function.<BR>
+NB: Should any parallax layers exist, they will be visible &quot;through&quot; any areas of the background image filled in with bright cyan (0, 255, 255 or #00FFFF). You can add parallax layers using the <a href="parallaxAdd.html">parallaxAdd</a> function.
 </P>
 
 <P>
@@ -42,7 +42,7 @@ NB: Should any parallax layers exist, they will be visible &quot;through&quot; a
 </P>
 
 <P>
-No return value.<BR>
+No return value.
 </P>
 
 <P>
@@ -51,9 +51,9 @@ No return value.<BR>
 </P>
 
 <P>
-<pre>sub init () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;addOverlay ('someImage.tga', CENTER, CENTER);</pre>
-<pre>}</pre>
+<pre>sub init () {
+   addOverlay ('someImage.tga', CENTER, CENTER);
+}</pre>
 </P>
 
 <P>
@@ -62,26 +62,24 @@ No return value.<BR>
 </P>
 
 <P>
-<a href="File_Handling.html">File Handling</a><BR>
+<a href="File_Handling.html">File Handling</a>
 </P>
 
 <P>
-<a href="The_Background_Image.html">The Background Image</a><BR>
+<a href="The_Background_Image.html">The Background Image</a>
 </P>
 
 <P>
-<a href="darkBackground.html">darkBackground</a><BR>
+<a href="darkBackground.html">darkBackground</a>
 </P>
 
 <P>
-<a href="mixOverlay.html">mixOverlay</a><BR>
+<a href="mixOverlay.html">mixOverlay</a>
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

@@ -16,11 +16,11 @@
 </P>
 
 <P>
-<pre>transitionMode (<i>mode</i>);</pre>
+<pre class="syntax">transitionMode (<i>mode</i>);</pre>
 </P>
 
 <P>
-<pre>transitionLevel (<i>level</i>);</pre>
+<pre class="syntax">transitionLevel (<i>level</i>);</pre>
 </P>
 
 <P>
@@ -29,55 +29,55 @@
 </P>
 
 <P>
-The transitionMode function chooses which transition type is used by the game. Valid values for <i>mode</i> are:<BR>
+The transitionMode function chooses which transition type is used by the game. Valid values for <i>mode</i> are:
 </P>
 
 <P>
-<b>FADE&nbsp;&nbsp;&nbsp;</b>Every pixel's brightness is faded to / from black.<BR>
+<b>FADE   </b>Every pixel's brightness is faded to / from black.
 </P>
 
 <P>
-<b>DISOLVE&nbsp;&nbsp;&nbsp;</b>A fixed selection of pixels is coloured over in black.<BR>
+<b>DISOLVE   </b>A fixed selection of pixels is coloured over in black.
 </P>
 
 <P>
-<b>DISOLVE1&nbsp;&nbsp;&nbsp;</b>The same as DISOLVE.<BR>
+<b>DISOLVE1   </b>The same as DISOLVE.
 </P>
 
 <P>
-<b>DISOLVE2&nbsp;&nbsp;&nbsp;</b>A random selection of pixels is coloured over in black.<BR>
+<b>DISOLVE2   </b>A random selection of pixels is coloured over in black.
 </P>
 
 <P>
-<b>TVSTATIC&nbsp;&nbsp;&nbsp;</b>A random selection of pixels is coloured over in random greys.<BR>
+<b>TVSTATIC   </b>A random selection of pixels is coloured over in random greys.
 </P>
 
 <P>
-<b>BLINDS&nbsp;&nbsp;&nbsp;</b>The screen is divided into horizontal slices which open like blinds.<BR>
+<b>BLINDS   </b>The screen is divided into horizontal slices which open like blinds.
 </P>
 
 <P>
-<b>SNAPSHOTFADE&nbsp;&nbsp;&nbsp;</b>The screen is faded to / from the current snapshot. *<BR>
+<b>SNAPSHOTFADE   </b>The screen is faded to / from the current snapshot. *
 </P>
 
 <P>
-<b>CROSSFADE&nbsp;&nbsp;&nbsp;</b>The same as SNAPSHOTFADE.<BR>
+<b>CROSSFADE   </b>The same as SNAPSHOTFADE.
 </P>
 
 <P>
-<b>SNAPSHOTBOX&nbsp;&nbsp;&nbsp;</b>The screen appears in an expanding rectangle over the current snapshot. *<BR>
+<b>SNAPSHOTBOX   </b>The screen appears in an expanding rectangle over the current snapshot. *
 </P>
 
 <P>
-The transitionLevel function specifies how visible the current screen is, from 0 to 256 inclusive. A <i>level</i> value of 0 means the scene is not visible at all (normally pitch black). A <i>level</i> value of 256 means the scene is completely visible and not affected by the current transition mode at all.<BR>
+The transitionLevel function specifies how visible the current screen is, from 0 to 256 inclusive. A <i>level</i> value of 0 means the scene is not visible at all (normally pitch black). A <i>level</i> value of 256 means the scene is completely visible and not affected by the current transition mode at all.
 </P>
 
 <P>
-Note that the mouse cursor is <i>not</i> affected by transitions. All other elements - including speech, characters and status text - are affected.<BR>
+Note that the mouse cursor is <i>not</i> affected by transitions. All other elements - including speech, characters and status text - are affected.
 </P>
 
 <P>
- * = See <a href="snapshotGrab.html">snapshotGrab</a> for more information. This transition mode has no effect if there is currently no snapshot in memory.<BR>
+ * = See <a href="snapshotGrab.html">snapshotGrab</a> for more information. This transition mode has no effect if there is currently no snapshot in memory.
 </P>
 
 <P>
@@ -86,31 +86,25 @@ Note that the mouse cursor is <i>not</i> affected by transitions. All other elem
 </P>
 
 <P>
-<pre># Choose which mode we want to use</pre>
-<pre>transitionMode (DISOLVE2);</pre>
-</P>
+<pre># Choose which mode we want to use
+transitionMode (DISOLVE2);
 
-<P>
-<pre># Fade up</pre>
-<pre>for (var a = 0; a &lt; 255; a += 10) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;transitionLevel (a);</pre>
-<pre>&nbsp;&nbsp;&nbsp;pause (1);</pre>
-<pre>}</pre>
-<pre>transitionLevel (256);</pre>
-</P>
+# Fade up
+for (var a = 0; a &lt; 255; a += 10) {
+   transitionLevel (a);
+   pause (1);
+}
+transitionLevel (256);
 
-<P>
-<pre># Wait a while</pre>
-<pre>pause (100);</pre>
-</P>
+# Wait a while
+pause (100);
 
-<P>
-<pre># Fade down</pre>
-<pre>for (var a = 255; a &gt; 0; a -= 10) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;transitionLevel (a);</pre>
-<pre>&nbsp;&nbsp;&nbsp;pause (1);</pre>
-<pre>}</pre>
-<pre>transitionLevel (0);</pre>
+# Fade down
+for (var a = 255; a &gt; 0; a -= 10) {
+   transitionLevel (a);
+   pause (1);
+}
+transitionLevel (0);</pre>
 </P>
 
 <P>
@@ -119,14 +113,12 @@ Note that the mouse cursor is <i>not</i> affected by transitions. All other elem
 </P>
 
 <P>
-No return value.<BR>
+No return value.
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

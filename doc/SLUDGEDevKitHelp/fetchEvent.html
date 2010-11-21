@@ -16,7 +16,7 @@
 </P>
 
 <P>
-<pre>fetchEvent (<i>thisAction, thisObject</i>);</pre>
+<pre class="syntax">fetchEvent (<i>thisAction, thisObject</i>);</pre>
 </P>
 
 <P>
@@ -25,7 +25,7 @@
 </P>
 
 <P>
-Determines whether the <i>thisObject</i> object type contains a <i>thisAction</i> event. Both <i>thisAction</i> and <i>thisObject</i> must be variables of type objectType.<BR>
+Determines whether the <i>thisObject</i> object type contains a <i>thisAction</i> event. Both <i>thisAction</i> and <i>thisObject</i> must be variables of type objectType.
 </P>
 
 <P>
@@ -34,7 +34,7 @@ Determines whether the <i>thisObject</i> object type contains a <i>thisAction</i
 </P>
 
 <P>
-fetchEvent returns a function handle if the specified event is found. If no event is found, the function returns FALSE.<BR>
+fetchEvent returns a function handle if the specified event is found. If no event is found, the function returns FALSE.
 </P>
 
 <P>
@@ -43,33 +43,25 @@ fetchEvent returns a function handle if the specified event is found. If no even
 </P>
 
 <P>
-<pre>objectType ego () {</pre>
-<pre>}</pre>
-</P>
+<pre>objectType ego () {
+}
 
-<P>
-<pre>objectType lookAt () {</pre>
-<pre>}</pre>
-</P>
+objectType lookAt () {
+}
 
-<P>
-<pre>objectType poster (&quot;poster&quot;) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;event lookAt {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;I'm looking at the poster.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;}</pre>
-<pre>}</pre>
-</P>
+objectType poster (&quot;poster&quot;) {
+   event lookAt {
+      say (ego, &quot;I'm looking at the poster.&quot;);
+   }
+}
 
-<P>
-<pre>sub init () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;var a = fetchEvent (poster, lookAt);</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Returns FALSE</pre>
-</P>
+sub init () {
+   var a = fetchEvent (poster, lookAt);
+      # Returns FALSE
 
-<P>
-<pre>&nbsp;&nbsp;&nbsp;var b = fetchEvent (lookAt, poster);</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Returns a pointer to poster.lookAt</pre>
-<pre>}</pre>
+   var b = fetchEvent (lookAt, poster);
+      # Returns a pointer to poster.lookAt
+}</pre>
 </P>
 
 <P>
@@ -78,18 +70,16 @@ fetchEvent returns a function handle if the specified event is found. If no even
 </P>
 
 <P>
-<a href="Object_Types_and_Events.html">Object Types and Events</a><BR>
+<a href="Object_Types_and_Events.html">Object Types and Events</a>
 </P>
 
 <P>
-<a href="callEvent.html">callEvent</a><BR>
+<a href="callEvent.html">callEvent</a>
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

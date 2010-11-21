@@ -16,7 +16,7 @@
 </P>
 
 <P>
-<pre>setCustomEncoding (<i>n</i>);</pre>
+<pre class="syntax">setCustomEncoding (<i>n</i>);</pre>
 </P>
 
 <P>
@@ -25,23 +25,23 @@
 </P>
 
 <P>
-Changes the way in which files are treated when created by the <a href="loadCustomData_and_saveCustomData.html">saveCustomData</a> function or read by the <a href="loadCustomData_and_saveCustomData.html">loadCustomData</a> function.<BR>
+Changes the way in which files are treated when created by the <a href="loadCustomData_and_saveCustomData.html">saveCustomData</a> function or read by the <a href="loadCustomData_and_saveCustomData.html">loadCustomData</a> function.
 </P>
 
 <P>
-If the value of n is NULL (or FALSE, or NORMAL, or anything else that equates to 0) then <a href="loadCustomData_and_saveCustomData.html">saveCustomData</a> creates text files. Text files can only contain strings. Should you use <a href="loadCustomData_and_saveCustomData.html">saveCustomData</a> to save a stack which contains anything other than a string, a string representing the value will be stored instead.<BR>
+If the value of n is NULL (or FALSE, or NORMAL, or anything else that equates to 0) then <a href="loadCustomData_and_saveCustomData.html">saveCustomData</a> creates text files. Text files can only contain strings. Should you use <a href="loadCustomData_and_saveCustomData.html">saveCustomData</a> to save a stack which contains anything other than a string, a string representing the value will be stored instead.
 </P>
 
 <P>
-If the value of n is any number between 1 and 65535 then <a href="loadCustomData_and_saveCustomData.html">saveCustomData</a> will create encoded data files. Encoded data files can contain strings and numbers but no other variable types. Should you try to use <a href="loadCustomData_and_saveCustomData.html">saveCustomData</a> to save a stack which contains anything other than a string or a number the engine will close with a fatal error message. This is because custom data files should be usable by any SLUDGE game and costumes, animations, file handles and so on are all game-specific.<BR>
+If the value of n is any number between 1 and 65535 then <a href="loadCustomData_and_saveCustomData.html">saveCustomData</a> will create encoded data files. Encoded data files can contain strings and numbers but no other variable types. Should you try to use <a href="loadCustomData_and_saveCustomData.html">saveCustomData</a> to save a stack which contains anything other than a string or a number the engine will close with a fatal error message. This is because custom data files should be usable by any SLUDGE game and costumes, animations, file handles and so on are all game-specific.
 </P>
 
 <P>
-If the value of n is less than 0 or greater than 65535 then the behaviour of <a href="loadCustomData_and_saveCustomData.html">saveCustomData</a> and <a href="loadCustomData_and_saveCustomData.html">loadCustomData</a> is not guaranteed. Don't do it. It's just plain dumb.<BR>
+If the value of n is less than 0 or greater than 65535 then the behaviour of <a href="loadCustomData_and_saveCustomData.html">saveCustomData</a> and <a href="loadCustomData_and_saveCustomData.html">loadCustomData</a> is not guaranteed. Don't do it. It's just plain dumb.
 </P>
 
 <P>
-The default custom encoding setting before setCustomEncoding is called is 0.<BR>
+The default custom encoding setting before setCustomEncoding is called is 0.
 </P>
 
 <P>
@@ -50,14 +50,12 @@ The default custom encoding setting before setCustomEncoding is called is 0.<BR>
 </P>
 
 <P>
-No return value.<BR>
+No return value.
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

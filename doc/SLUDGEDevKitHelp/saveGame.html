@@ -16,7 +16,7 @@
 </P>
 
 <P>
-<pre>saveGame (<i>text</i>);</pre>
+<pre class="syntax">saveGame (<i>text</i>);</pre>
 </P>
 
 <P>
@@ -25,23 +25,23 @@
 </P>
 
 <P>
-Creates a file with the name <i>text</i> which contains the current state of the SLUDGE engine. The <i>text</I> value must be a string <b>not</b> a <a href="File_Handling.html">file handle</a> for this command to work as expected! The <a href="loadGame.html">loadGame</a> command can then be used to load in one of these files to return the engine to exactly the same state.<BR>
+Creates a file with the name <i>text</i> which contains the current state of the SLUDGE engine. The <i>text</I> value must be a string <b>not</b> a <a href="File_Handling.html">file handle</a> for this command to work as expected! The <a href="loadGame.html">loadGame</a> command can then be used to load in one of these files to return the engine to exactly the same state.
 </P>
 
 <P>
-Your saved game files, as well as containing all the information needed to restore a player's progress at any time, can also (optionally) contain a thumbnail image. The size of the image generated and saved can be set using <a href="setThumbnailSize.html">setThumbnailSize</a>.<BR>
+Your saved game files, as well as containing all the information needed to restore a player's progress at any time, can also (optionally) contain a thumbnail image. The size of the image generated and saved can be set using <a href="setThumbnailSize.html">setThumbnailSize</a>.
 </P>
 
 <P>
-Currently, games cannot be saved while anything is frozen (using the <a href="freeze.html">freeze</a> command).<BR>
+Currently, games cannot be saved while anything is frozen (using the <a href="freeze.html">freeze</a> command).
 </P>
 
 <P>
-Note that when the loadGame command is called successfully and the engine returns to its state when the file was created, execution will restart after the call to saveGame, <b>not</b> after the call to loadGame. This is because everything - including the function which called the saveGame command - is saved to the file and therefore restored when loadGame is called. You can tell whether you've just loaded or saved a game by looking at the return value.<BR>
+Note that when the loadGame command is called successfully and the engine returns to its state when the file was created, execution will restart after the call to saveGame, <b>not</b> after the call to loadGame. This is because everything - including the function which called the saveGame command - is saved to the file and therefore restored when loadGame is called. You can tell whether you've just loaded or saved a game by looking at the return value.
 </P>
 
 <P>
-This function supports filename bodging - for details see the <a href="bodgeFilenames.html">bodgeFilenames</a> command.<BR>
+This function supports filename bodging - for details see the <a href="bodgeFilenames.html">bodgeFilenames</a> command.
 </P>
 
 <P>
@@ -50,7 +50,7 @@ This function supports filename bodging - for details see the <a href="bodgeFile
 </P>
 
 <P>
-Returns TRUE if the state of the engine was just saved. Returns FALSE if the game has just restarted at this point after a call to loadGame.<BR>
+Returns TRUE if the state of the engine was just saved. Returns FALSE if the game has just restarted at this point after a call to loadGame.
 </P>
 
 <P>
@@ -59,38 +59,36 @@ Returns TRUE if the state of the engine was just saved. Returns FALSE if the gam
 </P>
 
 <P>
-<a href="The_Worlds_Easiest_Load_Save_Mechanism.html">The World's Easiest Load/Save Mechanism</a><BR>
+<a href="The_Worlds_Easiest_Load_Save_Mechanism.html">The World's Easiest Load/Save Mechanism</a>
 </P>
 
 <P>
-<a href="deleteFile.html">deleteFile</a><BR>
+<a href="deleteFile.html">deleteFile</a>
 </P>
 
 <P>
-<a href="fileExists.html">fileExists</a><BR>
+<a href="fileExists.html">fileExists</a>
 </P>
 
 <P>
-<a href="getMatchingFiles.html">getMatchingFiles</a><BR>
+<a href="getMatchingFiles.html">getMatchingFiles</a>
 </P>
 
 <P>
-<a href="loadCustomData_and_saveCustomData.html">loadCustomData and saveCustomData</a><BR>
+<a href="loadCustomData_and_saveCustomData.html">loadCustomData and saveCustomData</a>
 </P>
 
 <P>
-<a href="renameFile.html">renameFile</a><BR>
+<a href="renameFile.html">renameFile</a>
 </P>
 
 <P>
-<a href="showThumbnail.html">showThumbnail</a><BR>
+<a href="showThumbnail.html">showThumbnail</a>
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

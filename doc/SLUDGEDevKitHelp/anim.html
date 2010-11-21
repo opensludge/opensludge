@@ -16,7 +16,7 @@
 </P>
 
 <P>
-<pre>anim (<i>spriteBank, frame [, frame [, frame...]]</i>);</pre>
+<pre class="syntax">anim (<i>spriteBank, frame [, frame [, frame...]]</i>);</pre>
 </P>
 
 <P>
@@ -25,62 +25,62 @@
 </P>
 
 <P>
-Creates an animation using the sprites in the <i>spriteBank</i> file. There must be at least one <i>frame</i> specified.<BR>
+Creates an animation using the sprites in the <i>spriteBank</i> file. There must be at least one <i>frame</i> specified.
 </P>
 
 <P>
-Each <i>frame</i> must be either a number (in which case the sprite will appear for one screen update only) or the return value from the <a href="wait.html">wait</a> function (which can be used to specify that a sprite should appear for longer than one screen update).<BR>
+Each <i>frame</i> must be either a number (in which case the sprite will appear for one screen update only) or the return value from the <a href="wait.html">wait</a> function (which can be used to specify that a sprite should appear for longer than one screen update).
 </P>
 
 <P>
-Valid values for numerical <i>frame</i> parameters (or the first parameter in a call to the <a href="wait.html">wait</a> function) are:<BR>
+Valid values for numerical <i>frame</i> parameters (or the first parameter in a call to the <a href="wait.html">wait</a> function) are:
 </P>
 
 <P>
-<b>Negative number outside range<BR>
+<b>Negative number outside range
 </P>
 
 <P>
-</b>&nbsp;&nbsp;&nbsp;Horizontally flipped sprite number 0 from <i>spriteBank<BR>
+</b>   Horizontally flipped sprite number 0 from <i>spriteBank
 </P>
 
 <P>
-</i><b>Negative number in range<BR>
+</i><b>Negative number in range
 </P>
 
 <P>
-</b>&nbsp;&nbsp;&nbsp;Horizontally flipped sprite -<i>frame</i> from <i>spriteBank<BR>
+</b>   Horizontally flipped sprite -<i>frame</i> from <i>spriteBank
 </P>
 
 <P>
-</i><b>Positive number in range<BR>
+</i><b>Positive number in range
 </P>
 
 <P>
-</b>&nbsp;&nbsp;&nbsp;Sprite number <i>frame</i> from <i>spriteBank<BR>
+</b>   Sprite number <i>frame</i> from <i>spriteBank
 </P>
 
 <P>
-</i><b>Positive number outside range<BR>
+</i><b>Positive number outside range
 </P>
 
 <P>
-</b><i>&nbsp;&nbsp;&nbsp;</i>Nothing<BR>
+</b><i>   </i>Nothing
 </P>
 
 <P>
-(The range of valid numbers is 0 to the number of sprites in <i>spriteBank</i> minus 1.)<BR>
+(The range of valid numbers is 0 to the number of sprites in <i>spriteBank</i> minus 1.)
 </P>
 
 <P>
-</i><b>Sounds and functions</b><BR>
+</i><b>Sounds and functions</b>
 </P>
 
 <P>
 Sound files and functions may also be put in the list of frames. When a sound file or function is encountered, 
 it is played or called, and then the animation moves to the next frame immediately. Do not put more than one
 sound or function in a row: Each sound or function must be separated by a frame number (or the wait function).
-<BR>
+
 </P>
 
 <P>
@@ -89,7 +89,7 @@ sound or function in a row: Each sound or function must be separated by a frame 
 </P>
 
 <P>
-The return value is the animation which has been created. This can then be used as part of a <a href="costume.html">costume</a> or applied to a character using the <a href="animate.html">animate</a> function.<BR>
+The return value is the animation which has been created. This can then be used as part of a <a href="costume.html">costume</a> or applied to a character using the <a href="animate.html">animate</a> function.
 </P>
 
 <P>
@@ -98,8 +98,8 @@ The return value is the animation which has been created. This can then be used 
 </P>
 
 <P>
-<pre>animate (ego, anim ('egoPickUp.duc', 0, 1, 2, wait (3, 10), 2, 1));</pre>
-<pre>animate (ego, anim ('egoPickUp.duc', 0, 1, 2, wait (3, 10), 'noise.ogg', 2, 1));</pre>
+<pre>animate (ego, anim ('egoPickUp.duc', 0, 1, 2, wait (3, 10), 2, 1));
+animate (ego, anim ('egoPickUp.duc', 0, 1, 2, wait (3, 10), 'noise.ogg', 2, 1));</pre>
 </P>
 
 <P>
@@ -108,22 +108,20 @@ The return value is the animation which has been created. This can then be used 
 </P>
 
 <P>
-<a href="addCharacter.html">addCharacter</a><BR>
+<a href="addCharacter.html">addCharacter</a>
 </P>
 
 <P>
-<a href="setCostume.html">setCostume</a><BR>
+<a href="setCostume.html">setCostume</a>
 </P>
 
 <P>
-<a href="pause.html">pause</a><BR>
+<a href="pause.html">pause</a>
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

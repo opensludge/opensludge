@@ -16,7 +16,7 @@
 </P>
 
 <P>
-<pre>bodgeFilenames (<I>enable</I>);</pre>
+<pre class="syntax">bodgeFilenames (<I>enable</I>);</pre>
 </P>
 
 <P>
@@ -25,59 +25,59 @@
 </P>
 
 <P>
-Turns on and off the fantastic SLUDGE filename bodging feature. The feature affects the following functions:<BR>
+Turns on and off the fantastic SLUDGE filename bodging feature. The feature affects the following functions:
 </P>
 
 <P>
-<a href="loadCustomData_and_saveCustomData.html">loadCustomData and saveCustomData</a><BR>
+<a href="loadCustomData_and_saveCustomData.html">loadCustomData and saveCustomData</a>
 </P>
 
 <P>
-<a href="launch_and_launchWith.html">launch</a><BR>
+<a href="launch_and_launchWith.html">launch</a>
 </P>
 
 <P>
-<a href="loadGame.html">loadGame</a><BR>
+<a href="loadGame.html">loadGame</a>
 </P>
 
 <P>
-<a href="saveGame.html">saveGame</a><BR>
+<a href="saveGame.html">saveGame</a>
 </P>
 
 <P>
-<a href="showThumbnail.html">showThumbnail</a><BR>
+<a href="showThumbnail.html">showThumbnail</a>
 </P>
 
 <P>
-<a href="deleteFile.html">deleteFile</a><BR>
+<a href="deleteFile.html">deleteFile</a>
 </P>
 
 <P>
-<a href="renameFile.html">renameFile</a><BR>
+<a href="renameFile.html">renameFile</a>
 </P>
 
 <P>
-<a href="getMatchingFiles.html">getMatchingFiles</a><BR>
+<a href="getMatchingFiles.html">getMatchingFiles</a>
 </P>
 
 <P>
-<a href="fileExists.html">fileExists</a><BR>
+<a href="fileExists.html">fileExists</a>
 </P>
 
 <P>
-The <I>enable</I> value turns filename bodging on and off. With filename bodging disabled - as it is desabled by default - the above functions work as expected, and the parameters they take (and return, in some cases) have to be nice, normal filenames. That means the characters / and \ mean a file is in another folder, the character : means a file is on another drive and certain symbols like ? and * are just plain disallowed.<BR>
+The <I>enable</I> value turns filename bodging on and off. With filename bodging disabled - as it is desabled by default - the above functions work as expected, and the parameters they take (and return, in some cases) have to be nice, normal filenames. That means the characters / and \ mean a file is in another folder, the character : means a file is on another drive and certain symbols like ? and * are just plain disallowed.
 </P>
 
 <P>
-With filename bodging enabled, however, these special characters are all allowed in filenames. This makes it possible for people playing your game to save their games with names like 'Where am I?' and '5: In the jungle' and 'Oh ****' and even names containing multiple odd characters like '8: "776010"? Is this good/bad?'.<BR>
+With filename bodging enabled, however, these special characters are all allowed in filenames. This makes it possible for people playing your game to save their games with names like 'Where am I?' and '5: In the jungle' and 'Oh ****' and even names containing multiple odd characters like '8: "776010"? Is this good/bad?'.
 </P>
 
 <P>
-The way the system works is to change each illegal or special character into a code before operating on the file (or in the case of <a href="getMatchingFiles.html">getMatchingFiles</a> change each code back into the character it represents, so that in a list of saved games each file is listed with its original name).<BR>
+The way the system works is to change each illegal or special character into a code before operating on the file (or in the case of <a href="getMatchingFiles.html">getMatchingFiles</a> change each code back into the character it represents, so that in a list of saved games each file is listed with its original name).
 </P>
 
 <P>
-You may have to enable filename bodging in certain parts of your game (for example, letting your player load and save) and disable it in others (for example if you're going to <a href="launch_and_launchWith.html">launch</a> a URL, or a help file in a different directory).<BR>
+You may have to enable filename bodging in certain parts of your game (for example, letting your player load and save) and disable it in others (for example if you're going to <a href="launch_and_launchWith.html">launch</a> a URL, or a help file in a different directory).
 </P>
 
 <P>
@@ -86,13 +86,13 @@ You may have to enable filename bodging in certain parts of your game (for examp
 </P>
 
 <P>
-The return value is the previous status of the filename bodging option - i.e. if filename bodging was previously enabled the return value is TRUE, otherwise it's FALSE. Hence, the following code will turn off filename bodging, launch a file and then put filename bodging back to whatever state it was in before:<BR>
+The return value is the previous status of the filename bodging option - i.e. if filename bodging was previously enabled the return value is TRUE, otherwise it's FALSE. Hence, the following code will turn off filename bodging, launch a file and then put filename bodging back to whatever state it was in before:
 </P>
 
 <P>
-<pre>var old_on_or_off = bodgeFilenames (FALSE);</pre>
-<pre>launch ("manual\\welcome.html");</pre>
-<pre>bodgeFilenames (old_on_or_off);</pre>
+<pre>var old_on_or_off = bodgeFilenames (FALSE);
+launch ("manual\\welcome.html");
+bodgeFilenames (old_on_or_off);</pre>
 </P>
 
 <P>
@@ -101,14 +101,12 @@ The return value is the previous status of the filename bodging option - i.e. if
 </P>
 
 <P>
-<a href="File_Handling.html">File Handling</a><BR>
+<a href="File_Handling.html">File Handling</a>
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

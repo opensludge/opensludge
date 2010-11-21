@@ -11,46 +11,40 @@
 
 
 <P>
-An object type is a structure which is created outside of any functions and contains the default name for the object when it appears on screen. Actions are also created in this way. For example: <BR>
+An object type is a structure which is created outside of any functions and contains the default name for the object when it appears on screen. Actions are also created in this way. For example: 
 </P>
 
 <P>
-<pre>objectType ego (&quot;Egor the ego&quot;) {</pre>
-<pre>}</pre>
+<pre>objectType ego (&quot;Egor the ego&quot;) {
+}
+
+objectType lookAt (&quot;Look at&quot;) {
+}
+
+objectType pickUp (&quot;Pick up&quot;) {
+}
+
+objectType hat (&quot;old battered top hat&quot;) {
+}</pre>
 </P>
 
 <P>
-<pre>objectType lookAt (&quot;Look at&quot;) {</pre>
-<pre>}</pre>
+Object types can also specify chunks of code which should be run when the object type is combined with another object type using the built-in <a href="callEvent.html">callEvent</a> function.
 </P>
 
 <P>
-<pre>objectType pickUp (&quot;Pick up&quot;) {</pre>
-<pre>}</pre>
+<pre>objectType box (&quot;box&quot;) {
+   event lookAt {
+      say (ego, &quot;It's full of junk, none of which looks useful.&quot;);
+   }
+   event pickUp {
+      say (ego, &quot;It looks too heavy to lift.&quot;);
+   }
+}</pre>
 </P>
 
 <P>
-<pre>objectType hat (&quot;old battered top hat&quot;) {</pre>
-<pre>}</pre>
-</P>
-
-<P>
-Object types can also specify chunks of code which should be run when the object type is combined with another object type using the built-in <a href="callEvent.html">callEvent</a> function.<BR>
-</P>
-
-<P>
-<pre>objectType box (&quot;box&quot;) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;event lookAt {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;It's full of junk, none of which looks useful.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;}</pre>
-<pre>&nbsp;&nbsp;&nbsp;event pickUp {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;It looks too heavy to lift.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;}</pre>
-<pre>}</pre>
-</P>
-
-<P>
-With the above object type definitions, if a function was to call:<BR>
+With the above object type definitions, if a function was to call:
 </P>
 
 <P>
@@ -58,7 +52,7 @@ With the above object type definitions, if a function was to call:<BR>
 </P>
 
 <P>
-...the ego character would say the line &quot;It's full of junk, none of which looks useful.&quot;<BR>
+...the ego character would say the line &quot;It's full of junk, none of which looks useful.&quot;
 </P>
 
 <P>
@@ -67,7 +61,7 @@ With the above object type definitions, if a function was to call:<BR>
 </P>
 
 <P>
-Here are all the different (optional) parts of an object type...<BR>
+Here are all the different (optional) parts of an object type...
 </P>
 
 <P>
@@ -75,7 +69,7 @@ Here are all the different (optional) parts of an object type...<BR>
 </P>
 
 <P>
-Use this to specify the colour in which the object will &quot;speak&quot;. You can use the reserved word speechColor too, for our overseas friends - it does exactly the same thing.<BR>
+Use this to specify the colour in which the object will &quot;speak&quot;. You can use the reserved word speechColor too, for our overseas friends - it does exactly the same thing.
 </P>
 
 <P>
@@ -83,7 +77,7 @@ Use this to specify the colour in which the object will &quot;speak&quot;. You c
 </P>
 
 <P>
-This sets the distance, in pixels, between the top of an object and the text which appears on the screen when it talks. Useful if you're using a character to animate a mouth in a close-up, for example, but still want speech text to appear over the top of the whole face. The default is 8.<BR>
+This sets the distance, in pixels, between the top of an object and the text which appears on the screen when it talks. Useful if you're using a character to animate a mouth in a close-up, for example, but still want speech text to appear over the top of the whole face. The default is 8.
 </P>
 
 <P>
@@ -91,7 +85,7 @@ This sets the distance, in pixels, between the top of an object and the text whi
 </P>
 
 <P>
-Use this to set the default walk speed for a particular object type, should it be used as a character. 1 is the slowest possible, and numbers into (or higher than) double figures are pretty darn speedy. (Once an object type has been added to a scene, its walking speed can be changed on the fly using the <a href="setCharacterWalkSpeed.html">setCharacterWalkSpeed</a> function.) The default is 5.<BR>
+Use this to set the default walk speed for a particular object type, should it be used as a character. 1 is the slowest possible, and numbers into (or higher than) double figures are pretty darn speedy. (Once an object type has been added to a scene, its walking speed can be changed on the fly using the <a href="setCharacterWalkSpeed.html">setCharacterWalkSpeed</a> function.) The default is 5.
 </P>
 
 <P>
@@ -99,7 +93,7 @@ Use this to set the default walk speed for a particular object type, should it b
 </P>
 
 <P>
-Specify how many degrees the object type can turn per frame when used as a character, either walking or told to turn using the <a href="turnCharacter_and_spinCharacter.html">spinCharacter</a> command. A value of 0 means that the character's spin speed is calculated automatically, based on the number of directions in the character's current costume. (A character's spin speed can also be changed on the fly using the <a href="setCharacterSpinSpeed.html">setCharacterSpinSpeed</a> function.) The default value is 0.<BR>
+Specify how many degrees the object type can turn per frame when used as a character, either walking or told to turn using the <a href="turnCharacter_and_spinCharacter.html">spinCharacter</a> command. A value of 0 means that the character's spin speed is calculated automatically, based on the number of directions in the character's current costume. (A character's spin speed can also be changed on the fly using the <a href="setCharacterSpinSpeed.html">setCharacterSpinSpeed</a> function.) The default value is 0.
 </P>
 
 <P>
@@ -107,17 +101,17 @@ Specify how many degrees the object type can turn per frame when used as a chara
 </P>
 
 <P>
-Use this to change the number of characters which can be displayed on the same line when the object type speaks. The default value is 30.<BR>
+Use this to change the number of characters which can be displayed on the same line when the object type speaks. The default value is 30.
 </P>
 
 <P>
-<pre>event someOtherObject {</pre>
-<pre>&nbsp;&nbsp;&nbsp;# Code here</pre>
-<pre>}</pre>
+<pre>event someOtherObject {
+   # Code here
+}</pre>
 </P>
 
 <P>
-The code which is called when the object is combined with another object type - see above.<BR>
+The code which is called when the object is combined with another object type - see above.
 </P>
 
 <P>
@@ -125,31 +119,27 @@ The code which is called when the object is combined with another object type - 
 </P>
 
 <P>
-Existing functions can be reused... see <a href="Reusing_Code_for_or_from_Events.html">Reusing Code for or from Events</a> for details.<BR>
+Existing functions can be reused... see <a href="Reusing_Code_for_or_from_Events.html">Reusing Code for or from Events</a> for details.
 </P>
 
 <P>
-<pre>var someMemberVariable = 100;</pre>
+<pre>var someMemberVariable = 100;
+
+sub someMemberFunction () { ... }</pre>
 </P>
 
 <P>
-<pre>sub someMemberFunction () { ... }</pre>
+Yes, since SLUDGE v1.1, your object types can have member variables and functions... see <a href="Member_Variables_and_Member_Functions.html">Member Variables and Member Functions</a> for details.
 </P>
 
 <P>
-Yes, since SLUDGE v1.1, your object types can have member variables and functions... see <a href="Member_Variables_and_Member_Functions.html">Member Variables and Member Functions</a> for details.<BR>
+<pre>flag IS_TOO_HEAVY_TO_CARRY;
+
+flags IS_TOO_HEAVY_TO_CARRY, ALIVE, NOT_AFRAID_OF_SPIDERS;</pre>
 </P>
 
 <P>
-<pre>flag IS_TOO_HEAVY_TO_CARRY;</pre>
-</P>
-
-<P>
-<pre>flags IS_TOO_HEAVY_TO_CARRY, ALIVE, NOT_AFRAID_OF_SPIDERS;</pre>
-</P>
-
-<P>
-SLUDGE v1.4 added the concept of object flags. Give your objects any flag or flags you want - to create a new flag, just start talking about it in one of your object types. You can then check whether a particular object type has a particular flag set using the <a href="hasFlag.html">hasFlag</a> function. You can have a maximum of 16 flags in your game. The words "flag" and "flags" are interchangable - both are provided for code readability.<BR>
+SLUDGE v1.4 added the concept of object flags. Give your objects any flag or flags you want - to create a new flag, just start talking about it in one of your object types. You can then check whether a particular object type has a particular flag set using the <a href="hasFlag.html">hasFlag</a> function. You can have a maximum of 16 flags in your game. The words "flag" and "flags" are interchangable - both are provided for code readability.
 </P>
 
 <P>
@@ -158,22 +148,20 @@ SLUDGE v1.4 added the concept of object flags. Give your objects any flag or fla
 </P>
 
 <P>
-<a href="Setting_Default_Events.html">Setting Default Events</a><BR>
+<a href="Setting_Default_Events.html">Setting Default Events</a>
 </P>
 
 <P>
-<a href="Object_Types_as_Characters.html">Object Types as Characters</a><BR>
+<a href="Object_Types_as_Characters.html">Object Types as Characters</a>
 </P>
 
 <P>
-<a href="Object_Types_as_Screen_Regions.html">Object Types as Screen Regions</a><BR>
+<a href="Object_Types_as_Screen_Regions.html">Object Types as Screen Regions</a>
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

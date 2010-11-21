@@ -16,11 +16,11 @@
 </P>
 
 <P>
-<pre>setBackgroundEffect (<i>add, divide, array [, array...]</i>);</pre>
+<pre class="syntax">setBackgroundEffect (<i>add, divide, array [, array...]</i>);</pre>
 </P>
 
 <P>
-<pre>doBackgroundEffect ();</pre>
+<pre class="syntax">doBackgroundEffect ();</pre>
 </P>
 
 <P>
@@ -29,7 +29,7 @@
 </P>
 
 <P>
-The setBlankColour function is used to specify an effect which can be applied to the background image. The doBackgroundEffect function applies the current effect to the background. The parameters for the function are an <i>add</i> value, a <i>divide</i> value and one or more arrays (which you can think of as a matrix, should you wish). When an effect is applied, the following procedure happens for each pixel: SLUDGE adds up the colour values of each pixel and its surrounding pixels, weighted using the arrays you've specified. For example, if you specified one array, containing just the value 1, it would get the original red, green and blue values of that pixel. If you specified one array, containing the values 1 three times, it would get red, green and blue totals equivalent to the red, green and blue values of the pixel itself, plus the red, green and blue values of the pixels either side. These values are then divided by the <i>divide</i> value and finally the <i>add</i> value is added to each. These red, green and blue values are then used as the new colour for the pixel (clamped to the range 0 to 255). So to get an average of each pixel and it's left-hand and right-hand neighbours, you could say setBackgroundEffect (0, 3, newStack (1, 1, 1)). If multiple arrays are specified, these are used to also add the red, green and blue values from pixels the line above or below the pixel having its colour changed.<BR>
+The setBlankColour function is used to specify an effect which can be applied to the background image. The doBackgroundEffect function applies the current effect to the background. The parameters for the function are an <i>add</i> value, a <i>divide</i> value and one or more arrays (which you can think of as a matrix, should you wish). When an effect is applied, the following procedure happens for each pixel: SLUDGE adds up the colour values of each pixel and its surrounding pixels, weighted using the arrays you've specified. For example, if you specified one array, containing just the value 1, it would get the original red, green and blue values of that pixel. If you specified one array, containing the values 1 three times, it would get red, green and blue totals equivalent to the red, green and blue values of the pixel itself, plus the red, green and blue values of the pixels either side. These values are then divided by the <i>divide</i> value and finally the <i>add</i> value is added to each. These red, green and blue values are then used as the new colour for the pixel (clamped to the range 0 to 255). So to get an average of each pixel and it's left-hand and right-hand neighbours, you could say setBackgroundEffect (0, 3, newStack (1, 1, 1)). If multiple arrays are specified, these are used to also add the red, green and blue values from pixels the line above or below the pixel having its colour changed.
 </P>
 
 <P>
@@ -38,7 +38,7 @@ The setBlankColour function is used to specify an effect which can be applied to
 </P>
 
 <P>
-No return values.<BR>
+No return values.
 </P>
 
 <P>
@@ -47,38 +47,26 @@ No return values.<BR>
 </P>
 
 <P>
-<pre># Exactly the same as darkBackground - sets each pixel to half its current red, green and blue values</pre>
-<pre>setBackgroundEffect (0, 2, newStack (1));</pre>
-</P>
+<pre># Exactly the same as darkBackground - sets each pixel to half its current red, green and blue values
+setBackgroundEffect (0, 2, newStack (1));
 
-<P>
-<pre># Negative - sets each pixel to 255 minus its current red, green and blue values</pre>
-<pre>setBackgroundEffect (255, 1, newStack (-1));</pre>
-</P>
+# Negative - sets each pixel to 255 minus its current red, green and blue values
+setBackgroundEffect (255, 1, newStack (-1));
 
-<P>
-<pre># Double vision - each pixel becomes the average of two pixels 13 pixels apart</pre>
-<pre>setBackgroundEffect (0, 2, newStack (1,0,0,0,0,0,0,0,0,0,0,0,1));</pre>
-</P>
+# Double vision - each pixel becomes the average of two pixels 13 pixels apart
+setBackgroundEffect (0, 2, newStack (1,0,0,0,0,0,0,0,0,0,0,0,1));
 
-<P>
-<pre># Soften - take a weighted average of pixels surrounding each pixel</pre>
-<pre>setBackgroundEffect (0, 14, newStack (1,2,1), newStack (2,2,2), newStack (1,2,1));</pre>
-</P>
+# Soften - take a weighted average of pixels surrounding each pixel
+setBackgroundEffect (0, 14, newStack (1,2,1), newStack (2,2,2), newStack (1,2,1));
 
-<P>
-<pre># Brighten</pre>
-<pre>setBackgroundEffect (10, 7, newStack (8));</pre>
-</P>
+# Brighten
+setBackgroundEffect (10, 7, newStack (8));
 
-<P>
-<pre># Emboss</pre>
-<pre>setBackgroundEffect (128, 2, newStack (1,0), newStack(0,-1));</pre>
-</P>
+# Emboss
+setBackgroundEffect (128, 2, newStack (1,0), newStack(0,-1));
 
-<P>
-<pre># Colour emboss</pre>
-<pre>setBackgroundEffect (32, 2, newStack (1,0,0), newStack (0,2,0), newStack(0,0,-2));</pre>
+# Colour emboss
+setBackgroundEffect (32, 2, newStack (1,0,0), newStack (0,2,0), newStack(0,0,-2));</pre>
 </P>
 
 <P>
@@ -87,18 +75,16 @@ No return values.<BR>
 </P>
 
 <P>
-<a href="The_Background_Image.html">The Background Image</a><BR>
+<a href="The_Background_Image.html">The Background Image</a>
 </P>
 
 <P>
-<a href="darkBackground.html">darkBackground</a><BR>
+<a href="darkBackground.html">darkBackground</a>
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

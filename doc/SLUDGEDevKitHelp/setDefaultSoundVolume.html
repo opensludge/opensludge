@@ -16,7 +16,7 @@
 </P>
 
 <P>
-<pre>setDefaultSoundVolume (<i>volume</i>);</pre>
+<pre class="syntax">setDefaultSoundVolume (<i>volume</i>);</pre>
 </P>
 
 <P>
@@ -25,7 +25,7 @@
 </P>
 
 <P>
-Changes the volume at which sounds will be played by subsequent calls to the <a href="playSound.html">playSound</a> and <a href="loopSound.html">loopSound</a> functions. Any sounds currently playing are not affected - the volume for sounds which have already been started can be controlled using the <a href="setSoundVolume.html">setSoundVolume</a> function.<BR>
+Changes the volume at which sounds will be played by subsequent calls to the <a href="playSound.html">playSound</a> and <a href="loopSound.html">loopSound</a> functions. Any sounds currently playing are not affected - the volume for sounds which have already been started can be controlled using the <a href="setSoundVolume.html">setSoundVolume</a> function.
 </P>
 
 <P>
@@ -34,7 +34,7 @@ Changes the volume at which sounds will be played by subsequent calls to the <a 
 </P>
 
 <P>
-No return value.<BR>
+No return value.
 </P>
 
 <P>
@@ -43,22 +43,16 @@ No return value.<BR>
 </P>
 
 <P>
-<pre>setDefaultSoundVolume (200);</pre>
-<pre>playSound ('mynoise.ogg');</pre>
-</P>
+<pre>setDefaultSoundVolume (200);
+playSound ('mynoise.ogg');
 
-<P>
-<pre># The sound 'mynoise.ogg' is now playing at volume 200</pre>
-</P>
+# The sound 'mynoise.ogg' is now playing at volume 200
 
-<P>
-<pre>pause (100);</pre>
-<pre>setSoundVolume ('mynoise.ogg', 50);</pre>
-</P>
+pause (100);
+setSoundVolume ('mynoise.ogg', 50);
 
-<P>
-<pre># Any occurances of 'mynoise.ogg' which were playing</pre>
-<pre># before are now playing at volume 50</pre>
+# Any occurances of 'mynoise.ogg' which were playing
+# before are now playing at volume 50</pre>
 </P>
 
 <P>
@@ -67,18 +61,16 @@ No return value.<BR>
 </P>
 
 <P>
-<a href="Using_Audio_in_SLUDGE.html">Using Audio in SLUDGE</a><BR>
+<a href="Using_Audio_in_SLUDGE.html">Using Audio in SLUDGE</a>
 </P>
 
 <P>
-<a href="stopSound.html">stopSound</a><BR>
+<a href="stopSound.html">stopSound</a>
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

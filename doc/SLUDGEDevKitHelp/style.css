@@ -49,6 +49,15 @@ P.copyright-notice {
 	margin-bottom:2px;
 }
 
+.syntax {
+	font-size:x-large;
+}
+
+.syntax-deprecated {
+	font-size:x-large;
+	color:#FF8888;
+}
+
 div.bash {
 	color: white;
 	font-family: monospace;

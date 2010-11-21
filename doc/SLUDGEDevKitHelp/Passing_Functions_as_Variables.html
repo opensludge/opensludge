@@ -11,88 +11,74 @@
 
 
 <P>
-A variable can be used to hold a number, a line of text, an object type... and a function. This is useful if you have a large number of functions which should all be called in the same way... for example, the functions which are used to set up the scenes of your game.<BR>
+A variable can be used to hold a number, a line of text, an object type... and a function. This is useful if you have a large number of functions which should all be called in the same way... for example, the functions which are used to set up the scenes of your game.
 </P>
 
 <P>
-Rather than having a program defined as follows...<BR>
+Rather than having a program defined as follows...
 </P>
 
 <P>
-<pre>var lastRoom;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# The room we just came from (string)</pre>
-<pre>var thisRoom;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# The room we're in now (string)</pre>
+<pre>var lastRoom;      # The room we just came from (string)
+var thisRoom;      # The room we're in now (string)
+
+sub goToDiningRoom () {
+   removeAllCharacters ();
+   removeScreenRegions ();
+   lastRoom = thisRoom;
+   thisRoom = &quot;dining room&quot;;
+   completeTimers ();
+
+   addOverlay ('diningRoom.tga', 0, 0);
+   setFloor ('diningRoom.flo');
+   # More dining room initialisation here
+}
+
+sub goToLounge () {
+   removeAllCharacters ();
+   removeScreenRegions ();
+   lastRoom = thisRoom;
+   thisRoom = &quot;lounge&quot;;
+   completeTimers ();
+
+   addOverlay ('lounge.tga', 0, 0);
+   setFloor ('lounge.flo');
+   # More lounge initialisation here
+}</pre>
 </P>
 
 <P>
-<pre>sub goToDiningRoom () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;removeAllCharacters ();</pre>
-<pre>&nbsp;&nbsp;&nbsp;removeScreenRegions ();</pre>
-<pre>&nbsp;&nbsp;&nbsp;lastRoom = thisRoom;</pre>
-<pre>&nbsp;&nbsp;&nbsp;thisRoom = &quot;dining room&quot;;</pre>
-<pre>&nbsp;&nbsp;&nbsp;completeTimers ();</pre>
+It would be beneficial to have a number of rooms and one function for changing between them.
 </P>
 
 <P>
-<pre>&nbsp;&nbsp;&nbsp;addOverlay ('diningRoom.tga', 0, 0);</pre>
-<pre>&nbsp;&nbsp;&nbsp;setFloor ('diningRoom.flo');</pre>
-<pre>&nbsp;&nbsp;&nbsp;# More dining room initialisation here</pre>
-<pre>}</pre>
+<pre>var lastRoom;      # The room we just came from (function handle)
+var thisRoom;      # The room we're in now (function handle)
+
+sub goToRoom (newRoom) {
+   removeAllCharacters ();
+   removeScreenRegions ();
+   lastRoom = thisRoom;
+   thisRoom = newRoom;
+   completeTimers ();
+   newRoom ();
+}
+
+sub diningRoom () {
+   addOverlay ('diningRoom.tga', 0, 0);
+   setFloor ('diningRoom.flo');
+   # More dining room initialisation here
+}
+
+sub lounge () {
+   addOverlay ('lounge.tga', 0, 0);
+   setFloor ('lounge.flo');
+   # More lounge initialisation here
+}</pre>
 </P>
 
 <P>
-<pre>sub goToLounge () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;removeAllCharacters ();</pre>
-<pre>&nbsp;&nbsp;&nbsp;removeScreenRegions ();</pre>
-<pre>&nbsp;&nbsp;&nbsp;lastRoom = thisRoom;</pre>
-<pre>&nbsp;&nbsp;&nbsp;thisRoom = &quot;lounge&quot;;</pre>
-<pre>&nbsp;&nbsp;&nbsp;completeTimers ();</pre>
-</P>
-
-<P>
-<pre>&nbsp;&nbsp;&nbsp;addOverlay ('lounge.tga', 0, 0);</pre>
-<pre>&nbsp;&nbsp;&nbsp;setFloor ('lounge.flo');</pre>
-<pre>&nbsp;&nbsp;&nbsp;# More lounge initialisation here</pre>
-<pre>}</pre>
-</P>
-
-<P>
-It would be beneficial to have a number of rooms and one function for changing between them.<BR>
-</P>
-
-<P>
-<pre>var lastRoom;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# The room we just came from (function handle)</pre>
-<pre>var thisRoom;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# The room we're in now (function handle)</pre>
-</P>
-
-<P>
-<pre>sub goToRoom (newRoom) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;removeAllCharacters ();</pre>
-<pre>&nbsp;&nbsp;&nbsp;removeScreenRegions ();</pre>
-<pre>&nbsp;&nbsp;&nbsp;lastRoom = thisRoom;</pre>
-<pre>&nbsp;&nbsp;&nbsp;thisRoom = newRoom;</pre>
-<pre>&nbsp;&nbsp;&nbsp;completeTimers ();</pre>
-<pre>&nbsp;&nbsp;&nbsp;newRoom ();</pre>
-<pre>}</pre>
-</P>
-
-<P>
-<pre>sub diningRoom () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;addOverlay ('diningRoom.tga', 0, 0);</pre>
-<pre>&nbsp;&nbsp;&nbsp;setFloor ('diningRoom.flo');</pre>
-<pre>&nbsp;&nbsp;&nbsp;# More dining room initialisation here</pre>
-<pre>}</pre>
-</P>
-
-<P>
-<pre>sub lounge () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;addOverlay ('lounge.tga', 0, 0);</pre>
-<pre>&nbsp;&nbsp;&nbsp;setFloor ('lounge.flo');</pre>
-<pre>&nbsp;&nbsp;&nbsp;# More lounge initialisation here</pre>
-<pre>}</pre>
-</P>
-
-<P>
-You can see that, at the end of the goToRoom sub, newRoom can be called just like a function even though it's actually a variable. This is because if your program was to include a line such as<BR>
+You can see that, at the end of the goToRoom sub, newRoom can be called just like a function even though it's actually a variable. This is because if your program was to include a line such as
 </P>
 
 <P>
@@ -100,82 +86,74 @@ You can see that, at the end of the goToRoom sub, newRoom can be called just lik
 </P>
 
 <P>
-...the value of newRoom would be a pointer to the lounge function. Therefore, the lounge function would be called. You can even pass pointers to functions which take variables, although there are probably very few situations where you would want to...<BR>
+...the value of newRoom would be a pointer to the lounge function. Therefore, the lounge function would be called. You can even pass pointers to functions which take variables, although there are probably very few situations where you would want to...
 </P>
 
 <P>
-<pre>sub doRepeatingMaths (number, mathFunc, mathSign) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;var total = number;</pre>
-<pre>&nbsp;&nbsp;&nbsp;var newTotal;</pre>
+<pre>sub doRepeatingMaths (number, mathFunc, mathSign) {
+   var total = number;
+   var newTotal;
+
+   for (var a = 0; a &lt; 5; a ++) {
+      newTotal = mathFunc (total, number);
+      say (ego, total + mathSign + number + &quot; = &quot; + newTotal);
+      total = newTotal;
+   }
+}
+
+sub minus (a, b)   { return a - b; }
+
+sub plus (a, b)   { return a + b; }
+
+sub times (a, b)   { return a * b; }</pre>
 </P>
 
 <P>
-<pre>&nbsp;&nbsp;&nbsp;for (var a = 0; a &lt; 5; a ++) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newTotal = mathFunc (total, number);</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, total + mathSign + number + &quot; = &quot; + newTotal);</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;total = newTotal;</pre>
-<pre>&nbsp;&nbsp;&nbsp;}</pre>
-<pre>}</pre>
+Using the above code, a call to doRepeatingMaths (2, plus, &quot;+&quot;) would make the ego character say the following:
 </P>
 
 <P>
-<pre>sub minus (a, b)&nbsp;&nbsp;&nbsp;{ return a - b; }</pre>
+2+2 = 4
 </P>
 
 <P>
-<pre>sub plus (a, b)&nbsp;&nbsp;&nbsp;{ return a + b; }</pre>
+4+2 = 6
 </P>
 
 <P>
-<pre>sub times (a, b)&nbsp;&nbsp;&nbsp;{ return a * b; }</pre>
+6+2 = 8
 </P>
 
 <P>
-Using the above code, a call to doRepeatingMaths (2, plus, &quot;+&quot;) would make the ego character say the following:<BR>
+8+2 = 10
 </P>
 
 <P>
-2+2 = 4<BR>
+10+2 = 12
 </P>
 
 <P>
-4+2 = 6<BR>
+A call to doRepeatingMaths (3, times, &quot;*&quot;) would make the ego character say:
 </P>
 
 <P>
-6+2 = 8<BR>
+3*3 = 9
 </P>
 
 <P>
-8+2 = 10<BR>
+9*3 = 27
 </P>
 
 <P>
-10+2 = 12<BR>
+27*3 = 81
 </P>
 
 <P>
-A call to doRepeatingMaths (3, times, &quot;*&quot;) would make the ego character say:<BR>
+81*3 = 243
 </P>
 
 <P>
-3*3 = 9<BR>
-</P>
-
-<P>
-9*3 = 27<BR>
-</P>
-
-<P>
-27*3 = 81<BR>
-</P>
-
-<P>
-81*3 = 243<BR>
-</P>
-
-<P>
-243*3 = 729<BR>
+243*3 = 729
 </P>
 
 <P>
@@ -184,34 +162,32 @@ A call to doRepeatingMaths (3, times, &quot;*&quot;) would make the ego characte
 </P>
 
 <P>
-<a href="Variables.html">Variables</a><BR>
+<a href="Variables.html">Variables</a>
 </P>
 
 <P>
-<a href="onFocusChange.html">onFocusChange</a><BR>
+<a href="onFocusChange.html">onFocusChange</a>
 </P>
 
 <P>
-<a href="onKeyboard.html">onKeyboard</a><BR>
+<a href="onKeyboard.html">onKeyboard</a>
 </P>
 
 <P>
-<a href="onLeftMouse.html">onLeftMouse</a><BR>
+<a href="onLeftMouse.html">onLeftMouse</a>
 </P>
 
 <P>
-<a href="onMoveMouse.html">onMoveMouse</a><BR>
+<a href="onMoveMouse.html">onMoveMouse</a>
 </P>
 
 <P>
-<a href="onRightMouse.html">onRightMouse</a><BR>
+<a href="onRightMouse.html">onRightMouse</a>
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

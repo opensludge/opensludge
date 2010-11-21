@@ -11,7 +11,7 @@
 
 
 <P>
-SLUDGE can play various audio files, split into two overall types... track-based music formats (such as .MOD and .XM files) and sampled sound formats (.WAV and .OGG).<BR>
+SLUDGE can play various audio files, split into two overall types... track-based music formats (such as .MOD and .XM files) and sampled sound formats (.WAV and .OGG).
 </P>
 
 <P>
@@ -20,19 +20,19 @@ SLUDGE can play various audio files, split into two overall types... track-based
 </P>
 
 <P>
-Sampled sounds can be used for speech, sound effects and music. SLUDGE supports .WAV and .OGG files of any frequency and depth (i.e. 8 or 16 bit).<BR>
+Sampled sounds can be used for speech, sound effects and music. SLUDGE supports .WAV and .OGG files of any frequency and depth (i.e. 8 or 16 bit).
 </P>
 
 <P>
-You can play sampled sounds using the <a href="playSound.html">playSound</a> function - simply specify the <a href="File_Handling.html">file handle</a> of the sample file as the parameter. Alternatively, sounds can be looped using the <a href="loopSound.html">loopSound</a> function (instead of the sound playing once and stopping, it plays repeatedly). Sounds can be stopped by the <a href="stopSound.html">stopSound</a> function.<BR>
+You can play sampled sounds using the <a href="playSound.html">playSound</a> function - simply specify the <a href="File_Handling.html">file handle</a> of the sample file as the parameter. Alternatively, sounds can be looped using the <a href="loopSound.html">loopSound</a> function (instead of the sound playing once and stopping, it plays repeatedly). Sounds can be stopped by the <a href="stopSound.html">stopSound</a> function.
 </P>
 
 <P>
-When sampled sounds are played using either of the above functions, they are played at the volume most recently specified by the <a href="setDefaultSoundVolume.html">setDefaultSoundVolume</a> function. If this function has not yet been called, the default sound volume is 255 - or, in other words, full.<BR>
+When sampled sounds are played using either of the above functions, they are played at the volume most recently specified by the <a href="setDefaultSoundVolume.html">setDefaultSoundVolume</a> function. If this function has not yet been called, the default sound volume is 255 - or, in other words, full.
 </P>
 
 <P>
-After a sound has started playing, its volume can be changed using <a href="setSoundVolume.html">setSoundVolume</a> and the function <a href="setSoundLoopPoints.html">setSoundLoopPoints</a> can be used to change the start and end points at which a sample played using <a href="loopSound.html">loopSound</a> loops.<BR>
+After a sound has started playing, its volume can be changed using <a href="setSoundVolume.html">setSoundVolume</a> and the function <a href="setSoundLoopPoints.html">setSoundLoopPoints</a> can be used to change the start and end points at which a sample played using <a href="loopSound.html">loopSound</a> loops.
 </P>
 
 <P>
@@ -41,11 +41,11 @@ After a sound has started playing, its volume can be changed using <a href="setS
 </P>
 
 <P>
-You can use the <a href="cacheSound.html">cacheSound</a> function to load (and, if required, decompress) a sound file into memory without playing it. This means there's no pause when you actually come to play the sound, because it's already been loaded.<BR>
+You can use the <a href="cacheSound.html">cacheSound</a> function to load (and, if required, decompress) a sound file into memory without playing it. This means there's no pause when you actually come to play the sound, because it's already been loaded.
 </P>
 
 <P>
-Using the <a href="freeSound.html">freeSound</a> function you can also remove sounds from the cache once you no longer need them, although this is only really worthwhile for huge sounds (music, for example). Sounds are also removed from the cache automatically once they become old - it can only hold 8 files at once. Call <a href="getSoundCache.html">getSoundCache</a> to determine the contents of the cache at any given moment.<BR>
+Using the <a href="freeSound.html">freeSound</a> function you can also remove sounds from the cache once you no longer need them, although this is only really worthwhile for huge sounds (music, for example). Sounds are also removed from the cache automatically once they become old - it can only hold 8 files at once. Call <a href="getSoundCache.html">getSoundCache</a> to determine the contents of the cache at any given moment.
 </P>
 
 <P>
@@ -54,20 +54,20 @@ Using the <a href="freeSound.html">freeSound</a> function you can also remove so
 </P>
 
 <P>
-If one sound is to &quot;replace&quot; another (for example, a looping wind sound effect which should stop at the same time as a slamming door sound effect starts) it is wise to start the new sound effect before stopping the old one, rather than the other way around:<BR>
+If one sound is to &quot;replace&quot; another (for example, a looping wind sound effect which should stop at the same time as a slamming door sound effect starts) it is wise to start the new sound effect before stopping the old one, rather than the other way around:
 </P>
 
 <P>
-<pre>loopSound ('badweather.wav');</pre>
-<pre>say (ego, 'I'm not going out there...');</pre>
-<pre>addOverlay ('closeddoor.tga', 100, 100);</pre>
-<pre>playSound ('slam.wav');</pre>
-<pre>stopSound ('badweather.wav');</pre>
-<pre>say (ego, 'That's better.');</pre>
+<pre>loopSound ('badweather.wav');
+say (ego, 'I'm not going out there...');
+addOverlay ('closeddoor.tga', 100, 100);
+playSound ('slam.wav');
+stopSound ('badweather.wav');
+say (ego, 'That's better.');</pre>
 </P>
 
 <P>
-This is because the <a href="playSound.html">playSound</a> function has to load the sound to be played from the data file before it can be started. For small sound files this is almost instantaneous, but for larger files this can create a slight pause while the sound is being loaded into memory. Using the order above, the old sound will still be playing during this period.<BR>
+This is because the <a href="playSound.html">playSound</a> function has to load the sound to be played from the data file before it can be started. For small sound files this is almost instantaneous, but for larger files this can create a slight pause while the sound is being loaded into memory. Using the order above, the old sound will still be playing during this period.
 </P>
 
 <P>
@@ -76,26 +76,26 @@ This is because the <a href="playSound.html">playSound</a> function has to load 
 </P>
 
 <P>
-Music support in SLUDGE works slightly differently... it is possible to play only 3 track-based music files at any one time on channels numbered 0 to 2. Therefore, when playing a music file you must also specify on which channel you wish to play it (this is all achieved using one call to the <a href="startMusic.html">startMusic</a> function). This makes sure that SLUDGE doesn't accidentally play it instead of another file which you wanted to keep playing too.<BR>
+Music support in SLUDGE works slightly differently... it is possible to play only 3 track-based music files at any one time on channels numbered 0 to 2. Therefore, when playing a music file you must also specify on which channel you wish to play it (this is all achieved using one call to the <a href="startMusic.html">startMusic</a> function). This makes sure that SLUDGE doesn't accidentally play it instead of another file which you wanted to keep playing too.
 </P>
 
 <P>
-After starting a piece of music, any further music command (for example, the <a href="stopMusic.html">stopMusic</a> function, which stops a song playing) will use these channel numbers rather than the file handles. For example...<BR>
+After starting a piece of music, any further music command (for example, the <a href="stopMusic.html">stopMusic</a> function, which stops a song playing) will use these channel numbers rather than the file handles. For example...
 </P>
 
 <P>
-<pre>var t = pickOne ('slow.xm', 'fast.s3m', 'punkrock.mod', 'samba.mid');</pre>
-<pre>startMusic (t, 2);</pre>
-<pre>pause (100);</pre>
-<pre>stopMusic (2);</pre>
+<pre>var t = pickOne ('slow.xm', 'fast.s3m', 'punkrock.mod', 'samba.mid');
+startMusic (t, 2);
+pause (100);
+stopMusic (2);</pre>
 </P>
 
 <P>
-This will play 100 frames-worth of a random tune and then stop, no matter which tune was picked. Should any music be playing on either channel 0 or channel 1 at the time, it will not be affected.<BR>
+This will play 100 frames-worth of a random tune and then stop, no matter which tune was picked. Should any music be playing on either channel 0 or channel 1 at the time, it will not be affected.
 </P>
 
 <P>
-Like sampled sounds, SLUDGE can set the default volume at which songs will start playing (using the <a href="setDefaultMusicVolume.html">setDefaultMusicVolume</a> function) and also change the volume at which each channel is currently playing (using the <a href="setMusicVolume.html">setMusicVolume</a> function).<BR>
+Like sampled sounds, SLUDGE can set the default volume at which songs will start playing (using the <a href="setDefaultMusicVolume.html">setDefaultMusicVolume</a> function) and also change the volume at which each channel is currently playing (using the <a href="setMusicVolume.html">setMusicVolume</a> function).
 </P>
 
 <P>
@@ -104,14 +104,12 @@ Like sampled sounds, SLUDGE can set the default volume at which songs will start
 </P>
 
 <P>
-<a href="File_Formats_Used_by_SLUDGE.html">File Formats Used by SLUDGE</a><BR>
+<a href="File_Formats_Used_by_SLUDGE.html">File Formats Used by SLUDGE</a>
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

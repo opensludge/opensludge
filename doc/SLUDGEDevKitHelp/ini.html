@@ -11,15 +11,15 @@
 
 
 <P>
-When a game is launched, the SLUDGE engine also attempts to read a file of initialisation settings. On Windows, SLUDGE puts settings and saved games in the AppData folder, and on Mac it's ~/Library/Application Support. In that folder, SLUDGE looks for (or makes) a folder with the name of the game.  That's where the file with the initialisation settings should be. The file must have the same name as your compiled game file, but with the extension ".ini". For example, if the compiler builds you a compiled game file called "Turnip Quest VI.slg" your settings file would be called "Turnip Quest VI.ini". If you're going to rename your file so that it's called "mygame" or "mygame.dat" or "mygame.001" or something, your settings should be in a file called "mygame.ini". (If no matching file is found, that's fine... the game will run with the default settings.)<BR>
+When a game is launched, the SLUDGE engine also attempts to read a file of initialisation settings. On Windows, SLUDGE puts settings and saved games in the AppData folder, and on Mac it's ~/Library/Application Support. In that folder, SLUDGE looks for (or makes) a folder with the name of the game.  That's where the file with the initialisation settings should be. The file must have the same name as your compiled game file, but with the extension ".ini". For example, if the compiler builds you a compiled game file called "Turnip Quest VI.slg" your settings file would be called "Turnip Quest VI.ini". If you're going to rename your file so that it's called "mygame" or "mygame.dat" or "mygame.001" or something, your settings should be in a file called "mygame.ini". (If no matching file is found, that's fine... the game will run with the default settings.)
 </P>
 
 <P>
-SLUDGE will write the current settings to that file after the startup window so that they'll be remembered.<BR>
+SLUDGE will write the current settings to that file after the startup window so that they'll be remembered.
 </P>
 
 <P>
-So, what can go in an .ini file? Well, the list is growing.<BR>
+So, what can go in an .ini file? Well, the list is growing.
 </P>
 
 <P>
@@ -28,15 +28,15 @@ So, what can go in an .ini file? Well, the list is growing.<BR>
 </P>
 
 <P>
-<B>LANGUAGE=</B><BR>
+<B>LANGUAGE=</B>
 </P>
 
 <P>
-If the SLUDGE game's .ini file contains a line which starts with "LANGUAGE=" the rest of the line is used as the ID number of the language the game should be played in. For more information, read how you can use <a href="Multiple_Languages_in_a_Single_Game.html">multiple Languages in a Single Game</a>.<BR>
+If the SLUDGE game's .ini file contains a line which starts with "LANGUAGE=" the rest of the line is used as the ID number of the language the game should be played in. For more information, read how you can use <a href="Multiple_Languages_in_a_Single_Game.html">multiple Languages in a Single Game</a>.
 </P>
 
 <P>
-If no such line exists, or the .ini file does not exist, the default language ID is used - 0, meaning no translation.<BR>
+If no such line exists, or the .ini file does not exist, the default language ID is used - 0, meaning no translation.
 </P>
 
 <P>
@@ -45,15 +45,15 @@ If no such line exists, or the .ini file does not exist, the default language ID
 </P>
 
 <P>
-<B>WINDOW=</B><BR>
+<B>WINDOW=</B>
 </P>
 
 <P>
-If the game's .ini file contains a line which starts with "WINDOW=" the rest of the line defines whether the game should be run in a forced to run in a window. A non-zero number (for example, 1) means the game should be forced to run in a window. A value of "0" or anything else means it shouldn't. (Note that if the compiled game isn't meant to run full screen, this value won't force it to run full screen. It will have no effect.)<BR>
+If the game's .ini file contains a line which starts with "WINDOW=" the rest of the line defines whether the game should be run in a forced to run in a window. A non-zero number (for example, 1) means the game should be forced to run in a window. A value of "0" or anything else means it shouldn't. (Note that if the compiled game isn't meant to run full screen, this value won't force it to run full screen. It will have no effect.)
 </P>
 
 <P>
-If no such line exists, or the .ini file does not exist, the default is 0. The game won't be forced to run in a window.<BR>
+If no such line exists, or the .ini file does not exist, the default is 0. The game won't be forced to run in a window.
 
 </P>
 
@@ -62,7 +62,7 @@ If no such line exists, or the .ini file does not exist, the default is 0. The g
 </P>
 
 <P>
-<B>ANTIALIAS=</B><BR>
+<B>ANTIALIAS=</B>
 </P>
 
 <P>
@@ -75,11 +75,11 @@ Turns anti-aliasing on (a value of 1) or off (a value of 0).
 </P>
 
 <P>
-<B>FIXEDPIXELS=</B><BR>
+<B>FIXEDPIXELS=</B>
 </P>
 
 <P>
-If the FIXEDPIXELS setting is non-zero, the engine disables the scaling of the game and simply creates a window with the exact size specified by the game.<BR>
+If the FIXEDPIXELS setting is non-zero, the engine disables the scaling of the game and simply creates a window with the exact size specified by the game.
 
 </P>
 
@@ -88,11 +88,11 @@ If the FIXEDPIXELS setting is non-zero, the engine disables the scaling of the g
 </P>
 
 <P>
-<B>NOSTARTWINDOW=</B><BR>
+<B>NOSTARTWINDOW=</B>
 </P>
 
 <P>
-If the NOSTARTWINDOW setting is non-zero, the engine won't display the settings window at startup.<BR>
+If the NOSTARTWINDOW setting is non-zero, the engine won't display the settings window at startup.
 
 </P>
 
@@ -102,14 +102,12 @@ If the NOSTARTWINDOW setting is non-zero, the engine won't display the settings 
 </P>
 
 <P>
-You may not store any additional data in the file along with the above data, since anything else will get overwritten. Instead, you can store your own settings in another .ini file, and then read them using your own code using <a href="loadCustomData_and_saveCustomData.html">loadCustomData</a>.<BR>
+You may not store any additional data in the file along with the above data, since anything else will get overwritten. Instead, you can store your own settings in another .ini file, and then read them using your own code using <a href="loadCustomData_and_saveCustomData.html">loadCustomData</a>.
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

@@ -11,57 +11,45 @@
 
 
 <P>
-The stack variable type is the only type of variable in SLUDGE which can hold more than one element. It can be used as a stack (push elements on using <a href="pushToStack.html">pushToStack</a> and then use <a href="popFromStack.html">popFromStack</a> to pop them off the same end), a queue (<a href="enqueue.html">enqueue</a> elements, <a href="dequeue.html">dequeue</a> them off the opposite end) or a straightforward array (which can be indexed using square brackets). With the implementation used in SLUDGE, <a href="dequeue.html">dequeue</a> and <a href="popFromStack.html">popFromStack</a> are identical.<BR>
+The stack variable type is the only type of variable in SLUDGE which can hold more than one element. It can be used as a stack (push elements on using <a href="pushToStack.html">pushToStack</a> and then use <a href="popFromStack.html">popFromStack</a> to pop them off the same end), a queue (<a href="enqueue.html">enqueue</a> elements, <a href="dequeue.html">dequeue</a> them off the opposite end) or a straightforward array (which can be indexed using square brackets). With the implementation used in SLUDGE, <a href="dequeue.html">dequeue</a> and <a href="popFromStack.html">popFromStack</a> are identical.
 </P>
 
 <P>
-Throughout this documentation, they are referred to as stacks.<BR>
+Throughout this documentation, they are referred to as stacks.
 </P>
 
 <P>
-Take, for example, the following code:<BR>
+Take, for example, the following code:
 </P>
 
 <P>
-<pre>var stuff = newStack (&quot;Hello?&quot;, &quot;Hey!&quot;, &quot;Bye then.&quot;);</pre>
-<pre># stuff now contains &quot;Hello?&quot;, &quot;Hey!&quot;, &quot;Bye then.&quot;</pre>
+<pre>var stuff = newStack (&quot;Hello?&quot;, &quot;Hey!&quot;, &quot;Bye then.&quot;);
+# stuff now contains &quot;Hello?&quot;, &quot;Hey!&quot;, &quot;Bye then.&quot;
+
+pushToStack (stuff, &quot;Aarrgghh!&quot;);
+# stuff now contains &quot;Aarrgghh!&quot;, &quot;Hello?&quot;, &quot;Hey!&quot;, &quot;Bye then.&quot;
+
+enqueue (stuff, &quot;Er...?&quot;);
+# stuff now contains &quot;Aarrgghh!&quot;, &quot;Hello?&quot;, &quot;Hey!&quot;, &quot;Bye then.&quot;, &quot;Er...?&quot;
+
+var a = popFromStack (stuff);
+# stuff now contains &quot;Hello?&quot;, &quot;Hey!&quot;, &quot;Bye then.&quot;, &quot;Er...?&quot;
+# a contains &quot;Aarrgghh!&quot;
+
+var b = dequeue (stuff);
+# stuff now contains &quot;Hey!&quot;, &quot;Bye then.&quot;, &quot;Er...?&quot;
+# b contains &quot;Hello?&quot;
+
+var c = stuff[1];
+# stuff still contains &quot;Hey!&quot;, &quot;Bye then.&quot;, &quot;Er...?&quot;
+# c contains &quot;Bye then.&quot;
+
+deleteFromStack (stuff, c);
+# stuff now contains &quot;Hey!&quot;, &quot;Er...?&quot;</pre>
 </P>
 
 <P>
-<pre>pushToStack (stuff, &quot;Aarrgghh!&quot;);</pre>
-<pre># stuff now contains &quot;Aarrgghh!&quot;, &quot;Hello?&quot;, &quot;Hey!&quot;, &quot;Bye then.&quot;</pre>
-</P>
-
-<P>
-<pre>enqueue (stuff, &quot;Er...?&quot;);</pre>
-<pre># stuff now contains &quot;Aarrgghh!&quot;, &quot;Hello?&quot;, &quot;Hey!&quot;, &quot;Bye then.&quot;, &quot;Er...?&quot;</pre>
-</P>
-
-<P>
-<pre>var a = popFromStack (stuff);</pre>
-<pre># stuff now contains &quot;Hello?&quot;, &quot;Hey!&quot;, &quot;Bye then.&quot;, &quot;Er...?&quot;</pre>
-<pre># a contains &quot;Aarrgghh!&quot;</pre>
-</P>
-
-<P>
-<pre>var b = dequeue (stuff);</pre>
-<pre># stuff now contains &quot;Hey!&quot;, &quot;Bye then.&quot;, &quot;Er...?&quot;</pre>
-<pre># b contains &quot;Hello?&quot;</pre>
-</P>
-
-<P>
-<pre>var c = stuff[1];</pre>
-<pre># stuff still contains &quot;Hey!&quot;, &quot;Bye then.&quot;, &quot;Er...?&quot;</pre>
-<pre># c contains &quot;Bye then.&quot;</pre>
-</P>
-
-<P>
-<pre>deleteFromStack (stuff, c);</pre>
-<pre># stuff now contains &quot;Hey!&quot;, &quot;Er...?&quot;</pre>
-</P>
-
-<P>
-When treating a stack as a Boolean, it is considered to be TRUE if it is nonempty and FALSE if it is empty. Therefore you can use the following structure to loop until a stack is empty (this example makes the ego character say every element of the stack in order):<BR>
+When treating a stack as a Boolean, it is considered to be TRUE if it is nonempty and FALSE if it is empty. Therefore you can use the following structure to loop until a stack is empty (this example makes the ego character say every element of the stack in order):
 </P>
 
 <P>
@@ -69,7 +57,7 @@ When treating a stack as a Boolean, it is considered to be TRUE if it is nonempt
 </P>
 
 <P>
-A good example of using these stacks is for implementation of an inventory. Some built-in functions which return more than one element (<a href="getMatchingFiles.html">getMatchingFiles</a> and <a href="wait.html">wait</a> for example) also return information using the stack variable type.<BR>
+A good example of using these stacks is for implementation of an inventory. Some built-in functions which return more than one element (<a href="getMatchingFiles.html">getMatchingFiles</a> and <a href="wait.html">wait</a> for example) also return information using the stack variable type.
 </P>
 
 <P>
@@ -78,22 +66,20 @@ A good example of using these stacks is for implementation of an inventory. Some
 </P>
 
 <P>
-<a href="copyStack.html">copyStack</a><BR>
+<a href="copyStack.html">copyStack</a>
 </P>
 
 <P>
-<a href="deleteFromStack_and_deleteAllFromStack.html">deleteAllFromStack</a><BR>
+<a href="deleteFromStack_and_deleteAllFromStack.html">deleteAllFromStack</a>
 </P>
 
 <P>
-<a href="deleteFromStack_and_deleteAllFromStack.html">deleteFromStack</a><BR>
+<a href="deleteFromStack_and_deleteAllFromStack.html">deleteFromStack</a>
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

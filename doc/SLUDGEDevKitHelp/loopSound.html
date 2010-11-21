@@ -16,11 +16,11 @@
 </P>
 
 <P>
-<pre>loopSound (<i>sound [, sound [, sound...]]</i>);</pre>
+<pre class="syntax">loopSound (<i>sound [, sound [, sound...]]</i>);</pre>
 </P>
 
 <P>
-<pre>loopSound (<i>sound [, sound [, sound...]], loopStyle</i>);</pre>
+<pre class="syntax">loopSound (<i>sound [, sound [, sound...]], loopStyle</i>);</pre>
 </P>
 
 <P>
@@ -29,20 +29,20 @@
 </P>
 
 <P>
-Plays one or more sounds, starting immediately. The sound parameters must be <a href="File_Handling.html">file handles</a>. Supported sound formats are wave files (.WAV) and Ogg Vorbis (.OGG).<BR>
+Plays one or more sounds, starting immediately. The sound parameters must be <a href="File_Handling.html">file handles</a>. Supported sound formats are wave files (.WAV) and Ogg Vorbis (.OGG).
 </P>
 
 <P>
-If <i>loopStyle</i> is zero, the sounds are played in order and then stop.<BR>
-If <i>loopStyle</i> is one, the sounds are played in order and then the final sound is looped.<BR>
-If <i>loopStyle</i> is two, the whole playlist is looped.<BR>
+If <i>loopStyle</i> is zero, the sounds are played in order and then stop.
+If <i>loopStyle</i> is one, the sounds are played in order and then the final sound is looped.
+If <i>loopStyle</i> is two, the whole playlist is looped.
 </P>
 
 <P>
 A call to <a href="stopSound.html">stopSound</a> with the currently playing sound will stop 
 the sound, and cancel any sounds waiting in line to be played. But please note that stopSound only
 affects the currently playing sound: Stopping a sound that has finished playing, or one that hasn't
-yet started playing will have no effect.<br>
+yet started playing will have no effect.
 </P>
 
 <P>
@@ -51,7 +51,7 @@ yet started playing will have no effect.<br>
 </P>
 
 <P>
-No return value.<BR>
+No return value.
 </P>
 
 <P>
@@ -60,26 +60,24 @@ No return value.<BR>
 </P>
 
 <P>
-<a href="Using_Audio_in_SLUDGE.html">Using Audio in SLUDGE</a><BR>
+<a href="Using_Audio_in_SLUDGE.html">Using Audio in SLUDGE</a>
 </P>
 
 <P>
-<a href="cacheSound.html">cacheSound</a><BR>
+<a href="cacheSound.html">cacheSound</a>
 </P>
 
 <P>
-<a href="playSound.html">playSound</a><BR>
+<a href="playSound.html">playSound</a>
 </P>
 
 <P>
-<a href="stopSound.html">stopSound</a><BR>
+<a href="stopSound.html">stopSound</a>
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

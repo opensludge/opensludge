@@ -16,7 +16,7 @@
 </P>
 
 <P>
-<pre>setFont (<i>spriteBank, charactersSupported, height</i>);</pre>
+<pre class="syntax">setFont (<i>spriteBank, charactersSupported, height</i>);</pre>
 </P>
 
 <P>
@@ -25,15 +25,15 @@
 </P>
 
 <P>
-Changes to a new font. The font must be contained in a sprite bank, and the <i>spriteBank</i> parameter should be a file handle for this file - that is, the name of the file in single quotes. The <i>charactersSupported</i> parameter must be a string made up of - in order - each of the characters which are supported in this font. Therefore, if the fifth character in the <i>charactersSupported</i> string is A, the character A will be drawn on the screen using the fifth image in the sprite bank file.<BR>
+Changes to a new font. The font must be contained in a sprite bank, and the <i>spriteBank</i> parameter should be a file handle for this file - that is, the name of the file in single quotes. The <i>charactersSupported</i> parameter must be a string made up of - in order - each of the characters which are supported in this font. Therefore, if the fifth character in the <i>charactersSupported</i> string is A, the character A will be drawn on the screen using the fifth image in the sprite bank file.
 </P>
 
 <P>
-Characters which are not present in the <i>charactersSupported</i> string are drawn as the first sprite in the sprite bank. It is therefore wise to have the first character in the font be a symbol used to represent this fact, such as an empty box or a question mark.<BR>
+Characters which are not present in the <i>charactersSupported</i> string are drawn as the first sprite in the sprite bank. It is therefore wise to have the first character in the font be a symbol used to represent this fact, such as an empty box or a question mark.
 </P>
 
 <P>
-The <i>height</i> value must be numerical, and will be used as the gap between rows of text when using multiple status bars (created by the <a href="addStatus.html">addStatus</a> command) and when spoken text (created by the <a href="say_and_think.html">say and think</a> commands) wraps onto more than one line.<BR>
+The <i>height</i> value must be numerical, and will be used as the gap between rows of text when using multiple status bars (created by the <a href="addStatus.html">addStatus</a> command) and when spoken text (created by the <a href="say_and_think.html">say and think</a> commands) wraps onto more than one line.
 </P>
 
 <P>
@@ -42,7 +42,7 @@ The <i>height</i> value must be numerical, and will be used as the gap between r
 </P>
 
 <P>
-No return value.<BR>
+No return value.
 </P>
 
 <P>
@@ -51,16 +51,12 @@ No return value.<BR>
 </P>
 
 <P>
-<pre># Load a font which only contains a question mark and numbers</pre>
-</P>
+<pre># Load a font which only contains a question mark and numbers
 
-<P>
-<pre># Numbers will be drawn as the second to 11th sprites in the file</pre>
-<pre># All other characters will be displayed as question marks</pre>
-</P>
+# Numbers will be drawn as the second to 11th sprites in the file
+# All other characters will be displayed as question marks
 
-<P>
-<pre>setFont ('numbers.duc', &quot;?0123456789&quot;, 32);</pre>
+setFont ('numbers.duc', &quot;?0123456789&quot;, 32);</pre>
 </P>
 
 <P>
@@ -69,18 +65,16 @@ No return value.<BR>
 </P>
 
 <P>
-<a href="pasteString_and_burnString.html">pasteString and burnString</a><BR>
+<a href="pasteString_and_burnString.html">pasteString and burnString</a>
 </P>
 
 <P>
-<a href="setFontSpacing.html">setFontSpacing</a><BR>
+<a href="setFontSpacing.html">setFontSpacing</a>
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

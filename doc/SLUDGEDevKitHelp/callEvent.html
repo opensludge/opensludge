@@ -16,7 +16,7 @@
 </P>
 
 <P>
-<pre>callEvent (<i>thisAction, thisObject</i>);</pre>
+<pre class="syntax">callEvent (<i>thisAction, thisObject</i>);</pre>
 </P>
 
 <P>
@@ -25,7 +25,7 @@
 </P>
 
 <P>
-Calls the function specified inside the <i>thisObject</i> objectType definition by the line &quot;event <i>thisAction</i>&quot;. Both <i>thisAction</i> and <i>thisObject</i> must be variables of type objectType.<BR>
+Calls the function specified inside the <i>thisObject</i> objectType definition by the line &quot;event <i>thisAction</i>&quot;. Both <i>thisAction</i> and <i>thisObject</i> must be variables of type objectType.
 </P>
 
 <P>
@@ -34,7 +34,7 @@ Calls the function specified inside the <i>thisObject</i> objectType definition 
 </P>
 
 <P>
-TRUE if a function was called. FALSE if no event was found.<BR>
+TRUE if a function was called. FALSE if no event was found.
 </P>
 
 <P>
@@ -43,33 +43,25 @@ TRUE if a function was called. FALSE if no event was found.<BR>
 </P>
 
 <P>
-<pre>objectType ego () {</pre>
-<pre>}</pre>
-</P>
+<pre>objectType ego () {
+}
 
-<P>
-<pre>objectType lookAt () {</pre>
-<pre>}</pre>
-</P>
+objectType lookAt () {
+}
 
-<P>
-<pre>objectType poster (&quot;poster&quot;) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;event lookAt {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;I'm looking at the poster.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;}</pre>
-<pre>}</pre>
-</P>
+objectType poster (&quot;poster&quot;) {
+   event lookAt {
+      say (ego, &quot;I'm looking at the poster.&quot;);
+   }
+}
 
-<P>
-<pre>sub init () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;callEvent (poster, lookAt);</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Returns FALSE</pre>
-</P>
+sub init () {
+   callEvent (poster, lookAt);
+      # Returns FALSE
 
-<P>
-<pre>&nbsp;&nbsp;&nbsp;callEvent (lookAt, poster);</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Calls function and returns TRUE</pre>
-<pre>}</pre>
+   callEvent (lookAt, poster);
+      # Calls function and returns TRUE
+}</pre>
 </P>
 
 <P>
@@ -78,18 +70,16 @@ TRUE if a function was called. FALSE if no event was found.<BR>
 </P>
 
 <P>
-<a href="Object_Types_and_Events.html">Object Types and Events</a><BR>
+<a href="Object_Types_and_Events.html">Object Types and Events</a>
 </P>
 
 <P>
-<a href="fetchEvent.html">fetchEvent</a><BR>
+<a href="fetchEvent.html">fetchEvent</a>
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

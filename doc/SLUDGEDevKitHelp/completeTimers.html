@@ -16,7 +16,7 @@
 </P>
 
 <P>
-<pre>completeTimers ();</pre>
+<pre class="syntax">completeTimers ();</pre>
 </P>
 
 <P>
@@ -25,7 +25,7 @@
 </P>
 
 <P>
-Continues any functions paused using the <a href="pause.html">pause</a> function. (Note that the completeTimers function does not affect code which is currently paused because of one of the <a href="say_and_think.html">say and think</a> functions.)<BR>
+Continues any functions paused using the <a href="pause.html">pause</a> function. (Note that the completeTimers function does not affect code which is currently paused because of one of the <a href="say_and_think.html">say and think</a> functions.)
 </P>
 
 <P>
@@ -34,7 +34,7 @@ Continues any functions paused using the <a href="pause.html">pause</a> function
 </P>
 
 <P>
-No return value.<BR>
+No return value.
 </P>
 
 <P>
@@ -43,26 +43,22 @@ No return value.<BR>
 </P>
 
 <P>
-<pre>var cancelTimer = FALSE;</pre>
-</P>
+<pre>var cancelTimer = FALSE;
 
-<P>
-<pre>sub init () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;onLeftMouse (clickMouse);</pre>
-<pre>&nbsp;&nbsp;&nbsp;pause (100);</pre>
-<pre>&nbsp;&nbsp;&nbsp;if (cancelTimer) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;Timer stopped by mouse click!&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;} else {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;Timer completed on its own!&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;}</pre>
-<pre>}</pre>
-</P>
+sub init () {
+   onLeftMouse (clickMouse);
+   pause (100);
+   if (cancelTimer) {
+      say (ego, &quot;Timer stopped by mouse click!&quot;);
+   } else {
+      say (ego, &quot;Timer completed on its own!&quot;);
+   }
+}
 
-<P>
-<pre>sub clickMouse () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;cancelTimer = TRUE;</pre>
-<pre>&nbsp;&nbsp;&nbsp;completeTimers ();</pre>
-<pre>}</pre>
+sub clickMouse () {
+   cancelTimer = TRUE;
+   completeTimers ();
+}</pre>
 </P>
 
 <P>
@@ -71,14 +67,12 @@ No return value.<BR>
 </P>
 
 <P>
-<a href="skipSpeech.html">skipSpeech</a><BR>
+<a href="skipSpeech.html">skipSpeech</a>
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

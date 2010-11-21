@@ -16,7 +16,7 @@
 </P>
 
 <P>
-<pre>cancelSub (<i>thisFunction</i>);</pre>
+<pre class="syntax">cancelSub (<i>thisFunction</i>);</pre>
 </P>
 
 <P>
@@ -25,47 +25,41 @@
 </P>
 
 <P>
-Cancels any instances of <i>thisFunction</i> which are running.<BR>
+Cancels any instances of <i>thisFunction</i> which are running.
 </P>
 
 <P>
-This command will only cancel a function which has been paused by either the <a href="pause.html">pause</a> or one of the <a href="say_and_think.html">say and think</a> commands, and will not cancel a function which is temporarily inactive because of a call to another user-defined function. For example:<BR>
+This command will only cancel a function which has been paused by either the <a href="pause.html">pause</a> or one of the <a href="say_and_think.html">say and think</a> commands, and will not cancel a function which is temporarily inactive because of a call to another user-defined function. For example:
 </P>
 
 <P>
-<pre>sub outer () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;loop {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (a, &quot;Outer.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inner ();</pre>
-<pre>&nbsp;&nbsp;&nbsp;}</pre>
-<pre>}</pre>
+<pre>sub outer () {
+   loop {
+      say (a, &quot;Outer.&quot;);
+      inner ();
+   }
+}
+
+sub inner () {
+   say (a, &quot;Inner.&quot;);
+}
+
+sub clicky () {
+   cancelSub (outer);
+}
+
+sub init () {
+   spawnSub (outer);
+   onLeftMouse (clicky);
+}</pre>
 </P>
 
 <P>
-<pre>sub inner () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;say (a, &quot;Inner.&quot;);</pre>
-<pre>}</pre>
+In the above example, pressing the left mouse button will only cancel the loop if the character a is saying &quot;Outer&quot; and not &quot;Inner&quot;; i.e. while the outer function is active.
 </P>
 
 <P>
-<pre>sub clicky () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;cancelSub (outer);</pre>
-<pre>}</pre>
-</P>
-
-<P>
-<pre>sub init () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;spawnSub (outer);</pre>
-<pre>&nbsp;&nbsp;&nbsp;onLeftMouse (clicky);</pre>
-<pre>}</pre>
-</P>
-
-<P>
-In the above example, pressing the left mouse button will only cancel the loop if the character a is saying &quot;Outer&quot; and not &quot;Inner&quot;; i.e. while the outer function is active.<BR>
-</P>
-
-<P>
-The cancelSub command will also not cancel a function which is suspended because of a character which is currently moving (because of a call to either the <a href="moveCharacter.html">moveCharacter</a> or <a href="forceCharacter.html">forceCharacter</a> function). In these situations you can use <a href="stopCharacter.html">stopCharacter</a> to stop the character in its tracks, automatically cancelling the suspended function. Several other commands will also stop the movement of the character, thereby cancelling the function which was suspended because the character was moving.<BR>
+The cancelSub command will also not cancel a function which is suspended because of a character which is currently moving (because of a call to either the <a href="moveCharacter.html">moveCharacter</a> or <a href="forceCharacter.html">forceCharacter</a> function). In these situations you can use <a href="stopCharacter.html">stopCharacter</a> to stop the character in its tracks, automatically cancelling the suspended function. Several other commands will also stop the movement of the character, thereby cancelling the function which was suspended because the character was moving.
 </P>
 
 <P>
@@ -74,7 +68,7 @@ The cancelSub command will also not cancel a function which is suspended because
 </P>
 
 <P>
-This function returns the number of instances of <i>thisFunction</i> which were cancelled.<BR>
+This function returns the number of instances of <i>thisFunction</i> which were cancelled.
 </P>
 
 <P>
@@ -83,31 +77,27 @@ This function returns the number of instances of <i>thisFunction</i> which were 
 </P>
 
 <P>
-<pre>sub speechFunction () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;loop {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (someCharacter, &quot;And so I said to her...&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (someCharacter, &quot;Blah blah blah blah blah...&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (someCharacter, &quot;Pom-pa-pom-pa-pom...&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (someCharacter, &quot;And then she said...&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (someCharacter, &quot;Rhubarb rhubarb rhubarb...&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (someCharacter, &quot;Yada yada yada...&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;}</pre>
-<pre>}</pre>
-</P>
+<pre>sub speechFunction () {
+   loop {
+      say (someCharacter, &quot;And so I said to her...&quot;);
+      say (someCharacter, &quot;Blah blah blah blah blah...&quot;);
+      say (someCharacter, &quot;Pom-pa-pom-pa-pom...&quot;);
+      say (someCharacter, &quot;And then she said...&quot;);
+      say (someCharacter, &quot;Rhubarb rhubarb rhubarb...&quot;);
+      say (someCharacter, &quot;Yada yada yada...&quot;);
+   }
+}
 
-<P>
-<pre>sub clicky () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;cancelSub (speechFunction);</pre>
-<pre>&nbsp;&nbsp;&nbsp;say (ego, &quot;Oh, do shut up.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;say (someCharacter, &quot;Pardon me for breathing.&quot;);</pre>
-<pre>}</pre>
-</P>
+sub clicky () {
+   cancelSub (speechFunction);
+   say (ego, &quot;Oh, do shut up.&quot;);
+   say (someCharacter, &quot;Pardon me for breathing.&quot;);
+}
 
-<P>
-<pre>sub init () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;spawnSub (speechFunction);</pre>
-<pre>&nbsp;&nbsp;&nbsp;onLeftMouse (clicky);</pre>
-<pre>}</pre>
+sub init () {
+   spawnSub (speechFunction);
+   onLeftMouse (clicky);
+}</pre>
 </P>
 
 <P>
@@ -116,14 +106,12 @@ This function returns the number of instances of <i>thisFunction</i> which were 
 </P>
 
 <P>
-<a href="spawnSub.html">spawnSub</a><BR>
+<a href="spawnSub.html">spawnSub</a>
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

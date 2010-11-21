@@ -16,7 +16,7 @@
 </P>
 
 <P>
-<pre>animate (<i>character, animation</i>);</pre>
+<pre class="syntax">animate (<i>character, animation</i>);</pre>
 </P>
 
 <P>
@@ -25,21 +25,21 @@
 </P>
 
 <P>
-Makes the specified <i>character</i> perform the selected <i>animation</i> which must be created with the <a href="anim.html">anim</a> function. The character will continue performing the animation until told to move, change direction or speak.<BR>
+Makes the specified <i>character</i> perform the selected <i>animation</i> which must be created with the <a href="anim.html">anim</a> function. The character will continue performing the animation until told to move, change direction or speak.
 </P>
 
 <P>
-The animate function can be used, for example, to provide different speaking animations without having to build a new costume.<BR>
+The animate function can be used, for example, to provide different speaking animations without having to build a new costume.
 </P>
 
 <P>
-<pre>animate (ego, chinHitsFloorAnimation);</pre>
-<pre>think (ego, &quot;WHAT?&quot;);</pre>
-<pre>say (ego, &quot;Are you kidding?&quot;);</pre>
+<pre>animate (ego, chinHitsFloorAnimation);
+think (ego, &quot;WHAT?&quot;);
+say (ego, &quot;Are you kidding?&quot;);</pre>
 </P>
 
 <P>
-The above example will give the ego character a different animation while it <a href="say_and_think.html">think</a>s the line &quot;WHAT?&quot; - the ego will then use its standard talking animation to <a href="say_and_think.html">say</a> the like &quot;Are you kidding?&quot;.<BR>
+The above example will give the ego character a different animation while it <a href="say_and_think.html">think</a>s the line &quot;WHAT?&quot; - the ego will then use its standard talking animation to <a href="say_and_think.html">say</a> the like &quot;Are you kidding?&quot;.
 </P>
 
 <P>
@@ -48,17 +48,17 @@ The above example will give the ego character a different animation while it <a 
 </P>
 
 <P>
-The return value is the total playing time of <i>animation</i>. Consequently, the following code will perform an animation once and once only:<BR>
+The return value is the total playing time of <i>animation</i>. Consequently, the following code will perform an animation once and once only:
 </P>
 
 <P>
-<pre>var a = anim ('pickNose.duc', 0, wait (1, 4), 2, 3, 4);</pre>
-<pre>pause (animate (ego, a));</pre>
-<pre>normalCharacter (ego);</pre>
+<pre>var a = anim ('pickNose.duc', 0, wait (1, 4), 2, 3, 4);
+pause (animate (ego, a));
+normalCharacter (ego);</pre>
 </P>
 
 <P>
-In the above example, the return value of the animate function is 8... 1 + 4 + 1 + 1 + 1. So, the <a href="pause.html">pause</a> function stops the function for 8 frames: just long enough for the animation to run.<BR>
+In the above example, the return value of the animate function is 8... 1 + 4 + 1 + 1 + 1. So, the <a href="pause.html">pause</a> function stops the function for 8 frames: just long enough for the animation to run.
 </P>
 
 <P>
@@ -67,18 +67,16 @@ In the above example, the return value of the animate function is 8... 1 + 4 + 1
 </P>
 
 <P>
-<a href="addCharacter.html">addCharacter</a><BR>
+<a href="addCharacter.html">addCharacter</a>
 </P>
 
 <P>
-<a href="normalCharacter.html">normalCharacter</a><BR>
+<a href="normalCharacter.html">normalCharacter</a>
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

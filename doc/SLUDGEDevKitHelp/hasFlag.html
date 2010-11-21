@@ -16,7 +16,7 @@
 </P>
 
 <P>
-<pre>hasFlag (<i>thisObject, thisFlag</i>);</pre>
+<pre class="syntax">hasFlag (<i>thisObject, thisFlag</i>);</pre>
 </P>
 
 <P>
@@ -25,7 +25,7 @@
 </P>
 
 <P>
-Checks to see whether the <a href="Object_Types_and_Events.html">object</a> <I>thisObject</I> has the object flag <i>thisFlag</i>. Flags are specified when creating object types and cannot subsequently be changed by the game.<BR>
+Checks to see whether the <a href="Object_Types_and_Events.html">object</a> <I>thisObject</I> has the object flag <i>thisFlag</i>. Flags are specified when creating object types and cannot subsequently be changed by the game.
 </P>
 
 <P>
@@ -34,7 +34,7 @@ Checks to see whether the <a href="Object_Types_and_Events.html">object</a> <I>t
 </P>
 
 <P>
-TRUE if <i>thisObject</i> has the flag <i>thisFlag</i> set. FALSE if not.<BR>
+TRUE if <i>thisObject</i> has the flag <i>thisFlag</i> set. FALSE if not.
 </P>
 
 <P>
@@ -43,34 +43,28 @@ TRUE if <i>thisObject</i> has the flag <i>thisFlag</i> set. FALSE if not.<BR>
 </P>
 
 <P>
-<pre>objectType kevin () {</pre>
-<pre>flag ALIVE;</pre>
-<pre>}</pre>
-</P>
+<pre>objectType kevin () {
+flag ALIVE;
+}
 
-<P>
-<pre>objectType hilda () {</pre>
-<pre>flags ALIVE, FEMALE;</pre>
-<pre>}</pre>
-</P>
+objectType hilda () {
+flags ALIVE, FEMALE;
+}
 
-<P>
-<pre>objectType rock () {</pre>
-<pre>}</pre>
-</P>
+objectType rock () {
+}
 
-<P>
-<pre>sub failToLift (something) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;if (hasFlag (something, ALIVE)) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (hasFlag (something, FEMALE)) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;I don't want to pick her up.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;I don't want to pick him up.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</pre>
-<pre>&nbsp;&nbsp;&nbsp;} else {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;I don't want to pick that up.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;}</pre>
-<pre>}</pre>
+sub failToLift (something) {
+   if (hasFlag (something, ALIVE)) {
+      if (hasFlag (something, FEMALE)) {
+         say (ego, &quot;I don't want to pick her up.&quot;);
+      } else {
+         say (ego, &quot;I don't want to pick him up.&quot;);
+      }
+   } else {
+      say (ego, &quot;I don't want to pick that up.&quot;);
+   }
+}</pre>
 </P>
 
 <P>
@@ -79,14 +73,12 @@ TRUE if <i>thisObject</i> has the flag <i>thisFlag</i> set. FALSE if not.<BR>
 </P>
 
 <P>
-<a href="fetchEvent.html">fetchEvent</a><BR>
+<a href="fetchEvent.html">fetchEvent</a>
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

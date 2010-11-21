@@ -16,7 +16,7 @@
 </P>
 
 <P>
-<pre>freeze ();</pre>
+<pre class="syntax">freeze ();</pre>
 </P>
 
 <P>
@@ -25,7 +25,7 @@
 </P>
 
 <P>
-Freezes execution of the current scene so that tasks (such as loading, saving, inventories or messages) can be performed in the foreground. A new background image is created which is identical to the original background image, but with characters pasted onto it. Characters, screen regions and floors are remembered but not added to the new background image. Any functions (other than the function which ran the freeze command) are paused - unless they have been declared unfreezable.<BR>
+Freezes execution of the current scene so that tasks (such as loading, saving, inventories or messages) can be performed in the foreground. A new background image is created which is identical to the original background image, but with characters pasted onto it. Characters, screen regions and floors are remembered but not added to the new background image. Any functions (other than the function which ran the freeze command) are paused - unless they have been declared unfreezable.
 </P>
 
 <P>
@@ -34,7 +34,7 @@ Freezes execution of the current scene so that tasks (such as loading, saving, i
 </P>
 
 <P>
-No return value.<BR>
+No return value.
 </P>
 
 <P>
@@ -43,31 +43,27 @@ No return value.<BR>
 </P>
 
 <P>
-<pre>sub init () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;onLeftMouse (pauseSub);</pre>
-<pre>&nbsp;&nbsp;&nbsp;loop {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Assuming a window size of 640 by 480, and a</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# 'splat.tga' image no bigger than 40 by 40</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;addOverlay ('splat.tga', random (600), random (440));</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pause (5);</pre>
-<pre>&nbsp;&nbsp;&nbsp;}</pre>
-<pre>}</pre>
-</P>
+<pre>sub init () {
+   onLeftMouse (pauseSub);
+   loop {
+      # Assuming a window size of 640 by 480, and a
+      # 'splat.tga' image no bigger than 40 by 40
+      addOverlay ('splat.tga', random (600), random (440));
+      pause (5);
+   }
+}
 
-<P>
-<pre>sub pauseSub () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;freeze ();</pre>
-<pre>&nbsp;&nbsp;&nbsp;darkBackground ();</pre>
-<pre>&nbsp;&nbsp;&nbsp;pasteString (CENTRE, 240, &quot;Paused!&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;onLeftMouse (resumeSub);</pre>
-<pre>}</pre>
-</P>
+sub pauseSub () {
+   freeze ();
+   darkBackground ();
+   pasteString (CENTRE, 240, &quot;Paused!&quot;);
+   onLeftMouse (resumeSub);
+}
 
-<P>
-<pre>sub resumeSub () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;unfreeze ();</pre>
-<pre>&nbsp;&nbsp;&nbsp;onLeftMouse (pauseSub);</pre>
-<pre>}</pre>
+sub resumeSub () {
+   unfreeze ();
+   onLeftMouse (pauseSub);
+}</pre>
 </P>
 
 <P>
@@ -76,22 +72,20 @@ No return value.<BR>
 </P>
 
 <P>
-<a href="Unfreezable_Functions.html">Unfreezable Functions</a><BR>
+<a href="Unfreezable_Functions.html">Unfreezable Functions</a>
 </P>
 
 <P>
-<a href="howFrozen.html">howFrozen</a><BR>
+<a href="howFrozen.html">howFrozen</a>
 </P>
 
 <P>
-<a href="unfreeze.html">unfreeze</a><BR>
+<a href="unfreeze.html">unfreeze</a>
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

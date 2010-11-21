@@ -16,7 +16,7 @@
 </P>
 
 <P>
-<pre>spawnSub (<i>thisFunction</i>);</pre>
+<pre class="syntax">spawnSub (<i>thisFunction</i>);</pre>
 </P>
 
 <P>
@@ -25,7 +25,7 @@
 </P>
 
 <P>
-Starts <i>thisFunction</i> while continuing the current function at the same time. The <i>thisFunction</i> function must take no parameters and will be<b> started the next time the screen updates</b>. Execution of the function containing the call to spawnSub will continue first.<BR>
+Starts <i>thisFunction</i> while continuing the current function at the same time. The <i>thisFunction</i> function must take no parameters and will be<b> started the next time the screen updates</b>. Execution of the function containing the call to spawnSub will continue first.
 </P>
 
 <P>
@@ -34,7 +34,7 @@ Starts <i>thisFunction</i> while continuing the current function at the same tim
 </P>
 
 <P>
-No return value.<BR>
+No return value.
 </P>
 
 <P>
@@ -43,33 +43,25 @@ No return value.<BR>
 </P>
 
 <P>
-<pre>var a;</pre>
-</P>
+<pre>var a;
 
-<P>
-<pre>sub init () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;a = 10;</pre>
-<pre>&nbsp;&nbsp;&nbsp;spawnSub (setA);</pre>
-<pre>&nbsp;&nbsp;&nbsp;a = 20;</pre>
-</P>
+sub init () {
+   a = 10;
+   spawnSub (setA);
+   a = 20;
 
-<P>
-<pre>&nbsp;&nbsp;&nbsp;say (ego, a);</pre>
-<pre>&nbsp;&nbsp;&nbsp;# The ego character will now be saying &quot;20&quot;</pre>
-<pre>&nbsp;&nbsp;&nbsp;# The init function will be paused because of the say command...</pre>
-<pre>&nbsp;&nbsp;&nbsp;# ...giving the spawned function chance to execute</pre>
-</P>
+   say (ego, a);
+   # The ego character will now be saying &quot;20&quot;
+   # The init function will be paused because of the say command...
+   # ...giving the spawned function chance to execute
 
-<P>
-<pre>&nbsp;&nbsp;&nbsp;say (ego, a);</pre>
-<pre>&nbsp;&nbsp;&nbsp;# The ego character will now be saying &quot;30&quot;</pre>
-<pre>}</pre>
-</P>
+   say (ego, a);
+   # The ego character will now be saying &quot;30&quot;
+}
 
-<P>
-<pre>sub setA () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;a = 30;</pre>
-<pre>}</pre>
+sub setA () {
+   a = 30;
+}</pre>
 </P>
 
 <P>
@@ -78,14 +70,12 @@ No return value.<BR>
 </P>
 
 <P>
-<a href="Functions_(subs).html">Functions (subs)</a><BR>
+<a href="Functions_(subs).html">Functions (subs)</a>
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

@@ -16,38 +16,38 @@
 </P>
 
 <P>
-You can now define variables and functions inside object types. Basically, they're treated as global variables and functions by the compiler and engine... but at times, it makes more sense to include certain functionality and values within your objects. For example, take the following example:<BR>
+You can now define variables and functions inside object types. Basically, they're treated as global variables and functions by the compiler and engine... but at times, it makes more sense to include certain functionality and values within your objects. For example, take the following example:
 </P>
 
 <P>
-<pre>objectType coins (&quot;bag of coins&quot;) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;var total = 10;</pre>
-<pre>&nbsp;&nbsp;&nbsp;sub collect (num) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;total += num;</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;playSound ('cha-ching!.wav');</pre>
-<pre>&nbsp;&nbsp;&nbsp;}</pre>
-<pre>&nbsp;&nbsp;&nbsp;event lookAt {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;I've got &quot; + total + &quot;coins.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;}</pre>
-<pre>}</pre>
+<pre>objectType coins (&quot;bag of coins&quot;) {
+   var total = 10;
+   sub collect (num) {
+      total += num;
+      playSound ('cha-ching!.wav');
+   }
+   event lookAt {
+      say (ego, &quot;I've got &quot; + total + &quot;coins.&quot;);
+   }
+}</pre>
 </P>
 
 <P>
-Here, a member variable has been created called &quot;total&quot; and a there's a member function called &quot;collect&quot; - plus a &quot;lookAt&quot; event. You can see here that an object type's member functions and events can use member variables just as if they were globals.<BR>
+Here, a member variable has been created called &quot;total&quot; and a there's a member function called &quot;collect&quot; - plus a &quot;lookAt&quot; event. You can see here that an object type's member functions and events can use member variables just as if they were globals.
 </P>
 
 <P>
-You can also access member variables and functions from outside the object type... simply precede the name of the member variable or function with the name of the object type followed by a period. For example...<BR>
+You can also access member variables and functions from outside the object type... simply precede the name of the member variable or function with the name of the object type followed by a period. For example...
 </P>
 
 <P>
-<pre>sub talkToSomeone () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;say (someone, &quot;How many coins have you got?&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;say (ego, &quot;Er, &quot; + coins.total + &quot; at the moment.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;say (someone, &quot;Well, here... have 100 more.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;coins.collect (100);</pre>
-<pre>&nbsp;&nbsp;&nbsp;say (ego, &quot;Thanks!&quot;);</pre>
-<pre>}</pre>
+<pre>sub talkToSomeone () {
+   say (someone, &quot;How many coins have you got?&quot;);
+   say (ego, &quot;Er, &quot; + coins.total + &quot; at the moment.&quot;);
+   say (someone, &quot;Well, here... have 100 more.&quot;);
+   coins.collect (100);
+   say (ego, &quot;Thanks!&quot;);
+}</pre>
 </P>
 
 <P>
@@ -56,58 +56,50 @@ You can also access member variables and functions from outside the object type.
 </P>
 
 <P>
-You <b>can</b> create member functions and variables with the same name as member functions and variables within other object types... it's completely safe, they won't confuse the engine or compiler.<BR>
+You <b>can</b> create member functions and variables with the same name as member functions and variables within other object types... it's completely safe, they won't confuse the engine or compiler.
 </P>
 
 <P>
-You can also create member functions and variables with the same name as global functions and variables...<BR>
+You can also create member functions and variables with the same name as global functions and variables...
 </P>
 
 <P>
-<pre>var foobar = &quot;This is a global variable!&quot;;</pre>
+<pre>var foobar = &quot;This is a global variable!&quot;;
+
+sub doStuff () {
+   say (ego, &quot;I'm in the global doStuff function!&quot;;
+}
+
+objectType something (&quot;something&quot;) {
+   var foobar = &quot;This is a member variable!&quot;;
+   sub doStuff () {
+      say (ego, &quot;I'm in the member doStuff function!&quot;;
+   }
+   event lookAt {
+      doStuff ();
+      say (ego, foobar);
+   }
+}
+
+objectType somethingElse (&quot;something else&quot;) {
+   event lookAt {
+      doStuff ();
+      say (ego, foobar);
+   }
+}</pre>
 </P>
 
 <P>
-<pre>sub doStuff () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;say (ego, &quot;I'm in the global doStuff function!&quot;;</pre>
-<pre>}</pre>
+In the lookAt event inside the &quot;something&quot; object type, above, the member variable and member function would be used. However, inside the &quot;somethingElse&quot; object type, the global variable and function would be used. 
 </P>
 
 <P>
-<pre>objectType something (&quot;something&quot;) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;var foobar = &quot;This is a member variable!&quot;;</pre>
-<pre>&nbsp;&nbsp;&nbsp;sub doStuff () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;I'm in the member doStuff function!&quot;;</pre>
-<pre>&nbsp;&nbsp;&nbsp;}</pre>
-<pre>&nbsp;&nbsp;&nbsp;event lookAt {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doStuff ();</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, foobar);</pre>
-<pre>&nbsp;&nbsp;&nbsp;}</pre>
-<pre>}</pre>
+Or in other words, it works pretty much as you'd expect, and in much the same way as member variables and functions of classes in object-oriented languages, such as Java and C++.
 </P>
 
-<P>
-<pre>objectType somethingElse (&quot;something else&quot;) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;event lookAt {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doStuff ();</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, foobar);</pre>
-<pre>&nbsp;&nbsp;&nbsp;}</pre>
-<pre>}</pre>
-</P>
-
-<P>
-In the lookAt event inside the &quot;something&quot; object type, above, the member variable and member function would be used. However, inside the &quot;somethingElse&quot; object type, the global variable and function would be used. <BR>
-</P>
-
-<P>
-Or in other words, it works pretty much as you'd expect, and in much the same way as member variables and functions of classes in object-oriented languages, such as Java and C++.<BR>
-</P>
-
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

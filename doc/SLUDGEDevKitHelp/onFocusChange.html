@@ -16,11 +16,11 @@
 </P>
 
 <P>
-<pre>onFocusChange (<i>handlerFunction</i>);</pre>
+<pre class="syntax">onFocusChange (<i>handlerFunction</i>);</pre>
 </P>
 
 <P>
-<pre>onFocusChange ();</pre>
+<pre class="syntax">onFocusChange ();</pre>
 </P>
 
 <P>
@@ -29,15 +29,15 @@
 </P>
 
 <P>
-Tells the computer which function to call when the mouse cursor moves from one area of the screen to another (screen regions, characters and nothing). The value of <i>handlerFunction</i> must be a pointer to a function which takes one parameters. The function will be called every time the area at which the mouse is pointing changes until another call to onFocusChange. The object type at which the mouse is pointing - or NULL if the mouse is pointing at nothing - will be passed into the <i>handlerFunction</i> when it is called. This parameter will be the same as the return value from the <a href="getOverObject.html">getOverObject</a> function.<BR>
+Tells the computer which function to call when the mouse cursor moves from one area of the screen to another (screen regions, characters and nothing). The value of <i>handlerFunction</i> must be a pointer to a function which takes one parameters. The function will be called every time the area at which the mouse is pointing changes until another call to onFocusChange. The object type at which the mouse is pointing - or NULL if the mouse is pointing at nothing - will be passed into the <i>handlerFunction</i> when it is called. This parameter will be the same as the return value from the <a href="getOverObject.html">getOverObject</a> function.
 </P>
 
 <P>
-If no parameter is given, the program stops calling the current focus change function. No function will be called when the mouse moves from one area of the screen to another until another call to onFocusChange tells it otherwise.<BR>
+If no parameter is given, the program stops calling the current focus change function. No function will be called when the mouse moves from one area of the screen to another until another call to onFocusChange tells it otherwise.
 </P>
 
 <P>
-Note that only one handler for focus changes can be used at any one time. A subsequent call to onFocusChange will replace the current handler function.<BR>
+Note that only one handler for focus changes can be used at any one time. A subsequent call to onFocusChange will replace the current handler function.
 </P>
 
 <P>
@@ -46,7 +46,7 @@ Note that only one handler for focus changes can be used at any one time. A subs
 </P>
 
 <P>
-No return value.<BR>
+No return value.
 </P>
 
 <P>
@@ -55,38 +55,36 @@ No return value.<BR>
 </P>
 
 <P>
-<a href="Passing_Functions_as_Variables.html">Passing Functions as Variables</a><BR>
+<a href="Passing_Functions_as_Variables.html">Passing Functions as Variables</a>
 </P>
 
 <P>
-<a href="onKeyboard.html">onKeyboard</a><BR>
+<a href="onKeyboard.html">onKeyboard</a>
 </P>
 
 <P>
-<a href="onLeftMouse.html">onLeftMouse</a><BR>
+<a href="onLeftMouse.html">onLeftMouse</a>
 </P>
 
 <P>
-<a href="onLeftMouseUp.html">onLeftMouseUp</a><BR>
+<a href="onLeftMouseUp.html">onLeftMouseUp</a>
 </P>
 
 <P>
-<a href="onMoveMouse.html">onMoveMouse</a><BR>
+<a href="onMoveMouse.html">onMoveMouse</a>
 </P>
 
 <P>
-<a href="onRightMouse.html">onRightMouse</a><BR>
+<a href="onRightMouse.html">onRightMouse</a>
 </P>
 
 <P>
-<a href="onRightMouseUp.html">onRightMouseUp</a><BR>
+<a href="onRightMouseUp.html">onRightMouseUp</a>
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

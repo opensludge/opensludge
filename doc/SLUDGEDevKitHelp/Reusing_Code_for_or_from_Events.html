@@ -11,100 +11,86 @@
 
 
 <P>
-When an event is defined inside an object type and a new set of commands are defined:<BR>
+When an event is defined inside an object type and a new set of commands are defined:
 </P>
 
 <P>
-<pre>objectType someObject (&quot;whatever&quot;) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;event someAction {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Do stuff here</pre>
-<pre>&nbsp;&nbsp;&nbsp;}</pre>
-<pre>}</pre>
+<pre>objectType someObject (&quot;whatever&quot;) {
+   event someAction {
+      # Do stuff here
+   }
+}</pre>
 </P>
 
 <P>
-...this is equivalent to the following code:<BR>
+...this is equivalent to the following code:
 </P>
 
 <P>
-<pre>sub myFunction () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;# Do stuff here</pre>
-<pre>}</pre>
+<pre>sub myFunction () {
+   # Do stuff here
+}
+
+objectType someObject (&quot;whatever&quot;) {
+   event someAction = myFunction;
+}</pre>
 </P>
 
 <P>
-<pre>objectType someObject (&quot;whatever&quot;) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;event someAction = myFunction;</pre>
-<pre>}</pre>
+Using the second method, the name of the function is obviously myFunction. Using the first method, with the code defined inside the object type itself, the code is stored in a function with no parameters, the name of which is the name of the object, followed by a period, followed by the name of the action. So, in the first example, the function is created with the name doorFromAToB.lookAt. This makes it possible to access events directly without using the <a href="callEvent.html">callEvent</a> command and to reuse predefined actions for new events:
 </P>
 
 <P>
-Using the second method, the name of the function is obviously myFunction. Using the first method, with the code defined inside the object type itself, the code is stored in a function with no parameters, the name of which is the name of the object, followed by a period, followed by the name of the action. So, in the first example, the function is created with the name doorFromAToB.lookAt. This makes it possible to access events directly without using the <a href="callEvent.html">callEvent</a> command and to reuse predefined actions for new events:<BR>
+<pre>objectType doorFromAToB (&quot;big metal door&quot;) {
+   event lookAt {
+      say (ego, &quot;It's only a door. Never seen a door before?&quot;);
+   }
+}
+
+objectType doorFromCToD (&quot;tiny wooden door&quot;) {
+   event lookAt = doorFromAToB.lookAt;
+}
+
+objectType doorFromEToF (&quot;purple door&quot;) {
+   event lookAt {
+      doorFromAToB.lookAt ();
+      say (ego, &quot;The hinges are a bit rusty...&quot;);
+   }
+}</pre>
 </P>
 
 <P>
-<pre>objectType doorFromAToB (&quot;big metal door&quot;) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;event lookAt {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;It's only a door. Never seen a door before?&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;}</pre>
-<pre>}</pre>
+Or, as is perhaps clearer to read:
 </P>
 
 <P>
-<pre>objectType doorFromCToD (&quot;tiny wooden door&quot;) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;event lookAt = doorFromAToB.lookAt;</pre>
-<pre>}</pre>
+<pre>sub lookAtDoor {
+   say (ego, &quot;It's only a door. Never seen a door before?&quot;);
+}
+
+objectType doorFromAToB (&quot;big metal door&quot;) {
+   event lookAt = lookAtDoor;
+}
+
+objectType doorFromCToD (&quot;tiny wooden door&quot;) {
+   event lookAt = lookAtDoor;
+}
+
+objectType doorFromEToF (&quot;purple door&quot;) {
+   event lookAt {
+      lookAtDoor ();
+      say (ego, &quot;The hinges are a bit rusty...&quot;);
+   }
+}</pre>
 </P>
 
 <P>
-<pre>objectType doorFromEToF (&quot;purple door&quot;) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;event lookAt {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doorFromAToB.lookAt ();</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;The hinges are a bit rusty...&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;}</pre>
-<pre>}</pre>
+(Note that because the events in the first two object types above reuse an existing function, there are no new functions created called either doorFromAToB.lookAt or doorFromCToD.lookAt.)
 </P>
 
-<P>
-Or, as is perhaps clearer to read:<BR>
-</P>
-
-<P>
-<pre>sub lookAtDoor {</pre>
-<pre>&nbsp;&nbsp;&nbsp;say (ego, &quot;It's only a door. Never seen a door before?&quot;);</pre>
-<pre>}</pre>
-</P>
-
-<P>
-<pre>objectType doorFromAToB (&quot;big metal door&quot;) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;event lookAt = lookAtDoor;</pre>
-<pre>}</pre>
-</P>
-
-<P>
-<pre>objectType doorFromCToD (&quot;tiny wooden door&quot;) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;event lookAt = lookAtDoor;</pre>
-<pre>}</pre>
-</P>
-
-<P>
-<pre>objectType doorFromEToF (&quot;purple door&quot;) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;event lookAt {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lookAtDoor ();</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;The hinges are a bit rusty...&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;}</pre>
-<pre>}</pre>
-</P>
-
-<P>
-(Note that because the events in the first two object types above reuse an existing function, there are no new functions created called either doorFromAToB.lookAt or doorFromCToD.lookAt.)<BR>
-</P>
-
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

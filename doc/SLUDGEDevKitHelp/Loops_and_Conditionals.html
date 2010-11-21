@@ -11,7 +11,7 @@
 
 
 <P>
-The styles of looping structure which SLUDGE features are described in this section. Firstly:<BR>
+The styles of looping structure which SLUDGE features are described in this section. Firstly:
 </P>
 
 <P>
@@ -20,45 +20,43 @@ The styles of looping structure which SLUDGE features are described in this sect
 </P>
 
 <P>
-<pre>for (<i>initialisation</i>; <i>check</i>; <i>next</i>) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;# Code here</pre>
-<pre>}</pre>
+<pre>for (<i>initialisation</i>; <i>check</i>; <i>next</i>) {
+   # Code here
+}</pre>
 </P>
 
 <P>
-Here, <i>initialisation</i>, <i>check</i> and <i>next</i> are all segments of code. The <i>initialisation</i> segment tells the program what to do at the start of the loop; the <i>check</i> segment tells the program how to test whether the loop needs to continue and will be treated as a boolean (see the <a href="Treating_Variables_as_Booleans.html">Treating Variables as Booleans</a> section), and the <i>next</i> segment tells the program what to do at the end of every loop (for example to get onto the next record or to make sure the loop won't continue forever).<BR>
+Here, <i>initialisation</i>, <i>check</i> and <i>next</i> are all segments of code. The <i>initialisation</i> segment tells the program what to do at the start of the loop; the <i>check</i> segment tells the program how to test whether the loop needs to continue and will be treated as a boolean (see the <a href="Treating_Variables_as_Booleans.html">Treating Variables as Booleans</a> section), and the <i>next</i> segment tells the program what to do at the end of every loop (for example to get onto the next record or to make sure the loop won't continue forever).
 </P>
 
 <P>
-The most common example of a for loop is the following:<BR>
+The most common example of a for loop is the following:
 </P>
 
 <P>
-<pre>var a;</pre>
+<pre>var a;
+
+for (a = 0; a &lt; 10; a ++) {
+   # Code here
+}</pre>
 </P>
 
 <P>
-<pre>for (a = 0; a &lt; 10; a ++) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;# Code here</pre>
-<pre>}</pre>
+Or a shorter version:
 </P>
 
 <P>
-Or a shorter version:<BR>
+<pre>for (var a = 0; a &lt; 10; a ++) {
+   # Code here
+}</pre>
 </P>
 
 <P>
-<pre>for (var a = 0; a &lt; 10; a ++) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;# Code here</pre>
-<pre>}</pre>
+This will set the value of a to 0, check whether a is less than 10 (it is), and then perform any code inside the body of the loop. This code can use the variable a, or even change it. After performing the code in the body of the loop, the program will execute the a++ segment (or &quot;increase the value of a by 1&quot;... a ++ is just a shorter way of saying a = a + 1). Now, a will have the value 1. The program will check whether it's less than 10 (it is), and so on. When the value of a reaches 10, the program will continue from the line of code after the closing bracket &quot;}&quot;.
 </P>
 
 <P>
-This will set the value of a to 0, check whether a is less than 10 (it is), and then perform any code inside the body of the loop. This code can use the variable a, or even change it. After performing the code in the body of the loop, the program will execute the a++ segment (or &quot;increase the value of a by 1&quot;... a ++ is just a shorter way of saying a = a + 1). Now, a will have the value 1. The program will check whether it's less than 10 (it is), and so on. When the value of a reaches 10, the program will continue from the line of code after the closing bracket &quot;}&quot;.<BR>
-</P>
-
-<P>
-For loops are common in programming languages in exactly this form, and present in most programming languages in some form or another. <BR>
+For loops are common in programming languages in exactly this form, and present in most programming languages in some form or another. 
 </P>
 
 <P>
@@ -67,27 +65,27 @@ For loops are common in programming languages in exactly this form, and present 
 </P>
 
 <P>
-In C and C++ (and other languages) it is common to see the following code:<BR>
+In C and C++ (and other languages) it is common to see the following code:
 </P>
 
 <P>
-<pre>for (;;) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;# Code here</pre>
-<pre>}</pre>
+<pre>for (;;) {
+   # Code here
+}</pre>
 </P>
 
 <P>
-The above means &quot;execute the code again and again forever&quot;. However, SLUDGE is a little stricter with its for loops and the above will not work! Instead, in order to remove the need for abusing for loops in this way (although I'm sure they don't mind) SLUDGE features an equivalent structure:<BR>
+The above means &quot;execute the code again and again forever&quot;. However, SLUDGE is a little stricter with its for loops and the above will not work! Instead, in order to remove the need for abusing for loops in this way (although I'm sure they don't mind) SLUDGE features an equivalent structure:
 </P>
 
 <P>
-<pre>loop {</pre>
-<pre>&nbsp;&nbsp;&nbsp;# Code here</pre>
-<pre>}</pre>
+<pre>loop {
+   # Code here
+}</pre>
 </P>
 
 <P>
-Which also means &quot;execute the code again and again forever&quot;. You can escape from one of these loops - or from any function - by returning from the function within the code using the return. (Currently, SLUDGE contains no break statement.)<BR>
+Which also means &quot;execute the code again and again forever&quot;. You can escape from one of these loops - or from any function - by returning from the function within the code using the return. (Currently, SLUDGE contains no break statement.)
 </P>
 
 <P>
@@ -96,13 +94,13 @@ Which also means &quot;execute the code again and again forever&quot;. You can e
 </P>
 
 <P>
-<pre>while (<i>check</i>) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;# Code here</pre>
-<pre>}</pre>
+<pre>while (<i>check</i>) {
+   # Code here
+}</pre>
 </P>
 
 <P>
-The code will be executed again and again until the value returned by <i>check</i> is TRUE (or equivalent - see the <a href="Treating_Variables_as_Booleans.html">Treating Variables as Booleans</a> section). Therefore <i>check</i> can be any segment of code which returns a value, whether a variable, a function call, a complex algorithm or whatever your program needs. If the value of <i>check</i> is FALSE when the program reaches the start of the loop, the contents of the loop are not executed at all.<BR>
+The code will be executed again and again until the value returned by <i>check</i> is TRUE (or equivalent - see the <a href="Treating_Variables_as_Booleans.html">Treating Variables as Booleans</a> section). Therefore <i>check</i> can be any segment of code which returns a value, whether a variable, a function call, a complex algorithm or whatever your program needs. If the value of <i>check</i> is FALSE when the program reaches the start of the loop, the contents of the loop are not executed at all.
 </P>
 
 <P>
@@ -111,166 +109,156 @@ The code will be executed again and again until the value returned by <i>check</
 </P>
 
 <P>
-Sometimes you only want to perform a certain line (or section) of code in a particular situation. For example, if you're writing a function to handle keypresses, you will probably want to perform different actions for different keys...<BR>
+Sometimes you only want to perform a certain line (or section) of code in a particular situation. For example, if you're writing a function to handle keypresses, you will probably want to perform different actions for different keys...
 </P>
 
 <P>
-<pre>sub handleKeyPress (key) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;if (key == &quot;ESCAPE&quot;) quitGame ();</pre>
-<pre>}</pre>
+<pre>sub handleKeyPress (key) {
+   if (key == &quot;ESCAPE&quot;) quitGame ();
+}</pre>
 </P>
 
 <P>
-If you need to perform more than one line, group the lines together using curly braces (&quot;{&quot; and &quot;}&quot;).<BR>
+If you need to perform more than one line, group the lines together using curly braces (&quot;{&quot; and &quot;}&quot;).
 </P>
 
 <P>
-<pre>var neverSpokenToFarmer = TRUE;</pre>
+<pre>var neverSpokenToFarmer = TRUE;
+
+sub talkToFarmer () {
+   say (ego, &quot;Hi...&quot;);
+   if (neverSpokenToFarmer) {
+      say (farmer, &quot;Hello? Who are you?&quot;);
+      say (ego, &quot;I'm Egor the ego. I'm on a quest.&quot;);
+      say (farmer, &quot;What quest would that be, then?&quot;);
+      say (ego, &quot;I'm trying to learn SLUDGE.&quot;);
+      say (farmer, &quot;Ar. Good luck to ya.&quot;);
+      say (ego, &quot;Can I ask you something?&quot;);
+      neverSpokenToFarmer = FALSE;
+   }
+   say (farmer, &quot;I'm a bit busy. Sorry.&quot;);
+}</pre>
 </P>
 
 <P>
-<pre>sub talkToFarmer () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;say (ego, &quot;Hi...&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;if (neverSpokenToFarmer) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (farmer, &quot;Hello? Who are you?&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;I'm Egor the ego. I'm on a quest.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (farmer, &quot;What quest would that be, then?&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;I'm trying to learn SLUDGE.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (farmer, &quot;Ar. Good luck to ya.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;Can I ask you something?&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;neverSpokenToFarmer = FALSE;</pre>
-<pre>&nbsp;&nbsp;&nbsp;}</pre>
-<pre>&nbsp;&nbsp;&nbsp;say (farmer, &quot;I'm a bit busy. Sorry.&quot;);</pre>
-<pre>}</pre>
+In the above example, the value of neverSpokenToFarmer will be initially set to TRUE. So, the first time the function is called, the ego character will say &quot;Hi...&quot;, the farmer character will say &quot;Hello? Who are you?&quot; and so on. The value of neverSpokenToFarmer will then be set to FALSE, and the farmer character will say the line &quot;I'm a bit busy. Sorry.&quot;
 </P>
 
 <P>
-In the above example, the value of neverSpokenToFarmer will be initially set to TRUE. So, the first time the function is called, the ego character will say &quot;Hi...&quot;, the farmer character will say &quot;Hello? Who are you?&quot; and so on. The value of neverSpokenToFarmer will then be set to FALSE, and the farmer character will say the line &quot;I'm a bit busy. Sorry.&quot;<BR>
+If the function is called again, the condition in the if statement will not be true, and so the conversation will jump straight from the ego character saying &quot;Hi...&quot; to the farmer character saying &quot;I'm a bit busy. Sorry.&quot;
 </P>
 
 <P>
-If the function is called again, the condition in the if statement will not be true, and so the conversation will jump straight from the ego character saying &quot;Hi...&quot; to the farmer character saying &quot;I'm a bit busy. Sorry.&quot;<BR>
+Sometimes you may want to provide an alternative. For example, take the following example...
 </P>
 
 <P>
-Sometimes you may want to provide an alternative. For example, take the following example...<BR>
+<pre>sub talkToChicken () {
+   say (chicken, &quot;Have you spoken to the farmer yet?&quot;);
+
+   if (neverSpokenToFarmer) {
+      say (ego, &quot;No.&quot;);
+      say (chicken, &quot;Lucky you.&quot;);
+   }
+
+   if (! neverSpokenToFarmer) {
+      say (ego, &quot;Yes.&quot;);
+      say (chicken, &quot;Did he ask about me? Huh? Huh?&quot;);
+      say (ego, &quot;Nope, he didn't mention you at all.&quot;);
+   }
+}</pre>
 </P>
 
 <P>
-<pre>sub talkToChicken () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;say (chicken, &quot;Have you spoken to the farmer yet?&quot;);</pre>
+This could be rewritten using the word else. The only place in which the word else can be used is straight after the group of commands to be executed by an if statement.
 </P>
 
 <P>
-<pre>&nbsp;&nbsp;&nbsp;if (neverSpokenToFarmer) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;No.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (chicken, &quot;Lucky you.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;}</pre>
+<pre>sub talkToChicken () {
+   say (chicken, &quot;Have you spoken to the farmer yet?&quot;);
+
+   if (neverSpokenToFarmer) {
+      say (ego, &quot;No.&quot;);
+      say (chicken, &quot;Lucky you.&quot;);
+   } else {
+      say (ego, &quot;Yes.&quot;);
+      say (chicken, &quot;Did he ask about me? Huh? Huh?&quot;);
+      say (ego, &quot;Nope, he didn't mention you at all.&quot;);
+   }
+}</pre>
 </P>
 
 <P>
-<pre>&nbsp;&nbsp;&nbsp;if (! neverSpokenToFarmer) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;Yes.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (chicken, &quot;Did he ask about me? Huh? Huh?&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;Nope, he didn't mention you at all.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;}</pre>
-<pre>}</pre>
+Using else followed immediately by another if statement, it is possible to write complex structures like this...
 </P>
 
 <P>
-This could be rewritten using the word else. The only place in which the word else can be used is straight after the group of commands to be executed by an if statement.<BR>
+<pre>sub countEggs () {
+   if (neverSpokenToFarmer) {
+      say (ego, &quot;I haven't introduced myself to the farmer.&quot;);
+      say (ego, &quot;If someone he's not met messes with his eggs...&quot;);
+      say (ego, &quot;Well, let's just say I'm not going to risk it.&quot;);
+   } else if (numberOfEggs == 0) {
+      say (ego, &quot;No eggs? You're a pretty lousy chicken!&quot;);
+      say (chicken, &quot;Hey, I've been doing paperwork all morning.&quot;);
+   } else if (numberOfEggs == 1) {
+      say (ego, &quot;I can only see one egg.&quot;);
+      say (chicken, &quot;Bite me.&quot;);
+      say (ego, &quot;But I forgot to bring my oven...&quot;);
+   } else {
+      say (ego, &quot;There are &quot; + numberOfEggs + &quot; eggs here.&quot;);
+      say (chicken, &quot;What can I say? I've been broody lately.&quot;);
+   }
+}</pre>
 </P>
 
 <P>
-<pre>sub talkToChicken () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;say (chicken, &quot;Have you spoken to the farmer yet?&quot;);</pre>
+Note that there has always been some ambiguity with the following type of structure...
 </P>
 
 <P>
-<pre>&nbsp;&nbsp;&nbsp;if (neverSpokenToFarmer) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;No.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (chicken, &quot;Lucky you.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;} else {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;Yes.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (chicken, &quot;Did he ask about me? Huh? Huh?&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;Nope, he didn't mention you at all.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;}</pre>
-<pre>}</pre>
+<pre>if (condition1)
+if (condition2)
+# Code here
+else
+# More code here</pre>
 </P>
 
 <P>
-Using else followed immediately by another if statement, it is possible to write complex structures like this...<BR>
+Does that mean this?
 </P>
 
 <P>
-<pre>sub countEggs () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;if (neverSpokenToFarmer) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;I haven't introduced myself to the farmer.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;If someone he's not met messes with his eggs...&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;Well, let's just say I'm not going to risk it.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;} else if (numberOfEggs == 0) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;No eggs? You're a pretty lousy chicken!&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (chicken, &quot;Hey, I've been doing paperwork all morning.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;} else if (numberOfEggs == 1) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;I can only see one egg.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (chicken, &quot;Bite me.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;But I forgot to bring my oven...&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;} else {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (ego, &quot;There are &quot; + numberOfEggs + &quot; eggs here.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say (chicken, &quot;What can I say? I've been broody lately.&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;}</pre>
-<pre>}</pre>
+<pre>if (condition1) {
+   if (condition2) {
+      # Code here
+   } else {
+      # More code here
+   }
+}</pre>
 </P>
 
 <P>
-Note that there has always been some ambiguity with the following type of structure...<BR>
+Or this?
 </P>
 
 <P>
-<pre>if (condition1)</pre>
-<pre>if (condition2)</pre>
-<pre># Code here</pre>
-<pre>else</pre>
-<pre># More code here</pre>
+<pre>if (condition1) {
+   if (condition2) {
+      # Code here
+   }
+} else {
+   # More code here
+}</pre>
 </P>
 
 <P>
-Does that mean this?<BR>
+Well, in SLUDGE it means the second. Be warned. It's always best to use parentheses when using nested if structures to avoid potential problems and unexpected behaviour. Remember, your computer doesn't know what you mean unless you actually tell it... so be specific.
 </P>
 
-<P>
-<pre>if (condition1) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;if (condition2) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Code here</pre>
-<pre>&nbsp;&nbsp;&nbsp;} else {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# More code here</pre>
-<pre>&nbsp;&nbsp;&nbsp;}</pre>
-<pre>}</pre>
-</P>
-
-<P>
-Or this?<BR>
-</P>
-
-<P>
-<pre>if (condition1) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;if (condition2) {</pre>
-<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Code here</pre>
-<pre>&nbsp;&nbsp;&nbsp;}</pre>
-<pre>} else {</pre>
-<pre>&nbsp;&nbsp;&nbsp;# More code here</pre>
-<pre>}</pre>
-</P>
-
-<P>
-Well, in SLUDGE it means the second. Be warned. It's always best to use parentheses when using nested if structures to avoid potential problems and unexpected behaviour. Remember, your computer doesn't know what you mean unless you actually tell it... so be specific.<BR>
-</P>
-
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

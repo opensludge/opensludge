@@ -11,29 +11,29 @@
 
 
 <P>
-The SLUDGE compiler knows several constants already, such as NULL and FALSE (both of which are just other ways of saying 0), TRUE (which is another way of saying 1) and so on. Should you want to define your own custom constant values in SLUDGE, you can do this using definition files (with the extension &quot;.SLD&quot;). Constant values cannot be defined in SLUDGE scripts.<BR>
+The SLUDGE compiler knows several constants already, such as NULL and FALSE (both of which are just other ways of saying 0), TRUE (which is another way of saying 1) and so on. Should you want to define your own custom constant values in SLUDGE, you can do this using definition files (with the extension &quot;.SLD&quot;). Constant values cannot be defined in SLUDGE scripts.
 </P>
 
 <P>
-To create and add a definition file to your project, choose the &quot;Add file&quot; button from the <a href="Project_Manager__Files_in_this_project_Section.html">Files in this project</a> section of the <a href="About_the_SLUDGE_Project_Manager.html">SLUDGE project manager</a> program. In the dialog box which appears, select the file type &quot;SLUDGE definition files (*.SLD)&quot; and type a name for the file you want to create.<BR>
+To create and add a definition file to your project, choose the &quot;Add file&quot; button from the <a href="Project_Manager__Files_in_this_project_Section.html">Files in this project</a> section of the <a href="About_the_SLUDGE_Project_Manager.html">SLUDGE project manager</a> program. In the dialog box which appears, select the file type &quot;SLUDGE definition files (*.SLD)&quot; and type a name for the file you want to create.
 </P>
 
 <P>
-When you've created the file, select it from the list and press the &quot;Edit&quot; button. Put one definition on each line. For example...<BR>
+When you've created the file, select it from the list and press the &quot;Edit&quot; button. Put one definition on each line. For example...
 </P>
 
 <P>
-<pre>AUTHORNAME = &quot;Tim&quot;</pre>
-<pre>YEAR = 2002</pre>
-<pre>NEXTYEAR = (YEAR + 1)</pre>
+<pre>AUTHORNAME = &quot;Tim&quot;
+YEAR = 2002
+NEXTYEAR = (YEAR + 1)</pre>
 </P>
 
 <P>
-Should a definitions file contain the above lines, whenever the SLUDGE compiler finds the word AUTHORNAME it will think it's found the word Tim in speech marks; whenever it finds the word YEAR it will think it's found the number 2002; whenever it finds the word NEXTYEAR it will think it's found the expression YEAR + 1 in brackets (the YEAR part of which will then be expanded as above).<BR>
+Should a definitions file contain the above lines, whenever the SLUDGE compiler finds the word AUTHORNAME it will think it's found the word Tim in speech marks; whenever it finds the word YEAR it will think it's found the number 2002; whenever it finds the word NEXTYEAR it will think it's found the expression YEAR + 1 in brackets (the YEAR part of which will then be expanded as above).
 </P>
 
 <P>
-Any spaces either side of the separating equals sign are disregarded. Blank lines and lines starting with a &quot;#&quot; are ignored.<BR>
+Any spaces either side of the separating equals sign are disregarded. Blank lines and lines starting with a &quot;#&quot; are ignored.
 </P>
 
 <P>
@@ -42,7 +42,7 @@ Any spaces either side of the separating equals sign are disregarded. Blank line
 </P>
 
 <P>
-Only complete expressions can be used as constants. You <b>can't</b>, for example, say:<BR>
+Only complete expressions can be used as constants. You <b>can't</b>, for example, say:
 </P>
 
 <P>
@@ -50,7 +50,7 @@ Only complete expressions can be used as constants. You <b>can't</b>, for exampl
 </P>
 
 <P>
-...and then expect the following code to work:<BR>
+...and then expect the following code to work:
 </P>
 
 <P>
@@ -58,14 +58,12 @@ Only complete expressions can be used as constants. You <b>can't</b>, for exampl
 </P>
 
 <P>
-But then why would you want to?<BR>
+But then why would you want to?
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>

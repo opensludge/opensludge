@@ -16,7 +16,7 @@
 </P>
 
 <P>
-<pre>skipSpeech ();</pre>
+<pre class="syntax">skipSpeech ();</pre>
 </P>
 
 <P>
@@ -25,7 +25,7 @@
 </P>
 
 <P>
-Removes any spoken text from the screen and continues any function paused because of a call to one of the <a href="say_and_think.html">say and think</a> commands. If the text is being spoken by a character, the character reverts to the animation defined in its current <a href="costume.html">costume</a> for standing still while facing its current direction.<BR>
+Removes any spoken text from the screen and continues any function paused because of a call to one of the <a href="say_and_think.html">say and think</a> commands. If the text is being spoken by a character, the character reverts to the animation defined in its current <a href="costume.html">costume</a> for standing still while facing its current direction.
 </P>
 
 <P>
@@ -34,7 +34,7 @@ Removes any spoken text from the screen and continues any function paused becaus
 </P>
 
 <P>
-No return value.<BR>
+No return value.
 </P>
 
 <P>
@@ -43,18 +43,16 @@ No return value.<BR>
 </P>
 
 <P>
-<pre>sub init () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;onLeftMouse (myLeftClickFunction);</pre>
-<pre>&nbsp;&nbsp;&nbsp;say (ego, &quot;Hello!&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;say (ego, &quot;Lots of things to say!&quot;);</pre>
-<pre>&nbsp;&nbsp;&nbsp;say (ego, &quot;Blah blah blah!&quot;);</pre>
-<pre>}</pre>
-</P>
+<pre>sub init () {
+   onLeftMouse (myLeftClickFunction);
+   say (ego, &quot;Hello!&quot;);
+   say (ego, &quot;Lots of things to say!&quot;);
+   say (ego, &quot;Blah blah blah!&quot;);
+}
 
-<P>
-<pre>sub myLeftClickFunction () {</pre>
-<pre>&nbsp;&nbsp;&nbsp;skipSpeech ();</pre>
-<pre>}</pre>
+sub myLeftClickFunction () {
+   skipSpeech ();
+}</pre>
 </P>
 
 <P>
@@ -63,18 +61,16 @@ No return value.<BR>
 </P>
 
 <P>
-<a href="completeTimers.html">completeTimers</a><BR>
+<a href="completeTimers.html">completeTimers</a>
 </P>
 
 <P>
-<a href="somethingSpeaking.html">somethingSpeaking</a><BR>
+<a href="somethingSpeaking.html">somethingSpeaking</a>
 </P>
 
-<P>
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
 
-<P>
 <HR>
 </BODY>
 </html>
