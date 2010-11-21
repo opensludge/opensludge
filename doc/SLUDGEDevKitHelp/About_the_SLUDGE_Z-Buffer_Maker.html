@@ -9,19 +9,11 @@
 <table align="center"><td class="heading">About the SLUDGE Z-Buffer Maker</td></table>
 <HR>
 
-
 <P>
-The SLUDGE z-buffer maker is used to create different areas of a scene which can obscure character graphics, such as foreground silhouettes, doorframes and furniture.
+The SLUDGE Z-Buffer Maker is used to create different areas of a scene which can obscure character graphics, such as foreground silhouettes, doorframes and furniture.
 </P>
 
-<P>
 <H3>Creating a z-buffer image:</H3>
-
-</P>
-
-<P>
-(Please note that, by default, the size of the window used by the SLUDGE z-buffer maker is 640x480 pixels. To use a different sized window, choose the <b>Window sizes</b> option from the <b>SLUDGE Settings</b> menu of the <a href="About_the_SLUDGE_Project_Manager.html">SLUDGE project manager</a> program.)
-</P>
 
 <P>
 The main work - specifying the areas - cannot be done from within the program itself and must instead be done using a paint package. For example, take the following room (taken from one of the demos):
@@ -44,7 +36,7 @@ The above room image has the following z-buffer image:
 </P>
 
 <P>
-Mixing these images together shows the concepts behind the z-buffer image, and which layers correspond with which areas in the actual image. Not that <b>this is not a required stage of producing a z-buffer image</b>; it is here only as an aid to understanding the reasons behind creating the image shown above.
+Mixing these images together shows the concepts behind the z-buffer image, and which layers correspond with which areas in the actual image. Note that <b>this is not a required stage of producing a z-buffer image</b>; it is here only as an aid to understanding the reasons behind creating the image shown above.
 </P>
 
 <P>
@@ -52,51 +44,45 @@ Mixing these images together shows the concepts behind the z-buffer image, and w
 </P>
 
 <P>
+A z-buffer image must have a black background and coloured areas that define where characters will be obscured by parts of the scene. You are allowed a maximum of 16 different colours - each colour will be treated as a different layer.
+</P>
+
 <H3>Loading your z-buffer image into the SLUDGE z-buffer maker:</H3>
 
+<P>
+Save your z-buffer image as an uncompressed TGA file and open it in the SLUDGE Z-Buffer Maker using the <b>New from TGA image</b> command on the <b>File</b> menu. After loading the image from above, the Z-Buffer Maker looks like this:
 </P>
 
 <P>
-Save your z-buffer image as an uncompressed TGA file and open it in the SLUDGE z-buffer maker. You are allowed a maximum of 16 different colours - each colour will be treated as a different layer.
+<IMG SRC="images/zbuffermaker.png">
 </P>
 
-<P>
-To read a TGA image file, use the <b>Open</b> command on the <b>File</b> menu. In the drop-down selection box at the bottom of the dialog box, pick &quot;TGA image files (*.TGA)&quot;. Now, find and load your image.
-</P>
+The slider at the top of the window is used to select a layer, the selected layer is displayed in white and the <b>y(z)</b> field used to set the cut-off point of the selected layer. The cut-off point of the selected layer is also shown by a green horizontal line. It can also be set using the left mouse button.
 
-<P>
-<H3>Scrolling:</H3>
-
-</P>
-
-<P>
-If your scene is larger than the SLUDGE z-buffer maker window, you can scroll around the image by holding down the right mouse button and dragging the mouse in the direction in which you wish to move.
-</P>
-
-<P>
 <H3>Cut-off points:</H3>
 
+<P>
+The purpose of the Z-Buffer Maker is to associate cut-off points to the layers defined by the z-buffer image. The cut-off point is the y-value below which a character must be standing in order to be shown in front of the layer in question. By default, when a TGA image is loaded, the cut-off point for each layer is the y-value of the lowest pixel used in the layer.
 </P>
 
 <P>
-Clicking the left mouse button on a colour (layer) will allow you to view and change the cut-off point for the layer: that is, the y-value below which a character must be standing in order to be shown in front of the colour in question. By default, when a TGA image is loaded, the cut-off point for each layer is the y-value of the lowest pixel used in the layer. (The exception to this is y-value for any layer which is initially black - for such a layer the y-value is always set to an initial value of 0, meaning characters are always drawn in black areas of the screen.)
-</P>
-
-<P>
-For example, the cut-off points for the above example are initially set to the following: layer 0 (black) has a y-value of 0, layer 1 (cyan) has a y-value of 479, layer 2 (green) has a y-value of 392 and layer 3 (red) has a y-value of 296.
+For example, the cut-off points for the above example are initially set to the following: layer 1 (cyan) has a y-value of 479, layer 2 (green) has a y-value of 392 and layer 3 (red) has a y-value of 296.
 </P>
 
 <P>
 It is possible to set a cut-off point to a larger value than the height of the screen, which is useful if you want to move a character off the bottom of the screen but still have them obscured by an object.
 </P>
 
-<P>
-<H3>Saving and using a z-buffer file:</H3>
+<H3>Scrolling:</H3>
 
+<P>
+If your scene is larger than the SLUDGE Z-Buffer Maker window, you can scroll around the image by holding down the right mouse button and dragging the mouse in the direction in which you wish to move.
 </P>
 
+<H3>Saving and using a z-buffer file:</H3>
+
 <P>
-To save your z-buffer file in the format used by SLUDGE, open the <b>File</b> menu and choose <b>Save</b> or <b>Save as...</b>. The <b>Save</b> option will overwrite the z-buffer file from which the current data was loaded... if the current data was loaded from an image file or no data is loaded, it will do the same as the <b>Save as...</b> option, which allows you to save the data under any file name. You can also save the data as a TGA image if you need to change the size or shape of the layers and you no longer have the original z-buffer image file. Remember, however, that saving as an image will delete all cut-off values as these cannot be saved using the TGA file format.
+To save your z-buffer file in the format used by SLUDGE, open the <b>File</b> menu and choose <b>Save</b> or <b>Save as...</b>. The <b>Save</b> option will overwrite the z-buffer file from which the current data was loaded... if the current data was loaded from an image file or no data is loaded, it will do the same as the <b>Save as...</b> option, which allows you to save the data under any file name.
 </P>
 
 <P>

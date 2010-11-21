@@ -61,9 +61,11 @@ P.copyright-notice {
 div.bash {
 	color: white;
 	font-family: monospace;
+	font-weight:normal;
 	background-color: #454545;
 	border: 1px solid #666;
 	margin: 0.3em 1em;
+	padding: 3px;
 	clear: none;
 	overflow: auto;
 }

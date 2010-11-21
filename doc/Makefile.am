@@ -5,8 +5,15 @@ nobase_dist_doc_DATA=\
 	SLUDGEDevKitHelp/images/Sludge_128x128x32.png \
 	SLUDGEDevKitHelp/images/ABC_image.png \
 	SLUDGEDevKitHelp/images/ABC_spritebank.png \
+	SLUDGEDevKitHelp/images/floormaker.png \
+	SLUDGEDevKitHelp/images/zbuffermaker.png \
 	SLUDGEDevKitHelp/images/spritebankeditor.png \
 	SLUDGEDevKitHelp/images/translationeditor.png \
+	SLUDGEDevKitHelp/images/floormodeicon1.png \
+	SLUDGEDevKitHelp/images/floormodeicon2.png \
+	SLUDGEDevKitHelp/images/floormodeicon3.png \
+	SLUDGEDevKitHelp/images/floormodeicon4.png \
+	SLUDGEDevKitHelp/images/floormodeicon5.png \
 	SLUDGEDevKitHelp/About_the_SLUDGE_Compiler.html \
 	SLUDGEDevKitHelp/getObjectX_and_getObjectY.html \
 	SLUDGEDevKitHelp/playSound.html \
