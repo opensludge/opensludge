@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<TITLE>Compiling SLUDGE on Ubuntu</TITLE>
+  <link rel="stylesheet" type="text/css" href="../SLUDGEDevKitHelp/style.css" />
+</head>
+<BODY>
+<HR>
+<table align="center"><td class="heading">Compiling SLUDGE on Ubuntu</td></table>
+<HR>
+
+There are generic instructions how to compile SLUDGE in the <strong>INSTALL</strong> file which is included in the source archieve. The following instructions describe the installation of SLUDGE on Ubuntu a little bit more detailed. If you keep in mind that other distributions may have other ways to gain root privileges (than sudo), other packaging management tools (than apt-get) and other package names, these instructions should help you installing SLUDGE on any Linux distribution.
+
+<h3>Dependencies</h3>
+
+<p>First you have to make shure that a graphics driver with 3D acceleration is installed.</p>
+
+<p>Then install the following dependencies from the repositories:
+</p>
+
+<p><ul>
+<li><strong>build-essential</strong></li>
+<li><strong>cmake</strong> (needed for installing Alure)</li>
+<li><strong>glee-dev</strong> (available since Maverick, see <a href="#glee">below</a>)</li>
+<li><strong>libsdl1.2-dev</strong></li>
+<li><strong>libglu1-mesa-dev</strong></li>
+<li><strong>libpng12-dev</strong></li>
+<li><strong>libopenal-dev</strong></li>
+<li><strong>libvorbis-dev</strong></li>
+<li><strong>libflac-dev</strong></li>
+<li><strong>libdumb1-dev</strong></li>
+<li><strong>libgtk2.0-dev</strong> (only needed for the Dev Kit)</li>
+<li><strong>libgtkglext1-dev</strong> (only needed for the Dev Kit)</li>
+</ul>
+</p>
+
+<p>Package list for copying:</p>
+
+<p><div class="bash">sudo apt-get install build-essential cmake glee-dev libsdl1.2-dev libglu1-mesa-dev libpng12-dev libopenal-dev libvorbis-dev libflac-dev libdumb1-dev </div></p>
+
+<p>The additional dependencies for the Dev Kit:</p>
+
+<p><div class="bash">sudo apt-get install libgtk2.0-dev libgtkglext1-dev </div></p>
+
+<h3 id="glee">GLee</h3>
+<p>GLee is available in the Ubuntu repositories only since Ubuntu 10.10 Maverick Meerkat. For older Ubuntu versions the packages <a href="http://packages.ubuntu.com/maverick/libglee0d1" rel="nofollow"><strong>libglee0d1</strong></a> and <a href="http://packages.ubuntu.com/maverick/glee-dev" rel="nofollow"><strong>glee-dev</strong></a> have to be downloaded for the fitting architecture and installed in this order.</p>
+
+<h3>Alure</h3>
+<p><a href="http://kcat.strangesoft.net/alure.html" rel="nofollow">Alure</a> has to be downloaded from Git, because version 1.0, which is included in Ubuntu, doesn't feature all functions needed by SLUDGE. This doesn't mean that Git has to be installed: The last "snapshot" can always be downloaded from Alures <a href="http://repo.or.cz/w/alure.git/shortlog" rel="nofollow">Git shortlog</a>.</p>
+
+<p>After extracting the archieve change to the <strong>build</strong> directory</p>
+
+<p><div class="bash">cd path/to/alure-(version)/build</div></p>
+
+<p>and run the configuration:</p>
+
+<p><div class="bash">cmake ..</div></p>
+
+<p>Make sure that cmake found and activated Vorbis, FLAC and DUMB. Then compile and install Alure:</p>
+
+<p><div class="bash">make</div></p>
+<p><div class="bash">sudo make install</div></p>
+
+<h3>Installing SLUDGE</h3>
+
+<p>Now it's time to download the SLUDGE source archieve from <a href="http://sourceforge.net/projects/opensludge">the SourceForge project page</a> and extract, compile und install the program.</p>
+
+<p><div class="bash">cd path/to/sludge-(version) </div></p>
+<p><pre><div class="bash">./configure                     # install only the Engine
+                                # or
+./configure --enable-devkit     # install Engine and Dev Kit</div></pre></p>
+<p><div class="bash">make</div></p>
+<p><div class="bash">sudo make install</div></p>
+
+<h3>See also:</h3>
+
+<p><a href="Using_the_SLUDGE_Engine_on_Linux.html">Using the SLUDGE Engine on Linux</a></p>
+<p><a href="Using_the_SLUDGE_Dev_Kit_on_Linux.html">Using the SLUDGE Dev Kit on Linux</a></p>
+
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="../SLUDGEDevKitHelp/Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
+</P>
+<HR>
+</BODY>
+</html>
