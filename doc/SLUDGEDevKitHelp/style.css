@@ -3,17 +3,20 @@ body {
 	color:#000000;
 	
 }
-a:link { 
+
+a { 
 	color: #228822;
+	font-weight:bold;
 }
-a:visited { 
-	color: #228822;
-}
-a:hover { 
-	color: #228822;
-}
+
 a:active { 
 	color: #33BB33;
+}
+
+pre {
+	color:#BB4444;
+	font-family:monospace;
+	font-weight:bold;
 }
 
 H3 {
