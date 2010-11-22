@@ -110,7 +110,7 @@ gboolean SludgeZBufferMaker::loadFile(char *filename)
 void SludgeZBufferMaker::postOpen()
 {
 	gtk_adjustment_set_upper( theSliderAdjustment, backdrop.total-1 );
-	gtk_adjustment_set_upper( theYAdjustment, -backdrop.sprites[0].height );
+	gtk_adjustment_set_upper( theYAdjustment, -backdrop.sprites[0].height*2 ); // *2 to allow obscuring characters exiting to the bottom 
 	setBuffer(1);
 	setBufferY(backdrop.sprites[buffer()].special);
 	char buf[5];
@@ -199,7 +199,7 @@ void SludgeZBufferMaker::button1Motion(int local_pointx, int local_pointy)
 
 	int yy = (local_pointy-y)*zmul;
 
-	if ( yy >= 0 && yy <= -backdrop.sprites[0].height) {
+	if ( yy >= 0 && yy <= -backdrop.sprites[0].height*2) {
 		setBufferY(yy);
 	}
 }
