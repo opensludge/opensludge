@@ -4,29 +4,29 @@ sludge_floormaker_SOURCES = \
 	FloorMakerMain.cpp SludgeFloorMaker.cpp SludgeFloorMaker.h \
 	SludgeGLApplication.cpp SludgeGLApplication.h \
 	SludgeApplication.cpp SludgeApplication.h \
-	Common.cpp Common.h ../source/ProjectManager/interface.h \
-	../source/FloorMaker/floormaker.cpp ../source/FloorMaker/floormaker.h \
-	../source/SpriteBankEditor/sprites.cpp ../source/SpriteBankEditor/sprites.h \
-	../source/ProjectManager/moreio.cpp ../source/ProjectManager/moreio.h \
+	Common.cpp Common.h ../source/DevKit/Common/interface.h \
+	../source/DevKit/GraphicalTools/floormaker.cpp ../source/DevKit/GraphicalTools/floormaker.h \
+	../source/DevKit/GraphicalTools/sprites.cpp ../source/DevKit/GraphicalTools/sprites.h \
+	../source/DevKit/Common/moreio.cpp ../source/DevKit/Common/moreio.h \
 	../source/CommonCode/tga.cpp ../source/CommonCode/tga.h
 
 sludge_zbuffermaker_SOURCES = \
 	ZBufferMakerMain.cpp SludgeZBufferMaker.cpp SludgeZBufferMaker.h \
 	SludgeGLApplication.cpp SludgeGLApplication.h \
 	SludgeApplication.cpp SludgeApplication.h \
-	Common.cpp Common.h ../source/ProjectManager/interface.h \
-	../source/ZBufferMaker/zbuffer.cpp ../source/ZBufferMaker/zbuffer.h \
-	../source/SpriteBankEditor/sprites.cpp ../source/SpriteBankEditor/sprites.h \
-	../source/ProjectManager/moreio.cpp ../source/ProjectManager/moreio.h \
+	Common.cpp Common.h ../source/DevKit/Common/interface.h \
+	../source/DevKit/GraphicalTools/zbuffer.cpp ../source/DevKit/GraphicalTools/zbuffer.h \
+	../source/DevKit/GraphicalTools/sprites.cpp ../source/DevKit/GraphicalTools/sprites.h \
+	../source/DevKit/Common/moreio.cpp ../source/DevKit/Common/moreio.h \
 	../source/CommonCode/tga.cpp ../source/CommonCode/tga.h
 
 sludge_spritebankeditor_SOURCES = \
 	SpriteBankEditorMain.cpp SludgeSpriteBankEditor.cpp SludgeSpriteBankEditor.h \
 	SludgeGLApplication.cpp SludgeGLApplication.h \
 	SludgeApplication.cpp SludgeApplication.h \
-	Common.cpp Common.h ../source/ProjectManager/interface.h \
-	../source/SpriteBankEditor/sprites.cpp ../source/SpriteBankEditor/sprites.h \
-	../source/ProjectManager/moreio.cpp ../source/ProjectManager/moreio.h \
+	Common.cpp Common.h ../source/DevKit/Common/interface.h \
+	../source/DevKit/GraphicalTools/sprites.cpp ../source/DevKit/GraphicalTools/sprites.h \
+	../source/DevKit/Common/moreio.cpp ../source/DevKit/Common/moreio.h \
 	../source/CommonCode/tga.cpp ../source/CommonCode/tga.h
 
 sludge_translationeditor_SOURCES = \
@@ -34,65 +34,63 @@ sludge_translationeditor_SOURCES = \
 	SludgeTranslationEditor.cpp SludgeTranslationEditor.h \
 	SludgeGLApplication.cpp SludgeGLApplication.h \
 	SludgeApplication.cpp SludgeApplication.h \
-	Common.cpp Common.h ../source/ProjectManager/interface.h \
-	../source/Translator/translator.cpp ../source/Translator/translator.h \
-	../source/SpriteBankEditor/splitter.cpp ../source/Translator/splitter.hpp \
-	../source/ProjectManager/settings.cpp ../source/ProjectManager/settings.h \
-	../source/ProjectManager/moreio.cpp ../source/ProjectManager/moreio.h
+	Common.cpp Common.h ../source/DevKit/Common/interface.h \
+	../source/DevKit/TranslationEditor/translator.cpp ../source/DevKit/TranslationEditor/translator.h \
+	../source/DevKit/ProjectManager/settings.cpp ../source/DevKit/ProjectManager/settings.h \
+	../source/DevKit/Common/moreio.cpp ../source/DevKit/Common/moreio.h \
+	../source/DevKit/Common/splitter.cpp ../source/DevKit/Common/splitter.hpp
 
 sludge_projectmanager_SOURCES = \
 	ProjectManagerMain.cpp ProjectManagerMain.h \
 	SludgeProjectManager.cpp SludgeProjectManager.h \
 	SludgeApplication.cpp SludgeApplication.h \
-	Common.cpp Common.h ../source/ProjectManager/interface.h \
-	../source/ProjectManager/project.cpp ../source/ProjectManager/project.hpp \
-	../source/ProjectManager/settings.cpp ../source/ProjectManager/settings.h \
-	../source/ProjectManager/moreio.cpp ../source/ProjectManager/moreio.h \
-	../source/ProjectManager/messbox.cpp ../source/ProjectManager/messbox.h \
-	../source/CommonCode/tga.cpp ../source/CommonCode/tga.h \
-	../source/SpriteBankEditor/splitter.cpp ../source/Translator/splitter.hpp \
-	../source/Compiler/compiler.cpp ../source/Compiler/compiler.hpp \
-	../source/Compiler/compilerinfo.cpp ../source/Compiler/compilerinfo.h \
-	../source/Compiler/allknown.cpp ../source/Compiler/allknown.h \
-	../source/Compiler/checkused.cpp ../source/Compiler/checkused.h \
-	../source/Compiler/dumpfiles.cpp ../source/Compiler/dumpfiles.h \
-	../source/Compiler/floor.cpp ../source/Compiler/floor.h \
-	../source/Compiler/hsi.cpp ../source/Compiler/hsi.h \
-	../source/Compiler/linker.cpp ../source/Compiler/linker.h \
-	../source/Compiler/objtype.cpp ../source/Compiler/objtype.h \
-	../source/Compiler/preproc.cpp ../source/Compiler/preproc.h \
-	../source/Compiler/realproc.cpp ../source/Compiler/realproc.h \
-	../source/Compiler/sludge_functions.cpp ../source/Compiler/sludge_functions.h \
-	../source/Compiler/tokens.cpp ../source/Compiler/tokens.h \
-	../source/Compiler/translation.cpp ../source/Compiler/translation.h \
-	../source/Compiler/csludge.h ../source/Compiler/typedef.h
-
+	Common.cpp Common.h ../source/DevKit/Common/interface.h \
+	../source/DevKit/ProjectManager/project.cpp ../source/DevKit/ProjectManager/project.hpp \
+	../source/DevKit/ProjectManager/settings.cpp ../source/DevKit/ProjectManager/settings.h \
+	../source/DevKit/ProjectManager/messbox.cpp ../source/DevKit/ProjectManager/messbox.h \
+	../source/DevKit/Compiler/compiler.cpp ../source/DevKit/Compiler/compiler.hpp \
+	../source/DevKit/Compiler/compilerinfo.cpp ../source/DevKit/Compiler/compilerinfo.h \
+	../source/DevKit/Compiler/allknown.cpp ../source/DevKit/Compiler/allknown.h \
+	../source/DevKit/Compiler/checkused.cpp ../source/DevKit/Compiler/checkused.h \
+	../source/DevKit/Compiler/dumpfiles.cpp ../source/DevKit/Compiler/dumpfiles.h \
+	../source/DevKit/Compiler/floor.cpp ../source/DevKit/Compiler/floor.h \
+	../source/DevKit/Compiler/hsi.cpp ../source/DevKit/Compiler/hsi.h \
+	../source/DevKit/Compiler/linker.cpp ../source/DevKit/Compiler/linker.h \
+	../source/DevKit/Compiler/objtype.cpp ../source/DevKit/Compiler/objtype.h \
+	../source/DevKit/Compiler/preproc.cpp ../source/DevKit/Compiler/preproc.h \
+	../source/DevKit/Compiler/realproc.cpp ../source/DevKit/Compiler/realproc.h \
+	../source/DevKit/Compiler/sludge_functions.cpp ../source/DevKit/Compiler/sludge_functions.h \
+	../source/DevKit/Compiler/tokens.cpp ../source/DevKit/Compiler/tokens.h \
+	../source/DevKit/Compiler/translation.cpp ../source/DevKit/Compiler/translation.h \
+	../source/DevKit/Compiler/csludge.h ../source/DevKit/Compiler/typedef.h \
+	../source/DevKit/Common/moreio.cpp ../source/DevKit/Common/moreio.h \
+	../source/DevKit/Common/splitter.cpp ../source/DevKit/Common/splitter.hpp \
+	../source/CommonCode/tga.cpp ../source/CommonCode/tga.h
 
 sludge_compiler_SOURCES = \
 	CompilerMain.cpp \
-	Common.cpp Common.h ../source/ProjectManager/interface.h \
-	../source/ProjectManager/project.cpp ../source/ProjectManager/project.hpp \
-	../source/ProjectManager/settings.cpp ../source/ProjectManager/settings.h \
-	../source/ProjectManager/moreio.cpp ../source/ProjectManager/moreio.h \
-	../source/ProjectManager/messbox.cpp ../source/ProjectManager/messbox.h \
-	../source/CommonCode/tga.cpp ../source/CommonCode/tga.h \
-	../source/SpriteBankEditor/splitter.cpp ../source/Translator/splitter.hpp \
-	../source/Compiler/compiler.cpp ../source/Compiler/compiler.hpp \
-	../source/Compiler/compilerinfo.cpp ../source/Compiler/compilerinfo.h \
-	../source/Compiler/allknown.cpp ../source/Compiler/allknown.h \
-	../source/Compiler/checkused.cpp ../source/Compiler/checkused.h \
-	../source/Compiler/dumpfiles.cpp ../source/Compiler/dumpfiles.h \
-	../source/Compiler/floor.cpp ../source/Compiler/floor.h \
-	../source/Compiler/hsi.cpp ../source/Compiler/hsi.h \
-	../source/Compiler/linker.cpp ../source/Compiler/linker.h \
-	../source/Compiler/objtype.cpp ../source/Compiler/objtype.h \
-	../source/Compiler/preproc.cpp ../source/Compiler/preproc.h \
-	../source/Compiler/realproc.cpp ../source/Compiler/realproc.h \
-	../source/Compiler/sludge_functions.cpp ../source/Compiler/sludge_functions.h \
-	../source/Compiler/tokens.cpp ../source/Compiler/tokens.h \
-	../source/Compiler/translation.cpp ../source/Compiler/translation.h \
-	../source/Compiler/csludge.h ../source/Compiler/typedef.h
-
+	Common.cpp Common.h ../source/DevKit/Common/interface.h \
+	../source/DevKit/ProjectManager/project.cpp ../source/DevKit/ProjectManager/project.hpp \
+	../source/DevKit/ProjectManager/settings.cpp ../source/DevKit/ProjectManager/settings.h \
+	../source/DevKit/ProjectManager/messbox.cpp ../source/DevKit/ProjectManager/messbox.h \
+	../source/DevKit/Compiler/compiler.cpp ../source/DevKit/Compiler/compiler.hpp \
+	../source/DevKit/Compiler/compilerinfo.cpp ../source/DevKit/Compiler/compilerinfo.h \
+	../source/DevKit/Compiler/allknown.cpp ../source/DevKit/Compiler/allknown.h \
+	../source/DevKit/Compiler/checkused.cpp ../source/DevKit/Compiler/checkused.h \
+	../source/DevKit/Compiler/dumpfiles.cpp ../source/DevKit/Compiler/dumpfiles.h \
+	../source/DevKit/Compiler/floor.cpp ../source/DevKit/Compiler/floor.h \
+	../source/DevKit/Compiler/hsi.cpp ../source/DevKit/Compiler/hsi.h \
+	../source/DevKit/Compiler/linker.cpp ../source/DevKit/Compiler/linker.h \
+	../source/DevKit/Compiler/objtype.cpp ../source/DevKit/Compiler/objtype.h \
+	../source/DevKit/Compiler/preproc.cpp ../source/DevKit/Compiler/preproc.h \
+	../source/DevKit/Compiler/realproc.cpp ../source/DevKit/Compiler/realproc.h \
+	../source/DevKit/Compiler/sludge_functions.cpp ../source/DevKit/Compiler/sludge_functions.h \
+	../source/DevKit/Compiler/tokens.cpp ../source/DevKit/Compiler/tokens.h \
+	../source/DevKit/Compiler/translation.cpp ../source/DevKit/Compiler/translation.h \
+	../source/DevKit/Compiler/csludge.h ../source/DevKit/Compiler/typedef.h \
+	../source/DevKit/Common/moreio.cpp ../source/DevKit/Common/moreio.h \
+	../source/DevKit/Common/splitter.cpp ../source/DevKit/Common/splitter.hpp \
+	../source/CommonCode/tga.cpp ../source/CommonCode/tga.h
 
 dist_pkgdata_DATA = \
 	FloorMaker.glade ZBufferMaker.glade \
@@ -122,7 +120,7 @@ EXTRA_DIST = \
 	../images/floorIcon/floorIcon_32x32x32.ico ../images/zIcon/zIcon_32x32x32.ico \
 	../images/spriteIcon/spriteIcon_32x32x32.ico ../images/ProjIcon/ProjIcon_32x32x32.ico
 
-AM_CPPFLAGS = -I$(top_srcdir)/source/CommonCode -I$(top_srcdir)/source/Compiler -I$(top_srcdir)/source/FloorMaker -I$(top_srcdir)/source/SpriteBankEditor -I$(top_srcdir)/source/ProjectManager -I$(top_srcdir)/source/Translator -I$(top_srcdir)/source/ZBufferMaker @GTK_CFLAGS@ @LIBPNG_CFLAGS@
+AM_CPPFLAGS = -I$(top_srcdir)/source/CommonCode -I$(top_srcdir)/source/DevKit/Common -I$(top_srcdir)/source/DevKit/Compiler -I$(top_srcdir)/source/DevKit/ProjectManager -I$(top_srcdir)/source/DevKit/GraphicalTools -I$(top_srcdir)/source/DevKit/TranslationEditor @GTK_CFLAGS@ @LIBPNG_CFLAGS@
 
 if COND_WIN32
 AM_CPPFLAGS += \
