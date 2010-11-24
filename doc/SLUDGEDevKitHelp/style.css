@@ -1,16 +1,22 @@
 body {	
-	background-color:#FFFFFF;
-	color:#000000;
-	
+	background-color:white;
+	color:black;
+	font-family:sans-serif;	
 }
 
-a { 
-	color: #228822;
-	font-weight:bold;
+a:link, a:visited{
+	color: #00a500;
+	text-decoration:none;
 }
 
-a:active { 
-	color: #33BB33;
+a:hover, a:active{
+	color:black;
+	text-decoration:underline;
+}
+
+h2{
+	text-align:center;
+	margin:10px;
 }
 
 pre {
@@ -19,16 +25,15 @@ pre {
 	font-weight:bold;
 }
 
-H3 {
-	font-family:Arial;
-	color:#3A8F8B;
-}
-
 HR {
 	border:0;
-	height:2px;
-	color:#000000;
-	background-color:#000000;
+	height:4px;
+	color:black;
+	background-color:black;
+}
+
+#headerGraphic{
+	margin-top:10px;
 }
 
 td.heading {

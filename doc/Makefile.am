@@ -2,6 +2,7 @@ nobase_dist_doc_DATA=\
 	SLUDGE_Help.html \
 	SLUDGEDevKitHelp/style.css \
 	SLUDGEDevKitHelp/HtmlMenu.html \
+	SLUDGEDevKitHelp/images/sludge300.png \
 	SLUDGEDevKitHelp/images/Sludge_128x128x32.png \
 	SLUDGEDevKitHelp/images/ABC_image.png \
 	SLUDGEDevKitHelp/images/ABC_spritebank.png \
