@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<TITLE>Project Manager: &quot;Project Settings&quot; Dialog</TITLE>
+  <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<BODY>
+<HR>
+<div align="center"><img id="headerGraphic" src="images/sludge300.png" alt="SLUDGE"/></div>
+<h2>Project Manager: &quot;Project Settings&quot; Dialog</h2>
+<HR>
+
+<P>
+You can open this dialog from the <b>Project</b> <a href="Project_Manager__Menus.html">menu</a>. Here is the place to enter project specific settings.
+</P>
+
+<P>
+<IMG SRC="images/projectmanager_project_settings.png">
+</P>
+
+
+<P>
+When you've finished changing the project properties, press <b>OK</b> to update the project with the new settings. If you want to close the dialog box without changing the project, press the <b>Cancel</b> button.
+</P>
+
+<P>
+<b>Window name:
+</P>
+
+<P>
+</b>The text which will be visible in the title bar of the game when it's running.
+</P>
+
+<P>
+<b>Quit message:</b>
+</P>
+
+<P>
+Enter the prompt to be displayed when a player tries to quit in the <b>Quit message</b> text area. This will only be displayed if the player tries to close your game using the button in the top-right corner of the window or the Close option on the game's System menu (or by pressing Alt-F4 when the game isn't running full screen). The prompt will not appear, whether the game is running full-screen or windowed, in response to a call to the <a href="quitGame.html">quitGame</a> command, which always closes the game immediately. It will also never appear on Linux.
+</P>
+
+<P>
+<b>Save games in subfolder:</b>
+</P>
+
+<P>
+By default, any run-time files which your SLUDGE game uses (i.e. any <a href="loadCustomData_and_saveCustomData.html">custom data</a> or saved game files) will be created in (and loaded from) the application data folder of the game. (<b>Documents and Settings/username/Application Data/Window name of the game</b> on Windows, <b>$HOME/.sludge-engine/Window name of the game</b> on Linux and (FIXME) on Mac) Should you want to keep these run-time files in a subdirectory instead, enter the name of the folder in this box. The folder need not exist already - when your game starts, it will create the folder if it doesn't already exist. The name you specify must be a valid filename... i.e. no illegal characters, such as &quot;:&quot;, &quot;/&quot;, &quot;\&quot;, &quot;?&quot;, &quot;*&quot; or &quot;|&quot;.
+</P>
+
+<P>
+ <b>Game language:</b>
+</P>
+
+<P>
+The language of the strings in your code. This is used in the language selection field of the SLUDGE Engine on Windows and Mac. The names of additional languages (translations) are specified using the <a href="About_the_SLUDGE_Translation_Editor.html">Translation Editor</a> when they are created. 
+</P>
+
+<P>
+<b>Filename:
+</P>
+
+<P>
+</b>The name of the project file to be created by the <a href="About_the_SLUDGE_Compiler.html">SLUDGE compiler</a> when the project is compiled. The extension &quot;.SLG&quot; will be added automatically - please don't add this yourself. The name entered here is also used for a file containing all the strings in your game - see the <a href="Spellchecking_the_Strings_in_your_Game.html">Spellchecking the Strings in your Game</a> topic.
+</P>
+
+<P>
+<b>Custom icon:</b>
+</P>
+
+<P>
+You can specify an icon to be used in your game's title bar, plus in the taskbar and in the window that appears should a player switch between programs using Alt-Tab here. Leave the box empty to use the normal SLUDGE icon.
+</P>
+
+<P>
+<b>Custom logo:</b>
+</P>
+
+<P>
+You can provide a logo that is shown in the preferences dialog of the engine instead of the SLUDGE logo. It must be 310x88 pixels large. Specify the file name here.
+</P>
+
+<P>
+ <b>Window width</b> and <b>Height:</b>
+</P>
+
+<P>
+Enter the size of the window you wish your game to use in pixels.
+</P>
+
+
+<P>
+<b>Frame speed (ms/frame):</b>
+</P>
+
+<P>
+The minimum time, in milliseconds, for which each frame should be displayed on-screen. The lower the number, the faster your game will run... provided it is being run on a machine which is <i>capable</i> of the speed requested. Higher numbers mean your game will run more slowly on a fast machine, but will act consistently across different specifications. If you're more used to thinking in terms of how many frames you'll get per second, that figure is 1000 divided by the milliseconds per frame value... eg. 25 milliseconds per frame gives (1000 / 25 =) 40 frames per second.
+</P>
+
+<P>
+<b>Force silent:</b>
+</P>
+
+<P>
+(FIXME: Don't know what this does.)
+</P>
+
+<P>
+<H3>See also:</H3>
+
+</P>
+
+<P>
+<a href="About_the_SLUDGE_Project_Manager.html">About the SLUDGE Project Manager</a>
+</P>
+
+<P>
+<a href="Project_Manager__Menus.html">Project Manager: Menus</a>
+</P>
+
+<P>
+<a href="Project_Manager__Preferences_Dialog.html">Project Manager: &quot;Preferences&quot; Dialog</a>
+</P>
+
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
+</P>
+
+<HR>
+</BODY>
+</html>

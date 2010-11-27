@@ -15,6 +15,9 @@ nobase_dist_doc_DATA=\
 	SLUDGEDevKitHelp/images/floormodeicon3.png \
 	SLUDGEDevKitHelp/images/floormodeicon4.png \
 	SLUDGEDevKitHelp/images/floormodeicon5.png \
+	SLUDGEDevKitHelp/images/projectmanager.png \
+	SLUDGEDevKitHelp/images/projectmanager_preferences.png \
+	SLUDGEDevKitHelp/images/projectmanager_project_settings.png \
 	SLUDGEDevKitHelp/About_the_SLUDGE_Compiler.html \
 	SLUDGEDevKitHelp/getObjectX_and_getObjectY.html \
 	SLUDGEDevKitHelp/playSound.html \
@@ -37,19 +40,17 @@ nobase_dist_doc_DATA=\
 	SLUDGEDevKitHelp/setSpeechSpeed.html \
 	SLUDGEDevKitHelp/About_the_SLUDGE_Z-Buffer_Maker.html \
 	SLUDGEDevKitHelp/hardScroll.html \
-	SLUDGEDevKitHelp/Project_Manager__Files_in_this_project_Section.html \
 	SLUDGEDevKitHelp/setStatusColour_(setStatusColor).html \
 	SLUDGEDevKitHelp/addCharacter.html \
 	SLUDGEDevKitHelp/hasFlag.html \
-	SLUDGEDevKitHelp/Project_Manager__Project_management_Section.html \
+	SLUDGEDevKitHelp/Project_Manager__Preferences_Dialog.html \
 	SLUDGEDevKitHelp/setThumbnailSize.html \
 	SLUDGEDevKitHelp/addOverlay.html \
 	SLUDGEDevKitHelp/hideCharacter.html \
-	SLUDGEDevKitHelp/Project_Manager__Project_properties_Dialog.html \
 	SLUDGEDevKitHelp/Setting_Default_Events.html \
 	SLUDGEDevKitHelp/addScreenRegion.html \
 	SLUDGEDevKitHelp/howFrozen.html \
-	SLUDGEDevKitHelp/Project_Manager__Project_settings_Section.html \
+	SLUDGEDevKitHelp/Project_Manager__Project_Settings_Dialog.html \
 	SLUDGEDevKitHelp/setZBuffer.html \
 	SLUDGEDevKitHelp/addStatus.html \
 	SLUDGEDevKitHelp/pushToStack.html \

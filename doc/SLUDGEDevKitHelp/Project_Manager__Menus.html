@@ -5,6 +5,7 @@
   <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 <BODY>
+
 <HR>
 <div align="center"><img id="headerGraphic" src="images/sludge300.png" alt="SLUDGE"/></div>
 <h2>Project Manager: Menus</h2>
@@ -12,28 +13,26 @@
 
 
 <P>
-The SLUDGE project manager features four menus: <b>File</b>, <b>Project</b>, <b>SLUDGE Settings</b> and <b>Help</b>. Each menu contains a number of options, described below.
+In the following the actions accessible over the SLUDGE Project Manager menus are described.
 </P>
 
-<P>
 <H3>File menu:</H3>
 
+
+<P>
+<b>New:
 </P>
 
 <P>
-<b>New SLUDGE project:
+</b>Opens a file save box, where you can choose a location and name for the project file you wish to create. The new file will be created containing no script files and its <a href="Project_Manager__Project_Settings_Dialog.html">project settings</a> will be set to default values. Then the project settings dialog is launched for you to make your first changes.
 </P>
 
 <P>
-</b>Creates and loads a new, empty project file. The same as hitting the <b>Create new project</b> button in the <a href="Project_Manager__Project_management_Section.html">Project management</a> section of the window.
+<b>Open:
 </P>
 
 <P>
-<b>Open SLUDGE project:
-</P>
-
-<P>
-</b>Loads an existing project file. The same as hitting the <b>Open existing project</b> button in the <a href="Project_Manager__Project_management_Section.html">Project management</a> section of the window.
+</b>Opens a file open box which lets you locate the project file which you want to load.
 </P>
 
 <P>
@@ -41,7 +40,7 @@ The SLUDGE project manager features four menus: <b>File</b>, <b>Project</b>, <b>
 </P>
 
 <P>
-</b>Saves the current project, overwriting the file from which it was loaded. The same as hitting the <b>Save project</b> button in the <a href="Project_Manager__Project_management_Section.html">Project management</a> section of the window.
+</b>Saves the current project. The file from which the project was loaded (or specified when the project was created) will be overwritten. To save the project into a new location, use <b>Save as...</b> instead.
 </P>
 
 <P>
@@ -49,23 +48,7 @@ The SLUDGE project manager features four menus: <b>File</b>, <b>Project</b>, <b>
 </P>
 
 <P>
-</b>Lets you save the existing project to a different filename. Note that if you save the project file to a directory other than the directory in which the old file was located, the file locations listed in the <a href="Project_Manager__Files_in_this_project_Section.html">Files in this project</a> will be wrong. The program will warn you of this at the time.
-</P>
-
-<P>
-<b>Revert:
-</P>
-
-<P>
-</b>Reloads the current project, undoing all of your changes since the last time it was loaded or saved. This will NOT undo changes to the script files listed in the <a href="Project_Manager__Files_in_this_project_Section.html">Files in this project</a> section, only the contents of the list and any changes made in the <a href="Project_Manager__Project_settings_Section.html">Project settings</a> section and the <a href="Project_Manager__Project_properties_Dialog.html">Project properties</a>.dialog box.
-</P>
-
-<P>
-<b>Close:
-</P>
-
-<P>
-</b>Closes the current project. The program will return to its &quot;No project loaded&quot; state.
+</b>Lets you save the existing project to a different filename. Note that if you save the project file to a directory other than the directory in which the old file was located, the file locations in the <b>Project Files</b> tab will be wrong.
 </P>
 
 <P>
@@ -76,132 +59,78 @@ The SLUDGE project manager features four menus: <b>File</b>, <b>Project</b>, <b>
 </b>Quits the SLUDGE project manager.
 </P>
 
+
+<H3>Edit menu:</H3>
+
+
 <P>
+<b>Preferences:</b>
+</P>
+
+<P>
+</b>Opens the <a href="Project_Manager__Preferences_Dialog.html">Preferences</a> dialog box, where you can manipulate global preferences for the Project Manager.
+</P>
+
+
 <H3>Project menu:</H3>
 
-</P>
-
-<P>
-<b>Add file:
-</P>
-
-<P>
-</b>Adds a SLUDGE script (or definition) file to the project. The same as hitting the <b>Add file</b> button in the <a href="Project_Manager__Files_in_this_project_Section.html">Files in this project</a> section of the window.
-</P>
-
-<P>
-<b>Find in files:
-</P>
-
-<P>
-</b>Lets you search the files in your project for text - useful for finding where you defined a particular function or object. The same as hitting the <b>Find in files</b> button in the <a href="Project_Manager__Files_in_this_project_Section.html">Files in this project</a> section of the window.
-</P>
 
 <P>
 <b>Project properties:
 </P>
 
 <P>
-</b>Opens the <a href="Project_Manager__Project_properties_Dialog.html">Project properties</a> dialog box. The same as hitting the <b>Project properties</b> button in the <a href="Project_Manager__Project_management_Section.html">Project management</a> section of the window.
+</b>Opens the <a href="Project_Manager__Project_Settings_Dialog.html">Project Settings</a> dialog box, where project specific settings are made.
 </P>
 
 <P>
-<b>Compile:
+<b>Compile:</b> 
 </P>
 
 <P>
-</b>Compiles the current project. The same as hitting the <b>Compile project</b> button in the <a href="Project_Manager__Project_management_Section.html">Project management</a> section of the window.
+Runs the <a href="About_the_SLUDGE_Compiler.html">SLUDGE compiler</a> and, errors permitting, creates a compiled SLUDGE game (.SLG) file. The name of the file will be that which is specified in the <a href="Project_Manager__Project_Settings_Dialog.html">Project Settings</a> dialog. Any warnings or errors will be shown in the <b>Compiler Errors</b> tab in the main window of the project manager.
 </P>
 
 <P>
-<b>Compile and run:
+<b>Run:</b>
 </P>
 
 <P>
-</b>Compiles the current project and, if the compilation is a success, runs the compiled game. The same as hitting the <b>Compile and run project</b> button in the <a href="Project_Manager__Project_management_Section.html">Project management</a> section of the window.
+Runs the game. Only works if the project has been compiled since it was loaded.
 </P>
 
-<P>
-<H3>SLUDGE Settings menu:</H3>
 
-</P>
-
-<P>
-<b>Keep compressed images:
-</P>
-
-<P>
-</b>If this option is checked, the compressed images generated during compilation will be kept on your machine after compilation. This will take up extra space but will decrease the time it takes to compile a project, as during subsequent compilations any images which have not changed do not need to be recompressed.
-</P>
-
-<P>
-<b>Write strings to text file:
-</P>
-
-<P>
-</b>During compilation, generate a file containing all the strings used in your game. Useful if you want to <a href="Spellchecking_the_Strings_in_your_Game.html">spellcheck</a> the strings without also spellchecking your SLUDGE code.
-</P>
-
-<P>
-<b>Verbose errors (development mode):
-</P>
-
-<P>
-</b>Include function names and other debugging information in your compiled game. This means that run-time error messages are more meaningful. It's recommended that you keep this option checked while developing a game, and uncheck it before compiling a release version.
-</P>
-
-<P>
-<b>File locations:
-</P>
-
-<P>
-</b>Lets you choose which programs you'd like the SLUDGE project manager to call when handling the various file types with which it has to deal. Currently, the only file you can set is your choice of text editor.
-</P>
-
-<P>
-<b>Window sizes:
-</P>
-
-<P>
-</b>Lets you choose the width and height of the windows used by the <a href="About_the_SLUDGE_Z-Buffer_Maker.html">SLUDGE z-buffer maker</a> and <a href="About_the_SLUDGE_Floor_Maker.html">SLUDGE floor maker</a> programs.
-</P>
-
-<P>
 <H3>Help menu:</H3>
 
+
+<P>
+<b>About:</b>
 </P>
 
 <P>
-<b>About SLUDGE:
+Displays a pop-up dialog box giving the version number and other information about the Project Manager. 
 </P>
 
 <P>
-</b>Displays a pop-up dialog box giving the version number of the project manager and a link to the Hungry Software SLUDGE website. The same as hitting the <b>About</b> button in the <a href="Project_Manager__Project_management_Section.html">Project management</a> section of the window.
+<b>SLUDGE documentation:</b>
 </P>
 
 <P>
-<b>SLUDGE documentation:
+Opens this help file.
 </P>
 
-<P>
-</b>Opens this help file. The same as hitting the <b>Help!</b> button in the <a href="Project_Manager__Project_management_Section.html">Project management</a> section of the window.
-</P>
-
-<P>
 <H3>See also:</H3>
 
+<P>
+<a href="About_the_SLUDGE_Project_Manager.html">About the SLUDGE Project Manager</a>
 </P>
 
 <P>
-<a href="Project_Manager__Files_in_this_project_Section.html">Project Manager: &quot;Files in this project&quot; Section</a>
+<a href="Project_Manager__Project_Settings_Dialog.html">Project Manager: &quot;Project Settings&quot; Dialog</a>
 </P>
 
 <P>
-<a href="Project_Manager__Project_management_Section.html">Project Manager: &quot;Project management&quot; Section</a>
-</P>
-
-<P>
-<a href="Project_Manager__Project_settings_Section.html">Project Manager: &quot;Project settings&quot; Section</a>
+<a href="Project_Manager__Preferences_Dialog.html">Project Manager: &quot;Preferences&quot; Dialog</a>
 </P>
 
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010

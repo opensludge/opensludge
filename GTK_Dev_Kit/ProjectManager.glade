@@ -764,7 +764,7 @@
               <object class="GtkLabel" id="label1">
                 <property name="visible">True</property>
                 <property name="xalign">1</property>
-                <property name="label" translatable="yes">Saves game in subfolder:</property>
+                <property name="label" translatable="yes">Save games in subfolder:</property>
                 <property name="justify">right</property>
               </object>
               <packing>
