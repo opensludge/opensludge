@@ -563,8 +563,10 @@ void SludgeProjectManager::on_treeview_realize(GtkTreeView *theTreeView, whichTr
 
 	gtk_tree_view_set_model(theTreeView, sortModel);
 
-	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE (sortModel),
-		                                    0, GTK_SORT_ASCENDING);
+//  Sorting lists alphabetically is commented out,
+//	because the order is important in some cases:
+//	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE (sortModel),
+//		                                    0, GTK_SORT_ASCENDING);
 
 	renderer = gtk_cell_renderer_text_new();
 	column = gtk_tree_view_column_new_with_attributes(caption,

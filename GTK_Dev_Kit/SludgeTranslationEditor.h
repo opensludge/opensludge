@@ -69,4 +69,5 @@ public:
 	void on_column_changed(int column, GtkCellRenderer *theCell_renderer, gchar *thePath, gchar *theNewText);
 	void on_sort_clicked(GtkTreeViewColumn *theTreeViewColumn, int sortColumn);
 	void on_load_strings_clicked();
+	gboolean searchEqualFunc(GtkTreeModel *model, const gchar *key, GtkTreeIter *iter);
 };

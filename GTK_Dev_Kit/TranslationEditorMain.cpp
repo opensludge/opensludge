@@ -139,6 +139,11 @@ G_MODULE_EXPORT void on_load_strings_clicked(GtkButton *theButton, gpointer theU
 	translationEditor->on_load_strings_clicked();
 }
 
+G_MODULE_EXPORT gboolean searchEqualFunc_cb(GtkTreeModel *model, gint column, const gchar *key, GtkTreeIter *iter, gpointer search_data)
+{
+	return translationEditor->searchEqualFunc(model, key, iter);
+}
+
 #ifdef __cplusplus
 }
 #endif

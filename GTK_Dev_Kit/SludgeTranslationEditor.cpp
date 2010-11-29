@@ -304,6 +304,8 @@ void SludgeTranslationEditor::on_treeview_realize(GtkTreeView *theTreeView)
 				      NULL);
 	gtk_tree_view_column_set_expand(translationColumn, TRUE);
 	gtk_tree_view_append_column(theTreeView, translationColumn);
+
+	gtk_tree_view_set_search_equal_func (theTreeView, searchEqualFunc_cb, NULL, NULL);
 }
 
 void SludgeTranslationEditor::on_tree_selection_changed(GtkTreeSelection *theSelection)
@@ -501,5 +503,47 @@ void SludgeTranslationEditor::on_load_strings_clicked()
 		g_free(filename);
 	}
 	gtk_widget_destroy(dialog);
+}
+
+gboolean SludgeTranslationEditor::searchEqualFunc(GtkTreeModel *model, const gchar *key, GtkTreeIter *iter)
+{
+	gboolean retval = TRUE;
+	char *escaped_key, *pattern, *original, *translation;
+	GRegex *regex;
+	GError *error = NULL;
+
+	gtk_tree_model_get(model, iter, COLUMN_ORIGINAL, &original, COLUMN_TRANSLATION, &translation, -1);
+
+	escaped_key = g_regex_escape_string(key, strlen(key));
+	pattern = new char[strlen(escaped_key) + 5];
+	sprintf(pattern, ".*%s.*", escaped_key);
+	g_free(escaped_key);
+
+   	regex = g_regex_new (pattern, G_REGEX_CASELESS, G_REGEX_MATCH_ANCHORED, &error);
+
+	if (regex == NULL) fprintf(stderr, "%s\n", error->message);
+
+	if (original) {
+		if (strlen(original)) {
+			if (g_regex_match (regex, original, G_REGEX_MATCH_ANCHORED, NULL))
+			{
+				retval = FALSE;
+			}
+		}
+	}
+	if (retval && translation) {
+		if (strlen(translation)) {
+			if (g_regex_match (regex, translation, G_REGEX_MATCH_ANCHORED, NULL))
+			{
+				retval = FALSE;
+			}
+		}
+	}
+	g_free(original);
+	g_free(translation);
+	g_regex_unref(regex);
+	delete pattern;
+
+	return retval;
 }
 

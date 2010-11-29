@@ -31,6 +31,8 @@ G_MODULE_EXPORT void
 on_sort_original_clicked_cb(GtkTreeViewColumn *theTreeViewColumn, gpointer theUser_data);
 G_MODULE_EXPORT void
 on_sort_translation_clicked_cb(GtkTreeViewColumn *theTreeViewColumn, gpointer theUser_data);
+G_MODULE_EXPORT gboolean
+searchEqualFunc_cb(GtkTreeModel *model, gint column, const gchar *key, GtkTreeIter *iter, gpointer search_data);
 #ifdef __cplusplus
 }
 #endif
