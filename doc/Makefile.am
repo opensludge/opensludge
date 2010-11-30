@@ -6,7 +6,7 @@ nobase_dist_doc_DATA=\
 	SLUDGEDevKitHelp/images/Sludge_128x128x32.png \
 	SLUDGEDevKitHelp/images/ABC_image.png \
 	SLUDGEDevKitHelp/images/ABC_spritebank.png \
-	SLUDGEDevKitHelp/images/floormaker.png \
+	SLUDGEDevKitHelp/images/floormaker.jpg \
 	SLUDGEDevKitHelp/images/zbuffermaker.png \
 	SLUDGEDevKitHelp/images/spritebankeditor.png \
 	SLUDGEDevKitHelp/images/translationeditor.png \
