@@ -42,6 +42,7 @@ private:
 	GtkTreeViewColumn *originalColumn, *translationColumn;
 	GtkAdjustment *theIdAdjustment;
 	GtkEntry *theLanguageEntry;
+	GtkEntry *theSearchEntry;
 	GtkTextBuffer *theOriginalTextBuffer, *theTranslationTextBuffer;
 
 

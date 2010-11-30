@@ -52,6 +52,7 @@ SludgeTranslationEditor::SludgeTranslationEditor()
 
 	theIdAdjustment = GTK_ADJUSTMENT (gtk_builder_get_object(theXml, "id_adjustment"));
 	theLanguageEntry = GTK_ENTRY (gtk_builder_get_object(theXml, "language_name"));
+	theSearchEntry = GTK_ENTRY (gtk_builder_get_object(theXml, "search_entry"));
 	theOriginalTextBuffer = GTK_TEXT_BUFFER (gtk_builder_get_object(theXml, "original_textbuffer"));
 	theTranslationTextBuffer = GTK_TEXT_BUFFER (gtk_builder_get_object(theXml, "translation_textbuffer"));
 
@@ -305,7 +306,8 @@ void SludgeTranslationEditor::on_treeview_realize(GtkTreeView *theTreeView)
 	gtk_tree_view_column_set_expand(translationColumn, TRUE);
 	gtk_tree_view_append_column(theTreeView, translationColumn);
 
-	gtk_tree_view_set_search_equal_func (theTreeView, searchEqualFunc_cb, NULL, NULL);
+	gtk_tree_view_set_search_equal_func(theTreeView, searchEqualFunc_cb, NULL, NULL);
+	gtk_tree_view_set_search_entry(theTreeView, theSearchEntry);
 }
 
 void SludgeTranslationEditor::on_tree_selection_changed(GtkTreeSelection *theSelection)
