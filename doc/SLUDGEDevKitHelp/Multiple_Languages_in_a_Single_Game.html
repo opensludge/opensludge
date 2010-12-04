@@ -16,25 +16,56 @@ Yes, you can now add translation data to your projects (one file for each langua
 </P>
 
 <P>
-First of all, you'll need the SLUDGE translation editor. It's available separately from the rest of the SLUDGE kit so that if you want someone else to make a translation file for you, they don’t need to download and install the whole kit just to use the translation editor.
+Use the <a href="About_the_SLUDGE_Translation_Editor.html" target="Frame">SLUDGE Translation Editor</a> to create the translations. Then you need to add the translation file(s) to your project using the project manager. Compile your game and the compiler will put all the languages into the one compiled game file, ready to be played.
 </P>
 
 <P>
-Then you need to add the translation file(s) to your project using the project manager. Compile your game and the compiler will put all the languages into the one compiled game file, ready to be played.
+Each translation file should have a different ID (you can set this using the translation editor). Players can then choose between languages by specifying the language in the dialog window that appears after starting the SLUDGE Engine (or by providing a command line parameter on Linux).
 </P>
 
-<P>
-Each translation file should have a different ID (you can set this using the translation editor). The can then choose between languages by specifying the ID of the language you'd like to use in <a href="ini.html">your game's .ini file</a>.
-</P>
+<H3>Workarounds for difficult translations</H3>
 
-<P>
-The final thing you need, of course, is some way for the players of your game to pick which language they want. Want more information? You may appreciate the separate tutorial explaining how to create a menu program capable of creating a language settings file and launching your game, along with a fully-functional example for your downloading pleasure. The tutorial, example code and - of course - the translation editor itself are all available on the <a href="Download_Free_SLUDGE_Examples.html">Hungry Software website</a>.
-</P>
+<P>In some situations, simply substituting one string for another may not be enough to translate a game into another language. You may have text saved as images, or want to provide alternative ways of building sentences for different languages. Take the following example:</P>
 
-<P>
+<P><pre>objectType cow ("cow") {
+}<P>
+objectType lookAt ("Look at") {
+   event default {
+      say (ego, "What a lovely " + clickedObject + ".");
+   }
+}</pre></P>
+
+<P>So, what would you translate the strings into? Well, I'd have thought something like...</P>
+
+
+<P>cow -> <B>la vache</B><BR>
+Look at -> <B>Voire</B><BR>
+What a lovely -> <B>C'est une beau</B><BR>
+. -> <B>.</B></P>
+
+
+<P>Now, that's not going to work out quite right, is it? You'd end up with sentences like "C'est une beau la vache" and you'd get all manner of complaints. So, use the getLanguageID function to check which language you're using...</P>
+
+<P><pre>objectType cow ("cow") {
+}<P>
+objectType lookAt ("Look at") {
+   event default {
+      if (getLanguageID () == 0) {
+         say (ego, "What a lovely " + clickedObject + ".");
+
+      } else {
+         say (ego, "SIMPLE LOOK AT PHRASE HERE");
+      }
+   }
+}</pre></P>
+
+<P>And, of course, add a translation for the new string...</P>
+
+<P>SIMPLE LOOK AT PHRASE HERE -> <B>Ce n'est pas tres interesant.</B></P>
+
+<P>Of course, you can come up with more complicated ways around the problem, but chances are they'll be based on the above theory.</P>
+
 <H3>See also:</H3>
-
-</P>
 
 <P>
 <a href="getLanguageID.html">getLanguageID</a>

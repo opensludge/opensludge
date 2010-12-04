@@ -18,6 +18,12 @@ nobase_dist_doc_DATA=\
 	SLUDGEDevKitHelp/images/projectmanager.png \
 	SLUDGEDevKitHelp/images/projectmanager_preferences.png \
 	SLUDGEDevKitHelp/images/projectmanager_project_settings.png \
+	SLUDGEDevKitHelp/images/scale1.gif \
+	SLUDGEDevKitHelp/images/scale2.gif \
+	SLUDGEDevKitHelp/images/scale3.gif \
+	SLUDGEDevKitHelp/images/theroom.gif \
+	SLUDGEDevKitHelp/images/vanish.gif \
+	SLUDGEDevKitHelp/Scaling_Characters.html \
 	SLUDGEDevKitHelp/About_the_SLUDGE_Compiler.html \
 	SLUDGEDevKitHelp/getObjectX_and_getObjectY.html \
 	SLUDGEDevKitHelp/playSound.html \
@@ -213,17 +219,9 @@ nobase_dist_doc_DATA=\
 	SLUDGEDevKitHelp/setScale.html \
 	SLUDGEDevKitHelp/The_Worlds_Easiest_Load_Save_Mechanism.html \
 	SLUDGEDevKitHelp/index.html \
-	SLUDGEDevKitHelp/images/aa-0.jpg \
-	SLUDGEDevKitHelp/images/aa-20.jpg \
-	SLUDGEDevKitHelp/images/aa-4.jpg \
-	SLUDGEDevKitHelp/images/aa-off.jpg \
-	SLUDGEDevKitHelp/images/image001.gif \
 	SLUDGEDevKitHelp/images/image002.gif \
 	SLUDGEDevKitHelp/images/image003.gif \
 	SLUDGEDevKitHelp/images/image004.gif \
-	SLUDGEDevKitHelp/images/image005.gif \
-	SLUDGEDevKitHelp/images/sbank_hotspot.gif \
-	SLUDGEDevKitHelp/images/sludgepale.gif \
 	SLUDGELinuxHelp/Compiling_SLUDGE_on_Ubuntu.html \
 	SLUDGELinuxHelp/SLUDGE_Linux_Help.html \
 	SLUDGELinuxHelp/Using_the_SLUDGE_Dev_Kit_on_Linux.html \
