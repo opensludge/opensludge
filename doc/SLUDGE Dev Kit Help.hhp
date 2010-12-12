@@ -113,10 +113,6 @@ SLUDGEDevKitHelp\playSound.html
 SLUDGEDevKitHelp\popFromStack.html
 SLUDGEDevKitHelp\positionStatus.html
 SLUDGEDevKitHelp\Problems_with_+=,_-=,__=,__=_and_%=_in_SLUDGE.html
-SLUDGEDevKitHelp\Project_Manager__Files_in_this_project_Section.html
-SLUDGEDevKitHelp\Project_Manager__Project_management_Section.html
-SLUDGEDevKitHelp\Project_Manager__Project_properties_Dialog.html
-SLUDGEDevKitHelp\Project_Manager__Project_settings_Section.html
 SLUDGEDevKitHelp\Project_Manager__Menus.html
 SLUDGEDevKitHelp\pushToStack.html
 SLUDGEDevKitHelp\quitGame.html
@@ -206,6 +202,9 @@ SLUDGEDevKitHelp\Variable_Operations.html
 SLUDGEDevKitHelp\Variables.html
 SLUDGEDevKitHelp\zoomCamera.html
 SLUDGEDevKitHelp\About_the_SLUDGE_Translation_Editor.html
+SLUDGEDevKitHelp\Project_Manager__Preferences_Dialog.html
+SLUDGEDevKitHelp\Project_Manager__Project_Settings_Dialog.html
+SLUDGEDevKitHelp\Scaling_Characters.html
 
 [INFOTYPES]
 

@@ -676,6 +676,10 @@
 					<param name="Local" value="SLUDGEDevKitHelp\Reusing_Code_for_or_from_Events.html">
 					</OBJECT>
 				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="Scaling Characters">
+					<param name="Local" value="SLUDGEDevKitHelp\Scaling_Characters.html">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="Setting Default Events">
 					<param name="Local" value="SLUDGEDevKitHelp\Setting_Default_Events.html">
 					</OBJECT>
@@ -752,20 +756,12 @@
 					<param name="Local" value="SLUDGEDevKitHelp\Project_Manager__Menus.html">
 					</OBJECT>
 				<LI> <OBJECT type="text/sitemap">
-					<param name="Name" value="Project Manager: &quot;Files in this project&quot; Section">
-					<param name="Local" value="SLUDGEDevKitHelp\Project_Manager__Files_in_this_project_Section.html">
+					<param name="Name" value="Project Manager: &quot;Project Settings&quot; Dialog">
+					<param name="Local" value="SLUDGEDevKitHelp\Project_Manager__Project_Settings_Dialog.html">
 					</OBJECT>
 				<LI> <OBJECT type="text/sitemap">
-					<param name="Name" value="Project Manager: &quot;Project management&quot; Section">
-					<param name="Local" value="SLUDGEDevKitHelp\Project_Manager__Project_management_Section.html">
-					</OBJECT>
-				<LI> <OBJECT type="text/sitemap">
-					<param name="Name" value="Project Manager: &quot;Project properties&quot; Dialog">
-					<param name="Local" value="SLUDGEDevKitHelp\Project_Manager__Project_properties_Dialog.html">
-					</OBJECT>
-				<LI> <OBJECT type="text/sitemap">
-					<param name="Name" value="Project Manager: &quot;Project settings&quot; Section">
-					<param name="Local" value="SLUDGEDevKitHelp\Project_Manager__Project_settings_Section.html">
+					<param name="Name" value="Project Manager: &quot;Preferences&quot; dialog">
+					<param name="Local" value="SLUDGEDevKitHelp\Project_Manager__Preferences_Dialog.html">
 					</OBJECT>
 				<LI> <OBJECT type="text/sitemap">
 					<param name="Name" value="Spellchecking the Strings in your Game">
