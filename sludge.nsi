@@ -589,12 +589,8 @@ Section Uninstall
 	!insertmacro RefreshShellIconsCall
 
 	Delete "$INSTDIR\Credits.html"
-	Delete "$INSTDIR\icons\Sludge.ico"
-	Delete "$INSTDIR\icons\gameIcon.ico"
-	Delete "$INSTDIR\icons\scriptIcon.ico"
-	Delete "$INSTDIR\icons\slx.ico"
-	RMDir "$INSTDIR\icons" 
 	Delete "$INSTDIR\SLUDGE Dev Kit Help.chm"
+	RMDir /r "$INSTDIR\icons" 
 	RMDir /r "$INSTDIR\Dev Kit"
 	RMDir /r "$INSTDIR\Engine"
 	RMDir /r "$INSTDIR\ExampleProjects"
