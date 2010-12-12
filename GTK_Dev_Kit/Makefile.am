@@ -116,9 +116,9 @@ dist_pkgdata_DATA = \
 EXTRA_DIST = \
 	make_resources.sh \
 	FloorMaker.rc ZBufferMaker.rc SpriteBankEditor.rc TranslationEditor.rc ProjectManager.rc \
-	../images/flags/flags_32x32x32.ico \
-	../images/floorIcon/floorIcon_32x32x32.ico ../images/zIcon/zIcon_32x32x32.ico \
-	../images/spriteIcon/spriteIcon_32x32x32.ico ../images/ProjIcon/ProjIcon_32x32x32.ico
+	../images/flags/flags.ico \
+	../images/floorIcon/floorIcon.ico ../images/zIcon/zIcon.ico \
+	../images/spriteIcon/spriteIcon.ico ../images/ProjIcon/ProjIcon.ico
 
 AM_CPPFLAGS = -I$(top_srcdir)/source/CommonCode -I$(top_srcdir)/source/DevKit/Common -I$(top_srcdir)/source/DevKit/Compiler -I$(top_srcdir)/source/DevKit/ProjectManager -I$(top_srcdir)/source/DevKit/GraphicalTools -I$(top_srcdir)/source/DevKit/TranslationEditor @GTK_CFLAGS@ @LIBPNG_CFLAGS@
 
