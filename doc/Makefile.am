@@ -1,5 +1,6 @@
 nobase_dist_doc_DATA=\
 	SLUDGE_Help.html \
+	Credits.html \
 	SLUDGEDevKitHelp/style.css \
 	SLUDGEDevKitHelp/HtmlMenu.html \
 	SLUDGEDevKitHelp/images/sludge300.png \
@@ -226,6 +227,7 @@ nobase_dist_doc_DATA=\
 	SLUDGELinuxHelp/SLUDGE_Linux_Help.html \
 	SLUDGELinuxHelp/Using_the_SLUDGE_Dev_Kit_on_Linux.html \
 	SLUDGELinuxHelp/Using_the_SLUDGE_Engine_on_Linux.html \
+	SLUDGELinuxHelp/Syntax_highlighting_for_gedit.html \
 	ExampleProjects/Welcome/image.tga ExampleProjects/Welcome/script.slu \
 	ExampleProjects/Welcome/tada.wav ExampleProjects/Welcome/Welcome.slp \
 	ExampleProjects/VerbCoin/demofont.duc ExampleProjects/VerbCoin/init.slu \

@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+ Authors: Marco Barisione, Emanuele Aina, Tobias Hansen
+ Copyright (C) 2005-2007 Marco Barisione <barisione@gmail.com>
+ Copyright (C) 2005-2007 Emanuele Aina
+ Copyright (C) 2010 Tobias Hansen <tobias.han@gmx.de>
+
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Library General Public
+ License as published by the Free Software Foundation; either
+ version 2 of the License, or (at your option) any later version.
+
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Library General Public License for more details.
+
+ You should have received a copy of the GNU Library General Public
+ License along with this library; if not, write to the
+ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ Boston, MA 02111-1307, USA.
+
+-->
+<language id="sludge" _name="SLUDGE" version="2.0" _section="Sources">
+    <metadata>
+      <property name="globs">*.slu</property>
+      <property name="line-comment-start">#</property>
+    </metadata>
+
+    <styles>
+        <style id="comment"           _name="Comment"             map-to="def:comment"/>
+        <style id="common-defines"    _name="Common Defines"      map-to="def:special-constant"/>
+        <style id="keyword"           _name="Keyword"             map-to="def:keyword"/>
+        <style id="type"              _name="Data Type"           map-to="def:type"/>
+        <style id="storage-class"     _name="Storage Class"       map-to="def:type"/>
+        <style id="decimal"           _name="Decimal number"      map-to="def:decimal"/>
+        <style id="function"          _name="Function"            map-to="def:function"/>
+    </styles>
+
+    <definitions>
+
+        <context id="sludge">
+            <include>
+
+                <!-- gtk-doc -->
+                <context ref="gtk-doc:inline-docs-section"/>
+
+                <!-- Comments -->
+                <context id="comment" style-ref="comment" end-at-line-end="true">
+                    <start>#</start>
+                    <include>
+                      <context ref="def:in-line-comment"/>
+                    </include>
+                </context>
+
+                <context id="decimal" style-ref="decimal">
+                    <match extended="true">
+                        (?&lt;![\w\.])
+                        [0-9]*
+                        (?![\w\.])
+                    </match>
+                </context>
+
+                <context ref="def:string"/>
+                <context ref="def:single-quoted-string"/>
+
+                <!-- Keywords -->
+                <context id="keywords" style-ref="keyword">
+                    <keyword>else</keyword>
+                    <keyword>event</keyword>
+                    <keyword>for</keyword>
+                    <keyword>if</keyword>
+                    <keyword>loop</keyword>
+                    <keyword>objectType</keyword>
+                    <keyword>sub</keyword>
+                    <keyword>while</keyword>
+                    <keyword>debug</keyword>
+                    <keyword>return</keyword>
+                    <keyword>flag</keyword>
+                    <keyword>flags</keyword>
+                    <keyword>speechColour</keyword>
+                    <keyword>speechColor</keyword>
+                    <keyword>speechGap</keyword>
+                    <keyword>spinSpeed</keyword>
+                    <keyword>walkSpeed</keyword>
+                    <keyword>wrapSpeech</keyword>
+                </context>
+
+                <!-- Functions -->
+                <context id="functions" style-ref="function">
+                    <keyword>addCharacter</keyword>
+                    <keyword>addOverlay</keyword>
+                    <keyword>addScreenRegion</keyword>
+                    <keyword>addStatus</keyword>
+                    <keyword>aimCamera</keyword>
+                    <keyword>alignStatus</keyword>
+                    <keyword>anim</keyword>
+                    <keyword>animate</keyword>
+                    <keyword>blankArea</keyword>
+                    <keyword>blankScreen</keyword>
+                    <keyword>bodgeFilenames</keyword>
+                    <keyword>cacheSound</keyword>
+                    <keyword>callEvent</keyword>
+                    <keyword>cancelSub</keyword>
+                    <keyword>captureAllKeys</keyword>
+                    <keyword>clearStatus</keyword>
+                    <keyword>completeTimers</keyword>
+                    <keyword>copyStack</keyword>
+                    <keyword>costume</keyword>
+                    <keyword>darkBackground</keyword>
+                    <keyword>deleteFile</keyword>
+                    <keyword>deleteFromStack</keyword>
+                    <keyword>deleteAllFromStack</keyword>
+                    <keyword>dequeue</keyword>
+                    <keyword>enqueue</keyword>
+                    <keyword>fetchEvent</keyword>
+                    <keyword>fileExists</keyword>
+                    <keyword>floatCharacter</keyword>
+                    <keyword>forceCharacter</keyword>
+                    <keyword>freeSound</keyword>
+                    <keyword>freeze</keyword>
+                    <keyword>getCharacterDirection</keyword>
+                    <keyword>getCharacterScale</keyword>
+                    <keyword>getFramesPerSecond</keyword>
+                    <keyword>getLanguageID</keyword>
+                    <keyword>getMatchingFiles</keyword>
+                    <keyword>getMouseScreenX</keyword>
+                    <keyword>getMouseScreenY</keyword>
+                    <keyword>getMouseX</keyword>
+                    <keyword>getMouseY</keyword>
+                    <keyword>getObjectX</keyword>
+                    <keyword>getObjectY</keyword>
+                    <keyword>getOverObject</keyword>
+                    <keyword>getPixelColour</keyword>
+                    <keyword>getPixelColor</keyword>
+                    <keyword>getSoundCache</keyword>
+                    <keyword>getStatusText</keyword>
+                    <keyword>hardScroll</keyword>
+                    <keyword>hasFlag</keyword>
+                    <keyword>hideCharacter</keyword>
+                    <keyword>howFrozen</keyword>
+                    <keyword>isCharacter</keyword>
+                    <keyword>isMoving</keyword>
+                    <keyword>isScreenRegion</keyword>
+                    <keyword>jumpCharacter</keyword>
+                    <keyword>launch</keyword>
+                    <keyword>lightStatus</keyword>
+                    <keyword>loadCustomData</keyword>
+                    <keyword>saveCustomData</keyword>
+                    <keyword>loadGame</keyword>
+                    <keyword>loopSound</keyword>
+                    <keyword>mixOverlay</keyword>
+                    <keyword>moveCharacter</keyword>
+                    <keyword>newStack</keyword>
+                    <keyword>normalCharacter</keyword>
+                    <keyword>onFocusChange</keyword>
+                    <keyword>onKeyboard</keyword>
+                    <keyword>onLeftMouse</keyword>
+                    <keyword>onLeftMouseUp</keyword>
+                    <keyword>onMoveMouse</keyword>
+                    <keyword>onRightMouse</keyword>
+                    <keyword>onRightMouseUp</keyword>
+                    <keyword>parallaxAdd</keyword>
+                    <keyword>parallaxClear</keyword>
+                    <keyword>pasteCharacter</keyword>
+                    <keyword>pasteImage</keyword>
+                    <keyword>pasteString</keyword>
+                    <keyword>burnString</keyword>
+                    <keyword>pause</keyword>
+                    <keyword>pickOne</keyword>
+                    <keyword>playSound</keyword>
+                    <keyword>popFromStack</keyword>
+                    <keyword>positionStatus</keyword>
+                    <keyword>pushToStack</keyword>
+                    <keyword>quitGame</keyword>
+                    <keyword>quitWithFatalError</keyword>
+                    <keyword>random</keyword>
+                    <keyword>removeAllCharacters</keyword>
+                    <keyword>removeAllScreenRegions</keyword>
+                    <keyword>removeCharacter</keyword>
+                    <keyword>removeLastStatus</keyword>
+                    <keyword>removeScreenRegion</keyword>
+                    <keyword>rename</keyword>
+                    <keyword>renameFile</keyword>
+                    <keyword>saveGame</keyword>
+                    <keyword>say</keyword>
+                    <keyword>think</keyword>
+                    <keyword>setBackgroundEffect</keyword>
+                    <keyword>doBackgroundEffect</keyword>
+                    <keyword>setBlankColour</keyword>
+                    <keyword>setBlankColor</keyword>
+                    <keyword>setBurnColour</keyword>
+                    <keyword>setBurnColor</keyword>
+                    <keyword>setCharacterAngleOffset</keyword>
+                    <keyword>setCharacterAntiAliasing</keyword>
+                    <keyword>setCharacterColourise</keyword>
+                    <keyword>setCharacterDrawMode</keyword>
+                    <keyword>setCharacterExtra</keyword>
+                    <keyword>setCharacterSpinSpeed</keyword>
+                    <keyword>setCharacterTransparency</keyword>
+                    <keyword>setCharacterWalkSpeed</keyword>
+                    <keyword>setCostume</keyword>
+                    <keyword>setCursor</keyword>
+                    <keyword>setCustomEncoding</keyword>
+                    <keyword>setDefaultMusicVolume</keyword>
+                    <keyword>setDefaultSoundVolume</keyword>
+                    <keyword>setFloor</keyword>
+                    <keyword>setFont</keyword>
+                    <keyword>setFontSpacing</keyword>
+                    <keyword>setLightMap</keyword>
+                    <keyword>setLitStatusColour</keyword>
+                    <keyword>setLitStatusColor</keyword>
+                    <keyword>setMaximumAntiAliasing</keyword>
+                    <keyword>setMusicVolume</keyword>
+                    <keyword>setPasteColour</keyword>
+                    <keyword>setPasteColor</keyword>
+                    <keyword>setScale</keyword>
+                    <keyword>setSceneDimensions</keyword>
+                    <keyword>setSoundLoopPoints</keyword>
+                    <keyword>setSoundVolume</keyword>
+                    <keyword>setSpeechMode</keyword>
+                    <keyword>setSpeechSpeed</keyword>
+                    <keyword>setStatusColour</keyword>
+                    <keyword>setStatusColor</keyword>
+                    <keyword>setThumbnailSize</keyword>
+                    <keyword>setZBuffer</keyword>
+                    <keyword>showBoxes</keyword>
+                    <keyword>showCharacter</keyword>
+                    <keyword>showFloor</keyword>
+                    <keyword>showThumbnail</keyword>
+                    <keyword>skipSpeech</keyword>
+                    <keyword>snapshotClear</keyword>
+                    <keyword>snapshotGrab</keyword>
+                    <keyword>somethingSpeaking</keyword>
+                    <keyword>spawnSub</keyword>
+                    <keyword>stackSize</keyword>
+                    <keyword>startMusic</keyword>
+                    <keyword>statusText</keyword>
+                    <keyword>stopCharacter</keyword>
+                    <keyword>stopMusic</keyword>
+                    <keyword>stopSound</keyword>
+                    <keyword>stringLength</keyword>
+                    <keyword>stringWidth</keyword>
+                    <keyword>substring</keyword>
+                    <keyword>transitionMode</keyword>
+                    <keyword>transitionLevel</keyword>
+                    <keyword>turnCharacter</keyword>
+                    <keyword>spinCharacter</keyword>
+                    <keyword>unfreeze</keyword>
+                    <keyword>wait</keyword>
+                    <keyword>zoomCamera</keyword>
+                </context>
+
+                <context id="types" style-ref="type">
+                    <keyword>var</keyword>
+                </context>
+
+                <context id="storage-class" style-ref="storage-class">
+                    <keyword>unfreezable</keyword>
+                </context>
+
+                <context id="common-defines" style-ref="common-defines">
+                    <keyword>AUTOFIT</keyword>
+                    <keyword>BLACK</keyword>
+                    <keyword>BLINDS</keyword>
+                    <keyword>CENTRE</keyword>
+                    <keyword>CENTER</keyword>
+                    <keyword>CROSSFADE</keyword>
+                    <keyword>DARK</keyword>
+                    <keyword>DARK1</keyword>
+                    <keyword>DARK2</keyword>
+                    <keyword>DARK3</keyword>
+                    <keyword>DISOLVE</keyword>
+                    <keyword>DISOLVE1</keyword>
+                    <keyword>DISOLVE2</keyword>
+                    <keyword>EAST</keyword>
+                    <keyword>FADE</keyword>
+                    <keyword>FALSE</keyword>
+                    <keyword>FOGGY1</keyword>
+                    <keyword>FOGGY2</keyword>
+                    <keyword>FOGGY3</keyword>
+                    <keyword>FOGGY4</keyword>
+                    <keyword>FRONT</keyword>
+                    <keyword>FIXEDSIZE</keyword>
+                    <keyword>FIXTOSCREEN</keyword>
+                    <keyword>GLOW</keyword>
+                    <keyword>GLOW1</keyword>
+                    <keyword>GLOW2</keyword>
+                    <keyword>GLOW3</keyword>
+                    <keyword>GLOW4</keyword>
+                    <keyword>ICON</keyword>
+                    <keyword>INVISIBLE</keyword>
+                    <keyword>TRUE</keyword>
+                    <keyword>NOLIGHTMAP</keyword>
+                    <keyword>NORTH</keyword>
+                    <keyword>NORTHEAST</keyword>
+                    <keyword>NORTHWEST</keyword>
+                    <keyword>NORMAL</keyword>
+                    <keyword>NOZBUFFER</keyword>
+                    <keyword>NULL</keyword>
+                    <keyword>SOUTHEAST</keyword>
+                    <keyword>SOUTH</keyword>
+                    <keyword>SOUTHWEST</keyword>
+                    <keyword>TRANSPARENT</keyword>
+                    <keyword>TRANSPARENT1</keyword>
+                    <keyword>TRANSPARENT2</keyword>
+                    <keyword>TRANSPARENT3</keyword>
+                    <keyword>SHADOW</keyword>
+                    <keyword>SHADOW1</keyword>
+                    <keyword>SHADOW2</keyword>
+                    <keyword>SHADOW3</keyword>
+                    <keyword>SOUNDANDTEXT</keyword>
+                    <keyword>SOUNDONLY</keyword>
+                    <keyword>TEXTONLY</keyword>
+                    <keyword>TVSTATIC</keyword>
+                    <keyword>WEST</keyword>
+                    <keyword>WHITE</keyword>
+                </context>
+
+            </include>
+        </context>
+    </definitions>
+</language>
