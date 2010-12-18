@@ -256,7 +256,6 @@ int main(int argc, char *argv[]) try
 	delete gameNameWin;
 	gameNameWin = NULL;
 
-
 	SDL_WM_SetCaption(gameName, gameName);
 	if ( (specialSettings & (SPECIAL_MOUSE_1 | SPECIAL_MOUSE_2)) == SPECIAL_MOUSE_1)
 		SDL_ShowCursor(SDL_DISABLE);
@@ -322,6 +321,12 @@ int main(int argc, char *argv[]) try
 					input.mouseY = event.motion.y * ((float)winHeight/cameraZoom) / realWinHeight;
 					break;
 				case SDL_KEYDOWN:
+                    // A Windows key is pressed - let's leave fullscreen.
+                    if (runningFullscreen) {
+                        if (event.key.keysym.sym == SDLK_LSUPER || event.key.keysym.sym == SDLK_LSUPER) {
+							setGraphicsWindow(! runningFullscreen);
+                        }
+                    }
 					// Ignore Command keypresses - they're for the OS to handle.
 					if (event.key.keysym.mod & KMOD_META) {
 						// Command+F - let's switch to/from full screen
