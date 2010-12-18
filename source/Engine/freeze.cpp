@@ -90,6 +90,7 @@ void freezeGraphics() {
 	setPixelCoords(false);
 }
 
+void saveTexture (GLuint tex, GLubyte * data);
 
 bool freeze () {
 	frozenStuffStruct * newFreezer = new frozenStuffStruct;
@@ -107,8 +108,12 @@ bool freeze () {
 		picHeight = getNextPOT(picHeight);
 	}
 	newFreezer -> backdropTexture = new GLubyte [picHeight*picWidth*4];
-	glBindTexture (GL_TEXTURE_2D, backdropTextureName);
-	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, newFreezer -> backdropTexture);
+	debugOut("about to crash?\n");
+	//glBindTexture (GL_TEXTURE_2D, backdropTextureName);
+	//glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, newFreezer -> backdropTexture);
+	saveTexture(backdropTextureName, newFreezer->backdropTexture);
+	
+	debugOut("survived!\n");
 	backdropTextureName = 0;
 
 	newFreezer -> sceneWidth = sceneWidth;

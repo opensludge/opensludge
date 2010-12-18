@@ -76,6 +76,39 @@ void setPixelCoords (bool pixels) {
 int desktopW = 0, desktopH = 0;
 bool runningFullscreen = false;
 
+
+// Replacement for glGetTexImage, because some ATI drivers are buggy.
+void saveTexture (GLuint tex, GLubyte * data) {
+	setPixelCoords (true);
+
+	glBindTexture (GL_TEXTURE_2D, tex);
+	
+//	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	
+	GLint w, h;
+	
+	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &w);
+	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &h);
+	
+	glClear(GL_COLOR_BUFFER_BIT);	// Clear The Screen
+	glEnable (GL_TEXTURE_2D);
+	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+	
+	int xoffset = 0;
+	int yoffset = 0;
+	
+	glBegin(GL_QUADS);
+	glTexCoord2f(0.0, 0.0); glVertex3f(-xoffset, -yoffset, 0.0);
+	glTexCoord2f(1.0, 0.0); glVertex3f(w-xoffset, -yoffset, 0.0);
+	glTexCoord2f(1.0, 1.0); glVertex3f(w-xoffset, -yoffset+h, 0.0);
+	glTexCoord2f(0.0, 1.0); glVertex3f(-xoffset, -yoffset+h, 0.0);
+	glEnd();
+	
+	glReadPixels(viewportOffsetX, viewportOffsetY, w, h, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	setPixelCoords (false);
+	
+}
+
 // This is for setting windowed or fullscreen graphics.
 // Used for switching, and for initial window creation.
 void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
@@ -107,8 +140,11 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 			}
 			backdropTexture = new GLubyte [picHeight*picWidth*4];
 
+			/*
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
 			glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture);
+			 */
+			saveTexture (backdropTextureName, backdropTexture);
 		}
 		if (snapshotTextureName) {
 			int picWidth = winWidth;
