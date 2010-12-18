@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "allfiles.h"
+#include "debug.h"
 #include "graphics.h"
 #include "newfatal.h"
 #include "sprites.h"
@@ -90,8 +91,6 @@ void freezeGraphics() {
 	setPixelCoords(false);
 }
 
-void saveTexture (GLuint tex, GLubyte * data);
-
 bool freeze () {
 	frozenStuffStruct * newFreezer = new frozenStuffStruct;
 	if (! checkNew (newFreezer)) return false;
@@ -109,8 +108,7 @@ bool freeze () {
 	}
 	newFreezer -> backdropTexture = new GLubyte [picHeight*picWidth*4];
 	debugOut("about to crash?\n");
-	//glBindTexture (GL_TEXTURE_2D, backdropTextureName);
-	//glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, newFreezer -> backdropTexture);
+
 	saveTexture(backdropTextureName, newFreezer->backdropTexture);
 	
 	debugOut("survived!\n");

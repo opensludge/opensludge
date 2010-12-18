@@ -43,5 +43,6 @@ void setupOpenGLStuff();
 
 int getNextPOT(int n);
 
+void saveTexture (GLuint tex, GLubyte * data);
 
 #endif

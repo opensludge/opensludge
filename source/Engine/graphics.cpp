@@ -77,37 +77,58 @@ int desktopW = 0, desktopH = 0;
 bool runningFullscreen = false;
 
 
+#ifdef _WIN32
 // Replacement for glGetTexImage, because some ATI drivers are buggy.
 void saveTexture (GLuint tex, GLubyte * data) {
 	setPixelCoords (true);
 
 	glBindTexture (GL_TEXTURE_2D, tex);
 	
-//	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	GLint tw, th;
 	
-	GLint w, h;
+	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &tw);
+	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &th);
 	
-	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &w);
-	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &h);
-	
-	glClear(GL_COLOR_BUFFER_BIT);	// Clear The Screen
 	glEnable (GL_TEXTURE_2D);
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 	
 	int xoffset = 0;
-	int yoffset = 0;
+	while (xoffset < tw) {
+		int w = (tw-xoffset < viewportWidth) ? tw-xoffset : viewportWidth;
+		
+		int yoffset = 0;
+		while (yoffset < th) {
+			int h = (th-yoffset < viewportHeight) ? th-yoffset : viewportHeight;
+			
+			glClear(GL_COLOR_BUFFER_BIT);	// Clear The Screen
+			
+			glBegin(GL_QUADS);
+			glTexCoord2f(0.0, 0.0); glVertex3f(-xoffset, -yoffset, 0.0);
+			glTexCoord2f(1.0, 0.0); glVertex3f(w-xoffset, -yoffset, 0.0);
+			glTexCoord2f(1.0, 1.0); glVertex3f(w-xoffset, -yoffset+h, 0.0);
+			glTexCoord2f(0.0, 1.0); glVertex3f(-xoffset, -yoffset+h, 0.0);
+			glEnd();
+			
+			for (int i = 0; i<h; i++)	{
+				glReadPixels(viewportOffsetX, viewportOffsetY+i, w, 1, GL_RGBA, GL_UNSIGNED_BYTE, data+xoffset*4+(yoffset+i)*4*tw);
+			}
+			
+			yoffset += viewportHeight;
+		}
+		
+		xoffset += viewportWidth;
+	}
+	//glReadPixels(viewportOffsetX, viewportOffsetY, tw, th, GL_RGBA, GL_UNSIGNED_BYTE, data);
 	
-	glBegin(GL_QUADS);
-	glTexCoord2f(0.0, 0.0); glVertex3f(-xoffset, -yoffset, 0.0);
-	glTexCoord2f(1.0, 0.0); glVertex3f(w-xoffset, -yoffset, 0.0);
-	glTexCoord2f(1.0, 1.0); glVertex3f(w-xoffset, -yoffset+h, 0.0);
-	glTexCoord2f(0.0, 1.0); glVertex3f(-xoffset, -yoffset+h, 0.0);
-	glEnd();
-	
-	glReadPixels(viewportOffsetX, viewportOffsetY, w, h, GL_RGBA, GL_UNSIGNED_BYTE, data);
 	setPixelCoords (false);
 	
 }
+#else
+void saveTexture (GLuint tex, GLubyte * data) {
+	glBindTexture (GL_TEXTURE_2D, tex);
+	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+}
+#endif
 
 // This is for setting windowed or fullscreen graphics.
 // Used for switching, and for initial window creation.
@@ -140,10 +161,6 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 			}
 			backdropTexture = new GLubyte [picHeight*picWidth*4];
 
-			/*
-			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
-			glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture);
-			 */
 			saveTexture (backdropTextureName, backdropTexture);
 		}
 		if (snapshotTextureName) {
@@ -155,8 +172,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 			}
 			snapTexture = new GLubyte [picHeight*picWidth*4];
 
-			glBindTexture (GL_TEXTURE_2D, snapshotTextureName);
-			glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, snapTexture);
+			saveTexture (snapshotTextureName, snapTexture);
 		}
 	}
 

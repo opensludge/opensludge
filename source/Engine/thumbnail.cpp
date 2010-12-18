@@ -60,15 +60,12 @@ bool saveThumbnail (FILE * fp) {
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		}
-		
-		// Copy Our ViewPort To The Texture
-		glBindTexture(GL_TEXTURE_2D, thumbnailTextureName);
-		glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, viewportOffsetX, viewportOffsetY, thumbWidth, thumbHeight);
-
-		GLushort* image = new GLushort [thumbWidth*thumbHeight];
-		glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, image);
 		glDeleteTextures (1, &thumbnailTextureName);
 		thumbnailTextureName = 0;
+		
+		// Save Our ViewPort
+		GLushort* image = new GLushort [thumbWidth*thumbHeight];
+		glReadPixels(viewportOffsetX, viewportOffsetY, thumbWidth, thumbHeight, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, image);
 
 		setPixelCoords (false);
 

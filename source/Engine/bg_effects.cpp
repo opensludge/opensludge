@@ -310,8 +310,7 @@ bool blurScreen () {
 		}
 
 		// Retrieve the texture
-		glBindTexture (GL_TEXTURE_2D, backdropTextureName);
-		glGetTexImage (GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture);
+		saveTexture (backdropTextureName, backdropTexture);
 
 		for (y = 0; y < s_matrixEffectHeight; y ++)
 		{

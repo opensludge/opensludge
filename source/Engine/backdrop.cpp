@@ -1328,16 +1328,52 @@ bool mixHSI (FILE * fp, int x, int y) {
 }
 
 void saveCorePNG  (FILE * writer, GLuint texture, int w, int h) {
-	GLint texw, texh;
+	GLint tw, th;
 
 	glBindTexture (GL_TEXTURE_2D, texture);
-	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &texw);
-	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &texh);
+	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &tw);
+	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &th);
 
-	GLubyte* image = new GLubyte [texw*texh*3];
+	GLubyte* image = new GLubyte [tw*th*3];
 	glPixelStorei (GL_PACK_ALIGNMENT, 1);
-	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+//	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
 
+	setPixelCoords (true);
+		
+	glEnable (GL_TEXTURE_2D);
+	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+	
+	int xoffset = 0;
+	while (xoffset < tw) {
+		int w = (tw-xoffset < viewportWidth) ? tw-xoffset : viewportWidth;
+		
+		int yoffset = 0;
+		while (yoffset < th) {
+			int h = (th-yoffset < viewportHeight) ? th-yoffset : viewportHeight;
+			
+			glClear(GL_COLOR_BUFFER_BIT);	// Clear The Screen
+			
+			glBegin(GL_QUADS);
+			glTexCoord2f(0.0, 0.0); glVertex3f(-xoffset, -yoffset, 0.0);
+			glTexCoord2f(1.0, 0.0); glVertex3f(w-xoffset, -yoffset, 0.0);
+			glTexCoord2f(1.0, 1.0); glVertex3f(w-xoffset, -yoffset+h, 0.0);
+			glTexCoord2f(0.0, 1.0); glVertex3f(-xoffset, -yoffset+h, 0.0);
+			glEnd();
+			
+			for (int i = 0; i<h; i++)	{
+				glReadPixels(viewportOffsetX, viewportOffsetY+i, w, 1, GL_RGB, GL_UNSIGNED_BYTE, image+xoffset*3+(yoffset+i)*3*tw);
+			}
+			
+			yoffset += viewportHeight;
+		}
+		
+		xoffset += viewportWidth;
+	}
+	
+	setPixelCoords (false);
+	
+	
+	
 	png_structp png_ptr = png_create_write_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 	if (!png_ptr) {
 		fatal ("Error saving image!");
@@ -1359,7 +1395,7 @@ void saveCorePNG  (FILE * writer, GLuint texture, int w, int h) {
 	unsigned char * row_pointers[h];
 
 	for (int i = 0; i < h; i++) {
-		row_pointers[i] = image + 3*i*texw;
+		row_pointers[i] = image + 3*i*tw;
 	}
 
 	png_set_rows(png_ptr, info_ptr, row_pointers);
@@ -1371,16 +1407,54 @@ void saveCorePNG  (FILE * writer, GLuint texture, int w, int h) {
 
 void saveCoreHSI (FILE * writer, GLuint texture, int w, int h) {
 
-	GLint texw, texh;
+	GLint tw, th;
 
 	glBindTexture (GL_TEXTURE_2D, texture);
-	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &texw);
-	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &texh);
+	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &tw);
+	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &th);
 
-	GLushort* image = new GLushort [texw*texh];
+	GLushort* image = new GLushort [tw*th];
 	glPixelStorei (GL_PACK_ALIGNMENT, 1);
-	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, image);
+//	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, image);
 
+	setPixelCoords (true);
+	
+	
+	glEnable (GL_TEXTURE_2D);
+	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+	
+	int xoffset = 0;
+	while (xoffset < tw) {
+		int w = (tw-xoffset < viewportWidth) ? tw-xoffset : viewportWidth;
+		
+		int yoffset = 0;
+		while (yoffset < th) {
+			int h = (th-yoffset < viewportHeight) ? th-yoffset : viewportHeight;
+			
+			glClear(GL_COLOR_BUFFER_BIT);	// Clear The Screen
+			
+			glBegin(GL_QUADS);
+			glTexCoord2f(0.0, 0.0); glVertex3f(-xoffset, -yoffset, 0.0);
+			glTexCoord2f(1.0, 0.0); glVertex3f(w-xoffset, -yoffset, 0.0);
+			glTexCoord2f(1.0, 1.0); glVertex3f(w-xoffset, -yoffset+h, 0.0);
+			glTexCoord2f(0.0, 1.0); glVertex3f(-xoffset, -yoffset+h, 0.0);
+			glEnd();
+			
+			for (int i = 0; i<h; i++)	{
+				glReadPixels(viewportOffsetX, viewportOffsetY+i, w, 1, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, image+xoffset+(yoffset+i)*tw);
+			}
+			
+			yoffset += viewportHeight;
+		}
+		
+		xoffset += viewportWidth;
+	}
+	//glReadPixels(viewportOffsetX, viewportOffsetY, tw, th, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	
+	setPixelCoords (false);
+	
+	
+	
 	int x, y, lookAhead;
 	unsigned short int * fromHere, * lookPointer;
 
@@ -1388,7 +1462,7 @@ void saveCoreHSI (FILE * writer, GLuint texture, int w, int h) {
 	put2bytes (h, writer);
 
 	for (y = 0; y < h; y ++) {
-		fromHere = image +(y*texw);
+		fromHere = image +(y*tw);
 		x = 0;
 		while (x < w) {
 			lookPointer = fromHere + 1;
@@ -1427,8 +1501,7 @@ bool getRGBIntoStack (unsigned int x, unsigned int y, stackHandler * sH) {
 
 	newValue.varType = SVT_NULL;
 
-	glBindTexture (GL_TEXTURE_2D, backdropTextureName);
-	glGetTexImage (GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture);
+	saveTexture (backdropTextureName, backdropTexture);
 
 	GLubyte * target;
 	if (! NPOT_textures) {
