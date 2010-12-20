@@ -152,7 +152,7 @@ void readIniFile (char * filename) {
 
 void saveIniFile (char * filename) {
 	char * langName = getPrefsFilename (copyString (filename));
-	FILE * fp = fopen (langName, "wb");
+	FILE * fp = fopen (langName, "wt");
 	delete langName;
 
 	fprintf (fp, "LANGUAGE=%d\n", gameSettings.languageID);

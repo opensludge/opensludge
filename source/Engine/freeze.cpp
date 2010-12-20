@@ -49,7 +49,7 @@ void freezeGraphics() {
 	glLoadIdentity();
 	glOrtho(0, (GLdouble) winWidth / cameraZoom, 0, (GLdouble) winHeight / cameraZoom, 1.0, -1.0);
 	glMatrixMode(GL_MODELVIEW);
-	
+
 	glGenTextures (1, &freezeTextureName);
 	int w = winWidth;
 	int h = winHeight;
@@ -57,44 +57,45 @@ void freezeGraphics() {
 		w = getNextPOT(winWidth);
 		h = getNextPOT(winHeight);
 	}
-	
+
 	glBindTexture(GL_TEXTURE_2D, freezeTextureName);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
-	
+
 	// Render scene
 	glDepthMask (GL_TRUE);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear The Screen
 	glDepthMask (GL_FALSE);
-	
+
 	// Temporarily disable AA
 	int antiAlias = gameSettings.antiAlias;
 	gameSettings.antiAlias = 0;
-	
+
 	drawBackDrop ();				// Draw the room
 	drawZBuffer(cameraX, cameraY, false);
-	
+
 	glEnable(GL_DEPTH_TEST);
 	drawPeople ();					// Then add any moving characters...
 	glDisable(GL_DEPTH_TEST);
-	
+
 	gameSettings.antiAlias = antiAlias;
-	
+
 	// Copy Our ViewPort To The Texture
 	glBindTexture(GL_TEXTURE_2D, freezeTextureName);
 	glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, winWidth, winHeight);
-	
+
 	glViewport (viewportOffsetX, viewportOffsetY, viewportWidth, viewportHeight);
 	setPixelCoords(false);
 }
 
 bool freeze () {
+	debugOut("calling freeze()\n");
 	frozenStuffStruct * newFreezer = new frozenStuffStruct;
 	if (! checkNew (newFreezer)) return false;
-	
+
 	// Grab a copy of the current scene
 	freezeGraphics();
 
@@ -110,7 +111,7 @@ bool freeze () {
 	debugOut("about to crash?\n");
 
 	saveTexture(backdropTextureName, newFreezer->backdropTexture);
-	
+
 	debugOut("survived!\n");
 	backdropTextureName = 0;
 
@@ -143,7 +144,7 @@ bool freeze () {
 		backdropTexW = (double) sceneWidth / picWidth;
 		backdropTexH = (double) sceneHeight / picHeight;
 	}
-	
+
 	// Copy the old scene to the new backdrop
 	glDeleteTextures (1, &backdropTextureName);
 	backdropTextureName = freezeTextureName;
@@ -270,7 +271,7 @@ void unfreeze (bool killImage) {
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		}
-		
+
 		int picWidth = sceneWidth;
 		int picHeight = sceneHeight;
 		if (! NPOT_textures) {

@@ -58,9 +58,9 @@
 			<Add library="..\..\..\alure\build\libALURE32.dll.a" />
 		</Linker>
 		<ExtraCommands>
+			<Add before="$(CMD_RM) $(TARGET_OBJECT_DIR)source\engine\debug.o" />
 			<Add after="$(CMD_CP) ..\..\source\Engine\*.vert $(TARGET_OUTPUT_DIR)" />
 			<Add after="$(CMD_CP) ..\..\source\Engine\*.frag $(TARGET_OUTPUT_DIR)" />
-			<Mode after="always" />
 		</ExtraCommands>
 		<Unit filename="..\..\..\Glee\GLee.c">
 			<Option compilerVar="CC" />

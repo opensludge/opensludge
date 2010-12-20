@@ -20,3 +20,8 @@ void debugOut(const char * a, ...) {
 	}
 #endif
 }
+
+void debugHeader()
+{
+    debugOut( "*** Engine compiled " __DATE__ " at " __TIME__ ".\n");
+}

@@ -83,45 +83,45 @@ void saveTexture (GLuint tex, GLubyte * data) {
 	setPixelCoords (true);
 
 	glBindTexture (GL_TEXTURE_2D, tex);
-	
+
 	GLint tw, th;
-	
+
 	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &tw);
 	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &th);
-	
+
 	glEnable (GL_TEXTURE_2D);
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-	
+
 	int xoffset = 0;
 	while (xoffset < tw) {
 		int w = (tw-xoffset < viewportWidth) ? tw-xoffset : viewportWidth;
-		
+
 		int yoffset = 0;
 		while (yoffset < th) {
 			int h = (th-yoffset < viewportHeight) ? th-yoffset : viewportHeight;
-			
+
 			glClear(GL_COLOR_BUFFER_BIT);	// Clear The Screen
-			
+
 			glBegin(GL_QUADS);
 			glTexCoord2f(0.0, 0.0); glVertex3f(-xoffset, -yoffset, 0.0);
 			glTexCoord2f(1.0, 0.0); glVertex3f(w-xoffset, -yoffset, 0.0);
 			glTexCoord2f(1.0, 1.0); glVertex3f(w-xoffset, -yoffset+h, 0.0);
 			glTexCoord2f(0.0, 1.0); glVertex3f(-xoffset, -yoffset+h, 0.0);
 			glEnd();
-			
+
 			for (int i = 0; i<h; i++)	{
 				glReadPixels(viewportOffsetX, viewportOffsetY+i, w, 1, GL_RGBA, GL_UNSIGNED_BYTE, data+xoffset*4+(yoffset+i)*4*tw);
 			}
-			
+
 			yoffset += viewportHeight;
 		}
-		
+
 		xoffset += viewportWidth;
 	}
 	//glReadPixels(viewportOffsetX, viewportOffsetY, tw, th, GL_RGBA, GL_UNSIGNED_BYTE, data);
-	
+
 	setPixelCoords (false);
-	
+
 }
 #else
 void saveTexture (GLuint tex, GLubyte * data) {
@@ -233,6 +233,8 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
         }
 	}
 
+    debugHeader();
+
 	if( SDL_SetVideoMode( realWinWidth, realWinHeight, 32, videoflags ) == 0 ) {
 		msgBox("Startup Error: Couldn't set video mode.", SDL_GetError());
 		SDL_Quit();
@@ -294,7 +296,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 		uniform = glGetUniformLocation(shader.paste, "useLightTexture");
 		if (uniform >= 0) glUniform1i(uniform, 0);
 	}
-	
+
 	glUseProgram(0);
 
 
