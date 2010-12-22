@@ -9,6 +9,7 @@
 #import "ProjectDocument.h"
 #include "Project.hpp"
 
+#include "moreio.h"
 #include "settings.h"
 #include "compilerinfo.h"
 
