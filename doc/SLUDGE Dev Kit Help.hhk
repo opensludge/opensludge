@@ -1587,6 +1587,11 @@
 		<param name="Local" value="SLUDGEDevKitHelp\random.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="release_the_game">
+		<param name="Name" value="Releasing the Game">
+		<param name="Local" value="SLUDGEDevKitHelp\release_the_game.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="removeAllCharacters">
 		<param name="Name" value="removeAllCharacters (built-in function)">
 		<param name="Local" value="SLUDGEDevKitHelp\removeAllCharacters.html">

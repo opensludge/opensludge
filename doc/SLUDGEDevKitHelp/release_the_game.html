@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<TITLE>How to Release the Finished Game</TITLE>
+  <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<BODY>
+<HR>
+<div align="center"><img id="headerGraphic" src="images/sludge300.png" alt="SLUDGE"/></div>
+<h2>How to Release the Finished Game</h2>
+<HR>
+
+<P>
+Once you've finished your game, you probably want to let other people play it. The
+most important file for that is the one with the .slg file ending. That stands for
+"SLUDGE Game", and that file contains everything that is your game. In order to
+play it, the SLUDGE engine is needed, so you probably want to distribute that 
+together with your game.
+</P>
+
+<h3>On Windows</h3>
+
+<p>On Windows, most programs are distributed with installer/uninstaller programs. 
+<a href="http://nsis.sourceforge.net/">NSIS</a> is one of the most popular systems
+for creating installers, and you can find <a href="http://opensludge.sourceforge.net/Sample%20Installer.nsi">
+a sample NSIS script for SLUDGE games</a> on the SLUDGE site.</p>
+
+<p>If you don't have access to a Windows computer, try asking for help on 
+<a href="http://www.adventuredevelopers.com/forum/"the Adventure Developers forum</a>.</p>
+
+<h3>On Mac OS X</h3>
+
+<p>On Mac OS X, programs are typically contained in .app bundles. To make a bundle
+with your game, first rename your .slg file to Gamedata.slg, then open the engine
+bundle (secondary-click on the engine file in Finder, and select "Show Package Contents")
+and place the game file in Contents/Resources. Now the game will load automatically
+when you run the engine. Just zip it up (secondary click in finder - "Compress...")
+and send it to your players!</p>
+
+<p>If you want to replace the icon shown in Finder, you can replace the file 
+"Sludge.icns" with your own icon.</p>
+
+<p>If you don't have access to a Mac computer, try asking for help on 
+<a href="http://www.adventuredevelopers.com/forum/"the Adventure Developers forum</a>.</p>
+
+<h3>On Linux</h3>
+
+<p>For Linux users, distributing the .slg file by itself and pointing to where 
+SLUDGE can be downloaded should do the trick.</p>
+
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
+</P>
+
+<HR>
+</BODY>
+</html>
