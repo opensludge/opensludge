@@ -24,6 +24,7 @@ nobase_dist_doc_DATA=\
 	SLUDGEDevKitHelp/images/scale3.gif \
 	SLUDGEDevKitHelp/images/theroom.gif \
 	SLUDGEDevKitHelp/images/vanish.gif \
+	SLUDGEDevKitHelp/release_the_game.html \
 	SLUDGEDevKitHelp/Scaling_Characters.html \
 	SLUDGEDevKitHelp/About_the_SLUDGE_Compiler.html \
 	SLUDGEDevKitHelp/getObjectX_and_getObjectY.html \
