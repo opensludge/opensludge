@@ -26,11 +26,24 @@
 </P>
 
 <P>
-Creates a file with the name <i>text</i> which contains the current state of the SLUDGE engine. The <i>text</I> value must be a string <b>not</b> a <a href="File_Handling.html">file handle</a> for this command to work as expected! The <a href="loadGame.html">loadGame</a> command can then be used to load in one of these files to return the engine to exactly the same state.
+Creates a file with the name <i>text</i> which contains the current state of the 
+SLUDGE engine. The <i>text</I> value must be a string <b>not</b> a 
+<a href="File_Handling.html">file handle</a> for this command to work as expected! 
+The <a href="loadGame.html">loadGame</a> command can then be used to load in one 
+of these files to return the engine to exactly the same state.
 </P>
 
+<p>Any run-time files which your SLUDGE game uses (i.e. any custom data or saved 
+game files) will be created in (and loaded from) the application data folder of 
+the game. (Documents and Settings/username/Application Data/Game Name
+on Windows, $HOME/.sludge-engine/Game Name on Linux and 
+User/Application Support/Game Name on Mac). See also 
+<a href="Project_Manager__Project_Settings_Dialog.html"></a>.</p>
+
 <P>
-Your saved game files, as well as containing all the information needed to restore a player's progress at any time, can also (optionally) contain a thumbnail image. The size of the image generated and saved can be set using <a href="setThumbnailSize.html">setThumbnailSize</a>.
+Your saved game files, as well as containing all the information needed to restore 
+a player's progress at any time, can also (optionally) contain a thumbnail image. 
+The size of the image generated and saved can be set using <a href="setThumbnailSize.html">setThumbnailSize</a>.
 </P>
 
 <P>

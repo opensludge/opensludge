@@ -12,11 +12,20 @@
 
 
 <P>
-In order to create a game using SLUDGE you will have to be able to handle files using Windows. Much of the file handling in SLUDGE is automated, but in order to use graphics, sounds and music (for example) you will have to create and work with the files yourself.
+In order to create a game using SLUDGE you will have to be able to handle files 
+using your operating system. (Explorer on Windows and Finder on Mac.) Much of the 
+file handling in SLUDGE is automated, but in order to use graphics, sounds and 
+music (for example) you will have to create and work with the files yourself.
 </P>
 
 <P>
-<b>*</b>= These file formats can be included in a SLUDGE compiled game. See the section on <a href="File_Handling.html">file handling</a> for information on how to include these files in a compiled game. Other file types (such as HTML pages or Windows Help files) can be executed by a SLUDGE game using the <a href="launch_and_launchWith.html">launch and launchWith</a> commands. These files must then be provided with the compiled game, as they will not be included inside the file itself.
+<b>*</b>= These file formats can be included in a SLUDGE compiled game. See the 
+section on <a href="File_Handling.html">file handling</a> for information on how 
+to include these files in a compiled game. Other file types (such as HTML pages 
+or PDF files) can be opened by a SLUDGE game using the 
+<a href="launch_and_launchWith.html">launch and launchWith</a> commands. 
+These files must then be provided with the compiled game, as they will not be 
+included inside the file itself.
 </P>
 
 <P>
@@ -37,7 +46,8 @@ The extension given to a SLUDGE project file, as used by the <a href="About_the_
 </P>
 
 <P>
-A SLUDGE script, containing object definitions and functions. See the <a href="SLUDGE_Language_Reference_Manual.html">SLUDGE Language Reference Manual</a> for information on how to use the language.
+A SLUDGE script, containing object definitions and functions. 
+See the <a href="SLUDGE_Language_Reference_Manual.html">SLUDGE Language Reference Manual</a> for information on how to use the language.
 </P>
 
 <P>
@@ -45,7 +55,9 @@ A SLUDGE script, containing object definitions and functions. See the <a href="S
 </P>
 
 <P>
-A SLUDGE constant definitions file. Here you can set up your own <a href="Using_Constants_in_SLUDGE.html">constant definitions</a> (which are used in a similar way to items created using #define in C and C++).
+A SLUDGE constant definitions file. Here you can set up your own 
+<a href="Using_Constants_in_SLUDGE.html">constant definitions</a> 
+(which are used in a similar way to items created using #define in C and C++).
 </P>
 
 <P>
@@ -53,7 +65,9 @@ A SLUDGE constant definitions file. Here you can set up your own <a href="Using_
 </P>
 
 <P>
-A compiled SLUDGE game. Double click it to play it. Requires an up-to-date version of the SLUDGE engine to be installed on your machine. These compiled game files can be distributed as you see fit.
+A compiled SLUDGE game. Double click it to play it. Requires an up-to-date version 
+of the SLUDGE engine to be installed on your machine. These compiled game files can 
+be <a href="release_the_game.html">distributed</a> as you see fit.
 </P>
 
 <P>
@@ -69,7 +83,9 @@ See <a href="ini.html">.ini files for compiled SLUDGE games</a>.
 </P>
 
 <P>
-A SLUDGE z-buffer file. These can be created using the <a href="About_the_SLUDGE_Z-Buffer_Maker.html">SLUDGE z-buffer maker</a> and can be loaded and unloaded using the <a href="setZBuffer.html">setZBuffer</a> function.
+A SLUDGE z-buffer file. These can be created using the 
+<a href="About_the_SLUDGE_Z-Buffer_Maker.html">SLUDGE z-buffer maker</a> and can 
+be loaded and unloaded using the <a href="setZBuffer.html">setZBuffer</a> function.
 </P>
 
 <P>
@@ -77,7 +93,9 @@ A SLUDGE z-buffer file. These can be created using the <a href="About_the_SLUDGE
 </P>
 
 <P>
-A SLUDGE floor file. These can be created using the <a href="About_the_SLUDGE_Floor_Maker.html">SLUDGE floor maker</a> and can be loaded and unloaded using the <a href="setFloor.html">setFloor</a> function.
+A SLUDGE floor file. These can be created using the 
+<a href="About_the_SLUDGE_Floor_Maker.html">SLUDGE floor maker</a> and can be 
+loaded and unloaded using the <a href="setFloor.html">setFloor</a> function.
 </P>
 
 <P>
@@ -85,7 +103,13 @@ A SLUDGE floor file. These can be created using the <a href="About_the_SLUDGE_Fl
 </P>
 
 <P>
-A SLUDGE sprite bank file, containing one or more (or zero, but that's a bit pointless) sprites for use in a game. Sprites are used for mouse cursors, moving characters and inventory objects. Create and maintain these files using the <a href="About_the_SLUDGE_Sprite_Bank_Editor.html">SLUDGE sprite bank editor</a> and use them in animations for your game with the <a href="anim.html">anim</a> command. The extension .DUC comes from a previous Hungry Software game, Ducks, which used the same file format for its sprites.
+A SLUDGE sprite bank file, containing one or more (or zero, but that's a bit 
+pointless) sprites for use in a game. Sprites are used for mouse cursors, moving 
+characters and inventory objects. Create and maintain these files using the 
+<a href="About_the_SLUDGE_Sprite_Bank_Editor.html">SLUDGE sprite bank editor</a> 
+and use them in animations for your game with the <a href="anim.html">anim</a> 
+command. The extension .DUC comes from a previous Hungry Software game, Ducks, 
+which used the same file format for its sprites.
 </P>
 
 <P>
@@ -93,7 +117,15 @@ A SLUDGE sprite bank file, containing one or more (or zero, but that's a bit poi
 </P>
 
 <P>
-An image compressed using the SLUDGE image compression algorithm. These are optionally left on your machine after compilation; you can enable and disable this feature by selecting &quot;Keep compressed images&quot; from the &quot;SLUDGE Settings&quot; <a href="Project_Manager__Menus.html">menu</a> in the <a href="About_the_SLUDGE_Project_Manager.html">SLUDGE project manager</a> application. Keeping these files decreases the time it takes to compile your game. However, you can't actually use them for anything yourself. Don't, for example, expect notepad or a paint package to make any sense of them.
+An image compressed using the SLUDGE image compression algorithm. These are 
+optionally left on your machine after compilation; you can enable and disable this 
+feature by selecting &quot;Keep compressed images&quot; from the &quot;SLUDGE 
+Settings&quot; <a href="Project_Manager__Menus.html">menu</a> in the 
+<a href="About_the_SLUDGE_Project_Manager.html">SLUDGE project manager</a> 
+application. Keeping these files decreases the time it takes to compile your game. 
+However, you can't actually use them for anything yourself. Don't, for example, 
+expect notepad or a paint package to make any sense of them. (These files are not
+created when you include PNG files - only TGA files are converted to SLX.)
 </P>
 
 <P>
@@ -116,7 +148,11 @@ z-buffer maker</a> and <a href="About_the_SLUDGE_Sprite_Bank_Editor.html">SLUDGE
 </P>
 
 <P>
-Sound effects, music and, if you choose, recorded speech. Play these using the <a href="playSound.html">playSound</a> function, loop them with <a href="loopSound.html">loopSound</a> or make characters say or think them with the <a href="say_and_think.html">say and think</a> functions.
+Sound effects, music and, if you choose, recorded speech. Play these using the 
+<a href="playSound.html">playSound</a> function, loop them with 
+<a href="loopSound.html">loopSound</a> or make characters say or think them with 
+the <a href="say_and_think.html">say and think</a> functions. (Using Ogg Vorbis
+rather than WAV is strongly suggested.)
 </P>
 
 <P>
@@ -132,7 +168,10 @@ The track-based music formats supported by SLUDGE. Play these using the <a href=
 </P>
 
 <P>
-Midi music. The current SLUDGE engine cannot play these - however, you can still try, so that old projects still compile. Trying to do so, however, will produce a warning.
+Midi music. The current SLUDGE engine cannot play these - however, you can still 
+try, so that old projects still compile. Trying to do so, however, will produce a 
+warning. If you have a midi song you want to use, convert it to Ogg Vorbis and use
+that instead.
 </P>
 
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010

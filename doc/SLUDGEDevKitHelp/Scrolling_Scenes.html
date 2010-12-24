@@ -29,7 +29,13 @@ When the background is resized, the camera is moved to the top left hand corner 
 </P>
 
 <P>
-SLUDGE can handle multiple layered parallax scrolling. Each layer can be added using a single call to the built-in <a href="parallaxAdd.html">parallaxAdd</a> function and any parallax layers loaded will be visible through areas of your scene coloured bright cyan (0, 255, 255 or #00FFFF). The function <a href="parallaxClear.html">parallaxClear</a> removes all loaded parallax layers from memory.
+SLUDGE can handle multiple layered parallax scrolling. Each layer can be added 
+using a single call to the built-in <a href="parallaxAdd.html">parallaxAdd</a> 
+function and any parallax layers loaded will be visible through areas of your 
+scene coloured bright cyan (0, 255, 255 or #00FFFF). (With 32-bit images, the alpha
+channel is used for transparency instead!)
+The function <a href="parallaxClear.html">parallaxClear</a> removes all loaded 
+parallax layers from memory.
 </P>
 
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010

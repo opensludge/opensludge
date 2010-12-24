@@ -19,7 +19,14 @@ A SLUDGE floor plan is a group of convex polygons which may, or may not, be join
 <H3>Creating a floor:</H3>
 
 <P>
-To define the walkable area(s) for a scene, use the SLUDGE Floor Maker. First make sure that there's no floor in memory already by choosing <b>New</b> from the <b>File</b> menu (you do not need to do this if you've only just started the program, unless you started it by double-clicking an existing floor file).
+To define the walkable area(s) for a scene, use the SLUDGE Floor Maker.</p>
+
+<p>On Mac, there's a "new floor" entry in the Tools menu of the Development Kit.</p>
+
+<p>On other platforms, the Floor Maker is a separate program. First make sure that there's no
+floor in memory already by choosing <b>New</b> from the <b>File</b> menu (you do not need to do this if 
+you've only just started the program, unless you started it by double-clicking 
+an existing floor file).
 </P>
 
 <P>
@@ -35,53 +42,90 @@ Work out in your head where you want characters to be able to walk. Characters s
 </P>
 <P>
 
-Now, start putting the floor onto the screen. The boundary of a floor is made up of straight lines between corners (vertices, as they're called in the program). Click <IMG SRC="images/floormodeicon1.png"> to enter the "Define floor borders" mode. Click on the screen where you want to add a vertex. When you're done, click the first vertex again to complete the walkable area.
+Now, start putting the floor onto the screen. The boundary of a floor is made up 
+of straight lines between corners (vertices, as they're called in the program). 
+Click <IMG SRC="images/floormodeicon1.png"> to enter the "Define floor borders" mode. 
+Click on the screen (Mac: Hold down Command and click) where you want to add a vertex. 
+When you're done, click the first vertex again to complete the walkable area.
 </P>
 
 <P>
-If the floor is a concave shape (it has at least one corner which pokes in rather than sticks out) you'll need to split it into two or more convex shapes (which only contain vertices which point outwards). Push <IMG SRC="images/floormodeicon5.png"> (Split floor), click and hold the left mouse button while pointing at one of the inwardly-pointing vertices... now drag the line so that it ends at another vertex. A line will be added, splitting the appropriate segment of floor into two.
+If the floor is a concave shape (it has at least one corner which pokes in rather 
+than sticks out) you'll need to split it into two or more convex shapes (which only 
+contain vertices which point outwards). Push <IMG SRC="images/floormodeicon5.png"> 
+(Split floor), click and hold the left mouse button (Mac: Command-click) while 
+pointing at one of the inwardly-pointing vertices... now drag the line so that 
+it ends at another vertex. A line will be added, splitting the appropriate segment 
+of floor into two.
 </P>
 
 <P>
-(The reason for this is that if a character is told to walk from one point to another, and both points are within the same section, the engine assumes the character can move in a straight line. This is the main principle behind the path-finding method used in SLUDGE.)
+(The reason for this is that if a character is told to walk from one point to 
+another, and both points are within the same section, the engine assumes the 
+character can move in a straight line. This is the main principle behind the 
+path-finding method used in SLUDGE.)
 </P>
 
 <H3>Changing a floor:</H3>
 
 <P>
-If you want to change a floor using the floor maker, make sure it's loaded and select the appropriate mode. The modes are as follows:
+If you want to change a floor using the floor maker, make sure it's loaded and 
+select the appropriate mode. The modes are as follows:
 </P>
 
 <P>
-<IMG SRC="images/floormodeicon1.png"> <b>Define floor borders</b>: Already discussed above. If you want to add a section of floor outside of what's already been defined, you can use this mode to add a new polygon. If you want to create a floor plan with holes (for example, so that characters can walk around both sides of pillars) you must use this method.
+<IMG SRC="images/floormodeicon1.png"> <b>Define floor borders</b>: Already discussed 
+above. If you want to add a section of floor outside of what's already been defined, 
+you can use this mode to add a new polygon. If you want to create a floor plan with 
+holes (for example, so that characters can walk around both sides of pillars) you 
+must use this method.
 </P>
 
 <P>
-<IMG SRC="images/floormodeicon2.png"> <b>Move vertices</b>: Drag the mouse (with the left mouse button down) to move a vertex to a new location. Vertices can even be dragged onto other, already existing vertices.
+<IMG SRC="images/floormodeicon2.png"> <b>Move vertices</b>: Drag the mouse (Mac: hold 
+down Command and drag) to move a vertex to a new 
+location. Vertices can even be dragged onto other, already existing vertices.
 </P>
 
 <P>
-<IMG SRC="images/floormodeicon3.png"> <b>Delete vertex</b>: Click the left mouse button on a vertex and it will be removed. (Once a polygon has too few vertices it is removed.)
+<IMG SRC="images/floormodeicon3.png"> <b>Delete vertex</b>: Click 
+(Mac: Command-click) on a vertex and it will be removed. (Once a polygon 
+has too few vertices it is removed.)
 </P>
 
 <P>
-<IMG SRC="images/floormodeicon4.png"> <b>Split line</b>: Drag the mouse (with the left mouse button down) from one end to the other of an existing line. A new vertex will be created halfway along the selected line.
+<IMG SRC="images/floormodeicon4.png"> <b>Split line</b>: Drag the mouse (Mac: 
+hold down Command and drag) from one end to the other of an existing line. 
+A new vertex will be created halfway along the selected line.
 </P>
 
 <P>
-<IMG SRC="images/floormodeicon5.png"> <b>Split floor</b>: Drag the mouse (with the left mouse button down) to create a line which splits one segment into two. Use this in order to make sure the floor is only made up of convex polygons. The line must start and end at vertices which are present in the same segment.
+<IMG SRC="images/floormodeicon5.png"> <b>Split floor</b>: Drag the mouse (Mac:
+hold Command and drag) to create a line which splits one segment into two. 
+Use this in order to make sure the floor is only made up of convex polygons. 
+The line must start and end at vertices which are present in the same segment.
 </P>
+
+
 
 <H3>Scrolling:</H3>
 
 <P>
-If your scene is larger than the SLUDGE floor maker window, you can scroll around the image by holding down the right mouse button and dragging the mouse in the direction in which you wish to move.
+Windows and Linux: If your scene is larger than the SLUDGE floor maker window, you can scroll around 
+the image by holding down the right mouse button and dragging the mouse in the 
+direction in which you wish to move.</p>
+
+<p>Mac: Click and drag to scroll the scene. You can also zoom in and out with
+two-finger scrolling.
 </P>
+
 
 <H3>Changing the colour used to draw the floor plan:</H3>
 
 <P>
-If your scene has colours that make it difficult to see the floor plan, change the colour the floor plan is drawn in using the colour chooser button in the toolbar.
+If your scene has colours that make it difficult to see the floor plan, 
+change the colour the floor plan is drawn in using the colour chooser button 
+in the toolbar.
 </P>
 
 <H3>Saving your floor:</H3>

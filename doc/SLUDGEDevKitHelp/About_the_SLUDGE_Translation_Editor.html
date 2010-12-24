@@ -12,39 +12,88 @@
 
    <A NAME=whatis><H3>What is the SLUDGE Translation Editor?</H3></A>
 
-   <P>The SLUDGE Translation Editor is a program which helps you create translation data for SLUDGE games. You know, so you can play the same game in multiple languages without lots of rewriting of code. This is how it looks like:</P>
+   <P>The SLUDGE Translation Editor is a program (on Win/Linux) or a part of the
+   Development Kit program (Mac: New Translation in the Tools menu) which helps 
+   you create translation data for SLUDGE 
+   games. You know, so you can play the same game in multiple languages without lots 
+   of rewriting of code. This is how it looks like:</P>
 
    <P><IMG SRC="images/translationeditor.png"></P>
 
-   <P>The SLUDGE Translation Editor has been specifically designed so that you don't need to understand the SLUDGE language in order to create a translation file. Neither do you need to be the author of the game being translated, neither do you need access to the source code. If you've written a SLUDGE game and want someone to create you a translation file, simply build them a file with everything left in the "Strings that are missing translations" category and send it to them. If, on the other hand, you've been inlisted to create a translation file for someone else's game, skip straight to the <A HREF=#edit>editing section</A> of this file.</P>
+   <P>The SLUDGE Translation Editor has been specifically designed so that you don't 
+   need to understand the SLUDGE language in order to create a translation file. 
+   Neither do you need to be the author of the game being translated, neither do 
+   you need access to the source code. If you've written a SLUDGE game and want 
+   someone to create you a translation file, simply build them a file with 
+   everything left in the "Strings that are missing translations" category and 
+   send it to them. If, on the other hand, you've been inlisted to create a 
+   translation file for someone else's game, skip straight to the 
+   <A HREF=#edit>editing section</A> of this file.</P>
 
    <A NAME=adding><H3>Adding strings to a translation file</H3></A>
   
-   <P>If you're starting a new translation file you'll obviously need to import some strings from somewhere. (Also, if you're working with an existing translation file and the strings in the project you're translating change, you may well need to update the strings you're translating.) To import all the strings used in a SLUDGE project, click the "Load strings from project" button. Select your project file and hit OK. The SLUDGE Translation Editor will scan through the project and pull out all the strings that it contains. Any new strings that it finds will be added to the loaded translation data (if you're starting a new file from scratch all the strings will be added, because it'll know about no strings already).</P>
+   <P>If you're starting a new translation file you'll obviously need to import some 
+   strings from somewhere. (Also, if you're working with an existing translation 
+   file and the strings in the project you're translating change, you may well need 
+   to update the strings you're translating.) To import all the strings used in a 
+   SLUDGE project, click the "Load strings from project" button. Select your project 
+   file and hit OK. The SLUDGE Translation Editor will scan through the project and 
+   pull out all the strings that it contains. Any new strings that it finds will be 
+   added to the loaded translation data (if you're starting a new file from scratch 
+   all the strings will be added, because it'll know about no strings already).</P>
 
-   <P>Should there be any newly-added strings, they will appear in the category "Strings that are missing translations".</P>
+   <P>Should there be any newly-added strings, they will appear in the category 
+   "Strings that are missing translations".</P>
    
    <A NAME=edit><H3>Editing a translation file</H3></A>
 
-   <P>If the file you want to edit isn't currently loaded, open it using the "Open" option on the "File" menu or double click the translation file icon, which should start the SLUDGE Translation Editor and load the file automatically.</P>
+   <P>If the file you want to edit isn't currently loaded, open it using the "Open" 
+   option on the "File" menu or double click the translation file, which should 
+   start the SLUDGE Translation Editor and load the file automatically.</P>
 
-   <P>There are three categories into which strings can be divided, and each string will be found in one (and only one) of these categories. The category "Strings that are missing translations" contains all the strings which haven't yet been dealt with. To take care of this, select "Show strings that are missing translations" from the drop-down selection box. Pick a string, and it should appear in the area at the bottom of the screen. If the string needs to be translated, type your translation into the right column of the table. If the string doesn't require translating - for example, a file name or a string that looks like ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@()*&# - then simply uncheck the box in the "Translate?" column. In either case, the string will vanish from the "Strings that are missing translations" category.</P>
+   <P>There are three categories into which strings can be divided, and each string 
+   will be found in one (and only one) of these categories. The category "Strings 
+   that are missing translations" contains all the strings which haven't yet been 
+   dealt with. To take care of this, select "Show strings that are missing 
+   translations" from the drop-down selection box. Pick a string, and it should 
+   appear in the area at the bottom of the screen. If the string needs to be 
+   translated, type your translation into the right column of the table. If the 
+   string doesn't require translating - for example, a file name or a string that 
+   looks like ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@()*&# - then simply uncheck the 
+   box in the "Translate?" column. In either case, the string will vanish from the 
+   "Strings that are missing translations" category.</P>
 
-   <P>Strings which have had the "Translate?" box unchecked can be found in the category "Strings that don't need translation". Strings which have been translated can be found in the category "Translated strings". You can select these categories using the drop-down selection box and change the settings for each string in the same way as above.</P>
+   <P>Strings which have had the "Translate?" box unchecked can be found in the 
+   category "Strings that don't need translation". Strings which have been 
+   translated can be found in the category "Translated strings". You can select 
+   these categories using the drop-down selection box and change the settings for 
+   each string in the same way as above.</P>
 
    <A NAME=find><H3>Finding a specific string</H3></A>
    
-   <P>To find a specific string (in the Windows/Linux Translation Editor), type it into the box labeled <b>Find</b>. As you type, the first string in the displayed category that contains what you are typing is highlighted. Use the arrow keys to jump to possible other strings also containing the searched characters.</P>
+   <P>To find a specific string (in the Windows/Linux Translation Editor), type it 
+   into the box labeled <b>Find</b>. As you type, the first string in the displayed 
+   category that contains what you are typing is highlighted. Use the arrow keys to 
+   jump to possible other strings also containing the searched characters.</P>
    
-   <P>The program will also match your text against any existing translations in the file. So, if you've translated "Hello" into "Bonjour" and "On the table" into "Sur la table", searching for "on" will match both (because of the translation of the first line, and the original text of the second).</P>
+   <P>The program will also match your text against any existing translations in the 
+   file. So, if you've translated "Hello" into "Bonjour" and "On the table" into 
+   "Sur la table", searching for "on" will match both (because of the translation 
+   of the first line, and the original text of the second).</P>
 
    <A NAME=id><H3>Language ID and name</H3></A>
    
-   <P>What we haven't discussed yet are the language ID and name fields at the top of the Translation Editor window. The name will be viewed by the engine when it comes to selecting a language. The ID is used internally to distinguish between languages, so make sure that every language in your game has a unique ID.</P>
+   <P>What we haven't discussed yet are the language ID and name fields at the top 
+   of the Translation Editor window. The name will be viewed by the engine when it 
+   comes to selecting a language. The ID is used internally to distinguish between 
+   languages, so make sure that every language in your game has a unique ID.</P>
 
    <A NAME=save><H3>Saving a translation file</H3></A>
    
-   <P>When you've finished working on your translation file, you can save it using the "File" menu. Choose the "Save" option from the menu if you want to overwrite the file from which the data was loaded (or to which the data was last saved). Choose "Save as" if you want to save the data into a new file.</P>
+   <P>When you've finished working on your translation file, you can save it using 
+   the "File" menu. Choose the "Save" option from the menu if you want to overwrite 
+   the file from which the data was loaded (or to which the data was last saved). 
+   Choose "Save as" if you want to save the data into a new file.</P>
 
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010</P>
 <HR>

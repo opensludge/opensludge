@@ -10,7 +10,11 @@
 <h2>About the SLUDGE Sprite Bank Editor</h2>
 <HR>
 
-<P>Use the SLUDGE sprite bank editor to create the character, object and mouse cursor animation frames used in your game. This is how the sprite bank editor looks like with Egor the Ego loaded.</P>
+<P>On Mac, there's a "new sprite bank" entry in the Tools menu of the Development Kit.
+On other platforms, the Sprite Bank Editor is a separate program.
+Use the SLUDGE sprite bank editor to create the character, object 
+and mouse cursor animation frames used in your game. This is how the sprite 
+bank editor looks like with Egor the Ego loaded.</P>
 
 <P><IMG SRC="images/spritebankeditor.png"></P>
 
@@ -20,59 +24,129 @@
 
 <H3>Creating a new, empty sprite bank</H3>
 
-<P>Choose &quot;New&quot; from the &quot;File&quot; menu. The program will return to a state without sprites loaded.</P>
+<P>Win/Linux: Choose &quot;New&quot; from the &quot;File&quot; menu. 
+The program will return to a state without sprites loaded.</P>
 
 <H3>Adding sprites to a sprite bank</H3>
 
-<P>First of all, find the location in the sprite bank where you'd like to load an image using the slider on the bottom. You can then either insert images before the selected sprite (by pressing &quot;Insert Sprite(s)...&quot;) or replace the selected sprite (and following sprites if you select multiple images) by pressing &quot;Replace Sprite(s)...&quot;. If you push the slider to the right end, you will find an empty spot which allows adding spites to the end of the sprite bank.</P>
+<P>First of all, find the location in the sprite bank where you'd like to load 
+an image using the slider on the bottom. (On Mac, you can also scroll left/right.) 
+You can then either insert images before the selected sprite (by pressing 
+&quot;Insert Sprite(s)...&quot;) or replace the selected sprite (and following 
+sprites if you select multiple images - currently only possible on Win/Linux) 
+by pressing &quot;Replace Sprite(s)...&quot;. If you push the slider to the 
+right end, you will find an empty spot which allows adding spites to the end 
+of the sprite bank.</P>
+
+
 
 <H3>Palette vs. 32-bit colour</H3>
 
-<P>The palette stuff is a relict from when SLUDGE didn't support 32-bit colour. Just toggle the "32-bit colour" radio button and that's it.</P>
+<P>The palette stuff is a relict from when SLUDGE didn't support 32-bit colour. 
+Just toggle the "32-bit colour" radio button and that's it.</P>
 
-<P>Anyway, if the radio button "Palette (open)" is selected, any new colours used by the image you're adding which aren't already in the palette are added automatically. If "Palette (closed)" is activated and if the image uses colours which don't appear in the sprite bank's palette, the closest colours which do exist in the palette will be used. If you're adding a sprite to a bank with no palette (for example, if you're creating a new bank from scratch) you can't use a closed palette as otherwise there will be no colours from which to find a closest one. Each sprite bank can use only one palette, and the maximum number of colours is 255.</P>
+<P>Anyway, if the radio button "Palette (open)" is selected, any new colours 
+used by the image you're adding which aren't already in the palette are added 
+automatically. If "Palette (closed)" is activated and if the image uses colours 
+which don't appear in the sprite bank's palette, the closest colours which do 
+exist in the palette will be used. If you're adding a sprite to a bank with no 
+palette (for example, if you're creating a new bank from scratch) you can't use 
+a closed palette as otherwise there will be no colours from which to find a closest 
+one. Each sprite bank can use only one palette, and the maximum number of colours 
+is 255.</P>
 
 <H3>Setting the hotspot for a sprite</H3>
 
-<P>The hotspot for a sprite is the point around which all scaling is to be done, and also the point which will be positioned at any given (x, y) when the sprite is displayed. For a mouse pointer, the hotspot should be positioned at the tip of the arrow or the centre of the crosshair (and so on). For a character, it is suggested that the hotspot is the point at ground level directly beneath the character's body, between the feet.</P>
+<P>The hotspot for a sprite is the point around which all scaling is to be done, 
+and also the point which will be positioned at any given (x, y) when the sprite 
+is displayed. For a mouse pointer, the hotspot should be positioned at the tip of 
+the arrow or the centre of the crosshair (and so on). For a character, it is 
+suggested that the hotspot is the point at ground level directly beneath the 
+character's body, between the feet.</P>
 
-<P>You can enter the co-ordinates of the hotspot on the right, making it easy to be pixel-perfect, but there are also the buttons &quot;Centre&quot; to set the hot-spot to the centre of the image (useful for inventory icons) and &quot;Base&quot; to set the hotspot to halfway across the bottom row of pixels (approximately the correct hotspot for characters, although you may need to then tinker with the values manually).</P>
+<P>You can enter the co-ordinates of the hotspot on the right, making it easy to 
+be pixel-perfect, but there are also the buttons &quot;Centre&quot; to set the 
+hot-spot to the centre of the image (useful for inventory icons) and 
+&quot;Base&quot; to set the hotspot to halfway across the bottom row of pixels 
+(approximately the correct hotspot for characters, although you may need to then 
+tinker with the values manually).</P>
 
-<P>You can also use the mouse to move the sprites to another hotspot.</P>
+
+
+<P>Win/Linux: You can also use the mouse to move the sprites to another hotspot.</P>
 
 <H3>Positioning sprites in the viewing window</H3>
 
-<P>Sometimes the top, bottom or side of a sprite may stick out of the viewing area because of the location of the axes. In such a situation, position the mouse over the viewing region, hold down the right mouse button and drag the mouse to move the viewing area. When you're happy, release the mouse button.</P>
+<P>Win/Linux: Sometimes the top, bottom or side of a sprite may stick out of the viewing area because of the location of the axes. In such a situation, position the mouse over the viewing region, hold down the right mouse button and drag the mouse to move the viewing area. When you're happy, release the mouse button.</P>
+
+<p>Mac: You can click and drag to move the viewing area around. 
+Zoom in and out by scrolling.</p>
 
 <H3>Saving an individual sprite</H3>
 
-<P>To save a sprite as a PNG file, first select the sprite you wish to save. Then hit the &quot;Export sprite as...&quot; button and choose where, and under which name, to save the image file.</P>
+<P>To save a sprite as a PNG file, first select the sprite you wish to save. Then 
+hit the &quot;Export sprite as...&quot; button and choose where, and under which 
+name, to save the image file.</P>
+
 
 <H3>Removing an individual sprite</H3>
 
-<P>To delete a sprite from a sprite bank, select it using the slider and then hit the &quot;Delete Sprite&quot; button.</P>
+<P>To delete a sprite from a sprite bank, select it using the slider and then hit 
+the &quot;Delete Sprite&quot; button.</P>
+
 
 <H3>Saving a sprite bank</H3>
 
-<P>To save the currently loaded sprite bank, hit either the &quot;Save&quot; or &quot;Save as...&quot; item in the "File" menu. Hitting &quot;Save&quot; will overwrite the file from which the sprite bank was loaded (or the file as which it was last saved, depending on which happened most recently). Hitting &quot;Save as...&quot; will prompt you to choose a location and name for the sprite bank file as which you wish to save. If the title bar of the window reads &quot;SLUDGE Sprite Bank Editor&quot; the &quot;Save&quot; item will act in the same way as the &quot;Save as...&quot; item, as there is no file currently associated with the sprite bank.</P>
+<P>To save the currently loaded sprite bank, hit either the &quot;Save&quot; 
+or &quot;Save as...&quot; item in the "File" menu. Hitting &quot;Save&quot; 
+will overwrite the file from which the sprite bank was loaded (or the file 
+as which it was last saved, depending on which happened most recently). 
+Hitting &quot;Save as...&quot; will prompt you to choose a location and name 
+for the sprite bank file as which you wish to save.</P>
+
 
 <H3>Transparency in sprites</H3>
 
-<P>When loading and saving individual sprites from / as TGA image files, the colour magenta (#FF00FF or 255, 0, 255) is used as transparent; the same colour as is treated as transparent by in the <a href="addOverlay.html">addOverlay</a> and <a href="mixOverlay.html">mixOverlay</a> functions.</P>
+<P>When loading and saving individual sprites from / as TGA image files, 
+the colour magenta (#FF00FF or 255, 0, 255) is used as transparent; the same 
+colour as is treated as transparent by in the 
+<a href="addOverlay.html">addOverlay</a> and <a href="mixOverlay.html">mixOverlay</a> 
+functions.</P>
+
+
+
+<p>If you're loading and saving from/to PNG files, the aplha layer is used.</p>
 
 <H3>Fontify</H3>
 
-<P>Fontify is a function that makes it easier to get fonts into SLUDGE, but it can also be used if you prefer to create your sprites on a single image before converting them into a sprite bank. It searches an image for segments that are horizontally seperated by transparency and creates a sprite out of each segment. An additional space character is created at the end of the sprite bank. As an example, lets take this image (the checkerboard pattern indicates transparency):</P>
+
+<P>Fontify is a function that makes it easier to get fonts into SLUDGE, but it 
+can also be used if you prefer to create your sprites on a single image before 
+converting them into a sprite bank. It searches an image for segments that are 
+horizontally seperated by transparency and creates a sprite out of each segment. 
+An additional space character is created at the end of the sprite bank. As an 
+example, lets take this image (the checkerboard pattern indicates transparency):</P>
+
+
 
 <P><IMG SRC="images/ABC_image.png"></P>
 
+
+
 <P>Fontify turns it into a sprite bank with these four sprites:</P>
+
+
 
 <P><IMG SRC="images/ABC_spritebank.png"></P>
 
+
+
 <P>The green background is shown because the "Show sprite size" box is checked.</P>
 
-<P>Fontify can be found in the "File" menu on Linux and Windows or in the "Tools" menu on Mac. After launching it you are first prompted for the width of the space character and then for an image to fontify.</P>
+
+<P>Fontify can be found in the "File" menu on Linux and Windows or in the "Tools" 
+menu on Mac. After launching it you are first prompted for the width of the space 
+character and then for an image to fontify.</P>
 
 <P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2010
 </P>
