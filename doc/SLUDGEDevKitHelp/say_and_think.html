@@ -10,11 +10,7 @@
 <h2>say and think</h2>
 <HR>
 
-
-<P>
 <H3>Syntax:</H3>
-
-</P>
 
 <P>
 <pre class="syntax">say (<i>thisObject, textToSay</i>);</pre>
@@ -32,37 +28,34 @@
 <pre class="syntax">think (<i>thisObject, textToThink, soundFile</i>);</pre>
 </P>
 
-<P>
 <H3>Purpose:</H3>
-
-</P>
 
 <P>
 Makes <i>thisObject</i> say the contents of the <i>textToSay</i> parameter (or think the contents of the <i>textToThink </i>parameter). The text is shown on the screen in the speech colour defined in the object type definition. If a <i>soundFile</i> parameter is specified, the sound may be used instead of (or as well as) the text - this depends on the current <a href="setSpeechMode.html">setSpeechMode</a> setting.
 </P>
 
 <P>
-<b>If <i>thisObject</i> is a character:
+<b>If <i>thisObject</i> is a character:</b>
 </P>
 
 <P>
-</b>Any displayed text will be shown over the head of the character.<b> </b>If the say command is being used, the character's current animation will be changed to the speaking animation (for the character facing its current direction) defined in the <a href="costume.html">costume</a> assigned to the character. When the character has finished speaking, the character's animation will change to the standing still animation. If the think command is being used, the character will not be made to animate.
+Any displayed text will be shown over the head of the character.<b> </b>If the say command is being used, the character's current animation will be changed to the speaking animation (for the character facing its current direction) defined in the <a href="costume.html">costume</a> assigned to the character. When the character has finished speaking, the character's animation will change to the standing still animation. If the think command is being used, the character will not be made to animate.
 </P>
 
 <P>
-<b>If <i>thisObject</i> is a screen region:
+<b>If <i>thisObject</i> is a screen region:</b>
 </P>
 
 <P>
-</b>Any displayed text will be shown above the last region to have been added which represents the object; that is, if there are three screen regions which represent the same object and the object is told to speak, the text will appear over the third region.
+Any displayed text will be shown above the last region to have been added which represents the object; that is, if there are three screen regions which represent the same object and the object is told to speak, the text will appear over the third region.
 </P>
 
 <P>
-<b>If <i>thisObject</i> isn't a character or screen region:
+<b>If <i>thisObject</i> isn't a character or screen region:</b>
 </P>
 
 <P>
-</b>Any displayed text will appear centred at the top of the screen.
+Any displayed text will appear centred at the top of the screen.
 </P>
 
 <P>
@@ -73,19 +66,13 @@ The function from which the say command is called will pause until the object st
 Valid file formats for the <i>soundFile</i> parameter are Windows wave files (.WAV) and Ogg Vorbis (.OGG), as in the <a href="playSound.html">playSound</a> and <a href="loopSound.html">loopSound</a> functions.
 </P>
 
-<P>
 <H3>Return value:</H3>
-
-</P>
 
 <P>
 No return value.
 </P>
 
-<P>
 <H3>See also:</H3>
-
-</P>
 
 <P>
 <a href="addCharacter.html">addCharacter</a>

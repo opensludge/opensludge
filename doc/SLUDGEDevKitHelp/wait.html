@@ -10,38 +10,25 @@
 <h2>wait</h2>
 <HR>
 
-
-<P>
 <H3>Syntax:</H3>
-
-</P>
 
 <P>
 <pre class="syntax">wait (<i>spriteNumber, lengthOfTime</i>);</pre>
 </P>
 
-<P>
 <H3>Purpose:</H3>
-
-</P>
 
 <P>
 For use while creating an animation. Use this command to display a sprite for longer than one frame.
 </P>
 
-<P>
 <H3>Return value:</H3>
-
-</P>
 
 <P>
 The function returns a structure containing both the <i>spriteNumber</i> and <i>lengthOfTime</i> data. This structure can then be used in the place of a number in the <a href="anim.html">anim</a> command. Internally, the structure is a 2-element stack.
 </P>
 
-<P>
 <H3>Example:</H3>
-
-</P>
 
 <P>
 <pre># These two animations will look exactly the same
@@ -49,10 +36,7 @@ var a = anim (1, 2, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 6, 7);
 var b = anim (1, 2, 3, wait (4, 9), 5, 6, 7);</pre>
 </P>
 
-<P>
 <H3>See also:</H3>
-
-</P>
 
 <P>
 <a href="The_Multi-Purpose_Stack___Array___Queue_Type.html">The Multi-Purpose Stack / Array / Queue Type</a>

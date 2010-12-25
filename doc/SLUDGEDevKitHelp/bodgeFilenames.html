@@ -10,20 +10,13 @@
 <h2>bodgeFilenames</h2>
 <HR>
 
-
-<P>
 <H3>Syntax:</H3>
-
-</P>
 
 <P>
 <pre class="syntax">bodgeFilenames (<I>enable</I>);</pre>
 </P>
 
-<P>
 <H3>Purpose:</H3>
-
-</P>
 
 <P>
 Turns on and off the fantastic SLUDGE filename bodging feature. The feature affects the following functions:
@@ -81,10 +74,7 @@ The way the system works is to change each illegal or special character into a c
 You may have to enable filename bodging in certain parts of your game (for example, letting your player load and save) and disable it in others (for example if you're going to <a href="launch_and_launchWith.html">launch</a> a URL, or a help file in a different directory).
 </P>
 
-<P>
 <H3>Return value:</H3>
-
-</P>
 
 <P>
 The return value is the previous status of the filename bodging option - i.e. if filename bodging was previously enabled the return value is TRUE, otherwise it's FALSE. Hence, the following code will turn off filename bodging, launch a file and then put filename bodging back to whatever state it was in before:
@@ -96,10 +86,7 @@ launch ("manual\\welcome.html");
 bodgeFilenames (old_on_or_off);</pre>
 </P>
 
-<P>
 <H3>See also:</H3>
-
-</P>
 
 <P>
 <a href="File_Handling.html">File Handling</a>

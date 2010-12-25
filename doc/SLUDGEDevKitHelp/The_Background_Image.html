@@ -19,10 +19,8 @@ There are two types of graphics used in SLUDGE - those which are drawn every fra
 The benefit of drawing graphics onto the background image is that there is no need to remember individually all the elements which make up a scene. This means that the engine can run as quickly as possible, because it need not draw (for example) a blank wall, then a door on top of the wall, then a handle on top of the door. Changing the background image is a one way process but, once done, no extra memory is taken up even if a large number of elements have been drawn onto it.
 </P>
 
-<P>
-<H3>Commands which change the background image:</H3>
 
-</P>
+<H3>Commands which change the background image:</H3>
 
 <P>
 <a href="addOverlay.html">addOverlay</a> - loads a file and positions it on the screen. This can be used to load an entirely new backdrop, or to animate part of a scene (for example, by loading a number of frames of animation for a blinking light which are drawn one after another in a loop).
@@ -68,19 +66,15 @@ The benefit of drawing graphics onto the background image is that there is no ne
 <a href="showBoxes.html">showBoxes</a> and <a href="showFloor.html">showFloor</a> - useful for debugging. These commands draw lines onto the background image showing the location of interactive screen regions (created by the <a href="addScreenRegion.html">addScreenRegion</a> function) and walkable areas (created by the <a href="setFloor.html">setFloor</a> function) respectively.
 </P>
 
-<P>
-<H3>Commands for reading the background image:</H3>
 
-</P>
+<H3>Commands for reading the background image:</H3>
 
 <P>
 <a href="getPixelColour_(getPixelColor).html">getPixelColour</a> - returns the colour of the pixel at a certain position on the background image.
 </P>
 
-<P>
-<H3>Freezing the background image:</H3>
 
-</P>
+<H3>Freezing the background image:</H3>
 
 <P>
 It is also possible to <a href="freeze.html">freeze</a> the entire scene, which pastes all visible characters onto the background image (as well as removing all screen regions and pausing any running functions). Again, this is useful for messages and menus, as well as full-screen inventories, in which interaction with the objects on the screen may not be desirable. The <a href="unfreeze.html">unfreeze</a> command can then be used to bring back the previously frozen scene, putting back any characters and screen regions as well as restarting any paused functions.
@@ -90,10 +84,8 @@ It is also possible to <a href="freeze.html">freeze</a> the entire scene, which 
 When you call the <a href="freeze.html">freeze</a> command, the width and height of the new background image will be set to the width and height of the window or screen, even when the frozen layer underneath has been resized using the <a href="setSceneDimensions.html">setSceneDimensions</a> function.
 </P>
 
-<P>
-<H3>See also:</H3>
 
-</P>
+<H3>See also:</H3>
 
 <P>
 <a href="Scrolling_Scenes.html">Scrolling Scenes</a>

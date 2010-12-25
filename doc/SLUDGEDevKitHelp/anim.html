@@ -10,20 +10,13 @@
 <h2>anim</h2>
 <HR>
 
-
-<P>
 <H3>Syntax:</H3>
-
-</P>
 
 <P>
 <pre class="syntax">anim (<i>spriteBank, frame [, frame [, frame...]]</i>);</pre>
 </P>
 
-<P>
 <H3>Purpose:</H3>
-
-</P>
 
 <P>
 Creates an animation using the sprites in the <i>spriteBank</i> file. There must be at least one <i>frame</i> specified.
@@ -38,35 +31,35 @@ Valid values for numerical <i>frame</i> parameters (or the first parameter in a 
 </P>
 
 <P>
-<b>Negative number outside range
+<b>Negative number outside range</b>
 </P>
 
 <P>
-</b>   Horizontally flipped sprite number 0 from <i>spriteBank
+Horizontally flipped sprite number 0 from <i>spriteBank</i>
 </P>
 
 <P>
-</i><b>Negative number in range
+<b>Negative number in range</b>
 </P>
 
 <P>
-</b>   Horizontally flipped sprite -<i>frame</i> from <i>spriteBank
+Horizontally flipped sprite -<i>frame</i> from <i>spriteBank</i>
 </P>
 
 <P>
-</i><b>Positive number in range
+<b>Positive number in range</b>
 </P>
 
 <P>
-</b>   Sprite number <i>frame</i> from <i>spriteBank
+Sprite number <i>frame</i> from <i>spriteBank</i>
 </P>
 
 <P>
-</i><b>Positive number outside range
+<b>Positive number outside range</b>
 </P>
 
 <P>
-</b><i>   </i>Nothing
+Nothing
 </P>
 
 <P>
@@ -74,39 +67,29 @@ Valid values for numerical <i>frame</i> parameters (or the first parameter in a 
 </P>
 
 <P>
-</i><b>Sounds and functions</b>
+<b>Sounds and functions</b>
 </P>
 
 <P>
 Sound files and functions may also be put in the list of frames. When a sound file or function is encountered, 
 it is played or called, and then the animation moves to the next frame immediately. Do not put more than one
 sound or function in a row: Each sound or function must be separated by a frame number (or the wait function).
-
 </P>
 
-<P>
 <H3>Return value:</H3>
-
-</P>
 
 <P>
 The return value is the animation which has been created. This can then be used as part of a <a href="costume.html">costume</a> or applied to a character using the <a href="animate.html">animate</a> function.
 </P>
 
-<P>
 <H3>Examples:</H3>
-
-</P>
 
 <P>
 <pre>animate (ego, anim ('egoPickUp.duc', 0, 1, 2, wait (3, 10), 2, 1));
 animate (ego, anim ('egoPickUp.duc', 0, 1, 2, wait (3, 10), 'noise.ogg', 2, 1));</pre>
 </P>
 
-<P>
 <H3>See also:</H3>
-
-</P>
 
 <P>
 <a href="addCharacter.html">addCharacter</a>

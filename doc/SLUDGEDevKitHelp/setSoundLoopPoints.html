@@ -10,37 +10,31 @@
 <h2>setSoundLoopPoints</h2>
 <HR>
 
-
-<P>
 <H3>Syntax:</H3>
-
-</P>
 
 <P>
 <pre class="syntax">setSoundLoopPoints (<i>soundFile, startPoint, endPoint</i>);</pre>
 </P>
 
-<P>
 <H3>Purpose:</H3>
 
+<P>
+Changes the start and end points used when looping a sound. The <i>soundFile</i> file 
+must be looping already (by calling <a href="loopSound.html">loopSound</a> with the 
+same <i>soundFile</i> parameter). The new start and end points for looping the sound 
+are then changed to <i>startPoint</i> and <i>endPoint</i> respectively. If 
+<i>startPoint</i> is beyond the end of the sample, the start of the sample (position 
+0) is used instead. If <i>endPoint</i> is 0 or beyond the end of the sample, the end 
+point is set to the end of the sample.
 </P>
 
-<P>
-Changes the start and end points used when looping a sound. The <i>soundFile</i> file must be looping already (by calling <a href="loopSound.html">loopSound</a> with the same <i>soundFile</i> parameter). The new start and end points for looping the sound are then changed to <i>startPoint</i> and <i>endPoint</i> respectively. If <i>startPoint</i> is beyond the end of the sample, the start of the sample (position 0) is used instead. If <i>endPoint</i> is 0 or beyond the end of the sample, the end point is set to the end of the sample.<i>
-</P>
-
-<P>
-</i>*Return value:
-</P>
+<h3>*Return value:</h3>
 
 <P>
 No return value.
 </P>
 
-<P>
 <H3>See also:</H3>
-
-</P>
 
 <P>
 <a href="Using_Audio_in_SLUDGE.html">Using Audio in SLUDGE</a>

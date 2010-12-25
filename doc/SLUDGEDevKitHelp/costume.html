@@ -10,20 +10,13 @@
 <h2>costume</h2>
 <HR>
 
-
-<P>
 <H3>Syntax:</H3>
-
-</P>
 
 <P>
 <pre class="syntax">costume (<i>still, [still, [still...]], walk, [walk, [walk...]], talk, [talk, [talk...]]</i>);</pre>
 </P>
 
-<P>
 <H3>Purpose:</H3>
-
-</P>
 
 <P>
 Creates a costume containing an animation for standing still, talking and walking in one or more direction. Therefore the number of parameters must be a multiple of 3. Each of the parameters must be an animation created by the <a href="anim.html">anim</a> function or NULL (indicating that the animation slot will not be used - for example, a character will never be seen in a certain state while facing a certain direction).
@@ -41,19 +34,13 @@ In each of these three groups, the directions are specified in the same order - 
 You can also specify an offset with <a href="setCharacterAngleOffset.html">setCharacterAngleOffset</a> to add to the calculations when selecting direction.
 </P>
 
-<P>
 <H3>Return value:</H3>
-
-</P>
 
 <P>
 The return value is the costume which has been created.
 </P>
 
-<P>
 <H3>Example:</H3>
-
-</P>
 
 <P>
 <pre># Create a costume with only one direction
@@ -78,10 +65,7 @@ var d = costume (anim ('me.duc', 0),             # STANDING STILL
                  NULL);                          # TALKING</pre>
 </P>
 
-<P>
 <H3>See also:</H3>
-
-</P>
 
 <P>
 <a href="addCharacter.html">addCharacter</a>

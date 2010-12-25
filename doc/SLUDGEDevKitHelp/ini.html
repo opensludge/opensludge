@@ -12,7 +12,19 @@
 
 
 <P>
-When a game is launched, the SLUDGE engine also attempts to read a file of initialisation settings. On Windows, SLUDGE puts settings and saved games in the AppData folder, and on Mac it's ~/Library/Application Support. In that folder, SLUDGE looks for (or makes) a folder with the name of the game.  That's where the file with the initialisation settings should be. The file must have the same name as your compiled game file, but with the extension ".ini". For example, if the compiler builds you a compiled game file called "Turnip Quest VI.slg" your settings file would be called "Turnip Quest VI.ini". If you're going to rename your file so that it's called "mygame" or "mygame.dat" or "mygame.001" or something, your settings should be in a file called "mygame.ini". (If no matching file is found, that's fine... the game will run with the default settings.)
+When a game is launched, the SLUDGE engine also attempts to read a file of 
+initialisation settings. On Windows, SLUDGE puts settings and saved games 
+in the AppData folder, on Mac it's ~/Library/Application Support, and
+on Linux it's $HOME/.sludge-engine/. 
+In that folder, SLUDGE looks for (or makes) a folder with the name of the 
+game.  That's where the file with the initialisation settings should be. 
+The file must have the same name as your compiled game file, but with the 
+extension ".ini". For example, if the compiler builds you a compiled game 
+file called "Turnip Quest VI.slg" your settings file would be called 
+"Turnip Quest VI.ini". If you're going to rename your file so that it's 
+called "mygame" or "mygame.dat" or "mygame.001" or something, your 
+settings should be in a file called "mygame.ini". (If no matching 
+file is found, that's fine... the game will run with the default settings.)
 </P>
 
 <P>
@@ -23,10 +35,7 @@ SLUDGE will write the current settings to that file after the startup window so 
 So, what can go in an .ini file? Well, the list is growing.
 </P>
 
-<P>
 <H3>Choice of language</H3>
-
-</P>
 
 <P>
 <B>LANGUAGE=</B>
@@ -40,10 +49,7 @@ If the SLUDGE game's .ini file contains a line which starts with "LANGUAGE=" the
 If no such line exists, or the .ini file does not exist, the default language ID is used - 0, meaning no translation.
 </P>
 
-<P>
 <H3>Run game in a window</H3>
-
-</P>
 
 <P>
 <B>WINDOW=</B>
@@ -58,9 +64,7 @@ If no such line exists, or the .ini file does not exist, the default is 0. The g
 
 </P>
 
-<P>
 <H3>Anti-aliasing</H3>
-</P>
 
 <P>
 <B>ANTIALIAS=</B>
@@ -71,30 +75,40 @@ Turns anti-aliasing on (a value of 1) or off (a value of 0).
 
 </P>
 
-<P>
 <H3>Disable scaling</H3>
-</P>
 
 <P>
 <B>FIXEDPIXELS=</B>
 </P>
 
 <P>
-If the FIXEDPIXELS setting is non-zero, the engine disables the scaling of the game and simply creates a window with the exact size specified by the game.
+If the FIXEDPIXELS setting is non-zero, the engine disables the scaling of the 
+game and simply creates a window with the exact size specified by the game.
 
 </P>
 
-<P>
 <H3>Disable startup window</H3>
-</P>
 
 <P>
 <B>NOSTARTWINDOW=</B>
 </P>
 
 <P>
-If the NOSTARTWINDOW setting is non-zero, the engine won't display the settings window at startup.
+If the NOSTARTWINDOW setting is non-zero, the engine won't display the settings 
+window at startup.
 
+</P>
+
+<H3>Debugging the engine</H3>
+
+<P>
+<B>DEBUG=</B>
+</P>
+
+<P>
+If the DEBUG setting is non-zero, the engine will write debugging information
+to a file named "debuggy.txt" in the same folder as the ini file. This is only
+useful for debugging the engine, and is off by default.
 </P>
 
 <P>

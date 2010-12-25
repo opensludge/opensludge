@@ -10,20 +10,13 @@
 <h2>freeSound</h2>
 <HR>
 
-
-<P>
 <H3>Syntax:</H3>
-
-</P>
 
 <P>
 <pre class="syntax">freeSound (<i>soundFile</i>);</pre>
 </P>
 
-<P>
 <H3>Purpose:</H3>
-
-</P>
 
 <P>
 Removes the <i>soundFile</i> file from the SLUDGE sound cache. Why? Because the more sounds you have in the cache - especially big ones - the more memory is taken up, and the slower your game may run on some older computers. So, if you've just finished using a huge great sound that you don't need again for a while, use this function to reclaim some memory.
@@ -33,19 +26,13 @@ Removes the <i>soundFile</i> file from the SLUDGE sound cache. Why? Because the 
 Please note that the cache can only hold 8 sounds at once, so older sounds will be unloaded once they're not needed automatically anyway - you don't <i>need</i> to use freeSound to make your game work, and freeing up memory used by tiny little sounds (up to a few seconds long) won't make much of a difference.
 </P>
 
-<P>
 <H3>Return value:</H3>
-
-</P>
 
 <P>
 No return value.
 </P>
 
-<P>
 <H3>Example:</H3>
-
-</P>
 
 <P>
 <pre># Start a sound playing
@@ -59,10 +46,7 @@ stopSound ('bigLongSound.wav');
 freeSound ('bigLongSound.wav');</pre>
 </P>
 
-<P>
 <H3>See also:</H3>
-
-</P>
 
 <P>
 <a href="Using_Audio_in_SLUDGE.html">Using Audio in SLUDGE</a>

@@ -10,20 +10,13 @@
 <h2>deleteFile</h2>
 <HR>
 
-
-<P>
 <H3>Syntax:</H3>
-
-</P>
 
 <P>
 <pre class="syntax">deleteFile (<i>thisFilename</i>);</pre>
 </P>
 
-<P>
 <H3>Purpose:</H3>
-
-</P>
 
 <P>
 Deletes the file specified by <i>thisFilename</i> - which should be a string, not a file handle. If you're writing a custom save game mechanism, you may require this functionality... so here it is. The string <i>thisFilename</i> shouldn't contain any of the characters &quot;:&quot;, &quot;/&quot; and &quot;\&quot; - a precaution to make it more difficult to write malicious code.
@@ -33,19 +26,13 @@ Deletes the file specified by <i>thisFilename</i> - which should be a string, no
 This function supports filename bodging - for details see the <a href="bodgeFilenames.html">bodgeFilenames</a> command.
 </P>
 
-<P>
 <H3>Return value:</H3>
-
-</P>
 
 <P>
 The command returns TRUE if the deletion was a success, FALSE otherwise.
 </P>
 
-<P>
 <H3>See also: </H3>
-
-</P>
 
 <P>
 <a href="fileExists.html">fileExists</a>

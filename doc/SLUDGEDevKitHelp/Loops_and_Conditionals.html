@@ -15,10 +15,7 @@
 The styles of looping structure which SLUDGE features are described in this section. Firstly:
 </P>
 
-<P>
 <H3>The &quot;for&quot; loop:</H3>
-
-</P>
 
 <P>
 <pre>for (<i>initialisation</i>; <i>check</i>; <i>next</i>) {
@@ -60,10 +57,7 @@ This will set the value of a to 0, check whether a is less than 10 (it is), and 
 For loops are common in programming languages in exactly this form, and present in most programming languages in some form or another. 
 </P>
 
-<P>
 <H3>The &quot;loop&quot; loop:</H3>
-
-</P>
 
 <P>
 In C and C++ (and other languages) it is common to see the following code:
@@ -89,10 +83,7 @@ The above means &quot;execute the code again and again forever&quot;. However, S
 Which also means &quot;execute the code again and again forever&quot;. You can escape from one of these loops - or from any function - by returning from the function within the code using the return. (Currently, SLUDGE contains no break statement.)
 </P>
 
-<P>
 <H3>The &quot;while&quot; loop:</H3>
-
-</P>
 
 <P>
 <pre>while (<i>check</i>) {
@@ -104,10 +95,7 @@ Which also means &quot;execute the code again and again forever&quot;. You can e
 The code will be executed again and again until the value returned by <i>check</i> is TRUE (or equivalent - see the <a href="Treating_Variables_as_Booleans.html">Treating Variables as Booleans</a> section). Therefore <i>check</i> can be any segment of code which returns a value, whether a variable, a function call, a complex algorithm or whatever your program needs. If the value of <i>check</i> is FALSE when the program reaches the start of the loop, the contents of the loop are not executed at all.
 </P>
 
-<P>
 <H3>Using &quot;if&quot; and &quot;else&quot;:</H3>
-
-</P>
 
 <P>
 Sometimes you only want to perform a certain line (or section) of code in a particular situation. For example, if you're writing a function to handle keypresses, you will probably want to perform different actions for different keys...

@@ -10,20 +10,13 @@
 <h2>setCharacterExtra</h2>
 <HR>
 
-
-<P>
 <H3>Syntax:</H3>
-
-</P>
 
 <P>
 <pre class="syntax">setCharacterExtra (<i>thisCharacter, setting</i>);</pre>
 </P>
 
-<P>
 <H3>Purpose:</H3>
-
-</P>
 
 <P>
 Changes the properties for <i>thisCharacter</i> which determine how it is to be drawn. The <i>setting</i> parameter should be one of the following enumerations, or the sum of two or more of the following should you wish to enable more than one of the effects.
@@ -69,19 +62,13 @@ Changes the properties for <i>thisCharacter</i> which determine how it is to be 
 If <i>thisCharacter</i> is an object type which is not currently represented on the screen as a character, the code has no effect. If <i>thisCharacter</i> has been hidden using the <a href="hideCharacter.html">hideCharacter</a> command, the character's properties are changed but the character is not made visible.
 </P>
 
-<P>
 <H3>Return value:</H3>
-
-</P>
 
 <P>
 TRUE if <i>thisCharacter</i> is an object type which is currently represented on the screen as a character, otherwise FALSE (i.e. TRUE if the call to the function was a success).
 </P>
 
-<P>
 <H3>Example:</H3>
-
-</P>
 
 <P>
 <pre>addCharacter (inventoryIcon, 600, 40, spinningInventoryBoxAnimation);
@@ -91,10 +78,7 @@ addCharacter (lensFlare, 600, 40, lensFlareAnimation);
 setCharacterExtra (inventoryIcon, FIXEDSIZE + NOZBUFFER + NOLIGHTMAP);</pre>
 </P>
 
-<P>
 <H3>See also:</H3>
-
-</P>
 
 <P>
 <a href="Object_Types_as_Characters.html">Object Types as Characters</a>

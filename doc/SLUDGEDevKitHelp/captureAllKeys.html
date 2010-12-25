@@ -10,23 +10,16 @@
 <h2>captureAllKeys</h2>
 <HR>
 
-
-<P>
 <H3>Syntax:</H3>
-
-</P>
 
 <P>
 <pre class="syntax">captureAllKeys (<i>onOff</i>);</pre>
 </P>
 
-<P>
 <H3>Purpose:</H3>
 
-</P>
-
 <P>
-Turns on and off capturing of all keypresses, including Alt, Shift, the Windows key, Caps Lock, Scroll Lock and so on. Whenever a keypress is detected, your current keyboard handler is called (as specified by the <a href="onKeyboard.html">onKeyboard</a> function).
+Turns on and off capturing of all keypresses, including Alt, Shift, Caps Lock, Scroll Lock and so on. Whenever a keypress is detected, your current keyboard handler is called (as specified by the <a href="onKeyboard.html">onKeyboard</a> function).
 </P>
 
 <P>
@@ -37,10 +30,7 @@ Passing in a Boolean value of FALSE turns off capture of these extended keys... 
 If extended key capture is on, whenever an extended key is pressed your keyboard handler function will be passed a string containing a 4-digit number, representing the key that has been pressed. If extended key capture is off, your game will not react to extended keypresses. <b>In either case, your game will continue to react to standard keypresses, as described on the <a href="onKeyboard.html">onKeyboard</a> page.</b>
 </P>
 
-<P>
 <H3>Return value:</H3>
-
-</P>
 
 <P>
 No return value.

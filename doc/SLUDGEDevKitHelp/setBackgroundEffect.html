@@ -10,11 +10,7 @@
 <h2>setBackgroundEffect and doBackgroundEffect</h2>
 <HR>
 
-
-<P>
 <H3>Syntax:</H3>
-
-</P>
 
 <P>
 <pre class="syntax">setBackgroundEffect (<i>add, divide, array [, array...]</i>);</pre>
@@ -24,28 +20,19 @@
 <pre class="syntax">doBackgroundEffect ();</pre>
 </P>
 
-<P>
 <H3>Purpose:</H3>
-
-</P>
 
 <P>
 The setBlankColour function is used to specify an effect which can be applied to the background image. The doBackgroundEffect function applies the current effect to the background. The parameters for the function are an <i>add</i> value, a <i>divide</i> value and one or more arrays (which you can think of as a matrix, should you wish). When an effect is applied, the following procedure happens for each pixel: SLUDGE adds up the colour values of each pixel and its surrounding pixels, weighted using the arrays you've specified. For example, if you specified one array, containing just the value 1, it would get the original red, green and blue values of that pixel. If you specified one array, containing the values 1 three times, it would get red, green and blue totals equivalent to the red, green and blue values of the pixel itself, plus the red, green and blue values of the pixels either side. These values are then divided by the <i>divide</i> value and finally the <i>add</i> value is added to each. These red, green and blue values are then used as the new colour for the pixel (clamped to the range 0 to 255). So to get an average of each pixel and it's left-hand and right-hand neighbours, you could say setBackgroundEffect (0, 3, newStack (1, 1, 1)). If multiple arrays are specified, these are used to also add the red, green and blue values from pixels the line above or below the pixel having its colour changed.
 </P>
 
-<P>
 <H3>Return value:</H3>
-
-</P>
 
 <P>
 No return values.
 </P>
 
-<P>
 <H3>Example:</H3>
-
-</P>
 
 <P>
 <pre># Exactly the same as darkBackground - sets each pixel to half its current red, green and blue values
@@ -70,10 +57,7 @@ setBackgroundEffect (128, 2, newStack (1,0), newStack(0,-1));
 setBackgroundEffect (32, 2, newStack (1,0,0), newStack (0,2,0), newStack(0,0,-2));</pre>
 </P>
 
-<P>
 <H3>See also:</H3>
-
-</P>
 
 <P>
 <a href="The_Background_Image.html">The Background Image</a>

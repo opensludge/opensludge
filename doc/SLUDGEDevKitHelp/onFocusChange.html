@@ -10,11 +10,7 @@
 <h2>onFocusChange</h2>
 <HR>
 
-
-<P>
 <H3>Syntax:</H3>
-
-</P>
 
 <P>
 <pre class="syntax">onFocusChange (<i>handlerFunction</i>);</pre>
@@ -24,10 +20,7 @@
 <pre class="syntax">onFocusChange ();</pre>
 </P>
 
-<P>
 <H3>Purpose:</H3>
-
-</P>
 
 <P>
 Tells the computer which function to call when the mouse cursor moves from one area of the screen to another (screen regions, characters and nothing). The value of <i>handlerFunction</i> must be a pointer to a function which takes one parameters. The function will be called every time the area at which the mouse is pointing changes until another call to onFocusChange. The object type at which the mouse is pointing - or NULL if the mouse is pointing at nothing - will be passed into the <i>handlerFunction</i> when it is called. This parameter will be the same as the return value from the <a href="getOverObject.html">getOverObject</a> function.
@@ -41,19 +34,13 @@ If no parameter is given, the program stops calling the current focus change fun
 Note that only one handler for focus changes can be used at any one time. A subsequent call to onFocusChange will replace the current handler function.
 </P>
 
-<P>
 <H3>Return value:</H3>
-
-</P>
 
 <P>
 No return value.
 </P>
 
-<P>
 <H3>See also:</H3>
-
-</P>
 
 <P>
 <a href="Passing_Functions_as_Variables.html">Passing Functions as Variables</a>

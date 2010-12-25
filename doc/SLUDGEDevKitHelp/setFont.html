@@ -10,20 +10,13 @@
 <h2>setFont</h2>
 <HR>
 
-
-<P>
 <H3>Syntax:</H3>
-
-</P>
 
 <P>
 <pre class="syntax">setFont (<i>spriteBank, charactersSupported, height</i>);</pre>
 </P>
 
-<P>
 <H3>Purpose:</H3>
-
-</P>
 
 <P>
 Changes to a new font. The font must be contained in a sprite bank, and the <i>spriteBank</i> parameter should be a file handle for this file - that is, the name of the file in single quotes. The <i>charactersSupported</i> parameter must be a string made up of - in order - each of the characters which are supported in this font. Therefore, if the fifth character in the <i>charactersSupported</i> string is A, the character A will be drawn on the screen using the fifth image in the sprite bank file.
@@ -37,19 +30,13 @@ Characters which are not present in the <i>charactersSupported</i> string are dr
 The <i>height</i> value must be numerical, and will be used as the gap between rows of text when using multiple status bars (created by the <a href="addStatus.html">addStatus</a> command) and when spoken text (created by the <a href="say_and_think.html">say and think</a> commands) wraps onto more than one line.
 </P>
 
-<P>
 <H3>Return value:</H3>
-
-</P>
 
 <P>
 No return value.
 </P>
 
-<P>
 <H3>Example:</H3>
-
-</P>
 
 <P>
 <pre># Load a font which only contains a question mark and numbers
@@ -60,10 +47,7 @@ No return value.
 setFont ('numbers.duc', &quot;?0123456789&quot;, 32);</pre>
 </P>
 
-<P>
 <H3>See also:</H3>
-
-</P>
 
 <P>
 <a href="pasteString_and_burnString.html">pasteString and burnString</a>

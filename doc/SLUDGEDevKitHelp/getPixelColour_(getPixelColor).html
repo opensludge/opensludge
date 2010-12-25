@@ -10,36 +10,27 @@
 <h2>getPixelColour (getPixelColor)</h2>
 <HR>
 
-
-<P>
 <H3>Syntax:</H3>
-
-</P>
 
 <P>
 <pre class="syntax">getPixelColour (<i>x, y</i>);</pre>
 </P>
 
-<P>
 <H3>Purpose:</H3>
-
-</P>
 
 <P>
 Gets the colour of the pixel at co-ordinates <i>x, y</i> in the current scene.
 </P>
 
-<P>
 <H3>Return value:</H3>
-
-</P>
 
 <P>
 This function returns a <a href="The_Multi-Purpose_Stack___Array___Queue_Type.html">stack</a> with 3 elements. Each of the elements will be a number between 0 and 255 inclusive - the first representing how much red there is in the colour, the second how much green and the third how much blue.
 </P>
 
 <P>
-NB: Because SLUDGE (currently) uses 16-bit display modes, these values may not match up exactly with the numbers you used to colour the pixel, should this have been the case, as all colours lose a few less-important bits in order to save memory when being written to the background image. More specifically, the red value will have lost 3 bits, the green value will have lost 2 bits and the blue value will have lost 3 bits (or 4 if the image was loaded from a file).
+NB: Because SLUDGE may scale the displayed image, these values may not match up 
+exactly with the numbers you used to colour the pixel.
 </P>
 
 <P>

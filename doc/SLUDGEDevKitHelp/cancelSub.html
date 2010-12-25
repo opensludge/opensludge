@@ -10,20 +10,13 @@
 <h2>cancelSub</h2>
 <HR>
 
-
-<P>
 <H3>Syntax:</H3>
-
-</P>
 
 <P>
 <pre class="syntax">cancelSub (<i>thisFunction</i>);</pre>
 </P>
 
-<P>
 <H3>Purpose:</H3>
-
-</P>
 
 <P>
 Cancels any instances of <i>thisFunction</i> which are running.
@@ -63,19 +56,13 @@ In the above example, pressing the left mouse button will only cancel the loop i
 The cancelSub command will also not cancel a function which is suspended because of a character which is currently moving (because of a call to either the <a href="moveCharacter.html">moveCharacter</a> or <a href="forceCharacter.html">forceCharacter</a> function). In these situations you can use <a href="stopCharacter.html">stopCharacter</a> to stop the character in its tracks, automatically cancelling the suspended function. Several other commands will also stop the movement of the character, thereby cancelling the function which was suspended because the character was moving.
 </P>
 
-<P>
 <H3>Return value:</H3>
-
-</P>
 
 <P>
 This function returns the number of instances of <i>thisFunction</i> which were cancelled.
 </P>
 
-<P>
 <H3>Example:</H3>
-
-</P>
 
 <P>
 <pre>sub speechFunction () {

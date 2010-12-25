@@ -19,10 +19,7 @@ If you've played an adventure game before, you're probably more than aware of al
 Throughout this documentation, various words have specific meanings... although, much of the time, you should be able to fully understand the gist of what's meant without knowing exactly how things work.
 </P>
 
-<P>
 <H3>Objects:</H3>
-
-</P>
 
 <P>
 An object is a thing. Simple. That character you see on the screen? That's an object. That doorway? That's an object too. That jar of jam you've got in your inventory, that explosion, that daisy, that seagull flying past? They're all objects.
@@ -68,10 +65,8 @@ objectType phil (&quot;Phil Philson, Juggler Extraordinaire&quot;) {
 That bit of code creates two objects, called &quot;ball&quot; and &quot;phil&quot;. The event inside the second object says what happens when you use the ball object on the phil object. Not too tricky, is it? Each object can contain as many or as few events as you need.
 </P>
 
-<P>
-<H3>Actions:</H3>
 
-</P>
+<H3>Actions:</H3>
 
 <P>
 Actions, or verbs, are the concepts such as &quot;Look at&quot;, &quot;Talk to&quot;, &quot;Pick up&quot;, &quot;Walk to&quot; and so on which you will find, in one form or another, in a lot of games. In SLUDGE, guess what? They're just more objects. So, in the same way as we can use the ball object with the phil object in the example above, we can create and use other objects such as lookAt and talkTo.
@@ -98,10 +93,8 @@ objectType phil (&quot;Phil Philson, Juggler Extraordinaire&quot;) {
 Obviously, objects such as lookAt and talkTo won't be found in crates, pinned to walls or waiting for the bus in your game... but they <b>are</b> just objects, all the same.
 </P>
 
-<P>
-<H3>Functions:</H3>
 
-</P>
+<H3>Functions:</H3>
 
 <P>
 Functions look a lot like events. Like events, they're just lists of instructions. For example, if your game has a book which you can read to several people, you don't want to type (or copy and paste) the same thing into a &quot;book&quot; event for each person... what a waste of time and effort, not to mention space. As a rule of thumb, if you want to do something in more than one place... put it in a function.
@@ -221,10 +214,8 @@ The simplest way to give a variable a value is to use the equals sign, which mea
 There are plenty of other built-in mathematical and logical operations which can be performed on variables, too... from adding and subtracting, past multiplication and division all the way to binary ands and ors.
 </P>
 
-<P>
-<H3>Rooms:</H3>
 
-</P>
+<H3>Rooms:</H3>
 
 <P>
 In SLUDGE, there's no such thing as a room as such. Why bother? Walking into a new room, after all, means little more than putting characters in certain places on the screen and changing the background image. It's just a list of instructions. In SLUDGE, every room is just a function.
@@ -274,10 +265,7 @@ Hang on... a doorway isn't a character! It's something we've drawn on the backgr
 The numbers here are in pairs... the first pair (50, 50) specifies the top left corner of the interactive region. The second pair (150, 350) specifies the bottom right corner of the region. The final pair (100, 370) specifies where a character will try and stand if (s)he's told to walk to the object in question.
 </P>
 
-<P>
 <H3>And away you go:</H3>
-
-</P>
 
 <P>
 That's pretty much all the basics you need to get started. You should now be able to understand much of the room and object code in any example project you may have around... and even start changing bits.
@@ -291,10 +279,7 @@ Bear in mind that a lot of functions - such as gotoRoom, mentioned above, and an
 Good luck!
 </P>
 
-<P>
 <H3>See also:</H3>
-
-</P>
 
 <P>
 <a href="Overview__Creating_a_Game.html">Overview: Creating a Game</a>
