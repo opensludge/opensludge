@@ -92,7 +92,6 @@ void freezeGraphics() {
 }
 
 bool freeze () {
-	debugOut("calling freeze()\n");
 	frozenStuffStruct * newFreezer = new frozenStuffStruct;
 	if (! checkNew (newFreezer)) return false;
 
@@ -108,11 +107,8 @@ bool freeze () {
 		picHeight = getNextPOT(picHeight);
 	}
 	newFreezer -> backdropTexture = new GLubyte [picHeight*picWidth*4];
-	debugOut("about to crash?\n");
-
 	saveTexture(backdropTextureName, newFreezer->backdropTexture);
 
-	debugOut("survived!\n");
 	backdropTextureName = 0;
 
 	newFreezer -> sceneWidth = sceneWidth;
