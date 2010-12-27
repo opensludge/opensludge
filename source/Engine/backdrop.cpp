@@ -362,17 +362,17 @@ void hardScroll (int distance) {
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
 			glBegin(GL_QUADS);
-			glTexCoord2f(0.0, 0.0); glVertex3f(-xoffset, -distance-yoffset, 0.0);
-			glTexCoord2f(backdropTexW, 0.0); glVertex3f(sceneWidth-xoffset, -distance-yoffset, 0.0);
-			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(sceneWidth-xoffset, sceneHeight-distance-yoffset, 0.0);
-			glTexCoord2f(0.0, backdropTexH); glVertex3f(-xoffset, sceneHeight-distance-yoffset, 0.0);
+			glTexCoord2f(0.0, 0.0); glVertex3i(-xoffset, -distance-yoffset, 0);
+			glTexCoord2f(backdropTexW, 0.0); glVertex3i(sceneWidth-xoffset, -distance-yoffset, 0);
+			glTexCoord2f(backdropTexW, backdropTexH); glVertex3i(sceneWidth-xoffset, sceneHeight-distance-yoffset, 0);
+			glTexCoord2f(0.0, backdropTexH); glVertex3i(-xoffset, sceneHeight-distance-yoffset, 0);
 			glEnd();
 
 
 			// Copy Our ViewPort To The Texture
 			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
 			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, xoffset, yoffset, viewportOffsetX, viewportOffsetY, w, h);
-
+			
 			yoffset += viewportHeight;
 		}
 		xoffset += viewportWidth;

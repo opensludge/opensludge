@@ -10,12 +10,12 @@ BEGIN
       VALUE "Comments", "For more info on SLUDGE, see http://opensludge.sourceforge.net"
       VALUE "CompanyName", "SLUDGE Developers"
       VALUE "FileDescription", "SLUDGE Translation Editor"
-      VALUE "FileVersion", "2.0 beta"
+      VALUE "FileVersion", "2.0"
       VALUE "InternalName", "sludge-translationeditor"
       VALUE "LegalCopyright", "(C) 2000 - 2010 Hungry Software and contributors"
       VALUE "OriginalFilename", "sludge-translationeditor.exe"
       VALUE "ProductName", "SLUDGE Dev Kit"
-      VALUE "ProductVersion", "2.0 beta"
+      VALUE "ProductVersion", "2.0"
     END
   END
   BLOCK "VarFileInfo"

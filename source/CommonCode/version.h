@@ -1,9 +1,9 @@
 #define MAJOR_VERSION 2
 #define MINOR_VERSION 0
-#define BUILD_VERSION 108
-#define TEXT_VERSION "2.0 BETA"
-#define WHOLE_VERSION (MAJOR_VERSION * 256 + MINOR_VERSION)
-#define MINIM_VERSION (1 			 * 256 + 2)
+#define BUILD_VERSION 200
+#define TEXT_VERSION "2.0"
+#define WHOLE_VERSION (MAJOR_VERSION * 256 + MINOR_VERSION)	// This version
+#define MINIM_VERSION (1 			 * 256 + 2)				// Earliest version of games the engine can run 
 
 #define COPYRIGHT_TEXT "\251 Hungry Software and contributors 2000-2010"
 
