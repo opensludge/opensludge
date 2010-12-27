@@ -22,6 +22,7 @@
 
 - (IBAction)spriteBankNew:(id)sender;
 - (IBAction)spriteBankFontify:(id)sender;
+- (IBAction)scriptNew:(id)sender;
 - (IBAction)floorNew:(id)sender;
 - (IBAction)translationNew:(id)sender;
 - (IBAction)zBufferNew:(id)sender;

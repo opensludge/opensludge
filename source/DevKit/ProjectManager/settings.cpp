@@ -46,7 +46,7 @@ void noSettings () {
 	settings.screenWidth = 640;
 	settings.screenHeight = 480;
 	settings.frameSpeed = 20;
-	settings.winMouseImage = 0;
+	settings.winMouseImage = 2; // Hide the mouse
 	settings.ditherImages = true;
 	settings.runFullScreen = true;
 	settings.forceSilent = false;
@@ -100,7 +100,7 @@ void readDir (char * t) {
 		// NEW MOUSE SETTING
 		} else if (strcmp (splitLine -> string, "mouse") == 0) {
 			settings.winMouseImage = stringToInt (splitLine -> next -> string);
-
+				
 		// OLD MOUSE SETTING
 		} else if (strcmp (splitLine -> string, "hidemouse") == 0) {
 			settings.winMouseImage = (splitLine -> next -> string[0] == 'Y') ? 2 : 1;

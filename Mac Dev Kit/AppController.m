@@ -57,6 +57,15 @@ AppController *aC;
 	}
 }
 
+- (IBAction)scriptNew:(id)sender
+{
+	NSDocumentController *docControl = [NSDocumentController sharedDocumentController];
+	NSError **err;
+	SpriteBank *doc = [docControl makeUntitledDocumentOfType:@"SLUDGE Script" error:err];
+	[docControl addDocument: doc];
+	[doc makeWindowControllers];
+	[doc showWindows];
+}
 - (IBAction)spriteBankNew:(id)sender
 {
 	NSDocumentController *docControl = [NSDocumentController sharedDocumentController];
