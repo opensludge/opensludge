@@ -42,6 +42,7 @@ NSModalSession session = nil;
     self = [super init];
     if (self) {	
 		numResources = 0;		
+		project = self;
     }
     return self;
 }
@@ -63,10 +64,10 @@ NSModalSession session = nil;
 	[compilerErrors setDoubleAction:@selector(openError:)];
 	[compilerErrors setTarget:self];
 	
-	UInt8 project[1024];
-	if (! CFURLGetFileSystemRepresentation((CFURLRef) [self fileURL], true, project, 1023))
+	UInt8 filename[1024];
+	if (! CFURLGetFileSystemRepresentation((CFURLRef) [self fileURL], true, filename, 1023))
 		return;
-	getSourceDirFromName ((char *) project);
+	getSourceDirFromName ((char *) filename);
 	[self getSettings];
 }	
 
@@ -111,10 +112,10 @@ NSModalSession session = nil;
 		if ([projectFiles numberOfSelectedRows]) {
 			[removeFileButton setEnabled:YES];
 			clearFileList (resourceList, &numResources);
-			UInt8 project[1024];
-			if (! CFURLGetFileSystemRepresentation((CFURLRef) [self fileURL], true, project, 1023))
+			UInt8 filename[1024];
+			if (! CFURLGetFileSystemRepresentation((CFURLRef) [self fileURL], true, filename, 1023))
 				return;
-			getSourceDirFromName ((char *) project);
+			getSourceDirFromName ((char *) filename);
 			
 			int i;
 			for (i = 0; i < fileListNum; i ++) {
@@ -174,6 +175,7 @@ NSModalSession session = nil;
 	
 	char *file = getFullPath (resourceList[row]);
 	[[NSWorkspace sharedWorkspace] openFile: [NSString stringWithUTF8String:file]];
+	
 	deleteString (file);
 }
 
@@ -219,10 +221,10 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 	
 	if ( [ openPanel runModalForDirectory:nil file:nil types:files] ) {
 		path = [ openPanel filename ];
-		UInt8 project[1024];
-		if (! CFURLGetFileSystemRepresentation((CFURLRef) [self fileURL], true, project, 1023))
+		UInt8 filename[1024];
+		if (! CFURLGetFileSystemRepresentation((CFURLRef) [self fileURL], true, filename, 1023))
 			return;
-		getSourceDirFromName ((char *) project);
+		getSourceDirFromName ((char *) filename);
 		addFileToProject ([path UTF8String], sourceDirectory, fileList, &fileListNum);
 		
 		[projectFiles noteNumberOfRowsChanged];
@@ -251,6 +253,17 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 - (void)close 
 {
 	closeProject (fileList, &fileListNum);
+	
+	// Let's also close all related documents!
+	NSEnumerator *enumerator = [[[NSDocumentController sharedDocumentController] documents] objectEnumerator];
+	NSDocument * anObject;
+	while (anObject = [enumerator nextObject]) {
+		if (anObject == self) continue;
+		if ([anObject project] == self) {
+			[anObject close];
+		}
+	}
+	
 	[super close];
 }
 
@@ -317,6 +330,11 @@ extern char * gameFile;
 	[NSApp endSheet:projectPrefs];
 	[projectPrefs orderOut:sender];
 	[self updateChangeCount: NSChangeDone];
+}
+
+- (NSString *) getTitle
+{
+	return [prefName stringValue];
 }
 
 - (void) getSettings
@@ -404,6 +422,32 @@ extern char * gameFile;
 	[compilerErrors noteNumberOfRowsChanged];
 	[tabView selectTabViewItemAtIndex:1];
 }
+
+- (bool) isFileInProject: (UInt8 *) f {
+	if (! fileListNum) return false;
+	
+	UInt8 filename[1024];
+	if (! CFURLGetFileSystemRepresentation((CFURLRef) [self fileURL], true, filename, 1023))
+		return false;
+	getSourceDirFromName ((char *) filename);
+
+	char * x = strstr((char *) f, (char *)sourceDirectory);
+	
+	if (! x) return false;
+	x += strlen(sourceDirectory) + 1;
+	
+	int row;
+	
+	for (row = 0; row < fileListNum; row++) {
+		if (strcmp(fileList[row], x)) return true;
+	}
+	for (row = 0; row < fileListNum; row++) {
+		if (isResource (fileList[row], x)) return true;
+	}
+
+	return false;
+}
+
 
 @end
 

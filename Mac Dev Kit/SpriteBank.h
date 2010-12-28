@@ -10,6 +10,7 @@
 //#include <OpenGL/gl.h>
 #include "GLee.h"
 #import <Cocoa/Cocoa.h>
+#import "SLUDGE Document.h"
 #include "sprites.h"
 
 @interface SpriteOpenGLView : NSOpenGLView
@@ -28,7 +29,7 @@
 @end
 
 
-@interface SpriteBank : NSDocument {
+@interface SpriteBank : SLUDGE_Document {
 	
 	IBOutlet SpriteOpenGLView *spriteView;
 	IBOutlet NSSlider *spriteIndexSlider;

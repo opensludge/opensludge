@@ -57,6 +57,67 @@ void removeFileFromList (int index, char **fileList, int *numFiles)
 	(*numFiles)--;
 }
 
+int isResource (const char * scriptName, char *resource) {
+	FILE * fp;
+	char t, lastOne;
+	enum parseMode pM;
+	char buffer[256];
+	int numBuff;
+	
+	gotoSourceDirectory ();
+	
+	const char * extension = scriptName + strlen(scriptName) - 4;	
+	if (strlen (scriptName) > 4 && strcmp (extension, ".slu") == 0) {
+		fp = fopen (scriptName, "rt");
+		if (fp) {
+			pM = PM_NORMAL;
+			t = ' ';
+			for (;;) {
+				lastOne = t;
+				t = fgetc (fp);
+				if (feof (fp)) break;
+				switch (pM) {
+					case PM_NORMAL:
+						if (t == '\'') {
+							pM = PM_FILENAME;
+							numBuff = 0;
+						}
+						if (t == '\"') pM = PM_QUOTE;
+						if (t == '#') pM = PM_COMMENT;
+						break;
+						
+					case PM_COMMENT:
+						if (t == '\n') pM = PM_NORMAL;
+						break;
+						
+					case PM_QUOTE:
+						if (t == '\"' && lastOne != '\\') pM = PM_NORMAL;
+						break;
+						
+					case PM_FILENAME:
+						if (t == '\'' && lastOne != '\\') {
+							buffer[numBuff] = 0;
+							pM = PM_NORMAL;
+							if (strcmp(buffer, resource)) return true;
+						} else {
+							buffer[numBuff++] = t;
+							if (numBuff == 250) {
+								buffer[numBuff++] = 0;
+								errorBox ("Resource filename too long!", buffer);
+								numBuff = 0;
+							}
+						}
+						break;
+				}
+			}
+			fclose (fp);
+		} else {
+			errorBox ("Can't open script file to look for resources", scriptName);
+		}
+	}
+	return false;
+}
+
 void populateResourceList (const char * scriptName, char **resourceList, int *numResources)
 {
 	FILE * fp;
@@ -178,6 +239,7 @@ bool saveProject (const char * filename, char **fileList, int *numFiles) {
 
 void closeProject (char **fileList, int *numFiles) {
 	clearFileList(fileList, numFiles);
+	
 }
 
 void doNewProject (const char * filename, char **fileList, int *numFiles) {

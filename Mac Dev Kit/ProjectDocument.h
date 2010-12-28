@@ -7,9 +7,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "SLUDGE Document.h"
 
 
-@interface ProjectDocument : NSDocument {
+@interface ProjectDocument : SLUDGE_Document {
 	// Main window
 	IBOutlet NSTabView *tabView;
 	IBOutlet NSTableView *projectFiles;
@@ -55,12 +56,15 @@
 - (IBAction)addFileToProject:(id)sender;
 - (IBAction)removeFileFromProject:(id)sender;
 
+- (bool) isFileInProject: (UInt8 *) f;
+
 - (bool) compile;
 - (bool)showProjectPrefs;
 - (IBAction)endProjectPrefs:(id)sender;
 - (IBAction)runGame:(id)sender;
 - (IBAction)closeCompilerBox:(id)sender;
 
+- (NSString *) getTitle; 
 
 - (void) getSettings;
 - (void) setSettings;

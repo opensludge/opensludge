@@ -9,6 +9,7 @@
 //#include <OpenGL/gl.h>
 #include "glee.h"
 #import <Cocoa/Cocoa.h>
+#import "SLUDGE Document.h"
 
 #include "FloorMaker.h"
 #include "sprites.h"
@@ -33,7 +34,7 @@
 @end
 
 
-@interface FloorDocument : NSDocument {
+@interface FloorDocument : SLUDGE_Document {
 	
 	IBOutlet FloorOpenGLView *floorView;	
 	IBOutlet NSColorWell *floorColourWell;

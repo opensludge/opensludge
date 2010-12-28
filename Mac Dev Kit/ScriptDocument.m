@@ -9,8 +9,8 @@
 
 #import "ScriptDocument.h"
 
-
 @implementation ScriptDocument
+
 
 - (NSString *)windowNibName {
     return @"ScriptDocument";

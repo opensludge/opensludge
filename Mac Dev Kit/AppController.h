@@ -8,6 +8,7 @@
 	IBOutlet NSButton *prefWriteStrings;
 	IBOutlet NSButton *prefVerbose;
 	
+	IBOutlet NSMenu *windowMenu;
 }
 
 - (IBAction)commentMenu:(id)sender;

@@ -17,6 +17,7 @@ void addFileToList (char * file, char **fileList, int *numFiles);
 void removeFileFromList (int index, char **fileList, int *numFiles);
 
 void populateResourceList (const char * scriptName, char **resourceList, int *numResources);
+int isResource (const char * scriptName, char *resource);
 
 bool loadProject (const char * filename, char **fileList, int *numFiles);
 bool saveProject (const char * filename, char **fileList, int *numFiles);

@@ -6,6 +6,7 @@
 #include "settings.h"
 #import "ProjectDocument.h"
 #import "ScriptDocument.h"
+#import "SLUDGE Document.h"
 
 AppController *aC;
 
@@ -61,7 +62,7 @@ AppController *aC;
 {
 	NSDocumentController *docControl = [NSDocumentController sharedDocumentController];
 	NSError **err;
-	SpriteBank *doc = [docControl makeUntitledDocumentOfType:@"SLUDGE Script" error:err];
+	SLUDGE_Document *doc = [docControl makeUntitledDocumentOfType:@"SLUDGE Script" error:err];
 	[docControl addDocument: doc];
 	[doc makeWindowControllers];
 	[doc showWindows];
@@ -89,7 +90,7 @@ AppController *aC;
 {
 	NSDocumentController *docControl = [NSDocumentController sharedDocumentController];
 	NSError **err;
-	NSDocument *doc = [docControl makeUntitledDocumentOfType:@"SLUDGE Floor" error:err];
+	SLUDGE_Document *doc = [docControl makeUntitledDocumentOfType:@"SLUDGE Floor" error:err];
 	[docControl addDocument: doc];
 	[doc makeWindowControllers];
 	[doc showWindows];
@@ -98,7 +99,7 @@ AppController *aC;
 {
 	NSDocumentController *docControl = [NSDocumentController sharedDocumentController];
 	NSError **err;
-	NSDocument *doc = [docControl makeUntitledDocumentOfType:@"SLUDGE Translation file" error:err];
+	SLUDGE_Document *doc = [docControl makeUntitledDocumentOfType:@"SLUDGE Translation file" error:err];
 	[docControl addDocument: doc];
 	[doc makeWindowControllers];
 	[doc showWindows];
@@ -107,7 +108,7 @@ AppController *aC;
 {
 	NSDocumentController *docControl = [NSDocumentController sharedDocumentController];
 	NSError **err;
-	NSDocument *doc = [docControl makeUntitledDocumentOfType:@"SLUDGE zBuffer" error:err];
+	SLUDGE_Document *doc = [docControl makeUntitledDocumentOfType:@"SLUDGE zBuffer" error:err];
 	[docControl addDocument: doc];
 	[doc makeWindowControllers];
 	[doc showWindows];
@@ -125,10 +126,16 @@ AppController *aC;
 
 - (IBAction)compileMenu:(id)sender
 {
-	[[[NSDocumentController sharedDocumentController] currentDocument] compile];
+	SLUDGE_Document *doc = [[NSDocumentController sharedDocumentController] currentDocument];
+	ProjectDocument *p = (ProjectDocument *)[doc project];
+	
+	[p compile];
 }
 - (IBAction)projectPrefsMenu:(id)sender{
-	[[[NSDocumentController sharedDocumentController] currentDocument] showProjectPrefs];
+	SLUDGE_Document *doc = [[NSDocumentController sharedDocumentController] currentDocument];
+	ProjectDocument *p = (ProjectDocument *)[doc project];
+	
+	[p showProjectPrefs];
 }
 
 
@@ -209,13 +216,26 @@ bail: return err;
 }
 
 - (BOOL)validateMenuItem:(id <NSMenuItem>)menuItem {
-	if ([menuItem tag] == 1000)  {
-		// This is project stuff
-		if (! [[[[NSDocumentController sharedDocumentController] currentDocument] fileType] isEqualToString:@"SLUDGE Project file"])
+	int t = [menuItem tag];
+	SLUDGE_Document *doc = [[NSDocumentController sharedDocumentController] currentDocument];
+	ProjectDocument *p = (ProjectDocument *)[doc project];
+
+	if (t == 1000)  {
+		// Compile project
+		if (p) {
+			[menuItem setTitle: [NSString stringWithFormat:@"Compile %@", [p getTitle]]];
+			return true;
+		} else {
+			[menuItem setTitle: @"Compile Game"];
 			return false;
-	} else if ([menuItem tag] == 1001)  {
+		}
+	} else if (t == 1001)  {
+		// Project properties
+		if (! p)
+			return false;
+	} else if (t == 2000)  {
 		// For script editor
-		if (! [[[[NSDocumentController sharedDocumentController] currentDocument] fileType] isEqualToString:@"SLUDGE Script"])
+		if (! [[doc fileType] isEqualToString:@"SLUDGE Script"])
 			return false;
 	}
 	return true;

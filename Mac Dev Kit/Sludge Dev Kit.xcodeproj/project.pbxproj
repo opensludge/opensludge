@@ -108,6 +108,7 @@
 		2FF7AE531012195300F6AF98 /* SpriteBank.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FF7AE511012195300F6AF98 /* SpriteBank.m */; };
 		2FF7AE5D10121A0700F6AF98 /* SpriteBank.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2FF7AE5C10121A0700F6AF98 /* SpriteBank.nib */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		E80D9E7F12C9E6C800663154 /* SLUDGE Document.m in Sources */ = {isa = PBXBuildFile; fileRef = E80D9E7E12C9E6C800663154 /* SLUDGE Document.m */; };
 		E850AB691271E77300224E49 /* compilerinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E850AB671271E77300224E49 /* compilerinfo.cpp */; };
 /* End PBXBuildFile section */
 
@@ -270,6 +271,8 @@
 		2FF7AE511012195300F6AF98 /* SpriteBank.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpriteBank.m; sourceTree = "<group>"; };
 		2FF7AE5C10121A0700F6AF98 /* SpriteBank.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = SpriteBank.nib; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Sludge Dev Kit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sludge Dev Kit.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E80D9E7D12C9E6C800663154 /* SLUDGE Document.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SLUDGE Document.h"; sourceTree = "<group>"; };
+		E80D9E7E12C9E6C800663154 /* SLUDGE Document.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SLUDGE Document.m"; sourceTree = "<group>"; };
 		E850AB671271E77300224E49 /* compilerinfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = compilerinfo.cpp; path = ../source/DevKit/Compiler/compilerinfo.cpp; sourceTree = "<group>"; };
 		E850AB681271E77300224E49 /* compilerinfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = compilerinfo.h; path = ../source/DevKit/Compiler/compilerinfo.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -295,6 +298,8 @@
 			children = (
 				002F3A2B09D0888800EBEB88 /* AppController.h */,
 				002F3A2C09D0888800EBEB88 /* AppController.m */,
+				E80D9E7D12C9E6C800663154 /* SLUDGE Document.h */,
+				E80D9E7E12C9E6C800663154 /* SLUDGE Document.m */,
 				2FF7AE501012195300F6AF98 /* SpriteBank.h */,
 				2FF7AE511012195300F6AF98 /* SpriteBank.m */,
 				2F9355AD1012670D00099D24 /* ProjectDocument.h */,
@@ -594,6 +599,7 @@
 				2F2FF5C0102C4263005439DA /* zbuffer.cpp in Sources */,
 				2F981B9E10414BF00097177B /* ScriptDocument.m in Sources */,
 				E850AB691271E77300224E49 /* compilerinfo.cpp in Sources */,
+				E80D9E7F12C9E6C800663154 /* SLUDGE Document.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

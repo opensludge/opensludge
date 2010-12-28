@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "SLUDGE Document.h"
 
 
 @interface stringTable : NSTableView {
@@ -15,7 +16,7 @@
 - (void) setType:(int)i;
 @end
 
-@interface TranslationDocument : NSDocument {
+@interface TranslationDocument : SLUDGE_Document {
 	IBOutlet NSTextField *languageName;
 	IBOutlet NSTextField *languageID;
 	IBOutlet stringTable *listOfStrings;

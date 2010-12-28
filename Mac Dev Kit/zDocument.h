@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "SLUDGE Document.h"
 
 
 //
@@ -36,7 +37,7 @@
 @end
 
 
-@interface zDocument : NSDocument {
+@interface zDocument : SLUDGE_Document {
 	struct spriteBank backdrop;
 	
 	IBOutlet zOpenGLView *zView;

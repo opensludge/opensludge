@@ -7,9 +7,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "SLUDGE Document.h"
 
 
-@interface ScriptDocument : NSDocument {
+@interface ScriptDocument : SLUDGE_Document {
 	IBOutlet NSTextView *text;
 	
 	
