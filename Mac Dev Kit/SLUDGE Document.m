@@ -25,44 +25,45 @@
 		
 		// Are we creating a new file?
 		if (! [self fileURL]) {
-			if (NSRunAlertPanel ([p getTitle], @"Do you want to add the new file to the project?", @"Yes", @"No", NULL) == NSAlertDefaultReturn) {
-				
-				NSString *path = nil;
-				NSSavePanel *savePanel = [ NSSavePanel savePanel ];
-				NSArray *files;
+			NSString *path = nil;
+			NSSavePanel *savePanel = [ NSSavePanel savePanel ];
+			NSArray *files;
 
-				if ([[self fileType] compare: @"SLUDGE Script"] == NSOrderedSame) {
+			if ([[self fileType] compare: @"SLUDGE Script"] == NSOrderedSame) {
+
+				if (NSRunAlertPanel ([p getTitle], @"Do you want to add the new file to the project?", @"Yes", @"No", NULL) == NSAlertDefaultReturn) {				
+					
 					[savePanel setTitle:@"Save script file"];
-					files = [NSArray arrayWithObjects:@"slu", nil];
-				} else if ([[self fileType]compare: @"SLUDGE Sprite Bank"] == NSOrderedSame) {
-					[savePanel setTitle:@"Save sprite bank"];
-					files = [NSArray arrayWithObjects:@"duc", nil];
-				} else if ([[self fileType]compare: @"SLUDGE Floor"] == NSOrderedSame) {
-					[savePanel setTitle:@"Save floor"];
-					files = [NSArray arrayWithObjects:@"flo", nil];
-				} else if ([[self fileType]compare: @"SLUDGE Translation file"] == NSOrderedSame) {
+					files = [NSArray arrayWithObjects:@"slu", @"sld", nil];
+					[savePanel setAllowedFileTypes:files];
+				
+					if ( [savePanel runModal] ) {
+						path = [ savePanel filename ];
+					}				
+				}
+			} else if ([[self fileType] compare: @"SLUDGE Translation file"] == NSOrderedSame) {
+				
+				if (NSRunAlertPanel ([p getTitle], @"Do you want to add the new translation to the project?", @"Yes", @"No", NULL) == NSAlertDefaultReturn) {
+										
 					[savePanel setTitle:@"Save translation"];
 					files = [NSArray arrayWithObjects:@"tra", nil];
-				} else /*if ([[self fileType]compare: @"SLUDGE zBuffer"] == NSOrderedSame)*/ {
-					[savePanel setTitle:@"Save zBuffer"];
-					files = [NSArray arrayWithObjects:@"zbu", nil];
-				}
-				[savePanel setAllowedFileTypes:files];
-				
-				if ( [savePanel runModal] ) {
-					path = [ savePanel filename ];
-				}				
-				if (path) {	
-					NSURL *file = [NSURL fileURLWithPath: path];
-					NSError **err;
+					[savePanel setAllowedFileTypes:files];
 					
-					if ([self saveToURL: [file absoluteURL] 
+					if ( [savePanel runModal] ) {
+						path = [ savePanel filename ];
+					}				
+				}
+			}
+			if (path) {	
+				NSURL *file = [NSURL fileURLWithPath: path];
+				NSError **err;
+				
+				if ([self saveToURL: [file absoluteURL] 
 							 ofType: [self fileType]
 				   forSaveOperation: NSSaveOperation 
-								  error: err]) {
-
-						[p addNamedFileToProject: file];
-					}
+							  error: err]) {
+					
+					[p addNamedFileToProject: file];
 				}
 			}
 		} else {
