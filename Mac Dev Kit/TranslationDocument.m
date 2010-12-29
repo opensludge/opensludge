@@ -7,6 +7,7 @@
 //
 
 #import "TranslationDocument.h"
+#import "ProjectDocument.h"
 #include "Translator.h"
 
 #include "MoreIO.h"
@@ -235,17 +236,32 @@
 }
 
 - (IBAction)loadStrings:(id)sender {
-	NSString *path = nil;
-	NSOpenPanel *openPanel = [ NSOpenPanel openPanel ];
-	[openPanel setTitle:@"Select a SLUDGE Project"];
-	NSArray *files = [NSArray arrayWithObjects:@"slp", nil];
+	SLUDGE_Document *doc = [[NSDocumentController sharedDocumentController] currentDocument];
+	ProjectDocument *p = (ProjectDocument *)[doc project];
+
+	UInt8 filename[1024];
 	
-	if ( [ openPanel runModalForDirectory:nil file:nil types:files] ) {
-		path = [ openPanel filename ];
-		if (updateFromProject ([path UTF8String], &firstTransLine)) {
-		
+	if (p && CFURLGetFileSystemRepresentation((CFURLRef) [p fileURL], true, filename, 1023)) {
+		if (updateFromProject (filename, &firstTransLine)) {
+			
 			[listOfStrings noteNumberOfRowsChanged];
 			[self updateChangeCount: NSChangeDone];
+			NSRunAlertPanel ([p getTitle], @"Strings updated.", NULL, NULL, NULL);
+		}		
+	} else {
+	
+		NSString *path = nil;
+		NSOpenPanel *openPanel = [ NSOpenPanel openPanel ];
+		[openPanel setTitle:@"Select a SLUDGE Project"];
+		NSArray *files = [NSArray arrayWithObjects:@"slp", nil];
+		
+		if ( [ openPanel runModalForDirectory:nil file:nil types:files] ) {
+			path = [ openPanel filename ];
+			if (updateFromProject ([path UTF8String], &firstTransLine)) {
+				
+				[listOfStrings noteNumberOfRowsChanged];
+				[self updateChangeCount: NSChangeDone];
+			}
 		}
 	}
 }

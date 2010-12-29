@@ -311,6 +311,7 @@ bool updateFromProject (const char * filename, transLine **firstTransLine) {
 		if (theLine == NULL) {
 			fclose (fp);
 			errorBox ("Not a SLUDGE project file", filename);
+			return false;
 		}
 		while (theLine) {
 			delete theLine;
@@ -322,7 +323,7 @@ bool updateFromProject (const char * filename, transLine **firstTransLine) {
 		transLine *prev = NULL;
 		while (hunt) {
 			if (! hunt -> exists) {
-				fprintf(stderr, "Removing string: %s\n", hunt->transFrom);
+				//fprintf(stderr, "Removing string: %s\n", hunt->transFrom);
 				if (prev) {
 					prev->next = hunt->next;
 					
