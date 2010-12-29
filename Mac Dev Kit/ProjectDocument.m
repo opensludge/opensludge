@@ -212,6 +212,23 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 	return v;
 }
 
+
+- (IBAction)addNamedFileToProject:(NSURL *)fileURL
+{
+	UInt8 path[1024];
+	if (! CFURLGetFileSystemRepresentation((CFURLRef) fileURL, true, path, 1023))
+		return;
+	
+	UInt8 filename[1024];
+	if (! CFURLGetFileSystemRepresentation((CFURLRef) [self fileURL], true, filename, 1023))
+		return;
+	getSourceDirFromName ((char *) filename);
+	addFileToProject ((char *) path, sourceDirectory, fileList, &fileListNum);
+		
+	[projectFiles noteNumberOfRowsChanged];
+	[self updateChangeCount: NSChangeDone];
+}
+
 - (IBAction)addFileToProject:(id)sender
 {
 	NSString *path = nil;

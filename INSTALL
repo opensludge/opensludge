@@ -10,7 +10,7 @@ Compiling
 =========
 
    If you want to compile SLUDGE yourself on these platforms, you can
-use the Code::Blocks project files in the "Windows Engine" or the or Xcode
+use the Code::Blocks project files in the "Windows Engine" folder or Xcode
 project files in the "Mac Engine" and "Mac Dev Kit" directories. Note that
 in this case you have to satisfy the dependencies mentioned in the next
 section. The Windows Dev Kit has so far only been cross-compiled from

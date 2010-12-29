@@ -66,7 +66,9 @@ AppController *aC;
 	[docControl addDocument: doc];
 	[doc makeWindowControllers];
 	[doc showWindows];
+		
 }
+
 - (IBAction)spriteBankNew:(id)sender
 {
 	NSDocumentController *docControl = [NSDocumentController sharedDocumentController];

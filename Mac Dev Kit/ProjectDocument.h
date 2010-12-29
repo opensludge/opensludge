@@ -53,6 +53,7 @@
 	char *fileList[1000];
 	int fileListNum;	
 }
+- (IBAction)addNamedFileToProject:(NSURL *)fileURL;
 - (IBAction)addFileToProject:(id)sender;
 - (IBAction)removeFileFromProject:(id)sender;
 

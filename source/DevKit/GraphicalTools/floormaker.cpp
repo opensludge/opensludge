@@ -629,7 +629,8 @@ bool saveFloorToFile (char * filename, struct polyList **firstPoly) {
 
 	int dir;
 	bool fixFloor = false;
-	polyList * pL =  *firstPoly;
+	polyList * pL = *firstPoly;
+	if (!pL->next) pL = NULL;
 	while (pL) {
 		if (! polyIsConvex (pL)) {
 			if (fixFloor || askAQuestion("Error in floor.", "I found a polygon in the floor that isn't convex. That will most likely cause problems. Do you want me to try and fix it for you?")) {
