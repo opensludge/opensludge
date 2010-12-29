@@ -64,6 +64,7 @@
 							  error: err]) {
 					
 					[p addNamedFileToProject: file];
+					project = p;
 				}
 			}
 		} else {
