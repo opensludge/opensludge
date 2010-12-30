@@ -2,9 +2,7 @@ Windows and Mac OS X
 ********************
 
    If you use Windows or Mac OS X, you should use the prebuilt releases
-available on the project page. For the Windows Dev Kit you also need to
-install the GTK+ runtime package 2.16 from http://gtk-win.sourceforge.net.
-It is important to use exactly version 2.16! 
+available on the project page.
 
 Compiling
 =========
@@ -15,8 +13,10 @@ project files in the "Mac Engine" and "Mac Dev Kit" directories. Note that
 in this case you have to satisfy the dependencies mentioned in the next
 section. The Windows Dev Kit has so far only been cross-compiled from
 Ubuntu using MinGW. There is a good tutorial on how to do that at
-http://live.gnome.org/GTK%2B/Win32/Apps. It should also be possible to
-compile the Windows Dev Kit on Windows using MinGW.
+http://live.gnome.org/GTK+/Win32/Apps. It should also be possible to
+compile the Windows Dev Kit on Windows using MinGW. For running the Windows
+Dev Kit, the GTK+ runtime package 2.16 (exactly 2.16!) from
+http://gtk-win.sourceforge.net is required.
 
 Linux
 *****
@@ -29,14 +29,15 @@ and libpng. OpenAL sound support requires OpenAL and Alure (>= 1.1) with
 Vorbis, FLAC and DUMB support enabled.
 
    On Debian and Ubuntu the correspoding packages are libsdl1.2-dev,
-mesa-common-dev, glee-dev (only available in Debian Squeeze yet, but
-you can use this package for Ubuntu, too), libglu1-mesa-dev,
-libpng12-dev, libopenal-dev, libalure-dev (only version 1.0 by now),
-libvorbis-dev, libflac-dev and libdumb1-dev.
+mesa-common-dev, glee-dev (only available in Debian Squeeze / Ubuntu 10.10
+or above, but these packages can also be used for older releases of the
+distributions), libglu1-mesa-dev, libpng12-dev, libopenal-dev,
+libalure-dev (only version 1.0 by now), libvorbis-dev, libflac-dev and
+libdumb1-dev.
 
    Until Alure, version 1.1, is available in Debian and Ubuntu, you have
-to get Alure from http://kcat.strangesoft.net/alure.html and install it
-manually.
+to get the git-version of Alure from http://kcat.strangesoft.net/alure.html
+and install it manually.
 
    Compile and install Alure, making sure that at least Vorbis, FLAC and
 DUMB support are enabled:
