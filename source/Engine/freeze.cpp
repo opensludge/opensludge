@@ -92,6 +92,7 @@ void freezeGraphics() {
 }
 
 bool freeze () {
+	debugOut("calling freeze()\n");
 	frozenStuffStruct * newFreezer = new frozenStuffStruct;
 	if (! checkNew (newFreezer)) return false;
 

@@ -16,10 +16,6 @@
 106                BITMAP         "sludge.bmp"
 
 
-107                BITMAP         "loading.bmp"
-
-
-
 //
 // Dialog resources
 //
@@ -28,7 +24,7 @@ STYLE DS_CENTER | DS_MODALFRAME | DS_SETFONT | WS_BORDER | WS_CAPTION | WS_DLGFR
 CAPTION "Game Setup"
 FONT 10, "Arial"
 {
-    CONTROL         106, 1003, WC_STATIC, SS_BITMAP | SS_SUNKEN, 9, 7, 178, 45
+    CONTROL         106, 1003, WC_STATIC, SS_BITMAP | SS_CENTERIMAGE | SS_SUNKEN, 9, 7, 178, 45
     LTEXT           "Language:", IDC_STATIC, 15, 60, 35, 8, SS_LEFT
     COMBOBOX        1001, 61, 58, 118, 50, CBS_DROPDOWNLIST | CBS_HASSTRINGS
  GROUPBOX "Graphics settings:", -1, 10, 80, 175, 84, BS_GROUPBOX
@@ -59,7 +55,7 @@ INVISIBLE          CURSOR         "invis.cur"
 //
 // Icon resources
 //
-999                ICON           "gameIcon.ico"
+999                ICON           "gameIcon\\gameIcon.ico"
 
 
 ICON_1             ICON           "sludge.ico"

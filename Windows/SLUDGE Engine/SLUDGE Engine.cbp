@@ -40,6 +40,8 @@
 			<Add directory="..\..\source\CommonCode" />
 			<Add directory="C:\Program Files\OpenAL 1.1 SDK\include" />
 			<Add directory="..\..\..\alure\include" />
+			<Add directory="..\..\..\..\Programmering" />
+			<Add directory="..\..\..\zlib" />
 		</Compiler>
 		<Linker>
 			<Add library="gdi32" />
@@ -52,9 +54,9 @@
 			<Add library="..\..\..\SDL\lib\libSDL.dll.a" />
 			<Add library="..\..\..\GnuWin32\lib\libiconv.dll.a" />
 			<Add library="..\..\..\Bass\c\bass.lib" />
-			<Add library="C:\MinGW\lib\libopengl32.a" />
-			<Add library="C:\MinGW\lib\libglu32.a" />
-			<Add library="C:\Program Files\OpenAL 1.1 SDK\libs\Win32\OpenAL32.lib" />
+			<Add library="libopengl32.a" />
+			<Add library="libglu32.a" />
+			<Add library="..\..\..\openal-soft-1.12.854-bin\lib\Win32\libOpenAL32.dll.a" />
 			<Add library="..\..\..\alure\build\libALURE32.dll.a" />
 		</Linker>
 		<ExtraCommands>
