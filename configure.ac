@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.55])
-AC_INIT([SLUDGE], [2.0b], [tobias.han@gmx.de], [sludge], [http://opensludge.sourceforge.net/])
+AC_INIT([SLUDGE], [2.0], [tobias.han@gmx.de], [sludge], [http://opensludge.sourceforge.net/])
 AC_CONFIG_SRCDIR([source/CommonCode/tga.cpp])
 AM_INIT_AUTOMAKE
 AC_CONFIG_HEADERS([config.h])
