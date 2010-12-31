@@ -3,7 +3,7 @@
 //  Sludge Dev Kit
 //
 //  Created by Rikard Peterson on 2009-08-23.
-//  Copyright 2009-2010 SLUDGE Dev Team. All rights reserved.
+//  Copyright 2009-2011 SLUDGE Dev Team. All rights reserved.
 //
 
 

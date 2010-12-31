@@ -12,7 +12,7 @@ BEGIN
       VALUE "FileDescription", "SLUDGE Z-Buffer Maker"
       VALUE "FileVersion", "2.0"
       VALUE "InternalName", "sludge-zbuffermaker"
-      VALUE "LegalCopyright", "(C) 2000 - 2010 Hungry Software and contributors"
+      VALUE "LegalCopyright", "(C) 2000 - 2011 Hungry Software and contributors"
       VALUE "OriginalFilename", "sludge-zbuffermaker.exe"
       VALUE "ProductName", "SLUDGE Dev Kit"
       VALUE "ProductVersion", "2.0"
