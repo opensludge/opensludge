@@ -75,7 +75,7 @@ ShowUnInstDetails show
 
 ; MUI Settings
 !define MUI_ABORTWARNING
-!define MUI_ICON "images/Sludge/Sludge.ico"
+!define MUI_ICON "images/Sludge.ico"
 !define MUI_UNICON "images/Sludge/Sludge_delete.ico"
 
 
@@ -189,7 +189,7 @@ SectionIn 1 RO
 	File images/gameIcon/gameIcon_16x16x32.png
 
 	SetOutPath "$INSTDIR\icons"
-	File images/Sludge/Sludge.ico
+	File images/Sludge.ico
 	File images/gameIcon/gameIcon.ico
 	File images/scriptIcon/scriptIcon.ico
 	File images/slx/slx.ico

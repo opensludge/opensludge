@@ -781,6 +781,10 @@
 				<param name="Local" value="SLUDGEDevKitHelp\About_the_SLUDGE_Z-Buffer_Maker.html">
 				</OBJECT>
 			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="How to release the finished game">
+				<param name="Local" value="SLUDGEDevKitHelp\release_the_game.html">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value=".ini Files for Compiled SLUDGE Games">
 				<param name="Local" value="SLUDGEDevKitHelp\ini.html">
 				</OBJECT>
