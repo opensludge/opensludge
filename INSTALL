@@ -46,7 +46,11 @@ cmake .
 make
 make install
 
-(make install requires root rights.)
+It might also be necessary to update the cache of the run-time linker so that Alure is found when running the SLUDGE Engine:
+
+ldconfig
+
+(make install and ldconfig require root rights.)
 
    Now you can go on installing OpenSLUDGE.
 
