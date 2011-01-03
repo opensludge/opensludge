@@ -13,6 +13,7 @@
 
 #include "settings.h"
 #include "moreio.h"
+#include "helpers.h"
 #include "splitter.hpp"
 #include "messbox.h"
 #include "project.hpp"

@@ -14,6 +14,7 @@
 
 #include "interface.h"
 #include "moreio.h"
+#include "helpers.h"
 #include "settings.h"
 #include "splitter.hpp"
 

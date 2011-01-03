@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "moreio.h"
+#include "helpers.h"
 #include "splitter.hpp"
 #include "sludge_functions.h"
 #include "settings.h"

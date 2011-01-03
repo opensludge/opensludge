@@ -7,6 +7,7 @@
 #include "settings.h"
 #include "tokens.h"
 #include "moreio.h"
+#include "helpers.h"
 #include "messbox.h"
 #include "interface.h"
 #include "allknown.h"

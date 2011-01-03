@@ -8,6 +8,7 @@
 #include "settings.h"
 #include "allknown.h"
 #include "moreio.h"
+#include "helpers.h"
 #include "realproc.h"
 #include "messbox.h"
 #include "checkused.h"

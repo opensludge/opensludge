@@ -3,7 +3,7 @@
 #include <png.h>
 
 #include "tga.h"
-#include "splitter.hpp"
+#include "helpers.h"
 #include "sprites.h"
 #include "moreio.h"
 #include "interface.h"

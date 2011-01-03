@@ -26,6 +26,7 @@
 #include "splitter.hpp"
 #include "translation.h"
 #include "moreio.h"
+#include "helpers.h"
 #include "settings.h"
 #include "hsi.h"
 #include "objtype.h"

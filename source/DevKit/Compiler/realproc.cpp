@@ -5,6 +5,7 @@
 #include "splitter.hpp"
 #include "sludge_functions.h"
 #include "moreio.h"
+#include "helpers.h"
 #include "tokens.h"
 #include "objtype.h"
 #include "interface.h"

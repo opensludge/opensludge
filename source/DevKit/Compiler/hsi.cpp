@@ -4,6 +4,7 @@
 #include <png.h>
 
 #include "moreio.h"
+#include "helpers.h"
 #include "splitter.hpp"
 #include "interface.h"
 #include "messbox.h"

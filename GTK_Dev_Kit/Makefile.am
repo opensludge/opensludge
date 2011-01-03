@@ -8,6 +8,7 @@ sludge_floormaker_SOURCES = \
 	../source/DevKit/GraphicalTools/floormaker.cpp ../source/DevKit/GraphicalTools/floormaker.h \
 	../source/DevKit/GraphicalTools/sprites.cpp ../source/DevKit/GraphicalTools/sprites.h \
 	../source/DevKit/Common/moreio.cpp ../source/DevKit/Common/moreio.h \
+	../source/DevKit/Common/helpers.cpp ../source/DevKit/Common/helpers.h \
 	../source/CommonCode/tga.cpp ../source/CommonCode/tga.h
 
 sludge_zbuffermaker_SOURCES = \
@@ -18,6 +19,7 @@ sludge_zbuffermaker_SOURCES = \
 	../source/DevKit/GraphicalTools/zbuffer.cpp ../source/DevKit/GraphicalTools/zbuffer.h \
 	../source/DevKit/GraphicalTools/sprites.cpp ../source/DevKit/GraphicalTools/sprites.h \
 	../source/DevKit/Common/moreio.cpp ../source/DevKit/Common/moreio.h \
+	../source/DevKit/Common/helpers.cpp ../source/DevKit/Common/helpers.h \
 	../source/CommonCode/tga.cpp ../source/CommonCode/tga.h
 
 sludge_spritebankeditor_SOURCES = \
@@ -27,6 +29,7 @@ sludge_spritebankeditor_SOURCES = \
 	Common.cpp Common.h ../source/DevKit/Common/interface.h \
 	../source/DevKit/GraphicalTools/sprites.cpp ../source/DevKit/GraphicalTools/sprites.h \
 	../source/DevKit/Common/moreio.cpp ../source/DevKit/Common/moreio.h \
+	../source/DevKit/Common/helpers.cpp ../source/DevKit/Common/helpers.h \
 	../source/CommonCode/tga.cpp ../source/CommonCode/tga.h
 
 sludge_translationeditor_SOURCES = \
@@ -38,6 +41,7 @@ sludge_translationeditor_SOURCES = \
 	../source/DevKit/TranslationEditor/translator.cpp ../source/DevKit/TranslationEditor/translator.h \
 	../source/DevKit/ProjectManager/settings.cpp ../source/DevKit/ProjectManager/settings.h \
 	../source/DevKit/Common/moreio.cpp ../source/DevKit/Common/moreio.h \
+	../source/DevKit/Common/helpers.cpp ../source/DevKit/Common/helpers.h \
 	../source/DevKit/Common/splitter.cpp ../source/DevKit/Common/splitter.hpp
 
 sludge_projectmanager_SOURCES = \
@@ -64,6 +68,7 @@ sludge_projectmanager_SOURCES = \
 	../source/DevKit/Compiler/translation.cpp ../source/DevKit/Compiler/translation.h \
 	../source/DevKit/Compiler/csludge.h ../source/DevKit/Compiler/typedef.h \
 	../source/DevKit/Common/moreio.cpp ../source/DevKit/Common/moreio.h \
+	../source/DevKit/Common/helpers.cpp ../source/DevKit/Common/helpers.h \
 	../source/DevKit/Common/splitter.cpp ../source/DevKit/Common/splitter.hpp \
 	../source/CommonCode/tga.cpp ../source/CommonCode/tga.h
 
@@ -89,6 +94,7 @@ sludge_compiler_SOURCES = \
 	../source/DevKit/Compiler/translation.cpp ../source/DevKit/Compiler/translation.h \
 	../source/DevKit/Compiler/csludge.h ../source/DevKit/Compiler/typedef.h \
 	../source/DevKit/Common/moreio.cpp ../source/DevKit/Common/moreio.h \
+	../source/DevKit/Common/helpers.cpp ../source/DevKit/Common/helpers.h \
 	../source/DevKit/Common/splitter.cpp ../source/DevKit/Common/splitter.hpp \
 	../source/CommonCode/tga.cpp ../source/CommonCode/tga.h
 

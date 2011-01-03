@@ -5,6 +5,7 @@
 #include "typedef.h"
 #include "splitter.hpp"
 #include "moreio.h"
+#include "helpers.h"
 #include "messbox.h"
 #include "interface.h"
 #include "settings.h"

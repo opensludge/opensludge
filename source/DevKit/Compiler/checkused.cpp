@@ -1,5 +1,6 @@
 #include <string.h>
 #include "splitter.hpp"
+#include "helpers.h"
 #include "messbox.h"
 #include "checkused.h"
 

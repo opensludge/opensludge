@@ -12,6 +12,7 @@
 #include "splitter.hpp"
 #include "settings.h"
 #include "translation.h"
+#include "helpers.h"
 #include "moreio.h"
 #include "messbox.h"
 #include "version.h"

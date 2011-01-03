@@ -12,6 +12,7 @@
 
 #include "messbox.h"
 #include "moreio.h"
+#include "helpers.h"
 #include "splitter.hpp"
 #include "compilerinfo.h"
 

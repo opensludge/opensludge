@@ -32,12 +32,7 @@ void trimEdgeSpace (char * & thisString);
 bool trimStart (char * & thisString, char trimChar);
 bool trimEnd (char * & thisString, char trimChar);
 
-// Making something with a char *
 int32_t stringToInt (const char * textNumber, int errorType);
-char * joinStrings (const char * a, const char * b);
-char * joinStrings (const char * a, const char * b, const char * c);
-char * joinStrings (const char * a, const char * b, const char * c, const char * d);
-
 
 //void displayAllInArray (stringArray *);
 //int findElement (stringArray * sA, const char * findString);
@@ -45,6 +40,5 @@ char * joinStrings (const char * a, const char * b, const char * c, const char *
 //int countElements (stringArray * sA);
 //bool trimStart (char * & thisString, char trimChar);
 char * elementAt (stringArray * sA, int a);
-char * joinQuote (char * a, char * b, char q1, char q2);
 
 #endif
