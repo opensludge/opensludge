@@ -285,8 +285,10 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 		case CSTEP_LINKSCRIPTS:
 		if (data1 < countElements(functionNames)) {
 			percRect (data1, P_BOTTOM);
-			if (! runLinker (tempData, tempIndex, data1, globalVarNames, iSize, allSourceStrings))
+			if (! runLinker (tempData, tempIndex, data1, globalVarNames, iSize, allSourceStrings)) {
+				fclose (projectFile);
 				return false;
+			}
 			allTheFunctionNamesTemp = allTheFunctionNamesTemp -> next;
 			data1 ++;
 		} else {
@@ -385,7 +387,6 @@ int compileEverything (char * project, char **fileList, int *numFiles, void (*in
 		{
 			setCompileStep (CSTEP_ERROR, 1);
 			gotoSourceDirectory ();
-            fclose (projectFile);
 			char * killName = joinStrings (settings.finalFile, ".sl~");
 			unlink (killName);
 			delete killName;
