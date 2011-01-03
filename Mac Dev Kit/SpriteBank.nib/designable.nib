@@ -2,19 +2,24 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1040</int>
-		<string key="IBDocument.SystemVersion">10F569</string>
-		<string key="IBDocument.InterfaceBuilderVersion">762</string>
-		<string key="IBDocument.AppKitVersion">1038.29</string>
+		<string key="IBDocument.SystemVersion">10H574</string>
+		<string key="IBDocument.InterfaceBuilderVersion">823</string>
+		<string key="IBDocument.AppKitVersion">1038.35</string>
 		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">762</string>
+			<string key="NS.object.0">823</string>
 		</object>
-		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs"/>
+		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs">
+			<integer value="6"/>
+		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
-		<dictionary class="NSMutableDictionary" key="IBDocument.Metadata"/>
+		<object class="NSMutableDictionary" key="IBDocument.Metadata">
+			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
+			<integer value="1" key="NS.object.0"/>
+		</object>
 		<array class="NSMutableArray" key="IBDocument.RootObjects" id="102259898">
 			<object class="NSCustomObject" id="220420396">
 				<string key="NSClassName">SpriteBank</string>
@@ -36,7 +41,7 @@
 				<string key="NSWindowContentMaxSize">{3.40282e+38, 3.40282e+38}</string>
 				<string key="NSWindowContentMinSize">{300, 200}</string>
 				<object class="NSView" key="NSWindowView" id="383256845">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSOpenGLView" id="67337940">
@@ -443,7 +448,7 @@
 							<object class="NSButtonCell" key="NSCell" id="437364543">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">134217728</int>
-								<string key="NSContents">Insert sprite…</string>
+								<string key="NSContents">Insert sprites…</string>
 								<reference key="NSSupport" ref="1067825520"/>
 								<reference key="NSControlView" ref="844251496"/>
 								<int key="NSButtonFlags">-2038284033</int>
@@ -528,6 +533,7 @@
 						</object>
 					</array>
 					<string key="NSFrameSize">{637, 440}</string>
+					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
 				<string key="NSMinSize">{300, 222}</string>
@@ -543,7 +549,7 @@
 				<nil key="NSViewClass"/>
 				<string key="NSWindowContentMaxSize">{3.40282e+38, 3.40282e+38}</string>
 				<object class="NSView" key="NSWindowView" id="9426291">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSTextField" id="1063471029">
@@ -551,7 +557,6 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{17, 68}, {274, 34}}</string>
 							<reference key="NSSuperview" ref="9426291"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="921568191">
 								<int key="NSCellFlags">67239424</int>
@@ -572,7 +577,6 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{20, 44}, {268, 16}}</string>
 							<reference key="NSSuperview" ref="9426291"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSSliderCell" key="NSCell" id="799151009">
 								<int key="NSCellFlags">-2080244224</int>
@@ -594,7 +598,6 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{20, 20}, {96, 16}}</string>
 							<reference key="NSSuperview" ref="9426291"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="275750888">
 								<int key="NSCellFlags">-1804468671</int>
@@ -655,7 +658,6 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{193, 18}, {96, 16}}</string>
 							<reference key="NSSuperview" ref="9426291"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="73719595">
 								<int key="NSCellFlags">67239424</int>
@@ -673,8 +675,6 @@
 						</object>
 					</array>
 					<string key="NSFrameSize">{308, 122}</string>
-					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
 				<string key="NSMaxSize">{3.40282e+38, 3.40282e+38}</string>
@@ -1496,8 +1496,16 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">SpriteBank</string>
+					<string key="className">SLUDGE_Document</string>
 					<string key="superclassName">NSDocument</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">SLUDGE Document.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">SpriteBank</string>
+					<string key="superclassName">SLUDGE_Document</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="deleteSprite:">id</string>
 						<string key="doFontify:">id</string>
@@ -1510,6 +1518,48 @@
 						<string key="setModePalNone:">id</string>
 						<string key="setModePalOpen:">id</string>
 					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="deleteSprite:">
+							<string key="name">deleteSprite:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="doFontify:">
+							<string key="name">doFontify:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="exportSprite:">
+							<string key="name">exportSprite:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="hotSpotBase:">
+							<string key="name">hotSpotBase:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="hotSpotCentre:">
+							<string key="name">hotSpotCentre:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="insertSprite:">
+							<string key="name">insertSprite:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="replaceSprite:">
+							<string key="name">replaceSprite:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setModePalClosed:">
+							<string key="name">setModePalClosed:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setModePalNone:">
+							<string key="name">setModePalNone:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setModePalOpen:">
+							<string key="name">setModePalOpen:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="deleteButton">NSButton</string>
 						<string key="exportButton">NSButton</string>
@@ -1521,6 +1571,44 @@
 						<string key="spriteIndexSlider">NSSlider</string>
 						<string key="spriteView">SpriteOpenGLView</string>
 					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="deleteButton">
+							<string key="name">deleteButton</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="exportButton">
+							<string key="name">exportButton</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="fontifyOK">
+							<string key="name">fontifyOK</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="fontifyWindow">
+							<string key="name">fontifyWindow</string>
+							<string key="candidateClassName">NSPanel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="insertButton">
+							<string key="name">insertButton</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="palMode">
+							<string key="name">palMode</string>
+							<string key="candidateClassName">NSMatrix</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="replaceButton">
+							<string key="name">replaceButton</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="spriteIndexSlider">
+							<string key="name">spriteIndexSlider</string>
+							<string key="candidateClassName">NSSlider</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="spriteView">
+							<string key="name">spriteView</string>
+							<string key="candidateClassName">SpriteOpenGLView</string>
+						</object>
+					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="452733095">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">SpriteBank.h</string>
@@ -1528,7 +1616,7 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">SpriteBank</string>
-					<string key="superclassName">NSDocument</string>
+					<string key="superclassName">SLUDGE_Document</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBUserSource</string>
 						<string key="minorKey"/>
@@ -1540,6 +1628,13 @@
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">doc</string>
 						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">doc</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
+							<string key="name">doc</string>
+							<string key="candidateClassName">id</string>
+						</object>
 					</object>
 					<reference key="sourceIdentifier" ref="452733095"/>
 				</object>
@@ -1654,6 +1749,32 @@
 						<string key="saveDocument:">id</string>
 						<string key="saveDocumentAs:">id</string>
 						<string key="saveDocumentTo:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="printDocument:">
+							<string key="name">printDocument:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="revertDocumentToSaved:">
+							<string key="name">revertDocumentToSaved:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="runPageLayout:">
+							<string key="name">runPageLayout:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="saveDocument:">
+							<string key="name">saveDocument:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="saveDocumentAs:">
+							<string key="name">saveDocumentAs:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="saveDocumentTo:">
+							<string key="name">saveDocumentTo:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>

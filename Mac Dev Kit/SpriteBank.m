@@ -260,33 +260,42 @@ extern NSModalSession session;
 {
 	NSString *path = nil;
 	NSOpenPanel *openPanel = [ NSOpenPanel openPanel ];
-	[openPanel setTitle:@"Load file as sprite"];
+	[openPanel setTitle:@"Load files as sprites"];
+	[openPanel setAllowsMultipleSelection:YES];
 	NSArray *files = [NSArray arrayWithObjects:@"tga", @"png", nil];
 	
 	if ( [ openPanel runModalForDirectory:nil file:nil types:files] ) {
-		path = [ openPanel filename ];
-		addSprite ([spriteView spriteIndex], &sprites);
-		bool success = 0;
+		NSArray *filenames = [openPanel URLs];
 		
-		if ([[path pathExtension] isEqualToString: @"png"]) {
-			success = loadSpriteFromPNG ((char *) [path UTF8String], &sprites, [spriteView spriteIndex]);
-		} else if ([[path pathExtension] isEqualToString: @"tga"]) {
-			success = loadSpriteFromTGA ((char *) [path UTF8String], &sprites, [spriteView spriteIndex]);
-		} else {
-			errorBox ("Can't load image", "I don't recognise the file type. TGA and PNG are the supported file types.");
-		}
-		if (! success) {
-			deleteSprite ([spriteView spriteIndex], &sprites);
-		} else {
-			[self setHotSpotX: sprites.sprites[[spriteView spriteIndex]].width / 2];
-			[self setHotSpotY: sprites.sprites[[spriteView spriteIndex]].height / 2];
-			[self updateChangeCount: NSChangeDone];
-			[spriteIndexSlider setEnabled:YES];
-			if (sprites.type < 2) {
-				[[palMode cellWithTag: 1] setEnabled:YES];
+		NSEnumerator *enumerator = [filenames objectEnumerator];
+		NSURL *filename;
+		while (filename = [enumerator nextObject]) {
+		
+			path = [ filename path];
+			fprintf(stderr, "%s\n", [path UTF8String]);
+			addSprite ([spriteView spriteIndex], &sprites);
+			bool success = 0;
+			
+			if ([[path pathExtension] isEqualToString: @"png"]) {
+				success = loadSpriteFromPNG ((char *) [path UTF8String], &sprites, [spriteView spriteIndex]);
+			} else if ([[path pathExtension] isEqualToString: @"tga"]) {
+				success = loadSpriteFromTGA ((char *) [path UTF8String], &sprites, [spriteView spriteIndex]);
 			} else {
-				[[palMode cellWithTag: 0] setEnabled:NO];
-				[[palMode cellWithTag: 1] setEnabled:NO];
+				errorBox ("Can't load image", "I don't recognise the file type. TGA and PNG are the supported file types.");
+			}
+			if (! success) {
+				deleteSprite ([spriteView spriteIndex], &sprites);
+			} else {
+				[self setHotSpotX: sprites.sprites[[spriteView spriteIndex]].width / 2];
+				[self setHotSpotY: sprites.sprites[[spriteView spriteIndex]].height / 2];
+				[self updateChangeCount: NSChangeDone];
+				[spriteIndexSlider setEnabled:YES];
+				if (sprites.type < 2) {
+					[[palMode cellWithTag: 1] setEnabled:YES];
+				} else {
+					[[palMode cellWithTag: 0] setEnabled:NO];
+					[[palMode cellWithTag: 1] setEnabled:NO];
+				}
 			}
 		}
 		[spriteView setSpriteIndex:[spriteView spriteIndex]];

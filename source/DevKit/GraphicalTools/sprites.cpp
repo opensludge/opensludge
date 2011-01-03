@@ -3,6 +3,7 @@
 #include <png.h>
 
 #include "tga.h"
+#include "splitter.hpp"
 #include "sprites.h"
 #include "moreio.h"
 #include "interface.h"
@@ -763,7 +764,9 @@ bool loadSpriteFromTGA (const char * file, struct spriteBank *sprites, int index
 	// Open the file	
 	FILE * fp = fopen (file, "rb");
 	if (fp == NULL) {
-		errorBox ("Can't open TGA file", "The file can't be opened. I don't know why.");
+		char * error = joinStrings(file, "\n\nThe file can't be opened. I don't know why.");
+		errorBox ("Can't open TGA file", error);
+		delete error;
 		return false;
 	}
 		
@@ -773,8 +776,10 @@ bool loadSpriteFromTGA (const char * file, struct spriteBank *sprites, int index
 	errorBack = readTGAHeader (imageHeader, fp, thePalette);
 	if (errorBack) {
 		fclose (fp);
-		errorBox ("Can't open TGA file", errorBack);
-		return false;		
+		char * error = joinStrings(file, "\n\n", errorBack);
+		errorBox ("Can't open TGA file", error);
+		delete error;
+		return false;
 	}
 	
 	unsigned char *data;
@@ -899,40 +904,56 @@ bool loadSpriteFromTGA (const char * file, struct spriteBank *sprites, int index
 bool loadSpriteFromPNG (const char * file, struct spriteBank *sprites, int index)
 {
 	if (sprites->type<2) {
-		return errorBox ("Can't open PNG file", "PNG files currently not supported in palette mode. Change to 32-bit mode and try again.");
+		char * error = joinStrings(file, "\n\nPNG files currently not supported in palette mode. Change to 32-bit mode and try again.");
+		errorBox ("Can't open PNG file", error);
+		delete error;
+		return false;
 	}
 	
 	// Open the file	
 	FILE * fp = fopen (file, "rb");
 	if (fp == NULL) {
-		return errorBox ("Can't open PNG file", "The file can't be opened. I don't know why.");
+		char * error = joinStrings(file, "\n\nThe file can't be opened. I don't know why.");
+		errorBox ("Can't open PNG file", error);
+		delete error;
+		return false;
 	}
 	
 	char tmp[10];
 	fread(tmp, 1, 8, fp);
     if (png_sig_cmp((png_byte *) tmp, 0, 8)) {
 		fclose (fp);
-		return errorBox ("Can't open PNG file", "It doesn't appear to be a valid PNG image.");
+		char * error = joinStrings(file, "\n\nIt doesn't appear to be a valid PNG image.");
+		errorBox ("Can't open PNG file", error);
+		delete error;
+		return false;
     }
 	
     png_structp png_ptr = png_create_read_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
     if (!png_ptr) {
 		fclose (fp);
-		return errorBox ("Can't open PNG file", "Error reading the file.");
+		char * error = joinStrings(file, "\n\nError reading the file.");
+		errorBox ("Can't open PNG file", error);
+		delete error;
+		return false;
 	}
 	
     png_infop info_ptr = png_create_info_struct(png_ptr);
     if (!info_ptr) {
         png_destroy_read_struct(&png_ptr, (png_infopp) NULL, (png_infopp) NULL);
 		fclose (fp);
-		return errorBox ("Can't open PNG file", "Error reading the file.");
+		char * error = joinStrings(file, "\n\nError reading the file.");
+		errorBox ("Can't open PNG file", error);
+		delete error;
+		return false;
     }
 	
     png_infop end_info = png_create_info_struct(png_ptr);
     if (!end_info) {
         png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
 		fclose (fp);
-		return errorBox ("Can't open PNG file", "Error reading the file.");
+		char * error = joinStrings(file, "\n\nError readin the file");
+		return errorBox ("Can't open PNG file", error);
     }
     png_init_io(png_ptr, fp);		// Tell libpng which file to read
     png_set_sig_bytes(png_ptr, 8);	// 8 bytes already read
