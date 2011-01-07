@@ -242,7 +242,7 @@
 	UInt8 filename[1024];
 	
 	if (p && CFURLGetFileSystemRepresentation((CFURLRef) [p fileURL], true, filename, 1023)) {
-		if (updateFromProject (filename, &firstTransLine)) {
+		if (updateFromProject ((char *) filename, &firstTransLine)) {
 			
 			[listOfStrings noteNumberOfRowsChanged];
 			[self updateChangeCount: NSChangeDone];

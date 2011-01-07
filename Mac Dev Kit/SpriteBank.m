@@ -155,6 +155,46 @@ extern NSModalSession session;
 	}
 }
 
+- (IBAction)hotSpotRange:(id)sender
+{
+	[indexStart setIntValue:[spriteView spriteIndex]];
+	[indexEnd setIntValue:sprites.total-1];
+
+	int ret = [NSApp runModalForWindow:rangeWindow];
+	if (ret) {
+		int start = [indexStart intValue];
+		int end = [indexEnd intValue];
+		int i;
+		if (start < 0) {
+			start = 0;
+		} else if (start >= sprites.total) {
+			errorBox("Can't set hotspots.", "The start index is larger than the number of sprites in the bank.");
+			return;
+		}
+		if (end >= sprites.total) end = sprites.total-1;
+		if (start > end) {
+			errorBox("Can't set hotspots.", "The start index is larger than the end index.");
+			return;
+		}
+		for (i=start; i<=end; i++) {
+			sprites.sprites[i].yhot = hotSpotY;
+			sprites.sprites[i].xhot = hotSpotX;
+		}
+		[self updateChangeCount: NSChangeDone];
+	}
+}
+- (IBAction)hotSpotRangeOk:(id)sender
+{
+	[NSApp stopModalWithCode:YES];
+	[rangeWindow close];	
+}
+- (IBAction)hotSpotRangeCancel:(id)sender
+{
+	[NSApp stopModalWithCode:NO];
+	[rangeWindow close];	
+}
+
+
 - (IBAction)setModePalOpen:(id)sender
 {
 	sprites.type = 0;

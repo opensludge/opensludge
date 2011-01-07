@@ -66,7 +66,6 @@
 - (IBAction)closeCompilerBox:(id)sender;
 
 - (NSString *) getTitle; 
-- (char *) getFileName; 
 
 - (void) getSettings;
 - (void) setSettings;

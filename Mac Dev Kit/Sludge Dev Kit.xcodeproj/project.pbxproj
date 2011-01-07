@@ -109,6 +109,7 @@
 		2FF7AE5D10121A0700F6AF98 /* SpriteBank.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2FF7AE5C10121A0700F6AF98 /* SpriteBank.nib */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		E80D9E7F12C9E6C800663154 /* SLUDGE Document.m in Sources */ = {isa = PBXBuildFile; fileRef = E80D9E7E12C9E6C800663154 /* SLUDGE Document.m */; };
+		E839AAD412D739B1007DD503 /* helpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E839AAD212D739B1007DD503 /* helpers.cpp */; };
 		E850AB691271E77300224E49 /* compilerinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E850AB671271E77300224E49 /* compilerinfo.cpp */; };
 /* End PBXBuildFile section */
 
@@ -271,6 +272,8 @@
 		8D1107320486CEB800E47090 /* Sludge Dev Kit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sludge Dev Kit.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E80D9E7D12C9E6C800663154 /* SLUDGE Document.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SLUDGE Document.h"; sourceTree = "<group>"; };
 		E80D9E7E12C9E6C800663154 /* SLUDGE Document.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SLUDGE Document.m"; sourceTree = "<group>"; };
+		E839AAD212D739B1007DD503 /* helpers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = helpers.cpp; path = ../source/DevKit/Common/helpers.cpp; sourceTree = SOURCE_ROOT; };
+		E839AAD312D739B1007DD503 /* helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = helpers.h; path = ../source/DevKit/Common/helpers.h; sourceTree = SOURCE_ROOT; };
 		E850AB671271E77300224E49 /* compilerinfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = compilerinfo.cpp; path = ../source/DevKit/Compiler/compilerinfo.cpp; sourceTree = "<group>"; };
 		E850AB681271E77300224E49 /* compilerinfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = compilerinfo.h; path = ../source/DevKit/Compiler/compilerinfo.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -398,6 +401,8 @@
 		2F7EA3DC0FFCEBCF005E5C36 /* CommonCode */ = {
 			isa = PBXGroup;
 			children = (
+				E839AAD212D739B1007DD503 /* helpers.cpp */,
+				E839AAD312D739B1007DD503 /* helpers.h */,
 				2F7EA4700FFCEBE6005E5C36 /* splitter.cpp */,
 				2F7EA4890FFCEBE6005E5C36 /* splitter.hpp */,
 				2FA3510E10148E2800979809 /* moreio.h */,
@@ -587,6 +592,7 @@
 				2F981B9E10414BF00097177B /* ScriptDocument.m in Sources */,
 				E850AB691271E77300224E49 /* compilerinfo.cpp in Sources */,
 				E80D9E7F12C9E6C800663154 /* SLUDGE Document.m in Sources */,
+				E839AAD412D739B1007DD503 /* helpers.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

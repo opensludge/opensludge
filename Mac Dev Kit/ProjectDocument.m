@@ -273,7 +273,7 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 	
 	// Let's also close all related documents!
 	NSEnumerator *enumerator = [[[NSDocumentController sharedDocumentController] documents] objectEnumerator];
-	NSDocument * anObject;
+	SLUDGE_Document * anObject;
 	while (anObject = [enumerator nextObject]) {
 		if (anObject == self) continue;
 		if ([anObject project] == self) {

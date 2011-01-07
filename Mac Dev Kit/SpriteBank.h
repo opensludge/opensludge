@@ -48,11 +48,19 @@
 	IBOutlet NSPanel *fontifyWindow;
 	IBOutlet NSButton *fontifyOK;
 	int fontifySpaceWidth;
+	
+	// For setting multiple hotspots
+	IBOutlet NSPanel *rangeWindow;
+	IBOutlet NSTextField *indexStart;
+	IBOutlet NSTextField *indexEnd;	
 }
 - (struct spriteBank *) getSprites;
 
 - (IBAction)hotSpotCentre:(id)sender;
 - (IBAction)hotSpotBase:(id)sender;
+- (IBAction)hotSpotRange:(id)sender;
+- (IBAction)hotSpotRangeOk:(id)sender;
+- (IBAction)hotSpotRangeCancel:(id)sender;
 
 - (IBAction)setModePalOpen:(id)sender;
 - (IBAction)setModePalClosed:(id)sender;
