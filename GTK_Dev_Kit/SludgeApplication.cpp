@@ -31,25 +31,41 @@
 SludgeApplication::SludgeApplication(const char * gladeFileName, const char * iconName, const char * configFile)
 {
 	configfile = configFile;
+	GError *err = NULL;
+
 	initSuccess = TRUE;
 
 	char buf[1000];
 	GdkPixbuf *pixbuf16, *pixbuf32, *pixbuf128, *pixbuf256;
 	GList *list = NULL;
-	sprintf(buf, "%s%s_16x16x32.png", DATADIR, iconName);
-	pixbuf16 = gdk_pixbuf_new_from_file (buf, NULL);
-	sprintf(buf, "%s%s_32x32x32.png", DATADIR, iconName);
-	pixbuf32 = gdk_pixbuf_new_from_file (buf, NULL);
-	sprintf(buf, "%s%s_128x128x32.png", DATADIR, iconName);
-	pixbuf128 = gdk_pixbuf_new_from_file (buf, NULL);
-	sprintf(buf, "%s%s_256x256x32.png", DATADIR, iconName);
-	pixbuf256 = gdk_pixbuf_new_from_file (buf, NULL);
 
-	list = g_list_append (list, pixbuf16);
-	list = g_list_append (list, pixbuf32);
-	list = g_list_append (list, pixbuf128);
-	list = g_list_append (list, pixbuf256);
-	gtk_window_set_default_icon_list(list);
+	sprintf(buf, "%s%s_16x16x32.png", DATADIR, iconName);
+	pixbuf16 = gdk_pixbuf_new_from_file (buf, &err);
+
+	if (err == NULL) {
+		sprintf(buf, "%s%s_32x32x32.png", DATADIR, iconName);
+		pixbuf32 = gdk_pixbuf_new_from_file (buf, &err);
+	}
+	if (err == NULL) {
+		sprintf(buf, "%s%s_128x128x32.png", DATADIR, iconName);
+		pixbuf128 = gdk_pixbuf_new_from_file (buf, &err);
+	}
+	if (err == NULL) {
+		sprintf(buf, "%s%s_256x256x32.png", DATADIR, iconName);
+		pixbuf256 = gdk_pixbuf_new_from_file (buf, &err);
+	}
+
+	if (err != NULL)
+	{
+		fprintf (stderr, "Unable to open icon file: %s\n", err->message);
+		g_error_free (err);
+	} else {
+		list = g_list_append (list, pixbuf16);
+		list = g_list_append (list, pixbuf32);
+		list = g_list_append (list, pixbuf128);
+		list = g_list_append (list, pixbuf256);
+		gtk_window_set_default_icon_list(list);
+	}
 
 	/*
 	 * Load the GTK interface.

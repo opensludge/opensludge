@@ -71,7 +71,7 @@ SludgeGLApplication::SludgeGLApplication(const char * gladeFileName, const char 
 		(GDK_GL_MODE_RGB | GDK_GL_MODE_DEPTH | GDK_GL_MODE_ALPHA));
 		if (glConfig == NULL)
 		{
-			g_critical ("Aargh!  Cannot configure any type of OpenGL-capable context.  Exiting.\n");
+			g_critical ("Aargh!  Cannot configure any type of OpenGL-capable context. Exiting.\n");
 			initSuccess = FALSE;
 			return;
 		}
@@ -80,7 +80,12 @@ SludgeGLApplication::SludgeGLApplication(const char * gladeFileName, const char 
 	theDrawingarea = GTK_WIDGET (gtk_builder_get_object (theXml, "drawingarea1"));
 
 	// Add OpenGL-capability to the drawing area.
-	gtk_widget_set_gl_capability (theDrawingarea, glConfig, NULL, TRUE, GDK_GL_RGBA_TYPE);
+	if (!gtk_widget_set_gl_capability (theDrawingarea, glConfig, NULL, TRUE, GDK_GL_RGBA_TYPE))
+	{
+		g_critical ("Cannot set OpenGL-capability to widget. Exiting.\n");
+		initSuccess = FALSE;
+		return;
+	}
 
 	// Initialise the render mutex.
 	theRender_mutex = g_mutex_new();
