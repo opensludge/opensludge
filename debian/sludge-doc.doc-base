@@ -1,0 +1,12 @@
+Document: sludge
+Title: SLUDGE Manual
+Author: Tim Furnish, Rikard Peterson and Tobias Hansen
+Abstract: This is the documentation for the SLUDGE Development Kit.
+ It also serves as a reference manual for the SLUDGE language.
+ Contained in this documentation should be all you need to know
+ about creating a game using SLUDGE.
+Section: Games/Tools
+
+Format: HTML
+Index: /usr/share/doc/sludge/SLUDGE_Help.html
+Files: /usr/share/doc/sludge/SLUDGEDevKitHelp/*.html /usr/share/doc/sludge/SLUDGELinuxHelp/*.html

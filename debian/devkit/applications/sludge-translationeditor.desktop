@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=SLUDGE Translation Editor
+Comment=Edit SLUDGE translation files
+MimeType=text/x-sludge-translation
+Exec=sludge-translationeditor %f
+Icon=sludge-translationeditor
+Terminal=false
+Type=Application
+StartupNotify=false
+Categories=Development;IDE;GTK

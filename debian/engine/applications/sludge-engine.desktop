@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=SLUDGE Engine
+Comment=Play SLUDGE games
+MimeType=application/x-sludge-game
+Exec=sludge-engine %f
+Icon=sludge-engine
+Terminal=false
+Type=Application
+StartupNotify=false
+Categories=Game;AdventureGame
+NotShowIn=GNOME;KDE;LXDE;ROX;XFCE;Old

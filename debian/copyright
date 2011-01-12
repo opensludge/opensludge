@@ -1,0 +1,45 @@
+This package was debianized by Tobias Hansen <tobias.han@gmx.de> on
+Sun, 09 Jan 2011 15:22:21 +0100.
+
+It was downloaded from <http://opensludge.sourceforge.net/>
+
+Upstream Author(s):
+
+    Tim Furnish
+    Rikard Peterson
+    Tobias Hansen <tobias.han@gmx.de>
+
+Copyright:
+
+    <Copyright (C) 2000 - 2008 Tim Furnish>
+    <Copyright (C) 2008 - 2011 Rikard Peterson>
+    <Copyright (C) 2010 - 2011 Tobias Hansen>
+
+License:
+
+    This package is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License, version 2.1, as published by the Free Software Foundation.
+
+    This package is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this package; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+
+On Debian systems, the complete text of the GNU Lesser General
+Public License can be found in `/usr/share/common-licenses/LGPL-2.1'.
+
+All files contained in the directory 'GTK_Dev_Kit' are licensed under
+the GPL, either version 3 of the License, or (at your option) any later
+version, see `/usr/share/common-licenses/GPL-3'.
+
+The Debian packaging is:
+
+    Copyright (C) 2010 Tobias Hansen <tobias.han@gmx.de>
+
+and is licensed under the GPL version 3, 
+see `/usr/share/common-licenses/GPL-3'.

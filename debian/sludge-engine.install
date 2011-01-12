@@ -1,0 +1,4 @@
+usr/bin/sludge-engine
+usr/share/sludge/*.frag
+usr/share/sludge/*.vert
+debian/engine/* usr/share

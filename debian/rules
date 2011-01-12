@@ -1,0 +1,25 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	./configure --prefix=/usr --datadir=/usr/share --enable-engine --enable-devkit --enable-doc
+
+override_dh_auto_build:
+	xsltproc --nonet \
+              --param make.year.ranges 1 \
+              --param make.single.year.ranges 1 \
+              --param man.charmap.use.subset 0 \
+              -o debian/ \
+              http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl \
+              debian/sludge-engine.1.xml
+	xsltproc --nonet \
+              --param make.year.ranges 1 \
+              --param make.single.year.ranges 1 \
+              --param man.charmap.use.subset 0 \
+              -o debian/ \
+              http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl \
+              debian/sludge-devkit.1.xml
+	dh_auto_build
+

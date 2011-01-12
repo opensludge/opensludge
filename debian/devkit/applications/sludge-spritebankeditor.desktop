@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=SLUDGE Sprite Bank Editor
+Comment=Edit SLUDGE sprite banks
+MimeType=application/x-sludge-spritebank
+Exec=sludge-spritebankeditor %f
+Icon=sludge-spritebankeditor
+Terminal=false
+Type=Application
+StartupNotify=false
+Categories=Development;IDE;GTK
