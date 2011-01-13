@@ -683,7 +683,9 @@ void addSprite (int i, struct spriteBank *sprites) {
 		}
 		i1--;
 	}
-	delete sprites->sprites;
+	if (sprites->sprites) {
+		delete sprites->sprites;
+	}
 	sprites->sprites = newsprites;
 	sprites->total++;
 }
