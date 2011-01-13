@@ -20,6 +20,7 @@
 		buffer = 1;
 
 		backdrop.total=0;
+		backdrop.sprites = NULL;
 		backdrop.type=2;
 		if (!reserveSpritePal (&backdrop.myPalette, 0)) {
 			[self release];

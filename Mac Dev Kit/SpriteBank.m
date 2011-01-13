@@ -18,6 +18,7 @@ extern NSModalSession session;
     self = [super init];
     if (self) {		
 		sprites.total=0;
+		sprites.sprites = NULL;
 		if (!reserveSpritePal (&sprites.myPalette, 0)) {
 			[self release];
 			return nil;

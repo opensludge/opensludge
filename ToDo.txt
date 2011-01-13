@@ -1,8 +1,7 @@
 This is a possible to-do list. Not everything here may be a good idea, but it's a collection of ideas and wishes so they don't are forgotten.
 
-* Allow launching of one SLUDGE game from within another.
-* Movie support (this is one for the future - not planned for SLUDGE 2.0)
-* Sprite-bank-editor: Allow setting hotspot for multiple frames at once.
+* Allow launching of one SLUDGE game from within another?
+* Movie support?
 * SVG?
-* Added control of animations. (Nonlooping)
-* Lip sync
+* Added control of animations? (Nonlooping)
+* Lip sync?

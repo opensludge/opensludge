@@ -11,17 +11,15 @@
 void forgetSpriteBank (spriteBank * forgetme) {
 	unsigned int index;
 	
-	if (forgetme->myPalette.pal)
-		delete forgetme->myPalette.pal;
-	if (forgetme->myPalette.r)
-		delete forgetme->myPalette.r;
-	if (forgetme->myPalette.g)
-		delete forgetme->myPalette.g;
-	if (forgetme->myPalette.b)
-		delete forgetme->myPalette.b;
-	for (index = 0; index < forgetme->total; index ++) {
-		delete forgetme->sprites[index].data;
-		glDeleteTextures (1, &forgetme->myPalette.tex_names[index]);
+	delete forgetme->myPalette.pal;
+	delete forgetme->myPalette.r;
+	delete forgetme->myPalette.g;
+	delete forgetme->myPalette.b;
+	if (forgetme->total) {
+		for (index = 0; index < forgetme->total; index ++) {
+			delete forgetme->sprites[index].data;
+			glDeleteTextures (1, &forgetme->myPalette.tex_names[index]);
+		}
 	}
 	delete forgetme->sprites;
 }
