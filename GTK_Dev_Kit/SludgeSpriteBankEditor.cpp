@@ -86,6 +86,11 @@ gboolean SludgeSpriteBankEditor::init()
 {
 	sprites.total=0;
 	sprites.sprites=NULL;
+	sprites.myPalette.pal=NULL;
+	sprites.myPalette.r=NULL;
+	sprites.myPalette.g=NULL;
+	sprites.myPalette.b=NULL;
+
 	if (!reserveSpritePal(&sprites.myPalette, 0)) {
 			return TRUE;
 	}

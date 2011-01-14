@@ -70,6 +70,11 @@ gboolean SludgeZBufferMaker::init()
 	backdrop.total=0;
 	backdrop.type=2;
 	backdrop.sprites=NULL;
+	backdrop.myPalette.pal=NULL;
+	backdrop.myPalette.r=NULL;
+	backdrop.myPalette.g=NULL;
+	backdrop.myPalette.b=NULL;
+
 	if (!reserveSpritePal(&backdrop.myPalette, 0)) {
 		return TRUE;
 	}
