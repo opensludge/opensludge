@@ -63,11 +63,17 @@ SludgeSpriteBankEditor::SludgeSpriteBankEditor()
 	replaceButton = GTK_WIDGET (gtk_builder_get_object(theXml, "replace_sprite"));
 	centreButton = GTK_WIDGET (gtk_builder_get_object(theXml, "centre_hotspot"));
 	baseButton = GTK_WIDGET (gtk_builder_get_object(theXml, "base_hotspot"));
+	multiButton = GTK_WIDGET (gtk_builder_get_object(theXml, "multi_hotspot"));
 	showBoxButton = GTK_WIDGET (gtk_builder_get_object(theXml, "show_box"));
 	xSpinButton = GTK_WIDGET (gtk_builder_get_object(theXml, "x_spinbutton"));
 	ySpinButton = GTK_WIDGET (gtk_builder_get_object(theXml, "y_spinbutton"));
 	fontifyDialog = GTK_DIALOG (gtk_builder_get_object(theXml, "fontify_dialog"));
 	fontifySpinButton = GTK_SPIN_BUTTON (gtk_builder_get_object(theXml, "fontify_width"));
+	multiDialog = GTK_DIALOG (gtk_builder_get_object(theXml, "multi_dialog"));
+	multiFromSpinButton = GTK_SPIN_BUTTON (gtk_builder_get_object(theXml, "multi_from"));
+	multiToSpinButton = GTK_SPIN_BUTTON (gtk_builder_get_object(theXml, "multi_to"));
+	multiFromAdjustment = GTK_ADJUSTMENT (gtk_builder_get_object(theXml, "multi_from_adjustment"));
+	multiToAdjustment = GTK_ADJUSTMENT (gtk_builder_get_object(theXml, "multi_to_adjustment"));
 
     init();
 }
@@ -186,8 +192,9 @@ void SludgeSpriteBankEditor::drawingareaLeft() {}
 void SludgeSpriteBankEditor::prepareOpenGL()
 {
 	showBox = false;
-	if (sprites.total)
+	if (sprites.total) {
 		loadSpriteTextures(&sprites);
+	}
 	setSpriteIndex(0);
 }
 
@@ -243,6 +250,7 @@ void SludgeSpriteBankEditor::setupButtons()
 		gtk_widget_set_sensitive(replaceButton, TRUE);
 		gtk_widget_set_sensitive(centreButton, TRUE);
 		gtk_widget_set_sensitive(baseButton, TRUE);
+		gtk_widget_set_sensitive(multiButton, TRUE);
 		gtk_widget_set_sensitive(showBoxButton, TRUE);
 		gtk_widget_set_sensitive(xSpinButton, TRUE);
 		gtk_widget_set_sensitive(ySpinButton, TRUE);
@@ -252,6 +260,7 @@ void SludgeSpriteBankEditor::setupButtons()
 		gtk_widget_set_sensitive(replaceButton, FALSE);
 		gtk_widget_set_sensitive(centreButton, FALSE);
 		gtk_widget_set_sensitive(baseButton, FALSE);
+		gtk_widget_set_sensitive(multiButton, FALSE);
 		gtk_widget_set_sensitive(showBoxButton, FALSE);
 		gtk_widget_set_sensitive(xSpinButton, FALSE);
 		gtk_widget_set_sensitive(ySpinButton, FALSE);
@@ -462,6 +471,38 @@ void SludgeSpriteBankEditor::on_centre_hotspot_clicked()
 void SludgeSpriteBankEditor::on_base_hotspot_clicked()
 {
 	baseHotSpot(spriteIndex());
+}
+
+void SludgeSpriteBankEditor::on_multi_hotspot_clicked()
+{
+	gboolean success = FALSE;
+	int from, to, i;
+
+	gtk_adjustment_set_upper(multiFromAdjustment, sprites.total-1);
+	gtk_adjustment_set_upper(multiToAdjustment, sprites.total-1);
+	gtk_spin_button_set_value(multiFromSpinButton, 0.);
+	gtk_spin_button_set_value(multiToSpinButton, sprites.total-1);
+
+	if (gtk_dialog_run(multiDialog) == GTK_RESPONSE_OK)
+	{
+		from = gtk_spin_button_get_value_as_int(multiFromSpinButton);
+		to = gtk_spin_button_get_value_as_int(multiToSpinButton);
+		success = TRUE;
+	}
+	gtk_widget_hide(GTK_WIDGET(multiDialog));
+
+	if (!success) return;
+
+	if (from > to) {
+		int from1 = from;
+		from = to;
+		to = from1;
+	}
+
+	for (i=from; i<=to; i++) {
+		sprites.sprites[i].yhot = hotSpotY();
+		sprites.sprites[i].xhot = hotSpotX();
+	}
 }
 
 void SludgeSpriteBankEditor::on_mode_pal_clicked(int mode)

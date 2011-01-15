@@ -176,6 +176,11 @@ G_MODULE_EXPORT void on_base_hotspot_clicked(GtkButton *theButton, gpointer theU
 	spriteBankEditor->on_base_hotspot_clicked();
 }
 
+G_MODULE_EXPORT void on_multi_hotspot_clicked(GtkButton *theButton, gpointer theUser_data)
+{
+	spriteBankEditor->on_multi_hotspot_clicked();
+}
+
 G_MODULE_EXPORT void on_mode_pal_open_clicked(GtkButton *theButton, gpointer theUser_data)
 {
 	spriteBankEditor->on_mode_pal_clicked(0);

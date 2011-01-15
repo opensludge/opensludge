@@ -32,10 +32,11 @@ private:
 	GtkAdjustment *theXAdjustment, *theYAdjustment;
 	GtkLabel *theNumSpritesLabel;
 	GtkToggleButton *modePalButton[3];
-	GtkWidget *insertButton, *deleteButton, *replaceButton, *exportButton, *centreButton, *baseButton;
+	GtkWidget *insertButton, *deleteButton, *replaceButton, *exportButton, *centreButton, *baseButton, *multiButton;
 	GtkWidget *showBoxButton, *xSpinButton, *ySpinButton;
-	GtkDialog *fontifyDialog;
-	GtkSpinButton *fontifySpinButton;
+	GtkDialog *fontifyDialog, *multiDialog;
+	GtkSpinButton *fontifySpinButton, *multiFromSpinButton, *multiToSpinButton;
+	GtkAdjustment *multiFromAdjustment, *multiToAdjustment;
 
 	int hotSpotX1, hotSpotY1, mouseLoc1x, mouseLoc1y;
 	gboolean ignoreModePalButtons;
@@ -84,6 +85,7 @@ public:
 	void on_y_spinbutton_value_changed();
 	void on_centre_hotspot_clicked();
 	void on_base_hotspot_clicked();
+	void on_multi_hotspot_clicked();
 	void on_mode_pal_clicked(int mode);
 	void on_insert_sprite_clicked(gboolean atTheEnd, gboolean addNew);
 	void on_delete_sprite_clicked();
