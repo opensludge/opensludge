@@ -52,6 +52,8 @@ SludgeGLApplication::SludgeGLApplication(const char * gladeFileName, const char 
 	picwLabel = GTK_LABEL (gtk_builder_get_object (theXml, "picw_label"));
 	pichLabel = GTK_LABEL (gtk_builder_get_object (theXml, "pich_label"));
 	zmulLabel = GTK_LABEL (gtk_builder_get_object (theXml, "zmul_label"));
+	zoom100Button = NULL;
+	zoomFitButton = NULL;
 
 	GdkGLConfig *glConfig;
 
