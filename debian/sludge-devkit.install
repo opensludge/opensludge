@@ -6,4 +6,7 @@ usr/bin/sludge-translationeditor
 usr/bin/sludge-zbuffermaker
 usr/share/sludge/*.png
 usr/share/sludge/*.glade
+usr/share/applications/*
+usr/share/icons/*
+usr/share/gtksourceview-2.0/language-specs/sludge.lang
 debian/devkit/* usr/share

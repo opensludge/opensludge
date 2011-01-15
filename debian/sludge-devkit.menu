@@ -2,38 +2,38 @@
                          section="Games/Tools" \
                          title="SLUDGE Project Manager" \
                          command="sludge-projectmanager" \
-                         icon="/usr/share/pixmaps/sludge/32x32/projectmanager.xpm" \
-                         icon16x16="/usr/share/pixmaps/sludge/16x16/projectmanager.xpm" \
-                         icon32x32="/usr/share/pixmaps/sludge/32x32/projectmanager.xpm"
+                         icon="/usr/share/pixmaps/sludge-projectmanager.xpm" \
+                         icon16x16="/usr/share/pixmaps/sludge-projectmanager16.xpm" \
+                         icon32x32="/usr/share/pixmaps/sludge-projectmanager.xpm"
 
 ?package(sludge-devkit): needs="X11" \
                          section="Games/Tools" \
                          title="SLUDGE Floor Maker" \
                          command="sludge-floormaker" \
-                         icon="/usr/share/pixmaps/sludge/32x32/floormaker.xpm" \
-                         icon16x16="/usr/share/pixmaps/sludge/16x16/floormaker.xpm" \
-                         icon32x32="/usr/share/pixmaps/sludge/32x32/floormaker.xpm"
+                         icon="/usr/share/pixmaps/sludge-floormaker.xpm" \
+                         icon16x16="/usr/share/pixmaps/sludge-floormaker16.xpm" \
+                         icon32x32="/usr/share/pixmaps/sludge-floormaker.xpm"
 
 ?package(sludge-devkit): needs="X11" \
                          section="Games/Tools" \
                          title="SLUDGE Sprite Bank Editor" \
                          command="sludge-spritebankeditor" \
-                         icon="/usr/share/pixmaps/sludge/32x32/spritebankeditor.xpm" \
-                         icon16x16="/usr/share/pixmaps/sludge/16x16/spritebankeditor.xpm" \
-                         icon32x32="/usr/share/pixmaps/sludge/32x32/spritebankeditor.xpm"
+                         icon="/usr/share/pixmaps/sludge-spritebankeditor.xpm" \
+                         icon16x16="/usr/share/pixmaps/sludge-spritebankeditor16.xpm" \
+                         icon32x32="/usr/share/pixmaps/sludge-spritebankeditor.xpm"
 
 ?package(sludge-devkit): needs="X11" \
                          section="Games/Tools" \
                          title="SLUDGE Translation Editor" \
                          command="sludge-translationeditor" \
-                         icon="/usr/share/pixmaps/sludge/32x32/translationeditor.xpm" \
-                         icon16x16="/usr/share/pixmaps/sludge/16x16/translationeditor.xpm" \
-                         icon32x32="/usr/share/pixmaps/sludge/32x32/translationeditor.xpm"
+                         icon="/usr/share/pixmaps/sludge-translationeditor.xpm" \
+                         icon16x16="/usr/share/pixmaps/sludge-translationeditor16.xpm" \
+                         icon32x32="/usr/share/pixmaps/sludge-translationeditor.xpm"
 
 ?package(sludge-devkit): needs="X11" \
                          section="Games/Tools" \
                          title="SLUDGE Z-Buffer Maker" \
                          command="sludge-zbuffermaker" \
-                         icon="/usr/share/pixmaps/sludge/32x32/zbuffermaker.xpm" \
-                         icon16x16="/usr/share/pixmaps/sludge/16x16/zbuffermaker.xpm" \
-                         icon32x32="/usr/share/pixmaps/sludge/32x32/zbuffermaker.xpm"
+                         icon="/usr/share/pixmaps/sludge-zbuffermaker.xpm" \
+                         icon16x16="/usr/share/pixmaps/sludge-zbuffermaker16.xpm" \
+                         icon32x32="/usr/share/pixmaps/sludge-zbuffermaker.xpm"

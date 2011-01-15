@@ -1,3 +1,5 @@
+SUBDIRS = support
+
 bin_PROGRAMS = sludge-floormaker sludge-zbuffermaker sludge-spritebankeditor sludge-translationeditor sludge-projectmanager sludge-compiler
 
 sludge_floormaker_SOURCES = \

@@ -91,6 +91,7 @@ AC_CONFIG_FILES([Makefile
                  source/Makefile
                  source/Engine/Makefile
                  GTK_Dev_Kit/Makefile
+                 GTK_Dev_Kit/support/Makefile
                  doc/Makefile])
 AC_OUTPUT
 
