@@ -1334,7 +1334,7 @@ void saveCorePNG  (FILE * writer, GLuint texture, int w, int h) {
 	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &tw);
 	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &th);
 
-	GLubyte* image = new GLubyte [tw*th*3];
+	GLubyte* image = new GLubyte [tw*th*4];
 	glPixelStorei (GL_PACK_ALIGNMENT, 1);
 //	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
 
@@ -1346,7 +1346,7 @@ void saveCorePNG  (FILE * writer, GLuint texture, int w, int h) {
 	int xoffset = 0;
 	while (xoffset < tw) {
 		int w = (tw-xoffset < viewportWidth) ? tw-xoffset : viewportWidth;
-		
+
 		int yoffset = 0;
 		while (yoffset < th) {
 			int h = (th-yoffset < viewportHeight) ? th-yoffset : viewportHeight;
@@ -1355,13 +1355,13 @@ void saveCorePNG  (FILE * writer, GLuint texture, int w, int h) {
 			
 			glBegin(GL_QUADS);
 			glTexCoord2f(0.0, 0.0); glVertex3f(-xoffset, -yoffset, 0.0);
-			glTexCoord2f(1.0, 0.0); glVertex3f(w-xoffset, -yoffset, 0.0);
-			glTexCoord2f(1.0, 1.0); glVertex3f(w-xoffset, -yoffset+h, 0.0);
-			glTexCoord2f(0.0, 1.0); glVertex3f(-xoffset, -yoffset+h, 0.0);
+			glTexCoord2f(1.0, 0.0); glVertex3f(tw-xoffset, -yoffset, 0.0);
+			glTexCoord2f(1.0, 1.0); glVertex3f(tw-xoffset, -yoffset+th, 0.0);
+			glTexCoord2f(0.0, 1.0); glVertex3f(-xoffset, -yoffset+th, 0.0);
 			glEnd();
 			
 			for (int i = 0; i<h; i++)	{
-				glReadPixels(viewportOffsetX, viewportOffsetY+i, w, 1, GL_RGB, GL_UNSIGNED_BYTE, image+xoffset*3+(yoffset+i)*3*tw);
+				glReadPixels(viewportOffsetX, viewportOffsetY+i, w, 1, GL_RGBA, GL_UNSIGNED_BYTE, image+xoffset*4+(yoffset+i)*4*tw);
 			}
 			
 			yoffset += viewportHeight;
@@ -1390,12 +1390,12 @@ void saveCorePNG  (FILE * writer, GLuint texture, int w, int h) {
 	png_init_io(png_ptr, writer);
 
 	png_set_IHDR(png_ptr, info_ptr, w, h,
-				 8, PNG_COLOR_TYPE_RGB, PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
+				 8, PNG_COLOR_TYPE_RGBA, PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
 
 	unsigned char * row_pointers[h];
 
 	for (int i = 0; i < h; i++) {
-		row_pointers[i] = image + 3*i*tw;
+		row_pointers[i] = image + 4*i*tw;
 	}
 
 	png_set_rows(png_ptr, info_ptr, row_pointers);
@@ -1486,10 +1486,7 @@ void saveCoreHSI (FILE * writer, GLuint texture, int w, int h) {
 }
 
 void saveHSI (FILE * writer) {
-	if (gameVersion >= VERSION(2,0))
-		saveCorePNG  (writer, backdropTextureName, sceneWidth, sceneHeight);
-	else
-		saveCoreHSI (writer, backdropTextureName, sceneWidth, sceneHeight);
+	saveCorePNG  (writer, backdropTextureName, sceneWidth, sceneHeight);
 }
 
 bool getRGBIntoStack (unsigned int x, unsigned int y, stackHandler * sH) {
