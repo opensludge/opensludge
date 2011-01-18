@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		002F39FA09D0881F00EBEB88 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002F39F909D0881F00EBEB88 /* SDL.framework */; };
 		002F3A0009D0884600EBEB88 /* SDL.framework in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 002F39F909D0881F00EBEB88 /* SDL.framework */; };
-		2F2538250FFEB72800A12579 /* sludge.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 2F2538240FFEB72800A12579 /* sludge.bmp */; };
 		2F3AB888100CF97C00CD6A13 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 2F3AB887100CF97C00CD6A13 /* Credits.html */; };
 		2F59E738102E230800008746 /* libpng.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F59E737102E230800008746 /* libpng.framework */; };
 		2F59E748102E246100008746 /* libpng.framework in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F59E737102E230800008746 /* libpng.framework */; };
@@ -116,6 +115,7 @@
 		E8DB5E9411B17DFB00137FE3 /* fixScaleSprite.vert in Resources */ = {isa = PBXBuildFile; fileRef = E8DB5E9311B17DFB00137FE3 /* fixScaleSprite.vert */; };
 		E8DB5E9811B17E4600137FE3 /* fixScaleSprite.frag in Resources */ = {isa = PBXBuildFile; fileRef = E8DB5E9711B17E4600137FE3 /* fixScaleSprite.frag */; };
 		E8E5000D111CBEAC00FD4DBD /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8E5000C111CBEAC00FD4DBD /* OpenAL.framework */; };
+		E8EC92D112E605E500BFF763 /* sludge_launcher_logo_4c0c.png in Resources */ = {isa = PBXBuildFile; fileRef = E8EC92D012E605E500BFF763 /* sludge_launcher_logo_4c0c.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -193,7 +193,6 @@
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		2F2538240FFEB72800A12579 /* sludge.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; name = sludge.bmp; path = ../images/sludge.bmp; sourceTree = SOURCE_ROOT; };
 		2F3AB887100CF97C00CD6A13 /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; name = Credits.html; path = ../doc/Credits.html; sourceTree = SOURCE_ROOT; };
 		2F59E737102E230800008746 /* libpng.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libpng.framework; path = "../../libpng-1.2.38/projects/xcode/build/Release/libpng.framework"; sourceTree = SOURCE_ROOT; };
 		2F6274FA10EA337700BBDEDF /* shaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = shaders.h; path = ../source/Engine/shaders.h; sourceTree = SOURCE_ROOT; };
@@ -303,6 +302,7 @@
 		E8DB5E9311B17DFB00137FE3 /* fixScaleSprite.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = fixScaleSprite.vert; path = ../source/Engine/fixScaleSprite.vert; sourceTree = SOURCE_ROOT; };
 		E8DB5E9711B17E4600137FE3 /* fixScaleSprite.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = fixScaleSprite.frag; path = ../source/Engine/fixScaleSprite.frag; sourceTree = SOURCE_ROOT; };
 		E8E5000C111CBEAC00FD4DBD /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		E8EC92D012E605E500BFF763 /* sludge_launcher_logo_4c0c.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sludge_launcher_logo_4c0c.png; path = ../images/sludge_launcher_logo_4c0c.png; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -399,13 +399,13 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E8EC92D012E605E500BFF763 /* sludge_launcher_logo_4c0c.png */,
 				E836739E1101D9E2001449BC /* Info.plist */,
 				2F3AB887100CF97C00CD6A13 /* Credits.html */,
 				2F684E190FFEAF6700EED6FE /* gameicon.icns */,
 				2FA550860FF90E90006A67ED /* Startup.nib */,
 				2F9B3FBB0F557405003B4998 /* Sludge.icns */,
 				2F6F29820FBEFEB000BC6A67 /* SDLMain.nib */,
-				2F2538240FFEB72800A12579 /* sludge.bmp */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -590,8 +590,8 @@
 				2F695B78100D0BD1008A8DC1 /* SDLMain.nib in Resources */,
 				2FA550870FF90E90006A67ED /* Startup.nib in Resources */,
 				2F684E1A0FFEAF6700EED6FE /* gameicon.icns in Resources */,
-				2F2538250FFEB72800A12579 /* sludge.bmp in Resources */,
 				2F3AB888100CF97C00CD6A13 /* Credits.html in Resources */,
+				E8EC92D112E605E500BFF763 /* sludge_launcher_logo_4c0c.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
