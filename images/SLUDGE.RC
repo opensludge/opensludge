@@ -13,8 +13,7 @@
 //
 // Bitmap resources
 //
-106                BITMAP         "sludge.bmp"
-
+106               BITMAP        "sludge.bmp"
 
 //
 // Dialog resources
