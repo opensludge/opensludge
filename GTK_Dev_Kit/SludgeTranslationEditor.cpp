@@ -50,6 +50,17 @@ SludgeTranslationEditor::SludgeTranslationEditor()
 {
 	if (!initSuccess) return;
 
+	firstTransLine = NULL;
+	langName = NULL;
+
+	comboBox = NULL;
+	listStore = NULL;
+	filterModel = NULL;
+	sortModel = NULL;
+	selection = NULL;
+	originalColumn = NULL;
+	translationColumn = NULL;
+
 	theIdAdjustment = GTK_ADJUSTMENT (gtk_builder_get_object(theXml, "id_adjustment"));
 	theLanguageEntry = GTK_ENTRY (gtk_builder_get_object(theXml, "language_name"));
 	theSearchEntry = GTK_ENTRY (gtk_builder_get_object(theXml, "search_entry"));

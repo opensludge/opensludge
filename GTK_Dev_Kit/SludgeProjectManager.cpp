@@ -70,6 +70,14 @@ SludgeProjectManager::SludgeProjectManager()
 {
 	if (!initSuccess) return;
 
+	resourceList[0] = NULL;
+	fileList[0] = NULL;
+
+	filesListStore = NULL;
+	resourcesListStore = NULL;
+	errorsListStore = NULL;
+	filesSelection = NULL;
+
 	notebook = GTK_NOTEBOOK (gtk_builder_get_object(theXml, "notebook"));
 	saveItem = GTK_WIDGET (gtk_builder_get_object(theXml, "save"));
 	saveAsItem = GTK_WIDGET (gtk_builder_get_object(theXml, "save_as"));
@@ -114,7 +122,9 @@ SludgeProjectManager::SludgeProjectManager()
 	prefImageViewer = GTK_ENTRY (gtk_builder_get_object(theXml, "pref_image_viewer"));
 	prefAudioPlayer = GTK_ENTRY (gtk_builder_get_object(theXml, "pref_audio_player"));
 	prefModPlayer = GTK_ENTRY (gtk_builder_get_object(theXml, "pref_mod_player"));
-	
+
+	compilerInfoQueue = NULL;
+
 	if (!getcwd(workingDir, 998))
 		fprintf(stderr, "Couldn't get current working directory.");
 

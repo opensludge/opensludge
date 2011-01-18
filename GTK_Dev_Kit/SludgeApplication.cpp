@@ -114,6 +114,9 @@ SludgeApplication::SludgeApplication(const char * gladeFileName, const char * ic
 		sprintf (currentFolder, "%s", g_get_home_dir());
 	}
 	fileChanged = FALSE;
+
+	currentFilename[0] = NULL;
+	currentShortname[0] = NULL;
 }
 
 SludgeApplication::~SludgeApplication()

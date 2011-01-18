@@ -46,6 +46,12 @@ SludgeGLApplication::SludgeGLApplication(const char * gladeFileName, const char 
 {
 	if (!initSuccess) return;
 
+	pixmap = NULL;
+	glpixmap = NULL;
+	context = NULL;
+	glDrawable = NULL;
+	glContext = NULL;
+
 	statusbarWidget = GTK_WIDGET (gtk_builder_get_object (theXml, "statusbar"));
 	cursorxLabel = GTK_LABEL (gtk_builder_get_object (theXml, "cursorx_label"));
 	cursoryLabel = GTK_LABEL (gtk_builder_get_object (theXml, "cursory_label"));
