@@ -4,7 +4,6 @@ Priority: extra
 Maintainer: Tobias Hansen <tobias.han@gmx.de>
 Build-Depends: debhelper (>= 7),
                autotools-dev,
-               libc6-dev,
                libsdl1.2-dev,
                mesa-common-dev,
                glee-dev,
@@ -17,7 +16,7 @@ Build-Depends: debhelper (>= 7),
                docbook-xsl,
                docbook-xml,
                xsltproc
-Standards-Version: 3.8.1
+Standards-Version: 3.9.1
 Homepage: http://opensludge.sourceforge.net/
 
 Package: sludge-engine
@@ -42,6 +41,7 @@ Description: Runtime engine for playing SLUDGE adventure games.
  "The Game That Takes Place on a Cruise Ship".
 
 Package: sludge-devkit
+Section: devel
 Architecture: any
 Depends: sludge-engine (>= ${source:Version}),
          libglee0d1,
@@ -58,7 +58,9 @@ Description: Development tools for creating SLUDGE adventure games.
  This package contains the development kit needed to create SLUDGE games.
 
 Package: sludge-doc
+Section: doc
 Architecture: all
+Depends: ${misc:Depends}
 Description: Documentation for SLUDGE
  SLUDGE is an open source adventure game engine. It combines a scripting
  language with IDE tools.

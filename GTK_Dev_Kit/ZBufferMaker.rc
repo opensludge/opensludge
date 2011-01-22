@@ -10,12 +10,12 @@ BEGIN
       VALUE "Comments", "For more info on SLUDGE, see http://opensludge.sourceforge.net"
       VALUE "CompanyName", "SLUDGE Developers"
       VALUE "FileDescription", "SLUDGE Z-Buffer Maker"
-      VALUE "FileVersion", "2.0"
+      VALUE "FileVersion", "2.0.1"
       VALUE "InternalName", "sludge-zbuffermaker"
       VALUE "LegalCopyright", "(C) 2000 - 2011 Hungry Software and contributors"
       VALUE "OriginalFilename", "sludge-zbuffermaker.exe"
       VALUE "ProductName", "SLUDGE Dev Kit"
-      VALUE "ProductVersion", "2.0"
+      VALUE "ProductVersion", "2.0.1"
     END
   END
   BLOCK "VarFileInfo"
