@@ -224,7 +224,7 @@ bool saveSpriteBank (const char * filename, spriteBank *sprites) {
 
 
 bool loadSpriteBank (const char * filename, spriteBank *loadhere) {
-	int i, total, picwidth, picheight, loadSaveMode = 0, howmany,
+	int i, total, picwidth, picheight, spriteBankVersion = 0, howmany,
 		startIndex;
 	int totalwidth[256], maxheight[256];
 	int numTextures = 0;
@@ -237,18 +237,18 @@ bool loadSpriteBank (const char * filename, spriteBank *loadhere) {
 	
 	total = get2bytes(fp);
 	if (! total) {
-		loadSaveMode = fgetc(fp);
-		if (loadSaveMode == 1) {
+		spriteBankVersion = fgetc(fp);
+		if (spriteBankVersion == 1) {
 			total = 0;
 		} else {
 			total = get2bytes(fp);
 		}
 	}
 		
-	if (loadSaveMode > 3) return errorBox ("Error opening sprite bank", "Unsupported sprite bank file format");
+	if (spriteBankVersion > 3) return errorBox ("Error opening sprite bank", "Unsupported sprite bank file format");
 		if (total <= 0) return errorBox ("Error opening sprite bank", "No sprites in bank or invalid sprite bank file");
 			
-	if (loadSaveMode == 3) {
+	if (spriteBankVersion == 3) {
 		loadhere->type = 2;
 		
 		loadhere->total = total;
@@ -313,7 +313,7 @@ bool loadSpriteBank (const char * filename, spriteBank *loadhere) {
 	loadhere->sprites = new sprite [total];
 	//if (! checkNew (loadhere->sprites)) return false;
 
-	if (loadSaveMode) {
+	if (spriteBankVersion) {
 		howmany = fgetc(fp);
 		startIndex = 1;
 	}
@@ -321,7 +321,7 @@ bool loadSpriteBank (const char * filename, spriteBank *loadhere) {
 	totalwidth[0] = maxheight[0] = 0;
 
 	for (i = 0; i < total; i ++) {
-		switch (loadSaveMode) {
+		switch (spriteBankVersion) {
 			case 2:
 			picwidth = get2bytes(fp);
 			picheight = get2bytes(fp);
@@ -356,7 +356,7 @@ bool loadSpriteBank (const char * filename, spriteBank *loadhere) {
 			loadhere->sprites[i].data[ooo ++] = 0;
 		}
 
-		switch (loadSaveMode) {
+		switch (spriteBankVersion) {
 			case 2:			// RUN LENGTH COMPRESSED DATA
 			{
 				unsigned size = picwidth * picheight;
@@ -385,7 +385,7 @@ bool loadSpriteBank (const char * filename, spriteBank *loadhere) {
 	}
 	numTextures++;
 
-	if (! loadSaveMode) {
+	if (! spriteBankVersion) {
 		howmany = fgetc(fp);
 		startIndex = fgetc(fp);
 	}

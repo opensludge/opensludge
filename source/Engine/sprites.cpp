@@ -48,7 +48,7 @@ bool reserveSpritePal (spritePalette & sP, int n) {
 }
 
 bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
-	int i, tex_num, total, picwidth, picheight, loadSaveMode = 0, howmany=0, startIndex=0;
+	int i, tex_num, total, picwidth, picheight, spriteBankVersion = 0, howmany=0, startIndex=0;
 	int totalwidth[256], maxheight[256];
 	int numTextures = 0;
 	byte * data;
@@ -60,8 +60,8 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 
 	total = get2bytes (bigDataFile);
 	if (! total) {
-		loadSaveMode = fgetc (bigDataFile);
-		if (loadSaveMode == 1) {
+		spriteBankVersion = fgetc (bigDataFile);
+		if (spriteBankVersion == 1) {
 			total = 0;
 		} else {
 			total = get2bytes (bigDataFile);
@@ -69,14 +69,14 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 	}
 
 	if (total <= 0) return fatal ("No sprites in bank or invalid sprite bank file");
-	if (loadSaveMode > 3) return fatal ("Unsupported sprite bank file format");
+	if (spriteBankVersion > 3) return fatal ("Unsupported sprite bank file format");
 
 	loadhere.total = total;
 	loadhere.sprites = new sprite [total];
 	byte ** spriteData = new byte * [total];
 	if (! checkNew (loadhere.sprites)) return false;
 
-	if (loadSaveMode && loadSaveMode < 3) {
+	if (spriteBankVersion && spriteBankVersion < 3) {
 		howmany = fgetc (bigDataFile);
 		startIndex = 1;
 	}
@@ -84,7 +84,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 	totalwidth[0] = maxheight[0] = 1;
 
 	for (i = 0; i < total; i ++) {
-		switch (loadSaveMode) {
+		switch (spriteBankVersion) {
 			case 3:
 			{
 				loadhere.sprites[i].xhot = getSigned (bigDataFile);
@@ -158,7 +158,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 		}
 		loadhere.sprites[i].texNum = numTextures;
 
-		if (loadSaveMode < 3) {
+		if (spriteBankVersion < 3) {
 			data = (byte *) new byte [picwidth * (picheight + 1)];
 			if (! checkNew (data)) return false;
 			int ooo = picwidth * picheight;
@@ -166,7 +166,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 				data[ooo ++] = 0;
 			}
 			spriteData[i] = data;
-			switch (loadSaveMode) {
+			switch (spriteBankVersion) {
 				case 2:			// RUN LENGTH COMPRESSED DATA
 				{
 					unsigned size = picwidth * picheight;
@@ -197,12 +197,12 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 	numTextures++;
 
 
-	if (! loadSaveMode) {
+	if (! spriteBankVersion) {
 		howmany = fgetc (bigDataFile);
 		startIndex = fgetc (bigDataFile);
 	}
 
-	if (loadSaveMode < 3) {
+	if (spriteBankVersion < 3) {
 		if (! reserveSpritePal (loadhere.myPalette, howmany + startIndex)) return false;
 
 		for (i = 0; i < howmany; i ++) {
@@ -240,7 +240,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 		fromhere = 0;
 
 		int transColour = -1;
-		if (loadSaveMode < 3) {
+		if (spriteBankVersion < 3) {
 			int size = loadhere.sprites[i].height * loadhere.sprites[i].width;
 			while (fromhere < size) {
 				s = spriteData[i][fromhere++];
@@ -255,7 +255,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 		for (int y = 1; y < 1 + loadhere.sprites[i].height; y ++) {
 			for (int x = loadhere.sprites[i].tex_x; x < loadhere.sprites[i].tex_x+loadhere.sprites[i].width; x ++) {
 				GLubyte * target = tmp[loadhere.sprites[i].texNum] + 4*totalwidth[loadhere.sprites[i].texNum]*y + x*4;
-				if (loadSaveMode < 3) {
+				if (spriteBankVersion < 3) {
 					s = spriteData[i][fromhere++];
 					if (s) {
 						target[0] = (GLubyte) loadhere.myPalette.r[s];
