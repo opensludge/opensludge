@@ -42,6 +42,8 @@ objectType walkToPerson ("") {}
 # Try and combine two object types... make sure we do something if it
 # doesn't work
 sub findEvent (a, b) {
+	if (! a) return;
+	if (! b) return;
 	if (! callEvent (a, b))
 		if (! callEvent (b, a))
 			if (! callEvent (default, a))
