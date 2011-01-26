@@ -189,7 +189,10 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 				break;
 
 				default:		// RAW DATA
-				fread (data, picwidth, picheight, bigDataFile);
+				size_t bytes_read = fread (data, picwidth, picheight, bigDataFile);
+				if (bytes_read != picwidth * picheight && ferror (bigDataFile)) {
+					debugOut("Reading error in loadSpriteBank.\n");
+				}
 				break;
 			}
 		}

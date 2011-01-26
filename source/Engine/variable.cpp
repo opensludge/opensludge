@@ -286,7 +286,7 @@ void compareVariablesInSecond (const variable & var1, variable & var2) {
 	setVariable (var2, SVT_INT, compareVars (var1, var2));
 }
 
-void makeTextVar (variable & thisVar, char * txt) {
+void makeTextVar (variable & thisVar, const char * txt) {
 	unlinkVar (thisVar);
 	thisVar.varType = SVT_STRING;
 	thisVar.varData.theString = copyString (txt);

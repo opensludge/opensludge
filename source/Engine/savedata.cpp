@@ -83,7 +83,10 @@ char * readTextPlain (FILE * fp) {
 		fseek (fp, startPos, SEEK_SET);
 		reply = new char[stringSize + 1];
 		if (reply == NULL) return NULL;
-		fread (reply, stringSize, 1, fp);
+		size_t bytes_read = fread (reply, stringSize, 1, fp);
+		if (bytes_read != stringSize && ferror (fp)) {
+			debugOut("Reading error in readTextPlain.\n");
+		}
 		fgetc (fp); // Skip the newline character
 		reply[stringSize] = NULL;
 	}
@@ -103,9 +106,13 @@ bool fileToStack (char * filename, stackHandler * sH) {
 			debugOut("Can't get current directory.\n");
 		}
 
-		chdir (gamePath);
+		if (chdir (gamePath)) {
+			debugOut("Error: Failed changing to directory %s\n", gamePath);
+		}
 		fp = fopen (filename, "rb");
-		chdir (currentDir);
+		if (chdir (currentDir)) {
+			debugOut("Error: Failed changing to directory %s\n", currentDir);
+		}
 
 		if (! fp) {
 			return fatal ("No such file", filename);

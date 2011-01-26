@@ -21,7 +21,7 @@ void killLastStatus ();
 void statusBarColour (unsigned char r, unsigned char g, unsigned char b);
 void statusBarLitColour (unsigned char r, unsigned char g, unsigned char b);
 void setLitStatus (int i);
-char * statusBarText ();
+const char * statusBarText ();
 void positionStatus (int, int);
 void drawStatusBar ();
 

@@ -48,7 +48,7 @@ bool copyVariable (const variable & from, variable & to);
 bool loadStringToVar (variable & thisVar, int value);
 void newAnimationVariable (variable & thisVar, struct personaAnimation * i);
 void newCostumeVariable (variable & thisVar, struct persona * i);
-void makeTextVar (variable & thisVar, char * txt);
+void makeTextVar (variable & thisVar, const char * txt);
 void addVariablesInSecond (variable & var1, variable & var2);
 void compareVariablesInSecond (const variable & var1, variable & var2);
 

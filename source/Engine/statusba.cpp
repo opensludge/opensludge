@@ -144,7 +144,7 @@ void initStatusBar () {
 	statusBarLitColour (255, 255, 128);
 }
 
-char * statusBarText () {
+const char * statusBarText () {
 	if (nowStatus -> firstStatusBar) {
 		return nowStatus -> firstStatusBar -> text;
 	} else {

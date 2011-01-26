@@ -69,7 +69,10 @@ float floatSwap( float f )
 
 float getFloat (FILE * fp) {
 	float f;
-	fread (& f, sizeof (float), 1, fp);
+	size_t bytes_read = fread (& f, sizeof (float), 1, fp);
+	if (bytes_read != sizeof (float) && ferror (fp)) {
+		debugOut("Reading error in getFloat.\n");
+	}
 
 #ifdef	__BIG_ENDIAN__
 	return floatSwap(f);
@@ -98,7 +101,10 @@ short shortSwap( short s )
 
 short getSigned (FILE * fp) {
 	short f;
-	fread (& f, sizeof (short), 1, fp);
+	size_t bytes_read = fread (& f, sizeof (short), 1, fp);
+	if (bytes_read != sizeof (short) && ferror (fp)) {
+		debugOut("Reading error in getSigned.\n");
+	}
 #ifdef	__BIG_ENDIAN__
 	f = shortSwap(f);
 #endif

@@ -62,7 +62,7 @@ int inFatal (const char * str) {
 	}
 
 	fatalMessage = copyString (str);
-	if (fatalMessage == NULL) fatalMessage = "Out of memory";
+	if (fatalMessage == NULL) fatalMessage = copyString ("Out of memory");
 
 	killSoundStuff ();
 	SDL_Quit();

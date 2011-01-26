@@ -19,6 +19,7 @@
 #include "thumbnail.h"
 #include "bg_effects.h"
 #include "fileset.h"
+#include "debug.h"
 
 //----------------------------------------------------------------------
 // From elsewhere
@@ -492,7 +493,10 @@ bool loadGame (char * fname) {
 		if (! skipThumbnail (fp)) return fatal (ERROR_GAME_LOAD_CORRUPT, fname);
 	}
 
-	fread (& savedGameTime, sizeof (FILETIME), 1, fp);
+	size_t bytes_read = fread (& savedGameTime, sizeof (FILETIME), 1, fp);
+	if (bytes_read != sizeof (FILETIME) && ferror (fp)) {
+		debugOut("Reading error in loadGame.\n");
+	}
 
 	if (savedGameTime.dwLowDateTime != fileTime.dwLowDateTime ||
 		savedGameTime.dwHighDateTime != fileTime.dwHighDateTime) {

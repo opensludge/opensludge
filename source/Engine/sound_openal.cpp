@@ -338,7 +338,12 @@ char * loadEntireFileToMemory (FILE * inputFile, uint32_t size) {
 //	fprintf (stderr, "%i ", size);
 	char * allData = new char[size];
 	if (! allData) return NULL;
-	fread (allData, size, 1, inputFile);
+
+	size_t bytes_read = fread (allData, size, 1, inputFile);
+	if (bytes_read != size && ferror (inputFile)) {
+		debugOut("Reading error in loadEntireFileToMemory.\n");
+	}
+
 	finishAccess ();
 
 	return allData;

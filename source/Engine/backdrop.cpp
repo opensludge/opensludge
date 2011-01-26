@@ -529,7 +529,11 @@ bool loadLightMap (int v) {
 	// Is this a PNG file?
 
 	char tmp[10];
-	fread(tmp, 1, 8, bigDataFile);
+	size_t bytes_read = fread(tmp, 1, 8, bigDataFile);
+	if (bytes_read != 8 && ferror (bigDataFile)) {
+		debugOut("Reading error in loadLightMap.\n");
+	}
+
     if (png_sig_cmp((png_byte *) tmp, 0, 8)) {
 		// No, it's old-school HSI
 		fileIsPNG = false;
@@ -723,7 +727,10 @@ bool loadParallax (unsigned short v, unsigned short fracX, unsigned short fracY)
 	// Is this a PNG file?
 
 	char tmp[10];
-	fread(tmp, 1, 8, bigDataFile);
+	size_t bytes_read = fread(tmp, 1, 8, bigDataFile);
+	if (bytes_read != 8 && ferror (bigDataFile)) {
+		debugOut("Reading error in loadParallax.\n");
+	}
     if (png_sig_cmp((png_byte *) tmp, 0, 8)) {
 		// No, it's old-school HSI
 		fileIsPNG = false;
@@ -901,7 +908,10 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 	// Is this a PNG file?
 
 	char tmp[10];
-	fread(tmp, 1, 8, fp);
+	size_t bytes_read = fread(tmp, 1, 8, fp);
+	if (bytes_read != 8 && ferror (fp)) {
+		debugOut("Reading error in loadHSI.\n");
+	}
     if (png_sig_cmp((png_byte *) tmp, 0, 8)) {
 		// No, it's old-school HSI
 		fileIsPNG = false;
@@ -1129,7 +1139,10 @@ bool mixHSI (FILE * fp, int x, int y) {
 
 	// Is this a PNG file?
 	char tmp[10];
-	fread(tmp, 1, 8, fp);
+	size_t bytes_read = fread(tmp, 1, 8, fp);
+	if (bytes_read != 8 && ferror (fp)) {
+		debugOut("Reading error in mixHSI.\n");
+	}
     if (png_sig_cmp((png_byte *) tmp, 0, 8)) {
 		// No, it's old-school HSI
 		fileIsPNG = false;

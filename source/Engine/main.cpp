@@ -88,7 +88,9 @@ void setGameFilePath (char * f) {
 
 	if (got != -1) {
 		f[got] = NULL;
-		chdir (f);
+		if (chdir (f)) {
+			debugOut("Error: Failed changing to directory %s\n", f);
+		}
 		f[got] = PATHSLASH;
 	}
 
@@ -98,7 +100,9 @@ void setGameFilePath (char * f) {
 		debugOut( "Can't get game directory.\n");
 	}
 
-	chdir (currentDir);
+	if (chdir (currentDir)) {
+		debugOut("Error: Failed changing to directory %s\n", currentDir);
+	}
 }
 
 

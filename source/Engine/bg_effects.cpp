@@ -131,7 +131,10 @@ void blur_loadSettings (FILE * fp)
 
 	if (blur_allocateMemoryForEffect())
 	{
-		fread (s_matrixEffectData, sizeof (int), s_matrixEffectWidth * s_matrixEffectHeight, fp);
+		size_t bytes_read = fread (s_matrixEffectData, sizeof (int), s_matrixEffectWidth * s_matrixEffectHeight, fp);
+		if (bytes_read != sizeof (int) * s_matrixEffectWidth * s_matrixEffectHeight && ferror (fp)) {
+			debugOut("Reading error in blur_loadSettings.\n");
+		}
 	}
 	else
 	{

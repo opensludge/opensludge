@@ -10,6 +10,7 @@
 #include "platform-dependent.h"
 #include "allfiles.h"
 #include "language.h" // for settings
+#include "debug.h"
 
 extern settingsStruct gameSettings;
 cmdlineSettingsStruct cmdlineSettings;
@@ -118,9 +119,13 @@ int msgBoxQuestion (const char * head, const char * msg) {
 }
 
 void changeToUserDir () {
-	chdir (getenv ("HOME"));
+	if (chdir (getenv ("HOME"))) {
+		debugOut("Error: Failed changing to directory %s\n", getenv ("HOME"));
+	}
 	mkdir (".sludge-engine", 0000777);
-	chdir (".sludge-engine");
+	if (chdir (".sludge-engine")) {
+		debugOut("Error: Failed changing to directory %s\n", ".sludge-engine");
+	}
 }
 
 uint32_t launch(char * filename) {

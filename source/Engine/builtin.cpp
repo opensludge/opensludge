@@ -309,9 +309,13 @@ builtIn(fileExists)
 			debugOut( "Can't get current directory.\n");
 		}
 
-		chdir (gamePath);
+		if (chdir (gamePath)) {
+			debugOut("Error: Failed changing to directory %s\n", gamePath);
+		}
 		fp = fopen (aaaaa, "rb");
-		chdir (currentDir);
+		if (chdir (currentDir)) {
+			debugOut("Error: Failed changing to directory %s\n", currentDir);
+		}
 	}
 	// Return value
 	setVariable (fun -> reg, SVT_INT, (fp != NULL));

@@ -201,8 +201,11 @@ bool initSludge (char * filename) {
 	desiredfps = 1000/fgetc (fp);
 
 	delete readString (fp); // Unused - was used for registration purposes.
-	fread (& fileTime, sizeof (FILETIME), 1, fp);
 
+	size_t bytes_read = fread (& fileTime, sizeof (FILETIME), 1, fp);
+	if (bytes_read != sizeof (FILETIME) && ferror (fp)) {
+		debugOut("Reading error in initSludge.\n");
+	}
 
 	char * dataFol = (gameVersion >= VERSION(1,3)) ? readString(fp) : joinStrings ("", "");
 
@@ -240,7 +243,10 @@ bool initSludge (char * filename) {
 		// Is this a PNG file?
 
 		char tmp[10];
-		fread(tmp, 1, 8, fp);
+		bytes_read = fread(tmp, 1, 8, fp);
+		if (bytes_read != 8 && ferror (fp)) {
+			debugOut("Reading error in initSludge.\n");
+		}
 		if (png_sig_cmp((png_byte *) tmp, 0, 8)) {
 			// No, it's old-school HSI
 			fileIsPNG = false;
@@ -344,7 +350,10 @@ bool initSludge (char * filename) {
 		// Is this a PNG file?
 
 		char tmp[10];
-		fread(tmp, 1, 8, fp);
+		bytes_read = fread(tmp, 1, 8, fp);
+		if (bytes_read != 8 && ferror (fp)) {
+			debugOut("Reading error in initSludge.\n");
+		}
 		if (png_sig_cmp((png_byte *) tmp, 0, 8)) {
 			// No, it's old-school HSI
 			fileIsPNG = false;
