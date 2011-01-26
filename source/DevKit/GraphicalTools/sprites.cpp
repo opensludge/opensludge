@@ -379,7 +379,10 @@ bool loadSpriteBank (const char * filename, spriteBank *loadhere) {
 			break;
 			
 			default:		// RAW DATA
-				fread (loadhere->sprites[i].data, picwidth, picheight, fp);
+				size_t bytes_read = fread (loadhere->sprites[i].data, picwidth, picheight, fp);
+				if (bytes_read != picwidth * picheight && ferror (fp)) {
+					fprintf(stderr, "Reading error in loadSpriteBank.\n");
+				}
 			break;
 		}
 	}
@@ -920,7 +923,10 @@ bool loadSpriteFromPNG (const char * file, struct spriteBank *sprites, int index
 	}
 	
 	char tmp[10];
-	fread(tmp, 1, 8, fp);
+	size_t bytes_read = fread(tmp, 1, 8, fp);
+	if (bytes_read != 8 && ferror (fp)) {
+		fprintf(stderr, "Reading error in loadSpriteFromPNG.\n");
+	}
     if (png_sig_cmp((png_byte *) tmp, 0, 8)) {
 		fclose (fp);
 		char * error = joinStrings(file, "\n\nIt doesn't appear to be a valid PNG image.");
