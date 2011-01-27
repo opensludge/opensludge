@@ -274,12 +274,16 @@ bool gotoTempDirectory () {
 		fixPath (tempDirectory, true);
 #ifdef WIN32
 		mkdir (getTempDir());
+		if (mktemp (tempDirectory)) {
+			if (mkdir (tempDirectory))
+				tempDirectory = NULL;
+		}
 #else
 		mkdir (getTempDir(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-#endif
 		if (!mkdtemp (tempDirectory)) {
 			return addComment (ERRORTYPE_SYSTEMERROR, "Can't create temporary directory", tempDirectory, NULL);
 		}
+#endif
 	}
 	if (! tempDirectory) return false;
 	bool r = chdir (tempDirectory);

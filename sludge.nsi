@@ -194,12 +194,24 @@ SectionIn 1 RO
 	File images/scriptIcon/scriptIcon.ico
 	File images/slx/slx.ico
 
+	SetOutPath "$INSTDIR\Engine"
+	File Engine/ALURE32.dll
+	File Engine/fixScaleSprite.vert
+	File Engine/libiconv2.dll
+	File Engine/libvorbis-0.dll
+	File Engine/OpenAL32.dll
+	File Engine/scale.vert
+	File "Engine/SLUDGE Engine.exe"
+	File Engine/fixScaleSprite.frag
+	File Engine/libFLAC.dll
+	File Engine/libogg-0.dll
+	File Engine/libvorbisfile-3.dll
+	File Engine/scale.frag
+	File Engine/SDL.dll
+
 	SetOutPath "$INSTDIR"
 	File doc/Credits.html
 	File "doc/SLUDGE Dev Kit Help.chm"
-
-	;Include the Engine directory, but not the one from "source"
-	File /r /x source /x .svn Engine
 
 	; Add Shortcuts (this inherits the exe's run permissions)
 	CreateDirectory "$SMPROGRAMS\SLUDGE"
