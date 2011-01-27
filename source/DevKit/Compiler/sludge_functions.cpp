@@ -180,7 +180,7 @@ bool handleIf (char * theIf, stringArray * & localVars, compilationSpace & theSp
 		return false;
 	}
 
-	char * elseString = "";
+	char * elseString = copyString("");
 	while (theRest) {
 		char * newString;
 		bool isAnElse;

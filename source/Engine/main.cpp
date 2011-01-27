@@ -152,7 +152,7 @@ int main(int argc, char *argv[]) try
 #ifdef __APPLE__
 	// bundleFolder is set in applicationDidFinishLaunching.
 #elif defined __unix__
-	bundleFolder = DATADIR;	// DATADIR is defined in the Makefile.
+	bundleFolder = copyString(DATADIR);	// DATADIR is defined in the Makefile.
 #else
 	bundleFolder = copyString(argv[0]);
 	int lastSlash = -1;

@@ -277,13 +277,8 @@ bool gotoTempDirectory () {
 #else
 		mkdir (getTempDir(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 #endif
-		if (mktemp (tempDirectory)) {
-#ifdef WIN32
-			if (mkdir (tempDirectory))
-#else
-			if (mkdir (tempDirectory, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH))
-#endif
-				tempDirectory = NULL;
+		if (!mkdtemp (tempDirectory)) {
+			return addComment (ERRORTYPE_SYSTEMERROR, "Can't create temporary directory", tempDirectory, NULL);
 		}
 	}
 	if (! tempDirectory) return false;

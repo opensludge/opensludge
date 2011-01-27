@@ -88,7 +88,7 @@ transLine * addLine (char * line, transLine * lastSoFar) {
 
 bool loadTranslationFile (char * fileIn, transLine ** firstTransLine, char **langName, unsigned int *lanID) {
 	char * file = copyString (fileIn);
-	char * error = NULL;
+	const char * error = NULL;
 	transLine * lastSoFar = NULL;
 	newFile (firstTransLine);
 	
