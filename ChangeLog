@@ -1,0 +1,529 @@
+------------------
+1.0 - Major update
+------------------
+
+First public version... too much stuff to mention
+
+-------------------
+1.0a - Minor update
+-------------------
+
+Fixed bug when one character tries to talk over another
+Engine compatible with early lightmap demo
+
+------------------
+1.1 - Major update
+------------------
+
+New built-in functions:
+  deleteGame
+  getCharacterDirection
+  hardScroll
+  isCharacter
+  isMoving
+  isScreenRegion
+  normalCharacter
+  renameGame
+  setLightmap
+  setSpeechSpeed
+  stringWidth
+  think
+
+Plus:
+  Member variables and functions
+  More character draw modes
+
+--------------------------
+1.1.1.1.1.1 - Minor update
+--------------------------
+
+New built-in functions:
+  fetchEvent
+
+Plus:
+  Enabled "deleteGame" and "renameGame" functions (oops)
+
+------------------
+1.2 - Major update
+------------------
+
+New built-in functions:
+  burnString
+  cacheSound
+  captureAllKeys
+  setFontSpacing
+  setSpinSpeed
+  spinCharacter
+  transitionLevel
+  transitionMode
+
+Plus:
+  Costumes with as few/many directions as you want
+  Costumes can now contain NULL in place of any animation
+  Characters spin when reaching a corner while walking
+  INVISIBLE option for setCharacterDrawMode (still reacts to mouse)
+  FADE, DISOLVE1 and DISOLVE2 enumerations for transitionMode
+  Variable spin speeds
+  Negative frame numbers in animations for automatic frame flipping
+  Load and save compatible with scrolling scenes
+  Load-while-character-is-talking bug squeshed (that's "squeshed")
+  Camera position and brightness stored in saved games
+  All sounds stopped automatically when loading a saved game
+  Looping sounds stored in saved games, restart on load (NOT music)
+  Default volumes for music and samples stored in saved game files
+  Semi-automated image-to-font conversion in sprite bank editor
+  Support for Ogg Vorbis files and wider range of MP3 formats
+  MIDI files now loop just like modules
+  Valid numbers now range from -65535 to 65535 (not -32767 to 32767)
+  CENTER and CENTRE enumerate to 65535 instead of 1000
+  Keyboard handler now captures F1 to F12, cursor keys, insert etc.
+  Optionally capture ALL key-presses (ctrl, shift, windows key...)
+  Per-pixel mouse-over-character checking, not bounding box
+  Support for sprites bigger than 255 x 255 and negative hotspots
+  Smaller sprite bank files (compressed image data)
+  Improved sprite bank editor: click and drag to scroll view region
+  Removed NEW section from the help file (got this file instead now)
+  Added documentation for new stuff
+  Smaller irritating pause time for unregistered start-up dialog box
+  Custom icon (for corner of window, Alt-Tab and taskbar)
+  New "Window sizes" option in project manager Settings menu
+  High-speed scrolling optional in floor maker and z-buffer maker
+  Engine displays warning and then carries on when no sound support
+  Updated demos (compressed sprites, killed redundant costume stuff)
+
+--------------------
+1.2.1 - Minor update
+--------------------
+
+New built-in functions:
+  movieAbort
+  moviePlaying
+  movieStart
+  updateDisplay
+
+Plus:
+  More settings stored in saved games (captureAllKeys etc.)
+  Sprite flipping works for mouse cursors
+  Mouse cursor anims now respect wait parameters
+  Fixed freeze-when-flipped-sprite-0-on-screen nasty crashy bug
+  Fixed support for characters with ASCII value over 127 (£, é etc.)
+
+Notes:
+  New functions not yet documented in help file
+  Movie functions don't yet work with 8-bit files
+  More optimisation of colour conversion code needed
+  No support for sound included in AVI files
+
+---------------------
+1.2.1a - Audio update
+---------------------
+
+New built-in functions:
+  getSoundCache
+
+Plus:
+  stopSound no longer unloads sounds from cache
+  No longer trashes still-playing samples when loads 8 new noises
+
+Notes:
+  Still no documentation for new stuff - lazy, aren't I?
+
+------------------------------
+1.234567 - Another mini update
+------------------------------
+
+New built-in functions:
+  loadCustomData
+  saveCustomData
+  setCustomEncoding
+
+Plus:
+  Looped-and-then-stopped sounds no longer restarted by loadGame
+  Compiler displays log of messages, plus Close and Run buttons
+  More warnings in compiler (e.g. unknown escape characters)
+  Documentation for new functions, plus those from v1.2.1 / v1.2.1a
+
+-----------------------------
+1.3 - Semi-substantial update
+-----------------------------
+
+New built-in functions:
+  freeSound
+  getPixelColour
+  parallaxAdd
+  parallaxClear
+  setBlankColour
+  setBurnColour
+
+Plus:
+  Better error messages for run-time movie and sound problems
+  Resource filenames included in error messages (development mode)
+  Use file handles like strings to get filenames (development mode)
+  New BLINDS option for transitionMode
+  New NOREMOVE option for setCharacterExtra
+  Automatic free-memory-and-retry when out of memory loading sounds
+  Frames/sec box in project manager as well as Ms/frame
+  Saved games and custom data can be stored in subdirectories
+  Renamed deleteGame to deleteFile *
+  Renamed renameGame to renameFile *
+  Renamed getSavedGames to getMatchingFiles *
+  Updated help file
+
+* = Old names are replaced with new names automatically, so pre-v1.3
+    scripts need not be changed.
+
+-------------------------------
+1.31 - Une update spectaculaire
+-------------------------------
+
+New built-in functions:
+  getCharacterScale
+  getLanguageID
+  launchWith
+
+Plus:
+  Multiple languages in a single compiled game!
+  Extra file type can be added to projects (.TRA - translation files)
+  Translation Editor available (seperately, no need for whole kit)
+  Engine can be run twice at any time, not just once (e.g. for launchers)
+  Changed Windows mouse options in project manager (added arrow option)
+  "launch" function works when in full screen! (Just an XP/NT fix?)
+  "launch" function works for URLs starting with http:
+  Silent SLUDGE programs don't bother initialising sound library
+  Project properties "Make silent version" checkbox
+  Run any SLUDGE program from the new project manager Launch menu
+  Check for updates online (option in project manager Launch menu)
+  Updated help file
+
+------------------------------
+1.32 - Internal organ overhaul
+------------------------------
+
+New built-in functions:
+  getFramesPerSecond
+
+Plus:
+  Changed timer used to control game speed - now faster and more accurate
+  Changed method of switching to and from full screen mode
+
+------------------
+1.4 - Major update
+------------------
+
+New built-in functions:
+  bodgeFilenames
+  hasFlag
+  setThumbnailSize
+  showThumbnail
+  snapshotClear
+  snapshotGrab
+
+Plus:
+  Object flags (eg. ALIVE, MALE) making for clever default events
+  Thumbnails in saved games, can be shown on screen in load/save dialogs
+  Crossfading using snapshotGrab and CROSSFADE setting for transitionMode
+  Filenames can include special characters e.g. ? * " \ / :
+  Help file format change, plus corrections and updates a-plenty
+  Two light map modes - HOTSPOT and PERPIXEL
+  Engine: window redrawn properly when disappears and reappears
+  Engine: much shorter pause time on "unregistered version" dialog box
+  Engine: fixed setCostume bug when switch to diff. number of directions
+  Engine: Minor timing tweak, may fix MIDI/WindowsME incompatibility
+
+-------------------
+1.41 - Minor update
+-------------------
+
+New built-in functions:
+  registryGetString
+  quitWithFatalError
+
+Plus:
+  Run minimized - use SLUDGE for autorun on CD-ROM (Registered only)
+  Disable SLUDGE logo and LOADING caption on startup (Registered only)
+  This file actually included with development kit once more!
+  Engine: Fatal error when try to load/save game while engine frozen
+  Engine: Z-buffers, freezing and vertical scrolling get along better
+  Case insensitive extension checking... capitalised filenames allowed
+
+-------------------
+1.42 - Minor update
+-------------------
+
+Plus:
+  Fixed dequeue bug in engine
+
+-----------------------------
+1.5 - Semi-substantial update
+-----------------------------
+
+Plus:
+  Changed to a new audio library (BASS)
+  Fixed a couple of stack bugs (in copyStack and loadGame)
+  Added transition effect SNAPSHOTBOX
+  Added RECTANGULAR option for setCharacterExtra
+  Major internal overhaul of built-in functions system
+  Better compile-time warnings and error messages
+
+--------------------------
+1.6 - Anti-aliasing update
+--------------------------
+
+New built-in functions:
+  setCharacterAntiAliasing
+  setMaximumAntiAliasing
+  setBackgroundEffect
+  doBackgroundEffect
+
+Plus:
+  Minor fixes to help file
+  Added antiAlias settings to objectType
+
+-------------------------
+1.7 - Free-for-all update
+-------------------------
+
+No longer requires registration to access all of the system's functionality.
+--------
+2.0 beta
+--------
+
+Plus:
+  Engine and Dev Kit ported to Mac OS X.
+
+---------------------
+2.0 beta (2010-01-05)
+---------------------
+
+Engine:
+* Settings are saved.
+* Settings and saved games are now read and written to proper locations (AppData on Windows and Application Support on Mac).
+* There is a new setting (not available in the user interface): FIXEDPIXELS. If enabled, the engine won't scale the window. I've used this for testing (see next point in the list), but don't recommend its general use. I'd rather fix any errors with the scaling than work around it.
+* Improved placement of graphics. I made a test game, which now renders properly. Some things were a couple of pixels off earlier.
+
+Development Kit:
+* Preferences are saved.
+* Updated the documentation to reflect the changes regarding ini files.
+
+---------------------
+2.0 beta (2010-01-08)
+---------------------
+
+Dev Kit
+* Added a new function: setCharacterAngleOffset as requested in the wishlist thread.
+* Fixed registration of Help Book. (Please let me know if it doesn't work properly. As this is a system wide thing, it's difficult to test on a single machine.)
+
+Engine
+* Added function setCharacterAngleOffset. Warning! This makes saved games made with earlier versions of the 2.0 beta engine incompatible with the current version. Trying to use them will most likely cause the program to crash. (Saved games made with SLUDGE 1.x will be read just fine, but as the engine is in beta I didn't safeguard the 2.0 saves.)
+* Fixed a (Windows only) bug that caused some keypresses not to be reported correctly.
+* Added a setting (NOSTARTUPWINDOW) to suppress the startup window.
+* Fixed the long-annoying bug that caused partially transparent objects to make the backdrop transparent when pasted to it. (As happens when doing a freeze.)
+
+That last bugfix also marks the first use of shader programming in SLUDGE. It'll be interesting to hear if that cause problems for anyone.
+
+---------------------
+2.0 beta (2010-01-31)
+---------------------
+
+Engine
+* Ported to Linux.
+* Bugfix: Fixed the bug that Erwin found that could prevent the engine from starting on some Windows machines.
+* Bugfix: The engine no longer dies if fed bad sound data. (This bug could prevent Out of Order from being played to the end on some computers.)
+* Bugfix: Wrong language could be selected in the startup window.
+* Bugfix: A bug in the handling of translations prevented Cubert Badbone from starting on Linux.
+* Bugfix: Fixed a bug that would crash the engine if loading a saved game with a scene size different than the current one.
+* Bugfix: Fixed mixOverlay to work as it should.
+
+---------------------
+2.0 beta (2010-02-13)
+---------------------
+
+Engine
+* Sound engine has changed from BASS to OpenAL. Windows users may need to install OpenAL using the supplied installer program. (This also means that support for MO3 and MP3 files has been removed. The only released game affected by this is Frasse and the Peas of Kejick, which no longer runs properly. All other games should run pretty much as well as before, except for one sound at the end of Out of Order that gives an error message.)
+* The game path is now searched for additional files. This allows games like Nathan's Second Chance to be packaged up neatly.
+* Should now run properly on big-endian (i.e. PowerPC) systems too. (I hope.)
+
+Dev Kit
+* Should now run properly on big-endian (i.e. PowerPC) systems too. (I hope.)
+* Added a workaround to support older graphics cards.
+
+---------------------
+2.0 beta (2010-03-28)
+---------------------
+
+Engine
+* Added support for sounds in animations. (The change is all in the engine, so the new feature can be used by people stuck with the Windows dev kit, too.) Warning: This required a change to the save game format, so once again save games made with earlier beta versions are broken. (But all non-beta saves remains supported, of course.)
+* Fixed a bug in the sound code that would crash the engine if fed a game that's forced silent by the dev kit setting.
+* Linux: Changed build process from handwritten makefiles to autotools.
+
+Dev Kit
+* Mac: Made the script editor actually useable. It now supports undo/redo, copy/paste, searching, and basic syntax colouring.
+* The translation editor will now remove unused strings.
+
+---------------------
+2.0 beta (2010-04-05)
+---------------------
+
+Engine
+* Fixed some bugs related to the recent addition with sound files in animations.
+* Fixed the behaviour of pasted images.
+* Fixed a bug that corrupted the background when pasting sprites.
+* Fixed a bug that would corrupt saved games.
+* Added support for PNG images in parallax layers.
+
+Dev Kit
+* Made compilation (adding of resources) a bit faster. (Frasse is getting a lot of resource files now that I'm adding voices, so it was starting to feel slow.)
+* Added a Run Game button to the compiler window.
+
+---------------------
+2.0 beta (2010-05-01)
+---------------------
+
+Engine
+* The launch() function now works properly.
+* Bugfix: Sounds were always started at full volume.
+* (Mac) The engine eats the Command+F keypress properly. (No more beeps.)
+* Bugfix: "Hard scrolling" was messing up.
+* Tweaked character walking to be smoother. Characters no longer twitch if they're given a new target while walking, and a change of costume no longer stops a walk. (I hope this doesn't break anything...)
+* Bugfix: Fixed a hidden bug related to snapshots.
+
+Dev Kit
+* (Mac): Added Fontify command. (Note that unlike the old behaviour found in the Windows Dev Kit, it handles transparency in the same way as the rest of the program.)
+* Made the compiler's (probably mostly the linker) error reporting slightly more informative. (No more _str1679.)
+* Bugfix: The zBuffer editor now displays the buffers properly again.
+* Bugfix: Adding 8-bit images to a sprite bank didn't work properly.
+
+---------------------
+2.0 beta (2010-05-02)
+---------------------
+
+Engine
+* New feature: Sound lists.
+
+Dev Kit
+* Allow large sprite in a font. (I removed the limit of 256 pixels. While that's probably enough for anyone, there was no reason for the limit to be there.)
+* Fixed loading of transparency in 16-bit TGA images in the Sprite Bank editor.
+
+--------------------------------------------------------
+2.0 beta (2010-05-23) - including experimental shader AA
+--------------------------------------------------------
+
+Warning: This build breaks save game compatibility with earlier 2.0 betas. (But it will still load save games from 1.x if you have those.)
+
+New built-in functions:
+* setCharacterTransparency
+* setCharacterColourise
+
+Plus:
+* Updated the Docs on loopSound.
+* I've experimented with shaders and antialiasing. If you press Alt+A while playing a game you can toggle the experimental shader on/off for characters and backgrounds. Please note that lighting and drawing modes are not implemented in this shader yet.
+
+---------------------
+2.0 beta (2010-05-30)
+---------------------
+
+* (Mac): Gamedata.slg file should now be in the Resources folder rather than the MacOS folder in an .app bundle.
+* Shader antialiasing experiment: The old behaviour is still the default, but you can try it out by pressing Alt+A. It now handles drawing modes and lighting properly, and it doesn't add saturation and contrast. It's also a bit more subtle and operates on actual pixel size of the screen rather than texel size (pixel size of the sprites). I haven't done any speed tests, but as I've simplified things a bit I expect it to be faster.
+The shader programs now live in their own files (something that makes working on them a lot easier for me), so if you're curious you can look at them easily. On Windows, they're just loose files, and on Mac they live in the Resources folder in the .app bundle. scale.vert and scale.frag are the files dealing with this.
+
+---------------------
+2.0 beta (2010-06-29)
+---------------------
+
+Warning: This build breaks save game compatibility with earlier 2.0 betas. (But it will still load save games from 1.x if you have those.)
+
+New built-in functions:
+* zoomCamera
+
+* Made the new antialiasing the default, and added a setting to disable aa completely. (When disabled, no interpolation at all is done, so the old linear interpolation is completely gone.)
+* Some small changes to the graphics rendering code. It may be a bit faster now.
+* Removed the old anti-aliasing functions.
+* Documented the recently added functions setCharacterColourise and setCharacterTransparency.
+* Added a block-commenting function to the script editor (found in the Edit menu, or Cmd+B).
+
+-------------------------------------------------------
+2.0 beta (2010-07-06) - Now with a compiler for Windows
+-------------------------------------------------------
+
+* The Project Manager/Compiler is now available for Windows too. This means that Windows users no longer are restricted to version 1.7. (I included the other tools in the download too, but they're the 1.7 versions. I'll update them too in the future.) The documentation is also updated. (It won't open from the menu or the button in the program, but the chm file is included.)
+* Faster anti-aliasing.
+* Rewrote the freezing code to preserve zooming.
+* Documented the zoomCamera function
+* Added support for a custom logo in the startup window
+
+-----------------------------------------------------------
+2.0 beta (2010-10-23) - with Dev. Kit for Linux and Windows
+-----------------------------------------------------------
+
+Plus:
+* Released GTK+ version of Dev Kit working on Linux and Windows.
+
+Engine:
+* Added linear interpolation as an antialiasing-option.
+* Windows: The startup window is prettier.
+* Bugfix: The fixedpixels setting now works.
+* Bugfix: There was a bug that corrupted snapshots in saved games.
+* Bugfix: Now works properly on computers with graphics cards unable to handle textures on non-power-of-two sizes.
+* Added an error message if the shaders fail.
+* Debugging information (for the engine - no game debugging features yet) can now be enabled by the ini file.
+
+Mac Dev Kit:
+* Bugfix: Things could be a bit messed up if more than one project was open at the same time. This is now fixed.
+
+-------------------------------------------------------
+2.0 beta (2010-11-14) - Update of Linux/Windows Dev Kit
+-------------------------------------------------------
+
+GTK Dev Kit:
+* Added the missing features:
+    * Translation Editor
+    * Fontify
+    * "Run Game" button on Windows
+* Some bugfixes:
+    * Adding files to projects now works properly also on Windows.
+    * Loading files with strange encodings doesn't crash the Project Manager on Windows anymore.
+
+-------------------------
+2.0 - Finally out of beta
+-------------------------
+
+Documentation:
+* The Documentation has been updated, and should now be completely current.
+
+Engine bugfixes:
+* Fixed a bug that could cause hardScroll() to malfunction.
+* (Windows): The engine would hang if the windows key was pressed while in full screen mode.
+* (Windows): Worked around a bug in ATI drivers for older cards that would crash.
+* (Windows): Fixed an issue with the startup if the DPI setting is unusual.
+
+Dev Kit:
+* Fixed creation of new projects to hide mouse cursor properly.
+
+Mac Dev Kit:
+* Added "New Script File" to the Tools menu.
+* Re-worked how projects are treated. You may note that the items in the project menu aren't greyed out as much anymore. When creating a new script or translations, the dev kit also offers to add it automatically to the current project.
+
+GTK Dev Kit:
+* Windows installer added.
+* Bugfix: Allow for cut-off points larger than the scene height.
+* Translation editor: Allow for searching in strings.
+
+----------------------
+2.0.1 - Bugfix release
+----------------------
+
+Engine (all platforms):
+* Bugfix: Large scenes would become corrupted when saving a game. (This was a bug I accidentally introduced to 2.0 while working around the bug with old ATI cards. Sorry, Deirdra.)
+* Changed the default logo shown in the startup screen to a new one made by Erwin Broekhuis.
+
+Development Kit (all platforms):
+* Multiple sprites can now be added at once in the Sprite Bank Editor, and hotspots can be changed for a range of sprites at the time.
+* Changed the logo in the documentation to a new one made by Erwin Broekhuis.
+* Bugfix: The compiler could crash on certain errors.
+
+GTK Development Kit:
+* Bugfix: Fixed some crashes that would occur if the dev kit was compiled differently.
+
+----
+Next
+----
