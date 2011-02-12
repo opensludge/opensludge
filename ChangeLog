@@ -513,7 +513,7 @@ GTK Dev Kit:
 ----------------------
 
 Engine (all platforms):
-* Bugfix: Large scenes would become corrupted when saving a game. (This was a bug I accidentally introduced to 2.0 while working around the bug with old ATI cards. Sorry, Deirdra.)
+* Bugfix: Large scenes would become corrupted when saving a game.
 * Changed the default logo shown in the startup screen to a new one made by Erwin Broekhuis.
 
 Development Kit (all platforms):

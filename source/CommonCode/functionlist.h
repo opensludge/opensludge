@@ -170,4 +170,6 @@ FUNC (true, setCharacterAngleOffset)
 FUNC (true, setCharacterTransparency)
 FUNC (true, setCharacterColourise)
 FUNC (true, zoomCamera)
- 
+FUNC (true, playMovie)
+FUNC (true, stopMovie)
+FUNC (true, pauseMovie)

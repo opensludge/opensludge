@@ -97,7 +97,8 @@ int paramNum[] = {-1, 0, 1, 1, -1, -1, 1, 3, 4, 1, 0, 0, 8, -1,		// SAY -> MOVEM
 	4, 3, -1, 0,								// chr AA, max AA, setBackgroundEffect, doBackgroundEffect
 	2,											// setCharacterAngleOffset
 	2, 5,										// setCharacterTransparency, setCharacterColourise
-	1											// zoomCamera
+	1,											// zoomCamera
+	1, 0, 0										// playMovie, stopMovie, pauseMovie
 };
 
 bool failSecurityCheck (char * fn) {
@@ -1024,7 +1025,24 @@ builtIn(callEvent)
 	return BR_CONTINUE;
 }
 
-// The movie functions are deprecated and does nothing.
+
+SDL_Event quit_event;
+bool reallyWantToQuit = false;
+
+builtIn(quitGame)
+{
+	UNUSEDALL
+	reallyWantToQuit = true;
+	quit_event.type=SDL_QUIT;
+	SDL_PushEvent(&quit_event);
+	return BR_CONTINUE;
+}
+
+
+#pragma mark -
+#pragma mark Movie functions
+
+// The old movie functions are deprecated and does nothing.
 builtIn(_rem_movieStart)
 {
 	UNUSEDALL
@@ -1046,18 +1064,31 @@ builtIn(_rem_moviePlaying)
 	return BR_CONTINUE;
 }
 
-
-SDL_Event quit_event;
-bool reallyWantToQuit = false;
-
-builtIn(quitGame)
+builtIn (playMovie)
 {
 	UNUSEDALL
-	reallyWantToQuit = true;
-	quit_event.type=SDL_QUIT;
-	SDL_PushEvent(&quit_event);
+	int fileNumber;
+	if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
+	trimStack (fun -> stack);
+	
+	setVariable (fun -> reg, SVT_INT, 0);
 	return BR_CONTINUE;
 }
+
+builtIn (stopMovie)
+{
+	UNUSEDALL
+	setVariable (fun -> reg, SVT_INT, 0);
+	return BR_CONTINUE;
+}
+
+builtIn (pauseMovie)
+{
+	UNUSEDALL
+	setVariable (fun -> reg, SVT_INT, 0);
+	return BR_CONTINUE;
+}
+
 
 #pragma mark -
 #pragma mark Audio functions

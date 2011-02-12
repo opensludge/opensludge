@@ -59,6 +59,7 @@ int getFileType (const char * filename) {
 			reply = FILETYPE_AUDIO;
 		} else if (	strcmp (compareMe, ".duc") == 0 ||
 					strcmp (compareMe, ".zbu") == 0 ||
+				    strcmp (compareMe, ".webm") == 0 ||
 					strcmp (compareMe, ".png") == 0) {
 			reply = FILETYPE_RAW;
 		}
@@ -126,7 +127,7 @@ bool dumpFiles (FILE * mainFile, stringArray * & theSA) {
 				break;
 
 				case FILETYPE_UNKNOWN:
-				return addComment (ERRORTYPE_PROJECTERROR, "Tried to include a file which is not supported by SLUDGE.\n\nSupported music types: .XM, .MOD, .S3M, .IT\nSupported sampled sound types: .WAV, .OGG\nSupported graphic types: .TGA, .PNG\nSLUDGE-specific types: .FLO, .ZBU, .DUC\n\nThe file you tried to include was:", theSA -> string, NULL);
+				return addComment (ERRORTYPE_PROJECTERROR, "Tried to include a file which is not supported by SLUDGE.\n\nSupported music types: .XM, .MOD, .S3M, .IT\nSupported sampled sound types: .WAV, .OGG\nSupported graphic types: .TGA, .PNG\nSupported movie format: .WebM\nSLUDGE-specific types: .FLO, .ZBU, .DUC\n\nThe file you tried to include was:", theSA -> string, NULL);
 			}
 
 			inFile = fopen (theSA -> string, "rb");
