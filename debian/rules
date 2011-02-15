@@ -21,5 +21,48 @@ override_dh_auto_build:
               -o debian/ \
               http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl \
               debian/sludge-devkit.1.xml
+	xsltproc --nonet \
+              --param make.year.ranges 1 \
+              --param make.single.year.ranges 1 \
+              --param man.charmap.use.subset 0 \
+              -o debian/ \
+              http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl \
+              debian/sludge-projectmanager.1.xml
+	xsltproc --nonet \
+              --param make.year.ranges 1 \
+              --param make.single.year.ranges 1 \
+              --param man.charmap.use.subset 0 \
+              -o debian/ \
+              http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl \
+              debian/sludge-floormaker.1.xml
+	xsltproc --nonet \
+              --param make.year.ranges 1 \
+              --param make.single.year.ranges 1 \
+              --param man.charmap.use.subset 0 \
+              -o debian/ \
+              http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl \
+              debian/sludge-zbuffermaker.1.xml
+	xsltproc --nonet \
+              --param make.year.ranges 1 \
+              --param make.single.year.ranges 1 \
+              --param man.charmap.use.subset 0 \
+              -o debian/ \
+              http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl \
+              debian/sludge-spritebankeditor.1.xml
+	xsltproc --nonet \
+              --param make.year.ranges 1 \
+              --param make.single.year.ranges 1 \
+              --param man.charmap.use.subset 0 \
+              -o debian/ \
+              http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl \
+              debian/sludge-translationeditor.1.xml
+	xsltproc --nonet \
+              --param make.year.ranges 1 \
+              --param make.single.year.ranges 1 \
+              --param man.charmap.use.subset 0 \
+              -o debian/ \
+              http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl \
+              debian/sludge-compiler.1.xml
+
 	dh_auto_build
 

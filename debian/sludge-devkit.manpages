@@ -1,1 +1,7 @@
 debian/sludge-devkit.1
+debian/sludge-projectmanager.1
+debian/sludge-floormaker.1
+debian/sludge-zbuffermaker.1
+debian/sludge-spritebankeditor.1
+debian/sludge-translationeditor.1
+debian/sludge-compiler.1

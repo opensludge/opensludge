@@ -21,10 +21,7 @@ Homepage: http://opensludge.sourceforge.net/
 
 Package: sludge-engine
 Architecture: any
-Depends: libflac8,
-         libvorbisfile3,
-         libdumb1,
-         ${shlibs:Depends},
+Depends: ${shlibs:Depends},
          ${misc:Depends}
 Suggests: sludge-devkit
 Description: Runtime engine for playing SLUDGE adventure games.
