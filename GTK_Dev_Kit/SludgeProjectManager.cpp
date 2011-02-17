@@ -327,6 +327,10 @@ void SludgeProjectManager::listChanged(whichTreeview whichOne)
 				gtk_list_store_set(listStore, &iter, 0, listitem, -1);
 				delete listitem;
 				listitem = NULL;
+				listitem = g_filename_to_utf8(index->filename, -1, NULL, NULL, NULL);
+				gtk_list_store_set(listStore, &iter, 1, listitem, -1);
+				delete listitem;
+				listitem = NULL;
 				break;
 			}
 			default:
@@ -563,7 +567,7 @@ void SludgeProjectManager::on_treeview_realize(GtkTreeView *theTreeView, whichTr
 			sprintf(caption, "Resources used by selected scripts");
 			break;
 		case ERROR_TREEVIEW:
-			errorsListStore = gtk_list_store_new(1, G_TYPE_STRING);
+			errorsListStore = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_STRING);
 			sortModel = gtk_tree_model_sort_new_with_model(GTK_TREE_MODEL(errorsListStore));
 			sprintf(caption, "Compiler errors");
 			break;
@@ -632,12 +636,12 @@ void SludgeProjectManager::on_treeview_row_activated(GtkTreeView *theTreeView, G
 
 	treeModel = gtk_tree_view_get_model(theTreeView);
 
+	int filenameColumn = 0;
 	switch (whichOne) {
-		case FILE_TREEVIEW:
 		case ERROR_TREEVIEW:
+			filenameColumn = 1;
+		case FILE_TREEVIEW:
 			cmd = editor;
-			break;
-		case RESOURCE_TREEVIEW:
 			break;
 		default:
 			break;
@@ -646,7 +650,7 @@ void SludgeProjectManager::on_treeview_row_activated(GtkTreeView *theTreeView, G
 	GtkTreeIter iter;
 	gtk_tree_model_get_iter(treeModel, &iter, thePath);
 
-	gtk_tree_model_get(treeModel, &iter, 0, &tx1, -1);
+	gtk_tree_model_get(treeModel, &iter, filenameColumn, &tx1, -1);
 	tx = g_filename_from_utf8(tx1, -1, NULL, NULL, NULL);
     g_free(tx1);
 
@@ -706,32 +710,11 @@ void SludgeProjectManager::on_treeview_row_activated(GtkTreeView *theTreeView, G
 				}
 			}
 			break;
-		case ERROR_TREEVIEW:
-			indices = gtk_tree_path_get_indices(thePath);
-			row = indices[0];
-			if (row == -1) 
-				return;
-
-			index = errorList;
-			if (! index) return;
-			i = numErrors-1;
-			while (i>row) {
-				if (! (index = index->next)) return;
-				i--;
-			}
-
-			if (! index-> filename) {
-				errorBox(errorTypeStrings[index->errorType], index->overview);
-				return;
-			}
-			g_free(tx);
-			tx = index->filename;
-			break;
 		default:
 			break;
 	}
 
-	if (cmd[0] != 0) {
+	if (cmd[0] != 0 && tx) {
 		sh_cmd(workingDir, cmd, getFullPath(tx));
 	}
 /*

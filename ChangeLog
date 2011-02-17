@@ -527,3 +527,6 @@ GTK Development Kit:
 ----
 Next
 ----
+
+GTK Development Kit:
+* Bugfix: Clicking on the same compiler error in the projectmanager twice could cause a crash.
