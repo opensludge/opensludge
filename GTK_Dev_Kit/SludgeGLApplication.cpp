@@ -446,28 +446,30 @@ gboolean SludgeGLApplication::on_drawingarea1_motion_notify_event
 {
 	refreshStatusbarCursor(theEvent->x, theEvent->y);
 
-	if ( !((awaitButton1Release && theEvent->state & GDK_BUTTON1_MASK) || awaitButton2Release) ) return FALSE;
-
-	int local_pointx, local_pointy;
-	local_pointx = theEvent->x;
-	local_pointy = theEvent->y;
-
-	if (theEvent->state & GDK_BUTTON1_MASK)
+	if ( (awaitButton1Release && theEvent->state & GDK_BUTTON1_MASK) || awaitButton2Release )
 	{
-		button1Motion (local_pointx, local_pointy);
-	}
-	else if (awaitButton2Release)
-	{
-		int x1 = x;
-		int y1 = y;
-		x = x1 + (mouseLoc2x - local_pointx);
-		y = y1 + (local_pointy - mouseLoc2y);
+		int local_pointx, local_pointy;
+		local_pointx = theEvent->x;
+		local_pointy = theEvent->y;
 
-		setCoords();
-		mouseLoc2x = theEvent->x;
-		mouseLoc2y = theEvent->y;
+		if (theEvent->state & GDK_BUTTON1_MASK)
+		{
+			button1Motion (local_pointx, local_pointy);
+		}
+		else if (awaitButton2Release)
+		{
+			int x1 = x;
+			int y1 = y;
+			x = x1 + (mouseLoc2x - local_pointx);
+			y = y1 + (local_pointy - mouseLoc2y);
+
+			setCoords();
+			mouseLoc2x = theEvent->x;
+			mouseLoc2y = theEvent->y;
+		}
+		render_timer_event(theDrawingarea);
 	}
-	render_timer_event(theDrawingarea);
+
 	gdk_event_request_motions (theEvent);
 
     return FALSE;
