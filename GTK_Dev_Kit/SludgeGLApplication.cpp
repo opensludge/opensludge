@@ -61,6 +61,9 @@ SludgeGLApplication::SludgeGLApplication(const char * gladeFileName, const char 
 	zoom100Button = NULL;
 	zoomFitButton = NULL;
 
+	awaitButton1Release = FALSE;
+	awaitButton2Release = FALSE;
+
 	GdkGLConfig *glConfig;
 
 	/*
