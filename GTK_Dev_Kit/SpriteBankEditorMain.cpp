@@ -317,7 +317,7 @@ main(int argc, char *argv[])
 	g_timeout_add(10000 / 60, render_timer_event, spriteBankEditor->theDrawingarea);
 
 	if (openThisFile != NULL) {
-		g_idle_add(open_file_hook, openThisFile);
+		g_timeout_add(300, open_file_hook, openThisFile);
 	}
 
 	// Run the window manager loop.
