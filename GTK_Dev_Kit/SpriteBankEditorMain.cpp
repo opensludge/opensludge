@@ -231,11 +231,6 @@ G_MODULE_EXPORT gboolean on_fontify_dialog_delete_event(GtkWidget *theWidget, Gd
 	return gtk_widget_hide_on_delete(theWidget);
 }
 
-G_MODULE_EXPORT gboolean open_file_hook(gpointer openThisFile)
-{
-	spriteBankEditor->open((char*)openThisFile);
-	return FALSE;
-}
 #ifdef __cplusplus
 }
 #endif
@@ -317,7 +312,7 @@ main(int argc, char *argv[])
 	g_timeout_add(10000 / 60, render_timer_event, spriteBankEditor->theDrawingarea);
 
 	if (openThisFile != NULL) {
-		gtk_init_add(open_file_hook, openThisFile);
+		spriteBankEditor->open(openThisFile);
 	}
 
 	// Run the window manager loop.
