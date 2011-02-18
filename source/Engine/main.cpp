@@ -261,8 +261,16 @@ int main(int argc, char *argv[]) try
 	gameNameWin = NULL;
 
 	SDL_WM_SetCaption(gameName, gameName);
-	if ( (specialSettings & (SPECIAL_MOUSE_1 | SPECIAL_MOUSE_2)) == SPECIAL_MOUSE_1)
-		SDL_ShowCursor(SDL_DISABLE);
+
+	if ( (specialSettings & (SPECIAL_MOUSE_1 | SPECIAL_MOUSE_2)) == SPECIAL_MOUSE_1) {
+	//	Hide the standard mouse cursor!
+	// This is done in a weird way because there's bugs with SDL_ShowCursor(SDL_DISABLE);
+        SDL_Cursor *cursor = NULL;
+        Uint8 data = 0;
+        SDL_FreeCursor(cursor);
+        cursor = SDL_CreateCursor(&data, &data, 1, 1, 0, 0);
+        SDL_SetCursor(cursor);
+    }
 
 	if (! (specialSettings & SPECIAL_SILENT)) {
 		initSoundStuff (hMainWindow);
@@ -290,6 +298,7 @@ int main(int argc, char *argv[]) try
 
 					break;
 */
+
 				case SDL_MOUSEMOTION:
 					input.justMoved = true;
 					input.mouseX = event.motion.x * ((float)winWidth/cameraZoom) / realWinWidth;
@@ -416,12 +425,6 @@ int main(int argc, char *argv[]) try
 						// The game file has requested that we quit
 						done = 1;
 					} else {
-/*
-						FILE *s = fopen ("screenshot.png", "wb");
-						saveHSI (s);
-						fclose(s);
-*/
-
 						// The request is from elsewhere - ask for confirmation.
 						setGraphicsWindow(false);
 						if (msgBoxQuestion (gameName, getNumberedString(2))) {
@@ -433,6 +436,7 @@ int main(int argc, char *argv[]) try
 					break;
 			}
 		}
+
 		tick ();
 		Wait_Frame();
 
