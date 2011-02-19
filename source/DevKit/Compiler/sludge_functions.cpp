@@ -157,26 +157,26 @@ int protoFunction (const char * funcName, const char * fileName) {
 	return findOrAdd (functionNames, funcName);
 }
 
-bool handleIf (char * theIf, stringArray * & localVars, compilationSpace & theSpace, stringArray * & theRest, const char * filename) {
+bool handleIf (char * theIf, stringArray * & localVars, compilationSpace & theSpace, stringArray * & theRest, const char * filename, unsigned int fileline) {
 	stringArray * getCondition, * getElse;
 	int endMarker;
 
 	getCondition = splitString (theIf, ')', ONCE);
 	if (! trimStart (getCondition -> string, '(')) {
-		return addComment (ERRORTYPE_PROJECTERROR, "Bad if", theIf, filename);
+		return addComment (ERRORTYPE_PROJECTERROR, "Bad if", theIf, filename, fileline);
 	}
 
-	if (! compileSourceLine (getCondition -> string, localVars, theSpace, nullArray, filename, getCondition->line)) return false;
+	if (! compileSourceLine (getCondition -> string, localVars, theSpace, nullArray, filename, fileline)) return false;
 
 	if (! destroyFirst (getCondition)) {
-		return addComment (ERRORTYPE_PROJECTERROR, "Bad if", theIf, filename);
+		return addComment (ERRORTYPE_PROJECTERROR, "Bad if", theIf, filename, fileline);
 	}
 	if (trimStart (getCondition -> string, '{')) {
-		if (! trimEnd (getCondition -> string, '}')) return addComment (ERRORTYPE_PROJECTERROR, "No matching }", getCondition -> string, filename);
+		if (! trimEnd (getCondition -> string, '}')) return addComment (ERRORTYPE_PROJECTERROR, "No matching }", getCondition -> string, filename, fileline);
 	}
 	endMarker = outputMarkerCode (theSpace, SLU_BR_ZERO);
 	if (! compileSourceBlock (getCondition -> string, localVars, theSpace, filename)) {
-		addComment (ERRORTYPE_PROJECTERROR, "Can't compile condition in if statement", filename);
+		addCommentWithLine (ERRORTYPE_PROJECTERROR, "Can't compile condition in if statement", filename, fileline);
 		return false;
 	}
 
@@ -196,7 +196,7 @@ bool handleIf (char * theIf, stringArray * & localVars, compilationSpace & theSp
 
 		// We've found an else!
 
-		if (! destroyFirst (getElse)) return addComment (ERRORTYPE_PROJECTERROR, "Bad else", theRest -> string, filename);
+		if (! destroyFirst (getElse)) return addComment (ERRORTYPE_PROJECTERROR, "Bad else", theRest -> string, filename, fileline);
 
 		if (elseString[0]) {
 			newString = joinStrings (elseString, "; ");
@@ -219,10 +219,10 @@ bool handleIf (char * theIf, stringArray * & localVars, compilationSpace & theSp
 		endMarker = endElseMarker;
 
 		if (trimStart (elseString, '{')) {
-			if (! trimEnd (elseString, '}')) return addComment (ERRORTYPE_PROJECTERROR, "No matching }", getCondition -> string, filename);
+			if (! trimEnd (elseString, '}')) return addComment (ERRORTYPE_PROJECTERROR, "No matching }", getCondition -> string, filename, fileline);
 		}
 		if (! compileSourceBlock (elseString, localVars, theSpace, filename)) {
-			return addComment (ERRORTYPE_PROJECTERROR, "Can't compile", elseString, filename);
+			return addComment (ERRORTYPE_PROJECTERROR, "Can't compile", elseString, filename, fileline);
 		}
 	}
 
@@ -230,7 +230,7 @@ bool handleIf (char * theIf, stringArray * & localVars, compilationSpace & theSp
 	return true;
 }
 
-bool niceLoop (char * condition, char * & middle, char * endy, stringArray * & localVars, compilationSpace & theSpace, const char * filename) {
+bool niceLoop (char * condition, char * & middle, char * endy, stringArray * & localVars, compilationSpace & theSpace, const char * filename, unsigned int fileline) {
 	int endMarker, startMarker;
 
 	// Top of the loop...
@@ -239,10 +239,10 @@ bool niceLoop (char * condition, char * & middle, char * endy, stringArray * & l
 	theSpace.numMarkers ++;
 
 	// Condition
-	if (! compileSourceLine (condition, localVars, theSpace, nullArray, NULL, 0)) return false;
+	if (! compileSourceLine (condition, localVars, theSpace, nullArray, filename, fileline)) return false;
 
 	if (trimStart (middle, '{')) {
-		if (! trimEnd (middle, '}')) return addComment (ERRORTYPE_PROJECTERROR, "No matching }", middle, NULL);
+		if (! trimEnd (middle, '}')) return addComment (ERRORTYPE_PROJECTERROR, "No matching }", middle, filename, fileline);
 	}
 
 	// Break if condition is zero, otherwise a bunch of code
@@ -263,43 +263,44 @@ bool niceLoop (char * condition, char * & middle, char * endy, stringArray * & l
 	return true;
 }
 
-bool handleWhile (char * theCode, stringArray * & localVars, compilationSpace & theSpace, const char * filename) {
+bool handleWhile (char * theCode, stringArray * & localVars, compilationSpace & theSpace, const char * filename, unsigned int fileline) {
 	stringArray * getCondition = splitString (theCode, ')', ONCE);
-	if (! trimStart (getCondition -> string, '(')) return addComment (ERRORTYPE_PROJECTERROR, "Bad while (no condition)", theCode, NULL);
-	if (countElements (getCondition) != 2) return addComment (ERRORTYPE_PROJECTERROR, "Bad while (no condition)", theCode, NULL);
-	if (! niceLoop (getCondition -> string, getCondition -> next -> string, NULL, localVars, theSpace, filename)) {
-		return addComment (ERRORTYPE_PROJECTERROR, "Bad loop stuff (while loop)", getCondition -> string, NULL);
+	if (! trimStart (getCondition -> string, '(')) return addComment (ERRORTYPE_PROJECTERROR, "Bad while (no condition)", theCode, filename, fileline);
+	if (countElements (getCondition) != 2) return addComment (ERRORTYPE_PROJECTERROR, "Bad while (no condition)", theCode, filename, fileline);
+	if (! niceLoop (getCondition -> string, getCondition -> next -> string, NULL, localVars, theSpace, filename, fileline)) {
+		return addComment (ERRORTYPE_PROJECTERROR, "Bad loop stuff (while loop)", getCondition -> string, filename, fileline);
 	}
 	destroyAll (getCondition);
 	return true;
 }
 
-bool handleFor (char * theCode, stringArray * & localVars, compilationSpace & theSpace, const char * filename) {
+bool handleFor (char * theCode, stringArray * & localVars, compilationSpace & theSpace, const char * filename, unsigned int fileline) {
 	stringArray * getCondition = splitString (theCode, ')', ONCE);
-	if (! trimStart (getCondition -> string, '(')) return addComment (ERRORTYPE_PROJECTERROR, "Bad for (no condition)", theCode, filename);
+	if (! trimStart (getCondition -> string, '(')) return addComment (ERRORTYPE_PROJECTERROR, "Bad for (no condition)", theCode, filename, fileline);
 
 	// Split the condition into bits
 	stringArray * getBits = splitString (getCondition -> string, ';');
-	if (! destroyFirst (getCondition)) return addComment (ERRORTYPE_PROJECTERROR, "Bad for (no condition)", theCode, filename);
+	if (getBits->line) fileline = getBits->line;
+	if (! destroyFirst (getCondition)) return addComment (ERRORTYPE_PROJECTERROR, "Bad for (no condition)", theCode, filename, fileline);
 
-	if (countElements (getBits) != 3) return addComment (ERRORTYPE_PROJECTERROR, "Bad for (not a;b;c in condition)", theCode, filename);
+	if (countElements (getBits) != 3) return addComment (ERRORTYPE_PROJECTERROR, "Bad for (not a;b;c in condition)", theCode, filename, fileline);
 
-	if (! compileSourceLine (getBits -> string, localVars, theSpace, nullArray, filename, getBits->line)) return false;
+	if (! compileSourceLine (getBits -> string, localVars, theSpace, nullArray, filename, fileline)) return false;
 	destroyFirst (getBits);
 
-	if (! niceLoop (getBits -> string, getCondition -> string, getBits -> next -> string, localVars, theSpace, filename)) {
-		return addComment (ERRORTYPE_PROJECTERROR, "Bad loop stuff (for loop)", getBits -> string, filename);
+	if (! niceLoop (getBits -> string, getCondition -> string, getBits -> next -> string, localVars, theSpace, filename, fileline)) {
+		return addComment (ERRORTYPE_PROJECTERROR, "Bad loop stuff (for loop)", getBits -> string, filename, fileline);
 	}
 	destroyAll (getCondition);
 	destroyAll (getBits);
 	return true;
 }
 
-bool handleLoop (char * & theLoop, stringArray * & localVars, compilationSpace & theSpace, const char * filename) {
+bool handleLoop (char * & theLoop, stringArray * & localVars, compilationSpace & theSpace, const char * filename, unsigned int fileline) {
 	int endMarker;
 
 	if (trimStart (theLoop, '{')) {
-		if (! trimEnd (theLoop, '}')) return addComment (ERRORTYPE_PROJECTERROR, "No matching } in loop", theLoop, NULL);
+		if (! trimEnd (theLoop, '}')) return addComment (ERRORTYPE_PROJECTERROR, "No matching } in loop", theLoop, filename, fileline);
 	}
 
 	addMarker (theSpace, theSpace.numMarkers ++);
@@ -366,7 +367,7 @@ bool handleVar (const char * sourceCode, stringArray * & localVarNames, sludgeCo
 	return reply;
 }
 
-YNF checkMaths (const char * sourceCode, stringArray * & localVarNames, compilationSpace & theSpace) {
+YNF checkMaths (const char * sourceCode, stringArray * & localVarNames, compilationSpace & theSpace, const char * filename, unsigned int fileline) {
 	int aa;
 	stringArray * splitMaths;
 	YNF reply = YNF_NO;
@@ -380,7 +381,7 @@ YNF checkMaths (const char * sourceCode, stringArray * & localVarNames, compilat
 				switch (aa) {
 
 					case MATHS_SET:
-					if (! compileSourceLine (splitMaths -> next -> string, localVarNames, theSpace, nullArray, NULL, 0)) return YNF_FAIL;
+					if (! compileSourceLine (splitMaths -> next -> string, localVarNames, theSpace, nullArray, filename, fileline)) return YNF_FAIL;
 					reply = (YNF) handleVar (splitMaths -> string, localVarNames, SLU_SET_LOCAL, SLU_SET_GLOBAL, SLU_INDEXSET, theSpace, true);
 					break;
 
@@ -391,7 +392,7 @@ YNF checkMaths (const char * sourceCode, stringArray * & localVarNames, compilat
 
 					case MATHS_DECREMENT:
 					case MATHS_INCREMENT:
-					addComment (ERRORTYPE_PROJECTERROR, "++ and -- must only be used with one variable at a time!", sourceCode, NULL);
+					addComment (ERRORTYPE_PROJECTERROR, "++ and -- must only be used with one variable at a time!", sourceCode, filename, fileline);
 					reply = YNF_FAIL;
 					break;
 
@@ -400,25 +401,25 @@ YNF checkMaths (const char * sourceCode, stringArray * & localVarNames, compilat
 					case MATHS_MULT_EQ:
 					case MATHS_DIV_EQ:
 					case MATHS_MOD_EQ:
-					if (! compileSourceLine (splitMaths -> string, localVarNames, theSpace, nullArray, NULL,0)) return YNF_FAIL;
+					if (! compileSourceLine (splitMaths -> string, localVarNames, theSpace, nullArray, filename, fileline)) return YNF_FAIL;
 					outputDoneCode (theSpace, SLU_QUICK_PUSH, 0);
 
-					if (! compileSourceLine (splitMaths -> next -> string, localVarNames, theSpace, nullArray, NULL,0)) return YNF_FAIL;
+					if (! compileSourceLine (splitMaths -> next -> string, localVarNames, theSpace, nullArray, filename, fileline)) return YNF_FAIL;
 					outputDoneCode (theSpace, math2Sludge[aa], 0);
 					if (handleVar (splitMaths -> string, localVarNames, SLU_SET_LOCAL, SLU_SET_GLOBAL, SLU_INDEXSET, theSpace, true)) {
 						reply = YNF_YES;
 					} else {
-						addComment (ERRORTYPE_PROJECTERROR, "Couldn't handle something-equals with", splitMaths -> string, NULL);
+						addComment (ERRORTYPE_PROJECTERROR, "Couldn't handle something-equals with", splitMaths -> string, filename, fileline);
 						reply = YNF_FAIL;
 					}
 					break;
 
 					default:
-					if (! compileSourceLine (splitMaths -> string, localVarNames, theSpace, nullArray, NULL,0)) return YNF_FAIL;
+					if (! compileSourceLine (splitMaths -> string, localVarNames, theSpace, nullArray, filename, fileline)) return YNF_FAIL;
 					destroyFirst (splitMaths);
 					outputDoneCode (theSpace, SLU_QUICK_PUSH, 0);
 
-					if (! compileSourceLine (splitMaths -> string, localVarNames, theSpace, nullArray, NULL,0)) return YNF_FAIL;
+					if (! compileSourceLine (splitMaths -> string, localVarNames, theSpace, nullArray, filename, fileline)) return YNF_FAIL;
 					destroyFirst (splitMaths);
 					outputDoneCode (theSpace, math2Sludge[aa], 0);
 					reply = YNF_YES;
@@ -437,7 +438,7 @@ YNF checkMaths (const char * sourceCode, stringArray * & localVarNames, compilat
 				destroyFirst (splitMaths);
 				switch (aa) {
 					case MATHS_MINUS:
-					if (! compileSourceLine (splitMaths -> string, localVarNames, theSpace, nullArray, NULL,0)) return YNF_FAIL;
+					if (! compileSourceLine (splitMaths -> string, localVarNames, theSpace, nullArray, filename, fileline)) return YNF_FAIL;
 					outputDoneCode (theSpace, SLU_NEGATIVE, 0);
 					reply = YNF_YES;
 					break;
@@ -462,7 +463,7 @@ bool checkLocal (const char * sourceLine, stringArray * & localVars, compilation
 	return false;
 }
 
-bool localVar (char * theString, stringArray * & localVars, compilationSpace & theSpace, const char * filename) {
+bool localVar (char * theString, stringArray * & localVars, compilationSpace & theSpace, const char * filename, unsigned int fileline) {
 	int numVar;
 
 	stringArray * multi = splitString (theString, ',');
@@ -473,12 +474,12 @@ bool localVar (char * theString, stringArray * & localVars, compilationSpace & t
 		if (! checkValidName (getVarName -> string, "Not a valid variable name", filename)) return false;
 		if (! checkNotKnown2 (getVarName -> string, filename)) return false;
 		numVar = findElement (localVars, getVarName -> string);
-		if (numVar != -1) return addComment (ERRORTYPE_PROJECTERROR, "Local variable declared twice", getVarName -> string, filename);
+		if (numVar != -1) return addComment (ERRORTYPE_PROJECTERROR, "Local variable declared twice", getVarName -> string, filename, fileline);
 		addToStringArray (localVars, getVarName -> string);
 		numVar = findElement (localVars, getVarName -> string);
 
 		if (getVarName -> next) {
-			if (! compileSourceLine (getVarName -> next -> string, localVars, theSpace, nullArray, NULL,0)) return false;
+			if (! compileSourceLine (getVarName -> next -> string, localVars, theSpace, nullArray, filename, fileline)) return false;
 			outputDoneCode (theSpace, SLU_SET_LOCAL, numVar);
 		}
 
@@ -575,22 +576,22 @@ bool callAFunction (const char * sourceCode, stringArray * & localVarNames, comp
 	return true;
 }
 
-bool getArrayIndex (const char * sourceCode, stringArray * & localVarNames, compilationSpace & theSpace, const char * filename) {
+bool getArrayIndex (const char * sourceCode, stringArray * & localVarNames, compilationSpace & theSpace, const char * filename, unsigned int fileline) {
 	stringArray * splitParams;
 
 	splitParams = splitAtLast (sourceCode, '[');
 
-	if (! compileSourceLine (splitParams -> string, localVarNames, theSpace, nullArray, NULL,0)) {
-		return addComment (ERRORTYPE_PROJECTERROR, "Can't compile", splitParams -> string, filename);
+	if (! compileSourceLine (splitParams -> string, localVarNames, theSpace, nullArray, filename, fileline)) {
+		return addComment (ERRORTYPE_PROJECTERROR, "Can't compile", splitParams -> string, filename, fileline);
 	}
 
 	// Get rid of the array name and then the closing bracket...
-	if (! destroyFirst (splitParams)) return addComment (ERRORTYPE_PROJECTERROR, "Bad [] index", sourceCode, filename);
+	if (! destroyFirst (splitParams)) return addComment (ERRORTYPE_PROJECTERROR, "Bad [] index", sourceCode, filename, fileline);
 	trimEnd (splitParams -> string, ']');
 
 	// Push the array onto the run-time stack and compile index number
 	outputDoneCode (theSpace, SLU_QUICK_PUSH, 0);
-	if (! compileSourceLine (splitParams -> string, localVarNames, theSpace, nullArray, filename,0)) return false;
+	if (! compileSourceLine (splitParams -> string, localVarNames, theSpace, nullArray, filename, fileline)) return false;
 
 	destroyAll (splitParams);
 	outputDoneCode (theSpace, SLU_INDEXGET, 0);
@@ -653,7 +654,7 @@ bool compileSourceLineInner (const char * sourceCodeIn, stringArray * & localVar
 		destroyAll (getType);	// Save a bit of memory...
 
 		// Let's see... is it maths?
-		ynf = checkMaths (sourceCode, localVarNames, theSpace);
+		ynf = checkMaths (sourceCode, localVarNames, theSpace, filename, fileline);
 		if (ynf == YNF_FAIL) return false;
 		if (ynf == YNF_YES) break;
 
@@ -685,7 +686,7 @@ bool compileSourceLineInner (const char * sourceCodeIn, stringArray * & localVar
 		// No? In that case, if it ends with a ']' it's an array index
 
 		if (sourceCode[strlen (sourceCode) - 1] == ']') {
-			if (! getArrayIndex (sourceCode, localVarNames, theSpace, filename)) return false;
+			if (! getArrayIndex (sourceCode, localVarNames, theSpace, filename, fileline)) return false;
 			break;
 		}
 
@@ -702,27 +703,27 @@ bool compileSourceLineInner (const char * sourceCodeIn, stringArray * & localVar
 		case TOK_VAR:
 //		printf ("It's a local variable!\n");
 		if (! destroyFirst (getType)) return addComment (ERRORTYPE_PROJECTERROR, "Bad local variable definition", sourceCode, filename, fileline);
-		if (! localVar (getType -> string, localVarNames, theSpace, filename)) return false;
+		if (! localVar (getType -> string, localVarNames, theSpace, filename, fileline)) return false;
 		break;
 
 		case TOK_IF:
 		if (! destroyFirst (getType)) return addComment (ERRORTYPE_PROJECTERROR, "Dodgy if statement", sourceCode, filename, fileline);
-		if (! handleIf (getType -> string, localVarNames, theSpace, theRest, filename)) return false;
+		if (! handleIf (getType -> string, localVarNames, theSpace, theRest, filename, fileline)) return false;
 		break;
 
 		case TOK_WHILE:
 		if (! destroyFirst (getType)) return addComment (ERRORTYPE_PROJECTERROR, "Dodgy while statement", sourceCode, filename, fileline);
-		if (! handleWhile (getType -> string, localVarNames, theSpace, filename)) return false;
+		if (! handleWhile (getType -> string, localVarNames, theSpace, filename, fileline)) return false;
 		break;
 
 		case TOK_FOR:
 		if (! destroyFirst (getType)) return addComment (ERRORTYPE_PROJECTERROR, "Dodgy for statement", sourceCode, filename, fileline);
-		if (! handleFor (getType -> string, localVarNames, theSpace, filename)) return false;
+		if (! handleFor (getType -> string, localVarNames, theSpace, filename, fileline)) return false;
 		break;
 
 		case TOK_LOOP:
 		if (! destroyFirst (getType)) return addComment (ERRORTYPE_PROJECTERROR, "Dodgy loop statement", sourceCode, filename, fileline);
-		if (! handleLoop (getType -> string, localVarNames, theSpace, filename)) return false;
+		if (! handleLoop (getType -> string, localVarNames, theSpace, filename, fileline)) return false;
 		break;
 
 		case TOK_NOT:

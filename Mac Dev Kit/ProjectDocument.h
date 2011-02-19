@@ -12,6 +12,7 @@
 
 @interface ProjectDocument : SLUDGE_Document {
 	// Main window
+	IBOutlet NSWindow *projectWindow;
 	IBOutlet NSTabView *tabView;
 	IBOutlet NSTableView *projectFiles;
 	IBOutlet NSTableView *resourceFiles;

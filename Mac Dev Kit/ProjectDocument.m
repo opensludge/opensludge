@@ -320,6 +320,7 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 	if (numErrors) {
 		[compilerErrors noteNumberOfRowsChanged];
 		[tabView selectTabViewItemAtIndex:1];
+		[projectWindow orderFront: self];
 	} 
 	if (success) {
 		[runGameButton setEnabled:YES];

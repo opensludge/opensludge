@@ -187,14 +187,6 @@ bool convertTGA (char * filename) {
 			if (! j) return false;
 		} else {
 			j = saveHSI (filename);
-//		{
-//			char blah[255];
-//			sprintf (blah, "Compressed %s...", originalName);
-//			addComment (blah);
-//			int p = ((float)j)/i * 100;
-//			sprintf (blah, "     From %d to %d bytes (%d%%)", i, j, p);
-//			addComment (blah);
-//		}
 			for (int a = 0; a < VERT_RES; a ++) delete backDropImage[a];
 			delete backDropImage;
 
