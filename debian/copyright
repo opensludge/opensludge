@@ -10,40 +10,32 @@ Copyright: 2000 - 2008 Tim Furnish
 License: LGPL-2.1
 
 Files: debian/*
+       GTK_Dev_Kit/*
 Copyright: 2010 - 2011 Tobias Hansen
 License: GPL-3+
 
 Files: debian/devkit/pixmaps/*
-Copyright: 2008 Erwin Broekhuis
+       debian/engine/icons/*
+       doc/SLUDGEDevKitHelp/images/sludge300.png
+       doc/SLUDGEDevKitHelp/images/Sludge_128x128x32.png
+       GTK_Dev_Kit/support/16x16/*
+       GTK_Dev_Kit/support/32x32/*
+       GTK_Dev_Kit/support/48x48/*
+       GTK_Dev_Kit/support/128x128/*
+       images/*
+Copyright: 2008 - 2011 Erwin Broekhuis
 License: LGPL-2.1
 
-Files: debian/engine/icons/*
-Copyright: 2008 Erwin Broekhuis
+Files: GTK_Dev_Kit/support/sludge.lang
+Copyright: 2005 - 2007 Marco Barisione
+           2005 - 2007 Emanuele Aina
+           2010        Tobias Hansen
 License: LGPL-2.1
 
-Files: GTK_Dev_Kit/*
-Copyright: 2010 - 2011 Tobias Hansen
-License: GPL-3+
-
-Files: GTK_Dev_Kit/support/16x16/*
-Copyright: 2008 Erwin Broekhuis
-License: LGPL-2.1
-
-Files: GTK_Dev_Kit/support/32x32/*
-Copyright: 2008 Erwin Broekhuis
-License: LGPL-2.1
-
-Files: GTK_Dev_Kit/support/48x48/*
-Copyright: 2008 Erwin Broekhuis
-License: LGPL-2.1
-
-Files: GTK_Dev_Kit/support/128x128/*
-Copyright: 2008 Erwin Broekhuis
-License: LGPL-2.1
-
-Files: images/*
-Copyright: 2008 Erwin Broekhuis
-License: LGPL-2.1
+Files: doc/SLUDGEDevKitHelp/HtmlMenu.html
+Copyright: 2005        DHTMLGoodies.com, Alf Magne Kalleland
+           2010 - 2011 Tobias Hansen
+License: LGPL-2.1+
 
 License: LGPL-2.1
  This program is free software; you can redistribute it and/or
@@ -80,3 +72,18 @@ License: GPL-3+
  On Debian systems, the full text of the GNU General Public
  License version 3 can be found in the file
  `/usr/share/common-licenses/GPL-3'.
+
+License: LGPL-2.1+
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
+ .
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
+ .
+ You should have received a copy of the GNU Lesser General Public
+ License along with this package; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
