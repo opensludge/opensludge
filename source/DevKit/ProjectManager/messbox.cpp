@@ -154,6 +154,11 @@ bool addComment (int errorType, const char * txt1, const char * txt2, const char
 	return false;
 }
 
+bool addComment (int errorType, const char * txt1, const char * txt2, const char * filename)
+{
+	return addComment (errorType, txt1, txt2, filename, 0);
+}
+
 
 void addComment (int errorType, const char *txt1, const char * filename) {
 	addCommentWithLine (errorType, txt1, filename, 0);
