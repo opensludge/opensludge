@@ -52,6 +52,7 @@
 }
 
 - (bool)commentMenu;
+- (void)selectLine:(int)line;
 
 
 @end

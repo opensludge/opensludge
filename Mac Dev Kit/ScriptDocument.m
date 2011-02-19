@@ -9,6 +9,7 @@
 
 #import "ScriptDocument.h"
 
+
 @implementation ScriptDocument
 
 
@@ -91,6 +92,7 @@ void addFunction (NSMutableDictionary *words, char *name) {
 		
 	return YES;
 }
+
 
 -(void) colourString:(NSString *) string 
 			   range: (NSRange) area
@@ -235,8 +237,7 @@ void addFunction (NSMutableDictionary *words, char *name) {
     // extend our range along line boundaries.
     area = [string lineRangeForRange:area];
 	
-	[self colourString: string range:area storage: textStorage];
-	
+	[self colourString: string range:area storage: textStorage];	
 }
 
 - (bool)commentMenu
@@ -276,5 +277,30 @@ void addFunction (NSMutableDictionary *words, char *name) {
 	return true;
 }
 
+- (void)selectLine:(int)lineNumber
+{
+	if (lineNumber) {
+		lineNumber--;
+		int i, line=0;
+		NSString *string = [text string];
+		int len = [string length];
+		for (i = 0; i < len; i++)
+		{
+			if ([string characterAtIndex:i] == '\n')
+			{
+				line++;
+				if (line >= lineNumber) {	
+					if (i<len) i++;
+					break;
+				}
+			}
+		}
+		
+		NSRange l = NSMakeRange(i, 0);
+		l = [string lineRangeForRange:l];
+		[text setSelectedRange: l];
+		[text scrollRangeToVisible:l];
+	}
+}
 
 @end

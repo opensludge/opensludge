@@ -44,7 +44,7 @@ void clearComments () {
 }
 
 
-void addComment (int errorType, const char * comment, const char * filename/*, int lineNumber*/) {
+void addCommentWithLine (int errorType, const char * comment, const char * filename, unsigned int lineNumber) {
 
 	errorLinkToFile * newLink = new errorLinkToFile;
 	if (! newLink) return;
@@ -110,34 +110,51 @@ void addComment (int errorType, const char * comment, const char * filename/*, i
 	newLink->errorType = errorType;
 	newLink->overview = copyString (s);
 	newLink->filename = filename ? copyString (filename) : NULL;
-	newLink->lineNumber = 0;
+	newLink->lineNumber = lineNumber;
 	newLink->next = errorList;
 	errorList = newLink;
 
-	char * after = filename ? joinStrings (" (in ", filename, ")") : copyString ("");
+	char * filenameWline;
+	if (filename) {
+		if (lineNumber) {
+			filenameWline = new char[strlen(filename)+15];
+			sprintf(filenameWline, "%s: line %d", filename, lineNumber);
+		} else {
+			filenameWline = copyString(filename);
+		}
+	} else {
+		filenameWline = copyString ("");
+	}
+	char * after = filename ? joinStrings (" (in ", filenameWline, ")") : copyString ("");
 	newLink->fullText = joinStrings (errorTypeStrings[errorType], s, after);
 
 	fprintf (stderr, "addComment: %s\n", newLink->fullText);
 	delete after;
+	delete filenameWline;
 
 	numErrors ++;
 
 	compilerCommentsUpdated();
 }
 
-bool addComment (int errorType, const char * txt1, const char * txt2, const char * filename) {
+bool addComment (int errorType, const char * txt1, const char * txt2, const char * filename, unsigned int lineNumber) {
 	if (txt2)
 	{
 		char * a = joinStrings (txt1, ": ", txt2);
 		if (a)
 		{
-			addComment (errorType, a, filename);
+			addCommentWithLine (errorType, a, filename, lineNumber);
 			delete a;
 		}
 	}
 	else
 	{
-		addComment (errorType, txt1, filename);
+		addCommentWithLine (errorType, txt1, filename, lineNumber);
 	}
 	return false;
+}
+
+
+void addComment (int errorType, const char *txt1, const char * filename) {
+	addCommentWithLine (errorType, txt1, filename, 0);
 }

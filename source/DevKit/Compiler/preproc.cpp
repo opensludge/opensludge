@@ -23,6 +23,7 @@ bool preProcess (char * codeFileName, int fileNumber, stringArray * & strings, s
 	bool escapeCharNext = false, justAComment = false;
 	char grabString[1000];
 	int doubleCheckLoop;
+	unsigned int currentLine = 1;
 
 	if (! gotoTempDirectory ()) return false;
 
@@ -41,6 +42,7 @@ bool preProcess (char * codeFileName, int fileNumber, stringArray * & strings, s
 	}
 
 	fprintf (outputFile, "%s*", codeFileName);
+	fprintf(outputFile, "%c%05d", 1,currentLine);
 	while (wholeFile[index]) {
 		if (readingQuote) {
 			if ((wholeFile[index] == quoteChar) && (! escapeCharNext)) {
@@ -72,7 +74,7 @@ bool preProcess (char * codeFileName, int fileNumber, stringArray * & strings, s
 			else if (wholeFile[index] == '\n')
 			{
 				grabString[stringPosition] = NULL;
-				addComment (ERRORTYPE_PROJECTERROR, "Runaway string", grabString, codeFileName);
+				addComment (ERRORTYPE_PROJECTERROR, "Runaway string", grabString, codeFileName, currentLine);
 				return false;
 			}
 			else
@@ -82,14 +84,20 @@ bool preProcess (char * codeFileName, int fileNumber, stringArray * & strings, s
 						char buff[255];
 						sprintf (buff, "Unrecognised excape character found in a string... I don't know what \"\\%c\" is meant to mean. Tell you what - I'll interpret it as just \"%c\", OK?", wholeFile[index], wholeFile[index]);
 						showStringWhenFinished = true;
-						addComment (ERRORTYPE_PROJECTWARNING, buff, codeFileName);
+						addCommentWithLine(ERRORTYPE_PROJECTWARNING, buff, codeFileName, currentLine);
 					}
 				}
 				escapeCharNext = false;
 				grabString[stringPosition ++] = wholeFile[index];
 			}
 		} else if (justAComment) {
-			if (wholeFile[index] == '\n') justAComment = false;
+			if (wholeFile[index] == '\n') {
+				if (currentLine) {
+					if (++currentLine >= 65535)
+						currentLine=0;
+				}
+				justAComment = false;
+			}
 		} else {
 			switch (wholeFile[index]) {
 				case '\"':
@@ -101,9 +109,14 @@ bool preProcess (char * codeFileName, int fileNumber, stringArray * & strings, s
 				spaceLast = false;
 				break;
 
-				case ' ':
-				case '\r':
 				case '\n':
+					if (currentLine) {
+						if (++currentLine >= 65535)
+							currentLine=0;
+					}
+					// No break!
+				case '\r':
+				case ' ':
 				case '\t':
 				if (! spaceLast) fprintf (outputFile, " ");
 				spaceLast = true;
@@ -134,7 +147,11 @@ bool preProcess (char * codeFileName, int fileNumber, stringArray * & strings, s
 						break;
 					}
 				}
+					
 				fprintf (outputFile, "%c", wholeFile[index]);
+				if (wholeFile[index] == ';') 			
+					fprintf(outputFile, "%c%05d", 1,currentLine);
+					
 				break;
 			}
 		}

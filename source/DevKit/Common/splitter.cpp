@@ -37,37 +37,66 @@ void trimEdgeSpace (char * & thisString) {
 	while (trimEnd (thisString, ' ')){;}
 }
 
+uint32_t readLineNumber (const char * textNumber) {
+	uint32_t i = 0;
+	int ac = 0;
+	
+	for (ac = 0; ac<5; ac++) {
+		if (textNumber[ac] >= '0' && textNumber[ac] <= '9') {
+			i = (i * 10) + textNumber[ac] - '0';
+			if (i == 65535)
+				return 65535;
+			if (i > MAXINT) {
+				return 0;
+			}
+		} else {
+		}
+		ac ++;			
+	}
+	
+	return i;
+}
+
 void addToStringArray (stringArray * & theArray, const char * theString, int start, int size, bool trimSpa) {
 	char * addMe;
 	stringArray * newSection;
 	stringArray * huntArray = theArray;
-	int looper;
 
+	unsigned int lineNum=0;
+	
 	if (! theString) return;
 	
 	if (size == -1) size = strlen (theString);
 	size -= start;
 
-	// Allocate memory
-
-	addMe = new char[size + 1];
-//	checkNew (addMe);
-	newSection = new stringArray;
-//	checkNew (newSection);
-
-	// Create new stringArray section
-
-	for (looper = 0; looper < size; looper ++) {
-		addMe[looper] = theString[looper + start];
+	if (theString[start] == 1 && size >= 6) {
+		lineNum = readLineNumber(theString+1);
+		size-=6;
+		start+=6;
 	}
+	
+	if (trimSpa) {
+		while (size && theString[start] == ' ') {
+			start++;
+			size--;
+		}
+		while (size && theString[start+size-1] == ' ') {
+			size--;
+		}
+	}
+
+	// Allocate memory
+	addMe = new char[size + 1];
+	//	checkNew (addMe);
+	newSection = new stringArray;
+	//	checkNew (newSection);
+	
+	// Create new stringArray section
+	memcpy(addMe, theString+start, size);
 	addMe[size] = NULL;
 
-	if (trimSpa) {
-		trimEdgeSpace (addMe);
-	}
-
-	newSection -> string = addMe;
-	
+	newSection -> string = addMe;	
+	newSection -> line = lineNum;
 	newSection -> next = NULL;
 
 	// Add it
@@ -208,6 +237,7 @@ stringArray * splitString (const char * inString, const char findCharIn, const s
 
 	return newStringArray;
 }
+
 
 
 char * returnElement (stringArray * sA, int i) {

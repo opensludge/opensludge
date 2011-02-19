@@ -38,7 +38,7 @@ bool globalVar (char * theString, stringArray * & globalVars, compilationSpace &
 		delete variableName;
 
 		if (getVarName -> next) {
-			if (! compileSourceLine (getVarName -> next -> string, globalVars, globalSpace, nullArray, filename)) return addComment (ERRORTYPE_PROJECTERROR, "Can't compile code to set initial value for global variable", multi -> string, filename);
+			if (! compileSourceLine (getVarName -> next -> string, globalVars, globalSpace, nullArray, filename, 0)) return addComment (ERRORTYPE_PROJECTERROR, "Can't compile code to set initial value for global variable", multi -> string, filename);
 			outputDoneCode (globalSpace, SLU_SET_GLOBAL, numVar);
 		}
 
@@ -73,7 +73,7 @@ bool realWork (int fileNumber, stringArray * & globalVars, compilationSpace & gl
 			switch (getToken (removeTokenString -> string)) {
 				case TOK_SUB:
 				if (! destroyFirst (removeTokenString)) {
-					return addComment (ERRORTYPE_PROJECTERROR, "Bad sub declaration", theBits -> string, origName->string);
+					return addComment (ERRORTYPE_PROJECTERROR, "Bad sub declaration", theBits -> string, origName->string, theBits->line);
 				}
 				if (! outdoorSub (removeTokenString -> string, origName -> string)) {
 					return false;
@@ -81,26 +81,26 @@ bool realWork (int fileNumber, stringArray * & globalVars, compilationSpace & gl
 				break;
 
 				case TOK_VAR:
-				if (! destroyFirst (removeTokenString)) return addComment (ERRORTYPE_PROJECTERROR, "Bad global variable definition", theBits -> string, origName->string);
+				if (! destroyFirst (removeTokenString)) return addComment (ERRORTYPE_PROJECTERROR, "Bad global variable definition", theBits -> string, origName->string, theBits->line);
 				if (! globalVar (removeTokenString -> string, globalVars, globalSpace, origName->string)) return false;
 				break;
 
 				case TOK_FLAG:
 				case TOK_FLAGS:
-				if (! destroyFirst (removeTokenString)) return addComment (ERRORTYPE_PROJECTERROR, "Bad flags definition", theBits -> string, origName->string);
+				if (! destroyFirst (removeTokenString)) return addComment (ERRORTYPE_PROJECTERROR, "Bad flags definition", theBits -> string, origName->string, theBits->line);
 				if (! handleFlags (removeTokenString -> string)) return false;
 				break;
 
 				case TOK_OBJECTTYPE:
 				if (! destroyFirst (removeTokenString)) {
-					return addComment (ERRORTYPE_PROJECTERROR, "Bad objectType declaration", theBits -> string, origName->string);
+					return addComment (ERRORTYPE_PROJECTERROR, "Bad objectType declaration", theBits -> string, origName->string, theBits->line);
 				}
 				if (! createObjectType (removeTokenString -> string, origName -> string, globalVars, globalSpace, origName -> string)) return false;
 				break;
 
 				case TOK_UNKNOWN:
 				default:
-				addComment (ERRORTYPE_PROJECTERROR, "Unknown or illegal token (only 'sub', 'var', 'flag', 'flags' and 'objectType' allowed here)", removeTokenString -> string, origName->string);
+				addComment (ERRORTYPE_PROJECTERROR, "Unknown or illegal token (only 'sub', 'var', 'flag', 'flags' and 'objectType' allowed here)", removeTokenString -> string, origName->string, theBits->line);
 				return false;
 			}
 			destroyAll (removeTokenString);

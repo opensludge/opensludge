@@ -19,7 +19,7 @@ bool finishFunctionNew (compilationSpace & theSpace, stringArray * locals);
 int protoFunction (const char * funcName, const char * fileName);
 int defineFunction (char * funcName, const char * args, char * sourceCode, bool unfr, bool dbMe, const char *);
 bool compileSourceBlock (const char *, stringArray * &, compilationSpace &, const char * filename);
-bool compileSourceLine (const char *, stringArray * &, compilationSpace &, stringArray * &, const char * filename);
+bool compileSourceLine (const char *, stringArray * &, compilationSpace &, stringArray * &, const char * filename, unsigned int fileline);
 
 void outputHalfCode (compilationSpace & theSpace, sludgeCommand theCommand, const char * stringy);
 int outputMarkerCode (compilationSpace & theSpace, sludgeCommand theCommand);

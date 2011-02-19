@@ -531,3 +531,9 @@ Next
 GTK Development Kit:
 * Bugfix: Clicking on the same compiler error in the projectmanager twice could cause a crash.
 * Bugfix: Sprites could disappear if the graphical tools were compiled differently.
+
+Engine (Windows):
+* Bugfix: Input with a pen and tablet was all messed up in full screen mode. This bug also interfered with Alt+Tab task switching.
+
+Development Kit (general):
+* Added some tracking of line numbers to the compiler, to enable more detailed error reporting. 

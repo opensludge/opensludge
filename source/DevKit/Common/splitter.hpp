@@ -5,6 +5,7 @@
 
 struct stringArray {
 	char * string;
+	unsigned int line;
 	struct stringArray * next;
 };
 

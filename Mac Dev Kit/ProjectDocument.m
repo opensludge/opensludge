@@ -7,6 +7,7 @@
 //
 
 #import "ProjectDocument.h"
+#import "ScriptDocument.h"
 #include "Project.hpp"
 
 #include "moreio.h"
@@ -162,9 +163,21 @@ NSModalSession session = nil;
 		return;
 	}
 	char *file = getFullPath (index->filename);
-	[[NSWorkspace sharedWorkspace] openFile: [NSString stringWithUTF8String:file]];
+
+	NSError **err;
+
+	NSDocumentController *docControl = [NSDocumentController sharedDocumentController];
+	NSURL *url = [NSURL fileURLWithPath: [NSString stringWithUTF8String:file]];
+	ScriptDocument * doc = [docControl openDocumentWithContentsOfURL: url
+															 display: YES
+															   error: err];
+	
+	if (doc) {
+		[doc selectLine:index->lineNumber];
+	}
+	 
+	//[[NSWorkspace sharedWorkspace] openFile: [NSString stringWithUTF8String:file]];
 	deleteString (file);
-	//if (index->lineNumber) 
 }
 
 - (void)openItem:(id)sender
