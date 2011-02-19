@@ -914,13 +914,13 @@ void SludgeProjectManager::on_project_settings()
 	if (gtk_dialog_run(projectSettingsDialog) == GTK_RESPONSE_OK)
 	{
 		killSettingsStrings();
-		settings.quitMessage = newString(gtk_entry_get_text(prefQuit));
-		settings.customIcon = newString(gtk_entry_get_text(prefIcon));
-		settings.customLogo = newString(gtk_entry_get_text(prefLogo));
-		settings.runtimeDataFolder = newString(gtk_entry_get_text(prefSave));
-		settings.finalFile = newString(gtk_entry_get_text(prefFilename));
-		settings.windowName = newString(gtk_entry_get_text(prefName));
-		settings.originalLanguage = newString(gtk_entry_get_text(prefLanguage));
+		settings.quitMessage = copyString(gtk_entry_get_text(prefQuit));
+		settings.customIcon = copyString(gtk_entry_get_text(prefIcon));
+		settings.customLogo = copyString(gtk_entry_get_text(prefLogo));
+		settings.runtimeDataFolder = copyString(gtk_entry_get_text(prefSave));
+		settings.finalFile = copyString(gtk_entry_get_text(prefFilename));
+		settings.windowName = copyString(gtk_entry_get_text(prefName));
+		settings.originalLanguage = copyString(gtk_entry_get_text(prefLanguage));
 		settings.screenHeight = gtk_spin_button_get_value_as_int(prefHeight);
 		settings.screenWidth = gtk_spin_button_get_value_as_int(prefWidth);
 		settings.frameSpeed = gtk_spin_button_get_value_as_int(prefSpeed);

@@ -12,25 +12,44 @@
 const char * doubleChangeMe[] = {"&&", "==", "||", "!=", "<=", ">=", "++", "--", "+=", "-=", "*=", "/=", "%="};
 const char   doubleBecome  [] = {CHAR_AND, CHAR_EQUALS, CHAR_OR, CHAR_NOT_EQ, CHAR_LESS_EQUAL, CHAR_MORE_EQUAL, CHAR_INCREMENT, CHAR_DECREMENT, CHAR_PLUS_EQ, CHAR_MINUS_EQ, CHAR_MULT_EQ, CHAR_DIV_EQ, CHAR_MOD_EQ};
 
+static unsigned int currentLine;
+static bool printLine;
+static FILE * outputFile;
+static bool printSpace;
+static bool spaceLast;
+
+void doLine() {
+	if (printLine) {
+		fprintf(outputFile, "%c%05d", 1,currentLine);
+		printLine = false;
+	}
+	if (printSpace) {
+		fprintf(outputFile, " ");
+		printSpace = false;
+	}
+}
 
 bool preProcess (char * codeFileName, int fileNumber, stringArray * & strings, stringArray * & fileHandles) {
-	FILE * outputFile;
 	char * wholeFile;
 	char outputName[13], quoteChar = ' ';
 	bool showStringWhenFinished = false;
 	int index = 0, stringPosition = 0;
-	bool readingQuote = false, spaceLast = true;
+	bool readingQuote = false;
 	bool escapeCharNext = false, justAComment = false;
 	char grabString[1000];
 	int doubleCheckLoop;
-	unsigned int currentLine = 1;
+	
+	spaceLast = true;
+	printSpace = false;
+	currentLine = 1;
+	printLine = false;
 
 	if (! gotoTempDirectory ()) return false;
 
 	sprintf (outputName, "_T%05i.TMP", fileNumber);
 	outputFile = fopen (outputName, "wt");
 	if (! outputFile) {
-		addComment (ERRORTYPE_SYSTEMERROR, "Can't create temporary file!\n\nPerhaps you've left another SLUDGE compiler window open - if so, please close it (and this one!) and then try compiling again.\n\nOtherwise, either you're out of disk space or you don't have access to the temporary folder.", NULL);
+		addComment (ERRORTYPE_SYSTEMERROR, "Can't create temporary file!\n\nYou're probably out of disk space or you don't have access to the temporary folder.", NULL);
 		return false;
 	}
 
@@ -52,7 +71,7 @@ bool preProcess (char * codeFileName, int fileNumber, stringArray * & strings, s
 				if (showStringWhenFinished) {
 					char buff[1030];
 					sprintf (buff, "String in question: \"%s\"", grabString);
-					addComment (ERRORTYPE_PROJECTWARNING, buff, codeFileName);
+					addCommentWithLine  (ERRORTYPE_PROJECTWARNING, buff, codeFileName, currentLine);
 				}
 
 				if (quoteChar == '\'' && audioFile (grabString) && settings.forceSilent)
@@ -60,10 +79,12 @@ bool preProcess (char * codeFileName, int fileNumber, stringArray * & strings, s
 
 				if (quoteChar == '\"')
 				{
+					doLine();
 					fprintf (outputFile, "_%s%i ", "string", findOrAdd (strings, grabString, false));
 				}
 				else
 				{
+					doLine();
 					fprintf (outputFile, "_%s%i ", "file", findOrAdd (fileHandles, grabString, false));
 				}
 			}
@@ -102,7 +123,9 @@ bool preProcess (char * codeFileName, int fileNumber, stringArray * & strings, s
 			switch (wholeFile[index]) {
 				case '\"':
 				case '\'':
-				if (! spaceLast) fprintf (outputFile, " ");
+					if (! spaceLast) {
+						printSpace = true;
+					}
 				quoteChar = wholeFile[index];
 				readingQuote = true;
 				showStringWhenFinished = false;
@@ -118,13 +141,17 @@ bool preProcess (char * codeFileName, int fileNumber, stringArray * & strings, s
 				case '\r':
 				case ' ':
 				case '\t':
-				if (! spaceLast) fprintf (outputFile, " ");
+					if (! spaceLast) {
+						printSpace = true;
+					}
 				spaceLast = true;
 				break;
 
 				case '}':
 				spaceLast = false;
+				doLine();
 				fprintf (outputFile, "};");
+				printLine = true;
 				break;
 
 				case '#':
@@ -134,7 +161,9 @@ bool preProcess (char * codeFileName, int fileNumber, stringArray * & strings, s
 				case '{':
 				case '(':
 				case '[':
-				if (!spaceLast) fprintf (outputFile, " ");
+					if (!spaceLast) {
+						printSpace = true;
+					}
 				// No break!
 
 				default:
@@ -148,9 +177,11 @@ bool preProcess (char * codeFileName, int fileNumber, stringArray * & strings, s
 					}
 				}
 					
+				doLine();
 				fprintf (outputFile, "%c", wholeFile[index]);
-				if (wholeFile[index] == ';') 			
-					fprintf(outputFile, "%c%05d", 1,currentLine);
+				if (wholeFile[index] == ';') 	{	
+					printLine = true;
+				}
 					
 				break;
 			}

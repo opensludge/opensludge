@@ -51,7 +51,6 @@ uint32_t readLineNumber (const char * textNumber) {
 			}
 		} else {
 		}
-		ac ++;			
 	}
 	
 	return i;
@@ -70,7 +69,7 @@ void addToStringArray (stringArray * & theArray, const char * theString, int sta
 	size -= start;
 
 	if (theString[start] == 1 && size >= 6) {
-		lineNum = readLineNumber(theString+1);
+		lineNum = readLineNumber(theString+start+1);
 		size-=6;
 		start+=6;
 	}

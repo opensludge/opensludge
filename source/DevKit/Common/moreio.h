@@ -27,7 +27,6 @@ void putFloat (float f, FILE * fp);
 // Misc
 
 bool newerFile (char * newFileN, char * oldFileN);
-char * newString (const char * a);
 void deleteString(char *);
 char * copyString (const char * c);
 

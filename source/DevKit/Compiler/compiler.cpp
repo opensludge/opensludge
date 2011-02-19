@@ -227,7 +227,7 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
                     convertTGA (iconFile);
                     if (! dumpFileInto (projectFile, iconFile)) {
                         fclose (projectFile);
-                        return addComment (ERRORTYPE_PROJECTERROR, "Error adding custom icon (file not found or not a valid TGA file)", settings.customIcon, NULL);
+                        return addComment (ERRORTYPE_PROJECTERROR, "Error adding custom icon (file not found or not a valid TGA or PNG file)", settings.customIcon, NULL);
                     }
                 } else {
                     if (! dumpFileInto (projectFile, iconFile)) {
@@ -247,7 +247,7 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
                     convertTGA (logoFile);
                     if (! dumpFileInto (projectFile, logoFile)) {
                         fclose (projectFile);
-                        return addComment (ERRORTYPE_PROJECTERROR, "Error adding custom logo (file not found or not a valid TGA file)", settings.customLogo, NULL);
+                        return addComment (ERRORTYPE_PROJECTERROR, "Error adding custom logo (file not found or not a valid TGA or PNG file)", settings.customLogo, NULL);
                     }
                 } else {
                     if (! dumpFileInto (projectFile, logoFile)) {

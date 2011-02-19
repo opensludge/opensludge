@@ -647,7 +647,7 @@ bool compileSourceLineInner (const char * sourceCodeIn, stringArray * & localVar
 
 	switch (getToken (getType -> string)) {
 		case TOK_ELSE:
-		return addComment (ERRORTYPE_PROJECTERROR, "Misplaced else", sourceCode, filename);
+		return addComment (ERRORTYPE_PROJECTERROR, "Misplaced else", sourceCode, filename, fileline);
 
 		case TOK_UNKNOWN:
 		destroyAll (getType);	// Save a bit of memory...
@@ -668,10 +668,10 @@ bool compileSourceLineInner (const char * sourceCodeIn, stringArray * & localVar
 
 		if (sourceCode[0] == '(') {
 			stringArray * insides = splitString (sourceCode, '(', ONCE);
-			if (! destroyFirst (insides)) return addComment (ERRORTYPE_PROJECTERROR, "Mismatched () - 001", sourceCode, filename);
-			if (! trimEnd (insides -> string, ')')) return addComment (ERRORTYPE_PROJECTERROR, "Mismatched () - 002", sourceCode, filename);
+			if (! destroyFirst (insides)) return addComment (ERRORTYPE_PROJECTERROR, "Mismatched () - 001", sourceCode, filename, fileline);
+			if (! trimEnd (insides -> string, ')')) return addComment (ERRORTYPE_PROJECTERROR, "Mismatched () - 002", sourceCode, filename, fileline);
 			if (! compileSourceLine (insides -> string, localVarNames, theSpace, nullArray, filename, fileline)) return false;
-			if (destroyFirst (insides)) return addComment (ERRORTYPE_PROJECTERROR, "Mismatched () - 003", sourceCode, filename);
+			if (destroyFirst (insides)) return addComment (ERRORTYPE_PROJECTERROR, "Mismatched () - 003", sourceCode, filename, fileline);
 			break;
 		}
 
@@ -701,32 +701,32 @@ bool compileSourceLineInner (const char * sourceCodeIn, stringArray * & localVar
 
 		case TOK_VAR:
 //		printf ("It's a local variable!\n");
-		if (! destroyFirst (getType)) return addComment (ERRORTYPE_PROJECTERROR, "Bad local variable definition", sourceCode, filename);
+		if (! destroyFirst (getType)) return addComment (ERRORTYPE_PROJECTERROR, "Bad local variable definition", sourceCode, filename, fileline);
 		if (! localVar (getType -> string, localVarNames, theSpace, filename)) return false;
 		break;
 
 		case TOK_IF:
-		if (! destroyFirst (getType)) return addComment (ERRORTYPE_PROJECTERROR, "Dodgy if statement", sourceCode, filename);
+		if (! destroyFirst (getType)) return addComment (ERRORTYPE_PROJECTERROR, "Dodgy if statement", sourceCode, filename, fileline);
 		if (! handleIf (getType -> string, localVarNames, theSpace, theRest, filename)) return false;
 		break;
 
 		case TOK_WHILE:
-		if (! destroyFirst (getType)) return addComment (ERRORTYPE_PROJECTERROR, "Dodgy while statement", sourceCode, filename);
+		if (! destroyFirst (getType)) return addComment (ERRORTYPE_PROJECTERROR, "Dodgy while statement", sourceCode, filename, fileline);
 		if (! handleWhile (getType -> string, localVarNames, theSpace, filename)) return false;
 		break;
 
 		case TOK_FOR:
-		if (! destroyFirst (getType)) return addComment (ERRORTYPE_PROJECTERROR, "Dodgy for statement", sourceCode, filename);
+		if (! destroyFirst (getType)) return addComment (ERRORTYPE_PROJECTERROR, "Dodgy for statement", sourceCode, filename, fileline);
 		if (! handleFor (getType -> string, localVarNames, theSpace, filename)) return false;
 		break;
 
 		case TOK_LOOP:
-		if (! destroyFirst (getType)) return addComment (ERRORTYPE_PROJECTERROR, "Dodgy loop statement", sourceCode, filename);
+		if (! destroyFirst (getType)) return addComment (ERRORTYPE_PROJECTERROR, "Dodgy loop statement", sourceCode, filename, fileline);
 		if (! handleLoop (getType -> string, localVarNames, theSpace, filename)) return false;
 		break;
 
 		case TOK_NOT:
-		if (! destroyFirst (getType)) return addComment (ERRORTYPE_PROJECTERROR, "Dodgy ! statement", sourceCode, filename);
+		if (! destroyFirst (getType)) return addComment (ERRORTYPE_PROJECTERROR, "Dodgy ! statement", sourceCode, filename, fileline);
 		if (! compileSourceLine (getType -> string, localVarNames, theSpace, nullArray, filename, fileline)) return false;
 		outputDoneCode (theSpace, SLU_NOT, 0);
 		break;
@@ -741,7 +741,7 @@ bool compileSourceLineInner (const char * sourceCodeIn, stringArray * & localVar
 		break;
 
 		default:
-		return addComment (ERRORTYPE_PROJECTERROR, "Can't use this SLUDGE reserved word inside a sub", getType -> string, filename);
+		return addComment (ERRORTYPE_PROJECTERROR, "Can't use this SLUDGE reserved word inside a sub", getType -> string, filename, fileline);
 	}
 
 	destroyAll (getType);

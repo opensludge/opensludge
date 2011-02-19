@@ -303,12 +303,12 @@
 {
 	if (! langName) {
 		if (strlen([[languageName stringValue] cStringUsingEncoding: NSISOLatin1StringEncoding])) {
-			langName = newString ([[languageName stringValue] cStringUsingEncoding: NSISOLatin1StringEncoding]);
+			langName = copyString ([[languageName stringValue] cStringUsingEncoding: NSISOLatin1StringEncoding]);
 			[self updateChangeCount: NSChangeDone];
 		}
 	} else if (strcmp(langName, [[languageName stringValue] cStringUsingEncoding: NSISOLatin1StringEncoding])) {
 		deleteString (langName);
-		langName = newString ([[languageName stringValue] cStringUsingEncoding: NSISOLatin1StringEncoding]);
+		langName = copyString ([[languageName stringValue] cStringUsingEncoding: NSISOLatin1StringEncoding]);
 		[self updateChangeCount: NSChangeDone];
 	}
 	

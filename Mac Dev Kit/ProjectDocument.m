@@ -385,13 +385,13 @@ extern char * gameFile;
 - (void) setSettings
 {
 	killSettingsStrings();
-	settings.quitMessage = newString ([[prefQuit stringValue] UTF8String]);
-	settings.customIcon = newString ([[prefIcon stringValue] UTF8String]);
-	settings.customLogo = newString ([[prefLogo stringValue] UTF8String]);
-	settings.runtimeDataFolder = newString ([[prefData stringValue]UTF8String]);
-	settings.finalFile = newString ([[prefFile stringValue]UTF8String]);
-	settings.windowName = newString ([[prefName stringValue]UTF8String]);
-	settings.originalLanguage = newString ([[prefLanguage stringValue]UTF8String]);
+	settings.quitMessage = copyString ([[prefQuit stringValue] UTF8String]);
+	settings.customIcon = copyString ([[prefIcon stringValue] UTF8String]);
+	settings.customLogo = copyString ([[prefLogo stringValue] UTF8String]);
+	settings.runtimeDataFolder = copyString ([[prefData stringValue]UTF8String]);
+	settings.finalFile = copyString ([[prefFile stringValue]UTF8String]);
+	settings.windowName = copyString ([[prefName stringValue]UTF8String]);
+	settings.originalLanguage = copyString ([[prefLanguage stringValue]UTF8String]);
 	settings.screenHeight = [prefHeight intValue];
 	settings.screenWidth = [prefWidth intValue];
 	settings.frameSpeed = [prefSpeed intValue];
