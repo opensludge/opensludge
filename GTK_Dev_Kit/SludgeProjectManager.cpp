@@ -459,6 +459,7 @@ void SludgeProjectManager::readIniFile() {
 		
 		fclose(fp);
 	}
+	g_chdir(workingDir);
 }
 
 void SludgeProjectManager::saveIniFile() {
@@ -481,6 +482,7 @@ void SludgeProjectManager::saveIniFile() {
 	fprintf(fp, "AudioPlayer=%s\x0D\x0A", audioPlayer);
 	fprintf(fp, "ModPlayer=%s\x0D\x0A", modPlayer);
 	fclose(fp);
+	g_chdir(workingDir);
 }
 
 void SludgeProjectManager::compile()
