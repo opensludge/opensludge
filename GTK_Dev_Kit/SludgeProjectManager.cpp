@@ -289,7 +289,7 @@ void SludgeProjectManager::listChanged(whichTreeview whichOne)
 
 	gtk_list_store_clear(listStore);
 
-	int i, j, fileContainingBadChars = -1;
+	int i, j;
 	char *listitem;
 	struct errorLinkToFile * index;
 	for (i = 0; i < numItems; i++) {
@@ -299,15 +299,9 @@ void SludgeProjectManager::listChanged(whichTreeview whichOne)
 			case FILE_TREEVIEW:
 			case RESOURCE_TREEVIEW:
 			{
-				listitem = new char[1000];
-				listitem = strcpy(listitem, list[i]);
-				int retval = 1;
-				replaceInvalidCharacters(listitem, &retval);
-				if (!retval) {
-					fileContainingBadChars = whichOne;
-				}
+				listitem = g_filename_to_utf8(list[i], -1, NULL, NULL, NULL);
 				gtk_list_store_set(listStore, &iter, 0, listitem, -1);
-				delete listitem;
+				g_free(listitem);
 				listitem = NULL;
 				break;
 			}
@@ -320,26 +314,23 @@ void SludgeProjectManager::listChanged(whichTreeview whichOne)
 					if (! (index = index->next)) return;
 					j--;
 				}
-				listitem = new char[1000];
-				listitem = strcpy(listitem, index->fullText);
-				int retval = 1;
-				replaceInvalidCharacters(listitem, &retval);
+				listitem = g_locale_to_utf8(index->fullText, -1, NULL, NULL, NULL);
 				gtk_list_store_set(listStore, &iter, ERRORS_COLUMN_FULLTEXT, listitem, -1);
-				delete listitem;
+				g_free(listitem);
 				listitem = NULL;
 				if (index->filename) {
 					gtk_list_store_set(listStore, &iter, ERRORS_COLUMN_HAS_FILENAME, TRUE, -1);
 
 					listitem = g_filename_to_utf8(index->filename, -1, NULL, NULL, NULL);
 					gtk_list_store_set(listStore, &iter, ERRORS_COLUMN_FILENAME, listitem, -1);
-					delete listitem;
+					g_free(listitem);
 					listitem = NULL;
 				} else {
 					gtk_list_store_set(listStore, &iter, ERRORS_COLUMN_HAS_FILENAME, FALSE, -1);
 
 					listitem = g_locale_to_utf8(index->overview, -1, NULL, NULL, NULL);
 					gtk_list_store_set(listStore, &iter, ERRORS_COLUMN_OVERVIEW, listitem, -1);
-					delete listitem;
+					g_free(listitem);
 					listitem = NULL;
 				}
 				break;
@@ -348,11 +339,6 @@ void SludgeProjectManager::listChanged(whichTreeview whichOne)
 				break;
 		}
 	}
-
-	if (fileContainingBadChars == FILE_TREEVIEW)
-			errorBox("Invalid characters", "The project file contains script filenames with special characters that are encoded in something else than UTF-8. It's best not to use special characters for filenames.");
-	if (fileContainingBadChars == RESOURCE_TREEVIEW)
-			errorBox("Invalid characters", "The SLUDGE script contains resource filenames with special characters that are encoded in something else than UTF-8. It's best not to use special characters for filenames.");
 }
 
 void SludgeProjectManager::readIniFile() {
