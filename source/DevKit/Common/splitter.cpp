@@ -151,11 +151,11 @@ int32_t stringToInt (const char * textNumber, int errorType) {
 			if (i == 65535)
 				return 65535;
 			if (i > MAXINT) {
-				addComment (errorType, "Number too large", textNumber, NULL);
+				addComment (errorType, "Number too large", textNumber, NULL, 0);
 				return -1;
 			}
 		} else {
-			addComment (errorType, "Oh no! I thought this was going to be a number, but there's a non-numerical character in it", textNumber, NULL);
+			addComment (errorType, "Oh no! I thought this was going to be a number, but there's a non-numerical character in it", textNumber, NULL, 0);
 			return -1;
 		}
 		ac ++;			
@@ -182,7 +182,7 @@ stringArray * splitAtLast (const char * inString, const char findCharIn) {
 			case ']':
 			case ')':
 			if (! (indent --)) {
-				addComment (ERRORTYPE_PROJECTERROR, "Unexpected }, ] or ) in", inString, NULL);
+				addComment (ERRORTYPE_PROJECTERROR, "Unexpected }, ] or ) in", inString, NULL, 0);
 				indent ++;
 			}
 			break;
@@ -219,9 +219,37 @@ stringArray * splitString (const char * inString, const char findCharIn, const s
 			case ']':
 			case ')':
 			if (! (indent --)) {
-				addComment (ERRORTYPE_PROJECTERROR, "Unexpected }, ] or ) in", inString, NULL);
-				indent ++;
-//				return NULL;
+				if (!findChar && findCharIn == '*') {
+					int a1 = a-6;
+					int lineNum=0;
+					while (--a1 >= 0) {
+						if (inString[a1] == 1) {
+							if (newStringArray) 
+								lineNum = readLineNumber(inString+a1+1);
+							a1+=6;
+							break;
+						}
+					}
+					if (a1<0) a1=0;
+					for (; a < stringLen; a ++) {
+						if (inString[a] == 1) {
+							break;
+						}
+					}
+					
+					char * errStr = new char [a-a1+1];
+					memcpy(errStr, inString+a1, a-a1);
+					errStr[a-a1+1] = 0;
+					addComment (ERRORTYPE_PROJECTERROR, "Unexpected }, ] or ) in", errStr, 
+								(newStringArray)?newStringArray->string : NULL, lineNum);
+					delete errStr;
+					indent ++;
+					return NULL;
+				} else {
+					fprintf(stderr, "findChar: %c %d\n", findChar, findChar);
+					addComment (ERRORTYPE_PROJECTERROR, "Unexpected }, ] or ) in", inString, NULL, 0);
+					indent ++;
+				}
 			}
 			break;
 		}

@@ -45,7 +45,7 @@ bool runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray 
 
 	sprintf (filename, "_F%05i.dat", functionNum);
 	readObj = fopen (filename, "rb");
-	if (readObj == NULL) return addComment (ERRORTYPE_SYSTEMERROR, "Can't open", filename, NULL);
+	if (readObj == NULL) return addComment (ERRORTYPE_SYSTEMERROR, "Can't open", filename, NULL, 0);
 
 	originalName = readString (readObj);
 	setCompilerText (COMPILER_TXT_ITEM, originalName);
@@ -58,7 +58,7 @@ bool runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray 
 
 	sprintf (filename, "_F%05iN.dat", functionNum);
 	totalsFile = fopen (filename, "rb");
-	if (totalsFile == NULL) return addComment (ERRORTYPE_SYSTEMERROR, "Can't open", filename, NULL);
+	if (totalsFile == NULL) return addComment (ERRORTYPE_SYSTEMERROR, "Can't open", filename, NULL, 0);
 
 	// Now - let's get the totals
 
@@ -84,7 +84,7 @@ bool runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray 
 	if (! gotoTempDirectory ()) return false;
 	sprintf (filename, "_F%05iM.dat", functionNum);
 	totalsFile = fopen (filename, "rb");
-	if (totalsFile == NULL) return addComment (ERRORTYPE_SYSTEMERROR, "Can't open", filename, NULL);
+	if (totalsFile == NULL) return addComment (ERRORTYPE_SYSTEMERROR, "Can't open", filename, NULL, 0);
 
 	unsigned int n = numMarkers;
 
@@ -171,17 +171,17 @@ bool runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray 
 				value = findElement (allKnownFlags, grabbedText);
 				if (value != -1) break;
 
-				return addComment (ERRORTYPE_PROJECTERROR, "Not a function, variable or object type!", grabbedText, theOriginalFilename);
+				return addComment (ERRORTYPE_PROJECTERROR, "Not a function, variable or object type!", grabbedText, theOriginalFilename, 0);
 
 				case SLU_DECREMENT_G:
 				case SLU_INCREMENT_G:
 				case SLU_SET_GLOBAL: // Parameter should be a global variable
 				value = (long int) findElement (globalVarNames, grabbedText);
-				if (value == -1) return addComment (ERRORTYPE_PROJECTERROR, "Not a global variable name", grabbedText, theOriginalFilename);
+				if (value == -1) return addComment (ERRORTYPE_PROJECTERROR, "Not a global variable name", grabbedText, theOriginalFilename, 0);
 				break;
 
 				default:
-				return addComment (ERRORTYPE_INTERNALERROR, "Shouldn't have to resolve parameter for this command", sludgeText[b], theOriginalFilename);
+				return addComment (ERRORTYPE_INTERNALERROR, "Shouldn't have to resolve parameter for this command", sludgeText[b], theOriginalFilename, 0);
 			}
 			delete grabbedText;
 			delete bigName;

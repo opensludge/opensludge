@@ -12,7 +12,6 @@ enum
 };
 
 void addComment (int errorType, const char *, const char * filename);
-bool addComment (int errorType, const char * txt1, const char * txt2, const char * filename);
 bool addComment (int errorType, const char * txt1, const char * txt2, const char * filename, unsigned int line);
 void addCommentWithLine (int errorType, const char *, const char * filename, unsigned int line);
 void clearComments ();

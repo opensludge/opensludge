@@ -128,7 +128,6 @@ void addCommentWithLine (int errorType, const char * comment, const char * filen
 	char * after = filename ? joinStrings (" (in ", filenameWline, ")") : copyString ("");
 	newLink->fullText = joinStrings (errorTypeStrings[errorType], s, after);
 
-	fprintf (stderr, "addComment: %s\n", newLink->fullText);
 	delete after;
 	delete filenameWline;
 
@@ -153,12 +152,6 @@ bool addComment (int errorType, const char * txt1, const char * txt2, const char
 	}
 	return false;
 }
-
-bool addComment (int errorType, const char * txt1, const char * txt2, const char * filename)
-{
-	return addComment (errorType, txt1, txt2, filename, 0);
-}
-
 
 void addComment (int errorType, const char *txt1, const char * filename) {
 	addCommentWithLine (errorType, txt1, filename, 0);

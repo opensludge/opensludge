@@ -103,11 +103,11 @@ bool startFunction (int num,
 	theSpace.myNum = num;
 
 	if (! theSpace.writeToFile) {
-		addComment (ERRORTYPE_SYSTEMERROR, "Can't write to temporary file", file1, NULL);
+		addComment (ERRORTYPE_SYSTEMERROR, "Can't write to temporary file", file1, NULL, 0);
 		return false;
 	}
 	if (! theSpace.markerFile) {
-		addComment (ERRORTYPE_SYSTEMERROR, "Can't write to temporary file", file2, NULL);
+		addComment (ERRORTYPE_SYSTEMERROR, "Can't write to temporary file", file2, NULL, 0);
 		return false;
 	}
 
@@ -324,7 +324,7 @@ bool compileQMark (const char * condition, const char * doThis, stringArray * & 
 	if (! compileSourceLine (splitter -> string, localVarNames, theSpace, nullArray, NULL, 0)) return false;
 	endMarker = outputMarkerCode (theSpace, SLU_BRANCH);
 	addMarker (theSpace, elseMarker);
-	if (! destroyFirst (splitter)) return addComment (ERRORTYPE_PROJECTERROR, "No : after ?", doThis, NULL);
+	if (! destroyFirst (splitter)) return addComment (ERRORTYPE_PROJECTERROR, "No : after ?", doThis, NULL, 0);
 	if (! compileSourceLine (splitter -> string, localVarNames, theSpace, nullArray, NULL, 0)) return false;
 	addMarker (theSpace, endMarker);
 	destroyFirst (splitter);
@@ -355,7 +355,7 @@ bool handleVar (const char * sourceCode, stringArray * & localVarNames, sludgeCo
 
 				// Compile the contents of the []
 				if (! trimEnd (indexMe -> string, ']')) {
-					addComment (ERRORTYPE_PROJECTERROR, "No matching ] for [", sourceCode, NULL);
+					addComment (ERRORTYPE_PROJECTERROR, "No matching ] for [", sourceCode, NULL, 0);
 				} else if (compileSourceLine (indexMe -> string, localVarNames, theSpace, nullArray, NULL, 0)) {
 					outputDoneCode (theSpace, ifIndex, 0);
 					reply = true;
@@ -546,13 +546,13 @@ bool callAFunction (const char * sourceCode, stringArray * & localVarNames, comp
 	keepNameIfUser = joinStrings (splitParams -> string, "");
 
 	// Get rid of the sub name and the closing bracket...
-	if (! destroyFirst (splitParams)) return addComment (ERRORTYPE_PROJECTERROR, "Bad sub call", sourceCode, filename);
+	if (! destroyFirst (splitParams)) return addComment (ERRORTYPE_PROJECTERROR, "Bad sub call", sourceCode, filename, 0);
 	trimEnd (splitParams -> string, ')');
 
 	// Split the parameters up...
 	eachParam = splitString (splitParams -> string, ',', REPEAT);
 	if (! eachParam -> string[0]) destroyFirst (eachParam);
-	if (destroyFirst (splitParams)) return addComment (ERRORTYPE_PROJECTERROR, "Bad sub call", sourceCode, filename);
+	if (destroyFirst (splitParams)) return addComment (ERRORTYPE_PROJECTERROR, "Bad sub call", sourceCode, filename, 0);
 
 	// Store the number of parameters...
 	int nP = countElements (eachParam);
@@ -902,13 +902,13 @@ void doDefines (char * fn, stringArray * & strings, stringArray * & fileHandles)
 					trimStart (bits -> next -> string, '\t');
 
 					if (trimStart (bits->next->string, '"')) {
-						if (! trimEnd (bits->next->string, '"')) addComment (ERRORTYPE_PROJECTERROR, "Definition starts with \", but doesn't end with it! Sorry, currently support for complex constants is very limited", bits->next->string, fn);
+						if (! trimEnd (bits->next->string, '"')) addComment (ERRORTYPE_PROJECTERROR, "Definition starts with \", but doesn't end with it! Sorry, currently support for complex constants is very limited", bits->next->string, fn, 0);
 						char * newTarget = new char[30];
 						sprintf (newTarget, "_string%i", findOrAdd (strings, bits->next->string, false));
 						delete bits->next->string;
 						bits->next->string = newTarget;
 					} else if (trimStart (bits->next->string, '"')) {
-						if (! trimEnd (bits->next->string, '\'')) addComment (ERRORTYPE_PROJECTERROR, "Definition starts with ', but doesn't end with it! Sorry, currently support for complex constants is very limited", bits->next->string, fn);
+						if (! trimEnd (bits->next->string, '\'')) addComment (ERRORTYPE_PROJECTERROR, "Definition starts with ', but doesn't end with it! Sorry, currently support for complex constants is very limited", bits->next->string, fn, 0);
 						char * newTarget = new char[30];
 						sprintf (newTarget, "_file%i", findOrAdd (fileHandles, bits->next->string, false));
 						delete bits->next->string;
@@ -918,7 +918,7 @@ void doDefines (char * fn, stringArray * & strings, stringArray * & fileHandles)
 					addToStringArray (typeDefFrom, bits -> string);
 					addToStringArray (typeDefTo,   bits -> next -> string);
 				} else {
-					addComment (ERRORTYPE_PROJECTERROR, "No = in definition line", sa -> string, fn);
+					addComment (ERRORTYPE_PROJECTERROR, "No = in definition line", sa -> string, fn, 0);
 				}
 				destroyAll (bits);
 			}
@@ -927,7 +927,7 @@ void doDefines (char * fn, stringArray * & strings, stringArray * & fileHandles)
 		}
 		fclose (fp);
 	} else {
-		addComment (ERRORTYPE_PROJECTERROR, "Can't read definition file", fn, NULL);
+		addComment (ERRORTYPE_PROJECTERROR, "Can't read definition file", fn, NULL, 0);
 	}
 }
 
@@ -955,7 +955,7 @@ bool outdoorSub (char * code, const char * fileName) {
 			break;
 
 			default:
-			return addComment (ERRORTYPE_PROJECTERROR, "Syntax error... this isn't an option which can be applied to a function", getSpecial -> string, fileName);
+			return addComment (ERRORTYPE_PROJECTERROR, "Syntax error... this isn't an option which can be applied to a function", getSpecial -> string, fileName,0);
 		}
 		destroyFirst (getSpecial);
 	}
@@ -965,20 +965,20 @@ bool outdoorSub (char * code, const char * fileName) {
 	setCompilerText (COMPILER_TXT_ITEM, functionName);
 
 	if (! destroyFirst (getContents)) {
-		addComment (ERRORTYPE_PROJECTERROR, "Bad sub definition (no parameters)", functionName, fileName);
+		addComment (ERRORTYPE_PROJECTERROR, "Bad sub definition (no parameters)", functionName, fileName,0);
 	} else if (countElements (getArguments) != 1) {
-		addComment (ERRORTYPE_PROJECTERROR, "Bad sub definition (no opening bracket)", functionName, fileName);
+		addComment (ERRORTYPE_PROJECTERROR, "Bad sub definition (no opening bracket)", functionName, fileName,0);
 	} else if (! trimStart (getContents -> string, '{')) {
-		addComment (ERRORTYPE_PROJECTERROR, "No opening squirly brace in sub definition", functionName, fileName);
+		addComment (ERRORTYPE_PROJECTERROR, "No opening squirly brace in sub definition", functionName, fileName,0);
 	} else if (! trimEnd (getContents -> string, '}')) {
-		addComment (ERRORTYPE_PROJECTERROR, "No closing squirly brace in sub definition", functionName, fileName);
+		addComment (ERRORTYPE_PROJECTERROR, "No closing squirly brace in sub definition", functionName, fileName,0);
 	} else if (defineFunction (functionName,			 		// Name of function
 							   getArguments -> string, 			// Args without ()
 							   getContents -> string,			// Code without {}
 							   unfreezable, debugMe,
 							   fileName) == -1) {
 
-		addComment (ERRORTYPE_PROJECTERROR, "Couldn't compile function", functionName, fileName);
+		addComment (ERRORTYPE_PROJECTERROR, "Couldn't compile function", functionName, fileName,0);
 	} else {
 		destroyAll (getContents);
 		destroyAll (getArguments);

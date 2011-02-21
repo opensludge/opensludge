@@ -38,7 +38,7 @@ bool globalVar (char * theString, stringArray * & globalVars, compilationSpace &
 		delete variableName;
 
 		if (getVarName -> next) {
-			if (! compileSourceLine (getVarName -> next -> string, globalVars, globalSpace, nullArray, filename, 0)) return addComment (ERRORTYPE_PROJECTERROR, "Can't compile code to set initial value for global variable", multi -> string, filename);
+			if (! compileSourceLine (getVarName -> next -> string, globalVars, globalSpace, nullArray, filename, 0)) return addComment (ERRORTYPE_PROJECTERROR, "Can't compile code to set initial value for global variable", multi -> string, filename,0);
 			outputDoneCode (globalSpace, SLU_SET_GLOBAL, numVar);
 		}
 
@@ -60,6 +60,8 @@ bool realWork (int fileNumber, stringArray * & globalVars, compilationSpace & gl
 	unlink (inputName);
 	origName = splitString (theSource, '*', ONCE);
 	delete theSource;
+	
+	if (! origName) return false;
 
 	setCompilerText (COMPILER_TXT_FILENAME, origName -> string);
 

@@ -167,7 +167,7 @@ bool readSettings (FILE * fp) {
 		delete grabLine;
 	}
 
-	if (! settings.finalFile) return addComment (ERRORTYPE_PROJECTERROR, "Vital line missing from project", "finalfile", NULL);
+	if (! settings.finalFile) return addComment (ERRORTYPE_PROJECTERROR, "Vital line missing from project", "finalfile", NULL,0);
 
 	return true;
 }
@@ -263,8 +263,7 @@ void chrRenderingSettingsFillDefaults(bool enable)
 
 bool gotoSourceDirectory () {
 	bool r = chdir (sourceDirectory);
-	if (r) return addComment (ERRORTYPE_SYSTEMERROR, "Can't move to source directory", sourceDirectory, NULL);
-//	fprintf (stderr, "Now in: %s\n", sourceDirectory);
+	if (r) return addComment (ERRORTYPE_SYSTEMERROR, "Can't move to source directory", sourceDirectory, NULL, 0);
 	return true;
 }
 
@@ -281,13 +280,13 @@ bool gotoTempDirectory () {
 #else
 		mkdir (getTempDir(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 		if (!mkdtemp (tempDirectory)) {
-			return addComment (ERRORTYPE_SYSTEMERROR, "Can't create temporary directory", tempDirectory, NULL);
+			return addComment (ERRORTYPE_SYSTEMERROR, "Can't create temporary directory", tempDirectory, NULL, 0);
 		}
 #endif
 	}
 	if (! tempDirectory) return false;
 	bool r = chdir (tempDirectory);
-	if (r) return addComment (ERRORTYPE_SYSTEMERROR, "Can't move to temporary directory", tempDirectory, NULL);
+	if (r) return addComment (ERRORTYPE_SYSTEMERROR, "Can't move to temporary directory", tempDirectory, NULL, 0);
 	return true;
 }
 
@@ -391,7 +390,7 @@ bool getSourceDirFromName (const char * name) {
 	if (lastSlash != -1) {
 		char slashChar = filename[lastSlash];
 		filename[lastSlash] = 0;
-		if (chdir (filename)) return addComment (ERRORTYPE_SYSTEMERROR, "Can't move to source directory", filename, NULL);
+		if (chdir (filename)) return addComment (ERRORTYPE_SYSTEMERROR, "Can't move to source directory", filename, NULL, 0);
 		filename[lastSlash] = slashChar;
 	}
 	char buff[1000];

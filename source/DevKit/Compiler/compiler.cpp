@@ -86,7 +86,6 @@ void setCompileStep (int a, int totalBits)
 	data1 = 0;
 
 	setCompilerText (COMPILER_TXT_ACTION, stageName[a]);
-	fprintf (stderr, "%s\n", stageName[a]);
 
 	if (a <= CSTEP_DONE)
 	{
@@ -128,6 +127,7 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 				char * tx = fileList[data1];
 				fixPath(tx, true);
 				setCompilerText (COMPILER_TXT_FILENAME, tx);
+				percRect (data1, P_BOTTOM);
 
 				char * compareMe = tx + (strlen (tx) - 4);
 				char * lowExt = compareMe;
@@ -143,7 +143,7 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 				} else if (strcmp (compareMe, ".tra") == 0) {
 					registerTranslationFile (tx);
 				} else {
-					return addComment (ERRORTYPE_PROJECTERROR, "What on Earth is this file doing in a project?", tx, NULL);
+					return addComment (ERRORTYPE_PROJECTERROR, "What on Earth is this file doing in a project?", tx, NULL, 0);
 				}
 			}
 			data1++;
@@ -227,12 +227,12 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
                     convertTGA (iconFile);
                     if (! dumpFileInto (projectFile, iconFile)) {
                         fclose (projectFile);
-                        return addComment (ERRORTYPE_PROJECTERROR, "Error adding custom icon (file not found or not a valid TGA or PNG file)", settings.customIcon, NULL);
+                        return addComment (ERRORTYPE_PROJECTERROR, "Error adding custom icon (file not found or not a valid TGA or PNG file)", settings.customIcon, NULL, 0);
                     }
                 } else {
                     if (! dumpFileInto (projectFile, iconFile)) {
                         fclose (projectFile);
-                        return addComment (ERRORTYPE_PROJECTERROR, "Error adding custom icon", settings.customIcon, NULL);
+                        return addComment (ERRORTYPE_PROJECTERROR, "Error adding custom icon", settings.customIcon, NULL, 0);
                     }
                 }
                 delete iconFile;
@@ -247,12 +247,12 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
                     convertTGA (logoFile);
                     if (! dumpFileInto (projectFile, logoFile)) {
                         fclose (projectFile);
-                        return addComment (ERRORTYPE_PROJECTERROR, "Error adding custom logo (file not found or not a valid TGA or PNG file)", settings.customLogo, NULL);
+                        return addComment (ERRORTYPE_PROJECTERROR, "Error adding custom logo (file not found or not a valid TGA or PNG file)", settings.customLogo, NULL, 0);
                     }
                 } else {
                     if (! dumpFileInto (projectFile, logoFile)) {
                         fclose (projectFile);
-                        return addComment (ERRORTYPE_PROJECTERROR, "Error adding custom logo", settings.customLogo, NULL);
+                        return addComment (ERRORTYPE_PROJECTERROR, "Error adding custom logo", settings.customLogo, NULL, 0);
                     }
                 }
                 delete logoFile;
@@ -358,7 +358,7 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 
 		if (rename (fromName, gameFile))
 		{
-			addComment (ERRORTYPE_SYSTEMERROR, "Couldn't rename the compiled game file... it's been left with the name", fromName, NULL);
+			addComment (ERRORTYPE_SYSTEMERROR, "Couldn't rename the compiled game file... it's been left with the name", fromName, NULL, 0);
 		}
 		deleteString(fromName);
 		setCompileStep (CSTEP_DONE, 0);

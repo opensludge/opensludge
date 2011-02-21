@@ -123,16 +123,16 @@ bool dumpFiles (FILE * mainFile, stringArray * & theSA) {
 				break;
 
 				case FILETYPE_MIDI:
-				addComment (ERRORTYPE_PROJECTWARNING, "The current version of the SLUDGE engine cannot play MIDI files such as", theSA->string, NULL);
+				addComment (ERRORTYPE_PROJECTWARNING, "The current version of the SLUDGE engine cannot play MIDI files such as", theSA->string, NULL, 0);
 				break;
 
 				case FILETYPE_UNKNOWN:
-				return addComment (ERRORTYPE_PROJECTERROR, "Tried to include a file which is not supported by SLUDGE.\n\nSupported music types: .XM, .MOD, .S3M, .IT\nSupported sampled sound types: .WAV, .OGG\nSupported graphic types: .TGA, .PNG\nSupported movie format: .WebM\nSLUDGE-specific types: .FLO, .ZBU, .DUC\n\nThe file you tried to include was:", theSA -> string, NULL);
+				return addComment (ERRORTYPE_PROJECTERROR, "Tried to include a file which is not supported by SLUDGE.\n\nSupported music types: .XM, .MOD, .S3M, .IT\nSupported sampled sound types: .WAV, .OGG\nSupported graphic types: .TGA, .PNG\nSupported movie format: .WebM\nSLUDGE-specific types: .FLO, .ZBU, .DUC\n\nThe file you tried to include was:", theSA -> string, NULL, 0);
 			}
 
 			inFile = fopen (theSA -> string, "rb");
 			if (inFile == NULL) {
-				return addComment (ERRORTYPE_PROJECTERROR, "Can't read resource file", theSA -> string, NULL);
+				return addComment (ERRORTYPE_PROJECTERROR, "Can't read resource file", theSA -> string, NULL, 0);
 			}
 			fseek (inFile, 0, 2);
 			filesize = ftell (inFile);
