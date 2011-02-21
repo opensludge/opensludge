@@ -24,6 +24,6 @@ dist_pkgdata_DATA = \
 	fixScaleSprite.frag fixScaleSprite.vert \
 	scale.frag scale.vert
 
-AM_CPPFLAGS = -I$(top_srcdir)/source/CommonCode @LIBPNG_CFLAGS@ -DDATADIR='"$(pkgdatadir)/"'
+AM_CPPFLAGS = -std=c++0x -I$(top_srcdir)/source/CommonCode @LIBPNG_CFLAGS@ -DDATADIR='"$(pkgdatadir)/"'
 
 LDADD = @LIBPNG_LIBS@
