@@ -44,12 +44,6 @@ uint32_t readLineNumber (const char * textNumber) {
 	for (ac = 0; ac<5; ac++) {
 		if (textNumber[ac] >= '0' && textNumber[ac] <= '9') {
 			i = (i * 10) + textNumber[ac] - '0';
-			if (i == 65535)
-				return 65535;
-			if (i > MAXINT) {
-				return 0;
-			}
-		} else {
 		}
 	}
 	
@@ -129,17 +123,21 @@ char * joinStrings (char * a, char * b) {
 	return nS;
 }
 
-char * elementAt (stringArray * sA, int a) {
-	stringArray * each = sA;
-	
-	while (each) {
-		if (a == 0) return each -> string;
-		a --;
-		each = each -> next;
+char * returnElement (stringArray * sA, int i) {
+	while (i -- && sA) {
+		sA = sA -> next;
 	}
-	
-	return NULL;
+	return sA -> string;
 }
+
+stringArray * returnArray (stringArray * sA, int i) {
+	while (i -- && sA) {
+		sA = sA -> next;
+	}
+	return sA;
+}
+
+
 
 int32_t stringToInt (const char * textNumber, int errorType) {
 	uint32_t i = 0;
@@ -243,7 +241,7 @@ stringArray * splitString (const char * inString, const char findCharIn, const s
 					addComment (ERRORTYPE_PROJECTERROR, "Unexpected }, ] or ) in", errStr, 
 								(newStringArray)?newStringArray->string : NULL, lineNum);
 					delete errStr;
-					indent ++;
+					destroyAll (newStringArray);
 					return NULL;
 				} else {
 					fprintf(stderr, "findChar: %c %d\n", findChar, findChar);
@@ -267,12 +265,7 @@ stringArray * splitString (const char * inString, const char findCharIn, const s
 
 
 
-char * returnElement (stringArray * sA, int i) {
-	while (i --) {
-		sA = sA -> next;
-	}
-	return sA -> string;
-}
+
 
 int findElement (stringArray * sA, const char * findString) {
 	int i = 0;

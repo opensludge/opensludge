@@ -20,7 +20,7 @@ const char * inThisClass = emptyString;
 //extern stringArray * & localVars;
 stringArray * globalVarFileOrigins;
 
-bool globalVar (char * theString, stringArray * & globalVars, compilationSpace & globalSpace, const char * filename) {
+bool globalVar (char * theString, stringArray * & globalVars, compilationSpace & globalSpace, const char * filename, unsigned int fileLine) {
 	int numVar;
 
 	stringArray * multi = splitString (theString, ',');
@@ -35,6 +35,11 @@ bool globalVar (char * theString, stringArray * & globalVars, compilationSpace &
 		addToStringArray (globalVars, variableName);
 		addToStringArray (globalVarFileOrigins, filename);
 		numVar = findElement (globalVars, variableName);
+
+		stringArray * thisVar = returnArray(globalVars, numVar);
+		thisVar->line = fileLine;
+		
+		
 		delete variableName;
 
 		if (getVarName -> next) {
@@ -77,14 +82,14 @@ bool realWork (int fileNumber, stringArray * & globalVars, compilationSpace & gl
 				if (! destroyFirst (removeTokenString)) {
 					return addComment (ERRORTYPE_PROJECTERROR, "Bad sub declaration", theBits -> string, origName->string, theBits->line);
 				}
-				if (! outdoorSub (removeTokenString -> string, origName -> string)) {
+				if (! outdoorSub (removeTokenString -> string, origName -> string, theBits->line)) {
 					return false;
 				}
 				break;
 
 				case TOK_VAR:
 				if (! destroyFirst (removeTokenString)) return addComment (ERRORTYPE_PROJECTERROR, "Bad global variable definition", theBits -> string, origName->string, theBits->line);
-				if (! globalVar (removeTokenString -> string, globalVars, globalSpace, origName->string)) return false;
+				if (! globalVar (removeTokenString -> string, globalVars, globalSpace, origName->string, theBits->line)) return false;
 				break;
 
 				case TOK_FLAG:

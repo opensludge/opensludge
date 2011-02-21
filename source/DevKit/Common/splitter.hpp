@@ -40,6 +40,6 @@ int32_t stringToInt (const char * textNumber, int errorType);
 //int findOrAdd (stringArray * & sA, const char * addString, bool = true);
 //int countElements (stringArray * sA);
 //bool trimStart (char * & thisString, char trimChar);
-char * elementAt (stringArray * sA, int a);
+stringArray * returnArray (stringArray * sA, int i);
 
 #endif

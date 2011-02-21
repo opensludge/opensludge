@@ -234,7 +234,10 @@ bool runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray 
 		if (! localsUsed[h])
 		{
 			char * buff = joinStrings ("Function ", functionName, h < numArg ? " contains unused parameter " : " contains unused variable ", localName);
-			addComment (ERRORTYPE_PROJECTWARNING, buff, theOriginalFilename);
+			int i = findElement (functionNames, functionName);
+			stringArray * thisFunc = returnArray(functionNames, i);
+
+			addCommentWithLine (ERRORTYPE_PROJECTWARNING, buff, theOriginalFilename, thisFunc->line);
 			delete buff;
 		}
 		delete localName;

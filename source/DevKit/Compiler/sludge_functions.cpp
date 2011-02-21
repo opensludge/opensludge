@@ -766,7 +766,7 @@ bool compileSourceBlock (const char * sourceCode, stringArray * & localVarNames,
 	return true;
 }
 
-int defineFunction (char * funcName, const char * args, char * sourceCode, bool unfreezable, bool debugMe, const char * fileName) {
+int defineFunction (char * funcName, const char * args, char * sourceCode, bool unfreezable, bool debugMe, const char * fileName, unsigned int fileLine) {
 	int funcNum;
 	stringArray * localVarNames;
 	compilationSpace localSpace;
@@ -776,6 +776,8 @@ int defineFunction (char * funcName, const char * args, char * sourceCode, bool 
 	localVarNames = splitString (args, ',', REPEAT);
 	if (! localVarNames -> string[0]) destroyFirst (localVarNames);
 	addToStringArray (functionFiles, fileName);
+	stringArray * thisFunc = returnArray(functionNames, funcNum);
+	thisFunc->line = fileLine;
 
 	if (! startFunction (funcNum, countElements (localVarNames), localSpace, funcName, unfreezable, debugMe, fileName)) {
 		return -1;
@@ -931,7 +933,7 @@ void doDefines (char * fn, stringArray * & strings, stringArray * & fileHandles)
 	}
 }
 
-bool outdoorSub (char * code, const char * fileName) {
+bool outdoorSub (char * code, const char * fileName, unsigned int fileLine) {
 	stringArray * getArguments;
 	stringArray * getContents = splitString (code, ')', ONCE);
 	stringArray * getSpecial;
@@ -955,7 +957,7 @@ bool outdoorSub (char * code, const char * fileName) {
 			break;
 
 			default:
-			return addComment (ERRORTYPE_PROJECTERROR, "Syntax error... this isn't an option which can be applied to a function", getSpecial -> string, fileName,0);
+			return addComment (ERRORTYPE_PROJECTERROR, "Syntax error... this isn't an option which can be applied to a function", getSpecial -> string, fileName, fileLine);
 		}
 		destroyFirst (getSpecial);
 	}
@@ -965,20 +967,20 @@ bool outdoorSub (char * code, const char * fileName) {
 	setCompilerText (COMPILER_TXT_ITEM, functionName);
 
 	if (! destroyFirst (getContents)) {
-		addComment (ERRORTYPE_PROJECTERROR, "Bad sub definition (no parameters)", functionName, fileName,0);
+		addComment (ERRORTYPE_PROJECTERROR, "Bad sub definition (no parameters)", functionName, fileName, fileLine);
 	} else if (countElements (getArguments) != 1) {
-		addComment (ERRORTYPE_PROJECTERROR, "Bad sub definition (no opening bracket)", functionName, fileName,0);
+		addComment (ERRORTYPE_PROJECTERROR, "Bad sub definition (no opening bracket)", functionName, fileName, fileLine);
 	} else if (! trimStart (getContents -> string, '{')) {
-		addComment (ERRORTYPE_PROJECTERROR, "No opening squirly brace in sub definition", functionName, fileName,0);
+		addComment (ERRORTYPE_PROJECTERROR, "No opening squirly brace in sub definition", functionName, fileName, fileLine);
 	} else if (! trimEnd (getContents -> string, '}')) {
-		addComment (ERRORTYPE_PROJECTERROR, "No closing squirly brace in sub definition", functionName, fileName,0);
+		addComment (ERRORTYPE_PROJECTERROR, "No closing squirly brace in sub definition", functionName, fileName, fileLine);
 	} else if (defineFunction (functionName,			 		// Name of function
 							   getArguments -> string, 			// Args without ()
 							   getContents -> string,			// Code without {}
 							   unfreezable, debugMe,
-							   fileName) == -1) {
+							   fileName, fileLine) == -1) {
 
-		addComment (ERRORTYPE_PROJECTERROR, "Couldn't compile function", functionName, fileName,0);
+		addComment (ERRORTYPE_PROJECTERROR, "Couldn't compile function", functionName, fileName, fileLine);
 	} else {
 		destroyAll (getContents);
 		destroyAll (getArguments);

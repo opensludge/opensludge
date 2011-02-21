@@ -120,7 +120,7 @@ bool createObjectType (char * code, const char * fName, stringArray * & globalVa
 					if (
 						defineFunction (newFuncName,					// Name of function
 								"",										// Args without ()
-						getBitInsides -> string, false, false, fName)	// Code without {}
+						getBitInsides -> string, false, false, fName, getBits->line)	// Code without {}
 					< 0 ) return false;
 
 					setCompilerText (COMPILER_TXT_ITEM, displayName);
@@ -144,14 +144,14 @@ bool createObjectType (char * code, const char * fName, stringArray * & globalVa
 				if (! destroyFirst (getBitType)) {
 					return addComment (ERRORTYPE_PROJECTERROR, "Bad member sub declaration", getBits -> string, fName, getBits->line);
 				}
-				if (! outdoorSub (getBitType -> string, originalName)) {
+				if (! outdoorSub (getBitType -> string, originalName, getBits->line)) {
 					return false;
 				}
 				destroyFirst (getBitType);
 
 			} else if (strcmp ("var", getBitType -> string) == 0) {
 				if (! destroyFirst (getBitType)) return addComment (ERRORTYPE_PROJECTERROR, "Bad member variable definition", getBits -> string, fName, getBits->line);
-				globalVar (getBitType -> string, globalVars, globalSpace, fName);
+				globalVar (getBitType -> string, globalVars, globalSpace, fName, getBits->line);
 				destroyFirst (getBitType);
 
 			} else if ((strcmp ("speechColour", getBitType -> string) == 0) ||
