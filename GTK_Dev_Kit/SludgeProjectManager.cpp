@@ -324,13 +324,24 @@ void SludgeProjectManager::listChanged(whichTreeview whichOne)
 				listitem = strcpy(listitem, index->fullText);
 				int retval = 1;
 				replaceInvalidCharacters(listitem, &retval);
-				gtk_list_store_set(listStore, &iter, 0, listitem, -1);
+				gtk_list_store_set(listStore, &iter, ERRORS_COLUMN_FULLTEXT, listitem, -1);
 				delete listitem;
 				listitem = NULL;
-				listitem = g_filename_to_utf8(index->filename, -1, NULL, NULL, NULL);
-				gtk_list_store_set(listStore, &iter, 1, listitem, -1);
-				delete listitem;
-				listitem = NULL;
+				if (index->filename) {
+					gtk_list_store_set(listStore, &iter, ERRORS_COLUMN_HAS_FILENAME, TRUE, -1);
+
+					listitem = g_filename_to_utf8(index->filename, -1, NULL, NULL, NULL);
+					gtk_list_store_set(listStore, &iter, ERRORS_COLUMN_FILENAME, listitem, -1);
+					delete listitem;
+					listitem = NULL;
+				} else {
+					gtk_list_store_set(listStore, &iter, ERRORS_COLUMN_HAS_FILENAME, FALSE, -1);
+
+					listitem = g_locale_to_utf8(index->overview, -1, NULL, NULL, NULL);
+					gtk_list_store_set(listStore, &iter, ERRORS_COLUMN_OVERVIEW, listitem, -1);
+					delete listitem;
+					listitem = NULL;
+				}
 				break;
 			}
 			default:
@@ -569,7 +580,7 @@ void SludgeProjectManager::on_treeview_realize(GtkTreeView *theTreeView, whichTr
 			sprintf(caption, "Resources used by selected scripts");
 			break;
 		case ERROR_TREEVIEW:
-			errorsListStore = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_STRING);
+			errorsListStore = gtk_list_store_new(ERRORS_N_COLUMNS, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_STRING);
 			sortModel = gtk_tree_model_sort_new_with_model(GTK_TREE_MODEL(errorsListStore));
 			sprintf(caption, "Compiler errors");
 			break;
@@ -641,7 +652,7 @@ void SludgeProjectManager::on_treeview_row_activated(GtkTreeView *theTreeView, G
 	int filenameColumn = 0;
 	switch (whichOne) {
 		case ERROR_TREEVIEW:
-			filenameColumn = 1;
+			filenameColumn = ERRORS_COLUMN_FILENAME;
 		case FILE_TREEVIEW:
 			cmd = editor;
 			break;
@@ -651,6 +662,17 @@ void SludgeProjectManager::on_treeview_row_activated(GtkTreeView *theTreeView, G
 
 	GtkTreeIter iter;
 	gtk_tree_model_get_iter(treeModel, &iter, thePath);
+
+	if (whichOne == ERROR_TREEVIEW) {
+		gboolean hasFilename;
+		gtk_tree_model_get(treeModel, &iter, ERRORS_COLUMN_HAS_FILENAME, &hasFilename, -1);
+		if (!hasFilename) {
+			gtk_tree_model_get(treeModel, &iter, ERRORS_COLUMN_OVERVIEW, &tx, -1);
+			errorBox("Error overview", tx);
+  			g_free(tx);
+			return;
+		}
+	}
 
 	gtk_tree_model_get(treeModel, &iter, filenameColumn, &tx1, -1);
 	tx = g_filename_from_utf8(tx1, -1, NULL, NULL, NULL);

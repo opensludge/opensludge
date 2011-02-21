@@ -33,6 +33,14 @@ enum whichProgram {
 	TRANSLATIONEDITOR
 };
 
+enum whichErrorsListStoreColumn {
+	ERRORS_COLUMN_FULLTEXT,
+	ERRORS_COLUMN_HAS_FILENAME,
+	ERRORS_COLUMN_FILENAME,
+	ERRORS_COLUMN_OVERVIEW,
+	ERRORS_N_COLUMNS
+};
+
 class SludgeProjectManager : public SludgeApplication {
 
 private:

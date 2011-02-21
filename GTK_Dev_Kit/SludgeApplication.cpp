@@ -222,6 +222,7 @@ gboolean SludgeApplication::reallyClose()
 void SludgeApplication::setFilename(char* filename)
 {
 	int i, lastSlash, j;
+	lastSlash = -1;
 	for (i = 0; filename[i] != 0; i++) {
 		currentFilename[i] = filename[i];
 		if (filename[i] == '/')
