@@ -210,7 +210,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
         }
 
 	} else {
-		videoflags = SDL_OPENGL | SDL_RESIZABLE;
+		videoflags = SDL_OPENGL/* | SDL_RESIZABLE*/;
 		
 		if (resize) {
             float realAspect = (float) desktopW / desktopH;
