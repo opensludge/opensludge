@@ -37,7 +37,7 @@ extern bool NPOT_textures;
 extern shaders shader;
 
 void setPixelCoords (bool pixels);
-void setGraphicsWindow(bool fullscreen, bool restoreGraphics = true);
+void setGraphicsWindow(bool fullscreen, bool restoreGraphics = true, bool resize = false);
 
 void setupOpenGLStuff();
 

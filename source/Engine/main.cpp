@@ -287,23 +287,19 @@ int main(int argc, char *argv[]) try
 		/* Check for events */
 		while ( SDL_PollEvent(&event) ) {
 			switch (event.type) {
-				/*
+				
 				case SDL_VIDEORESIZE:
 					realWinWidth = event.resize.w;
 					realWinHeight = event.resize.h;
-					//setupRenderWindow(realWinWidth, realWinHeight);
-
-					glViewport (viewportOffsetX, viewportOffsetY, viewportWidth, viewportHeight);
-					setPixelCoords (false);
-
+					setGraphicsWindow(false, true, true);
 					break;
-*/
 
 				case SDL_MOUSEMOTION:
 					input.justMoved = true;
 					input.mouseX = event.motion.x * ((float)winWidth/cameraZoom) / realWinWidth;
 					input.mouseY = event.motion.y * ((float)winHeight/cameraZoom) / realWinHeight;
 					break;
+					
 				case SDL_MOUSEBUTTONDOWN:
 					if (event.button.button == SDL_BUTTON_LEFT)
 					{
@@ -318,8 +314,8 @@ int main(int argc, char *argv[]) try
 					if (event.button.button == SDL_BUTTON_RIGHT) input.rightClick = true;
 					input.mouseX = event.motion.x * ((float)winWidth/cameraZoom) / realWinWidth;
 					input.mouseY = event.motion.y * ((float)winHeight/cameraZoom) / realWinHeight;
-
 					break;
+					
 				case SDL_MOUSEBUTTONUP:
 					if (event.button.button == SDL_BUTTON_LEFT) {
 						if (fakeRightclick) {
@@ -333,6 +329,7 @@ int main(int argc, char *argv[]) try
 					input.mouseX = event.motion.x * ((float)winWidth/cameraZoom) / realWinWidth;
 					input.mouseY = event.motion.y * ((float)winHeight/cameraZoom) / realWinHeight;
 					break;
+					
 				case SDL_KEYDOWN:
                     // A Windows key is pressed - let's leave fullscreen.
                     if (runningFullscreen) {
@@ -420,6 +417,7 @@ int main(int argc, char *argv[]) try
 						break;
 					}
 					break;
+					
 				case SDL_QUIT:
 					if (reallyWantToQuit) {
 						// The game file has requested that we quit
@@ -432,6 +430,7 @@ int main(int argc, char *argv[]) try
 						}
 					}
 					break;
+					
 				default:
 					break;
 			}

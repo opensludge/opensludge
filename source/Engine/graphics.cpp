@@ -132,7 +132,7 @@ void saveTexture (GLuint tex, GLubyte * data) {
 
 // This is for setting windowed or fullscreen graphics.
 // Used for switching, and for initial window creation.
-void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
+void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 
 	GLubyte *snapTexture = NULL;
 
@@ -143,7 +143,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
 		const SDL_VideoInfo* videoInfo = SDL_GetVideoInfo();
 		desktopW = videoInfo->current_w;
 		desktopH = videoInfo->current_h;
-	} else if (restoreGraphics && fullscreen == runningFullscreen) return;
+	} else if (restoreGraphics && fullscreen == runningFullscreen & ! resize) return;
 
 	runningFullscreen = fullscreen;
 
@@ -210,27 +210,44 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
         }
 
 	} else {
-		videoflags = SDL_OPENGL;
-
-        if (gameSettings.fixedPixels) {
-            viewportWidth = realWinWidth = winWidth;
-            viewportHeight = realWinHeight = winHeight;
-            viewportOffsetY = 0;
-            viewportOffsetX = 0;
-        } else {
-            realWinHeight = desktopH*3/4;
-            realWinWidth = (int) (realWinHeight * winAspect);
-
-            if (realWinWidth > desktopW) {
-                realWinWidth = desktopW;
-                realWinHeight = (int) ((float) realWinWidth / winAspect);
+		videoflags = SDL_OPENGL | SDL_RESIZABLE;
+		
+		if (resize) {
+            float realAspect = (float) realWinWidth / realWinHeight;
+			
+            if (realAspect > winAspect) {
+                viewportHeight = realWinHeight;
+                viewportWidth = (int) (realWinHeight * winAspect);
+                viewportOffsetY = 0;
+                viewportOffsetX = (realWinWidth-viewportWidth)/2;
+            } else {
+                viewportWidth = realWinWidth;
+                viewportHeight = (int)((float) realWinWidth / winAspect);
+                viewportOffsetY = (realWinHeight-viewportHeight)/2;
+                viewportOffsetX = 0;
             }
+		} else {
 
-            viewportHeight = realWinHeight;
-            viewportWidth = realWinWidth;
-            viewportOffsetY = 0;
-            viewportOffsetX = 0;
-        }
+			if (gameSettings.fixedPixels) {
+				viewportWidth = realWinWidth = winWidth;
+				viewportHeight = realWinHeight = winHeight;
+				viewportOffsetY = 0;
+				viewportOffsetX = 0;
+			} else {
+				realWinHeight = desktopH*3/4;
+				realWinWidth = (int) (realWinHeight * winAspect);
+
+				if (realWinWidth > desktopW) {
+					realWinWidth = desktopW;
+					realWinHeight = (int) ((float) realWinWidth / winAspect);
+				}
+
+				viewportHeight = realWinHeight;
+				viewportWidth = realWinWidth;
+				viewportOffsetY = 0;
+				viewportOffsetX = 0;
+			}
+		}
 	}
 
     debugHeader();
