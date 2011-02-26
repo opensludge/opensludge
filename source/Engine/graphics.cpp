@@ -213,16 +213,15 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 		videoflags = SDL_OPENGL | SDL_RESIZABLE;
 		
 		if (resize) {
-			int h = (int) (realWinWidth / winAspect);
-			
-			if (h < realWinHeight) {
-				realWinHeight = h;
-			} else {
+            float realAspect = (float) desktopW / desktopH;
+
+			if (realAspect > winAspect) {
 				realWinWidth = (int) (realWinHeight * winAspect);
+			} else {
+				realWinHeight = (int) (realWinWidth / winAspect);
 			}
 
-
-            float realAspect = (float) realWinWidth / realWinHeight;
+			realAspect = (float) realWinWidth / realWinHeight;
 			
             if (realAspect > winAspect) {
                 viewportHeight = realWinHeight;
