@@ -53,6 +53,7 @@ if test "x$enable_engine" = xyes; then
   AC_CHECK_LIB([GLU], [gluCylinder])
   AC_CHECK_LIB([SDL], [SDL_Init])
   AC_CHECK_LIB([alure], [alureUpdateInterval])
+  AC_CHECK_LIB([openal], [alGetError])
 fi
 
 if test "x$enable_devkit" = xyes; then
@@ -121,6 +122,7 @@ echo "OpenGL          ..."$ac_cv_lib_GL_glBegin
 echo "libGLU          ..."$ac_cv_lib_GLU_gluCylinder
 echo "SDL             ..."$ac_cv_lib_SDL_SDL_Init
 echo "Alure (>= 1.1)  ..."$ac_cv_lib_alure_alureUpdateInterval
+echo "OpenAL          ..."$ac_cv_lib_openal_alGetError
 echo ""
 echo "GL/glu.h        ..."$ac_cv_header_GL_glu_h
 echo "SDL/SDL.h       ..."$ac_cv_header_SDL_SDL_h
