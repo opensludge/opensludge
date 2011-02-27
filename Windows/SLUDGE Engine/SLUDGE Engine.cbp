@@ -167,6 +167,8 @@
 		<Unit filename="..\..\source\Engine\vid.h" />
 		<Unit filename="..\..\source\Engine\zbuffer.cpp" />
 		<Unit filename="..\..\source\Engine\zbuffer.h" />
+		<Unit filename="..\..\source\Engine\movie.cpp" />
+		<Unit filename="..\..\source\Engine\movie.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />

@@ -28,6 +28,7 @@
 #include "region.h"
 #include "language.h"
 #include "moreio.h"
+#include "movie.h"
 #include "savedata.h"
 #include "freeze.h"
 #include "colours.h"
@@ -1067,17 +1068,31 @@ builtIn(_rem_moviePlaying)
 builtIn (playMovie)
 {
 	UNUSEDALL
-	int fileNumber;
+	int fileNumber, r;
+	
+	if (movieIsPlaying) return BR_PAUSE;
+	
 	if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	
-	setVariable (fun -> reg, SVT_INT, 0);
+	r = playMovie(fileNumber);
+	
+	setVariable (fun -> reg, SVT_INT, r);
+	
+	if (! fun->next) {
+		restartFunction (fun);
+		return BR_ALREADY_GONE;
+	}
 	return BR_CONTINUE;
 }
 
 builtIn (stopMovie)
 {
 	UNUSEDALL
+	int r;
+	
+	r = stopMovie();
+	
 	setVariable (fun -> reg, SVT_INT, 0);
 	return BR_CONTINUE;
 }
@@ -1085,6 +1100,10 @@ builtIn (stopMovie)
 builtIn (pauseMovie)
 {
 	UNUSEDALL
+	int r;
+	
+	r = pauseMovie();
+	
 	setVariable (fun -> reg, SVT_INT, 0);
 	return BR_CONTINUE;
 }

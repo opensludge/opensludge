@@ -577,6 +577,7 @@ void pauseFunction (loadedFunction * fun) {
 	while (* huntAndDestroy) {
 		if (fun == * huntAndDestroy) {
 			(* huntAndDestroy) = (* huntAndDestroy) -> next;
+			fun->next = NULL;
 		} else {
 			huntAndDestroy = & (* huntAndDestroy) -> next;
 		}

@@ -10,6 +10,12 @@ void Init_Timer(void)
 	starttime = SDL_GetTicks();
 }
 
+void Init_Special_Timer(int t)
+{
+	desired_frame_time = 1000/t;
+	starttime = SDL_GetTicks();
+}
+
 void Wait_Frame (void)
 {
 	static Uint32 addNextTime = 0;

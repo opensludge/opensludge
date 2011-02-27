@@ -70,6 +70,7 @@ extern variableStack * noStack;
 
 int dialogValue = 0;
 
+char * gameName = NULL;
 char * gamePath = NULL;
 char *bundleFolder;
 
@@ -106,12 +107,6 @@ void setGameFilePath (char * f) {
 }
 
 
-void tick () {
-	walkAllPeople ();
-	handleInput ();
-	sludgeDisplay ();
-}
-
 void saveHSI (FILE * writer);
 
 extern bool reallyWantToQuit;
@@ -131,16 +126,171 @@ bool fileExists(char * file) {
 #undef main
 #endif
 
+int weAreDoneSoQuit;
+
+void checkInput() {
+	static bool fakeRightclick = false;
+	
+	SDL_Event event;
+
+	/* Check for events */
+	while ( SDL_PollEvent(&event) ) {
+		switch (event.type) {
+				
+			case SDL_VIDEORESIZE:
+				realWinWidth = event.resize.w;
+				realWinHeight = event.resize.h;
+				setGraphicsWindow(false, true, true);
+				break;
+				
+			case SDL_MOUSEMOTION:
+				input.justMoved = true;
+				input.mouseX = event.motion.x * ((float)winWidth/cameraZoom) / realWinWidth;
+				input.mouseY = event.motion.y * ((float)winHeight/cameraZoom) / realWinHeight;
+				break;
+				
+			case SDL_MOUSEBUTTONDOWN:
+				if (event.button.button == SDL_BUTTON_LEFT)
+				{
+					if (SDL_GetModState() & KMOD_CTRL) {
+						input.rightClick = true;
+						fakeRightclick = true;
+					} else {
+						input.leftClick = true;
+						fakeRightclick = false;
+					}
+				}
+				if (event.button.button == SDL_BUTTON_RIGHT) input.rightClick = true;
+				input.mouseX = event.motion.x * ((float)winWidth/cameraZoom) / realWinWidth;
+				input.mouseY = event.motion.y * ((float)winHeight/cameraZoom) / realWinHeight;
+				break;
+				
+			case SDL_MOUSEBUTTONUP:
+				if (event.button.button == SDL_BUTTON_LEFT) {
+					if (fakeRightclick) {
+						fakeRightclick = false;
+						input.rightRelease = true;
+					} else {
+						input.leftRelease = true;
+					}
+				}
+				if (event.button.button == SDL_BUTTON_RIGHT) input.rightRelease = true;
+				input.mouseX = event.motion.x * ((float)winWidth/cameraZoom) / realWinWidth;
+				input.mouseY = event.motion.y * ((float)winHeight/cameraZoom) / realWinHeight;
+				break;
+				
+			case SDL_KEYDOWN:
+				// A Windows key is pressed - let's leave fullscreen.
+				if (runningFullscreen) {
+					if (event.key.keysym.sym == SDLK_LSUPER || event.key.keysym.sym == SDLK_LSUPER) {
+						setGraphicsWindow(! runningFullscreen);
+					}
+				}
+				// Ignore Command keypresses - they're for the OS to handle.
+				if (event.key.keysym.mod & KMOD_META) {
+					// Command+F - let's switch to/from full screen
+					if ('f' == event.key.keysym.unicode) {
+						setGraphicsWindow(! runningFullscreen);
+					}
+					break;
+				} else if (event.key.keysym.mod & KMOD_ALT) {
+					// Alt + Enter also switches full screen mode
+					if (SDLK_RETURN == event.key.keysym.sym) {
+						setGraphicsWindow(! runningFullscreen);
+					}
+					if (SDLK_a == event.key.keysym.sym) {
+						gameSettings.antiAlias = ! gameSettings.antiAlias;
+						break;
+					}
+					// Allow Alt+F4 to quit
+					if (SDLK_F4 ==  event.key.keysym.sym) {
+						SDL_Event event;
+						event.type = SDL_QUIT;
+						SDL_PushEvent(&event);
+					}
+					
+					break;
+				}
+				switch (event.key.keysym.sym) {
+					case SDLK_BACKSPACE:
+					case SDLK_DELETE:	// Ok, mapping these to the same key is weird, I admit. But good?
+						input.keyPressed = 127; break;
+					case SDLK_TAB:
+						input.keyPressed = 9; break;
+					case SDLK_RETURN:
+						input.keyPressed = 13; break;
+					case SDLK_ESCAPE:
+						input.keyPressed = 27; break;
+					case SDLK_PAGEUP:
+						input.keyPressed = 63276; break;
+					case SDLK_PAGEDOWN:
+						input.keyPressed = 63277; break;
+					case SDLK_END:
+						input.keyPressed = 63275; break;
+					case SDLK_HOME:
+						input.keyPressed = 63273; break;
+					case SDLK_LEFT:
+						input.keyPressed = 63234; break;
+					case SDLK_UP:
+						input.keyPressed = 63232; break;
+					case SDLK_RIGHT:
+						input.keyPressed = 63235; break;
+					case SDLK_DOWN:
+						input.keyPressed = 63233; break;
+					case SDLK_F1:
+						input.keyPressed = 63236; break;
+					case SDLK_F2:
+						input.keyPressed = 63237; break;
+					case SDLK_F3:
+						input.keyPressed = 63238; break;
+					case SDLK_F4:
+						input.keyPressed = 63239; break;
+					case SDLK_F5:
+						input.keyPressed = 63240; break;
+					case SDLK_F6:
+						input.keyPressed = 63241; break;
+					case SDLK_F7:
+						input.keyPressed = 63242; break;
+					case SDLK_F8:
+						input.keyPressed = 63243; break;
+					case SDLK_F9:
+						input.keyPressed = 63244; break;
+					case SDLK_F10:
+						input.keyPressed = 63245; break;
+					case SDLK_F11:
+						input.keyPressed = 63246; break;
+					case SDLK_F12:
+						input.keyPressed = 63247; break;
+					default:
+						input.keyPressed = event.key.keysym.unicode;
+						break;
+				}
+				break;
+				
+			case SDL_QUIT:
+				if (reallyWantToQuit) {
+					// The game file has requested that we quit
+					weAreDoneSoQuit = 1;
+				} else {
+					// The request is from elsewhere - ask for confirmation.
+					setGraphicsWindow(false);
+					if (msgBoxQuestion (gameName, getNumberedString(2))) {
+						weAreDoneSoQuit = 1;
+					}
+				}
+				break;
+				
+			default:
+				break;
+		}
+	}
+}
+
 int main(int argc, char *argv[]) try
 {
 	/* Dimensions of our window. */
     winWidth = 640;
     winHeight = 480;
-
-	static bool fakeRightclick = false;
-
-	int    done;
-	SDL_Event event;
 
 	char * sludgeFile;
 
@@ -236,7 +386,7 @@ int main(int argc, char *argv[]) try
 
 	// Let's convert the game name to Unicode, or we will crash.
 	char * gameNameWin = getNumberedString(1);
-	char * gameName = new char[ 1024];
+	gameName = new char[ 1024];
 	char **tmp1 = (char **) &gameNameWin;
 	char **tmp2;
 	tmp2 = &gameName;
@@ -281,162 +431,13 @@ int main(int argc, char *argv[]) try
 
 	SDL_EnableUNICODE(1);
 
-	done = 0;
-	while ( !done ) {
+	weAreDoneSoQuit = 0;
+	while ( !weAreDoneSoQuit ) {
 
-		/* Check for events */
-		while ( SDL_PollEvent(&event) ) {
-			switch (event.type) {
-				
-				case SDL_VIDEORESIZE:
-					realWinWidth = event.resize.w;
-					realWinHeight = event.resize.h;
-					setGraphicsWindow(false, true, true);
-					break;
-
-				case SDL_MOUSEMOTION:
-					input.justMoved = true;
-					input.mouseX = event.motion.x * ((float)winWidth/cameraZoom) / realWinWidth;
-					input.mouseY = event.motion.y * ((float)winHeight/cameraZoom) / realWinHeight;
-					break;
-					
-				case SDL_MOUSEBUTTONDOWN:
-					if (event.button.button == SDL_BUTTON_LEFT)
-					{
-						if (SDL_GetModState() & KMOD_CTRL) {
-							input.rightClick = true;
-							fakeRightclick = true;
-						} else {
-							input.leftClick = true;
-							fakeRightclick = false;
-						}
-					}
-					if (event.button.button == SDL_BUTTON_RIGHT) input.rightClick = true;
-					input.mouseX = event.motion.x * ((float)winWidth/cameraZoom) / realWinWidth;
-					input.mouseY = event.motion.y * ((float)winHeight/cameraZoom) / realWinHeight;
-					break;
-					
-				case SDL_MOUSEBUTTONUP:
-					if (event.button.button == SDL_BUTTON_LEFT) {
-						if (fakeRightclick) {
-							fakeRightclick = false;
-							input.rightRelease = true;
-						} else {
-							input.leftRelease = true;
-						}
-					}
-					if (event.button.button == SDL_BUTTON_RIGHT) input.rightRelease = true;
-					input.mouseX = event.motion.x * ((float)winWidth/cameraZoom) / realWinWidth;
-					input.mouseY = event.motion.y * ((float)winHeight/cameraZoom) / realWinHeight;
-					break;
-					
-				case SDL_KEYDOWN:
-                    // A Windows key is pressed - let's leave fullscreen.
-                    if (runningFullscreen) {
-                        if (event.key.keysym.sym == SDLK_LSUPER || event.key.keysym.sym == SDLK_LSUPER) {
-							setGraphicsWindow(! runningFullscreen);
-                        }
-                    }
-					// Ignore Command keypresses - they're for the OS to handle.
-					if (event.key.keysym.mod & KMOD_META) {
-						// Command+F - let's switch to/from full screen
-						if ('f' == event.key.keysym.unicode) {
-							setGraphicsWindow(! runningFullscreen);
-						}
-						break;
-					} else if (event.key.keysym.mod & KMOD_ALT) {
-						// Alt + Enter also switches full screen mode
-						if (SDLK_RETURN == event.key.keysym.sym) {
-							setGraphicsWindow(! runningFullscreen);
-						}
-						if (SDLK_a == event.key.keysym.sym) {
-							gameSettings.antiAlias = ! gameSettings.antiAlias;
-							break;
-						}
-						// Allow Alt+F4 to quit
-						if (SDLK_F4 ==  event.key.keysym.sym) {
-						    SDL_Event event;
-						    event.type = SDL_QUIT;
-						    SDL_PushEvent(&event);
-						}
-
-						break;
-					}
-					switch (event.key.keysym.sym) {
-						case SDLK_BACKSPACE:
-						case SDLK_DELETE:	// Ok, mapping these to the same key is weird, I admit. But good?
-							input.keyPressed = 127; break;
-						case SDLK_TAB:
-							input.keyPressed = 9; break;
-						case SDLK_RETURN:
-							input.keyPressed = 13; break;
-						case SDLK_ESCAPE:
-							input.keyPressed = 27; break;
-						case SDLK_PAGEUP:
-							input.keyPressed = 63276; break;
-						case SDLK_PAGEDOWN:
-							input.keyPressed = 63277; break;
-						case SDLK_END:
-							input.keyPressed = 63275; break;
-						case SDLK_HOME:
-							input.keyPressed = 63273; break;
-						case SDLK_LEFT:
-							input.keyPressed = 63234; break;
-						case SDLK_UP:
-							input.keyPressed = 63232; break;
-						case SDLK_RIGHT:
-							input.keyPressed = 63235; break;
-						case SDLK_DOWN:
-							input.keyPressed = 63233; break;
-						case SDLK_F1:
-							input.keyPressed = 63236; break;
-						case SDLK_F2:
-							input.keyPressed = 63237; break;
-						case SDLK_F3:
-							input.keyPressed = 63238; break;
-						case SDLK_F4:
-							input.keyPressed = 63239; break;
-						case SDLK_F5:
-							input.keyPressed = 63240; break;
-						case SDLK_F6:
-							input.keyPressed = 63241; break;
-						case SDLK_F7:
-							input.keyPressed = 63242; break;
-						case SDLK_F8:
-							input.keyPressed = 63243; break;
-						case SDLK_F9:
-							input.keyPressed = 63244; break;
-						case SDLK_F10:
-							input.keyPressed = 63245; break;
-						case SDLK_F11:
-							input.keyPressed = 63246; break;
-						case SDLK_F12:
-							input.keyPressed = 63247; break;
-						default:
-						input.keyPressed = event.key.keysym.unicode;
-						break;
-					}
-					break;
-					
-				case SDL_QUIT:
-					if (reallyWantToQuit) {
-						// The game file has requested that we quit
-						done = 1;
-					} else {
-						// The request is from elsewhere - ask for confirmation.
-						setGraphicsWindow(false);
-						if (msgBoxQuestion (gameName, getNumberedString(2))) {
-							done = 1;
-						}
-					}
-					break;
-					
-				default:
-					break;
-			}
-		}
-
-		tick ();
+		checkInput();
+		walkAllPeople ();
+		handleInput ();
+		sludgeDisplay ();
 		Wait_Frame();
 
 	}

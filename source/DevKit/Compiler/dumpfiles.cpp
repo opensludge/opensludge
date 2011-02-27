@@ -59,7 +59,7 @@ int getFileType (const char * filename) {
 			reply = FILETYPE_AUDIO;
 		} else if (	strcmp (compareMe, ".duc") == 0 ||
 					strcmp (compareMe, ".zbu") == 0 ||
-				    strcmp (compareMe, ".webm") == 0 ||
+				    strcmp (compareMe, "webm") == 0 ||
 					strcmp (compareMe, ".png") == 0) {
 			reply = FILETYPE_RAW;
 		}
