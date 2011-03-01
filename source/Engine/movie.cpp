@@ -14,10 +14,17 @@
 #include "mkvreader.hpp"
 #include "mkvparser.hpp"
 
+#define VPX_CODEC_DISABLE_COMPAT 1
+#include "vpx/vpx_decoder.h"
+#include "vpx/vp8dx.h"
+#define interface (&vpx_codec_vp8_dx_algo)
+
 #include "newfatal.h"
 #include "timing.h"
 #include "graphics.h"
 #include "movie.h"
+#include "shaders.h"
+
 
 // in main.c
 int checkInput();
@@ -35,6 +42,15 @@ bool handleInput ();
 int movieIsPlaying = 0;
 
 float movieAspect = 1.6;
+
+static void die_codec(vpx_codec_ctx_t *ctx, const char *s) {            
+    const char *detail = vpx_codec_error_detail(ctx);                         
+    printf("%s: %s\n", s, vpx_codec_error(ctx));        
+	fatal (s, vpx_codec_error(ctx));
+ //   if(detail)                                                                
+   //     printf("    %s\n",detail);                                            
+}                                                                             
+
 
 void setMovieViewport()
 {
@@ -63,6 +79,10 @@ void setMovieViewport()
 
 int playMovie (int fileNumber)
 {
+//	fprintf (stderr, "VPX_IMG_FMT_I420 = %d\n", VPX_IMG_FMT_I420);
+	
+	
+    vpx_codec_ctx_t  codec;
 	float pausefade = 1.0;
 
     using namespace mkvparser;
@@ -94,14 +114,14 @@ int playMovie (int fileNumber)
     if (ret)
     {
         fprintf (stderr, "\n Segment::CreateInstance() failed.\n");
-        return -1;
+        return 0;
     }
 	
     ret  = pSegment->Load();
     if (ret < 0)
     {
         fprintf (stderr, "\n Segment::Load() failed.\n");
-        return -1;
+        return 0;
     }
 	
     const SegmentInfo* const pSegmentInfo = pSegment->GetInfo();
@@ -202,8 +222,20 @@ int playMovie (int fileNumber)
     {
         fprintf (stderr, "\t\tSegment has no clusters.\n");
         delete pSegment;
-        return -1;
+        return 0;
     }
+	
+	/* Initialize codec */                                                    //
+    if(vpx_codec_dec_init(&codec, interface, NULL, 0))                    //
+        die_codec(&codec, "Failed to initialize decoder for movie.");         //	
+
+    unsigned char    frame[256*1024];
+	GLubyte * ytex = NULL;
+	GLubyte * utex = NULL;
+	GLubyte * vtex = NULL;
+	GLuint yTextureName = 0;
+	GLuint uTextureName = 0;
+	GLuint vTextureName = 0;
 	
     const mkvparser::Cluster* pCluster = pSegment->GetFirst();
 	
@@ -236,8 +268,111 @@ int playMovie (int fileNumber)
             {
                 const Block::Frame& theFrame = pBlock->GetFrame(i);
                 const long size = theFrame.len;
-                const long long offset = theFrame.pos;
-                fprintf (stderr, "\t\t\t %15ld,%15llx\n", size, offset);
+//                const long long offset = theFrame.pos;
+ 				
+				if (trackType == VIDEO_TRACK) {
+					// Let's decode an image frame!
+					vpx_codec_iter_t  iter = NULL;
+					vpx_image_t      *img;
+					
+					if(size > sizeof(frame))
+						fatal("Movie error: Frame data too big for buffer.");
+					
+					theFrame.Read(&reader, frame);
+					
+					/* Decode the frame */                                                
+					if(vpx_codec_decode(&codec, frame, size, NULL, 0))                //
+						die_codec(&codec, "Failed to decode frame");                      //
+					
+					/* Get frame data */
+					while((img = vpx_codec_get_frame(&codec, &iter))) {                   //
+//						fprintf (stderr, "Frame decoded! Format: %d\n", img->fmt);
+
+						// I'm assuming a VPX_IMG_FMT_I420 format... is that bad?
+						unsigned int y;
+						
+						
+						if (! ytex) {
+							ytex = new GLubyte [img->d_w * img->d_h];
+							utex = new GLubyte [(img->d_w >> 1) * (img->d_h >> 1)];
+							vtex = new GLubyte [(img->d_w >> 1) * (img->d_h >> 1)];
+							if (!ytex || !utex || !vtex)
+								fatal (ERROR_OUT_OF_MEMORY);
+							
+							glEnable (GL_TEXTURE_2D);
+							if (! yTextureName) glGenTextures (1, &yTextureName);
+							if (! uTextureName) glGenTextures (1, &uTextureName);
+							if (! vTextureName) glGenTextures (1, &vTextureName);
+							glBindTexture (GL_TEXTURE_2D, yTextureName);
+							glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, img->d_w, img->d_h, 0,
+										 GL_ALPHA, GL_UNSIGNED_BYTE, ytex);
+							glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+							glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+							glBindTexture (GL_TEXTURE_2D, uTextureName);
+							glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, img->d_w>>1, img->d_h>>1, 0,
+										 GL_ALPHA, GL_UNSIGNED_BYTE, ytex);
+							glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+							glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+							glBindTexture (GL_TEXTURE_2D, vTextureName);
+							glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, img->d_w>>1, img->d_h>>1, 0,
+										 GL_ALPHA, GL_UNSIGNED_BYTE, ytex);
+							glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+							glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+							printOpenGLError();
+						}
+						
+						unsigned char *buf =img->planes[0];  
+						for(y=0; y<img->d_h; y++) {
+							memcpy(ytex+y*img->d_w, buf, img->d_w);  
+							buf += img->stride[0];                                
+						}                                                             
+						buf =img->planes[1];                       
+						for(y=0; y<img->d_h >> 1; y++) {                    
+							memcpy(utex+y*(img->d_w>>1), buf, img->d_w>>1);  
+							buf += img->stride[1];                                
+						}                                                             
+						buf =img->planes[2];                       
+						for(y=0; y<img->d_h >> 1; y++) {                    
+							memcpy(vtex+y*(img->d_w>>1), buf, img->d_w>>1);  
+							buf += img->stride[2];                                
+						}
+						glBindTexture (GL_TEXTURE_2D, yTextureName);
+						glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, img->d_w, img->d_h, 
+										GL_ALPHA, GL_UNSIGNED_BYTE, ytex);
+						glBindTexture (GL_TEXTURE_2D, uTextureName);
+						glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, img->d_w>>1, img->d_h>>1, 
+										GL_ALPHA, GL_UNSIGNED_BYTE, utex);
+						glBindTexture (GL_TEXTURE_2D, vTextureName);
+						glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, img->d_w>>1, img->d_h>>1, 
+										GL_ALPHA, GL_UNSIGNED_BYTE, vtex);
+						
+						printOpenGLError();
+						
+						// Clear The Screen
+						glClear(GL_COLOR_BUFFER_BIT);	
+						
+						// Display the current frame here
+						glEnable (GL_TEXTURE_2D);
+						glEnable(GL_BLEND);
+						glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+						glBindTexture (GL_TEXTURE_2D, yTextureName);
+						glColor4f(1.0, 1.0, 1.0, 1.0);
+						
+						glBegin(GL_QUADS);
+						
+						glTexCoord2f(0.0, 0.0); glVertex3f(0.0, 0.0, 0.1);
+						glTexCoord2f(1.0, 0.0); glVertex3f(640.0, 0.0, 0.1);
+						glTexCoord2f(1.0, 1.0); glVertex3f(640.0, 400.0, 0.1);
+						glTexCoord2f(0.0, 1.0); glVertex3f(0.0, 400.0, 0.1);
+						
+						glEnd();
+						glFlush();
+						SDL_GL_SwapBuffers();
+						
+						Wait_Frame();
+						
+					}
+				}
             }
 			
             pBlockEntry = pCluster->GetNext(pBlockEntry);
@@ -246,7 +381,6 @@ int playMovie (int fileNumber)
         pCluster = pSegment->GetNext(pCluster);
     }
 	
-    delete pSegment;
 	
 	
 	
@@ -269,20 +403,24 @@ int playMovie (int fileNumber)
 			// Play the movie!
 			
 		} 
+		glUseProgram(0);
 
 		// Clear The Screen
 		glClear(GL_COLOR_BUFFER_BIT);	
 		
 		// Display the current frame here
-		glDisable (GL_TEXTURE_2D);
+		glEnable (GL_TEXTURE_2D);
+		glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+		glBindTexture (GL_TEXTURE_2D, yTextureName);
+//		glBindTexture (GL_TEXTURE_2D, backdropTextureName);
 		glColor4f(0.0, 0.5, 0.0, 1.0);
 		
 		glBegin(GL_QUADS);
 		
-		glVertex3f(0.0, 0.0, 0.1);
-		glVertex3f(640.0, 0.0, 0.1);
-		glVertex3f(640.0, 400.0, 0.1);
-		glVertex3f(0.0, 400.0, 0.1);
+		glTexCoord2f(0.0, 0.0); glVertex3f(0.0, 0.0, 0.1);
+		glTexCoord2f(1.0, 0.0); glVertex3f(640.0, 0.0, 0.1);
+		glTexCoord2f(1.0, 1.0); glVertex3f(640.0, 400.0, 0.1);
+		glTexCoord2f(0.0, 1.0); glVertex3f(0.0, 400.0, 0.1);
 		
 		glEnd();
 		
@@ -332,6 +470,13 @@ int playMovie (int fileNumber)
 	}
 	
 	// Cleanup
+    if(vpx_codec_destroy(&codec))                                             //
+        die_codec(&codec, "Failed to destroy codec");                         //
+    delete pSegment;
+	delete ytex;
+	delete utex;
+	delete vtex;
+	glDeleteTextures (1, &yTextureName);
 	movieIsPlaying = 0;
 	Init_Timer();
 	glViewport (viewportOffsetX, viewportOffsetY, viewportWidth, viewportHeight);

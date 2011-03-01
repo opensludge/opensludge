@@ -108,6 +108,7 @@
 		E814021F131D28AA00CCA8EC /* mkvparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E8140218131D28AA00CCA8EC /* mkvparser.cpp */; };
 		E8140220131D28AA00CCA8EC /* mkvreader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E814021A131D28AA00CCA8EC /* mkvreader.cpp */; };
 		E8140221131D28AA00CCA8EC /* PATENTS.TXT in Resources */ = {isa = PBXBuildFile; fileRef = E814021C131D28AA00CCA8EC /* PATENTS.TXT */; };
+		E832EDCC131D522B005AE714 /* libvpx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E832EDCB131D522B005AE714 /* libvpx.a */; };
 		E8CA57A9111D9EDF00E971B4 /* sound_openal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E8981D35111A2A8500762C10 /* sound_openal.cpp */; };
 		E8D761481128A5A900A5F7D7 /* libdumb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8D761421128A5A900A5F7D7 /* libdumb.a */; };
 		E8D761491128A5A900A5F7D7 /* libFLAC.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8D761431128A5A900A5F7D7 /* libFLAC.a */; };
@@ -303,6 +304,7 @@
 		E814021B131D28AA00CCA8EC /* mkvreader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mkvreader.hpp; sourceTree = "<group>"; };
 		E814021C131D28AA00CCA8EC /* PATENTS.TXT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PATENTS.TXT; sourceTree = "<group>"; };
 		E81E15581166A98F000C3483 /* platform-dependent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "platform-dependent.h"; path = "../source/Engine/platform-dependent.h"; sourceTree = SOURCE_ROOT; };
+		E832EDCB131D522B005AE714 /* libvpx.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvpx.a; path = ../libs/libvpx.a; sourceTree = SOURCE_ROOT; };
 		E836739E1101D9E2001449BC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E8981D35111A2A8500762C10 /* sound_openal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sound_openal.cpp; path = ../source/Engine/sound_openal.cpp; sourceTree = SOURCE_ROOT; };
 		E8D761421128A5A900A5F7D7 /* libdumb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libdumb.a; path = ../libs/libdumb.a; sourceTree = SOURCE_ROOT; };
@@ -337,6 +339,7 @@
 				E8D7614C1128A5A900A5F7D7 /* libvorbisenc.a in Frameworks */,
 				E8D7614D1128A5A900A5F7D7 /* libvorbisfile.a in Frameworks */,
 				E8D7614F1128A5C700A5F7D7 /* libalure.a in Frameworks */,
+				E832EDCC131D522B005AE714 /* libvpx.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -540,6 +543,7 @@
 		E8A808771128BDE900343CFF /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				E832EDCB131D522B005AE714 /* libvpx.a */,
 				E8D7614E1128A5C700A5F7D7 /* libalure.a */,
 				E8D761421128A5A900A5F7D7 /* libdumb.a */,
 				E8D761431128A5A900A5F7D7 /* libFLAC.a */,
@@ -729,6 +733,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_5)",
+					"\"$(SRCROOT)/../libs\"",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../bass24-osx\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../alure/build\"";
@@ -763,6 +768,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_5)",
+					"\"$(SRCROOT)/../libs\"",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../bass24-osx\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../alure/build\"";
@@ -793,7 +799,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"../libs/ffmpeg/**",
+					"../libs/libvpx-v0.9.5",
 					"/Users/rikard/Documents/libpng-1.2.38/projects/xcode/build/Release/libpng.framework/Headers",
 					"$(HOME)/Library/Frameworks/SDL.framework/Headers",
 					/Library/Frameworks/SDL.framework/Headers,
@@ -834,7 +840,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"../libs/ffmpeg/**",
+					"../libs/libvpx-v0.9.5",
 					"/Users/rikard/Documents/libpng-1.2.38/projects/xcode/build/Release/libpng.framework/Headers",
 					"$(HOME)/Library/Frameworks/SDL.framework/Headers",
 					/Library/Frameworks/SDL.framework/Headers,

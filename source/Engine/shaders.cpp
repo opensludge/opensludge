@@ -61,9 +61,7 @@ char *shaderFileRead(const char *name)
 	return content;
 }
 
-int
-printOglError (const char *file,
-               int         line)
+int printOglError (const char *file, int         line)
 {
 	/* Returns 1 if an OpenGL error occurred, 0 otherwise. */
 	GLenum glErr;
@@ -78,8 +76,6 @@ printOglError (const char *file,
     }
 	return retCode;
 }
-
-#define printOpenGLError() printOglError(__FILE__, __LINE__)
 
 static void
 printShaderInfoLog (GLuint shader)
