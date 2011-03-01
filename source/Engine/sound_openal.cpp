@@ -377,7 +377,6 @@ bool playMOD (int f, int a, int fromTrack) {
 
 		playStream (a, true, true);
 
-		setResourceForFatal (-1);
 	} else {
 		debugOut("Failed to create stream from MOD: %s\n",
 						alureGetErrorString());
@@ -386,6 +385,7 @@ bool playMOD (int f, int a, int fromTrack) {
 		soundCache[a].playing = false;
 		soundCache[a].playingOnSource = 0;
 	}
+	setResourceForFatal (-1);
 
 	return true;
 }

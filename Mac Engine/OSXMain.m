@@ -137,7 +137,7 @@ static NSString *getApplicationName(void)
  *
  * This message is ignored once the app's mainline has been called.
  */
-- (bool)application:(NSApplication *)theApplication openFile:(NSString *)filename
+- (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
 {
     const char *temparg;
     size_t arglen;

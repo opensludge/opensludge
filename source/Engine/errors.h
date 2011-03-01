@@ -35,6 +35,7 @@
 #define ERROR_SOUND_UNKNOWN			"I can't understand a sample which I've been told to play!\nMake sure you've got the latest SLUDGE engine from http://www.hungrysoftware.com/. Failing that, maybe the resource in question isn't a valid sound at all... in which case, contact the game's author and tell them what's happened."
 #define ERROR_MUSIC_ODDNESS			"I can't load a music resource I've been told to play. Sorry."
 #define ERROR_SOUND_ODDNESS			"I can't load a sound resource I've been told to play. Sorry."
+#define ERROR_MOVIE_ODDNESS			"I can't load a music resource I've been told to play. Sorry."
 
 //---------------------------------------
 // Startup warnings

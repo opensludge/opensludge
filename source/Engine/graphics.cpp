@@ -22,6 +22,9 @@ bool NPOT_textures = true;
 
 extern int specialSettings;
 
+void setMovieViewport();
+extern int movieIsPlaying;
+
 extern GLuint backdropTextureName;
 extern GLuint snapshotTextureName;
 extern unsigned int sceneWidth, sceneHeight;
@@ -324,8 +327,6 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 
 	glUseProgram(0);
 
-
-
 	glViewport (viewportOffsetX, viewportOffsetY, viewportWidth, viewportHeight);
 
 	/*
@@ -396,7 +397,8 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 		sludgeDisplay ();
 	}
 
-
+	if (movieIsPlaying)
+		setMovieViewport();
 
 }
 

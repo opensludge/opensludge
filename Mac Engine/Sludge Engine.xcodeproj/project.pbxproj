@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 45;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -103,6 +103,11 @@
 		2FEFC49D10073ADA004C66F1 /* GLee.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2FEFC49B10073ADA004C66F1 /* GLee.h */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		E8022077131AA1490018F754 /* movie.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E8022076131AA1490018F754 /* movie.cpp */; };
+		E814021D131D28AA00CCA8EC /* AUTHORS.TXT in Resources */ = {isa = PBXBuildFile; fileRef = E8140216131D28AA00CCA8EC /* AUTHORS.TXT */; };
+		E814021E131D28AA00CCA8EC /* LICENSE.TXT in Resources */ = {isa = PBXBuildFile; fileRef = E8140217131D28AA00CCA8EC /* LICENSE.TXT */; };
+		E814021F131D28AA00CCA8EC /* mkvparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E8140218131D28AA00CCA8EC /* mkvparser.cpp */; };
+		E8140220131D28AA00CCA8EC /* mkvreader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E814021A131D28AA00CCA8EC /* mkvreader.cpp */; };
+		E8140221131D28AA00CCA8EC /* PATENTS.TXT in Resources */ = {isa = PBXBuildFile; fileRef = E814021C131D28AA00CCA8EC /* PATENTS.TXT */; };
 		E8CA57A9111D9EDF00E971B4 /* sound_openal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E8981D35111A2A8500762C10 /* sound_openal.cpp */; };
 		E8D761481128A5A900A5F7D7 /* libdumb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8D761421128A5A900A5F7D7 /* libdumb.a */; };
 		E8D761491128A5A900A5F7D7 /* libFLAC.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8D761431128A5A900A5F7D7 /* libFLAC.a */; };
@@ -290,6 +295,13 @@
 		8D1107320486CEB800E47090 /* SLUDGE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SLUDGE.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8022075131AA1490018F754 /* movie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = movie.h; path = ../source/Engine/movie.h; sourceTree = SOURCE_ROOT; };
 		E8022076131AA1490018F754 /* movie.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = movie.cpp; path = ../source/Engine/movie.cpp; sourceTree = SOURCE_ROOT; };
+		E8140216131D28AA00CCA8EC /* AUTHORS.TXT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AUTHORS.TXT; sourceTree = "<group>"; };
+		E8140217131D28AA00CCA8EC /* LICENSE.TXT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.TXT; sourceTree = "<group>"; };
+		E8140218131D28AA00CCA8EC /* mkvparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mkvparser.cpp; sourceTree = "<group>"; };
+		E8140219131D28AA00CCA8EC /* mkvparser.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mkvparser.hpp; sourceTree = "<group>"; };
+		E814021A131D28AA00CCA8EC /* mkvreader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mkvreader.cpp; sourceTree = "<group>"; };
+		E814021B131D28AA00CCA8EC /* mkvreader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mkvreader.hpp; sourceTree = "<group>"; };
+		E814021C131D28AA00CCA8EC /* PATENTS.TXT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PATENTS.TXT; sourceTree = "<group>"; };
 		E81E15581166A98F000C3483 /* platform-dependent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "platform-dependent.h"; path = "../source/Engine/platform-dependent.h"; sourceTree = SOURCE_ROOT; };
 		E836739E1101D9E2001449BC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E8981D35111A2A8500762C10 /* sound_openal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sound_openal.cpp; path = ../source/Engine/sound_openal.cpp; sourceTree = SOURCE_ROOT; };
@@ -427,6 +439,7 @@
 		2F7BFEB50E33848B003F5DC3 /* Source Files */ = {
 			isa = PBXGroup;
 			children = (
+				E8140215131D28AA00CCA8EC /* libwebm */,
 				E81E15581166A98F000C3483 /* platform-dependent.h */,
 				2F7BFF0B0E3386AD003F5DC3 /* allfiles.h */,
 				2F7BFF080E3386AD003F5DC3 /* backdrop.h */,
@@ -509,6 +522,21 @@
 			name = "Source Files";
 			sourceTree = "<group>";
 		};
+		E8140215131D28AA00CCA8EC /* libwebm */ = {
+			isa = PBXGroup;
+			children = (
+				E8140216131D28AA00CCA8EC /* AUTHORS.TXT */,
+				E8140217131D28AA00CCA8EC /* LICENSE.TXT */,
+				E8140218131D28AA00CCA8EC /* mkvparser.cpp */,
+				E8140219131D28AA00CCA8EC /* mkvparser.hpp */,
+				E814021A131D28AA00CCA8EC /* mkvreader.cpp */,
+				E814021B131D28AA00CCA8EC /* mkvreader.hpp */,
+				E814021C131D28AA00CCA8EC /* PATENTS.TXT */,
+			);
+			name = libwebm;
+			path = ../source/Engine/libwebm;
+			sourceTree = SOURCE_ROOT;
+		};
 		E8A808771128BDE900343CFF /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -563,8 +591,11 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = SLUDGE;
+			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Sludge Engine" */;
-			compatibilityVersion = "Xcode 2.4";
+			compatibilityVersion = "Xcode 3.1";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -597,6 +628,9 @@
 				2F684E1A0FFEAF6700EED6FE /* gameicon.icns in Resources */,
 				2F3AB888100CF97C00CD6A13 /* Credits.html in Resources */,
 				E8EC92D112E605E500BFF763 /* sludge_launcher_logo_4c0c.png in Resources */,
+				E814021D131D28AA00CCA8EC /* AUTHORS.TXT in Resources */,
+				E814021E131D28AA00CCA8EC /* LICENSE.TXT in Resources */,
+				E8140221131D28AA00CCA8EC /* PATENTS.TXT in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -664,6 +698,8 @@
 				2F6274FD10EA337700BBDEDF /* shaders.cpp in Sources */,
 				E8CA57A9111D9EDF00E971B4 /* sound_openal.cpp in Sources */,
 				E8022077131AA1490018F754 /* movie.cpp in Sources */,
+				E814021F131D28AA00CCA8EC /* mkvparser.cpp in Sources */,
+				E8140220131D28AA00CCA8EC /* mkvreader.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -692,12 +728,14 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_5)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../bass24-osx\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../alure/build\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../alure/build\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../libs\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/../alure/build\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_5 = "\"$(SRCROOT)/../libs\"";
 				PRODUCT_NAME = SLUDGE;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
@@ -707,8 +745,7 @@
 		C01FCF4C08A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
@@ -725,12 +762,14 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_5)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../bass24-osx\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../alure/build\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../alure/build\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../libs\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/../alure/build\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_5 = "\"$(SRCROOT)/../libs\"";
 				PRODUCT_NAME = SLUDGE;
 				WRAPPER_EXTENSION = app;
 			};
@@ -745,13 +784,16 @@
 					/Library/Frameworks,
 					"$(FRAMEWORK_SEARCH_PATHS)",
 				);
+				GCC_ALTIVEC_EXTENSIONS = YES;
 				GCC_ENABLE_SSE3_EXTENSIONS = YES;
+				GCC_FORCE_CPU_SUBTYPE_ALL = YES;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_VERSION = 4.0;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
+					"../libs/ffmpeg/**",
 					"/Users/rikard/Documents/libpng-1.2.38/projects/xcode/build/Release/libpng.framework/Headers",
 					"$(HOME)/Library/Frameworks/SDL.framework/Headers",
 					/Library/Frameworks/SDL.framework/Headers,
@@ -759,11 +801,15 @@
 					../source/CommonCode,
 					../alure/include,
 				);
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				OTHER_LDFLAGS = /Developer/SDKs/MacOSX10.4u.sdk/usr/lib/libiconv.dylib;
+				LIBRARY_SEARCH_PATHS = (
+					../libs,
+					"$(inherited)",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				OTHER_LDFLAGS = /Developer/SDKs/MacOSX10.5.sdk/usr/lib/libiconv.dylib;
 				PREBINDING = NO;
 				PRODUCT_NAME = OpenSLUDGE;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = macosx10.5;
 				USER_HEADER_SEARCH_PATHS = "/Users/rikard/Documents/SLUDGE/bass24-osx $(inherited)";
 				VERSIONING_SYSTEM = "";
 			};
@@ -772,21 +818,23 @@
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CURRENT_PROJECT_VERSION = 104;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(HOME)/Library/Frameworks",
 					/Library/Frameworks,
 					"$(FRAMEWORK_SEARCH_PATHS)",
 				);
+				GCC_ALTIVEC_EXTENSIONS = YES;
 				GCC_ENABLE_SSE3_EXTENSIONS = YES;
+				GCC_FORCE_CPU_SUBTYPE_ALL = YES;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_VERSION = 4.0;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
+					"../libs/ffmpeg/**",
 					"/Users/rikard/Documents/libpng-1.2.38/projects/xcode/build/Release/libpng.framework/Headers",
 					"$(HOME)/Library/Frameworks/SDL.framework/Headers",
 					/Library/Frameworks/SDL.framework/Headers,
@@ -794,11 +842,15 @@
 					../source/CommonCode,
 					../alure/include,
 				);
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				OTHER_LDFLAGS = /Developer/SDKs/MacOSX10.4u.sdk/usr/lib/libiconv.dylib;
+				LIBRARY_SEARCH_PATHS = (
+					../libs,
+					"$(inherited)",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				OTHER_LDFLAGS = /Developer/SDKs/MacOSX10.5.sdk/usr/lib/libiconv.dylib;
 				PREBINDING = NO;
 				PRODUCT_NAME = OpenSLUDGE;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = macosx10.5;
 				USER_HEADER_SEARCH_PATHS = "/Users/rikard/Documents/SLUDGE/bass24-osx $(inherited)";
 				VERSIONING_SYSTEM = "";
 			};

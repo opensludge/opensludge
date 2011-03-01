@@ -7,5 +7,6 @@ bool openSubSlice (int num);
 bool openObjectSlice (int num);
 char * getNumberedString (int value);
 
+bool startAccess ();
 void finishAccess ();
 

@@ -360,7 +360,7 @@ int main(int argc, char *argv[]) try
     }
 
 	// Needed to make menu shortcuts work (on Mac), i.e. Command+Q for quit
-	SDL_putenv("SDL_ENABLEAPPEVENTS=1");
+	SDL_putenv((char *)"SDL_ENABLEAPPEVENTS=1");
 
 	setupOpenGLStuff();
 
@@ -397,10 +397,10 @@ int main(int argc, char *argv[]) try
 	size_t len1 = strlen(gameNameWin)+1;
 	size_t len2 = 1023;
 	//size_t numChars =
-#if defined __unix__ && !(defined __APPLE__)
-	iconv (convert,(char **) tmp1, &len1, tmp2, &len2);
-#else
+#ifdef _WIN32
 	iconv (convert,(const char **) tmp1, &len1, tmp2, &len2);
+#else
+	iconv (convert,(char **) tmp1, &len1, tmp2, &len2);
 #endif
 	iconv_close (convert);
 

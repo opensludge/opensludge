@@ -81,6 +81,11 @@ char * getNumberedString (int value) {
 	return readString (bigDataFile);
 }
 
+bool startAccess () {
+	int wasBusy = sliceBusy;
+	sliceBusy = true;
+	return wasBusy;
+}
 void finishAccess () {
 	sliceBusy = false;
 }

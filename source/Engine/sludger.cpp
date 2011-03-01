@@ -477,10 +477,10 @@ bool initSludge (char * filename) {
 	iconv_t convert = iconv_open ("UTF-8", "CP1252");
 	size_t len1 = strlen(gameNameWin)+1;
 	size_t len2 = 1023;
-#if defined __unix__ && !(defined __APPLE__)
-	iconv (convert,(char **) tmp1, &len1, tmp2, &len2);
-#else
+#ifdef WIN32
 	iconv (convert,(const char **) tmp1, &len1, tmp2, &len2);
+#else
+	iconv (convert,(char **) tmp1, &len1, tmp2, &len2);
 #endif
 	iconv_close (convert);
 

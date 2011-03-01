@@ -44,7 +44,7 @@ void shufflePeople ();
 GLuint freezeTextureName = 0;
 
 void freezeGraphics() {
-	glViewport (0, 0, winWidth, winHeight);
+	glViewport (0, 0, realWinWidth, realWinHeight);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(0, (GLdouble) winWidth / cameraZoom, 0, (GLdouble) winHeight / cameraZoom, 1.0, -1.0);
