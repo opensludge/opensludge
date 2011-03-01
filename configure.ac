@@ -54,6 +54,7 @@ if test "x$enable_engine" = xyes; then
   AC_CHECK_LIB([SDL], [SDL_Init])
   AC_CHECK_LIB([alure], [alureUpdateInterval])
   AC_CHECK_LIB([openal], [alGetError])
+  AC_CHECK_LIB([vpx], [vpx_codec_decode])
 fi
 
 if test "x$enable_devkit" = xyes; then
@@ -67,7 +68,7 @@ AC_CHECK_HEADERS([limits.h malloc.h stddef.h stdint.h stdlib.h string.h sys/time
 AC_CHECK_HEADERS([GLee.h getopt.h])
 
 if test "x$enable_engine" = xyes; then
-  AC_CHECK_HEADERS([GL/glu.h SDL/SDL.h SDL/SDL_syswm.h AL/alure.h])
+  AC_CHECK_HEADERS([GL/glu.h SDL/SDL.h SDL/SDL_syswm.h AL/alure.h vpx/vpx_decoder.h])
 fi
 
 # Checks for typedefs, structures, and compiler characteristics.
@@ -103,31 +104,33 @@ Please make sure that the following libraries and headers are installed:
 "
 if test $ac_cv_lib_GLee_GLeeInit; then
   if test "x$ac_cv_lib_glee_GLeeInit" = xyes; then
-    echo "GLee            ...yes"
+    echo "GLee              ...yes"
   else
-    echo "GLee            ..."$ac_cv_lib_GLee_GLeeInit
+    echo "GLee              ..."$ac_cv_lib_GLee_GLeeInit
   fi
 else
-    echo "GLee            ..."$ac_cv_lib_glee_GLeeInit
+    echo "GLee              ..."$ac_cv_lib_glee_GLeeInit
 fi
 echo ""
-echo "GLee.h          ..."$ac_cv_header_GLee_h
-echo "getopt.h        ..."$ac_cv_header_getopt_h
+echo "GLee.h            ..."$ac_cv_header_GLee_h
+echo "getopt.h          ..."$ac_cv_header_getopt_h
 
 if test "x$enable_engine" = xyes; then
 echo "
 Additional requirements for the SLUDGE Engine:
 "
-echo "OpenGL          ..."$ac_cv_lib_GL_glBegin
-echo "libGLU          ..."$ac_cv_lib_GLU_gluCylinder
-echo "SDL             ..."$ac_cv_lib_SDL_SDL_Init
-echo "Alure (>= 1.1)  ..."$ac_cv_lib_alure_alureUpdateInterval
-echo "OpenAL          ..."$ac_cv_lib_openal_alGetError
+echo "OpenGL            ..."$ac_cv_lib_GL_glBegin
+echo "libGLU            ..."$ac_cv_lib_GLU_gluCylinder
+echo "SDL               ..."$ac_cv_lib_SDL_SDL_Init
+echo "Alure (>= 1.1)    ..."$ac_cv_lib_alure_alureUpdateInterval
+echo "OpenAL            ..."$ac_cv_lib_openal_alGetError
+echo "vpx               ..."$ac_cv_lib_vpx_vpx_codec_decode
 echo ""
-echo "GL/glu.h        ..."$ac_cv_header_GL_glu_h
-echo "SDL/SDL.h       ..."$ac_cv_header_SDL_SDL_h
-echo "SDL/SDL_syswm.h ..."$ac_cv_header_SDL_SDL_syswm_h
-echo "AL/alure.h      ..."$ac_cv_header_AL_alure_h
+echo "GL/glu.h          ..."$ac_cv_header_GL_glu_h
+echo "SDL/SDL.h         ..."$ac_cv_header_SDL_SDL_h
+echo "SDL/SDL_syswm.h   ..."$ac_cv_header_SDL_SDL_syswm_h
+echo "AL/alure.h        ..."$ac_cv_header_AL_alure_h
+echo "vpx/vpx_decoder.h ..."$ac_cv_header_vpx_vpx_decoder_h
 echo "
 Note that Alure needs VorbisFile, FLAC and DUMB to provide full sound support.
 "

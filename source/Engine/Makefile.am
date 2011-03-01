@@ -18,12 +18,14 @@ sludge_engine_SOURCES = \
 	platform-dependent.h linuxstuff.h zbuffer.h \
 	../CommonCode/functionlist.h \
 	../CommonCode/specialsettings.h \
-	../CommonCode/version.h
+	../CommonCode/version.h \
+	libwebm/mkvparser.cpp libwebm/mkvparser.hpp \
+	libwebm/mkvreader.cpp libwebm/mkvreader.hpp 
 
 dist_pkgdata_DATA = \
 	fixScaleSprite.frag fixScaleSprite.vert \
 	scale.frag scale.vert
 
-AM_CPPFLAGS = -std=c++0x -I$(top_srcdir)/source/CommonCode @LIBPNG_CFLAGS@ -DDATADIR='"$(pkgdatadir)/"'
+AM_CPPFLAGS = -std=c++0x -I$(top_srcdir)/source/CommonCode -I$(top_srcdir)/source/Engine/libwebm @LIBPNG_CFLAGS@ -DDATADIR='"$(pkgdatadir)/"'
 
 LDADD = @LIBPNG_LIBS@
