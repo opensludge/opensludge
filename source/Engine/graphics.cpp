@@ -325,6 +325,25 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 		if (uniform >= 0) glUniform1i(uniform, 0);
 	}
 
+	Vertex = shaderFileRead("yuv.vert");
+	Fragment = shaderFileRead("yuv.frag");
+	
+	if (! Vertex || ! Fragment) {
+		msgBox( "Error loading \"yuv\" shader program!", "Try updating the drivers for your graphics card. If that doesn't help - sorry, your graphics card simply doesn't have all features needed for this game. It will run anyway, but any movies will be greyscale.");
+		shader.yuv = 0;
+	} else {
+		
+		shader.yuv = buildShaders (Vertex, Fragment);
+		debugOut( "Built shader program: %d (yuv)\n", shader.yuv);
+		glUseProgram(shader.yuv);
+		uniform = glGetUniformLocation(shader.yuv, "Ytex");
+		if (uniform >= 0) glUniform1i(uniform, 0);
+		uniform = glGetUniformLocation(shader.yuv, "Utex");
+		if (uniform >= 0) glUniform1i(uniform, 1);
+		uniform = glGetUniformLocation(shader.yuv, "Vtex");
+		if (uniform >= 0) glUniform1i(uniform, 2);
+	}
+	
 	glUseProgram(0);
 
 	glViewport (viewportOffsetX, viewportOffsetY, viewportWidth, viewportHeight);

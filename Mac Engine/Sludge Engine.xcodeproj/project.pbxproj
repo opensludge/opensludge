@@ -123,6 +123,8 @@
 		E8DB5E9811B17E4600137FE3 /* fixScaleSprite.frag in Resources */ = {isa = PBXBuildFile; fileRef = E8DB5E9711B17E4600137FE3 /* fixScaleSprite.frag */; };
 		E8E5000D111CBEAC00FD4DBD /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8E5000C111CBEAC00FD4DBD /* OpenAL.framework */; };
 		E8EC92D112E605E500BFF763 /* sludge_launcher_logo_4c0c.png in Resources */ = {isa = PBXBuildFile; fileRef = E8EC92D012E605E500BFF763 /* sludge_launcher_logo_4c0c.png */; };
+		E8F5CF18131E4A8800EF8C14 /* yuv.frag in Resources */ = {isa = PBXBuildFile; fileRef = E8F5CF13131E4A1600EF8C14 /* yuv.frag */; };
+		E8F5CF19131E4A8800EF8C14 /* yuv.vert in Resources */ = {isa = PBXBuildFile; fileRef = E8F5CF14131E4A1600EF8C14 /* yuv.vert */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -320,6 +322,8 @@
 		E8DB5E9711B17E4600137FE3 /* fixScaleSprite.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = fixScaleSprite.frag; path = ../source/Engine/fixScaleSprite.frag; sourceTree = SOURCE_ROOT; };
 		E8E5000C111CBEAC00FD4DBD /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		E8EC92D012E605E500BFF763 /* sludge_launcher_logo_4c0c.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sludge_launcher_logo_4c0c.png; path = ../images/sludge_launcher_logo_4c0c.png; sourceTree = SOURCE_ROOT; };
+		E8F5CF13131E4A1600EF8C14 /* yuv.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = yuv.frag; path = ../source/Engine/yuv.frag; sourceTree = SOURCE_ROOT; };
+		E8F5CF14131E4A1600EF8C14 /* yuv.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = yuv.vert; path = ../source/Engine/yuv.vert; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -558,6 +562,8 @@
 		E8DB5E2711B1772100137FE3 /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
+				E8F5CF13131E4A1600EF8C14 /* yuv.frag */,
+				E8F5CF14131E4A1600EF8C14 /* yuv.vert */,
 				E8DB5E2811B1774100137FE3 /* scale.frag */,
 				E8DB5E2911B1774100137FE3 /* scale.vert */,
 				E8DB5E9311B17DFB00137FE3 /* fixScaleSprite.vert */,
@@ -622,6 +628,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E8F5CF18131E4A8800EF8C14 /* yuv.frag in Resources */,
+				E8F5CF19131E4A8800EF8C14 /* yuv.vert in Resources */,
 				E8DB5E9411B17DFB00137FE3 /* fixScaleSprite.vert in Resources */,
 				E8DB5E9811B17E4600137FE3 /* fixScaleSprite.frag in Resources */,
 				E8DB5E2A11B1774100137FE3 /* scale.frag in Resources */,

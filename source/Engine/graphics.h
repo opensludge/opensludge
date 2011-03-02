@@ -21,6 +21,7 @@ struct texture {
 struct shaders {
 	GLuint paste;
 	GLuint smartScaler;
+	GLuint yuv;
 };
 
 // From Backdrop.cpp, but they're here anyway

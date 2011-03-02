@@ -352,10 +352,20 @@ int playMovie (int fileNumber)
 						glClear(GL_COLOR_BUFFER_BIT);	
 						
 						// Display the current frame here
+						if (shader.yuv) {
+							glUseProgram(shader.yuv);
+							glActiveTexture(GL_TEXTURE1);
+							glEnable(GL_TEXTURE_2D);
+							glBindTexture (GL_TEXTURE_2D, uTextureName);
+							glActiveTexture(GL_TEXTURE2);
+							glEnable(GL_TEXTURE_2D);
+							glBindTexture (GL_TEXTURE_2D, vTextureName);
+							glActiveTexture(GL_TEXTURE0);
+						}
 						glEnable (GL_TEXTURE_2D);
+						glBindTexture (GL_TEXTURE_2D, yTextureName);
 						glEnable(GL_BLEND);
 						glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-						glBindTexture (GL_TEXTURE_2D, yTextureName);
 						glColor4f(1.0, 1.0, 1.0, 1.0);
 						
 						glBegin(GL_QUADS);
@@ -364,8 +374,15 @@ int playMovie (int fileNumber)
 						glTexCoord2f(1.0, 0.0); glVertex3f(640.0, 0.0, 0.1);
 						glTexCoord2f(1.0, 1.0); glVertex3f(640.0, 400.0, 0.1);
 						glTexCoord2f(0.0, 1.0); glVertex3f(0.0, 400.0, 0.1);
-						
+
 						glEnd();
+						
+						glActiveTexture(GL_TEXTURE1);
+						glDisable(GL_TEXTURE_2D);
+						glActiveTexture(GL_TEXTURE2);
+						glDisable(GL_TEXTURE_2D);
+						glActiveTexture(GL_TEXTURE0);
+						
 						glFlush();
 						SDL_GL_SwapBuffers();
 						
