@@ -33,3 +33,4 @@ void Wait_Frame (void)
 	
 	starttime = endtime;
 }
+
