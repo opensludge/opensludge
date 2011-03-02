@@ -24,7 +24,6 @@ programSettingsStruct programSettings;
 chrRenderingSettingsStruct chrRenderingSettings;
 
 char * tempDirectory = NULL;
-char * sourceDirectory = NULL;
 bool silent = true;
 
 
@@ -260,13 +259,6 @@ void chrRenderingSettingsFillDefaults(bool enable)
 	chrRenderingSettings.maxSoftnessY = 100;
 }
 
-
-bool gotoSourceDirectory () {
-	bool r = chdir (sourceDirectory);
-	if (r) return addComment (ERRORTYPE_SYSTEMERROR, "Can't move to source directory", sourceDirectory, NULL, 0);
-	return true;
-}
-
 bool gotoTempDirectory () {
 	if (! tempDirectory) {
 		tempDirectory = joinStrings(getTempDir(), "/SLUDGE_Tmp_XXXXXX");
@@ -373,52 +365,4 @@ void writeFinalData (FILE * mainFile) {
 
 	writeString ("okSoFar", mainFile);
 }
-
-
-
-
-
-bool getSourceDirFromName (const char * name) {
-	char * filename = joinStrings (name, "");
-
-	int a, lastSlash = -1;
-	for (a = 0; filename[a]; a ++) {
-		if (filename[a] == '/' || filename[a] == '\\') {
-			lastSlash = a;
-		}
-	}
-	if (lastSlash != -1) {
-		char slashChar = filename[lastSlash];
-		filename[lastSlash] = 0;
-		if (chdir (filename)) return addComment (ERRORTYPE_SYSTEMERROR, "Can't move to source directory", filename, NULL, 0);
-		filename[lastSlash] = slashChar;
-	}
-	char buff[1000];
-	if (! getcwd (buff, 1000)) {
-		addComment (ERRORTYPE_SYSTEMERROR, "I can't work out which directory I'm in...", NULL);
-		return false;
-	}
-	sourceDirectory = joinStrings (buff, "");
-	fixPath (sourceDirectory, true);
-	return true;
-}
-
-
-// Fix pathnames, because Windows doesn't use the same path separator
-// as the rest of the world
-void fixPath (char *filename, bool makeGood) {
-	if (! filename) return;
-	char * ptr;
-
-	if (makeGood) {
-		while (ptr = strstr (filename, "\\")) {
-			ptr[0] = '/';
-		}
-	} else {
-		while (ptr = strstr (filename, "/")) {
-			ptr[0] = '\\';
-		}
-	}
-}
-
 

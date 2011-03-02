@@ -59,7 +59,6 @@ extern struct programSettingsStruct programSettings;
 
 
 extern bool silent;
-extern char * sourceDirectory;
 
 bool readSettings (FILE * fp);
 void writeSettings (FILE * fp);
@@ -67,14 +66,10 @@ void noSettings ();
 void killSettingsStrings ();
 void chrRenderingSettingsFillDefaults(bool enable);
 
-bool getSourceDirFromName (const char * filename);
-bool gotoSourceDirectory ();
 bool gotoTempDirectory ();
 void killTempDir();
 FILE * openFinalFile (const char *, const char *);
 void writeFinalData (FILE * mainFile);
-
-void fixPath (char *filename, bool makeGood);
 
 
 #ifdef __cplusplus

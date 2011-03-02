@@ -1,7 +1,9 @@
-#ifndef _SPLITTER_H_
-#define _SPLITTER_H_
+#ifndef _STRINGARRAY_H_
+#define _STRINGARRAY_H_
 
 #include <stdint.h>
+
+enum splitMode {ONCE, REPEAT};
 
 struct stringArray {
 	char * string;
@@ -10,12 +12,6 @@ struct stringArray {
 };
 
 extern struct stringArray * nullArray;
-
-enum splitMode {ONCE, REPEAT};
-
-// Make an entire stringArray from a char *
-stringArray * splitString (const char *, const char = ';', const splitMode = REPEAT, bool = true);
-stringArray * splitAtLast (const char * inString, const char findCharIn);
 
 // Handling a stringArray
 void addToStringArray (stringArray * & theArray, const char * theString, int start = 0, int size = -1, bool trimSpa = true);
@@ -33,7 +29,7 @@ void trimEdgeSpace (char * & thisString);
 bool trimStart (char * & thisString, char trimChar);
 bool trimEnd (char * & thisString, char trimChar);
 
-int32_t stringToInt (const char * textNumber, int errorType);
+uint32_t readLineNumber (const char * textNumber);
 
 //void displayAllInArray (stringArray *);
 //int findElement (stringArray * sA, const char * findString);

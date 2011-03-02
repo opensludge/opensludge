@@ -41,10 +41,9 @@ sludge_translationeditor_SOURCES = \
 	SludgeApplication.cpp SludgeApplication.h \
 	Common.cpp Common.h ../source/DevKit/Common/interface.h \
 	../source/DevKit/TranslationEditor/translator.cpp ../source/DevKit/TranslationEditor/translator.h \
-	../source/DevKit/ProjectManager/settings.cpp ../source/DevKit/ProjectManager/settings.h \
 	../source/DevKit/Common/moreio.cpp ../source/DevKit/Common/moreio.h \
 	../source/DevKit/Common/helpers.cpp ../source/DevKit/Common/helpers.h \
-	../source/DevKit/Common/splitter.cpp ../source/DevKit/Common/splitter.hpp
+	../source/DevKit/Common/stringarray.cpp ../source/DevKit/Common/stringarray.h
 
 sludge_projectmanager_SOURCES = \
 	ProjectManagerMain.cpp ProjectManagerMain.h \
@@ -66,12 +65,13 @@ sludge_projectmanager_SOURCES = \
 	../source/DevKit/Compiler/preproc.cpp ../source/DevKit/Compiler/preproc.h \
 	../source/DevKit/Compiler/realproc.cpp ../source/DevKit/Compiler/realproc.h \
 	../source/DevKit/Compiler/sludge_functions.cpp ../source/DevKit/Compiler/sludge_functions.h \
+	../source/DevKit/Compiler/splitter.cpp ../source/DevKit/Compiler/splitter.hpp \
 	../source/DevKit/Compiler/tokens.cpp ../source/DevKit/Compiler/tokens.h \
 	../source/DevKit/Compiler/translation.cpp ../source/DevKit/Compiler/translation.h \
 	../source/DevKit/Compiler/csludge.h ../source/DevKit/Compiler/typedef.h \
 	../source/DevKit/Common/moreio.cpp ../source/DevKit/Common/moreio.h \
 	../source/DevKit/Common/helpers.cpp ../source/DevKit/Common/helpers.h \
-	../source/DevKit/Common/splitter.cpp ../source/DevKit/Common/splitter.hpp \
+	../source/DevKit/Common/stringarray.cpp ../source/DevKit/Common/stringarray.h \
 	../source/CommonCode/tga.cpp ../source/CommonCode/tga.h
 
 sludge_compiler_SOURCES = \
@@ -92,12 +92,13 @@ sludge_compiler_SOURCES = \
 	../source/DevKit/Compiler/preproc.cpp ../source/DevKit/Compiler/preproc.h \
 	../source/DevKit/Compiler/realproc.cpp ../source/DevKit/Compiler/realproc.h \
 	../source/DevKit/Compiler/sludge_functions.cpp ../source/DevKit/Compiler/sludge_functions.h \
+	../source/DevKit/Compiler/splitter.cpp ../source/DevKit/Compiler/splitter.hpp \
 	../source/DevKit/Compiler/tokens.cpp ../source/DevKit/Compiler/tokens.h \
 	../source/DevKit/Compiler/translation.cpp ../source/DevKit/Compiler/translation.h \
 	../source/DevKit/Compiler/csludge.h ../source/DevKit/Compiler/typedef.h \
 	../source/DevKit/Common/moreio.cpp ../source/DevKit/Common/moreio.h \
 	../source/DevKit/Common/helpers.cpp ../source/DevKit/Common/helpers.h \
-	../source/DevKit/Common/splitter.cpp ../source/DevKit/Common/splitter.hpp \
+	../source/DevKit/Common/stringarray.cpp ../source/DevKit/Common/stringarray.h \
 	../source/CommonCode/tga.cpp ../source/CommonCode/tga.h
 
 dist_pkgdata_DATA = \

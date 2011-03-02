@@ -16,7 +16,7 @@
 #include "moreio.h"
 #include "helpers.h"
 #include "settings.h"
-#include "splitter.hpp"
+#include "stringarray.h"
 
 #include "translator.h"
 

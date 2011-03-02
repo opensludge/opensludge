@@ -4,6 +4,7 @@
 #include "splitter.hpp"
 #include "moreio.h"
 #include "settings.h"
+#include "helpers.h"
 #include "messbox.h"
 #include "dumpfiles.h"
 

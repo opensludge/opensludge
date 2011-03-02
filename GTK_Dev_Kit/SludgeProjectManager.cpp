@@ -43,6 +43,7 @@
 #include "interface.h"
 #include "compiler.hpp"
 #include "moreio.h"
+#include "helpers.h"
 #include "Common.h"
 
 #include "SludgeProjectManager.h"

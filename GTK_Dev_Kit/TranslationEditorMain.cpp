@@ -42,12 +42,6 @@
 #include "SludgeTranslationEditor.h"
 #include "Common.h"
 
-//FIXME: Get rid of settings.cpp in order to get rid of this:
-void addComment(int, const char*, const char*){}
-bool addComment(int, const char*, const char*, const char*, unsigned int=0){return FALSE;}
-void addTranslationIDTable (FILE * mainFile, char * name){}
-void writeDebugData (FILE * mainFile){}
-
 SludgeTranslationEditor *translationEditor;
 
 #ifdef __cplusplus
