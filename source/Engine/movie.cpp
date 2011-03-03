@@ -79,6 +79,24 @@ void setMovieViewport()
 	glMatrixMode(GL_MODELVIEW);
 }
 
+static uint64_t xiph_lace_value(unsigned char ** np)
+{
+	uint64_t lace;
+	uint64_t value;
+	unsigned char * p = *np;
+	
+	lace = *p++;
+	value = lace;
+	while (lace == 255) {
+		lace = *p++;
+		value += lace;
+	}
+	
+	*np = p;
+	
+	return value;
+}
+
 
 int playMovie (int fileNumber)
 {
@@ -137,6 +155,11 @@ int playMovie (int fileNumber)
 	long long audioChannels;
 	long long audioBitDepth;
 	double audioSampleRate;
+	ogg_packet oggPacket;
+	vorbis_info vorbisInfo;
+	vorbis_comment vorbisComment;
+	vorbis_dsp_state vorbisDspState;
+	vorbis_block vorbisBlock;
 		
     while (i != j)
     {
@@ -183,37 +206,25 @@ int playMovie (int fileNumber)
 				continue;
 			}
 			
-			unsigned int count = audioHeader[0] + 1;
+			unsigned char *p = (unsigned char *)audioHeader;
+
+			unsigned int count = *p++ + 1;
 			if (count != 3) {
 				warning("Strange audio track in movie.");
 				audioTrack = -1;
 				continue;
 			}
-/*			uint64_t sizes[3], total;
+
+			uint64_t sizes[3], total;
 
 			int i = 0;
 			total = 0;
 			while (--count) {
-				sizes[i] = ne_xiph_lace_value(&p);
+				sizes[i] = xiph_lace_value(&p);
 				total += sizes[i];
 				i += 1;
 			}
-			sizes[i] = audioHeaderSize - total - (p - audioHeader);
-			
-			for (i = 0; i < item; ++i) {
-				if (sizes[i] > LIMIT_FRAME)
-					return -1;
-				p += sizes[i];
-			}
-			*data = p;
-			*length = sizes[item];
-			fprintf (stderr, "Audio OK.\n");*/
-			
-			vorbis_info vorbisInfo;
-			vorbis_comment vorbisComment;
-			vorbis_dsp_state vorbisDspState;
-			vorbis_block vorbisBlock;
-			ogg_packet oggPacket;
+			sizes[i] = audioHeaderSize - total- (p - audioHeader);
 			
 			// initialize vorbis 
 			vorbis_info_init(&vorbisInfo); 
@@ -221,26 +232,20 @@ int playMovie (int fileNumber)
 			memset(&vorbisDspState,0,sizeof(vorbisDspState)); 
 			memset(&vorbisBlock,0,sizeof(vorbisBlock)); 
 
-			
 			oggPacket.e_o_s = false; 
 			oggPacket.granulepos = 0; 
 			oggPacket.packetno = 0; 
 			int r; 
 			for(int i=0;i<3;i++) 
 			{ 
-				while( (audioHeaderSize-6) && memcmp(audioHeader,"vorbis",6) ) 
-				{ 
-					audioHeader++; 
-					audioHeaderSize--; 
-				} 
-				oggPacket.packet = (unsigned char *) audioHeader - 1; 
-				oggPacket.bytes = audioHeaderSize; 
+				oggPacket.packet = p; 
+				oggPacket.bytes = sizes[i]; 
 				oggPacket.b_o_s = oggPacket.packetno==0; 
 				r = vorbis_synthesis_headerin(&vorbisInfo, &vorbisComment, &oggPacket); 
 				if( r ) 
 					fprintf(stderr,"vorbis_synthesis_headerin failed, error: %d", r); 
 				oggPacket.packetno++; 
-				audioHeader++; 
+				p += sizes[i];
 			} 
 			
 			r = vorbis_synthesis_init(&vorbisDspState, &vorbisInfo); 
@@ -250,11 +255,7 @@ int playMovie (int fileNumber)
 			if( r ) 
 				fprintf(stderr,"vorbis_block_init failed, error: %d", r); 
 			
-			vorbis_comment_clear(&vorbisComment);
-			vorbis_info_clear(&vorbisInfo);
 			
-			vorbis_dsp_clear(&vorbisDspState);
-			vorbis_block_clear(&vorbisBlock);
 			
         }
     }
@@ -273,7 +274,7 @@ int playMovie (int fileNumber)
     if(vpx_codec_dec_init(&codec, interface, NULL, 0))                    //
         die_codec(&codec, "Failed to initialize decoder for movie.");         //	
 
-    unsigned char    frame[256*1024];
+    unsigned char *frame = new unsigned char[256*1024];
 	GLubyte * ytex = NULL;
 	GLubyte * utex = NULL;
 	GLubyte * vtex = NULL;
@@ -303,8 +304,7 @@ int playMovie (int fileNumber)
 	{
 		pCluster = pSegment->GetNext(pCluster);
 		if ((pCluster == NULL) || pCluster->EOS()) {
-			// TODO: Cleanup first
-			return 0;
+			fatal("Error: No movie found in the movie file.");
 		}
 		pBlockEntry = pCluster->GetFirst();
 	}
@@ -315,13 +315,6 @@ int playMovie (int fileNumber)
 	long long trackType = pTrack->GetType();
 	int frameCount = pBlock->GetFrameCount();
 	time_ns = pBlock->GetTime(pCluster);
-
-	/*
-	fprintf (stderr, "\t\t\tBlock\t\t:%s,%s,%15lld\n",
-			 (trackType == VIDEO_TRACK) ? "V" : "A",
-			 pBlock->IsKey() ? "I" : "P",
-			 time_ns);
-	 */
 	
 	int frameCounter = 0;
 	
@@ -365,18 +358,26 @@ int playMovie (int fileNumber)
 				const long size = theFrame.len;
 				//                const long long offset = theFrame.pos;
 				
+				if( size > sizeof(frame) ) { 
+					if( frame ) delete [] frame; 
+					frame = new unsigned char[size]; 
+					if (! checkNew(frame)) return 0;
+				} 
+				/*
+
+				fprintf (stderr, "Block :%s,%s,%15lld\n",
+				 (trackType == VIDEO_TRACK) ? "V" : "A",
+				 pBlock->IsKey() ? "I" : "P",
+				 time_ns);
+*/
 				if (trackNum == videoTrack) {
 					
-					if(size > sizeof(frame))
-						fatal("Movie error: Frame data too big for buffer.");
-						
 					theFrame.Read(&reader, frame);
 						
 					/* Decode the frame */                                                
 					if(vpx_codec_decode(&codec, frame, size, NULL, 0))                //
 						die_codec(&codec, "Failed to decode frame");
 
-							
 					// Let's decode an image frame!
 					vpx_codec_iter_t  iter = NULL;
 					vpx_image_t      *img;
@@ -443,26 +444,26 @@ int playMovie (int fileNumber)
 							
 					}
 				} else if (trackNum == audioTrack) {
-					/*
 					// Use this Audio Track 
-					if( size > _audioInfo.audioPageSize ) { 
-						if( _audioInfo.audioPage ) delete [] _audioInfo.audioPage; 
-						_audioInfo.audioPage = new unsigned char[size]; 
-						_audioInfo.audioPageSize = size; 
-					} 
 					if( size > 0 ) { 
-						theFrame.Read(&reader, _audioInfo.audioPage);
-						_vorbis.oggPacket.packet = _audioInfo.audioPage; 
-						_vorbis.oggPacket.bytes = size; 
-						_vorbis.oggPacket.b_o_s = false; 
-						_vorbis.oggPacket.packetno++; 
-						_vorbis.oggPacket.granulepos = -1; 
-						if( vorbis_synthesis(&_vorbis.block, &_vorbis.oggPacket)==0 ) { 
-							vorbis_synthesis_blockin(&_vorbis.dspState, &_vorbis.block); 
+						theFrame.Read(&reader, frame);
+						oggPacket.packet = frame; 
+						oggPacket.bytes = size;
+						oggPacket.b_o_s = false; 
+						oggPacket.packetno++; 
+						oggPacket.granulepos = -1; 
+						if( vorbis_synthesis(&vorbisBlock, &oggPacket)==0 ) { 
+							vorbis_synthesis_blockin(&vorbisDspState, &vorbisBlock); 
 						} 
+
 						// send audio to audio device... 
+						float **pcm;
+						int numSamples = vorbis_synthesis_pcmout(&vorbisDspState, &pcm);
+						int r = vorbis_synthesis_read(&vorbisDspState, numSamples);
+						fprintf (stderr, "Samples read: %d\n", numSamples);
+ 
 					}
-					 */
+					 
 						
 				}
 				++frameCounter;
@@ -562,6 +563,10 @@ movieHasEnded:	movieIsPlaying = 0;
 	// Cleanup
     if(vpx_codec_destroy(&codec))                                             //
         die_codec(&codec, "Failed to destroy codec");                         //
+	vorbis_dsp_clear(&vorbisDspState);
+	vorbis_block_clear(&vorbisBlock);
+	vorbis_comment_clear(&vorbisComment);
+	vorbis_info_clear(&vorbisInfo);
     delete pSegment;
 	delete ytex;
 	delete utex;
