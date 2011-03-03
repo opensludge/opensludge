@@ -25,6 +25,9 @@
 #include "movie.h"
 #include "shaders.h"
 
+#include "vorbis/codec.h"
+#include "ogg/ogg.h"
+
 
 // in main.c
 int checkInput();
@@ -112,7 +115,7 @@ int playMovie (int fileNumber)
         fatal ("Movie error: Segment::Load() failed.\n");
     }
 	
-    const SegmentInfo* const pSegmentInfo = pSegment->GetInfo();
+    //const SegmentInfo* const pSegmentInfo = pSegment->GetInfo();
 	
     //const long long timeCodeScale = pSegmentInfo->GetTimeCodeScale();
     //const long long duration_ns = pSegmentInfo->GetDuration();
@@ -129,6 +132,11 @@ int playMovie (int fileNumber)
     const unsigned long j = pTracks->GetTracksCount();
 	
     enum { VIDEO_TRACK = 1, AUDIO_TRACK = 2 };
+	int videoTrack = -1;
+	int audioTrack = -1;
+	long long audioChannels;
+	long long audioBitDepth;
+	double audioSampleRate;
 		
     while (i != j)
     {
@@ -142,29 +150,117 @@ int playMovie (int fileNumber)
         //const unsigned long long trackUid = pTrack->GetUid();
         //const char* pTrackName = pTrack->GetNameAsUTF8();
 								
-        if (trackType == VIDEO_TRACK)
+        if (trackType == VIDEO_TRACK && videoTrack < 0)
         {
+			videoTrack = pTrack->GetNumber();
             const VideoTrack* const pVideoTrack =
 			static_cast<const VideoTrack*>(pTrack);
 			
             const long long width =  pVideoTrack->GetWidth();
             const long long height = pVideoTrack->GetHeight();
 			
-            const double rate = pVideoTrack->GetFrameRate();
+            //const double rate = pVideoTrack->GetFrameRate();
 			
 			movieAspect = (float)width/height;
         }
 		
         if (trackType == AUDIO_TRACK)
         {
+			audioTrack = pTrack->GetNumber();
             const AudioTrack* const pAudioTrack =
 			static_cast<const AudioTrack*>(pTrack);
 			
-            const long long channels =  pAudioTrack->GetChannels();
-            const long long bitDepth = pAudioTrack->GetBitDepth();
-            const double sampleRate = pAudioTrack->GetSamplingRate();
+            audioChannels =  pAudioTrack->GetChannels();
+            audioBitDepth = pAudioTrack->GetBitDepth();
+            audioSampleRate = pAudioTrack->GetSamplingRate();
+			
+			size_t audioHeaderSize;
+			const unsigned char* audioHeader = pAudioTrack->GetCodecPrivate(audioHeaderSize);
+			
+			if (audioHeaderSize < 1) {
+				warning("Strange audio track in movie.");
+				audioTrack = -1;
+				continue;
+			}
+			
+			unsigned int count = audioHeader[0] + 1;
+			if (count != 3) {
+				warning("Strange audio track in movie.");
+				audioTrack = -1;
+				continue;
+			}
+/*			uint64_t sizes[3], total;
+
+			int i = 0;
+			total = 0;
+			while (--count) {
+				sizes[i] = ne_xiph_lace_value(&p);
+				total += sizes[i];
+				i += 1;
+			}
+			sizes[i] = audioHeaderSize - total - (p - audioHeader);
+			
+			for (i = 0; i < item; ++i) {
+				if (sizes[i] > LIMIT_FRAME)
+					return -1;
+				p += sizes[i];
+			}
+			*data = p;
+			*length = sizes[item];
+			fprintf (stderr, "Audio OK.\n");*/
+			
+			vorbis_info vorbisInfo;
+			vorbis_comment vorbisComment;
+			vorbis_dsp_state vorbisDspState;
+			vorbis_block vorbisBlock;
+			ogg_packet oggPacket;
+			
+			// initialize vorbis 
+			vorbis_info_init(&vorbisInfo); 
+			vorbis_comment_init(&vorbisComment); 
+			memset(&vorbisDspState,0,sizeof(vorbisDspState)); 
+			memset(&vorbisBlock,0,sizeof(vorbisBlock)); 
+
+			
+			oggPacket.e_o_s = false; 
+			oggPacket.granulepos = 0; 
+			oggPacket.packetno = 0; 
+			int r; 
+			for(int i=0;i<3;i++) 
+			{ 
+				while( (audioHeaderSize-6) && memcmp(audioHeader,"vorbis",6) ) 
+				{ 
+					audioHeader++; 
+					audioHeaderSize--; 
+				} 
+				oggPacket.packet = (unsigned char *) audioHeader - 1; 
+				oggPacket.bytes = audioHeaderSize; 
+				oggPacket.b_o_s = oggPacket.packetno==0; 
+				r = vorbis_synthesis_headerin(&vorbisInfo, &vorbisComment, &oggPacket); 
+				if( r ) 
+					fprintf(stderr,"vorbis_synthesis_headerin failed, error: %d", r); 
+				oggPacket.packetno++; 
+				audioHeader++; 
+			} 
+			
+			r = vorbis_synthesis_init(&vorbisDspState, &vorbisInfo); 
+			if( r ) 
+				fprintf(stderr,"vorbis_synthesis_init failed, error: %d", r); 
+			r = vorbis_block_init(&vorbisDspState, &vorbisBlock); 
+			if( r ) 
+				fprintf(stderr,"vorbis_block_init failed, error: %d", r); 
+			
+			vorbis_comment_clear(&vorbisComment);
+			vorbis_info_clear(&vorbisInfo);
+			
+			vorbis_dsp_clear(&vorbisDspState);
+			vorbis_block_clear(&vorbisBlock);
+			
         }
-    }	
+    }
+	
+	if (videoTrack < 0)
+		fatal ("Movie error: No video in movie file.");
 	
     const unsigned long clusterCount = pSegment->GetCount();
 		
@@ -173,7 +269,7 @@ int playMovie (int fileNumber)
         fatal ("Movie error: Segment has no clusters.\n");
     }
 	
-	/* Initialize codec */                                                    //
+	/* Initialize video codec */                                                    //
     if(vpx_codec_dec_init(&codec, interface, NULL, 0))                    //
         die_codec(&codec, "Failed to initialize decoder for movie.");         //	
 
@@ -269,16 +365,16 @@ int playMovie (int fileNumber)
 				const long size = theFrame.len;
 				//                const long long offset = theFrame.pos;
 				
-				if (trackType == VIDEO_TRACK) {
+				if (trackNum == videoTrack) {
 					
 					if(size > sizeof(frame))
 						fatal("Movie error: Frame data too big for buffer.");
 						
-						theFrame.Read(&reader, frame);
+					theFrame.Read(&reader, frame);
 						
 					/* Decode the frame */                                                
-						if(vpx_codec_decode(&codec, frame, size, NULL, 0))                //
-							die_codec(&codec, "Failed to decode frame");
+					if(vpx_codec_decode(&codec, frame, size, NULL, 0))                //
+						die_codec(&codec, "Failed to decode frame");
 
 							
 					// Let's decode an image frame!
@@ -346,10 +442,31 @@ int playMovie (int fileNumber)
 						
 							
 					}
+				} else if (trackNum == audioTrack) {
+					/*
+					// Use this Audio Track 
+					if( size > _audioInfo.audioPageSize ) { 
+						if( _audioInfo.audioPage ) delete [] _audioInfo.audioPage; 
+						_audioInfo.audioPage = new unsigned char[size]; 
+						_audioInfo.audioPageSize = size; 
+					} 
+					if( size > 0 ) { 
+						theFrame.Read(&reader, _audioInfo.audioPage);
+						_vorbis.oggPacket.packet = _audioInfo.audioPage; 
+						_vorbis.oggPacket.bytes = size; 
+						_vorbis.oggPacket.b_o_s = false; 
+						_vorbis.oggPacket.packetno++; 
+						_vorbis.oggPacket.granulepos = -1; 
+						if( vorbis_synthesis(&_vorbis.block, &_vorbis.oggPacket)==0 ) { 
+							vorbis_synthesis_blockin(&_vorbis.dspState, &_vorbis.block); 
+						} 
+						// send audio to audio device... 
+					}
+					 */
+						
 				}
 				++frameCounter;
 
-				
 				
 			} else {
 movieHasEnded:	movieIsPlaying = 0;
