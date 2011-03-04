@@ -55,6 +55,8 @@ if test "x$enable_engine" = xyes; then
   AC_CHECK_LIB([alure], [alureUpdateInterval])
   AC_CHECK_LIB([openal], [alGetError])
   AC_CHECK_LIB([vpx], [vpx_codec_decode])
+  AC_CHECK_LIB([vorbis], [vorbis_info_init])
+  AC_CHECK_LIB([ogg], [ogg_stream_init])
 fi
 
 if test "x$enable_devkit" = xyes; then
@@ -68,7 +70,8 @@ AC_CHECK_HEADERS([limits.h malloc.h stddef.h stdint.h stdlib.h string.h sys/time
 AC_CHECK_HEADERS([GLee.h getopt.h])
 
 if test "x$enable_engine" = xyes; then
-  AC_CHECK_HEADERS([GL/glu.h SDL/SDL.h SDL/SDL_syswm.h AL/alure.h vpx/vpx_decoder.h])
+  AC_CHECK_HEADERS([GL/glu.h SDL/SDL.h SDL/SDL_syswm.h AL/alure.h])
+  AC_CHECK_HEADERS([vpx/vpx_decoder.h vorbis/codec.h ogg/ogg.h])
 fi
 
 # Checks for typedefs, structures, and compiler characteristics.
@@ -125,12 +128,16 @@ echo "SDL               ..."$ac_cv_lib_SDL_SDL_Init
 echo "Alure (>= 1.1)    ..."$ac_cv_lib_alure_alureUpdateInterval
 echo "OpenAL            ..."$ac_cv_lib_openal_alGetError
 echo "vpx               ..."$ac_cv_lib_vpx_vpx_codec_decode
+echo "vorbis            ..."$ac_cv_lib_vorbis_vorbis_info_init
+echo "ogg               ..."$ac_cv_lib_ogg_ogg_stream_init
 echo ""
 echo "GL/glu.h          ..."$ac_cv_header_GL_glu_h
 echo "SDL/SDL.h         ..."$ac_cv_header_SDL_SDL_h
 echo "SDL/SDL_syswm.h   ..."$ac_cv_header_SDL_SDL_syswm_h
 echo "AL/alure.h        ..."$ac_cv_header_AL_alure_h
 echo "vpx/vpx_decoder.h ..."$ac_cv_header_vpx_vpx_decoder_h
+echo "vorbis/codec.h    ..."$ac_cv_header_vorbis_codec_h
+echo "ogg/ogg.h         ..."$ac_cv_header_ogg_ogg_h
 echo "
 Note that Alure needs VorbisFile, FLAC and DUMB to provide full sound support.
 "
