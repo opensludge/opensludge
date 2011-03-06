@@ -25,8 +25,13 @@
 #include "movie.h"
 #include "shaders.h"
 
+#include "sound.h"
 #include "vorbis/codec.h"
+#include "vorbis/vorbisfile.h"
 #include "ogg/ogg.h"
+#include "vorbis_os.h"
+
+#include "AL/alure.h"
 
 
 // in main.c
@@ -35,6 +40,11 @@ extern int weAreDoneSoQuit;
 
 // Sludger.cpp
 bool handleInput ();
+
+// sound_openal.cpp
+void playStream (int a, bool isMOD, bool loopy);
+int initMovieSound(int f, ALenum format, int audioChannels, ALuint samplerate, 
+				   ALuint (*callback)(void *userdata, ALubyte *data, ALuint bytes));
 
 /*
  movieIsPlaying tracks the state of movie playing
@@ -98,8 +108,19 @@ static uint64_t xiph_lace_value(unsigned char ** np)
 }
 
 
+vorbis_dsp_state vorbisDspState;
+long long audioChannels;
+//ALubyte audioBuffer[1024*1024];
+
+// send audio to audio device... 
+ALuint feedAudio (void *userdata, ALubyte *data, ALuint length) {
+	return 0;
+}
+
 int playMovie (int fileNumber)
 {
+	if (movieIsPlaying) return 0;
+	
     vpx_codec_ctx_t  codec;
 	float pausefade = 1.0;
 
@@ -152,13 +173,13 @@ int playMovie (int fileNumber)
     enum { VIDEO_TRACK = 1, AUDIO_TRACK = 2 };
 	int videoTrack = -1;
 	int audioTrack = -1;
-	long long audioChannels;
 	long long audioBitDepth;
 	double audioSampleRate;
+	int audioIndex;
+	bool soundPlaying = false;
 	ogg_packet oggPacket;
 	vorbis_info vorbisInfo;
 	vorbis_comment vorbisComment;
-	vorbis_dsp_state vorbisDspState;
 	vorbis_block vorbisBlock;
 		
     while (i != j)
@@ -196,7 +217,7 @@ int playMovie (int fileNumber)
             audioChannels =  pAudioTrack->GetChannels();
             audioBitDepth = pAudioTrack->GetBitDepth();
             audioSampleRate = pAudioTrack->GetSamplingRate();
-			
+									
 			size_t audioHeaderSize;
 			const unsigned char* audioHeader = pAudioTrack->GetCodecPrivate(audioHeaderSize);
 			
@@ -255,8 +276,8 @@ int playMovie (int fileNumber)
 			if( r ) 
 				fprintf(stderr,"vorbis_block_init failed, error: %d", r); 
 			
-			
-			
+			ALenum audioFormat = alureGetSampleFormat(audioChannels, 16, 0);
+			audioIndex = initMovieSound(fileNumber, audioFormat, audioChannels, (ALuint) audioSampleRate, feedAudio);
         }
     }
 	
@@ -317,7 +338,6 @@ int playMovie (int fileNumber)
 	time_ns = pBlock->GetTime(pCluster);
 	
 	int frameCounter = 0;
-	
 	
 	while ( movieIsPlaying ) {
 		
@@ -452,16 +472,91 @@ int playMovie (int fileNumber)
 						oggPacket.b_o_s = false; 
 						oggPacket.packetno++; 
 						oggPacket.granulepos = -1; 
-						if( vorbis_synthesis(&vorbisBlock, &oggPacket)==0 ) { 
-							vorbis_synthesis_blockin(&vorbisDspState, &vorbisBlock); 
-						} 
+						if( ! vorbis_synthesis(&vorbisBlock, &oggPacket) ) { 
+							if (vorbis_synthesis_blockin(&vorbisDspState, &vorbisBlock))
+								fprintf (stderr, "Vorbis Synthesis block in error.\n");
+								
+						} else {
+							fprintf (stderr, "Vorbis Synthesis error.\n");
+						}
 
-						// send audio to audio device... 
 						float **pcm;
+						
 						int numSamples = vorbis_synthesis_pcmout(&vorbisDspState, &pcm);
-						int r = vorbis_synthesis_read(&vorbisDspState, numSamples);
-						fprintf (stderr, "Samples read: %d\n", numSamples);
- 
+
+						if (numSamples > 0) {
+							int word = 2;
+							int sgned = 1;
+							int i, j;
+							long bytespersample=audioChannels*word;
+							vorbis_fpu_control fpu;
+							
+							char * buffer = new char[bytespersample*numSamples];
+							
+							/* a tight loop to pack each size */
+							{
+								int val;
+								if(word==1){
+									int off=(sgned?0:128);
+									vorbis_fpu_setround(&fpu);
+									for(j=0;j<numSamples;j++)
+										for(i=0;i<audioChannels;i++){
+											val=vorbis_ftoi(pcm[i][j]*128.f);
+											if(val>127)val=127;
+											else if(val<-128)val=-128;
+											*buffer++=val+off;
+										}
+									vorbis_fpu_restore(fpu);
+								}else{
+									int off=(sgned?0:32768);
+									
+									if(sgned){
+										
+										vorbis_fpu_setround(&fpu);
+										for(i=0;i<audioChannels;i++) { /* It's faster in this order */
+											float *src=pcm[i];
+											short *dest=((short *)buffer)+i;
+											for(j=0;j<numSamples;j++) {
+												val=vorbis_ftoi(src[j]*32768.f);
+												if(val>32767)val=32767;
+												else if(val<-32768)val=-32768;
+												*dest=val;
+												dest+=audioChannels;
+											}
+										}
+										vorbis_fpu_restore(fpu);
+										
+									}else{
+										
+										vorbis_fpu_setround(&fpu);
+										for(i=0;i<audioChannels;i++) {
+											float *src=pcm[i];
+											short *dest=((short *)buffer)+i;
+											for(j=0;j<numSamples;j++) {
+												val=vorbis_ftoi(src[j]*32768.f);
+												if(val>32767)val=32767;
+												else if(val<-32768)val=-32768;
+												*dest=val+off;
+												dest+=audioChannels;
+											}
+										}
+										vorbis_fpu_restore(fpu);
+										
+									}
+									
+								}
+							}
+							
+							vorbis_synthesis_read(&vorbisDspState,numSamples);
+							// TODO: Use the buffer here
+							delete [] buffer;
+
+							if (! soundPlaying && size > 1) {
+								fprintf (stderr, "start sound playing\n");
+								playStream (audioIndex, false, false); 
+								soundPlaying = true;
+							}
+						}							
 					}
 					 
 						
@@ -476,91 +571,94 @@ movieHasEnded:	movieIsPlaying = 0;
 							
 		} 
 
-		
-		
-		// Clear The Screen
-		glClear(GL_COLOR_BUFFER_BIT);	
-		
-		// Display the current frame here
-		if (shader.yuv) {
-			glUseProgram(shader.yuv);
-			glActiveTexture(GL_TEXTURE1);
-			glEnable(GL_TEXTURE_2D);
-			glBindTexture (GL_TEXTURE_2D, uTextureName);
-			glActiveTexture(GL_TEXTURE2);
-			glEnable(GL_TEXTURE_2D);
-			glBindTexture (GL_TEXTURE_2D, vTextureName);
-			glActiveTexture(GL_TEXTURE0);
-		}
-		glEnable (GL_TEXTURE_2D);
-		glBindTexture (GL_TEXTURE_2D, yTextureName);
-		glEnable(GL_BLEND);
-		glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-		glColor4f(1.0, 1.0, 1.0, 1.0);
-		
-		glBegin(GL_QUADS);
-		
-		glTexCoord2f(0.0, 0.0); glVertex3f(0.0, 0.0, 0.1);
-		glTexCoord2f(1.0, 0.0); glVertex3f(640.0, 0.0, 0.1);
-		glTexCoord2f(1.0, 1.0); glVertex3f(640.0, 400.0, 0.1);
-		glTexCoord2f(0.0, 1.0); glVertex3f(0.0, 400.0, 0.1);
-		
-		glEnd();
-		
-		glActiveTexture(GL_TEXTURE1);
-		glDisable(GL_TEXTURE_2D);
-		glActiveTexture(GL_TEXTURE2);
-		glDisable(GL_TEXTURE_2D);
-		glActiveTexture(GL_TEXTURE0);
-		
-		glUseProgram(0);
-		
-		if (movieIsPlaying == 2) {
-			pausefade -= 1.0 / 24;
-			if (pausefade<-1.0) pausefade = 1.0;
+		// Don't update the screen on audio frames
+		if (trackNum == videoTrack || movieIsPlaying == 2) {
+
+			// Clear The Screen
+			glClear(GL_COLOR_BUFFER_BIT);	
 			
-			// Paused.
-			glDisable (GL_TEXTURE_2D);
+			// Display the current frame here
+			if (shader.yuv) {
+				glUseProgram(shader.yuv);
+				glActiveTexture(GL_TEXTURE1);
+				glEnable(GL_TEXTURE_2D);
+				glBindTexture (GL_TEXTURE_2D, uTextureName);
+				glActiveTexture(GL_TEXTURE2);
+				glEnable(GL_TEXTURE_2D);
+				glBindTexture (GL_TEXTURE_2D, vTextureName);
+				glActiveTexture(GL_TEXTURE0);
+			}
+			glEnable (GL_TEXTURE_2D);
+			glBindTexture (GL_TEXTURE_2D, yTextureName);
 			glEnable(GL_BLEND);
-			glColor4f(0.0, 0.0, 0.0, fabs(pausefade));
+			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+			glColor4f(1.0, 1.0, 1.0, 1.0);
 			
 			glBegin(GL_QUADS);
 			
-			
-			glVertex3f(7.0, 7.0, 0.1);
-			glVertex3f(17.0, 7.0, 0.1);
-			glVertex3f(17.0, 29.0, 0.1);
-			glVertex3f(7.0, 29.0, 0.1);
-			
-			glVertex3f(27.0, 7.0, 0.1);
-			glVertex3f(37.0, 7.0, 0.1);
-			glVertex3f(37.0, 29.0, 0.1);
-			glVertex3f(27.0, 29.0, 0.1);
-
-			glColor4f(1.0, 1.0, 1.0, fabs(pausefade));
-
-			glVertex3f(5.0, 5.0, 0.1);
-			glVertex3f(15.0, 5.0, 0.1);
-			glVertex3f(15.0, 27.0, 0.1);
-			glVertex3f(5.0, 27.0, 0.1);
-
-			glVertex3f(25.0, 5.0, 0.1);
-			glVertex3f(35.0, 5.0, 0.1);
-			glVertex3f(35.0, 27.0, 0.1);
-			glVertex3f(25.0, 27.0, 0.1);
+			glTexCoord2f(0.0, 0.0); glVertex3f(0.0, 0.0, 0.1);
+			glTexCoord2f(1.0, 0.0); glVertex3f(640.0, 0.0, 0.1);
+			glTexCoord2f(1.0, 1.0); glVertex3f(640.0, 400.0, 0.1);
+			glTexCoord2f(0.0, 1.0); glVertex3f(0.0, 400.0, 0.1);
 			
 			glEnd();
-	
-			glDisable(GL_BLEND);
 			
-		}
-		glFlush();
-		SDL_GL_SwapBuffers();
+			glActiveTexture(GL_TEXTURE1);
+			glDisable(GL_TEXTURE_2D);
+			glActiveTexture(GL_TEXTURE2);
+			glDisable(GL_TEXTURE_2D);
+			glActiveTexture(GL_TEXTURE0);
+			
+			glUseProgram(0);
 		
-	//	Wait_Frame();
+			if (movieIsPlaying == 2) {
+				pausefade -= 1.0 / 24;
+				if (pausefade<-1.0) pausefade = 1.0;
+				
+				// Paused.
+				glDisable (GL_TEXTURE_2D);
+				glEnable(GL_BLEND);
+				glColor4f(0.0, 0.0, 0.0, fabs(pausefade));
+				
+				glBegin(GL_QUADS);
+				
+				
+				glVertex3f(7.0, 7.0, 0.1);
+				glVertex3f(17.0, 7.0, 0.1);
+				glVertex3f(17.0, 29.0, 0.1);
+				glVertex3f(7.0, 29.0, 0.1);
+				
+				glVertex3f(27.0, 7.0, 0.1);
+				glVertex3f(37.0, 7.0, 0.1);
+				glVertex3f(37.0, 29.0, 0.1);
+				glVertex3f(27.0, 29.0, 0.1);
+
+				glColor4f(1.0, 1.0, 1.0, fabs(pausefade));
+
+				glVertex3f(5.0, 5.0, 0.1);
+				glVertex3f(15.0, 5.0, 0.1);
+				glVertex3f(15.0, 27.0, 0.1);
+				glVertex3f(5.0, 27.0, 0.1);
+
+				glVertex3f(25.0, 5.0, 0.1);
+				glVertex3f(35.0, 5.0, 0.1);
+				glVertex3f(35.0, 27.0, 0.1);
+				glVertex3f(25.0, 27.0, 0.1);
+				
+				glEnd();
+		
+				glDisable(GL_BLEND);
+				
+			}
+			glFlush();
+			SDL_GL_SwapBuffers();
+		
+			Wait_Frame();
+		}
 	}
 	
-	// Cleanup
+	// Cleanup	
+	huntKillFreeSound(fileNumber);
     if(vpx_codec_destroy(&codec))                                             //
         die_codec(&codec, "Failed to destroy codec");                         //
 	vorbis_dsp_clear(&vorbisDspState);

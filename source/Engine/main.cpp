@@ -422,9 +422,12 @@ int main(int argc, char *argv[]) try
         SDL_SetCursor(cursor);
     }
 
+	fprintf (stderr, "About to init sound...");
 	if (! (specialSettings & SPECIAL_SILENT)) {
 		initSoundStuff (hMainWindow);
+		fprintf (stderr, "done!");
 	}
+	fprintf(stderr, "\n");
 
 	startNewFunctionNum (0, 0, NULL, noStack);
 	Init_Timer();

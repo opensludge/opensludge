@@ -312,6 +312,7 @@ void playStream (int a, bool isMOD, bool loopy) {
 		alSourcef (src, AL_GAIN, (float) soundCache[a].vol / 256);
 	}
 
+	fprintf (stderr, "++");
 	if (loopy) {
 		ok = alurePlaySourceStream(src, (*st).stream,
 				NUM_BUFS, -1, eos_callback, &intpointers[a]);
@@ -319,6 +320,7 @@ void playStream (int a, bool isMOD, bool loopy) {
 		ok = alurePlaySourceStream(src, (*st).stream,
 				NUM_BUFS, 0, eos_callback, &intpointers[a]);
 	}
+	fprintf (stderr, "--");
 
 	if(!ok) {
 		debugOut("Failed to play stream: %s\n", alureGetErrorString());
@@ -329,6 +331,7 @@ void playStream (int a, bool isMOD, bool loopy) {
 		}
 		(*st).playingOnSource = 0;
 	} else {
+		fprintf (stderr, "Hello! Sound is playing!\n");
 		(*st).playingOnSource = src;
 		(*st).playing = true;
 	}
@@ -700,3 +703,35 @@ void playSoundList(soundList *s) {
 	}
 }
 
+int initMovieSound(int f, ALenum format, int audioChannels, ALuint samplerate, 
+				   ALuint (*callback)(void *userdata, ALubyte *data, ALuint bytes)) {
+	if (! soundOK) return 0;
+	
+	int retval;
+	int a = findEmptySoundSlot ();
+	freeSound (a);
+	
+	soundCache[a].looping = false;
+	soundCache[a].stream = alureCreateStreamFromCallback(
+					 callback,
+					 &intpointers[a], format, samplerate,
+					 audioChannels*2, 0, NULL);
+	
+	if (soundCache[a].stream != NULL) {
+		soundCache[a].fileLoaded = f;
+		soundCache[a].vol = defSoundVol;
+		retval = a;
+	} else {
+		debugOut("Failed to create stream from sound: %s\n",
+				 alureGetErrorString());
+		warning (ERROR_SOUND_ODDNESS);
+		soundCache[a].stream = NULL;
+		soundCache[a].playing = false;
+		soundCache[a].playingOnSource = 0;
+		soundCache[a].fileLoaded = -1;
+		retval = -1;
+	}
+	fprintf (stderr, "Stream %d created. Sample rate: %d Channels: %d\n", retval, samplerate, audioChannels);
+	
+	return retval;
+}

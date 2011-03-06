@@ -50,6 +50,8 @@ int getFileType (const char * filename) {
 		} else if ( strcmp (compareMe, ".wav") == 0 ||
 //					strcmp (compareMe, ".mp3") == 0 ||
 					strcmp (compareMe, ".ogg") == 0 ||
+				   // WebM is counted as audio so sound will be initialized for it
+				   strcmp (compareMe, "webm") == 0 ||
 					strcmp (compareMe + 1, ".xm") == 0 ||
 					strcmp (compareMe + 1, ".it") == 0 ||
 					strcmp (compareMe, ".s3m") == 0 ||
@@ -60,7 +62,6 @@ int getFileType (const char * filename) {
 			reply = FILETYPE_AUDIO;
 		} else if (	strcmp (compareMe, ".duc") == 0 ||
 					strcmp (compareMe, ".zbu") == 0 ||
-				    strcmp (compareMe, "webm") == 0 ||
 					strcmp (compareMe, ".png") == 0) {
 			reply = FILETYPE_RAW;
 		}
