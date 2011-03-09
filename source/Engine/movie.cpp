@@ -56,6 +56,82 @@ int movieIsPlaying = 0;
 
 float movieAspect = 1.6;
 
+typedef struct audioBuffers {
+	char * buffer;
+	unsigned int size;
+	audioBuffers *next;
+} audioBuffers;
+
+typedef struct audioQueue {
+	audioBuffers *first, *last;
+	int size;
+} audioQueue;
+
+audioQueue audioQ;
+
+void audio_queue_init(audioQueue *q) {
+	memset(q, 0, sizeof(audioQueue));
+	//q->mutex = SDL_CreateMutex();
+	//q->cond = SDL_CreateCond();
+}
+int audio_queue_put(audioQueue *q, char *buffer, unsigned int size) {
+	
+	audioBuffers *audioBuf = new audioBuffers;
+	if (!audioBuf)
+		return -1;
+	audioBuf->buffer = buffer;
+	audioBuf->next = NULL;
+	audioBuf->size = size;
+	
+//	SDL_LockMutex(q->mutex);
+	
+	if (!q->last)
+		q->first = audioBuf;
+	else
+		q->last->next = audioBuf;
+	q->last = audioBuf;
+	q->size ++;
+//	SDL_CondSignal(q->cond);
+	
+//	SDL_UnlockMutex(q->mutex);
+	return 0;
+}
+static int audio_queue_get(audioQueue *q, char **buffer, int block)
+{
+	audioBuffers *audioBuf;
+	int ret = 0;
+	
+//	SDL_LockMutex(q->mutex);
+	
+//	for(;;) {
+/*		
+		if(quit) {
+			ret = -1;
+			break;
+		}
+*/		
+		audioBuf = q->first;
+		if (audioBuf) {
+			q->first = audioBuf->next;
+			if (!q->first)
+				q->last = NULL;
+			q->size--;
+			*buffer = audioBuf->buffer;
+			ret = audioBuf->size;
+			//break;
+		} /*else if (!block) {
+			ret = 0;
+			break;
+		} else {
+			SDL_CondWait(q->cond, q->mutex);
+		}
+	}
+	SDL_UnlockMutex(q->mutex);
+		   */
+	return ret;
+}
+
+
 static void die_codec(vpx_codec_ctx_t *ctx, const char *s) {            
     //const char *detail = vpx_codec_error_detail(ctx);                         
     printf("%s: %s\n", s, vpx_codec_error(ctx));        
@@ -107,14 +183,38 @@ static uint64_t xiph_lace_value(unsigned char ** np)
 	return value;
 }
 
-
 vorbis_dsp_state vorbisDspState;
 long long audioChannels;
-//ALubyte audioBuffer[1024*1024];
 
 // send audio to audio device... 
 ALuint feedAudio (void *userdata, ALubyte *data, ALuint length) {
-	return 0;
+	static char * buffer = NULL;
+	static unsigned int bufOffset = 0;
+	static unsigned int bufSize = 0;
+	
+	if (! buffer) {
+		bufSize = audio_queue_get(&audioQ, &buffer, 0);
+		bufOffset = 0;
+		if (bufSize <= 0) {
+			fprintf (stderr, "No buffer to read.\n");
+			bufSize = 0;
+			buffer = NULL;
+			return 0;
+		}
+		fprintf (stderr, "Read buffer of size %d (requested length is %d)\n", bufSize, length);
+	}
+	
+	if (length > bufSize-bufOffset) length = bufSize-bufOffset;
+	
+	memcpy(data, buffer+bufOffset, length);	
+	
+	bufOffset += length;
+	if (bufSize <= bufOffset) {
+		buffer = NULL;
+		delete [] buffer;
+	}
+	
+	return length;
 }
 
 int playMovie (int fileNumber)
@@ -203,7 +303,10 @@ int playMovie (int fileNumber)
             const long long width =  pVideoTrack->GetWidth();
             const long long height = pVideoTrack->GetHeight();
 			
-            //const double rate = pVideoTrack->GetFrameRate();
+            const double rate = pVideoTrack->GetFrameRate();
+			
+			if (rate > 0) 
+				Init_Special_Timer(rate);
 			
 			movieAspect = (float)width/height;
         }
@@ -278,6 +381,7 @@ int playMovie (int fileNumber)
 			
 			ALenum audioFormat = alureGetSampleFormat(audioChannels, 16, 0);
 			audioIndex = initMovieSound(fileNumber, audioFormat, audioChannels, (ALuint) audioSampleRate, feedAudio);
+			audio_queue_init(&audioQ);
         }
     }
 	
@@ -304,10 +408,6 @@ int playMovie (int fileNumber)
 	GLuint vTextureName = 0;
 	
     const mkvparser::Cluster* pCluster = pSegment->GetFirst();
-	
-					
-	
-	Init_Special_Timer(24);
 	
 	setMovieViewport();
 	
@@ -548,11 +648,9 @@ int playMovie (int fileNumber)
 							}
 							
 							vorbis_synthesis_read(&vorbisDspState,numSamples);
-							// TODO: Use the buffer here
-							delete [] buffer;
+							audio_queue_put(&audioQ, buffer, bytespersample*numSamples);
 
 							if (! soundPlaying && size > 1) {
-								fprintf (stderr, "start sound playing\n");
 								playStream (audioIndex, false, false); 
 								soundPlaying = true;
 							}
@@ -658,6 +756,7 @@ movieHasEnded:	movieIsPlaying = 0;
 	}
 	
 	// Cleanup	
+	for (int i =0; i<10; i++) Wait_Frame();
 	huntKillFreeSound(fileNumber);
     if(vpx_codec_destroy(&codec))                                             //
         die_codec(&codec, "Failed to destroy codec");                         //
