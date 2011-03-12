@@ -31,7 +31,7 @@
 
 #define MAX_SAMPLES 8
 #define MAX_MODS 3
-#define NUM_BUFS 6
+#define NUM_BUFS 3
 
 bool soundOK = false;
 bool cacheLoopySound = false;
@@ -714,7 +714,7 @@ void playMovieStream (int a) {
 	alSourcef (src, AL_GAIN, (float) soundCache[a].vol / 256);
 	
 	ok = alurePlaySourceStream(src, soundCache[a].stream,
-								   NUM_BUFS, 0, sound_eos_callback, &intpointers[a]);
+								   10, 0, sound_eos_callback, &intpointers[a]);
 	
 	if(!ok) {
 		debugOut("Failed to play stream: %s\n", alureGetErrorString());

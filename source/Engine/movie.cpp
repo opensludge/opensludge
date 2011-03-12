@@ -33,61 +33,6 @@
 
 #include "AL/alure.h"
 
-//
-// Internal stuff from Alure follows...
-//
-#ifdef _WIN32
-
-#include <windows.h>
-
-#else
-
-#include <assert.h>
-#include <pthread.h>
-#include <errno.h>
-
-typedef pthread_mutex_t CRITICAL_SECTION;
-static inline void EnterCriticalSection(CRITICAL_SECTION *cs)
-{
-    int ret;
-    ret = pthread_mutex_lock(cs);
-    assert(ret == 0);
-}
-static inline void LeaveCriticalSection(CRITICAL_SECTION *cs)
-{
-    int ret;
-    ret = pthread_mutex_unlock(cs);
-    assert(ret == 0);
-}
-static inline void InitializeCriticalSection(CRITICAL_SECTION *cs)
-{
-    pthread_mutexattr_t attrib;
-    int ret;
-	
-    ret = pthread_mutexattr_init(&attrib);
-    assert(ret == 0);
-	
-    ret = pthread_mutexattr_settype(&attrib, PTHREAD_MUTEX_RECURSIVE);
-    assert(ret == 0);
-    ret = pthread_mutex_init(cs, &attrib);
-    assert(ret == 0);
-	
-    pthread_mutexattr_destroy(&attrib);
-}
-static inline void DeleteCriticalSection(CRITICAL_SECTION *cs)
-{
-    int ret;
-    ret = pthread_mutex_destroy(cs);
-    assert(ret == 0);
-}
-
-#endif
-extern CRITICAL_SECTION cs_StreamPlay;
-//
-// End of Alure stuff
-//
-
-
 // in main.c
 int checkInput();
 extern int weAreDoneSoQuit;
@@ -119,6 +64,8 @@ typedef struct audioBuffers {
 typedef struct audioQueue {
 	audioBuffers *first, *last;
 	int size;
+	SDL_mutex *mutex;
+	SDL_cond *cond;
 } audioQueue;
 
 audioQueue audioQ;
@@ -138,8 +85,8 @@ GLubyte * vtex = NULL;
 
 void audio_queue_init(audioQueue *q) {
 	memset(q, 0, sizeof(audioQueue));
-	//q->mutex = SDL_CreateMutex();
-	//q->cond = SDL_CreateCond();
+	q->mutex = SDL_CreateMutex();
+	q->cond = SDL_CreateCond();
 }
 int audio_queue_put(audioQueue *q, char *buffer, unsigned int size) {
 
@@ -150,7 +97,7 @@ int audio_queue_put(audioQueue *q, char *buffer, unsigned int size) {
 	audioBuf->next = NULL;
 	audioBuf->size = size;
 
-//	SDL_LockMutex(q->mutex);
+	SDL_LockMutex(q->mutex);
 
 	if (!q->last)
 		q->first = audioBuf;
@@ -158,9 +105,9 @@ int audio_queue_put(audioQueue *q, char *buffer, unsigned int size) {
 		q->last->next = audioBuf;
 	q->last = audioBuf;
 	q->size ++;
-//	SDL_CondSignal(q->cond);
+	SDL_CondSignal(q->cond);
 
-//	SDL_UnlockMutex(q->mutex);
+	SDL_UnlockMutex(q->mutex);
 	return 0;
 }
 inline static int audio_queue_get(audioQueue *q, char **buffer, int block)
@@ -168,7 +115,7 @@ inline static int audio_queue_get(audioQueue *q, char **buffer, int block)
 	audioBuffers *audioBuf;
 	int ret = 0;
 
-//	SDL_LockMutex(q->mutex);
+	SDL_LockMutex(q->mutex);
 
 //	for(;;) {
 /*
@@ -192,9 +139,9 @@ inline static int audio_queue_get(audioQueue *q, char **buffer, int block)
 		} else {
 			SDL_CondWait(q->cond, q->mutex);
 		}
-	}
+	}*/
 	SDL_UnlockMutex(q->mutex);
-		   */
+		   
 	return ret;
 }
 
@@ -278,6 +225,7 @@ ALuint feedAudio (void *userdata, ALubyte *data, ALuint length) {
 					fprintf (stderr, "Faking audio...\n");
 					fakeAudio = true;
 				}
+//				SDL_CondSignal(audioQ.cond);
 				return got;
 			}
 		}
@@ -300,6 +248,7 @@ ALuint feedAudio (void *userdata, ALubyte *data, ALuint length) {
 			delete [] buffer;
 		}
 //	}
+//	SDL_CondSignal(audioQ.cond);
 	return got;
 }
 
@@ -651,6 +600,7 @@ int playMovie (int fileNumber)
 						if (movieSoundPlaying) {
 							audioBuffers *x;
 							while (movieIsPlaying == 1 && ! fakeAudio && movieSoundPlaying && getSoundSource(movieAudioIndex)) {
+								//SDL_LockMutex(audioQ.mutex);
 								if (! (x = audioQ.first))
 									break;
 								if (! (x = x->next))
@@ -669,6 +619,9 @@ int playMovie (int fileNumber)
 									break;
 								if (! (x = x->next))
 									break;
+								//SDL_CondWait(audioQ.cond, audioQ.mutex);
+								//SDL_UnlockMutex(audioQ.mutex);
+								//SDL_Delay(1);
 							}
 							#if 0
 							ALuint source = getSoundSource(movieAudioIndex);
@@ -796,9 +749,7 @@ int playMovie (int fileNumber)
 
 							vorbis_synthesis_read(&vorbisDspState,numSamples);
 							audioBufferLen = bytespersample*numSamples;
-							EnterCriticalSection(&cs_StreamPlay);
 							audio_queue_put(&audioQ, buffer, audioBufferLen);
-							LeaveCriticalSection(&cs_StreamPlay);
 							
 							//audioNsBuffered = time_ns + audioNsPerByte*audioBufferLen;
 						//	fprintf (stderr, "Audio buffered: %lld\n", audioBufferLen);
