@@ -607,7 +607,7 @@ bool loadLightMap (int v) {
 
 	glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
 
-	if (lightMap.data) delete lightMap.data;
+	if (lightMap.data) delete [] lightMap.data;
 
 	lightMap.data = new GLubyte [newPicWidth*newPicHeight*4];
 	if (! lightMap.data) {
@@ -1414,7 +1414,7 @@ void saveCorePNG  (FILE * writer, GLuint texture, int w, int h) {
 	png_set_rows(png_ptr, info_ptr, row_pointers);
     png_write_png(png_ptr, info_ptr, PNG_TRANSFORM_IDENTITY, NULL);
 
-	delete image;
+	delete [] image;
 	image = NULL;
 }
 
@@ -1494,7 +1494,7 @@ void saveCoreHSI (FILE * writer, GLuint texture, int w, int h) {
 			x = lookAhead;
 		}
 	}
-	delete image;
+	delete [] image;
 	image = NULL;
 }
 

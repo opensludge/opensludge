@@ -31,6 +31,12 @@ extern unsigned int sceneWidth, sceneHeight;
 extern zBufferData zBuffer;
 extern int lightMapNumber;
 
+
+extern GLuint yTextureName;
+extern GLuint uTextureName;
+extern GLuint vTextureName;
+extern GLubyte * ytex, * utex, * vtex;
+
 shaders shader;
 
 void sludgeDisplay ();
@@ -401,7 +407,18 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 			glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, winWidth, winHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, snapTexture);
 			delete snapTexture;
 		}
-
+		if (ytex) {
+			if (!glIsTexture(yTextureName)) {
+				glGenTextures (1, &yTextureName);
+				glGenTextures (1, &uTextureName);
+				glGenTextures (1, &vTextureName);
+			}
+			delete [] ytex;
+			delete [] utex;
+			delete [] vtex;		
+			ytex = utex = vtex = NULL;
+		}
+		
 		reloadSpriteTextures ();
 		reloadParallaxTextures ();
 		zBuffer.texName = 0;

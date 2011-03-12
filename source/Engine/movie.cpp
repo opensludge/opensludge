@@ -79,6 +79,12 @@ long long audioNsBuffered;
 long long audioBufferLen;
 bool movieSoundPlaying = false;
 int movieAudioIndex;
+GLuint yTextureName = 0;
+GLuint uTextureName = 0;
+GLuint vTextureName = 0;
+GLubyte * ytex = NULL;
+GLubyte * utex = NULL;
+GLubyte * vtex = NULL;
 
 void audio_queue_init(audioQueue *q) {
 	memset(q, 0, sizeof(audioQueue));
@@ -107,7 +113,7 @@ int audio_queue_put(audioQueue *q, char *buffer, unsigned int size) {
 //	SDL_UnlockMutex(q->mutex);
 	return 0;
 }
-static int audio_queue_get(audioQueue *q, char **buffer, int block)
+inline static int audio_queue_get(audioQueue *q, char **buffer, int block)
 {
 	audioBuffers *audioBuf;
 	int ret = 0;
@@ -197,6 +203,8 @@ static uint64_t xiph_lace_value(unsigned char ** np)
 vorbis_dsp_state vorbisDspState;
 long long audioChannels;
 
+bool fakeAudio = false;
+
 // send audio to audio device...
 ALuint feedAudio (void *userdata, ALubyte *data, ALuint length) {
 	static char * buffer = NULL;
@@ -218,10 +226,13 @@ ALuint feedAudio (void *userdata, ALubyte *data, ALuint length) {
 					got = audioChannels*2;
 					memset(data, 0, got);
 					fprintf (stderr, "Faking audio...\n");
+					fakeAudio = true;
 				}
 				return got;
 			}
 		}
+	
+		fakeAudio = false;
 
 		if (length > bufSize-bufOffset)
 			bufLen = bufSize-bufOffset;
@@ -432,12 +443,6 @@ int playMovie (int fileNumber)
         die_codec(&codec, "Failed to initialize decoder for movie.");         //
 
     unsigned char *frame = new unsigned char[256*1024];
-	GLubyte * ytex = NULL;
-	GLubyte * utex = NULL;
-	GLubyte * vtex = NULL;
-	GLuint yTextureName = 0;
-	GLuint uTextureName = 0;
-	GLuint vTextureName = 0;
 
     const mkvparser::Cluster* pCluster = pSegment->GetFirst();
 
@@ -515,13 +520,13 @@ int playMovie (int fileNumber)
 					frame = new unsigned char[size];
 					if (! checkNew(frame)) return 0;
 				}
-
+/*
 
 				fprintf (stderr, "Block :%s,%s,%15lld\n",
 				 (trackType == VIDEO_TRACK) ? "V" : "A",
 				 pBlock->IsKey() ? "I" : "P",
 				 time_ns);
-
+*/
 				if (trackNum == videoTrack) {
 
 					theFrame.Read(&reader, frame);
@@ -554,8 +559,8 @@ int playMovie (int fileNumber)
 							glBindTexture (GL_TEXTURE_2D, yTextureName);
 							glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, img->d_w, img->d_h, 0,
 										 GL_ALPHA, GL_UNSIGNED_BYTE, ytex);
-							glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-							glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+							glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+							glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 							glBindTexture (GL_TEXTURE_2D, uTextureName);
 							glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, img->d_w>>1, img->d_h>>1, 0,
 										 GL_ALPHA, GL_UNSIGNED_BYTE, utex);
@@ -595,7 +600,7 @@ int playMovie (int fileNumber)
 
 						if (movieSoundPlaying) {
 							audioBuffers *x;
-							while (movieIsPlaying == 1 && movieSoundPlaying && getSoundSource(movieAudioIndex)) {
+							while (movieIsPlaying == 1 && ! fakeAudio && movieSoundPlaying && getSoundSource(movieAudioIndex)) {
 								if (! (x = audioQ.first))
 									break;
 								if (! (x = x->next))
@@ -615,7 +620,7 @@ int playMovie (int fileNumber)
 								if (! (x = x->next))
 									break;
 							}
-							if (0) {
+							#if 0
 							ALuint source = getSoundSource(movieAudioIndex);
 							ALint queued, offset, state;
 							if (source) {
@@ -652,7 +657,7 @@ int playMovie (int fileNumber)
 									//SDL_Delay(1);
 								}
 							}
-							} // if (0)
+							#endif
 						}
 					}
 				} else if (trackNum == audioTrack) {
@@ -741,10 +746,12 @@ int playMovie (int fileNumber)
 
 							vorbis_synthesis_read(&vorbisDspState,numSamples);
 							audioBufferLen = bytespersample*numSamples;
+							EnterCriticalSection(&cs_StreamPlay);
 							audio_queue_put(&audioQ, buffer, audioBufferLen);
-
+							LeaveCriticalSection(&cs_StreamPlay);
+							
 							//audioNsBuffered = time_ns + audioNsPerByte*audioBufferLen;
-							fprintf (stderr, "Audio buffered: %lld\n", audioBufferLen);
+						//	fprintf (stderr, "Audio buffered: %lld\n", audioBufferLen);
 
 							if (! movieSoundPlaying && size > 1) {
 								fprintf (stderr, "** starting sound ** \n");
@@ -862,9 +869,10 @@ movieHasEnded:	movieIsPlaying = 0;
 	vorbis_comment_clear(&vorbisComment);
 	vorbis_info_clear(&vorbisInfo);
     delete pSegment;
-	delete ytex;
-	delete utex;
-	delete vtex;
+	delete [] ytex;
+	delete [] utex;
+	delete [] vtex;
+	ytex = utex = vtex = NULL;
 	glDeleteTextures (1, &yTextureName);
 	glDeleteTextures (1, &uTextureName);
 	glDeleteTextures (1, &vTextureName);
@@ -886,18 +894,22 @@ int pauseMovie()
 	if (movieIsPlaying == 1) {
 		ALuint source = getSoundSource(movieAudioIndex);
 		if (source) {
+#if defined __unix__
+			alurePauseSource(source);
+#else
 			alurePauseSource(source, false);
-		} else {
-		//	movieSoundPlaying = false;
+#endif
 		}
 		movieIsPlaying = 2;
 		fprintf (stderr, "** Pausing **\n");
 	} else if (movieIsPlaying == 2) {
 		ALuint source = getSoundSource(movieAudioIndex);
 		if (source) {
+#if defined __unix__
+			alureResumeSource(source);
+#else
 			alurePauseSource(source, true);
-		} else {
-		//	movieSoundPlaying = false;
+#endif
 		}
 		fprintf (stderr, "** Restarted movie ** sound: %d source: %d\n", movieSoundPlaying, source);
 		movieIsPlaying = 1;
