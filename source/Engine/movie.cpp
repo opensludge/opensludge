@@ -32,10 +32,60 @@
 #include "vorbis_os.h"
 
 #include "AL/alure.h"
+
+//
+// Internal stuff from Alure follows...
+//
 #ifdef _WIN32
-#define HAVE_WINDOWS_H
+
+#include <windows.h>
+
+#else
+
+#include <assert.h>
+#include <pthread.h>
+#include <errno.h>
+
+typedef pthread_mutex_t CRITICAL_SECTION;
+static inline void EnterCriticalSection(CRITICAL_SECTION *cs)
+{
+    int ret;
+    ret = pthread_mutex_lock(cs);
+    assert(ret == 0);
+}
+static inline void LeaveCriticalSection(CRITICAL_SECTION *cs)
+{
+    int ret;
+    ret = pthread_mutex_unlock(cs);
+    assert(ret == 0);
+}
+static inline void InitializeCriticalSection(CRITICAL_SECTION *cs)
+{
+    pthread_mutexattr_t attrib;
+    int ret;
+	
+    ret = pthread_mutexattr_init(&attrib);
+    assert(ret == 0);
+	
+    ret = pthread_mutexattr_settype(&attrib, PTHREAD_MUTEX_RECURSIVE);
+    assert(ret == 0);
+    ret = pthread_mutex_init(cs, &attrib);
+    assert(ret == 0);
+	
+    pthread_mutexattr_destroy(&attrib);
+}
+static inline void DeleteCriticalSection(CRITICAL_SECTION *cs)
+{
+    int ret;
+    ret = pthread_mutex_destroy(cs);
+    assert(ret == 0);
+}
+
 #endif
-#include "main.h"
+extern CRITICAL_SECTION cs_StreamPlay;
+//
+// End of Alure stuff
+//
 
 
 // in main.c
