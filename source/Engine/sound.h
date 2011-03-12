@@ -45,3 +45,4 @@ void debugSounds ();
 void loadSounds (FILE * fp);
 void saveSounds (FILE * fp);
 
+unsigned int getSoundSource(int index);

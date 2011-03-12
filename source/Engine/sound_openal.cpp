@@ -31,7 +31,7 @@
 
 #define MAX_SAMPLES 8
 #define MAX_MODS 3
-#define NUM_BUFS 3
+#define NUM_BUFS 6
 
 bool soundOK = false;
 bool cacheLoopySound = false;
@@ -699,10 +699,42 @@ void playSoundList(soundList *s) {
 	}
 }
 
+void playMovieStream (int a) {
+	if (! soundOK) return;
+	ALboolean ok;
+	ALuint src;
+	
+	alGenSources(1, &src);
+	if(alGetError() != AL_NO_ERROR)
+	{
+		debugOut( "Failed to create OpenAL source!\n");
+		return;
+	}
+	
+	alSourcef (src, AL_GAIN, (float) soundCache[a].vol / 256);
+	
+	ok = alurePlaySourceStream(src, soundCache[a].stream,
+								   NUM_BUFS, 0, sound_eos_callback, &intpointers[a]);
+	
+	if(!ok) {
+		debugOut("Failed to play stream: %s\n", alureGetErrorString());
+		alDeleteSources(1, &src);
+		if(alGetError() != AL_NO_ERROR)
+		{
+			debugOut("Failed to delete OpenAL source!\n");
+		}
+		soundCache[a].playingOnSource = 0;
+	} else {
+		soundCache[a].playingOnSource = src;
+		soundCache[a].playing = true;
+	}
+}
+
+
 int initMovieSound(int f, ALenum format, int audioChannels, ALuint samplerate, 
 				   ALuint (*callback)(void *userdata, ALubyte *data, ALuint bytes)) {
 	if (! soundOK) return 0;
-	
+
 	int retval;
 	int a = findEmptySoundSlot ();
 	freeSound (a);
@@ -731,4 +763,8 @@ int initMovieSound(int f, ALenum format, int audioChannels, ALuint samplerate,
 	fprintf (stderr, "Stream %d created. Sample rate: %d Channels: %d\n", retval, samplerate, audioChannels);
 	
 	return retval;
+}
+
+unsigned int getSoundSource(int index) {
+	return soundCache[index].playingOnSource;
 }

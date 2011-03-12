@@ -282,7 +282,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
         Fragment = shaderFileRead("scale.frag");
 
         if (! Vertex || ! Fragment) {
-            msgBox ("Error loading \"scale\" shader program!", "Using linear anti-aliasing instead.");
+            msgBox ("Error loading \"scale\" shader program!", "Advanced anti-aliasing is not possible. Using linear anti-aliasing instead.");
             gameSettings.antiAlias = -1;
             shader.smartScaler = 0;
         } else {

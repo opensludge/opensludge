@@ -111,6 +111,7 @@
 		E80D9E7F12C9E6C800663154 /* SLUDGE Document.m in Sources */ = {isa = PBXBuildFile; fileRef = E80D9E7E12C9E6C800663154 /* SLUDGE Document.m */; };
 		E839AAD412D739B1007DD503 /* helpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E839AAD212D739B1007DD503 /* helpers.cpp */; };
 		E850AB691271E77300224E49 /* compilerinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E850AB671271E77300224E49 /* compilerinfo.cpp */; };
+		E8F4F7A5132B8877000F35A9 /* stringarray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E8F4F7A3132B8877000F35A9 /* stringarray.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -235,10 +236,10 @@
 		2F7EA4550FFCEBE6005E5C36 /* savedata.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = savedata.h; path = ../source/DevKit/ProjectManager/savedata.h; sourceTree = "<group>"; };
 		2F7EA4560FFCEBE6005E5C36 /* settings.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = settings.cpp; path = ../source/DevKit/ProjectManager/settings.cpp; sourceTree = "<group>"; };
 		2F7EA4570FFCEBE6005E5C36 /* settings.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = settings.h; path = ../source/DevKit/ProjectManager/settings.h; sourceTree = "<group>"; };
-		2F7EA4700FFCEBE6005E5C36 /* splitter.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = splitter.cpp; path = ../DevKit/Common/splitter.cpp; sourceTree = "<group>"; };
+		2F7EA4700FFCEBE6005E5C36 /* splitter.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = splitter.cpp; path = ../DevKit/Compiler/splitter.cpp; sourceTree = "<group>"; };
 		2F7EA4720FFCEBE6005E5C36 /* sprites.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sprites.cpp; path = ../source/DevKit/GraphicalTools/sprites.cpp; sourceTree = "<group>"; };
 		2F7EA4730FFCEBE6005E5C36 /* sprites.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sprites.h; path = ../source/DevKit/GraphicalTools/sprites.h; sourceTree = "<group>"; };
-		2F7EA4890FFCEBE6005E5C36 /* splitter.hpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = splitter.hpp; path = ../DevKit/Common/splitter.hpp; sourceTree = "<group>"; };
+		2F7EA4890FFCEBE6005E5C36 /* splitter.hpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.h; name = splitter.hpp; path = ../DevKit/Compiler/splitter.hpp; sourceTree = "<group>"; };
 		2F7EA4A20FFCEBE6005E5C36 /* zbuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = zbuffer.cpp; path = ../source/DevKit/GraphicalTools/zbuffer.cpp; sourceTree = "<group>"; };
 		2F7EA4A30FFCEBE6005E5C36 /* zbuffer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = zbuffer.h; path = ../source/DevKit/GraphicalTools/zbuffer.h; sourceTree = "<group>"; };
 		2F820CC9100E10AE0004738F /* messbox.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = messbox.cpp; path = ../source/DevKit/ProjectManager/messbox.cpp; sourceTree = "<group>"; };
@@ -276,6 +277,8 @@
 		E839AAD312D739B1007DD503 /* helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = helpers.h; path = ../source/DevKit/Common/helpers.h; sourceTree = SOURCE_ROOT; };
 		E850AB671271E77300224E49 /* compilerinfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = compilerinfo.cpp; path = ../source/DevKit/Compiler/compilerinfo.cpp; sourceTree = "<group>"; };
 		E850AB681271E77300224E49 /* compilerinfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = compilerinfo.h; path = ../source/DevKit/Compiler/compilerinfo.h; sourceTree = "<group>"; };
+		E8F4F7A3132B8877000F35A9 /* stringarray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = stringarray.cpp; path = ../source/DevKit/Common/stringarray.cpp; sourceTree = SOURCE_ROOT; };
+		E8F4F7A4132B8877000F35A9 /* stringarray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stringarray.h; path = ../source/DevKit/Common/stringarray.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -422,6 +425,8 @@
 		E83C1BC412C27715002F19D7 /* Dev Kit */ = {
 			isa = PBXGroup;
 			children = (
+				E8F4F7A3132B8877000F35A9 /* stringarray.cpp */,
+				E8F4F7A4132B8877000F35A9 /* stringarray.h */,
 				2F820CC9100E10AE0004738F /* messbox.cpp */,
 				2F820CCA100E10AE0004738F /* messbox.h */,
 				2F7EA43C0FFCEBE6005E5C36 /* launch.h */,
@@ -593,6 +598,7 @@
 				E850AB691271E77300224E49 /* compilerinfo.cpp in Sources */,
 				E80D9E7F12C9E6C800663154 /* SLUDGE Document.m in Sources */,
 				E839AAD412D739B1007DD503 /* helpers.cpp in Sources */,
+				E8F4F7A5132B8877000F35A9 /* stringarray.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

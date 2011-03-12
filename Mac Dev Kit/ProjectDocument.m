@@ -11,8 +11,11 @@
 #include "Project.hpp"
 
 #include "moreio.h"
+//#include "helpers.h"
 #include "settings.h"
 #include "compilerinfo.h"
+
+extern char * sourceDirectory;
 
 // -- These are from "MessBox.h"
 struct errorLinkToFile

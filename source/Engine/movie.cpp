@@ -33,6 +33,8 @@
 
 #include "AL/alure.h"
 
+#include "main.h"
+
 
 // in main.c
 int checkInput();
@@ -42,7 +44,7 @@ extern int weAreDoneSoQuit;
 bool handleInput ();
 
 // sound_openal.cpp
-void playStream (int a, bool isMOD, bool loopy);
+void playMovieStream (int a);
 int initMovieSound(int f, ALenum format, int audioChannels, ALuint samplerate, 
 				   ALuint (*callback)(void *userdata, ALubyte *data, ALuint bytes));
 
@@ -68,6 +70,13 @@ typedef struct audioQueue {
 } audioQueue;
 
 audioQueue audioQ;
+
+long long audioNsPerByte;
+long long audioNsPlayed;
+long long audioNsBuffered;
+long long audioBufferLen;
+bool movieSoundPlaying = false;
+int movieAudioIndex;
 
 void audio_queue_init(audioQueue *q) {
 	memset(q, 0, sizeof(audioQueue));
@@ -192,35 +201,50 @@ ALuint feedAudio (void *userdata, ALubyte *data, ALuint length) {
 	static unsigned int bufOffset = 0;
 	static unsigned int bufSize = 0;
 	
-	if (! buffer) {
-		bufSize = audio_queue_get(&audioQ, &buffer, 0);
-		bufOffset = 0;
-		if (bufSize <= 0) {
-			fprintf (stderr, "No buffer to read.\n");
-			bufSize = 0;
-			buffer = NULL;
-			return 0;
+	ALuint got = 0;
+	int bufLen;
+
+//	while (length>0) {
+		if (! buffer) {
+			bufSize = audio_queue_get(&audioQ, &buffer, 0);
+			bufOffset = 0;
+			if (bufSize <= 0) {
+				//movieSoundPlaying = false;
+				bufSize = 0;
+				buffer = NULL;
+				if (! got) {
+					got = audioChannels*2;
+					memset(data, 0, got);
+					fprintf (stderr, "Faking audio...\n");
+				}
+				return got;
+			}
 		}
-		fprintf (stderr, "Read buffer of size %d (requested length is %d)\n", bufSize, length);
-	}
-	
-	if (length > bufSize-bufOffset) length = bufSize-bufOffset;
-	
-	memcpy(data, buffer+bufOffset, length);	
-	
-	bufOffset += length;
-	if (bufSize <= bufOffset) {
-		buffer = NULL;
-		delete [] buffer;
-	}
-	
-	return length;
+		
+		if (length > bufSize-bufOffset) 
+			bufLen = bufSize-bufOffset;
+		else
+			bufLen = length;
+		
+		memcpy(data, buffer+bufOffset, bufLen);	
+		
+		bufOffset += bufLen;
+		length -= bufLen;
+		got += bufLen;
+		
+		if (bufSize <= bufOffset) {
+			buffer = NULL;
+			delete [] buffer;
+		}
+//	}
+	return got;
 }
 
 int playMovie (int fileNumber)
 {
 	if (movieIsPlaying) return 0;
 	
+	movieSoundPlaying = false;
     vpx_codec_ctx_t  codec;
 	float pausefade = 1.0;
 
@@ -275,8 +299,6 @@ int playMovie (int fileNumber)
 	int audioTrack = -1;
 	long long audioBitDepth;
 	double audioSampleRate;
-	int audioIndex;
-	bool soundPlaying = false;
 	ogg_packet oggPacket;
 	vorbis_info vorbisInfo;
 	vorbis_comment vorbisComment;
@@ -311,7 +333,7 @@ int playMovie (int fileNumber)
 			movieAspect = (float)width/height;
         }
 		
-        if (trackType == AUDIO_TRACK)
+        if (trackType == AUDIO_TRACK && audioTrack < 0)
         {
 			audioTrack = pTrack->GetNumber();
             const AudioTrack* const pAudioTrack =
@@ -380,13 +402,21 @@ int playMovie (int fileNumber)
 				fprintf(stderr,"vorbis_block_init failed, error: %d", r); 
 			
 			ALenum audioFormat = alureGetSampleFormat(audioChannels, 16, 0);
-			audioIndex = initMovieSound(fileNumber, audioFormat, audioChannels, (ALuint) audioSampleRate, feedAudio);
+			movieAudioIndex = initMovieSound(fileNumber, audioFormat, audioChannels, (ALuint) audioSampleRate, feedAudio);
+			fprintf (stderr, "Movie sound inited.\n");
 			audio_queue_init(&audioQ);
+			audioNsPerByte = (1000000000 / audioSampleRate) / (audioChannels * 2);
+			audioNsBuffered = 0;
+			audioBufferLen = audioChannels*audioSampleRate;
+			//fprintf (stderr, "audioNsPerByte: %lld\n", audioNsPerByte);
         }
     }
 	
 	if (videoTrack < 0)
 		fatal ("Movie error: No video in movie file.");
+	
+	if (audioTrack < 0 )
+		fatal ("Movie error: No sound found.");
 	
     const unsigned long clusterCount = pSegment->GetCount();
 		
@@ -483,13 +513,13 @@ int playMovie (int fileNumber)
 					frame = new unsigned char[size]; 
 					if (! checkNew(frame)) return 0;
 				} 
-				/*
+				
 
 				fprintf (stderr, "Block :%s,%s,%15lld\n",
 				 (trackType == VIDEO_TRACK) ? "V" : "A",
 				 pBlock->IsKey() ? "I" : "P",
 				 time_ns);
-*/
+
 				if (trackNum == videoTrack) {
 					
 					theFrame.Read(&reader, frame);
@@ -561,7 +591,67 @@ int playMovie (int fileNumber)
 						glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, img->d_w>>1, img->d_h>>1, 
 										GL_ALPHA, GL_UNSIGNED_BYTE, vtex);
 						
-							
+						if (movieSoundPlaying) {
+							audioBuffers *x;
+							while (movieIsPlaying == 1 && movieSoundPlaying && getSoundSource(movieAudioIndex)) {
+								if (! (x = audioQ.first))
+									break;
+								if (! (x = x->next))
+									break;
+								if (! (x = x->next))
+									break;
+								if (! (x = x->next))
+									break;
+								if (! (x = x->next))
+									break;
+								if (! (x = x->next))
+									break;
+								if (! (x = x->next))
+									break;
+								if (! (x = x->next))
+									break;
+								if (! (x = x->next))
+									break;
+							}
+							if (0) {
+							ALuint source = getSoundSource(movieAudioIndex);
+							ALint queued, offset, state;
+							if (source) {
+								while (movieIsPlaying == 1) {
+									audioNsPlayed = audioNsBuffered;
+									EnterCriticalSection(&cs_StreamPlay);
+									alGetSourcei(source, AL_BUFFERS_QUEUED, &queued);
+									/* Order here is important. If the offset is queried after the state and an
+									 * underrun occurs in between the two calls, it can end up reporting a 0
+									 * offset in a playing state. */
+									//alGetSourcei(source, AL_BYTE_OFFSET, &offset);
+									alGetSourcei(source, AL_SOURCE_STATE, &state);
+									
+									/* Note: state=stopped is an underrun, meaning all buffers are processed
+									 * and the whole queue has been played. */
+									if(alGetError() == AL_NO_ERROR && state != AL_STOPPED)
+									{
+										//audioNsPlayed -= queued*chunk_length;
+										audioNsPlayed -= queued*512*audioNsPerByte;
+										//audioNsPlayed += offset*audioNsPerByte;
+									} else {
+										audioNsPlayed = time_ns;
+									}
+									
+									LeaveCriticalSection(&cs_StreamPlay);
+									
+									if (time_ns<=audioNsPlayed)
+										break;
+									/*
+									checkInput();
+									if (weAreDoneSoQuit)
+										break;
+									handleInput ();*/
+									//SDL_Delay(1);
+								}
+							}
+							} // if (0)
+						}
 					}
 				} else if (trackNum == audioTrack) {
 					// Use this Audio Track 
@@ -648,11 +738,16 @@ int playMovie (int fileNumber)
 							}
 							
 							vorbis_synthesis_read(&vorbisDspState,numSamples);
-							audio_queue_put(&audioQ, buffer, bytespersample*numSamples);
+							audioBufferLen = bytespersample*numSamples;
+							audio_queue_put(&audioQ, buffer, audioBufferLen);
+							
+							//audioNsBuffered = time_ns + audioNsPerByte*audioBufferLen;
+							fprintf (stderr, "Audio buffered: %lld\n", audioBufferLen);
 
-							if (! soundPlaying && size > 1) {
-								playStream (audioIndex, false, false); 
-								soundPlaying = true;
+							if (! movieSoundPlaying && size > 1) {
+								fprintf (stderr, "** starting sound ** \n");
+								playMovieStream (movieAudioIndex); 
+								movieSoundPlaying = true;
 							}
 						}							
 					}
@@ -747,11 +842,11 @@ movieHasEnded:	movieIsPlaying = 0;
 		
 				glDisable(GL_BLEND);
 				
+				Wait_Frame();
 			}
 			glFlush();
 			SDL_GL_SwapBuffers();
 		
-			Wait_Frame();
 		}
 	}
 	
@@ -786,9 +881,24 @@ int stopMovie ()
 
 int pauseMovie()
 {
-	if (movieIsPlaying == 1)
+	if (movieIsPlaying == 1) {
+		ALuint source = getSoundSource(movieAudioIndex);
+		if (source) {
+			alurePauseSource(source, false);
+		} else {
+		//	movieSoundPlaying = false;
+		}
 		movieIsPlaying = 2;
-	else if (movieIsPlaying == 2)
+		fprintf (stderr, "** Pausing **\n");
+	} else if (movieIsPlaying == 2) {
+		ALuint source = getSoundSource(movieAudioIndex);
+		if (source) {
+			alurePauseSource(source, true);
+		} else {
+		//	movieSoundPlaying = false;
+		}
+		fprintf (stderr, "** Restarted movie ** sound: %d source: %d\n", movieSoundPlaying, source);
 		movieIsPlaying = 1;
+	}
 	return movieIsPlaying;
 }
