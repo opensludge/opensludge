@@ -42,6 +42,7 @@
 			<Add directory="..\..\..\alure\include" />
 			<Add directory="..\..\..\..\Programmering" />
 			<Add directory="..\..\..\zlib" />
+			<Add directory="..\..\..\libvpx-v0.9.6" />
 		</Compiler>
 		<Linker>
 			<Add library="gdi32" />
@@ -58,6 +59,9 @@
 			<Add library="libglu32.a" />
 			<Add library="..\..\..\openal-soft-1.12.854-bin\lib\Win32\libOpenAL32.dll.a" />
 			<Add library="..\..\..\alure\build\libALURE32.dll.a" />
+			<Add library="..\..\..\libvpx-v0.9.6\libvpx.a" />
+			<Add library="..\..\..\libvorbis-1.2.3\lib\.libs\libvorbis.a" />
+			<Add library="..\..\..\libogg-1.1.4\src\.libs\libogg.a" />
 		</Linker>
 		<ExtraCommands>
 			<Add before="$(CMD_RM) $(TARGET_OBJECT_DIR)source\engine\debug.o" />
@@ -99,8 +103,6 @@
 		<Unit filename="..\..\source\Engine\Language.h" />
 		<Unit filename="..\..\source\Engine\MOREIO.CPP" />
 		<Unit filename="..\..\source\Engine\MOREIO.H" />
-		<Unit filename="..\..\source\Engine\NEWFATAL.CPP" />
-		<Unit filename="..\..\source\Engine\NEWFATAL.H" />
 		<Unit filename="..\..\source\Engine\OBJTYPES.CPP" />
 		<Unit filename="..\..\source\Engine\OBJTYPES.H" />
 		<Unit filename="..\..\source\Engine\PEOPLE.H" />
@@ -130,11 +132,19 @@
 		<Unit filename="..\..\source\Engine\errors.h" />
 		<Unit filename="..\..\source\Engine\floor.cpp" />
 		<Unit filename="..\..\source\Engine\floor.h" />
+		<Unit filename="..\..\source\Engine\libwebm\mkvparser.cpp" />
+		<Unit filename="..\..\source\Engine\libwebm\mkvparser.hpp" />
+		<Unit filename="..\..\source\Engine\libwebm\mkvreader.cpp" />
+		<Unit filename="..\..\source\Engine\libwebm\mkvreader.hpp" />
 		<Unit filename="..\..\source\Engine\line.cpp" />
 		<Unit filename="..\..\source\Engine\line.h" />
 		<Unit filename="..\..\source\Engine\main.cpp" />
 		<Unit filename="..\..\source\Engine\memwatch.cpp" />
 		<Unit filename="..\..\source\Engine\memwatch.h" />
+		<Unit filename="..\..\source\Engine\movie.cpp" />
+		<Unit filename="..\..\source\Engine\movie.h" />
+		<Unit filename="..\..\source\Engine\newfatal.cpp" />
+		<Unit filename="..\..\source\Engine\newfatal.h" />
 		<Unit filename="..\..\source\Engine\people.cpp" />
 		<Unit filename="..\..\source\Engine\savedata.cpp" />
 		<Unit filename="..\..\source\Engine\savedata.h" />
@@ -167,8 +177,6 @@
 		<Unit filename="..\..\source\Engine\vid.h" />
 		<Unit filename="..\..\source\Engine\zbuffer.cpp" />
 		<Unit filename="..\..\source\Engine\zbuffer.h" />
-		<Unit filename="..\..\source\Engine\movie.cpp" />
-		<Unit filename="..\..\source\Engine\movie.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />

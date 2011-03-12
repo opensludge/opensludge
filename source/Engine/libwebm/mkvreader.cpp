@@ -9,10 +9,11 @@
 // Modified by Rikard Peterson 2011 to fit in the SLUDGE engine.
 
 #include "mkvreader.hpp"
-#include "newfatal.h"
-#include "fileset.h"
+#include "../newfatal.h"
+#include "../fileset.h"
 
 #include <cassert>
+#include <stdio.h>
 
 MkvReader::MkvReader() :
     m_file(0)
@@ -33,7 +34,7 @@ int MkvReader::Open(int fileNumber)
         return -1;
 
 	m_file = fileNumber;
-	
+
 	setResourceForFatal (fileNumber);
 	m_length = openFileFromNum (fileNumber);
 	if (m_length == 0) {
@@ -41,12 +42,13 @@ int MkvReader::Open(int fileNumber)
 		setResourceForFatal (-1);
 		return -1;
 	}
+	/*
 #ifdef WIN32
 	m_start = _ftelli64(bigDataFile);
-#else
+#else*/
     m_start = ftell(bigDataFile);
-#endif
-	
+/*#endif
+*/
 	finishAccess();
     return 0;
 }
@@ -71,7 +73,7 @@ int MkvReader::Length(long long* total, long long* available)
 
     if (available)
         *available = m_length;
-	
+
     return 0;
 }
 
@@ -92,21 +94,21 @@ int MkvReader::Read(long long offset, long len, unsigned char* buffer)
 
     if (offset >= m_length)
         return -1;
-	
+
 	if (startAccess())
 		fprintf(stderr, "Warning: Datafile already in use when playing movie!\n");
-	
+/*
 #ifdef WIN32
     const int status = _fseeki64(bigDataFile, m_start+offset, SEEK_SET);
 
     if (status)
         return -1;  //error
-#else
+#else*/
     fseek(bigDataFile, m_start+offset, SEEK_SET);
-#endif
+//#endif
 
     const size_t size = fread(buffer, 1, len, bigDataFile);
-	
+
 	finishAccess();
 
     if (size < size_t(len))
