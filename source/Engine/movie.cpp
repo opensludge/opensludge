@@ -29,7 +29,7 @@
 #include "vorbis/codec.h"
 #include "vorbis/vorbisfile.h"
 #include "ogg/ogg.h"
-#include "vorbis_os.h"
+#include "libvorbis/vorbis_os.h"
 
 #include "AL/alure.h"
 
@@ -141,7 +141,7 @@ inline static int audio_queue_get(audioQueue *q, char **buffer, int block)
 		}
 	}*/
 	SDL_UnlockMutex(q->mutex);
-		   
+
 	return ret;
 }
 
@@ -229,7 +229,7 @@ ALuint feedAudio (void *userdata, ALubyte *data, ALuint length) {
 				return got;
 			}
 		}
-	
+
 		fakeAudio = false;
 
 		if (length > bufSize-bufOffset)
@@ -750,7 +750,7 @@ int playMovie (int fileNumber)
 							vorbis_synthesis_read(&vorbisDspState,numSamples);
 							audioBufferLen = bytespersample*numSamples;
 							audio_queue_put(&audioQ, buffer, audioBufferLen);
-							
+
 							//audioNsBuffered = time_ns + audioNsPerByte*audioBufferLen;
 						//	fprintf (stderr, "Audio buffered: %lld\n", audioBufferLen);
 
