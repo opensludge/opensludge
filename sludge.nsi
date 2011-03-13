@@ -208,6 +208,8 @@ SectionIn 1 RO
 	File Engine/libvorbisfile-3.dll
 	File Engine/scale.frag
 	File Engine/SDL.dll
+	File Engine/yuv.frag
+	File Engine/yuv.vert
 
 	SetOutPath "$INSTDIR"
 	File doc/Credits.html

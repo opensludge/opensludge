@@ -28,7 +28,7 @@ dist_pkgdata_DATA = \
 	scale.frag scale.vert \
 	yuv.frag yuv.vert
 
-AM_CPPFLAGS = -std=c++0x -I$(top_srcdir)/source/CommonCode -I$(top_srcdir)/source/Engine/libvorbis -I$(top_srcdir)/source/Engine/libwebm @LIBPNG_CFLAGS@ -DDATADIR='"$(pkgdatadir)/"'
+AM_CPPFLAGS = -std=c++0x -I$(top_srcdir)/source/CommonCode -I$(top_srcdir)/source/Engine/libwebm @LIBPNG_CFLAGS@ -DDATADIR='"$(pkgdatadir)/"'
 
 LDADD = @LIBPNG_LIBS@
 
