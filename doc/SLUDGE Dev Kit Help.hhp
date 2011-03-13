@@ -108,7 +108,9 @@ SLUDGEDevKitHelp\pasteCharacter.html
 SLUDGEDevKitHelp\pasteImage.html
 SLUDGEDevKitHelp\pasteString_and_burnString.html
 SLUDGEDevKitHelp\pause.html
+SLUDGEDevKitHelp\pauseMovie.html
 SLUDGEDevKitHelp\pickOne.html
+SLUDGEDevKitHelp\playMovie.html
 SLUDGEDevKitHelp\playSound.html
 SLUDGEDevKitHelp\popFromStack.html
 SLUDGEDevKitHelp\positionStatus.html
@@ -180,6 +182,7 @@ SLUDGEDevKitHelp\stackSize.html
 SLUDGEDevKitHelp\startMusic.html
 SLUDGEDevKitHelp\statusText.html
 SLUDGEDevKitHelp\stopCharacter.html
+SLUDGEDevKitHelp\stopMovie.html
 SLUDGEDevKitHelp\stopMusic.html
 SLUDGEDevKitHelp\stopSound.html
 SLUDGEDevKitHelp\stringLength.html

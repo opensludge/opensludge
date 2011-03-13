@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<TITLE>playMovie</TITLE>
+  <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<BODY>
+<HR>
+<div align="center"><img id="headerGraphic" src="images/sludge300.png" alt="SLUDGE"/></div>
+<h2>playMovie</h2>
+<HR>
+
+<H3>Syntax:</H3>
+
+<P>
+<pre class="syntax">playMovie (<i>thisMovieFile</i>);</pre>
+</P>
+
+<H3>Purpose:</H3>
+
+<P>
+Plays a movie. The parameter must be a 
+<a href="File_Handling.html">file handle</a>. 
+The only supported movie format is WebM.
+</P>
+<p>
+The movie is played full screen (or full window if the game isn't 
+running full screen), and in the correct aspect ratio, letterboxed if
+required. The function doesn't return until the movie
+has ended or is stopped by <a href="stopMovie.html">stopMovie</a>. 
+Only one movie can be played at a time.
+</p>
+<p>
+See the <a href="http://sourceforge.net/projects/opensludge/files/Demos/movie%20demo.zip/download"> 
+Movie Demo (download link)</a> for an example of how to use the movie functions.
+</p>
+
+<H3>Return value:</H3>
+
+<P>
+Returns 1 if the movie played, or 0 if there was an error.
+</P>
+
+<H3>See also:</H3>
+
+<P>
+<a href="stopMovie.html">stopMovie</a>
+</P>
+
+<P>
+<a href="pauseMovie.html">pauseMovie</a>
+</P>
+
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2011
+</P>
+
+<HR>
+</BODY>
+</html>

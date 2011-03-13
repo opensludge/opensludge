@@ -886,8 +886,9 @@ movieHasEnded:	movieIsPlaying = 0;
 
 int stopMovie ()
 {
+	int r = movieIsPlaying;
 	movieIsPlaying = 0;
-	return 0;
+	return r;
 }
 
 int pauseMovie()

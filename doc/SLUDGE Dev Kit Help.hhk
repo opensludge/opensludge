@@ -1547,9 +1547,19 @@
 		<param name="Local" value="SLUDGEDevKitHelp\pause.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="pauseMovie">
+		<param name="Name" value="pauseMovie (built-in function)">
+		<param name="Local" value="SLUDGEDevKitHelp\pauseMovie.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="pickOne">
 		<param name="Name" value="pickOne (built-in function)">
 		<param name="Local" value="SLUDGEDevKitHelp\pickOne.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="playMovie">
+		<param name="Name" value="playMovie (built-in function)">
+		<param name="Local" value="SLUDGEDevKitHelp\playMovie.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="playSound">
@@ -1900,6 +1910,11 @@
 		<param name="Name" value="stopCharacter">
 		<param name="Name" value="stopCharacter (built-in function)">
 		<param name="Local" value="SLUDGEDevKitHelp\stopCharacter.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="stopMovie">
+		<param name="Name" value="stopMovie (built-in function)">
+		<param name="Local" value="SLUDGEDevKitHelp\stopMovie.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="stopMusic">
