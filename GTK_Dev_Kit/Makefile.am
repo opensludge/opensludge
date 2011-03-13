@@ -129,7 +129,7 @@ EXTRA_DIST = \
 	../images/floorIcon/floorIcon.ico ../images/zIcon/zIcon.ico \
 	../images/spriteIcon/spriteIcon.ico ../images/ProjIcon/ProjIcon.ico
 
-AM_CPPFLAGS = -std=c++0x -I$(top_srcdir)/source/CommonCode -I$(top_srcdir)/source/DevKit/Common -I$(top_srcdir)/source/DevKit/Compiler -I$(top_srcdir)/source/DevKit/ProjectManager -I$(top_srcdir)/source/DevKit/GraphicalTools -I$(top_srcdir)/source/DevKit/TranslationEditor @GTK_CFLAGS@ @LIBPNG_CFLAGS@
+AM_CPPFLAGS = -I$(top_srcdir)/source/CommonCode -I$(top_srcdir)/source/DevKit/Common -I$(top_srcdir)/source/DevKit/Compiler -I$(top_srcdir)/source/DevKit/ProjectManager -I$(top_srcdir)/source/DevKit/GraphicalTools -I$(top_srcdir)/source/DevKit/TranslationEditor @GTK_CFLAGS@ @LIBPNG_CFLAGS@
 
 if COND_WIN32
 AM_CPPFLAGS += \
@@ -146,6 +146,7 @@ sludge_translationeditor_LDADD = TranslationEditorResources.o @GTK_LIBS@ @LIBPNG
 sludge_projectmanager_LDADD = ProjectManagerResources.o @GTK_LIBS@ @LIBPNG_LIBS@
 else
 AM_CPPFLAGS += \
+	-std=c++0x \
 	-DDATADIR='"$(pkgdatadir)/"'
 
 sludge_floormaker_LDADD = @GTK_LIBS@ @LIBPNG_LIBS@
