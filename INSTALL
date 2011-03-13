@@ -24,14 +24,14 @@ Linux
 Dependencies (Engine)
 =====================
 
-   Dependencies of the OpenSLUDGE engine are SDL, OpenGL, GLee, libGLU
-and libpng. OpenAL sound support requires OpenAL and Alure (>= 1.1) with
-Vorbis, FLAC and DUMB support enabled.
+   Dependencies of the OpenSLUDGE engine are SDL, OpenGL, GLee, libGLU,
+libpng and libvpx. OpenAL sound support requires OpenAL and Alure (>= 1.1)
+with Vorbis, FLAC and DUMB support enabled.
 
    On Debian and Ubuntu the correspoding packages are libsdl1.2-dev,
 mesa-common-dev, glee-dev (only available in Debian Squeeze / Ubuntu 10.10
 or above, but these packages can also be used for older releases of the
-distributions), libglu1-mesa-dev, libpng12-dev, libopenal-dev,
+distributions), libglu1-mesa-dev, libpng12-dev, libvpx-dev, libopenal-dev,
 libalure-dev (only version 1.0 by now), libvorbis-dev, libflac-dev and
 libdumb1-dev.
 
