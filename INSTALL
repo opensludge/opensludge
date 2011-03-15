@@ -12,8 +12,8 @@ use the Code::Blocks project files in the "Windows Engine" folder or Xcode
 project files in the "Mac Engine" and "Mac Dev Kit" directories. Note that
 in this case you have to satisfy the dependencies mentioned in the next
 section. The Windows Dev Kit has so far only been cross-compiled from
-Ubuntu using MinGW. There is a good tutorial on how to do that at
-http://live.gnome.org/GTK+/Win32/Apps. It should also be possible to
+Debian and Ubuntu using MinGW. There is a good tutorial on how to do that
+at http://live.gnome.org/GTK+/Win32/Apps. It should also be possible to
 compile the Windows Dev Kit on Windows using MinGW. For running the Windows
 Dev Kit, the GTK+ runtime package 2.16 (exactly 2.16!) from
 http://gtk-win.sourceforge.net is required.
@@ -46,7 +46,8 @@ cmake .
 make
 make install
 
-It might also be necessary to update the cache of the run-time linker so that Alure is found when running the SLUDGE Engine:
+It might also be necessary to update the cache of the run-time linker so
+that Alure is found when running the SLUDGE Engine:
 
 ldconfig
 

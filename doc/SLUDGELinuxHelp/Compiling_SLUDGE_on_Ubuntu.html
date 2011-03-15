@@ -1,16 +1,16 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-<TITLE>Compiling SLUDGE on Ubuntu</TITLE>
+<TITLE>Compiling SLUDGE on Debian/Ubuntu</TITLE>
   <link rel="stylesheet" type="text/css" href="../SLUDGEDevKitHelp/style.css" />
 </head>
 <BODY>
 <HR>
 <div align="center"><img id="headerGraphic" src="../SLUDGEDevKitHelp/images/sludge300.png" alt="SLUDGE"/></div>
-<h2>Compiling SLUDGE on Ubuntu</h2>
+<h2>Compiling SLUDGE on Debian/Ubuntu</h2>
 <HR>
 
-There are generic instructions how to compile SLUDGE in the <strong>INSTALL</strong> file which is included in the source archieve. The following instructions describe the installation of SLUDGE on Ubuntu a little bit more detailed. If you keep in mind that other distributions may have other ways to gain root privileges (than sudo), other packaging management tools (than apt-get) and other package names, these instructions should help you installing SLUDGE on any Linux distribution.
+There are generic instructions how to compile SLUDGE in the <strong>INSTALL</strong> file which is included in the source archieve. The following instructions describe the installation of SLUDGE on Debian or Ubuntu a little bit more detailed. If you keep in mind that other distributions may have other ways to gain root privileges (than sudo, use su on Debian), other packaging management tools (than apt-get) and other package names, these instructions should help you installing SLUDGE on any Linux distribution.
 
 <h3>Dependencies</h3>
 
@@ -21,8 +21,8 @@ There are generic instructions how to compile SLUDGE in the <strong>INSTALL</str
 
 <p><ul>
 <li><strong>build-essential</strong> (compilers and build tools)</li>
-<li><strong>cmake</strong> (needed for installing Alure)</li>
-<li><strong>glee-dev</strong> (available since Maverick, see <a href="#glee">below</a>)</li>
+<li><strong>cmake</strong> (needed for installing Alure manually)</li>
+<li><strong>glee-dev</strong> (in Ubuntu only available since Maverick, see <a href="#glee">below</a>)</li>
 <li><strong>libsdl1.2-dev</strong></li>
 <li><strong>libglu1-mesa-dev</strong></li>
 <li><strong>libpng12-dev</strong></li>
@@ -38,7 +38,7 @@ There are generic instructions how to compile SLUDGE in the <strong>INSTALL</str
 
 <p>Package list for copying:</p>
 
-<p><div class="bash">sudo apt-get install build-essential cmake glee-dev libsdl1.2-dev libglu1-mesa-dev libpng12-dev libopenal-dev libvorbis-dev libflac-dev libdumb1-dev </div></p>
+<p><div class="bash">sudo apt-get install build-essential cmake glee-dev libsdl1.2-dev libglu1-mesa-dev libpng12-dev libopenal-dev libvorbis-dev libflac-dev libdumb1-dev libvpx-dev</div></p>
 
 <p>The additional dependencies for the Dev Kit:</p>
 
@@ -47,8 +47,8 @@ There are generic instructions how to compile SLUDGE in the <strong>INSTALL</str
 <h3 id="glee">GLee</h3>
 <p>GLee is available in the Ubuntu repositories only since Ubuntu 10.10 Maverick Meerkat. For older Ubuntu versions the packages <a href="http://packages.ubuntu.com/maverick/libglee0d1" rel="nofollow"><strong>libglee0d1</strong></a> and <a href="http://packages.ubuntu.com/maverick/glee-dev" rel="nofollow"><strong>glee-dev</strong></a> have to be downloaded for the fitting architecture and installed in this order.</p>
 
-<h3>Alure</h3>
-<p><a href="http://kcat.strangesoft.net/alure.html" rel="nofollow">Alure</a> has to be downloaded from Git, because version 1.0, which is included in Ubuntu, doesn't feature all functions needed by SLUDGE. This doesn't mean that Git has to be installed: The last "snapshot" can always be downloaded from Alures <a href="http://repo.or.cz/w/alure.git/shortlog" rel="nofollow">Git shortlog</a>.</p>
+<h3>Alure 1.1</h3>
+<p>Alure 1.1 has to be downloaded from the <a href="http://kcat.strangesoft.net/alure.html" rel="nofollow">project page</a> and installed manually, because version 1.0, which is included in Debian and Ubuntu, doesn't feature all functions needed by SLUDGE.</p>
 
 <p>After extracting the archieve, change to the <strong>build</strong> directory</p>
 
