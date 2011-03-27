@@ -44,7 +44,9 @@ void shufflePeople ();
 GLuint freezeTextureName = 0;
 
 void freezeGraphics() {
-	glViewport (0, 0, realWinWidth, realWinHeight);
+	// Warning: This doesn't work if winWidth > realWinWidth || winHeight > realWinHeight!
+	// TODO: A workaround for that (very unusual) special case is needed.
+	glViewport (0, 0, winWidth, winHeight);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(0, (GLdouble) winWidth / cameraZoom, 0, (GLdouble) winHeight / cameraZoom, 1.0, -1.0);
