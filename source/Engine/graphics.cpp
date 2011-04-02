@@ -113,9 +113,9 @@ void saveTexture (GLuint tex, GLubyte * data) {
 
 			glBegin(GL_QUADS);
 			glTexCoord2f(0.0, 0.0); glVertex3f(-xoffset, -yoffset, 0.0);
-			glTexCoord2f(1.0, 0.0); glVertex3f(w-xoffset, -yoffset, 0.0);
-			glTexCoord2f(1.0, 1.0); glVertex3f(w-xoffset, -yoffset+h, 0.0);
-			glTexCoord2f(0.0, 1.0); glVertex3f(-xoffset, -yoffset+h, 0.0);
+			glTexCoord2f(1.0, 0.0); glVertex3f(tw-xoffset, -yoffset, 0.0);
+			glTexCoord2f(1.0, 1.0); glVertex3f(tw-xoffset, -yoffset+th, 0.0);
+			glTexCoord2f(0.0, 1.0); glVertex3f(-xoffset, -yoffset+th, 0.0);
 			glEnd();
 
 			for (int i = 0; i<h; i++)	{
@@ -220,7 +220,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 
 	} else {
 		videoflags = SDL_OPENGL/* | SDL_RESIZABLE*/;
-		
+
 		if (resize) {
             float realAspect = (float) desktopW / desktopH;
 
@@ -231,7 +231,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 			}
 
 			realAspect = (float) realWinWidth / realWinHeight;
-			
+
             if (realAspect > winAspect) {
                 viewportHeight = realWinHeight;
                 viewportWidth = (int) (realWinHeight * winAspect);
@@ -333,12 +333,12 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 
 	Vertex = shaderFileRead("yuv.vert");
 	Fragment = shaderFileRead("yuv.frag");
-	
+
 	if (! Vertex || ! Fragment) {
 		msgBox( "Error loading \"yuv\" shader program!", "Try updating the drivers for your graphics card. If that doesn't help - sorry, your graphics card simply doesn't have all features needed for this game. It will run anyway, but any movies will be greyscale.");
 		shader.yuv = 0;
 	} else {
-		
+
 		shader.yuv = buildShaders (Vertex, Fragment);
 		debugOut( "Built shader program: %d (yuv)\n", shader.yuv);
 		glUseProgram(shader.yuv);
@@ -349,7 +349,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 		uniform = glGetUniformLocation(shader.yuv, "Vtex");
 		if (uniform >= 0) glUniform1i(uniform, 2);
 	}
-	
+
 	glUseProgram(0);
 
 	glViewport (viewportOffsetX, viewportOffsetY, viewportWidth, viewportHeight);
@@ -415,10 +415,10 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 			}
 			delete [] ytex;
 			delete [] utex;
-			delete [] vtex;		
+			delete [] vtex;
 			ytex = utex = vtex = NULL;
 		}
-		
+
 		reloadSpriteTextures ();
 		reloadParallaxTextures ();
 		zBuffer.texName = 0;
