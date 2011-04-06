@@ -1,7 +1,8 @@
+#include "../source/CommonCode/version.h" 
 ID ICON "../images/floorIcon/floorIcon.ico"
 1 VERSIONINFO
-FILEVERSION     2,1,0,0
-PRODUCTVERSION  2,1,0,0
+FILEVERSION     MAJOR_VERSION,MINOR_VERSION,0,BUILD_VERSION
+PRODUCTVERSION  MAJOR_VERSION,MINOR_VERSION,0,BUILD_VERSION 
 BEGIN
   BLOCK "StringFileInfo"
   BEGIN
@@ -10,12 +11,12 @@ BEGIN
       VALUE "Comments", "For more info on SLUDGE, see http://opensludge.sourceforge.net"
       VALUE "CompanyName", "SLUDGE Developers"
       VALUE "FileDescription", "SLUDGE Floor Maker"
-      VALUE "FileVersion", "2.1.0"
+      VALUE "FileVersion", TEXT_VERSION
       VALUE "InternalName", "sludge-floormaker"
       VALUE "LegalCopyright", "(C) 2000 - 2011 Hungry Software and contributors"
       VALUE "OriginalFilename", "sludge-floormaker.exe"
       VALUE "ProductName", "SLUDGE Dev Kit"
-      VALUE "ProductVersion", "2.1.0"
+      VALUE "ProductVersion", TEXT_VERSION
     END
   END
   BLOCK "VarFileInfo"
