@@ -33,7 +33,7 @@ stringArray * splitLangString (const char * inString, const char findCharIn, con
 		if (inString[a] == findChar) {
 			addToStringArray (newStringArray, inString, lastStart, a, false);
 			lastStart = a + 1;
-			if (howMany == ONCE) findChar = NULL;
+			if (howMany == ONCE) findChar = 0;
 		}
 	}
 	addToStringArray (newStringArray, inString, lastStart, stringLen, false);
@@ -259,7 +259,7 @@ int updateFromSource (char * filename, transLine **firstTransLine) {
 					} else if (wholeLine[b] == '\"') {
 						if (! escape) {
 							if (b != a + 1) {
-								wholeLine[b] = NULL;
+								wholeLine[b] = 0;
 								numChanges += foundStringInFileEscaped (wholeLine + a + 1, firstTransLine);
 								wholeLine[b] = '\"';
 							}

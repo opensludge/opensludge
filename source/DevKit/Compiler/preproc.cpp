@@ -67,7 +67,7 @@ bool preProcess (char * codeFileName, int fileNumber, stringArray * & strings, s
 		if (readingQuote) {
 			if ((wholeFile[index] == quoteChar) && (! escapeCharNext)) {
 				readingQuote = false;
-				grabString[stringPosition] = NULL;
+				grabString[stringPosition] = 0;
 				stringPosition = 0;
 				if (showStringWhenFinished) {
 					char buff[1030];
@@ -76,7 +76,7 @@ bool preProcess (char * codeFileName, int fileNumber, stringArray * & strings, s
 				}
 
 				if (quoteChar == '\'' && audioFile (grabString) && settings.forceSilent)
-					grabString[0] = NULL;
+					grabString[0] = 0;
 
 				if (quoteChar == '\"')
 				{
@@ -95,7 +95,7 @@ bool preProcess (char * codeFileName, int fileNumber, stringArray * & strings, s
 			}
 			else if (wholeFile[index] == '\n')
 			{
-				grabString[stringPosition] = NULL;
+				grabString[stringPosition] = 0;
 				addComment (ERRORTYPE_PROJECTERROR, "Runaway string", grabString, codeFileName, currentLine);
 				return false;
 			}

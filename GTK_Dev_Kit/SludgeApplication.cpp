@@ -105,7 +105,7 @@ SludgeApplication::SludgeApplication(const char * gladeFileName, const char * ic
 			if (readChar != '\n') {
 				currentFolder[i] = readChar;
 			} else {
-				currentFolder[i] = NULL;
+				currentFolder[i] = 0;
 				break;
 			}
 		}
@@ -115,8 +115,8 @@ SludgeApplication::SludgeApplication(const char * gladeFileName, const char * ic
 	}
 	fileChanged = FALSE;
 
-	currentFilename[0] = NULL;
-	currentShortname[0] = NULL;
+	currentFilename[0] = 0;
+	currentShortname[0] = 0;
 }
 
 SludgeApplication::~SludgeApplication()
@@ -228,7 +228,7 @@ void SludgeApplication::setFilename(char* filename)
 		if (filename[i] == '/')
 			lastSlash = i;
 	}
-	currentFilename[i] = NULL;
+	currentFilename[i] = 0;
 
 	for (j = lastSlash + 1; j <= i; j++) {
 		currentShortname[j-lastSlash-1] = filename[j];
@@ -248,7 +248,7 @@ void SludgeApplication::setFolderFromFilename(char* filename)
 	for (j = 0; j < lastSlash; j++) {
 		currentFolder[j] = filename[j];
 	}
-	currentFolder[lastSlash] = NULL;
+	currentFolder[lastSlash] = 0;
 }
 
 void SludgeApplication::setFileChanged()
@@ -292,7 +292,7 @@ void SludgeApplication::on_new()
 {
 	if (!reallyClose()) return;
 	init();
-	currentFilename[0] = NULL;
+	currentFilename[0] = 0;
 	sprintf (currentShortname, "%s", getUntitledFilename());
 	gtk_window_set_title (GTK_WINDOW(theWindow), getWindowTitle());
 	fileChanged = FALSE;

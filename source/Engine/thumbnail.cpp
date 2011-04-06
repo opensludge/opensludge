@@ -19,7 +19,7 @@ extern GLuint backdropTextureName;
 
 
 bool saveThumbnail (FILE * fp) {
-	GLuint thumbnailTextureName = NULL;
+	GLuint thumbnailTextureName = 0;
 
 	put4bytes (thumbWidth, fp);
 	put4bytes (thumbHeight, fp);
@@ -84,7 +84,7 @@ bool saveThumbnail (FILE * fp) {
 
 void showThumbnail (char * filename, int atX, int atY) {
 	GLubyte * thumbnailTexture = NULL;
-	GLuint thumbnailTextureName = NULL;
+	GLuint thumbnailTextureName = 0;
 
 	int ssgVersion;
 	FILE * fp = openAndVerify (filename, 'S', 'A', ERROR_GAME_LOAD_NO, ssgVersion);

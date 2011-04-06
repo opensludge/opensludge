@@ -62,7 +62,7 @@ SludgeZBufferMaker::SludgeZBufferMaker()
 
 gboolean SludgeZBufferMaker::init() 
 {
-	currentFilename[0] = NULL;
+	currentFilename[0] = 0;
 	sprintf(currentShortname, "%s", getUntitledFilename());
 
 	setBuffer(1);
@@ -173,7 +173,7 @@ void SludgeZBufferMaker::postNew()
 			currentShortname[i-lastSlash-4] = 'z';
 			currentShortname[i-lastSlash-3] = 'b';
 			currentShortname[i-lastSlash-2] = 'u';
-			currentFilename[0] = NULL;
+			currentFilename[0] = 0;
 			gtk_window_set_title(GTK_WINDOW(theWindow), getWindowTitle());
 			setFileChanged();
 			postOpen();

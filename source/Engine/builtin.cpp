@@ -537,7 +537,7 @@ builtIn(substring)
 
 	for (a = 0; a < length; a ++) newString[a] = wholeString[start ++];
 
-	newString[length] = NULL;
+	newString[length] = 0;
 	makeTextVar (fun -> reg, newString);
 	delete newString;
 	//debugOut ("BUILTIN: substring exiting normally.\n");

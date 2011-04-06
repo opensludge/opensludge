@@ -145,7 +145,7 @@ SludgeProjectManager::~SludgeProjectManager()
 
 gboolean SludgeProjectManager::init() 
 {
-	currentFilename[0] = NULL;
+	currentFilename[0] = 0;
 	sprintf(currentShortname, "%s", getUntitledFilename());
 
     return FALSE;

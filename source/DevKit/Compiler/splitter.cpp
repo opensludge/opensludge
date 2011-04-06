@@ -123,7 +123,7 @@ stringArray * splitString (const char * inString, const char findCharIn, const s
 		if ((inString[a] == findChar) && (indent == 0)) {
 			addToStringArray (newStringArray, inString, lastStart, a, thenTrim);
 			lastStart = a + 1;
-			if (howMany == ONCE) findChar = NULL;
+			if (howMany == ONCE) findChar = 0;
 		}
 		indent += addIndent;
 	}

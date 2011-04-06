@@ -54,7 +54,7 @@ char * readStringEncoded (FILE * fp) {
 		s[a] = (char) (fgetc (fp) ^ encode1);
 		encode1 += encode2;
 	}
-	s[len] = NULL;
+	s[len] = 0;
 	return s;
 }
 
@@ -88,7 +88,7 @@ char * readTextPlain (FILE * fp) {
 			debugOut("Reading error in readTextPlain.\n");
 		}
 		fgetc (fp); // Skip the newline character
-		reply[stringSize] = NULL;
+		reply[stringSize] = 0;
 	}
 
 	return reply;

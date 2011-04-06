@@ -214,8 +214,8 @@ bool runLinker (FILE * mainFile, FILE * indexFile, int functionNum, stringArray 
 			if (b == SLU_LOAD_STRING)
 				originalName = joinStrings (returnElement (allSourceStrings, value), "");
 
-			char padder[2] = {'\t', NULL};
-			if (strlen (sludgeText[b]) > 10) padder[0] = NULL;
+			char padder[2] = {'\t', 0};
+			if (strlen (sludgeText[b]) > 10) padder[0] = 0;
 			if (originalName) {
 				fprintf (debugFile, "%03i: %s%s\t%i\t(%s)\n", a, sludgeText[b], padder, value, originalName);
 			} else {

@@ -19,7 +19,7 @@ char * readString (FILE * fp) {
 	for (a = 0; a < n; a ++) {
 		grabber[a] = (char) (fgetc (fp) - MOVETEXT);
 	}
-	grabber[n] = NULL;
+	grabber[n] = 0;
 
 	return grabber;
 }
@@ -106,9 +106,9 @@ char * readText (FILE * fp) {
 		if (fgets ( reply, stringSize, fp )) {
 			if (strlen(reply) < stringSize - 1) {
 				// Get rid of the newline character:
-				reply[strlen(reply)-1] = NULL;        // remove \n
+				reply[strlen(reply)-1] = 0;        // remove \n
 				if (reply[strlen(reply)-1] == '\x0D') // remove \r if present
-					reply[strlen(reply)-1] = NULL;
+					reply[strlen(reply)-1] = 0;
 				goOn = false;
 			} else {
 				delete reply;
@@ -146,7 +146,7 @@ char * grabWholeFile (char * theName) {
 	if (bytes_read != size && ferror (inputFile)) {
 		fprintf(stderr, "Reading error in grabWholeFile.\n");
 	}
-   allText[size] = NULL;
+	allText[size] = 0;
 	fclose (inputFile);
 
 	return allText;

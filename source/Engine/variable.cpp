@@ -159,7 +159,7 @@ bool getSavedGamesStack (stackHandler * sH, char * ext) {
 		struct dirent *d = readdir (dir);
 		while (d != NULL) {
 			if (! strcmp(d->d_name + strlen (d->d_name) - strlen (ext), ext)) {
-				d->d_name[strlen (d->d_name) - strlen (ext)] = NULL;
+				d->d_name[strlen (d->d_name) - strlen (ext)] = 0;
 				char * decoded = decodeFilename (d->d_name);
 				makeTextVar (newName, decoded);
 				delete decoded;

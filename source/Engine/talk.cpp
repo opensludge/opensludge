@@ -109,7 +109,7 @@ int wrapSpeechXY (char * theText, int x, int y, int wrap, int sampleFile) {
 				break;
 			}
 		}
-		theText[a] = NULL;
+		theText[a] = 0;
 		addSpeechLine (theText, x, offset);
 		theText[a] = ' ';
 		theText += a + 1;

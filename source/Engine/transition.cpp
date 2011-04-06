@@ -97,7 +97,7 @@ void resetRandW () {
 }
 
 GLubyte * transitionTexture = NULL;
-GLuint transitionTextureName = NULL;
+GLuint transitionTextureName = 0;
 
 bool reserveTransitionTexture () {
 	

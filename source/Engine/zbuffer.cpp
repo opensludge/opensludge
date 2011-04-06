@@ -13,7 +13,7 @@ extern int sceneWidth, sceneHeight;
 void killZBuffer () {
 	if (zBuffer.tex) {
 		glDeleteTextures (1, &zBuffer.texName);
-		zBuffer.texName = NULL;
+		zBuffer.texName = 0;
 		delete zBuffer.tex;
 		zBuffer.tex = NULL;
 	}

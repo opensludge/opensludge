@@ -23,7 +23,7 @@ bool trimEnd (char * & thisString, char trimChar) {
 	int len = strlen (thisString);
 	if (! len) return 0;
 	if (thisString[len - 1] == trimChar) {
-		thisString[len - 1] = NULL;
+		thisString[len - 1] = 0;
 		return true;
 	}
 	return false;
@@ -83,7 +83,7 @@ void addToStringArray (stringArray * & theArray, const char * theString, int sta
 	
 	// Create new stringArray section
 	memcpy(addMe, theString+start, size);
-	addMe[size] = NULL;
+	addMe[size] = 0;
 
 	newSection -> string = addMe;	
 	newSection -> line = lineNum;
