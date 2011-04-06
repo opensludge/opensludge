@@ -77,9 +77,12 @@ gboolean SludgeFloorMaker::init()
 	backdrop.myPalette.g=NULL;
 	backdrop.myPalette.b=NULL;
 
+	prepareOpenGL();
+
 	if (!reserveSpritePal(&backdrop.myPalette, 0)) {
 			return TRUE;
 	}
+
     return FALSE;
 }
 
