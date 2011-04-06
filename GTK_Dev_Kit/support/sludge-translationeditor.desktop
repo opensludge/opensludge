@@ -3,6 +3,7 @@ Version=1.0
 Encoding=UTF-8
 Name=SLUDGE Translation Editor
 Comment=Edit SLUDGE translation files
+Comment[de]=SLUDGE-Übersetzungsdateien bearbeiten
 MimeType=text/x-sludge-translation
 Exec=sludge-translationeditor %f
 Icon=sludge-translationeditor

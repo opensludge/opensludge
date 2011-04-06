@@ -3,6 +3,7 @@ Version=1.0
 Encoding=UTF-8
 Name=SLUDGE Sprite Bank Editor
 Comment=Edit SLUDGE sprite banks
+Comment[de]=SLUDGE-Spritesammlungen bearbeiten
 MimeType=application/x-sludge-spritebank
 Exec=sludge-spritebankeditor %f
 Icon=sludge-spritebankeditor

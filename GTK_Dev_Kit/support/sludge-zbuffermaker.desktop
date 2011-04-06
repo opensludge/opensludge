@@ -3,6 +3,7 @@ Version=1.0
 Encoding=UTF-8
 Name=SLUDGE Z-Buffer Maker
 Comment=Edit SLUDGE z-buffer files
+Comment[de]=SLUDGE-Z-Buffer-Dateien bearbeiten
 MimeType=application/x-sludge-zbuffer
 Exec=sludge-zbuffermaker %f
 Icon=sludge-zbuffermaker

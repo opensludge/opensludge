@@ -2,7 +2,8 @@
 Version=1.0
 Encoding=UTF-8
 Name=SLUDGE Project Manager
-Comment=Manage and compile SLUDGE games
+Comment=Manage and compile SLUDGE projects
+Comment[de]=SLUDGE-Projekte verwalten und kompilieren
 MimeType=text/x-sludge-project
 Exec=sludge-projectmanager %f
 Icon=sludge-projectmanager

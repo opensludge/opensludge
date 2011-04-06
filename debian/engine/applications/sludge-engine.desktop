@@ -3,6 +3,7 @@ Version=1.0
 Encoding=UTF-8
 Name=SLUDGE Engine
 Comment=Play SLUDGE games
+Comment[de]=SLUDGE-Spiele spielen
 MimeType=application/x-sludge-game
 Exec=sludge-engine %f
 Icon=sludge-engine

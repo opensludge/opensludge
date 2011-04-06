@@ -3,6 +3,7 @@ Version=1.0
 Encoding=UTF-8
 Name=SLUDGE Floor Maker
 Comment=Edit SLUDGE floor plans
+Comment[de]=SLUDGE-Bodenpläne bearbeiten
 MimeType=text/x-sludge-floor
 Exec=sludge-floormaker %f
 Icon=sludge-floormaker
