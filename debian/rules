@@ -66,3 +66,13 @@ override_dh_auto_build:
 
 	dh_auto_build
 
+override_dh_auto_clean:
+	rm -f debian/sludge-engine.1
+	rm -f debian/sludge-devkit.1
+	rm -f debian/sludge-projectmanager.1
+	rm -f debian/sludge-floormaker.1
+	rm -f debian/sludge-zbuffermaker.1
+	rm -f debian/sludge-spritebankeditor.1
+	rm -f debian/sludge-translationeditor.1
+	rm -f debian/sludge-compiler.1
+	dh_auto_clean
