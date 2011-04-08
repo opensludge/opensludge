@@ -11,7 +11,8 @@ sludge_floormaker_SOURCES = \
 	../source/DevKit/GraphicalTools/sprites.cpp ../source/DevKit/GraphicalTools/sprites.h \
 	../source/DevKit/Common/moreio.cpp ../source/DevKit/Common/moreio.h \
 	../source/DevKit/Common/helpers.cpp ../source/DevKit/Common/helpers.h \
-	../source/CommonCode/tga.cpp ../source/CommonCode/tga.h
+	../source/CommonCode/tga.cpp ../source/CommonCode/tga.h \
+	../source/CommonCode/version.h
 
 sludge_zbuffermaker_SOURCES = \
 	ZBufferMakerMain.cpp SludgeZBufferMaker.cpp SludgeZBufferMaker.h \
@@ -22,7 +23,8 @@ sludge_zbuffermaker_SOURCES = \
 	../source/DevKit/GraphicalTools/sprites.cpp ../source/DevKit/GraphicalTools/sprites.h \
 	../source/DevKit/Common/moreio.cpp ../source/DevKit/Common/moreio.h \
 	../source/DevKit/Common/helpers.cpp ../source/DevKit/Common/helpers.h \
-	../source/CommonCode/tga.cpp ../source/CommonCode/tga.h
+	../source/CommonCode/tga.cpp ../source/CommonCode/tga.h \
+	../source/CommonCode/version.h
 
 sludge_spritebankeditor_SOURCES = \
 	SpriteBankEditorMain.cpp SludgeSpriteBankEditor.cpp SludgeSpriteBankEditor.h \
@@ -32,7 +34,8 @@ sludge_spritebankeditor_SOURCES = \
 	../source/DevKit/GraphicalTools/sprites.cpp ../source/DevKit/GraphicalTools/sprites.h \
 	../source/DevKit/Common/moreio.cpp ../source/DevKit/Common/moreio.h \
 	../source/DevKit/Common/helpers.cpp ../source/DevKit/Common/helpers.h \
-	../source/CommonCode/tga.cpp ../source/CommonCode/tga.h
+	../source/CommonCode/tga.cpp ../source/CommonCode/tga.h \
+	../source/CommonCode/version.h
 
 sludge_translationeditor_SOURCES = \
 	TranslationEditorMain.cpp TranslationEditorMain.h \
@@ -43,7 +46,8 @@ sludge_translationeditor_SOURCES = \
 	../source/DevKit/TranslationEditor/translator.cpp ../source/DevKit/TranslationEditor/translator.h \
 	../source/DevKit/Common/moreio.cpp ../source/DevKit/Common/moreio.h \
 	../source/DevKit/Common/helpers.cpp ../source/DevKit/Common/helpers.h \
-	../source/DevKit/Common/stringarray.cpp ../source/DevKit/Common/stringarray.h
+	../source/DevKit/Common/stringarray.cpp ../source/DevKit/Common/stringarray.h \
+	../source/CommonCode/version.h
 
 sludge_projectmanager_SOURCES = \
 	ProjectManagerMain.cpp ProjectManagerMain.h \
@@ -72,7 +76,9 @@ sludge_projectmanager_SOURCES = \
 	../source/DevKit/Common/moreio.cpp ../source/DevKit/Common/moreio.h \
 	../source/DevKit/Common/helpers.cpp ../source/DevKit/Common/helpers.h \
 	../source/DevKit/Common/stringarray.cpp ../source/DevKit/Common/stringarray.h \
-	../source/CommonCode/tga.cpp ../source/CommonCode/tga.h
+	../source/CommonCode/tga.cpp ../source/CommonCode/tga.h \
+	../source/CommonCode/functionlist.h \
+	../source/CommonCode/version.h
 
 sludge_compiler_SOURCES = \
 	CompilerMain.cpp \
@@ -99,7 +105,9 @@ sludge_compiler_SOURCES = \
 	../source/DevKit/Common/moreio.cpp ../source/DevKit/Common/moreio.h \
 	../source/DevKit/Common/helpers.cpp ../source/DevKit/Common/helpers.h \
 	../source/DevKit/Common/stringarray.cpp ../source/DevKit/Common/stringarray.h \
-	../source/CommonCode/tga.cpp ../source/CommonCode/tga.h
+	../source/CommonCode/tga.cpp ../source/CommonCode/tga.h \
+	../source/CommonCode/functionlist.h \
+	../source/CommonCode/version.h
 
 dist_pkgdata_DATA = \
 	FloorMaker.glade ZBufferMaker.glade \
