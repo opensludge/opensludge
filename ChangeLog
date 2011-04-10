@@ -540,3 +540,17 @@ Development Kit (general):
 GTK Development Kit:
 * Bugfix: Clicking on the same compiler error in the projectmanager twice could cause a crash.
 * Bugfix: Sprites could disappear if the graphical tools were compiled differently.
+
+----------------------
+2.1.1 - Bugfix release
+----------------------
+
+Engine (all platforms):
+* Bugfix: Freezing now works properly again.
+* The engine should be able to downscale if necessary, and not just scale up. I.e. it's possible to create a game in a 1280x1024 resolution and run it on a 1024x768 monitor.
+
+Engine (Linux):
+* Bugfix: Building failed under certain circumstances.
+
+GTK Floor Maker:
+* Bugfix: Crash after clicking new and inserting backdrop.

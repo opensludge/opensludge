@@ -1,5 +1,5 @@
 sub outsideRoom () {
-	startMusic ('outside/music.mod', 0, 0);
+	startMusic ('outside/music.xm', 0, 0);
 	addOverlay ('outside/room.tga', 0, 0);
 	setFloor ('outside/room.flo');
 	setScale (200, 150);

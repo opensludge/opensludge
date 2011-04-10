@@ -250,14 +250,14 @@ nobase_dist_doc_DATA=\
 	ExampleProjects/VerbCoin/iface/talk.slu \
 	ExampleProjects/VerbCoin/iface/verbcoin.tga \
 	ExampleProjects/VerbCoin/iface/verbs.slu \
-	ExampleProjects/VerbCoin/inside/music.mod \
+	ExampleProjects/VerbCoin/inside/music.xm \
 	ExampleProjects/VerbCoin/inside/room.flo \
 	ExampleProjects/VerbCoin/inside/room.slu \
 	ExampleProjects/VerbCoin/inside/room.tga \
 	ExampleProjects/VerbCoin/inside/room.zbu \
 	ExampleProjects/VerbCoin/nicupfontsmall.duc \
 	ExampleProjects/VerbCoin/outside/duck.duc \
-	ExampleProjects/VerbCoin/outside/music.mod \
+	ExampleProjects/VerbCoin/outside/music.xm \
 	ExampleProjects/VerbCoin/outside/room.flo \
 	ExampleProjects/VerbCoin/outside/room.slu \
 	ExampleProjects/VerbCoin/outside/room.tga \

@@ -1,7 +1,7 @@
 var beenInRoom = FALSE;
 
 sub insideRoom () {
-	startMusic ('inside/music.mod', 0, 0);
+	startMusic ('inside/music.xm', 0, 0);
 	addOverlay ('inside/room.tga', 0, 0);
 	setFloor ('inside/room.flo');
 	setZBuffer ('inside/room.zbu');
