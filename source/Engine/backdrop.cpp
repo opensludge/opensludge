@@ -391,11 +391,11 @@ void drawHorizontalLine (unsigned int x1, unsigned int y, unsigned int x2) {
 void darkScreen () {
 	setPixelCoords (true);
 
-	unsigned int xoffset = 0;
+	int xoffset = 0;
 	while (xoffset < sceneWidth) {
 		int w = (sceneWidth-xoffset < viewportWidth) ? sceneWidth-xoffset : viewportWidth;
 
-		unsigned int yoffset = 0;
+		int yoffset = 0;
 		while (yoffset < sceneHeight) {
 			int h = (sceneHeight-yoffset < viewportHeight) ? sceneHeight-yoffset : viewportHeight;
 
@@ -412,7 +412,6 @@ void darkScreen () {
 			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(sceneWidth-xoffset, sceneHeight-yoffset, 0.0);
 			glTexCoord2f(0.0, backdropTexH); glVertex3f(-xoffset, sceneHeight-yoffset, 0.0);
 			glEnd();
-
 
 			// Then the darkness
 			glDisable (GL_TEXTURE_2D);
@@ -434,9 +433,11 @@ void darkScreen () {
 			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
 			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, xoffset, yoffset, viewportOffsetX, viewportOffsetY, w, h);
 
-			yoffset += viewportHeight;
+			yoffset += h;
+			glClear(GL_COLOR_BUFFER_BIT);
+
 		}
-		xoffset += viewportWidth;
+		xoffset += w;
 	}
 	glEnable (GL_TEXTURE_2D);
 	setPixelCoords (false);

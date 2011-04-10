@@ -44,13 +44,7 @@ void shufflePeople ();
 GLuint freezeTextureName = 0;
 
 void freezeGraphics() {
-	// Warning: This doesn't work if winWidth > realWinWidth || winHeight > realWinHeight!
-	// TODO: A workaround for that (very unusual) special case is needed.
-	glViewport (0, 0, winWidth, winHeight);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(0, (GLdouble) winWidth / cameraZoom, 0, (GLdouble) winHeight / cameraZoom, 1.0, -1.0);
-	glMatrixMode(GL_MODELVIEW);
+	glViewport (0, 0, realWinWidth, realWinHeight);
 
 	glGenTextures (1, &freezeTextureName);
 	int w = winWidth;
@@ -67,27 +61,55 @@ void freezeGraphics() {
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 
-	// Render scene
-	glDepthMask (GL_TRUE);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear The Screen
-	glDepthMask (GL_FALSE);
-
 	// Temporarily disable AA
 	int antiAlias = gameSettings.antiAlias;
 	gameSettings.antiAlias = 0;
+	
 
-	drawBackDrop ();				// Draw the room
-	drawZBuffer(cameraX, cameraY, false);
+	int x=0;
+	while (x < winWidth) {
+		int y=0;
+		
+		if (winWidth-x < realWinWidth) {
+			w = winWidth-x;
+		} else {
+			w = realWinWidth;
+		}
+		
+		while (y < winHeight) {
+		
+			if (winHeight-y < realWinHeight) {
+				h = winHeight-y;
+			} else {
+				h = realWinHeight;
+			}
+			glMatrixMode(GL_PROJECTION);
+			glLoadIdentity();
+			glOrtho(x, x+(GLdouble) w / cameraZoom, y, y+(GLdouble) h / cameraZoom, 1.0, -1.0);
+			glMatrixMode(GL_MODELVIEW);
+	//		glOrtho(x, viewportWidth+x, y, viewportHeight+y, 1.0, -1.0);
+			
+			// Render scene
+			glDepthMask (GL_TRUE);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear The Screen
+			glDepthMask (GL_FALSE);
+			
+			drawBackDrop ();				// Draw the room
+			drawZBuffer(cameraX, cameraY, false);
+			glEnable(GL_DEPTH_TEST);
+			drawPeople ();					// Then add any moving characters...
+			glDisable(GL_DEPTH_TEST);
 
-	glEnable(GL_DEPTH_TEST);
-	drawPeople ();					// Then add any moving characters...
-	glDisable(GL_DEPTH_TEST);
+			// Copy Our ViewPort To The Texture
+			glBindTexture(GL_TEXTURE_2D, freezeTextureName);
+			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, x, y, 0, 0, w, h);
+			
+			y += h;
+		}
+		x += w;
+	}
 
 	gameSettings.antiAlias = antiAlias;
-
-	// Copy Our ViewPort To The Texture
-	glBindTexture(GL_TEXTURE_2D, freezeTextureName);
-	glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, winWidth, winHeight);
 
 	glViewport (viewportOffsetX, viewportOffsetY, viewportWidth, viewportHeight);
 	setPixelCoords(false);

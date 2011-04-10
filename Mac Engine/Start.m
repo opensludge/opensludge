@@ -54,7 +54,7 @@ extern unsigned char * gameLogo;
 	
 	[languageList removeAllItems];
 	if (gameSettings.numLanguages) {
-		for (int i=0; i<= gameSettings.numLanguages; i++) {
+		for (unsigned int i=0; i<= gameSettings.numLanguages; i++) {
 			if (languageName[i]) { 
 				[languageList addItemWithTitle:[NSString stringWithUTF8String:languageName[i]]];	
 			} else {
