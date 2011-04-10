@@ -85,7 +85,7 @@ void freezeGraphics() {
 			}
 			glMatrixMode(GL_PROJECTION);
 			glLoadIdentity();
-			glOrtho(x, x+(GLdouble) w / cameraZoom, y, y+(GLdouble) h / cameraZoom, 1.0, -1.0);
+			glOrtho(x, x+(GLdouble) realWinWidth / cameraZoom, y, y+(GLdouble) realWinHeight / cameraZoom, 1.0, -1.0);
 			glMatrixMode(GL_MODELVIEW);
 	//		glOrtho(x, viewportWidth+x, y, viewportHeight+y, 1.0, -1.0);
 			
