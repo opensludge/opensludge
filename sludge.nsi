@@ -277,7 +277,7 @@ Section "Example projects" SecExampleProjects
 	File doc/ExampleProjects/VerbCoin/iface/verbs.slu
 
 	SetOutPath "$INSTDIR\ExampleProjects\VerbCoin\inside"
-	File doc/ExampleProjects/VerbCoin/inside/music.mod
+	File doc/ExampleProjects/VerbCoin/inside/music.xm
 	File doc/ExampleProjects/VerbCoin/inside/room.flo
 	File doc/ExampleProjects/VerbCoin/inside/room.slu
 	File doc/ExampleProjects/VerbCoin/inside/room.tga
@@ -285,7 +285,7 @@ Section "Example projects" SecExampleProjects
 
 	SetOutPath "$INSTDIR\ExampleProjects\VerbCoin\outside"
 	File doc/ExampleProjects/VerbCoin/outside/duck.duc
-	File doc/ExampleProjects/VerbCoin/outside/music.mod
+	File doc/ExampleProjects/VerbCoin/outside/music.xm
 	File doc/ExampleProjects/VerbCoin/outside/room.flo
 	File doc/ExampleProjects/VerbCoin/outside/room.slu
 	File doc/ExampleProjects/VerbCoin/outside/room.tga
