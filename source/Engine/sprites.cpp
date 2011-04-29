@@ -791,6 +791,7 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 			curLight[0] = curLight[1] = curLight[2] = 255;
 			glClientActiveTexture(GL_TEXTURE1);
 			glActiveTexture(GL_TEXTURE1);
+			glEnable(GL_TEXTURE_2D);
 			glBindTexture (GL_TEXTURE_2D, lightMap.name);
 			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 			glTexCoordPointer(2, GL_FLOAT, 0, ltexCoords);
@@ -853,6 +854,7 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 		glClientActiveTexture(GL_TEXTURE1);
 		glActiveTexture(GL_TEXTURE1);
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		glDisable(GL_TEXTURE_2D);
 		glClientActiveTexture(GL_TEXTURE0);
 		glActiveTexture(GL_TEXTURE0);
 	}

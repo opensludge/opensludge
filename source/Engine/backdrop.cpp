@@ -432,12 +432,30 @@ void darkScreen () {
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
-			glBegin(GL_QUADS);
-			glTexCoord2f(0.0, 0.0); glVertex3f(-xoffset, -yoffset, 0.0);
-			glTexCoord2f(backdropTexW, 0.0); glVertex3f(sceneWidth-xoffset, -yoffset, 0.0);
-			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(sceneWidth-xoffset, sceneHeight-yoffset, 0.0);
-			glTexCoord2f(0.0, backdropTexH); glVertex3f(-xoffset, sceneHeight-yoffset, 0.0);
-			glEnd();
+			const GLint vertices[] = { 
+				-xoffset, -yoffset, 0, 
+				sceneWidth-xoffset, -yoffset, 0, 
+				sceneWidth-xoffset, sceneHeight-yoffset, 0, 
+				-xoffset, sceneHeight-yoffset, 0
+			};
+
+			const GLfloat texCoords[] = { 
+				0.0f, 0.0f,
+				backdropTexW, 0.0f,
+				backdropTexW, backdropTexH, 
+				0.0f, backdropTexH
+			}; 
+	
+			glEnableClientState(GL_VERTEX_ARRAY);
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+			glVertexPointer(3, GL_INT, 0, vertices);
+			glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
+
+			glDrawArrays(GL_QUADS, 0, 4);
+
+			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+			glDisableClientState(GL_VERTEX_ARRAY);
 
 			// Then the darkness
 			glDisable (GL_TEXTURE_2D);
@@ -446,12 +464,11 @@ void darkScreen () {
 
 			glEnable(GL_BLEND);
 
-			glBegin(GL_QUADS);
-			glVertex3f(-xoffset, -yoffset, 0.0);
-			glVertex3f(sceneWidth-xoffset, -yoffset, 0.0);
-			glVertex3f(sceneWidth-xoffset, sceneHeight-yoffset, 0.0);
-			glVertex3f(-xoffset, sceneHeight-yoffset, 0.0);
-			glEnd();
+			glEnableClientState(GL_VERTEX_ARRAY);
+			glVertexPointer(3, GL_INT, 0, vertices);
+			glDrawArrays(GL_QUADS, 0, 4);
+			glDisableClientState(GL_VERTEX_ARRAY);
+
 			glDisable(GL_BLEND);
 			glColorMask (GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 
@@ -502,7 +519,6 @@ void drawBackDrop () {
 			ps -> cameraY = sortOutPCamera (cameraY, ps -> fractionY, (int)(sceneHeight - (float)winHeight/cameraZoom), (int)(ps -> height - (float)winHeight/cameraZoom));
 
 			glBindTexture (GL_TEXTURE_2D, ps->textureName);
-			glBegin(GL_QUADS);
 
 			float w = (ps->wrapS) ? sceneWidth : ps->width;
 			float h = (ps->wrapT) ? sceneHeight : ps->height;
@@ -516,12 +532,30 @@ void drawBackDrop () {
 				texh = (ps->wrapT) ? (float) sceneHeight / ps->height: 1.0;
 			}
 
-			glTexCoord2f(0.0, 0.0); glVertex3f(-ps -> cameraX, -ps -> cameraY, 0.1);
-			glTexCoord2f(texw, 0.0); glVertex3f(w -ps -> cameraX, -ps -> cameraY, 0.1);
-			glTexCoord2f(texw, texh); glVertex3f(w -ps -> cameraX, h -ps -> cameraY, 0.1);
-			glTexCoord2f(0.0, texh); glVertex3f(-ps -> cameraX, h -ps -> cameraY, 0.1);
+			const GLfloat vertices[] = { 
+				(GLfloat)-ps -> cameraX, (GLfloat)-ps -> cameraY, 0.1f, 
+				w -ps -> cameraX, (GLfloat)-ps -> cameraY, 0.1f, 
+				w -ps -> cameraX, h -ps -> cameraY, 0.1f, 
+				(GLfloat)-ps -> cameraX, h -ps -> cameraY, 0.1f
+			};
 
-			glEnd();
+			const GLfloat texCoords[] = { 
+				0.0f, 0.0f,
+				texw, 0.0f,
+				texw, texh, 
+				0.0f, texh
+			}; 
+	
+			glEnableClientState(GL_VERTEX_ARRAY);
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+			glVertexPointer(3, GL_FLOAT, 0, vertices);
+			glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
+
+			glDrawArrays(GL_QUADS, 0, 4);
+
+			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+			glDisableClientState(GL_VERTEX_ARRAY);
 
 			ps = ps -> prev;
 		}
@@ -1012,8 +1046,8 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 	}
 
 
-	double texCoordW = 1.0;
-	double texCoordH = 1.0;
+	GLfloat texCoordW = 1.0;
+	GLfloat texCoordH = 1.0;
 	if (! NPOT_textures) {
 		picWidth = getNextPOT(picWidth);
 		picHeight = getNextPOT(picHeight);
@@ -1102,6 +1136,12 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 		bty2 = (float) (y+realPicHeight) / sceneHeight;
 	}
 
+	const GLfloat btexCoords[] = { 
+		btx1, bty1,
+		btx2, bty1,
+		btx2, bty2, 
+		btx1, bty2
+	}; 
 
 	setPixelCoords (true);
 
@@ -1115,11 +1155,29 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 
 			glClear(GL_COLOR_BUFFER_BIT);	// Clear The Screen
 
+			const GLint vertices[] = { 
+				-xoffset, -yoffset, 0, 
+				realPicWidth-xoffset, -yoffset, 0, 
+				realPicWidth-xoffset, -yoffset+realPicHeight, 0, 
+				-xoffset, -yoffset+realPicHeight, 0
+			};
+
+			const GLfloat texCoords[] = { 
+				0.0f, 0.0f,
+				texCoordW, 0.0f,
+				texCoordW, texCoordH, 
+				0.0f, texCoordH
+			}; 
+
 			if (backdropExists) {
 				// Render the sprite to the backdrop
 				// (using mulitexturing, so the old backdrop is seen where alpha < 1.0)
+				glClientActiveTexture(GL_TEXTURE2);
 				glActiveTexture(GL_TEXTURE2);
 				glBindTexture (GL_TEXTURE_2D, backdropTextureName);
+				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+				glTexCoordPointer(2, GL_FLOAT, 0, btexCoords);
+				glClientActiveTexture(GL_TEXTURE0);
 				glActiveTexture(GL_TEXTURE0);
 
 				glUseProgram(shader.paste);
@@ -1130,12 +1188,22 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 				glBindTexture(GL_TEXTURE_2D, tmpTex);
 				glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
-				glBegin(GL_QUADS);
-				glTexCoord2f(0.0, 0.0); glMultiTexCoord2f(GL_TEXTURE2, btx1, bty1); 	glVertex3f(-xoffset, -yoffset, 0.0);
-				glTexCoord2f(texCoordW, 0.0); glMultiTexCoord2f(GL_TEXTURE2, btx2, bty1); 	glVertex3f(realPicWidth-xoffset, -yoffset, 0.0);
-				glTexCoord2f(texCoordW, texCoordH); glMultiTexCoord2f(GL_TEXTURE2, btx2, bty2); 	glVertex3f(realPicWidth-xoffset, realPicHeight-yoffset, 0.0);
-				glTexCoord2f(0.0, texCoordH); glMultiTexCoord2f(GL_TEXTURE2, btx1, bty2); 	glVertex3f(-xoffset, realPicHeight-yoffset, 0.0);
-				glEnd();
+				glEnableClientState(GL_VERTEX_ARRAY);
+				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+				glVertexPointer(3, GL_INT, 0, vertices);
+				glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
+
+				glDrawArrays(GL_QUADS, 0, 4);
+
+				glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+				glDisableClientState(GL_VERTEX_ARRAY);
+
+				glClientActiveTexture(GL_TEXTURE2);
+				glActiveTexture(GL_TEXTURE2);
+				glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+				glClientActiveTexture(GL_TEXTURE0);
+				glActiveTexture(GL_TEXTURE0);
 
 				glUseProgram(0);
 
@@ -1145,13 +1213,17 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 				glBindTexture(GL_TEXTURE_2D, tmpTex);
 
 				glColor4f(1.0, 0.0, 0.0, 0.0);
-				glBegin(GL_QUADS);
-				glTexCoord2f(0.0, 0.0); glVertex3f(-xoffset, -yoffset, 0.0);
-				glTexCoord2f(texCoordW, 0.0); glVertex3f(realPicWidth-xoffset, -yoffset, 0.0);
-				glTexCoord2f(texCoordW, texCoordH); glVertex3f(realPicWidth-xoffset, -yoffset+realPicHeight, 0.0);
-				glTexCoord2f(0.0, texCoordH); glVertex3f(-xoffset, -yoffset+realPicHeight, 0.0);
-				glEnd();
 
+				glEnableClientState(GL_VERTEX_ARRAY);
+				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+				glVertexPointer(3, GL_INT, 0, vertices);
+				glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
+
+				glDrawArrays(GL_QUADS, 0, 4);
+
+				glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+				glDisableClientState(GL_VERTEX_ARRAY);
 			}
 
 			// Copy Our ViewPort To The Texture
@@ -1273,6 +1345,20 @@ bool mixHSI (FILE * fp, int x, int y) {
 		bty2 = (float) (y+picHeight) / sceneHeight;
 	}
 
+	const GLfloat texCoords[] = { 
+		tx1, ty1,
+		tx2, ty1,
+		tx2, ty2, 
+		tx1, ty2
+	}; 
+
+	const GLfloat btexCoords[] = { 
+		btx1, bty1,
+		btx2, bty1,
+		btx2, bty2, 
+		btx1, bty2
+	}; 
+
 	int t1, t2, n;
 	unsigned short c;
 	GLubyte * target;
@@ -1351,8 +1437,12 @@ bool mixHSI (FILE * fp, int x, int y) {
 
 			// Render the sprite to the backdrop
 			// (using mulitexturing, so the backdrop is seen where alpha < 1.0)
+			glClientActiveTexture(GL_TEXTURE2);
 			glActiveTexture(GL_TEXTURE2);
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			glTexCoordPointer(2, GL_FLOAT, 0, btexCoords);
+			glClientActiveTexture(GL_TEXTURE0);
 			glActiveTexture(GL_TEXTURE0);
 
 			glUseProgram(shader.paste);
@@ -1363,12 +1453,29 @@ bool mixHSI (FILE * fp, int x, int y) {
 			glBindTexture(GL_TEXTURE_2D, tmpTex);
 			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
-			glBegin(GL_QUADS);
-			glTexCoord2f(tx1, ty1); glMultiTexCoord2f(GL_TEXTURE2, btx1, bty1); 	glVertex3f(-xoffset, -yoffset, 0.0);
-			glTexCoord2f(tx2, ty1); glMultiTexCoord2f(GL_TEXTURE2, btx2, bty1); 	glVertex3f(realPicWidth-xoffset, -yoffset, 0.0);
-			glTexCoord2f(tx2, ty2); glMultiTexCoord2f(GL_TEXTURE2, btx2, bty2); 	glVertex3f(realPicWidth-xoffset, realPicHeight-yoffset, 0.0);
-			glTexCoord2f(tx1, ty2); glMultiTexCoord2f(GL_TEXTURE2, btx1, bty2); 	glVertex3f(-xoffset, realPicHeight-yoffset, 0.0);
-			glEnd();
+			const GLint vertices[] = { 
+				-xoffset, -yoffset, 0, 
+				realPicWidth-xoffset, -yoffset, 0, 
+				realPicWidth-xoffset, -yoffset+realPicHeight, 0, 
+				-xoffset, -yoffset+realPicHeight, 0
+			};
+
+			glEnableClientState(GL_VERTEX_ARRAY);
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+			glVertexPointer(3, GL_INT, 0, vertices);
+			glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
+
+			glDrawArrays(GL_QUADS, 0, 4);
+
+			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+			glDisableClientState(GL_VERTEX_ARRAY);
+
+			glClientActiveTexture(GL_TEXTURE2);
+			glActiveTexture(GL_TEXTURE2);
+			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+			glClientActiveTexture(GL_TEXTURE0);
+			glActiveTexture(GL_TEXTURE0);
 
 			// Copy Our ViewPort To The Texture
 			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
