@@ -26,7 +26,7 @@ struct shaders {
 
 // From Backdrop.cpp, but they're here anyway
 extern GLubyte * backdropTexture;
-extern double backdropTexW, backdropTexH;
+extern GLfloat backdropTexW, backdropTexH;
 
 
 extern unsigned int winWidth, winHeight;

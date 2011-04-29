@@ -432,6 +432,20 @@ void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette 
 	float tx2 = (float)(single.tex_x + single.width + 0.5) / fontPal.tex_w[single.texNum];
 	float ty2 = (float)(single.height+2)/fontPal.tex_h[single.texNum];
 
+	const GLfloat backdropTexCoords[] = { 
+		0.0f, 0.0f,
+		backdropTexW, 0.0f,
+		backdropTexW, backdropTexH, 
+		0.0f, backdropTexH
+	}; 
+
+	const GLfloat spriteTexCoords[] = { 
+		tx1, ty1,
+		tx2, ty1,
+		tx2, ty2, 
+		tx1, ty2
+	}; 
+
 	int diffX = single.width+1;
 	int diffY = single.height+2;
 
@@ -448,11 +462,11 @@ void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette 
 	setPixelCoords (true);
 	glColor3ub (currentBurnR, currentBurnG, currentBurnB);
 
-	int xoffset = 0;
+	GLfloat xoffset = 0.0f;
 	while (xoffset < diffX) {
 		int w = (diffX-xoffset < viewportWidth) ? diffX-xoffset : viewportWidth;
 
-		int yoffset = 0;
+		GLfloat yoffset = 0.0f;
 		while (yoffset < diffY) {
 			int h = (diffY-yoffset < viewportHeight) ? diffY-yoffset : viewportHeight;
 
@@ -463,24 +477,47 @@ void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette 
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
-			glBegin(GL_QUADS);
-			glTexCoord2f(0.0, 0.0); glVertex3f(-x1-xoffset, -y1+yoffset, 0.0);
-			glTexCoord2f(backdropTexW, 0.0); glVertex3f(sceneWidth-1-x1-xoffset, -y1+yoffset, 0.0);
-			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(sceneWidth-1-x1-xoffset, sceneHeight-1-y1+yoffset, 0.0);
-			glTexCoord2f(0.0, backdropTexH); glVertex3f(-x1-xoffset, sceneHeight-1-y1+yoffset, 0.0);
-			glEnd();
+			const GLfloat backdropVertices[] = { 
+				-x1-xoffset, -y1+yoffset, 0.0f, 
+				sceneWidth-1.0f-x1-xoffset, -y1+yoffset, 0.0f, 
+				sceneWidth-1.0f-x1-xoffset, sceneHeight-1.0f-y1+yoffset, 0.0f, 
+				-x1-xoffset, sceneHeight-1.0f-y1+yoffset, 0.0f
+			};
+
+			glEnableClientState(GL_VERTEX_ARRAY);
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+			glVertexPointer(3, GL_FLOAT, 0, backdropVertices);
+			glTexCoordPointer(2, GL_FLOAT, 0, backdropTexCoords);
+
+			glDrawArrays(GL_QUADS, 0, 4);
+
+			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+			glDisableClientState(GL_VERTEX_ARRAY);
 
 			// Then the sprite
 			glEnable(GL_BLEND);
 			glBindTexture (GL_TEXTURE_2D, fontPal.burnTex_names[single.texNum]);
 			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // GL_MODULATE instead of decal mixes the colours!
 
-			glBegin(GL_QUADS);
-			glTexCoord2f(tx1, ty1);	glVertex3f(-xoffset, -yoffset, 0.0);
-			glTexCoord2f(tx2, ty1);	glVertex3f(single.width-1-xoffset, -yoffset, 0.0);
-			glTexCoord2f(tx2, ty2);	glVertex3f(single.width-1-xoffset, single.height-1-yoffset, 0.0);
-			glTexCoord2f(tx1, ty2);	glVertex3f(-xoffset, single.height-1-yoffset, 0.0);
-			glEnd();
+			const GLfloat spriteVertices[] = { 
+				-xoffset, -yoffset, 0.0f, 
+				single.width-1-xoffset, -yoffset, 0.0f, 
+				single.width-1-xoffset, single.height-1-yoffset, 0.0f, 
+				-xoffset, single.height-1-yoffset, 0.0f
+			};
+
+			glEnableClientState(GL_VERTEX_ARRAY);
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+			glVertexPointer(3, GL_FLOAT, 0, spriteVertices);
+			glTexCoordPointer(2, GL_FLOAT, 0, spriteTexCoords);
+
+			glDrawArrays(GL_QUADS, 0, 4);
+
+			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+			glDisableClientState(GL_VERTEX_ARRAY);
+
 			glDisable(GL_BLEND);
 
 			// Copy Our ViewPort To The Texture
@@ -508,6 +545,20 @@ void fontSprite (int x, int y, sprite & single, const spritePalette & fontPal) {
 	float x2 = x1 + (float)single.width/cameraZoom;
 	float y2 = y1 + (float)single.height/cameraZoom;
 
+	const GLfloat vertices[] = { 
+		x1, y1, 0.0f, 
+		x2, y1, 0.0f, 
+		x2, y2, 0.0f, 
+		x1, y2, 0.0f
+	};
+
+	const GLfloat texCoords[] = { 
+		tx1, ty1,
+		tx2, ty1,
+		tx2, ty2, 
+		tx1, ty2
+	}; 
+
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // GL_MODULATE instead of decal mixes the colours!
 	glColor3ub (fontPal.originalRed, fontPal.originalGreen, fontPal.originalBlue);
 	glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
@@ -520,14 +571,17 @@ void fontSprite (int x, int y, sprite & single, const spritePalette & fontPal) {
 
 	glEnable(GL_BLEND);
 
-	glBegin(GL_QUADS);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-	glTexCoord2f(tx1, ty1);	glVertex3f(x1, y1, 0.0);
-	glTexCoord2f(tx2, ty1);	glVertex3f(x2, y1, 0.0);
-	glTexCoord2f(tx2, ty2);	glVertex3f(x2, y2, 0.0);
-	glTexCoord2f(tx1, ty2);	glVertex3f(x1, y2, 0.0);
+	glVertexPointer(3, GL_FLOAT, 0, vertices);
+	glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
 
-	glEnd();
+	glDrawArrays(GL_QUADS, 0, 4);
+
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY);
+
 	glDisable(GL_BLEND);
 	glUseProgram(0);
 }
@@ -544,6 +598,20 @@ void flipFontSprite (int x, int y, sprite & single, const spritePalette & fontPa
 	float x2 = x1 + (float)single.width/cameraZoom;
 	float y2 = y1 + (float)single.height/cameraZoom;
 
+	const GLfloat vertices[] = { 
+		x2, y1, 0.0f, 
+		x1, y1, 0.0f, 
+		x1, y2, 0.0f, 
+		x2, y2, 0.0f
+	};
+
+	const GLfloat texCoords[] = { 
+		tx1, ty1,
+		tx2, ty1,
+		tx2, ty2, 
+		tx1, ty2
+	}; 
+
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // GL_MODULATE instead of decal mixes the colours!
 	glColor3ub (fontPal.originalRed, fontPal.originalGreen, fontPal.originalBlue);
 	glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
@@ -556,14 +624,17 @@ void flipFontSprite (int x, int y, sprite & single, const spritePalette & fontPa
 
 	glEnable(GL_BLEND);
 
-	glBegin(GL_QUADS);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-	glTexCoord2f(tx1, ty1);	glVertex3f(x2, y1, 0.0);
-	glTexCoord2f(tx2, ty1);	glVertex3f(x1, y1, 0.0);
-	glTexCoord2f(tx2, ty2);	glVertex3f(x1, y2, 0.0);
-	glTexCoord2f(tx1, ty2);	glVertex3f(x2, y2, 0.0);
+	glVertexPointer(3, GL_FLOAT, 0, vertices);
+	glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
 
-	glEnd();
+	glDrawArrays(GL_QUADS, 0, 4);
+
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY);
+
 	glDisable(GL_BLEND);
 	glUseProgram(0);
 
