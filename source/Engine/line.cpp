@@ -62,30 +62,57 @@ void drawLine(int x1, int y1, int x2, int y2) {
 			glEnable (GL_TEXTURE_2D);
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
 			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-			
-			glBegin(GL_QUADS);
-			glTexCoord2f(0.0, 0.0); glVertex3f(-x-xoffset, 1-y-yoffset, 0.0);
-			glTexCoord2f(backdropTexW, 0.0); glVertex3f(sceneWidth-x-xoffset, 1-y-yoffset, 0.0);
-			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(sceneWidth-x-xoffset, sceneHeight-y-yoffset, 0.0);
-			glTexCoord2f(0.0, backdropTexH); glVertex3f(-x-xoffset, sceneHeight-y-yoffset, 0.0);
-			glEnd();
+
+			const GLint vertices[] = { 
+				-x-xoffset, 1-y-yoffset, 0, 
+				sceneWidth-x-xoffset, 1-y-yoffset, 0, 
+				sceneWidth-x-xoffset, sceneHeight-y-yoffset, 0, 
+				-x-xoffset, sceneHeight-y-yoffset, 0
+			};
+
+			const GLfloat texCoords[] = { 
+				0.0f, 0.0f,
+				backdropTexW, 0.0f,
+				backdropTexW, backdropTexH, 
+				0.0f, backdropTexH
+			}; 
+	
+			glEnableClientState(GL_VERTEX_ARRAY);
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+			glVertexPointer(3, GL_INT, 0, vertices);
+			glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
+
+			glDrawArrays(GL_QUADS, 0, 4);
+
+			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+			glDisableClientState(GL_VERTEX_ARRAY);
 			
 			glDisable (GL_TEXTURE_2D);
 			
 			// Then the line
 			glEnable (GL_COLOR_LOGIC_OP);
 			glLogicOp (GL_XOR);
-			
-			glBegin(GL_LINES);			
+
+			GLint xo1=-xoffset, xo2=-xoffset;
 			if (! backwards) {
-				glVertex3f(-xoffset, -yoffset, 0.0);
-				glVertex3f(diffX-xoffset, -yoffset+diffY, 0.0);
+				xo2 += diffX;
 			} else {
-				glVertex3f(diffX-xoffset, -yoffset, 0.0);
-				glVertex3f(-xoffset, -yoffset+diffY, 0.0);
+				xo1 += diffX;
 			}
-			glEnd();
-			
+			const GLint lineVertices[] = { 
+				xo1, -yoffset, 0, 
+				xo2, -yoffset+diffY, 0, 
+			};
+
+			glEnableClientState(GL_VERTEX_ARRAY);
+
+			glVertexPointer(3, GL_INT, 0, lineVertices);
+
+			glDrawArrays(GL_LINES, 0, 2);
+
+			glDisableClientState(GL_VERTEX_ARRAY);
+
 			glDisable (GL_COLOR_LOGIC_OP);				
 				
 			// Copy Our ViewPort To The Texture

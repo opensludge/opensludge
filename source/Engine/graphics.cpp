@@ -111,12 +111,30 @@ void saveTexture (GLuint tex, GLubyte * data) {
 
 			glClear(GL_COLOR_BUFFER_BIT);	// Clear The Screen
 
-			glBegin(GL_QUADS);
-			glTexCoord2f(0.0, 0.0); glVertex3f(-xoffset, -yoffset, 0.0);
-			glTexCoord2f(1.0, 0.0); glVertex3f(tw-xoffset, -yoffset, 0.0);
-			glTexCoord2f(1.0, 1.0); glVertex3f(tw-xoffset, -yoffset+th, 0.0);
-			glTexCoord2f(0.0, 1.0); glVertex3f(-xoffset, -yoffset+th, 0.0);
-			glEnd();
+			const GLint vertices[] = { 
+				-xoffset, -yoffset, 0, 
+				tw-xoffset, -yoffset, 0, 
+				tw-xoffset, -yoffset+th, 0, 
+				-xoffset, -yoffset+th, 0
+			};
+
+			const GLfloat texCoords[] = { 
+				0.0f, 0.0f,
+				1.0f, 0.0f,
+				1.0f, 1.0f, 
+				0.0f, 1.0f
+			}; 
+	
+			glEnableClientState(GL_VERTEX_ARRAY);
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+			glVertexPointer(3, GL_INT, 0, vertices);
+			glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
+
+			glDrawArrays(GL_QUADS, 0, 4);
+
+			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+			glDisableClientState(GL_VERTEX_ARRAY);
 
 			for (int i = 0; i<h; i++)	{
 				glReadPixels(viewportOffsetX, viewportOffsetY+i, w, 1, GL_RGBA, GL_UNSIGNED_BYTE, data+xoffset*4+(yoffset+i)*4*tw);

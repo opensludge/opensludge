@@ -138,22 +138,40 @@ void drawZBuffer(int x, int y, bool upsidedown) {
 	glColor4f(1.0, 1.0, 1.0, 1.0);
 
 	for (i = 1; i<zBuffer.numPanels; i++) {
-		double z = 1.0 - (double) i * (1.0 / 128.0);
+		GLfloat z = 1.0 - (double) i * (1.0 / 128.0);
 
 		glAlphaFunc (GL_GREATER, 0.0625*i-0.03);
-		glBegin(GL_QUADS);
+
+		GLfloat vy1 = -y, vy2 = zBuffer.height-y;
 		if (upsidedown) {
-			glTexCoord2f(0.0, 0.0); glVertex3f(-x, zBuffer.height-y, z);
-			glTexCoord2f(backdropTexW, 0.0); glVertex3f(zBuffer.width-x, zBuffer.height-y, z);
-			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(zBuffer.width-x, -y, z);
-			glTexCoord2f(0.0, backdropTexH); glVertex3f(-x, -y, z);
-		} else {
-			glTexCoord2f(0.0, 0.0); glVertex3f(-x, -y, z);
-			glTexCoord2f(backdropTexW, 0.0); glVertex3f(zBuffer.width-x, -y, z);
-			glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(zBuffer.width-x, zBuffer.height-y, z);
-			glTexCoord2f(0.0, backdropTexH); glVertex3f(-x, zBuffer.height-y, z);
+			vy1 += zBuffer.height;
+			vy2 -= zBuffer.height;
 		}
-		glEnd();
+
+		const GLfloat vertices[] = { 
+			(GLfloat)-x, vy1, z,
+			(GLfloat)zBuffer.width-x, vy1, z, 
+			(GLfloat)zBuffer.width-x, vy2, z, 
+			(GLfloat)-x, vy2, z
+		};
+
+		const GLfloat texCoords[] = { 
+			0.0f, 0.0f,
+			backdropTexW, 0.0f,
+			backdropTexW, backdropTexH, 
+			0.0f, backdropTexH
+		}; 
+
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+		glVertexPointer(3, GL_FLOAT, 0, vertices);
+		glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
+
+		glDrawArrays(GL_QUADS, 0, 4);
+
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		glDisableClientState(GL_VERTEX_ARRAY);
 	}
 	
 	glColorMask (GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);

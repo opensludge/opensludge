@@ -46,12 +46,30 @@ bool saveThumbnail (FILE * fp) {
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-		glBegin(GL_QUADS);
-		glTexCoord2f(0.0, 0.0); glVertex3f(0.0, 0.0, 0.0);
-		glTexCoord2f(backdropTexW, 0.0); glVertex3f(thumbWidth-1, 0.0, 0.0);
-		glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(thumbWidth-1, thumbHeight-1, 0.0);
-		glTexCoord2f(0.0, backdropTexH); glVertex3f(0.0, thumbHeight-1, 0.0);
-		glEnd();
+		const GLint vertices[] = { 
+			0, 0, 0, 
+			thumbWidth-1, 0, 0, 
+			thumbWidth-1, thumbHeight-1, 0, 
+			0, thumbHeight-1, 0
+		};
+
+		const GLfloat texCoords[] = { 
+			0.0f, 0.0f,
+			backdropTexW, 0.0f,
+			backdropTexW, backdropTexH, 
+			0.0f, backdropTexH
+		}; 
+
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+		glVertexPointer(3, GL_INT, 0, vertices);
+		glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
+
+		glDrawArrays(GL_QUADS, 0, 4);
+
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		glDisableClientState(GL_VERTEX_ARRAY);
 
 		if (gameSettings.antiAlias < 0) {
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -155,12 +173,31 @@ void showThumbnail (char * filename, int atX, int atY) {
 
 				glBindTexture (GL_TEXTURE_2D, thumbnailTextureName);
 
-				glBegin(GL_QUADS);
-					glTexCoord2f(backdropTexW, 0.0); glVertex3f(fileWidth-1-xoffset, -yoffset, 0.0);
-					glTexCoord2f(0.0, 0.0); glVertex3f(-xoffset, -yoffset, 0.0);
-					glTexCoord2f(0.0, backdropTexH); glVertex3f(-xoffset, fileHeight-1-yoffset, 0.0);
-					glTexCoord2f(backdropTexW, backdropTexH); glVertex3f(fileWidth-1-xoffset, fileHeight-1-yoffset, 0.0);
-				glEnd();
+				const GLint vertices[] = { 
+					fileWidth-1-xoffset, -yoffset, 0, 
+					-xoffset, -yoffset, 0, 
+					-xoffset, fileHeight-1-yoffset, 0, 
+					fileWidth-1-xoffset, fileHeight-1-yoffset, 0
+				};
+
+				const GLfloat texCoords[] = { 
+					backdropTexW, 0.0f,
+					0.0f, 0.0f,
+					0.0f, backdropTexH, 
+					backdropTexW, backdropTexH
+				}; 
+	
+				glEnableClientState(GL_VERTEX_ARRAY);
+				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+				glVertexPointer(3, GL_INT, 0, vertices);
+				glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
+
+				glDrawArrays(GL_QUADS, 0, 4);
+
+				glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+				glDisableClientState(GL_VERTEX_ARRAY);
+
 				glDisable(GL_BLEND);
 
 				// Copy Our ViewPort To The Texture

@@ -45,8 +45,8 @@ GLfloat backdropTexH = 1.0;
 texture lightMap;
 
 GLuint snapshotTextureName = 0;
-double snapTexW = 1.0;
-double snapTexH = 1.0;
+float snapTexW = 1.0;
+float snapTexH = 1.0;
 
 int lightMapMode = LIGHTMAPMODE_PIXEL;
 

@@ -9,7 +9,7 @@
 extern GLuint snapshotTextureName;
 extern unsigned char brightnessLevel;
 
-extern double snapTexW, snapTexH;
+extern float snapTexW, snapTexH;
 
 unsigned char fadeMode = 2;
 
@@ -27,12 +27,18 @@ void transitionFader () {
 	
 	glEnable(GL_BLEND);
 	
-	glBegin(GL_QUADS);			
-	glVertex3f(0, winHeight, 0.0);
-	glVertex3f(winWidth, winHeight, 0.0);
-	glVertex3f(winWidth, 0, 0.0);
-	glVertex3f(0, 0, 0.0);
-	glEnd();
+	const GLint vertices[] = { 
+		0, winHeight, 0, 
+		winWidth, winHeight, 0, 
+		winWidth, 0, 0, 
+		0, 0, 0
+	};
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_INT, 0, vertices);
+	glDrawArrays(GL_QUADS, 0, 4);
+	glDisableClientState(GL_VERTEX_ARRAY);
+
 	glDisable(GL_BLEND);
 	glEnable (GL_TEXTURE_2D);
 }
@@ -47,12 +53,31 @@ void transitionCrossFader () {
 	
 	glEnable(GL_BLEND);
 	
-	glBegin(GL_QUADS);			
-	glTexCoord2f(0.0, snapTexH); glVertex3f(0, winHeight, 0.0);
-	glTexCoord2f(snapTexW, snapTexH); glVertex3f(winWidth, winHeight, 0.0);
-	glTexCoord2f(snapTexW, 0.0); glVertex3f(winWidth, 0, 0.0);
-	glTexCoord2f(0.0, 0.0); glVertex3f(0, 0, 0.0);
-	glEnd();
+	const GLint vertices[] = { 
+		0, winHeight, 0, 
+		winWidth, winHeight, 0, 
+		winWidth, 0, 0, 
+		0, 0, 0
+	};
+
+	const GLfloat texCoords[] = { 
+		0.0f, snapTexH,
+		snapTexW, snapTexH,
+		snapTexW, 0.0f, 
+		0.0f, 0.0f
+	}; 
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	glVertexPointer(3, GL_INT, 0, vertices);
+	glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
+
+	glDrawArrays(GL_QUADS, 0, 4);
+
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY);
+
 	glDisable(GL_BLEND);
 }
 
@@ -66,13 +91,30 @@ void transitionSnapshotBox () {
 	float xScale = (float) brightnessLevel * winWidth / 510.f;	// 510 = 255*2
 	float yScale = (float) brightnessLevel * winHeight / 510.f;
 	
-	glBegin(GL_QUADS);			
-	glTexCoord2f(0.0, snapTexH); glVertex3f(xScale, winHeight-yScale, 0.0);
-	glTexCoord2f(snapTexW, snapTexH); glVertex3f(winWidth-xScale, winHeight-yScale, 0.0);
-	glTexCoord2f(snapTexW, 0.0); glVertex3f(winWidth-xScale, yScale, 0.0);
-	glTexCoord2f(0.0, 0.0); glVertex3f(xScale, yScale, 0.0);
-	glEnd();
+	const GLfloat vertices[] = { 
+		xScale, winHeight-yScale, 0, 
+		winWidth-xScale, winHeight-yScale, 0, 
+		winWidth-xScale, yScale, 0, 
+		xScale, yScale, 0
+	};
 
+	const GLfloat texCoords[] = { 
+		0.0f, snapTexH,
+		snapTexW, snapTexH,
+		snapTexW, 0.0f, 
+		0.0f, 0.0f
+	}; 
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	glVertexPointer(3, GL_FLOAT, 0, vertices);
+	glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
+
+	glDrawArrays(GL_QUADS, 0, 4);
+
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 //----------------------------------------------------
@@ -163,13 +205,32 @@ void transitionDisolve () {
 	glColor4ub (255, 255, 255, 255);
 	
 	glEnable(GL_BLEND);
-	
-	glBegin(GL_QUADS);			
-	glTexCoord2f(0.0, 1.0); glVertex3f(0, winHeight, 0.0);
-	glTexCoord2f(1.0, 1.0); glVertex3f(winWidth, winHeight, 0.0);
-	glTexCoord2f(1.0, 0.0); glVertex3f(winWidth, 0, 0.0);
-	glTexCoord2f(0.0, 0.0); glVertex3f(0, 0, 0.0);
-	glEnd();
+
+	const GLint vertices[] = { 
+		0, winHeight, 0, 
+		winWidth, winHeight, 0, 
+		winWidth, 0, 0, 
+		0, 0, 0
+	};
+
+	const GLfloat texCoords[] = { 
+		0.0f, 1.0f,
+		1.0f, 1.0f,
+		1.0f, 0.0f, 
+		0.0f, 0.0f
+	}; 
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	glVertexPointer(3, GL_INT, 0, vertices);
+	glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
+
+	glDrawArrays(GL_QUADS, 0, 4);
+
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY);
+
 	glDisable(GL_BLEND);
 }
 
@@ -213,12 +274,31 @@ void transitionTV () {
 	
 	glEnable(GL_BLEND);
 	
-	glBegin(GL_QUADS);			
-	glTexCoord2f(0.0, 1.0); glVertex3f(0, winHeight, 0.0);
-	glTexCoord2f(1.0, 1.0); glVertex3f(winWidth, winHeight, 0.0);
-	glTexCoord2f(1.0, 0.0); glVertex3f(winWidth, 0, 0.0);
-	glTexCoord2f(0.0, 0.0); glVertex3f(0, 0, 0.0);
-	glEnd();
+	const GLint vertices[] = { 
+		0, winHeight, 0, 
+		winWidth, winHeight, 0, 
+		winWidth, 0, 0, 
+		0, 0, 0
+	};
+
+	const GLfloat texCoords[] = { 
+		0.0f, 1.0f,
+		1.0f, 1.0f,
+		1.0f, 0.0f, 
+		0.0f, 0.0f
+	}; 
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	glVertexPointer(3, GL_INT, 0, vertices);
+	glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
+
+	glDrawArrays(GL_QUADS, 0, 4);
+
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY);
+
 	glDisable(GL_BLEND);	
 }
 
@@ -236,12 +316,18 @@ void transitionBlinds () {
 	glPolygonStipple(stippleMask);
 	glEnable(GL_POLYGON_STIPPLE);
 	
-	glBegin(GL_QUADS);			
-	glVertex3f(0, winHeight, 0.0);
-	glVertex3f(winWidth, winHeight, 0.0);
-	glVertex3f(winWidth, 0, 0.0);
-	glVertex3f(0, 0, 0.0);
-	glEnd();
+	const GLint vertices[] = { 
+		0, winHeight, 0, 
+		winWidth, winHeight, 0, 
+		winWidth, 0, 0, 
+		0, 0, 0
+	};
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_INT, 0, vertices);
+	glDrawArrays(GL_QUADS, 0, 4);
+	glDisableClientState(GL_VERTEX_ARRAY);
+
 	glDisable(GL_POLYGON_STIPPLE);
 	glEnable (GL_TEXTURE_2D);
 	
