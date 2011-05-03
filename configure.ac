@@ -49,14 +49,8 @@ AC_CHECK_LIB([glee], [GLeeInit])
 AC_CHECK_LIB([GLee], [GLeeInit])
 
 if test "x$enable_engine" = xyes; then
-  AC_CHECK_LIB([GL], [glBegin])
-  AC_CHECK_LIB([GLU], [gluCylinder])
-  AC_CHECK_LIB([SDL], [SDL_Init])
-  AC_CHECK_LIB([alure], [alureUpdateInterval])
-  AC_CHECK_LIB([openal], [alGetError])
+  PKG_CHECK_MODULES([ENGINE], [gl glu sdl alure >= 1.1 openal vorbis ogg])
   AC_CHECK_LIB([vpx], [vpx_codec_decode])
-  AC_CHECK_LIB([vorbis], [vorbis_info_init])
-  AC_CHECK_LIB([ogg], [ogg_stream_init])
 fi
 
 if test "x$enable_devkit" = xyes; then
@@ -122,14 +116,7 @@ if test "x$enable_engine" = xyes; then
 echo "
 Additional requirements for the SLUDGE Engine:
 "
-echo "OpenGL            ..."$ac_cv_lib_GL_glBegin
-echo "libGLU            ..."$ac_cv_lib_GLU_gluCylinder
-echo "SDL               ..."$ac_cv_lib_SDL_SDL_Init
-echo "Alure (>= 1.1)    ..."$ac_cv_lib_alure_alureUpdateInterval
-echo "OpenAL            ..."$ac_cv_lib_openal_alGetError
 echo "vpx               ..."$ac_cv_lib_vpx_vpx_codec_decode
-echo "vorbis            ..."$ac_cv_lib_vorbis_vorbis_info_init
-echo "ogg               ..."$ac_cv_lib_ogg_ogg_stream_init
 echo ""
 echo "GL/glu.h          ..."$ac_cv_header_GL_glu_h
 echo "SDL/SDL.h         ..."$ac_cv_header_SDL_SDL_h
