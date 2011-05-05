@@ -1,4 +1,0 @@
-usr/bin/sludge-engine usr/games
-usr/share/sludge/*.frag
-usr/share/sludge/*.vert
-debian/engine/* usr/share
