@@ -54,13 +54,13 @@ SludgeZBufferMaker::SludgeZBufferMaker()
 	saveItem = GTK_WIDGET (gtk_builder_get_object(theXml, "save"));
 	saveAsItem = GTK_WIDGET (gtk_builder_get_object(theXml, "save_as"));
 
-    init();
+    init(TRUE);
 	setupButtons();
 }
 
 // Concrete methods for SludgeApplication:
 
-gboolean SludgeZBufferMaker::init() 
+gboolean SludgeZBufferMaker::init(gboolean calledFromConstructor) 
 {
 	currentFilename[0] = 0;
 	sprintf(currentShortname, "%s", getUntitledFilename());

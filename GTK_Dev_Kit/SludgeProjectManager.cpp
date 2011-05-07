@@ -131,7 +131,7 @@ SludgeProjectManager::SludgeProjectManager()
 
 	readIniFile();
 
-    init();
+    init(TRUE);
 
 	setupButtons();
 }
@@ -143,7 +143,7 @@ SludgeProjectManager::~SludgeProjectManager()
 
 // Concrete methods for SludgeApplication:
 
-gboolean SludgeProjectManager::init() 
+gboolean SludgeProjectManager::init(gboolean calledFromConstructor) 
 {
 	currentFilename[0] = 0;
 	sprintf(currentShortname, "%s", getUntitledFilename());

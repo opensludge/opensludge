@@ -50,7 +50,7 @@ SludgeFloorMaker::SludgeFloorMaker()
  : SludgeGLApplication(joinTwoStrings(DATADIR, "FloorMaker.glade"), "floorIcon", "floormaker")
 {
 	if (!initSuccess) return;
-	init();
+	init(TRUE);
 }
 
 SludgeFloorMaker::~SludgeFloorMaker()
@@ -64,7 +64,7 @@ SludgeFloorMaker::~SludgeFloorMaker()
 
 // Concrete methods for SludgeApplication:
 
-gboolean SludgeFloorMaker::init() 
+gboolean SludgeFloorMaker::init(gboolean calledFromConstructor) 
 {
 	firstPoly = 0;
 	noFloor(&firstPoly);
@@ -77,7 +77,9 @@ gboolean SludgeFloorMaker::init()
 	backdrop.myPalette.g=NULL;
 	backdrop.myPalette.b=NULL;
 
-	prepareOpenGL();
+	if (!calledFromConstructor) {
+		prepareOpenGL();
+	}
 
 	if (!reserveSpritePal(&backdrop.myPalette, 0)) {
 			return TRUE;

@@ -44,7 +44,7 @@ private:
 
 private:
 	// Concrete methods for SludgeApplication:
-	virtual gboolean init();
+	virtual gboolean init(gboolean calledFromConstructor);
 	virtual const char * getWindowTitle();
 	virtual const char * getFilterName();
 	virtual const char * getFilterPattern();

@@ -292,7 +292,7 @@ gboolean SludgeApplication::on_window1_delete_event()
 void SludgeApplication::on_new()
 {
 	if (!reallyClose()) return;
-	init();
+	init(FALSE);
 	currentFilename[0] = 0;
 	sprintf (currentShortname, "%s", getUntitledFilename());
 	gtk_window_set_title (GTK_WINDOW(theWindow), getWindowTitle());

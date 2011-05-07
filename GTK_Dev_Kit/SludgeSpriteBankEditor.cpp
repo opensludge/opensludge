@@ -75,7 +75,7 @@ SludgeSpriteBankEditor::SludgeSpriteBankEditor()
 	multiFromAdjustment = GTK_ADJUSTMENT (gtk_builder_get_object(theXml, "multi_from_adjustment"));
 	multiToAdjustment = GTK_ADJUSTMENT (gtk_builder_get_object(theXml, "multi_to_adjustment"));
 
-    init();
+    init(TRUE);
 }
 
 SludgeSpriteBankEditor::~SludgeSpriteBankEditor()
@@ -88,7 +88,7 @@ SludgeSpriteBankEditor::~SludgeSpriteBankEditor()
 
 // Concrete methods for SludgeApplication:
 
-gboolean SludgeSpriteBankEditor::init() 
+gboolean SludgeSpriteBankEditor::init(gboolean calledFromConstructor) 
 {
 	sprites.total=0;
 	sprites.sprites=NULL;
@@ -153,7 +153,7 @@ void SludgeSpriteBankEditor::postNew()
 		sprites.total = 0;
 	}
 
-	init();
+	init(FALSE);
 
 	setHotSpotX(0);
 	setHotSpotY(0);

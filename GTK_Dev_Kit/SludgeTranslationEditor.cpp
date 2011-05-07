@@ -67,12 +67,12 @@ SludgeTranslationEditor::SludgeTranslationEditor()
 	theOriginalTextBuffer = GTK_TEXT_BUFFER (gtk_builder_get_object(theXml, "original_textbuffer"));
 	theTranslationTextBuffer = GTK_TEXT_BUFFER (gtk_builder_get_object(theXml, "translation_textbuffer"));
 
-    init();
+    init(TRUE);
 }
 
 // Concrete methods for SludgeApplication:
 
-gboolean SludgeTranslationEditor::init() 
+gboolean SludgeTranslationEditor::init(gboolean calledFromConstructor) 
 {
 	currentFilename[0] = 0;
 	sprintf(currentShortname, "%s", getUntitledFilename());

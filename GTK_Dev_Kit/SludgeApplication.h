@@ -36,7 +36,7 @@ public:
 
 
 private:
-	virtual gboolean init() = 0;
+	virtual gboolean init(gboolean calledFromConstructor) = 0;
 	virtual const char * getWindowTitle() = 0;
 	virtual const char * getFilterName() = 0;
 	virtual const char * getFilterPattern() = 0;
