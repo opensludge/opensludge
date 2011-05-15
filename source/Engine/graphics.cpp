@@ -306,25 +306,31 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
         Fragment = shaderFileRead("scale.frag");
 
         if (! Vertex || ! Fragment) {
-            msgBox ("Error loading \"scale\" shader program!", "Advanced anti-aliasing is not possible. Using linear anti-aliasing instead.");
+            msgBox ("Error loading \"scale\" shader program!", "Try re-installing the game. Advanced anti-aliasing is not possible. Using linear anti-aliasing instead.");
             gameSettings.antiAlias = -1;
             shader.smartScaler = 0;
         } else {
 
             shader.smartScaler = buildShaders (Vertex, Fragment);
-            debugOut( "Built shader program: %d (smartScaler)\n", shader.smartScaler);
-            glUseProgram(shader.smartScaler);
-            uniform = glGetUniformLocation(shader.smartScaler, "Texture");
-            if (uniform >= 0) glUniform1i(uniform, 0);
-            uniform = glGetUniformLocation(shader.smartScaler, "lightTexture");
-            if (uniform >= 0) glUniform1i(uniform, 1);
-            uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
-            if (uniform >= 0) glUniform1i(uniform, 0);
-            uniform = glGetUniformLocation(shader.smartScaler, "scale");
-            float scale = (float)realWinWidth/(float)winWidth*0.25;
-            if (scale > 1.0) scale = 1.0;
-            if (uniform >= 0) glUniform1f(uniform, scale);
-
+			
+			if (! shader.smartScaler) {
+				msgBox ("Error building \"scale\" shader program!", "Advanced anti-aliasing is not possible. Using linear anti-aliasing instead.");
+				gameSettings.antiAlias = -1;
+				shader.smartScaler = 0;
+			} else {
+				debugOut( "Built shader program: %d (smartScaler)\n", shader.smartScaler);
+				glUseProgram(shader.smartScaler);
+				uniform = glGetUniformLocation(shader.smartScaler, "Texture");
+				if (uniform >= 0) glUniform1i(uniform, 0);
+				uniform = glGetUniformLocation(shader.smartScaler, "lightTexture");
+				if (uniform >= 0) glUniform1i(uniform, 1);
+				uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
+				if (uniform >= 0) glUniform1i(uniform, 0);
+				uniform = glGetUniformLocation(shader.smartScaler, "scale");
+				float scale = (float)realWinWidth/(float)winWidth*0.25;
+				if (scale > 1.0) scale = 1.0;
+				if (uniform >= 0) glUniform1f(uniform, scale);
+			}
         }
 	}
 
@@ -332,40 +338,48 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 	Fragment = shaderFileRead("fixScaleSprite.frag");
 
 	if (! Vertex || ! Fragment) {
-		msgBox( "Error loading \"fixScaleSprite\" shader program!", "Try updating the drivers for your graphics card. If that doesn't help - sorry, your graphics card simply doesn't have all features needed for this game. It will run anyway, but some graphics may be corrupted.");
+		msgBox( "Error loading \"fixScaleSprite\" shader program!", "Try re-installing the game. The game will run anyway, but some graphics may be corrupted.");
 		shader.paste = 0;
 	} else {
 
 		shader.paste = buildShaders (Vertex, Fragment);
-		debugOut( "Built shader program: %d (fixScaleSprite)\n", shader.paste);
-		glUseProgram(shader.paste);
-		uniform = glGetUniformLocation(shader.paste, "tex0");
-		if (uniform >= 0) glUniform1i(uniform, 0);
-		uniform = glGetUniformLocation(shader.paste, "tex1");
-		if (uniform >= 0) glUniform1i(uniform, 1);
-		uniform = glGetUniformLocation(shader.paste, "tex2");
-		if (uniform >= 0) glUniform1i(uniform, 2);
-		uniform = glGetUniformLocation(shader.paste, "useLightTexture");
-		if (uniform >= 0) glUniform1i(uniform, 0);
+		if (! shader.paste) {
+			msgBox( "Error building \"fixScaleSprite\" shader program!", "Try updating the drivers for your graphics card. If that doesn't help - sorry, your graphics card simply doesn't have all features needed for this game. It will run anyway, but some graphics may be corrupted.");
+		} else {
+			debugOut( "Built shader program: %d (fixScaleSprite)\n", shader.paste);
+			glUseProgram(shader.paste);
+			uniform = glGetUniformLocation(shader.paste, "tex0");
+			if (uniform >= 0) glUniform1i(uniform, 0);
+			uniform = glGetUniformLocation(shader.paste, "tex1");
+			if (uniform >= 0) glUniform1i(uniform, 1);
+			uniform = glGetUniformLocation(shader.paste, "tex2");
+			if (uniform >= 0) glUniform1i(uniform, 2);
+			uniform = glGetUniformLocation(shader.paste, "useLightTexture");
+			if (uniform >= 0) glUniform1i(uniform, 0);
+		}
 	}
 
 	Vertex = shaderFileRead("yuv.vert");
 	Fragment = shaderFileRead("yuv.frag");
 
 	if (! Vertex || ! Fragment) {
-		msgBox( "Error loading \"yuv\" shader program!", "Try updating the drivers for your graphics card. If that doesn't help - sorry, your graphics card simply doesn't have all features needed for this game. It will run anyway, but any movies will be greyscale.");
+		msgBox( "Error loading \"yuv\" shader program!", "Try re-installing the game. It will run anyway, but any movies will be greyscale.");
 		shader.yuv = 0;
 	} else {
 
 		shader.yuv = buildShaders (Vertex, Fragment);
-		debugOut( "Built shader program: %d (yuv)\n", shader.yuv);
-		glUseProgram(shader.yuv);
-		uniform = glGetUniformLocation(shader.yuv, "Ytex");
-		if (uniform >= 0) glUniform1i(uniform, 0);
-		uniform = glGetUniformLocation(shader.yuv, "Utex");
-		if (uniform >= 0) glUniform1i(uniform, 1);
-		uniform = glGetUniformLocation(shader.yuv, "Vtex");
-		if (uniform >= 0) glUniform1i(uniform, 2);
+		if (! shader.yuv) {
+			msgBox( "Error building \"yuv\" shader program!", "Try updating the drivers for your graphics card. If that doesn't help - sorry, your graphics card simply doesn't have all features needed for this game. It will run anyway, but any movies will be greyscale.");			
+		} else {
+			debugOut( "Built shader program: %d (yuv)\n", shader.yuv);
+			glUseProgram(shader.yuv);
+			uniform = glGetUniformLocation(shader.yuv, "Ytex");
+			if (uniform >= 0) glUniform1i(uniform, 0);
+			uniform = glGetUniformLocation(shader.yuv, "Utex");
+			if (uniform >= 0) glUniform1i(uniform, 1);
+			uniform = glGetUniformLocation(shader.yuv, "Vtex");
+			if (uniform >= 0) glUniform1i(uniform, 2);
+		}
 	}
 
 	glUseProgram(0);
