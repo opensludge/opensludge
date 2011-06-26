@@ -169,4 +169,8 @@ void changeToUserDir () {
 uint32_t launch(char * f) {
 	return (uint32_t) ShellExecute (hMainWindow, "open", f, NULL, "C:\\", SW_SHOWNORMAL);
 }
+
+bool defaultUserFullScreen() {
+	return true;
+}
 #endif

@@ -12,3 +12,4 @@ int msgBoxQuestion (const char * head, const char * msg);
 void changeToUserDir ();
 uint32_t launch(char * filename);
 
+bool defaultUserFullScreen();

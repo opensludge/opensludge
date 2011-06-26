@@ -5,6 +5,7 @@
 #include "moreio.h"
 #include "language.h"
 #include "version.h"
+#include "platform-dependent.h"
 
 int *languageTable;
 char **languageName;
@@ -66,7 +67,7 @@ void readIniFile (char * filename) {
 	FILE * fp = fopen (langName, "rb");
 
 	gameSettings.languageID = 0;
-	gameSettings.userFullScreen = true;
+	gameSettings.userFullScreen = defaultUserFullScreen();
 	gameSettings.refreshRate = 0;
 	gameSettings.antiAlias = 1;
 	gameSettings.fixedPixels = false;

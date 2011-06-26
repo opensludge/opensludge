@@ -363,3 +363,6 @@ uint32_t launch(char * file) {
 	return 0;
 }
 
+bool defaultUserFullScreen() {
+	return true;
+}

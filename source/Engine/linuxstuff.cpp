@@ -135,4 +135,8 @@ uint32_t launch(char * filename) {
 	fprintf(stdout, "%s\n", filename);
 	return 0;
 }
+
+bool defaultUserFullScreen() {
+	return false;
+}
 #endif
