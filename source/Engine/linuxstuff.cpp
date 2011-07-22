@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
 #include <getopt.h>
 
 #include "linuxstuff.h"
@@ -11,6 +12,7 @@
 #include "allfiles.h"
 #include "language.h" // for settings
 #include "debug.h"
+#include "helpers.h"
 
 extern settingsStruct gameSettings;
 cmdlineSettingsStruct cmdlineSettings;
@@ -129,11 +131,37 @@ void changeToUserDir () {
 }
 
 uint32_t launch(char * filename) {
-	fprintf(stdout, "I tried to show you something with an extern program,");
-	fprintf(stdout, " but this functionality is disabled on this platform.");
-	fprintf(stdout, " You might want to have a look at it:\n");
-	fprintf(stdout, "%s\n", filename);
-	return 0;
+	debugOut("Trying to launch: %s\n", filename);
+
+	if (  !(filename[0] == 'h' &&
+		filename[1] == 't' &&
+		filename[2] == 't' &&
+		filename[3] == 'p' &&
+		filename[4] == ':') &&
+		!fileExists(filename)) {
+		return 0;
+	}
+
+	int status;
+
+	pid_t pid = fork();
+	if (pid < 0) {
+		return 0;
+	}
+	else if (pid == 0) {
+		execl("/usr/bin/xdg-open", "xdg-open", filename, (char *)0);
+		exit(EXIT_FAILURE);
+	}
+	else {
+		waitpid(pid, &status, 0);
+	}
+
+	if (status == EXIT_SUCCESS) {
+		return 69;
+	}
+	else {
+		return 0;
+	}
 }
 
 bool defaultUserFullScreen() {

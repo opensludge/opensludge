@@ -554,3 +554,20 @@ Engine (Linux):
 
 GTK Floor Maker:
 * Bugfix: Crash after clicking new and inserting backdrop.
+
+----------------------
+next
+----------------------
+
+Engine (all platforms):
+* Use OpenGL vertex arrays instead of immediate mode to improve speed.
+* Add missing include in mkvparser.hpp.
+* Fixed warning messages for failed shader compilation to be more correct.
+
+Engine (Linux):
+* Make windowed mode default.
+* Add support for built-in launch function.
+
+GTK Floor Maker:
+* Bugfix: Possible crash on startup.
+

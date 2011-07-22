@@ -25,35 +25,16 @@ Dependencies (Engine)
 =====================
 
    Dependencies of the OpenSLUDGE engine are SDL, OpenGL, GLee, libGLU,
-libpng and libvpx. OpenAL sound support requires OpenAL and Alure (>= 1.1)
-with Vorbis, FLAC and DUMB support enabled.
+libpng, libvpx and xdg-utils. OpenAL sound support requires OpenAL and
+Alure (>= 1.1) with Vorbis, FLAC and DUMB support enabled.
 
    On Debian and Ubuntu the correspoding packages are libsdl1.2-dev,
 mesa-common-dev, glee-dev (only available in Debian Squeeze / Ubuntu 10.10
 or above, but these packages can also be used for older releases of the
-distributions), libglu1-mesa-dev, libpng12-dev, libvpx-dev, libopenal-dev,
-libalure-dev (only version 1.0 by now), libvorbis-dev, libflac-dev and
-libdumb1-dev.
-
-   Until Alure, version 1.1, is available in Debian and Ubuntu, you have
-to get the git-version of Alure from http://kcat.strangesoft.net/alure.html
-and install it manually.
-
-   Compile and install Alure, making sure that at least Vorbis, FLAC and
-DUMB support are enabled:
-
-cmake .
-make
-make install
-
-It might also be necessary to update the cache of the run-time linker so
-that Alure is found when running the SLUDGE Engine:
-
-ldconfig
-
-(make install and ldconfig require root rights.)
-
-   Now you can go on installing OpenSLUDGE.
+distributions), libglu1-mesa-dev, libpng12-dev, libvpx-dev, xdg-utils,
+libopenal-dev, libalure-dev (version 1.1 required, only available in Debian
+Wheezy / Ubuntu 11.10 or above, the packages can be used for older releases),
+libvorbis-dev, libflac-dev and libdumb1-dev.
 
 Dependencies (Dev Kit)
 ======================

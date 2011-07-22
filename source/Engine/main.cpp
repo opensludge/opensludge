@@ -43,6 +43,7 @@
 #include "sound.h"
 #include "sludger.h"
 #include "graphics.h"
+#include "helpers.h"
 
 
 #ifdef _WIN32
@@ -110,17 +111,6 @@ void setGameFilePath (char * f) {
 void saveHSI (FILE * writer);
 
 extern bool reallyWantToQuit;
-
-bool fileExists(char * file) {
-	FILE * tester;
-	bool retval = false;
-	tester = fopen (file, "rb");
-	if (tester) {
-		retval = true;
-		fclose (tester);
-	}
-	return retval;
-}
 
 #ifdef _WIN32
 #undef main
