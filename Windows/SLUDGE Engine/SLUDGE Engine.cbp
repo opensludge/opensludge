@@ -34,6 +34,7 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add option="-Wno-sign-compare" />
 			<Add directory="..\..\..\SDL\include" />
 			<Add directory="..\..\..\GnuWin32\include" />
 			<Add directory="..\..\..\Bass\c" />
@@ -132,6 +133,8 @@
 		<Unit filename="..\..\source\Engine\errors.h" />
 		<Unit filename="..\..\source\Engine\floor.cpp" />
 		<Unit filename="..\..\source\Engine\floor.h" />
+		<Unit filename="..\..\source\Engine\helpers.cpp" />
+		<Unit filename="..\..\source\Engine\helpers.h" />
 		<Unit filename="..\..\source\Engine\libwebm\mkvparser.cpp" />
 		<Unit filename="..\..\source\Engine\libwebm\mkvparser.hpp" />
 		<Unit filename="..\..\source\Engine\libwebm\mkvreader.cpp" />
