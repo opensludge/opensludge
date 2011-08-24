@@ -133,6 +133,11 @@ void changeToUserDir () {
 uint32_t launch(char * filename) {
 	debugOut("Trying to launch: %s\n", filename);
 
+	if (!fileExists("/usr/bin/xdg-open")) {
+		debugOut("Launching failed due to missing /usr/bin/xdg-open.\n");
+		return 0;
+	}
+
 	if (  !(filename[0] == 'h' &&
 		filename[1] == 't' &&
 		filename[2] == 't' &&

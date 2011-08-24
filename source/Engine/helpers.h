@@ -3,4 +3,4 @@
  *  Helper functions that don't depend on other source files.
  */
 
-bool fileExists(char * file);
+bool fileExists(const char * file);

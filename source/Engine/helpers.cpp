@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include "helpers.h"
 
-bool fileExists(char * file) {
+bool fileExists(const char * file) {
 	FILE * tester;
 	bool retval = false;
 	tester = fopen (file, "rb");
