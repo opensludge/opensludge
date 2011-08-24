@@ -109,6 +109,7 @@
 		E8140220131D28AA00CCA8EC /* mkvreader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E814021A131D28AA00CCA8EC /* mkvreader.cpp */; };
 		E8140221131D28AA00CCA8EC /* PATENTS.TXT in Resources */ = {isa = PBXBuildFile; fileRef = E814021C131D28AA00CCA8EC /* PATENTS.TXT */; };
 		E832EDCC131D522B005AE714 /* libvpx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E832EDCB131D522B005AE714 /* libvpx.a */; };
+		E89D32F814059706004FC507 /* helpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E89D32F614059706004FC507 /* helpers.cpp */; };
 		E8CA57A9111D9EDF00E971B4 /* sound_openal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E8981D35111A2A8500762C10 /* sound_openal.cpp */; };
 		E8D761481128A5A900A5F7D7 /* libdumb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8D761421128A5A900A5F7D7 /* libdumb.a */; };
 		E8D761491128A5A900A5F7D7 /* libFLAC.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8D761431128A5A900A5F7D7 /* libFLAC.a */; };
@@ -309,6 +310,8 @@
 		E832EDCB131D522B005AE714 /* libvpx.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvpx.a; path = ../libs/libvpx.a; sourceTree = SOURCE_ROOT; };
 		E836739E1101D9E2001449BC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E8981D35111A2A8500762C10 /* sound_openal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sound_openal.cpp; path = ../source/Engine/sound_openal.cpp; sourceTree = SOURCE_ROOT; };
+		E89D32F614059706004FC507 /* helpers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = helpers.cpp; path = ../source/Engine/helpers.cpp; sourceTree = SOURCE_ROOT; };
+		E89D32F714059706004FC507 /* helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = helpers.h; path = ../source/Engine/helpers.h; sourceTree = SOURCE_ROOT; };
 		E8D761421128A5A900A5F7D7 /* libdumb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libdumb.a; path = ../libs/libdumb.a; sourceTree = SOURCE_ROOT; };
 		E8D761431128A5A900A5F7D7 /* libFLAC.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFLAC.a; path = ../libs/libFLAC.a; sourceTree = SOURCE_ROOT; };
 		E8D761441128A5A900A5F7D7 /* libogg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libogg.a; path = ../libs/libogg.a; sourceTree = SOURCE_ROOT; };
@@ -446,6 +449,8 @@
 		2F7BFEB50E33848B003F5DC3 /* Source Files */ = {
 			isa = PBXGroup;
 			children = (
+				E89D32F614059706004FC507 /* helpers.cpp */,
+				E89D32F714059706004FC507 /* helpers.h */,
 				E8140215131D28AA00CCA8EC /* libwebm */,
 				E81E15581166A98F000C3483 /* platform-dependent.h */,
 				2F7BFF0B0E3386AD003F5DC3 /* allfiles.h */,
@@ -712,6 +717,7 @@
 				E8022077131AA1490018F754 /* movie.cpp in Sources */,
 				E814021F131D28AA00CCA8EC /* mkvparser.cpp in Sources */,
 				E8140220131D28AA00CCA8EC /* mkvreader.cpp in Sources */,
+				E89D32F814059706004FC507 /* helpers.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
