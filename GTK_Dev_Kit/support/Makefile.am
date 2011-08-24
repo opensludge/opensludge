@@ -67,6 +67,10 @@ gtksourceviewspecsdir = $(datadir)/gtksourceview-2.0/language-specs
 
 gtksourceviewspecs_DATA = sludge.lang
 
+gtksourceview3specsdir = $(datadir)/gtksourceview-3.0/language-specs
+
+gtksourceview3specs_DATA = sludge.lang
+
 iconsdir = $(datadir)/icons/hicolor
 
 nobase_icons_DATA = \
