@@ -21,8 +21,8 @@ There are generic instructions how to compile SLUDGE in the <strong>INSTALL</str
 
 <p><ul>
 <li><strong>build-essential</strong> (compilers and build tools)</li>
-<li><strong>cmake</strong> (needed for installing Alure manually)</li>
-<li><strong>glee-dev</strong> (in Ubuntu only available since Maverick, see <a href="#glee">below</a>)</li>
+<li><strong>glee-dev</strong> (in Ubuntu available since 10.10, see <a href="#glee">below</a>)</li>
+<li><strong>libalure-dev</strong> (>= 1.1, in Debian available since Wheezy, in Ubuntu available since 11.10, see <a href="#alure">below</a>)</li>
 <li><strong>libsdl1.2-dev</strong></li>
 <li><strong>libglu1-mesa-dev</strong></li>
 <li><strong>libpng12-dev</strong></li>
@@ -31,6 +31,7 @@ There are generic instructions how to compile SLUDGE in the <strong>INSTALL</str
 <li><strong>libflac-dev</strong></li>
 <li><strong>libdumb1-dev</strong></li>
 <li><strong>libvpx-dev</strong></li>
+<li><strong>xdg-utils</strong></li>
 <li><strong>libgtk2.0-dev</strong> (only needed for the Dev Kit)</li>
 <li><strong>libgtkglext1-dev</strong> (only needed for the Dev Kit)</li>
 </ul>
@@ -38,7 +39,7 @@ There are generic instructions how to compile SLUDGE in the <strong>INSTALL</str
 
 <p>Package list for copying:</p>
 
-<p><div class="bash">sudo apt-get install build-essential cmake glee-dev libsdl1.2-dev libglu1-mesa-dev libpng12-dev libopenal-dev libvorbis-dev libflac-dev libdumb1-dev libvpx-dev</div></p>
+<p><div class="bash">sudo apt-get install build-essential glee-dev libalure-dev libsdl1.2-dev libglu1-mesa-dev libpng12-dev libopenal-dev libvorbis-dev libflac-dev libdumb1-dev libvpx-dev xdg-utils</div></p>
 
 <p>The additional dependencies for the Dev Kit:</p>
 
@@ -47,25 +48,8 @@ There are generic instructions how to compile SLUDGE in the <strong>INSTALL</str
 <h3 id="glee">GLee</h3>
 <p>GLee is available in the Ubuntu repositories only since Ubuntu 10.10 Maverick Meerkat. For older Ubuntu versions the packages <a href="http://packages.ubuntu.com/maverick/libglee0d1" rel="nofollow"><strong>libglee0d1</strong></a> and <a href="http://packages.ubuntu.com/maverick/glee-dev" rel="nofollow"><strong>glee-dev</strong></a> have to be downloaded for the fitting architecture and installed in this order.</p>
 
-<h3>Alure 1.1</h3>
-<p>Alure 1.1 has to be downloaded from the <a href="http://kcat.strangesoft.net/alure.html" rel="nofollow">project page</a> and installed manually, because version 1.0, which is included in Debian and Ubuntu, doesn't feature all functions needed by SLUDGE.</p>
-
-<p>After extracting the archieve, change to the <strong>build</strong> directory</p>
-
-<p><div class="bash">cd path/to/alure-(version)/build</div></p>
-
-<p>and run the configuration:</p>
-
-<p><div class="bash">cmake ..</div></p>
-
-<p>Make sure that cmake found and activated Vorbis, FLAC and DUMB. Then compile and install Alure:</p>
-
-<p><div class="bash">make</div></p>
-<p><div class="bash">sudo make install</div></p>
-
-<p>Then update the cache of the run-time linker to make sure Alure is found when running the SLUDGE Engine:</p>
-
-<p><div class="bash">sudo ldconfig</div></p>
+<h3 id="alure">Alure >= 1.1</h3>
+<p>Alure >= 1.1 is available in the Debian repositories starting from Wheezy and in the Ubuntu repositories since Ubuntu 11.10 Oneiric Ozelot. For older Debian/Ubuntu versions the packages <a href="http://packages.debian.org/wheezy/libalure1" rel="nofollow"><strong>libalure1</strong></a> and <a href="http://packages.debian.org/wheezy/libalure-dev" rel="nofollow"><strong>libalure-dev</strong></a> have to be downloaded for the fitting architecture and installed in this order.</p>
 
 <h3>Installing SLUDGE</h3>
 
