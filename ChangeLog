@@ -571,3 +571,5 @@ Engine (Linux):
 GTK Floor Maker:
 * Bugfix: Possible crash on startup.
 
+GTK Z-Buffer Maker:
+* Bugfix: Crash on creating new Z-Buffer.

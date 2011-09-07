@@ -62,6 +62,19 @@ There are generic instructions how to compile SLUDGE in the <strong>INSTALL</str
 <p><div class="bash">make</div></p>
 <p><div class="bash">sudo make install</div></p>
 
+<h3>Getting the latest development version</h3>
+
+<p>In order to get the latest bugfixes, it can sometimes be necessary to install the latest development version. This requires that the packages <strong>subversion</strong> and <strong>automake</strong> are installed.</p>
+
+<p>The code can be checked out using:</p>
+
+<p><div class="bash">svn co https://opensludge.svn.sourceforge.net/svnroot/opensludge opensludge</div></p>
+
+<p>Before SLUDGE can be compiled as described above, the <strong>configure</strong> script has to be generated using the <strong>autogen.sh</strong> script:</p>
+
+<p><div class="bash">cd opensludge</div></p>
+<p><div class="bash">./autogen.sh</div></p>
+
 <h3>See also:</h3>
 
 <p><a href="Using_the_SLUDGE_Engine_on_Linux.html">Using the SLUDGE Engine on Linux</a></p>
