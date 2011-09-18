@@ -740,7 +740,7 @@
 				<UL>
 					<LI> <OBJECT type="text/sitemap">
 						<param name="Name" value="Problems with +=, -=, *=, /= and %= in SLUDGE">
-						<param name="Local" value="SLUDGEDevKitHelp\Problems_with_+=,_-=,__=,__=_and_%=_in_SLUDGE.html">
+						<param name="Local" value="SLUDGEDevKitHelp\Problems_with_compound_operators_in_SLUDGE.html">
 						</OBJECT>
 				</UL>
 			</UL>

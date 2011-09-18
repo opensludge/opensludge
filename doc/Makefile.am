@@ -43,7 +43,7 @@ nobase_dist_doc_DATA=\
 	SLUDGEDevKitHelp/setSoundVolume.html \
 	SLUDGEDevKitHelp/About_the_SLUDGE_Sprite_Bank_Editor.html \
 	SLUDGEDevKitHelp/getSoundCache.html \
-	SLUDGEDevKitHelp/Problems_with_+=,_-=,__=,__=_and_%=_in_SLUDGE.html \
+	SLUDGEDevKitHelp/Problems_with_compound_operators_in_SLUDGE.html \
 	SLUDGEDevKitHelp/setSpeechMode.html \
 	SLUDGEDevKitHelp/About_the_SLUDGE_Translation_Editor.html \
 	SLUDGEDevKitHelp/getStatusText.html \
