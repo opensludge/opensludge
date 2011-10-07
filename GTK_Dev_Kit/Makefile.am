@@ -146,9 +146,9 @@ AM_CPPFLAGS += \
 AM_LDFLAGS = \
 	-Wl,-subsystem,windows
 
-sludge_floormaker_LDADD = FloorMakerResources.o @GTK_LIBS@ @LIBPNG_LIBS@
-sludge_zbuffermaker_LDADD = ZBufferMakerResources.o @GTK_LIBS@ @LIBPNG_LIBS@
-sludge_spritebankeditor_LDADD = SpriteBankEditorResources.o @GTK_LIBS@ @LIBPNG_LIBS@
+sludge_floormaker_LDADD = FloorMakerResources.o @GTK_LIBS@ @LIBPNG_LIBS@ @GLEE_LIBS@
+sludge_zbuffermaker_LDADD = ZBufferMakerResources.o @GTK_LIBS@ @LIBPNG_LIBS@ @GLEE_LIBS@
+sludge_spritebankeditor_LDADD = SpriteBankEditorResources.o @GTK_LIBS@ @LIBPNG_LIBS@ @GLEE_LIBS@
 sludge_translationeditor_LDADD = TranslationEditorResources.o @GTK_LIBS@ @LIBPNG_LIBS@
 sludge_projectmanager_LDADD = ProjectManagerResources.o @GTK_LIBS@ @LIBPNG_LIBS@
 else
@@ -156,9 +156,9 @@ AM_CPPFLAGS += \
 	-std=c++0x \
 	-DDATADIR='"$(pkgdatadir)/"'
 
-sludge_floormaker_LDADD = @GTK_LIBS@ @LIBPNG_LIBS@
-sludge_zbuffermaker_LDADD = @GTK_LIBS@ @LIBPNG_LIBS@
-sludge_spritebankeditor_LDADD = @GTK_LIBS@ @LIBPNG_LIBS@
+sludge_floormaker_LDADD = @GTK_LIBS@ @LIBPNG_LIBS@ @GLEE_LIBS@
+sludge_zbuffermaker_LDADD = @GTK_LIBS@ @LIBPNG_LIBS@ @GLEE_LIBS@
+sludge_spritebankeditor_LDADD = @GTK_LIBS@ @LIBPNG_LIBS@ @GLEE_LIBS@
 sludge_translationeditor_LDADD = @GTK_LIBS@ @LIBPNG_LIBS@
 sludge_projectmanager_LDADD = @GTK_LIBS@ @LIBPNG_LIBS@
 endif

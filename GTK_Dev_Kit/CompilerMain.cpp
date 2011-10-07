@@ -22,6 +22,7 @@
 #include <getopt.h>
 #include <glib.h>
 #include "project.hpp"
+#include "settings.h"
 #include "compiler.hpp"
 #include "interface.h"
 
@@ -56,22 +57,43 @@ bool fileExists(char * file) {
 }
 
 void printCmdlineUsage() {
-	fprintf(stdout, "SLUDGE compiler, usage: sludge-compiler <project file>\n");
+	fprintf(stdout, "SLUDGE compiler, usage: sludge-compiler [<options>] <project file>\n\n");
+	fprintf(stdout, "Options:\n");
+	fprintf(stdout, "-k,	--keep-slx		Keep compressed image files that are generated during compilation.\n");
+	fprintf(stdout, "-t,	--string-file		Write a text file of the strings contained in the game.\n");
+	fprintf(stdout, "-s,	--strip-debug-info	Strip debug information from the game file.\n");
+	fprintf(stdout, "-h,	--help			Print this help message\n\n");
 }
 
 bool parseCmdlineParameters(int argc, char *argv[]) {
 	int retval = true;
+	programSettings.compilerKillImages = 1;
+	programSettings.compilerWriteStrings = 0;
+	programSettings.compilerVerbose = 1;
+	programSettings.searchSensitive = 0;
 	while (1)
 	{
 		static struct option long_options[] =
 		{
-			{"help",	no_argument,	   0, 'h' },
+			{"keep-slx",	no_argument,	   0, 'k' },
+			{"string-file",	no_argument,	   0, 't' },
+			{"silent",		no_argument,	   0, 's' },
+			{"help",		no_argument,	   0, 'h' },
 			{0,0,0,0} /* This is a filler for -1 */
 		};
 		int option_index = 0;
-		char c = getopt_long (argc, argv, "h", long_options, &option_index);
+		char c = getopt_long (argc, argv, "ktsh", long_options, &option_index);
 		if (c == -1) break;
 			switch (c) {
+		case 'k':
+			programSettings.compilerKillImages = 0;
+			break;
+		case 't':
+			programSettings.compilerWriteStrings = 1;
+			break;
+		case 's':
+			programSettings.compilerVerbose = 0;
+			break;
 		case 'h':
 		default:
 			retval = false;

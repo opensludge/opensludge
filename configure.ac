@@ -45,12 +45,12 @@ if test x"$WIN32" = xyes; then
 fi
 
 # Checks for libraries.
-AC_CHECK_LIB([glee], [GLeeInit])
-AC_CHECK_LIB([GLee], [GLeeInit])
+AC_CHECK_LIB([glee], [GLeeInit], [GLEE_LIBS="-lglee"], [AC_CHECK_LIB([GLee], [GLeeInit], [GLEE_LIBS="-lGLee"], [AC_MSG_ERROR([cannot find glee library])])])
+AC_SUBST([GLEE_LIBS])
 
 if test "x$enable_engine" = xyes; then
   PKG_CHECK_MODULES([ENGINE], [gl glu sdl alure >= 1.1 openal vorbis ogg])
-  AC_CHECK_LIB([vpx], [vpx_codec_decode])
+  AC_CHECK_LIB([vpx], [vpx_codec_decode], [ENGINE_LIBS+=" -lvpx"], [AC_MSG_ERROR([cannot find vpx library])])
 fi
 
 if test "x$enable_devkit" = xyes; then
@@ -61,12 +61,17 @@ fi
 PKG_CHECK_MODULES([LIBPNG], [libpng])
 
 # Checks for header files.
-AC_CHECK_HEADERS([limits.h malloc.h stddef.h stdint.h stdlib.h string.h sys/time.h unistd.h])
-AC_CHECK_HEADERS([GLee.h getopt.h])
+AC_CHECK_HEADERS([limits.h malloc.h stddef.h stdint.h stdlib.h string.h sys/time.h unistd.h], [], [AC_MSG_ERROR([cannot find one or more of these header files: limits.h malloc.h stddef.h stdint.h stdlib.h string.h sys/time.h unistd.h])])
+AC_CHECK_HEADERS([GLee.h], [], [AC_MSG_ERROR([cannot find glee header files])])
+AC_CHECK_HEADERS([getopt.h], [], [AC_MSG_ERROR([cannot find getopt header files])])
 
 if test "x$enable_engine" = xyes; then
-  AC_CHECK_HEADERS([GL/glu.h SDL/SDL.h SDL/SDL_syswm.h AL/alure.h])
-  AC_CHECK_HEADERS([vpx/vpx_decoder.h vorbis/codec.h ogg/ogg.h])
+  AC_CHECK_HEADERS([GL/glu.h], [], [AC_MSG_ERROR([cannot find glu header files])])
+  AC_CHECK_HEADERS([SDL/SDL.h SDL/SDL_syswm.h], [], [AC_MSG_ERROR([cannot find SDL header files])])
+  AC_CHECK_HEADERS([AL/alure.h], [], [AC_MSG_ERROR([cannot find alure header files])])
+  AC_CHECK_HEADERS([vpx/vpx_decoder.h], [], [AC_MSG_ERROR([cannot find vpx header files])])
+  AC_CHECK_HEADERS([vorbis/codec.h], [], [AC_MSG_ERROR([cannot find vorbis header files])])
+  AC_CHECK_HEADERS([ogg/ogg.h], [], [AC_MSG_ERROR([cannot find ogg header files])])
 fi
 
 # Checks for typedefs, structures, and compiler characteristics.
@@ -96,42 +101,9 @@ AC_CONFIG_FILES([Makefile
 AC_OUTPUT
 
 echo "
-SLUDGE configuration:
+SLUDGE configuration complete.
+Note that Alure needs VorbisFile, FLAC and DUMB to provide full sound support for the SLUDGE engine.
 
-Please make sure that the following libraries and headers are installed:
-"
-if test $ac_cv_lib_GLee_GLeeInit; then
-  if test "x$ac_cv_lib_glee_GLeeInit" = xyes; then
-    echo "GLee              ...yes"
-  else
-    echo "GLee              ..."$ac_cv_lib_GLee_GLeeInit
-  fi
-else
-    echo "GLee              ..."$ac_cv_lib_glee_GLeeInit
-fi
-echo ""
-echo "GLee.h            ..."$ac_cv_header_GLee_h
-echo "getopt.h          ..."$ac_cv_header_getopt_h
-
-if test "x$enable_engine" = xyes; then
-echo "
-Additional requirements for the SLUDGE Engine:
-"
-echo "vpx               ..."$ac_cv_lib_vpx_vpx_codec_decode
-echo ""
-echo "GL/glu.h          ..."$ac_cv_header_GL_glu_h
-echo "SDL/SDL.h         ..."$ac_cv_header_SDL_SDL_h
-echo "SDL/SDL_syswm.h   ..."$ac_cv_header_SDL_SDL_syswm_h
-echo "AL/alure.h        ..."$ac_cv_header_AL_alure_h
-echo "vpx/vpx_decoder.h ..."$ac_cv_header_vpx_vpx_decoder_h
-echo "vorbis/codec.h    ..."$ac_cv_header_vorbis_codec_h
-echo "ogg/ogg.h         ..."$ac_cv_header_ogg_ogg_h
-echo "
-Note that Alure needs VorbisFile, FLAC and DUMB to provide full sound support.
-"
-fi
-
-echo "
 Will build..."
 if test x"$WIN32" = xyes; then
 echo "...the SLUDGE DevKit for Windows"
