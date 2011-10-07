@@ -55,6 +55,7 @@ fi
 
 if test "x$enable_devkit" = xyes; then
   PKG_CHECK_MODULES([GTK], [gtk+-2.0 gthread-2.0 gobject-2.0 gtkglext-1.0 gmodule-2.0])
+  PKG_CHECK_MODULES([GLIB], [glib-2.0])
 fi
 
 PKG_CHECK_MODULES([LIBPNG], [libpng])

@@ -81,8 +81,7 @@ sludge_projectmanager_SOURCES = \
 	../source/CommonCode/version.h
 
 sludge_compiler_SOURCES = \
-	CompilerMain.cpp \
-	Common.cpp Common.h ../source/DevKit/Common/interface.h \
+	CompilerMain.cpp ../source/DevKit/Common/interface.h \
 	../source/DevKit/ProjectManager/project.cpp ../source/DevKit/ProjectManager/project.hpp \
 	../source/DevKit/ProjectManager/settings.cpp ../source/DevKit/ProjectManager/settings.h \
 	../source/DevKit/ProjectManager/messbox.cpp ../source/DevKit/ProjectManager/messbox.h \
@@ -164,4 +163,4 @@ sludge_translationeditor_LDADD = @GTK_LIBS@ @LIBPNG_LIBS@
 sludge_projectmanager_LDADD = @GTK_LIBS@ @LIBPNG_LIBS@
 endif
 
-LDADD = @GTK_LIBS@ @LIBPNG_LIBS@
+sludge_compiler_LDADD = @GLIB_LIBS@ @LIBPNG_LIBS@

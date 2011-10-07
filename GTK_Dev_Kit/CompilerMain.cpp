@@ -20,9 +20,40 @@
 
 #include <stdio.h>
 #include <getopt.h>
+#include <glib.h>
 #include "project.hpp"
 #include "compiler.hpp"
-#include "Common.h"
+#include "interface.h"
+
+//The functions declared in interface.h:
+
+bool askAQuestion (const char * head, const char * msg)
+{
+	return true;
+}
+
+bool errorBox (const char * head, const char * msg)
+{
+	fprintf(stderr, "%s\n%s\n", head, msg);
+
+	return false;
+}
+
+const char * getTempDir ()
+{
+	return g_get_user_cache_dir();
+}
+
+bool fileExists(char * file) {
+	FILE * tester;
+	bool retval = false;
+	tester = fopen (file, "rb");
+	if (tester) {
+		retval = true;
+		fclose (tester);
+	}
+	return retval;
+}
 
 void printCmdlineUsage() {
 	fprintf(stdout, "SLUDGE compiler, usage: sludge-compiler <project file>\n");
