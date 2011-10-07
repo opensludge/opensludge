@@ -7,3 +7,4 @@ This is a possible to-do list. Not everything here may be a good idea, but it's 
 * SVG?
 * Added control of animations? (Nonlooping)
 * Lip sync?
+* OpenGL ES 2 support (needed for mobile ports)?
