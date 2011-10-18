@@ -8,6 +8,13 @@
 
 #include "debug.h"
 
+#if defined __unix__ && !(defined __APPLE__)
+#include <endian.h>
+#if __BYTE_ORDER == __BIG_ENDIAN
+#define __BIG_ENDIAN__
+#endif
+#endif
+
 bool allowAnyFilename = true;
 
 

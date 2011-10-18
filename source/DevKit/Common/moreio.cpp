@@ -10,6 +10,13 @@
 
 #define MOVETEXT 1
 
+#if defined __unix__ && !(defined __APPLE__)
+#include <endian.h>
+#if __BYTE_ORDER == __BIG_ENDIAN
+#define __BIG_ENDIAN__
+#endif
+#endif
+
 char * readString (FILE * fp) {
 	int n = get2bytes (fp), a;
 	char * grabber = new char[n + 1];
