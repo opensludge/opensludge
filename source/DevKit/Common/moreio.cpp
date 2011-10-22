@@ -113,9 +113,9 @@ char * readText (FILE * fp) {
 		if (fgets ( reply, stringSize, fp )) {
 			if (strlen(reply) < stringSize - 1) {
 				// Get rid of the newline character:
-				reply[strlen(reply)-1] = 0;        // remove \n
-				if (reply[strlen(reply)-1] == '\x0D') // remove \r if present
-					reply[strlen(reply)-1] = 0;
+				while (reply[strlen(reply)-1] == '\x0A' || reply[strlen(reply)-1] == '\x0D') {
+					reply[strlen(reply)-1] = 0;        // remove line ending characters if present
+				}
 				goOn = false;
 			} else {
 				delete reply;
