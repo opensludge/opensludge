@@ -57,6 +57,7 @@ sludge_projectmanager_SOURCES = \
 	../source/DevKit/ProjectManager/project.cpp ../source/DevKit/ProjectManager/project.hpp \
 	../source/DevKit/ProjectManager/settings.cpp ../source/DevKit/ProjectManager/settings.h \
 	../source/DevKit/ProjectManager/messbox.cpp ../source/DevKit/ProjectManager/messbox.h \
+	../source/DevKit/ProjectManager/errorlinktofile.h \
 	../source/DevKit/Compiler/compiler.cpp ../source/DevKit/Compiler/compiler.hpp \
 	../source/DevKit/Compiler/compilerinfo.cpp ../source/DevKit/Compiler/compilerinfo.h \
 	../source/DevKit/Compiler/allknown.cpp ../source/DevKit/Compiler/allknown.h \
@@ -85,6 +86,7 @@ sludge_compiler_SOURCES = \
 	../source/DevKit/ProjectManager/project.cpp ../source/DevKit/ProjectManager/project.hpp \
 	../source/DevKit/ProjectManager/settings.cpp ../source/DevKit/ProjectManager/settings.h \
 	../source/DevKit/ProjectManager/messbox.cpp ../source/DevKit/ProjectManager/messbox.h \
+	../source/DevKit/ProjectManager/errorlinktofile.h \
 	../source/DevKit/Compiler/compiler.cpp ../source/DevKit/Compiler/compiler.hpp \
 	../source/DevKit/Compiler/compilerinfo.cpp ../source/DevKit/Compiler/compilerinfo.h \
 	../source/DevKit/Compiler/allknown.cpp ../source/DevKit/Compiler/allknown.h \

@@ -14,27 +14,11 @@
 //#include "helpers.h"
 #include "settings.h"
 #include "compilerinfo.h"
+#include "errorlinktofile.h"
 
 extern char * sourceDirectory;
 
-// -- These are from "MessBox.h"
-struct errorLinkToFile
-{
-	int errorType;
-	char * overview;
-	char * filename;
-	char * fullText;
-	int lineNumber;
-	struct errorLinkToFile * next;
-};
-
 extern char * errorTypeStrings[];
-
-
-extern struct errorLinkToFile * errorList;
-extern int numErrors;
-
-// --
 
 ProjectDocument * me;
 NSModalSession session = nil;

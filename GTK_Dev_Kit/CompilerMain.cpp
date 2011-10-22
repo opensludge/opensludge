@@ -25,6 +25,7 @@
 #include "settings.h"
 #include "compiler.hpp"
 #include "interface.h"
+#include "errorlinktofile.h"
 
 //The functions declared in interface.h:
 
@@ -54,6 +55,14 @@ bool fileExists(char * file) {
 		fclose (tester);
 	}
 	return retval;
+}
+
+void receiveCompilerInfo(compilerInfo *info)
+{
+	if (info->newComments) {
+		if (! errorList) return;
+		fprintf(stderr, "%s\n", errorList->fullText);
+	}
 }
 
 void printCmdlineUsage() {
@@ -126,7 +135,7 @@ int main (int argc, char *argv[])
 		return -1;
 	}
 	fprintf(stderr, "Start compiling...\n");
-	if (!compileEverything(argv[argc - 1], fileList, &fileListNum, NULL))
+	if (!compileEverything(argv[argc - 1], fileList, &fileListNum, &receiveCompilerInfo))
 	{
 		fprintf(stderr, "Error compiling project.\n");
 		return -1;

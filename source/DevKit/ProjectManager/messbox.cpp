@@ -11,6 +11,7 @@
 #include <string.h>
 
 #include "messbox.h"
+#include "errorlinktofile.h"
 #include "moreio.h"
 #include "helpers.h"
 #include "splitter.hpp"

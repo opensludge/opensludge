@@ -17,16 +17,3 @@ void addCommentWithLine (int errorType, const char *, const char * filename, uns
 void clearComments ();
 
 bool ask (const char * txt);
-
-struct errorLinkToFile
-{
-	int errorType;
-	char * overview;
-	char * filename;
-	char * fullText;
-	int lineNumber;
-	struct errorLinkToFile * next;
-};
-
-extern struct errorLinkToFile * errorList;
-extern int numErrors;

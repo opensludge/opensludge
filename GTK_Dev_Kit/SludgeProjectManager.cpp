@@ -44,25 +44,11 @@
 #include "compiler.hpp"
 #include "moreio.h"
 #include "helpers.h"
+#include "errorlinktofile.h"
 #include "Common.h"
 
 #include "SludgeProjectManager.h"
 #include "ProjectManagerMain.h"
-
-// -- These are from "MessBox.h"
-struct errorLinkToFile
-{
-	int errorType;
-	char * overview;
-	char * filename;
-	char * fullText;
-	int lineNumber;
-	struct errorLinkToFile * next;
-};
-
-extern char * errorTypeStrings[];
-extern struct errorLinkToFile * errorList;
-extern int numErrors;
 
 extern char * gameFile;
 
