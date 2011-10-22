@@ -916,9 +916,13 @@ void doDefines (char * fn, stringArray * & strings, stringArray * & fileHandles)
 						delete bits->next->string;
 						bits->next->string = newTarget;
 					}
-
-					addToStringArray (typeDefFrom, bits -> string);
-					addToStringArray (typeDefTo,   bits -> next -> string);
+					
+					if (! bits->next->string[0]) {
+						addComment (ERRORTYPE_PROJECTERROR, "Constant is not given a value", bits -> string, fn, 0);
+					} else {
+						addToStringArray (typeDefFrom, bits -> string);
+						addToStringArray (typeDefTo,   bits -> next -> string);
+					}
 				} else {
 					addComment (ERRORTYPE_PROJECTERROR, "No = in definition line", sa -> string, fn, 0);
 				}
