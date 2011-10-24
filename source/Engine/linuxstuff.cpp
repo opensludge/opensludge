@@ -125,7 +125,14 @@ int showSetupWindow() {
 		return 0;
 	}
 	if (cmdlineSettings.languageSet) {
-		gameSettings.languageID = cmdlineSettings.languageID;
+		if (cmdlineSettings.languageID <= gameSettings.numLanguages) {
+			gameSettings.languageID = cmdlineSettings.languageID;
+		} else {
+			fprintf(stdout, "Tried using language language %d, but that doesn't exist.\n", cmdlineSettings.languageID);
+			fprintf(stdout, "Please specify a language index between 0 and %d.\n\n", gameSettings.numLanguages);
+			printLanguageTable();
+			return 0;
+		}
 	}
 	if (cmdlineSettings.fullscreenSet) {
 		gameSettings.userFullScreen = cmdlineSettings.userFullScreen;
