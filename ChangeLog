@@ -573,3 +573,22 @@ GTK Floor Maker:
 
 GTK Z-Buffer Maker:
 * Bugfix: Crash on creating new Z-Buffer.
+
+----------------------
+next
+----------------------
+
+Compiler (all platforms):
+* Bugfix: Don't assume that all files end with a newline!
+* Added an error message if a constant is empty.
+
+Commandline Compiler (Linux):
+* Add command line options.
+* Prints errors and warnings now.
+
+Engine (Linux):
+* Add a command line option for listing available translations.
+* Don't allow invalid language indices.
+
+General (Linux):
+* Fix check for endianness on Unix.

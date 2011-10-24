@@ -128,8 +128,8 @@ int showSetupWindow() {
 		if (cmdlineSettings.languageID <= gameSettings.numLanguages) {
 			gameSettings.languageID = cmdlineSettings.languageID;
 		} else {
-			fprintf(stdout, "Tried using language language %d, but that doesn't exist.\n", cmdlineSettings.languageID);
-			fprintf(stdout, "Please specify a language index between 0 and %d.\n\n", gameSettings.numLanguages);
+			fprintf(stdout, "Language index %d doesn't exist. Please specify an index between 0 and %d.\n\n",
+									cmdlineSettings.languageID, gameSettings.numLanguages);
 			printLanguageTable();
 			return 0;
 		}
