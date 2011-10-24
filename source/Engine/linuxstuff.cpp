@@ -17,6 +17,8 @@
 extern settingsStruct gameSettings;
 cmdlineSettingsStruct cmdlineSettings;
 
+extern char **languageName;
+
 /*
  * Functions declared in linuxstuff.h:
  */
@@ -26,7 +28,8 @@ void printCmdlineUsage() {
 	fprintf(stdout, "Options:\n");
 	fprintf(stdout, "-f,		--fullscreen		Set display mode to fullscreen\n");
 	fprintf(stdout, "-w,		--window		Set display mode to windowed\n");
-	fprintf(stdout, "-l<number>,	--language=<number>	Set language to <number> (>=0)\n");
+	fprintf(stdout, "-L,		--list-languages	Print available languages and their indices\n");
+	fprintf(stdout, "-l<index>,	--language=<index>	Set language to <index> (look up with -L)\n");
 	fprintf(stdout, "-a<number>,	--antialias=<number>	Turn antialiasing on (1) or off (0)\n");
 	fprintf(stdout, "					or choose linear interpolation (-1)\n");
 	fprintf(stdout, "-d<number>,	--debug=<number>	Turn debug mode on (1) or off (0)\n");
@@ -37,26 +40,43 @@ void printCmdlineUsage() {
 	fprintf(stdout, "or antialiasing on and off with \"Alt+A\".\n");
 }
 
+void printLanguageTable() {
+	if (gameSettings.numLanguages) {
+		fprintf(stdout, "Index		Language\n");
+		for (unsigned int i=0; i <= gameSettings.numLanguages; i++) {
+			if (languageName[i]) { 
+				fprintf(stdout, "%d		%s\n", i, languageName[i]);	
+			} else {
+				fprintf(stdout, "%d		Language %d\n", i, i);	
+			}
+		}
+	} else {
+		fprintf(stdout, "No translations available.\n");
+	}
+}
+
 bool parseCmdlineParameters(int argc, char *argv[]) {
 	int retval = true;
 	cmdlineSettings.fullscreenSet = false;
 	cmdlineSettings.languageSet = false;
 	cmdlineSettings.aaSet = false;
 	cmdlineSettings.debugModeSet = false;
+	cmdlineSettings.listLanguages = false;
 	while (1)
 	{
 		static struct option long_options[] =
 		{
-			{"fullscreen",	no_argument,	   0, 'f' },
-			{"window",	no_argument,	   0, 'w' },
-			{"language",	required_argument, 0, 'l' },
-			{"antialias",	required_argument, 0, 'a' },
-			{"debug",	required_argument, 0, 'd' },
-			{"help",	no_argument,	   0, 'h' },
+			{"fullscreen",		no_argument,	   0, 'f' },
+			{"window",		no_argument,	   0, 'w' },
+			{"list-languages",	no_argument,	   0, 'L' },
+			{"language",		required_argument, 0, 'l' },
+			{"antialias",		required_argument, 0, 'a' },
+			{"debug",		required_argument, 0, 'd' },
+			{"help",		no_argument,	   0, 'h' },
 			{0,0,0,0} /* This is a filler for -1 */
 		};
 		int option_index = 0;
-		char c = getopt_long (argc, argv, "fwl:a:d:h", long_options, &option_index);
+		char c = getopt_long (argc, argv, "fwLl:a:d:h", long_options, &option_index);
 		if (c == -1) break;
 			switch (c) {
 		case 'f':
@@ -66,6 +86,9 @@ bool parseCmdlineParameters(int argc, char *argv[]) {
 		case 'w':
 			cmdlineSettings.fullscreenSet = true;
 			cmdlineSettings.userFullScreen = false;
+			break;
+		case 'L':
+			cmdlineSettings.listLanguages = true;
 			break;
 		case 'l':
 			cmdlineSettings.languageSet = true;
@@ -97,6 +120,10 @@ char * grabFileName () {
 }
 
 int showSetupWindow() {
+	if (cmdlineSettings.listLanguages) {
+		printLanguageTable();
+		return 0;
+	}
 	if (cmdlineSettings.languageSet) {
 		gameSettings.languageID = cmdlineSettings.languageID;
 	}

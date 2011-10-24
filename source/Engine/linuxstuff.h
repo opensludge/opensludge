@@ -11,6 +11,7 @@ struct cmdlineSettingsStruct
 	int antiAlias;
 	bool debugModeSet;
 	bool debugMode;
+	bool listLanguages;
 };
 
 void printCmdlineUsage();
