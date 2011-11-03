@@ -589,6 +589,7 @@ Commandline Compiler (Linux):
 Engine (Linux):
 * Add a command line option for listing available translations.
 * Don't allow invalid language indices.
+* Fix Debian bug #647501: Infinite loop on architectures where char is unsigned by default.
 
 General (Linux):
 * Fix check for endianness on Unix.

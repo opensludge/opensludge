@@ -179,7 +179,7 @@ bool parseCmdlineParameters(int argc, char *argv[]) {
 			{0,0,0,0} /* This is a filler for -1 */
 		};
 		int option_index = 0;
-		char c = getopt_long(argc, argv, "h", long_options, &option_index);
+		int c = getopt_long(argc, argv, "h", long_options, &option_index);
 		if (c == -1) break;
 			switch (c) {
 		case 'h':
