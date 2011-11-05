@@ -20,6 +20,10 @@ extern uint32_t startOfDataIndex, startOfTextIndex,
 
 extern float cameraZoom;
 
+bool isInFont (char * theText) {
+	return theText[0] && theText[1] == 0 && fontTable[(unsigned char) theText[0]] != 0;
+}
+
 int stringWidth (char * theText) {
 	int a;
 	int xOff = 0;

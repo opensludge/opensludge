@@ -23,7 +23,11 @@ Changes to a new font. The font must be contained in a sprite bank, and the <i>s
 </P>
 
 <P>
-Characters which are not present in the <i>charactersSupported</i> string are drawn as the first sprite in the sprite bank. It is therefore wise to have the first character in the font be a symbol used to represent this fact, such as an empty box or a question mark.
+Characters which are not present in the <i>charactersSupported</i> string are 
+drawn as the first sprite in the sprite bank. It is therefore wise to have the 
+first character in the font be a symbol used to represent this fact, such as an 
+empty box or a question mark. The function <a href="inFont.html">inFont</a> can
+be used to check if a character exists in the current font.
 </P>
 
 <P>
@@ -48,6 +52,10 @@ setFont ('numbers.duc', &quot;?0123456789&quot;, 32);</pre>
 </P>
 
 <H3>See also:</H3>
+
+<P>
+<a href="inFont.html">inFont</a>
+</P>
 
 <P>
 <a href="pasteString_and_burnString.html">pasteString and burnString</a>

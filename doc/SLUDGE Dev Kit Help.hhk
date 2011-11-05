@@ -1407,6 +1407,11 @@
 		<param name="Local" value="SLUDGEDevKitHelp\howFrozen.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="inFont">
+		<param name="Name" value="inFont (built-in function)">
+		<param name="Local" value="SLUDGEDevKitHelp\inFont.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="isCharacter">
 		<param name="Name" value="isCharacter (built-in function)">
 		<param name="Local" value="SLUDGEDevKitHelp\isCharacter.html">

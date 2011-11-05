@@ -63,7 +63,6 @@ extern char * * allUserFunc;
 extern char * * allBIFNames;
 extern inputType input;
 extern char * loadNow;
-extern byte fontTable[256];
 
 extern GLuint backdropTextureName;
 
@@ -878,7 +877,8 @@ builtIn(inFont)
 	trimStack (fun -> stack);
 
 	// Return value
-	setVariable (fun -> reg, SVT_INT, newText[0] && newText[1] == 0 && fontTable[(unsigned char) newText[0]] != 0);
+	
+	setVariable (fun -> reg, SVT_INT, isInFont(newText));
 	return BR_CONTINUE;
 }
 
