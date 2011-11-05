@@ -12,16 +12,32 @@ struct sprite {
 	//unsigned char * data;
 };
 
-struct spritePalette {
+class spritePalette {
+public:
 	unsigned short int * pal;
 	unsigned char * r;
 	unsigned char * g;
 	unsigned char * b;
-	GLuint tex_names[256];
-	GLuint burnTex_names[256];
-	int tex_w[256], tex_h[256];
+	GLuint * tex_names;
+	GLuint * burnTex_names;
+	int * tex_w, * tex_h;
 	int numTextures;
 	unsigned char originalRed, originalGreen, originalBlue, total;
+	
+	spritePalette(): pal(0), r(0), g(0), b(0), tex_names(0), burnTex_names(0)
+	, tex_w(0), tex_h(0), numTextures(0)
+	, total(0) {}
+	
+	~spritePalette() {
+		delete [] pal;
+		delete [] r;
+		delete [] g;
+		delete [] b;
+		delete [] tex_names;
+		delete [] burnTex_names;
+		delete [] tex_w;
+		delete [] tex_h;
+	}
 };
 
 struct spriteBank {

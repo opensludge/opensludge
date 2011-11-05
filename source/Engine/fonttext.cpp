@@ -20,14 +20,6 @@ extern uint32_t startOfDataIndex, startOfTextIndex,
 
 extern float cameraZoom;
 
-void createFontPalette (spritePalette & sP) {
-	sP.total = 0;
-	sP.pal = NULL;
-	sP.originalRed = 0;
-	sP.originalBlue = 0;
-	sP.originalGreen = 0;
-}
-
 int stringWidth (char * theText) {
 	int a;
 	int xOff = 0;
@@ -85,13 +77,24 @@ void burnStringToBackdrop (char * theText, int xOff, int y, spritePalette & theP
 
 void fixFont (spritePalette & spal) {
 
+	delete [] spal.tex_names;
+	delete [] spal.burnTex_names;
+	delete [] spal.tex_h;
+	delete [] spal.tex_w;
+	
+	spal.numTextures = theFont.myPalette.numTextures;
+
+	spal.tex_names = new GLuint [spal.numTextures];
+	spal.burnTex_names = new GLuint [spal.numTextures];
+	spal.tex_w = new int [spal.numTextures];
+	spal.tex_h = new int [spal.numTextures];
+	
 	for (int i = 0; i < theFont.myPalette.numTextures; i++) {
 		spal.tex_names[i] = theFont.myPalette.tex_names[i];
 		spal.burnTex_names[i] = theFont.myPalette.burnTex_names[i];
 		spal.tex_w[i] = theFont.myPalette.tex_w[i];
 		spal.tex_h[i] = theFont.myPalette.tex_h[i];
 	}
-	spal.numTextures = theFont.myPalette.numTextures;
 }
 
 void setFontColour (spritePalette & sP, byte r, byte g, byte b) {

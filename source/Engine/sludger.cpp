@@ -170,7 +170,6 @@ FILE * openAndVerify (char * filename, char extra1, char extra2, const char * er
 bool initSludge (char * filename) {
 	int a = 0;
 	mouseCursorAnim = makeNullAnim ();
-	createFontPalette (pastePalette);
 
 	FILE * fp = openAndVerify (filename, 'G', 'E', ERROR_BAD_HEADER, gameVersion);
 	if (! fp) return false;

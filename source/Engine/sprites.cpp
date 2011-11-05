@@ -31,14 +31,44 @@ unsigned char currentBurnR = 0, currentBurnG = 0, currentBurnB = 0;
 
 
 void forgetSpriteBank (spriteBank & forgetme) {
+
 	glDeleteTextures (forgetme.myPalette.numTextures, forgetme.myPalette.tex_names);
-	if (forgetme.isFont) glDeleteTextures (forgetme.myPalette.numTextures, forgetme.myPalette.burnTex_names);
+	if (forgetme.isFont) {
+		glDeleteTextures (forgetme.myPalette.numTextures, forgetme.myPalette.burnTex_names);
+		delete [] forgetme.myPalette.burnTex_names;
+		forgetme.myPalette.burnTex_names = NULL;
+	}
+	
+	delete [] forgetme.myPalette.tex_names;
+	forgetme.myPalette.tex_names = NULL;
+	delete [] forgetme.myPalette.tex_w;
+	forgetme.myPalette.tex_w = NULL;
+	delete [] forgetme.myPalette.tex_h;
+	forgetme.myPalette.tex_h = NULL;
+	
+	if (forgetme.myPalette.pal) {
+		delete  [] forgetme.myPalette.pal;
+		forgetme.myPalette.pal = NULL;
+		delete  [] forgetme.myPalette.r;
+		forgetme.myPalette.r = NULL;
+		delete  [] forgetme.myPalette.g;
+		forgetme.myPalette.g = NULL;
+		delete  [] forgetme.myPalette.b;
+		forgetme.myPalette.b = NULL;
+	}
 
 	delete forgetme.sprites;
 	forgetme.sprites = NULL;
 }
 
 bool reserveSpritePal (spritePalette & sP, int n) {
+	if (sP.pal) {
+		delete  [] sP.pal;
+		delete  [] sP.r;
+		delete  [] sP.g;
+		delete  [] sP.b;
+	}
+
 	sP.pal = new unsigned short int [n];
 	sP.r = new unsigned char [n];
 	sP.g = new unsigned char [n];
@@ -49,7 +79,7 @@ bool reserveSpritePal (spritePalette & sP, int n) {
 
 bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 	int i, tex_num, total, picwidth, picheight, spriteBankVersion = 0, howmany=0, startIndex=0;
-	int totalwidth[256], maxheight[256];
+	int * totalwidth, * maxheight;
 	int numTextures = 0;
 	byte * data;
 
@@ -76,6 +106,13 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 	byte ** spriteData = new byte * [total];
 	if (! checkNew (loadhere.sprites)) return false;
 
+	totalwidth = new int[total];
+	maxheight = new int[total];
+	loadhere.myPalette.tex_names = new GLuint [total];
+	if (isFont) loadhere.myPalette.burnTex_names = new GLuint [total];
+	loadhere.myPalette.tex_w = new int [total];
+	loadhere.myPalette.tex_h = new int [total];
+	
 	if (spriteBankVersion && spriteBankVersion < 3) {
 		howmany = fgetc (bigDataFile);
 		startIndex = 1;

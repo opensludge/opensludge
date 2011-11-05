@@ -28,7 +28,6 @@ void initSpeech () {
 		speech -> allSpeech = NULL;
 		speech -> speechY = 0;
 		speech -> lastFile = -1;
-		createFontPalette (speech -> talkCol);
 	}
 }
 

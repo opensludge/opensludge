@@ -138,8 +138,6 @@ void initStatusBar () {
 	mainStatus.litStatus = -1;
 	mainStatus.statusX = 10;
 	mainStatus.statusY = winHeight - 15;
-	createFontPalette (verbLinePalette);
-	createFontPalette (litVerbLinePalette);
 	statusBarColour (255, 255, 255);
 	statusBarLitColour (255, 255, 128);
 }
