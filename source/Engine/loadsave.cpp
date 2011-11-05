@@ -1,5 +1,6 @@
 #include "allfiles.h"
 #include "sprites.h"
+#include "fonttext.h"
 #include "newfatal.h"
 #include "variable.h"
 #include "version.h"
@@ -36,8 +37,7 @@ extern personaAnimation * mouseCursorAnim;			// In cursor.cpp
 extern int mouseCursorFrameNum;						// "	"	"
 extern int loadedFontNum, fontHeight, fontLoaded;	// In fonttext.cpp
 extern int numFontColours;							// "	"	"
-extern byte fontTable[256];							// "	"	"
-extern spriteBank theFont;							// "	"	"
+extern char * fontOrderString;						// "	"	"
 extern FILETIME fileTime;							// In sludger.cpp
 extern int speechMode;								// "	"	"
 extern int lightMapNumber;							// In backdrop.cpp
@@ -386,9 +386,7 @@ bool saveGame (char * fname) {
 	if (fontLoaded) {
 		put2bytes (loadedFontNum, fp);
 		put2bytes (fontHeight, fp);
-		for (int a = 0; a < 256; a ++) {
-			fputc (fontTable[a], fp);
-		}
+		writeString(fontOrderString, fp);
 	}
 	putSigned (fontSpace, fp);
 
@@ -512,14 +510,28 @@ bool loadGame (char * fname) {
 	fgetc (fp); // updateDisplay (part of movie playing)
 
 	fontLoaded = fgetc (fp);
-	forgetSpriteBank (theFont);
-
+	int fontNum;
+	char * charOrder;
 	if (fontLoaded) {
-		loadedFontNum = get2bytes (fp);
-		loadSpriteBank (loadedFontNum, theFont, true);
+		fontNum = get2bytes (fp);
 		fontHeight = get2bytes (fp);
-		for (int a = 0; a < 256; a ++) fontTable[a] = fgetc (fp);
+		
+		if (ssgVersion < VERSION(2,2)) {
+			int x;
+			charOrder = new char[257];
+			for (int a = 0; a < 256; a ++) {
+				x = fgetc (fp);
+				charOrder[x] = a;
+			}
+			charOrder[256] = 0;
+		} else {
+			charOrder = readString(fp);
+		}
+		
 	}
+	loadFont (fontNum, charOrder, fontHeight);
+	delete [] charOrder;
+	
 	fontSpace = getSigned (fp);
 
 	killAllPeople ();

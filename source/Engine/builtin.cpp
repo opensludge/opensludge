@@ -548,7 +548,7 @@ builtIn(stringLength)
 	UNUSEDALL
 	char * newText = getTextFromAnyVar (fun -> stack -> thisVar);
 	trimStack (fun -> stack);
-	setVariable (fun -> reg, SVT_INT, strlen (newText));
+	setVariable (fun -> reg, SVT_INT, stringLength(newText));
 	delete newText;
 	return BR_CONTINUE;
 }

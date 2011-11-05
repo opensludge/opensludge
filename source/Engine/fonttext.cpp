@@ -1,7 +1,9 @@
 #include <stdint.h>
+#include <strings.h>
 
 #include "debug.h"
 #include "allfiles.h"
+#include "stringy.h"
 
 #include "sprites.h"
 #include "colours.h"
@@ -12,6 +14,7 @@
 spriteBank theFont;
 bool fontLoaded = false;
 int fontHeight = 0, numFontColours, loadedFontNum;
+char * fontOrderString = NULL;
 byte fontTable[256];
 short fontSpace = -1;
 
@@ -22,6 +25,10 @@ extern float cameraZoom;
 
 bool isInFont (char * theText) {
 	return theText[0] && theText[1] == 0 && fontTable[(unsigned char) theText[0]] != 0;
+}
+
+int stringLength (char * theText) {
+	return strlen (theText);
 }
 
 int stringWidth (char * theText) {
@@ -109,6 +116,11 @@ void setFontColour (spritePalette & sP, byte r, byte g, byte b) {
 
 bool loadFont (int filenum, const char * charOrder, int h) {
 	int a;
+
+	delete [] fontOrderString;
+	fontOrderString = copyString(charOrder);
+	
+	forgetSpriteBank (theFont);
 
 	loadedFontNum = filenum;
 
