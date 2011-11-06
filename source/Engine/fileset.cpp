@@ -1,10 +1,17 @@
 #include <stdint.h>
+#include <string.h>
+
+#include "stringy.h"
+
+// For unicode conversion
+#include <iconv.h>
 
 #include "debug.h"
 
 #include "allfiles.h"
 #include "moreio.h"
 #include "newfatal.h"
+#include "version.h"
 
 
 bool sliceBusy = true;
@@ -67,6 +74,34 @@ unsigned int openFileFromNum (int num) {
 	return get4bytes (bigDataFile);
 }
 
+char * convertString(char * s) {
+	static char *buf = NULL;
+	
+	if (! buf) {
+		buf = new char [65536];	
+		if (! checkNew (buf)) return NULL;
+	}
+
+	char **tmp1 = (char **) &s;
+	char **tmp2 = (char **) &buf;
+	char * sOrig = s;
+	char * bufOrig = buf;
+	
+	iconv_t convert = iconv_open ("UTF-8", "CP1252");
+	size_t len1 = strlen(s)+1;
+	size_t len2 = 65535;
+	//size_t numChars =
+#ifdef _WIN32
+	iconv (convert,(const char **) tmp1, &len1, tmp2, &len2);
+#else
+	iconv (convert,(char **) tmp1, &len1, tmp2, &len2);
+#endif
+	iconv_close (convert);
+	
+	delete [] sOrig;
+	return copyString(buf = bufOrig);
+}
+
 char * getNumberedString (int value) {
 
 	if (sliceBusy) {
@@ -78,7 +113,15 @@ char * getNumberedString (int value) {
 	value = get4bytes (bigDataFile);
 	fseek (bigDataFile, value, 0);
 
-	return readString (bigDataFile);
+	char * s = readString (bigDataFile);
+	
+	if (gameVersion < VERSION(2,2)) {
+		
+		// This is an older game - We need to convert the string to UTF-8
+		s = convertString(s);
+	}
+	
+	return s;
 }
 
 bool startAccess () {

@@ -83,6 +83,7 @@ bool saveThumbnail (FILE * fp) {
 		
 		// Save Our ViewPort
 		GLushort* image = new GLushort [thumbWidth*thumbHeight];
+		if (! checkNew (image)) return false;
 		glReadPixels(viewportOffsetX, viewportOffsetY, thumbWidth, thumbHeight, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, image);
 
 		setPixelCoords (false);

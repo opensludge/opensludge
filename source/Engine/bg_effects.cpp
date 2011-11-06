@@ -300,9 +300,7 @@ bool blurScreen () {
 		int overlapAbove  = s_matrixEffectHeight / 2;
 
 		unsigned char ** sourceLine = new unsigned char * [s_matrixEffectHeight];
-		checkNew (sourceLine);
-		if (! sourceLine)
-			return false;
+		if (! checkNew (sourceLine)) return false;
 
 		int picWidth = sceneWidth;
 		int picHeight = sceneHeight;

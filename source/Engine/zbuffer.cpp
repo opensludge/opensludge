@@ -92,6 +92,7 @@ bool setZBuffer (int y) {
 		picHeight = getNextPOT(picHeight);
 	}
 	zBuffer.tex = new GLubyte [picHeight*picWidth];
+	if (! checkNew (zBuffer.tex)) return false;
 
 	for (y = 0; y < sceneHeight; y ++) {
 		for (x = 0; x < sceneWidth; x ++) {

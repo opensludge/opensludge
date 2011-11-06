@@ -132,6 +132,8 @@ bool freeze () {
 		picHeight = getNextPOT(picHeight);
 	}
 	newFreezer -> backdropTexture = new GLubyte [picHeight*picWidth*4];
+	if (! checkNew (newFreezer -> backdropTexture)) return false;	
+
 	saveTexture(backdropTextureName, newFreezer->backdropTexture);
 
 	backdropTextureName = 0;

@@ -142,6 +142,7 @@ int wrapSpeechPerson (char * theText, onScreenPerson & thePerson, int sampleFile
 
 int wrapSpeech (char * theText, int objT, int sampleFile, bool animPerson) {
 	int i;
+	
 	speech -> lookWhosTalking = objT;
 	onScreenPerson * thisPerson = findPerson (objT);
 	if (thisPerson) {

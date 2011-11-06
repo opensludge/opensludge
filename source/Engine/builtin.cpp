@@ -1200,6 +1200,8 @@ builtIn(loopSound)
 				return BR_ERROR;
 			}
 			s = new soundList;
+			if (! checkNew (s)) return BR_ERROR;
+
 			s-> next = old;
 			s-> prev = NULL;
 			s-> sound = fileNumber;

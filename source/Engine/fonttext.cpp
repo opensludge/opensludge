@@ -1,5 +1,10 @@
+#include "platform-dependent.h"
+
+
 #include <stdint.h>
 #include <string.h>
+
+#include "utf8.h"
 
 #include "debug.h"
 #include "allfiles.h"
@@ -12,47 +17,57 @@
 #include "moreio.h"
 
 spriteBank theFont;
-bool fontLoaded = false;
 int fontHeight = 0, numFontColours, loadedFontNum;
 char * fontOrderString = NULL;
-byte fontTable[256];
 short fontSpace = -1;
 
-extern uint32_t startOfDataIndex, startOfTextIndex,
-			  startOfSubIndex, startOfObjectIndex;
+uint32_t * fontTable = NULL;
+int fontTableSize = 0;
+
+#define fontInTable(x) ((x<fontTableSize) ? fontTable[(uint32_t) x] : 0)
 
 extern float cameraZoom;
 
 bool isInFont (char * theText) {
-	return theText[0] && theText[1] == 0 && fontTable[(unsigned char) theText[0]] != 0;
+	if (! fontTableSize) return 0;
+	if (! theText[0]) return 0;
+	
+	int i=0;
+	uint32_t c = u8_nextchar(theText, &i);
+	
+	return u8_strchr(fontOrderString, c, &i);
 }
 
 int stringLength (char * theText) {
-	return strlen (theText);
+	return u8_strlen (theText);
 }
 
 int stringWidth (char * theText) {
-	int a;
+	int a = 0;
+    uint32_t c;
 	int xOff = 0;
 
-	if (! fontLoaded) return 0;
+	if (! fontTableSize) return 0;
 
-	for (a = 0; theText[a]; a ++) {
-		xOff += theFont.sprites[fontTable[(unsigned char) theText[a]]].width + fontSpace;
+	while (theText[a]) {
+        c = u8_nextchar(theText, &a);
+		xOff += theFont.sprites[fontInTable(c)].width + fontSpace;
 	}
-
+	
 	return xOff;
 }
 
 void pasteString (char * theText, int xOff, int y, spritePalette & thePal) {
 	sprite * mySprite;
-	int a;
+	int a = 0;
+    uint32_t c;
 
-	if (! fontLoaded) return;
+	if (! fontTableSize) return;
 
 	xOff += (int)((float)(fontSpace >> 1) / cameraZoom);
-	for (a = 0; theText[a]; a ++) {
-		mySprite = & theFont.sprites[fontTable[(unsigned char) theText[a]]];
+	while (theText[a]) {
+        c = u8_nextchar(theText, &a);
+		mySprite = & theFont.sprites[fontInTable(c)];
 		fontSprite (xOff, y, * mySprite, thePal);
 		xOff += (int)((double)(mySprite -> width + fontSpace) / cameraZoom);
 	}
@@ -60,13 +75,15 @@ void pasteString (char * theText, int xOff, int y, spritePalette & thePal) {
 
 void pasteStringToBackdrop (char * theText, int xOff, int y, spritePalette & thePal) {
 	sprite * mySprite;
-	int a;
+	int a=0;
+	uint32_t c;
 
-	if (! fontLoaded) return;
+	if (! fontTableSize) return;
 
 	xOff += fontSpace >> 1;
-	for (a = 0; theText[a]; a ++) {
-		mySprite = & theFont.sprites[fontTable[(unsigned char) theText[a]]];
+	while (theText[a]) {
+        c = u8_nextchar(theText, &a);
+		mySprite = & theFont.sprites[fontInTable(c)];
 		pasteSpriteToBackDrop (xOff, y, * mySprite, thePal);
 		xOff += mySprite -> width + fontSpace;
 	}
@@ -74,13 +91,15 @@ void pasteStringToBackdrop (char * theText, int xOff, int y, spritePalette & the
 
 void burnStringToBackdrop (char * theText, int xOff, int y, spritePalette & thePal) {
 	sprite * mySprite;
-	int a;
+	int a=0;
+	uint32_t c;
 
-	if (! fontLoaded) return;
+	if (! fontTableSize) return;
 
 	xOff += fontSpace >> 1;
-	for (a = 0; theText[a]; a ++) {
-		mySprite = & theFont.sprites[fontTable[ (unsigned char) theText[a]]];
+	while (theText[a]) {
+        c = u8_nextchar(theText, &a);
+		mySprite = & theFont.sprites[fontInTable(c)];
 		burnSpriteToBackDrop (xOff, y, * mySprite, thePal);
 		xOff += mySprite -> width + fontSpace;
 	}
@@ -96,9 +115,13 @@ void fixFont (spritePalette & spal) {
 	spal.numTextures = theFont.myPalette.numTextures;
 
 	spal.tex_names = new GLuint [spal.numTextures];
+	if (! checkNew (spal.tex_names)) return;	
 	spal.burnTex_names = new GLuint [spal.numTextures];
+	if (! checkNew (spal.burnTex_names)) return;	
 	spal.tex_w = new int [spal.numTextures];
+	if (! checkNew (spal.tex_w)) return;	
 	spal.tex_h = new int [spal.numTextures];
+	if (! checkNew (spal.tex_h)) return;	
 	
 	for (int i = 0; i < theFont.myPalette.numTextures; i++) {
 		spal.tex_names[i] = theFont.myPalette.tex_names[i];
@@ -115,20 +138,36 @@ void setFontColour (spritePalette & sP, byte r, byte g, byte b) {
 }
 
 bool loadFont (int filenum, const char * charOrder, int h) {
-	int a;
+	int a=0;
+	uint32_t c;
 
 	delete [] fontOrderString;
 	fontOrderString = copyString(charOrder);
-	
+		
 	forgetSpriteBank (theFont);
 
 	loadedFontNum = filenum;
 
-	for (a = 0; a < 256; a ++) {
+	fontTableSize = 0;
+	while (charOrder[a]) {
+        c = u8_nextchar(charOrder, &a);
+		if (c > fontTableSize) fontTableSize = c;
+	}
+	fontTableSize++;
+	
+	delete [] fontTable;
+	fontTable = new uint32_t [fontTableSize];
+	if (! checkNew (fontTable)) return false;	
+
+	for (a = 0; a < fontTableSize; a ++) {
 		fontTable[a] = 0;
 	}
-	for (a = 0; charOrder[a]; a ++) {
-		fontTable[(unsigned char) charOrder[a]] = (byte) a;
+	a=0;
+	int i=0;
+	while (charOrder[a]) {
+        c = u8_nextchar(charOrder, &a);
+		fontTable[c] = i;
+		i++;
 	}
 
 	if (! loadSpriteBank (filenum, theFont, true)) {
@@ -138,6 +177,5 @@ bool loadFont (int filenum, const char * charOrder, int h) {
 
 	numFontColours = theFont.myPalette.total;
 	fontHeight = h;
-	fontLoaded = true;
 	return true;
 }

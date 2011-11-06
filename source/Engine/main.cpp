@@ -21,9 +21,6 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_syswm.h>
 
-// For unicode conversion
-#include <iconv.h>
-
 #include "debug.h"
 #include "platform-dependent.h"
 #include "language.h"
@@ -97,6 +94,7 @@ void setGameFilePath (char * f) {
 	}
 
 	gamePath = new char[400];
+	if (! checkNew (gamePath)) return;
 
 	if (! getcwd (gamePath, 398)) {
 		debugOut( "Can't get game directory.\n");
@@ -264,6 +262,7 @@ void checkInput() {
 				} else {
 					// The request is from elsewhere - ask for confirmation.
 					setGraphicsWindow(false);
+					//fprintf (stderr, "%s %s\n", gameName, getNumberedString(2));
 					if (msgBoxQuestion (gameName, getNumberedString(2))) {
 						weAreDoneSoQuit = 1;
 					}
@@ -374,32 +373,8 @@ int main(int argc, char *argv[]) try
 	initStatusBar ();
 	resetRandW ();
 
-	// Let's convert the game name to Unicode, or we will crash.
-	char * gameNameWin = getNumberedString(1);
-	gameName = new char[ 1024];
-	char **tmp1 = (char **) &gameNameWin;
-	char **tmp2;
-	tmp2 = &gameName;
-	char * nameOrig = gameNameWin;
-	char * gameNameOrig = gameName;
-
-	iconv_t convert = iconv_open ("UTF-8", "CP1252");
-	size_t len1 = strlen(gameNameWin)+1;
-	size_t len2 = 1023;
-	//size_t numChars =
-#ifdef _WIN32
-	iconv (convert,(const char **) tmp1, &len1, tmp2, &len2);
-#else
-	iconv (convert,(char **) tmp1, &len1, tmp2, &len2);
-#endif
-	iconv_close (convert);
-
-	gameNameWin = nameOrig;
-	gameName = gameNameOrig;
-
-	delete gameNameWin;
-	gameNameWin = NULL;
-
+	gameName = getNumberedString(1);
+		
 	SDL_WM_SetCaption(gameName, gameName);
 
 	if ( (specialSettings & (SPECIAL_MOUSE_1 | SPECIAL_MOUSE_2)) == SPECIAL_MOUSE_1) {

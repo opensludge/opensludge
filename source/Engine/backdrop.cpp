@@ -232,6 +232,7 @@ bool reserveBackdrop () {
 		backdropTexH = ((double)sceneHeight) / picHeight;
 	}
 	backdropTexture = new GLubyte [picWidth*picHeight*4];
+	if (! checkNew (backdropTexture)) return false;
 
 	if (! backdropTextureName) glGenTextures (1, &backdropTextureName);
 	glBindTexture (GL_TEXTURE_2D, backdropTextureName);
@@ -894,7 +895,6 @@ bool loadParallax (unsigned short v, unsigned short fracX, unsigned short fracY)
 	}
 
 	nP -> texture = new GLubyte [picHeight * picWidth * 4];
-
 	if (! checkNew (nP -> texture)) return false;
 
 	if (fileIsPNG) {
@@ -1502,6 +1502,8 @@ void saveCorePNG  (FILE * writer, GLuint texture, int w, int h) {
 	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &th);
 
 	GLubyte* image = new GLubyte [tw*th*4];
+	if (! checkNew (image)) return;
+
 	glPixelStorei (GL_PACK_ALIGNMENT, 1);
 //	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
 
@@ -1599,6 +1601,8 @@ void saveCoreHSI (FILE * writer, GLuint texture, int w, int h) {
 	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &th);
 
 	GLushort* image = new GLushort [tw*th];
+	if (! checkNew (image)) return;
+
 	glPixelStorei (GL_PACK_ALIGNMENT, 1);
 //	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, image);
 

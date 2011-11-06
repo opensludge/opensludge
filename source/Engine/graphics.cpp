@@ -5,6 +5,7 @@
 #include "specialsettings.h"
 #include "graphics.h"
 #include "language.h"
+#include "newfatal.h"
 #include "sprbanks.h"
 #include "zbuffer.h"
 #include "backdrop.h"
@@ -187,6 +188,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 				picHeight = getNextPOT(picHeight);
 			}
 			backdropTexture = new GLubyte [picHeight*picWidth*4];
+			if (! checkNew (backdropTexture)) return;			
 
 			saveTexture (backdropTextureName, backdropTexture);
 		}
@@ -198,6 +200,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 				picHeight = getNextPOT(picHeight);
 			}
 			snapTexture = new GLubyte [picHeight*picWidth*4];
+			if (! checkNew (snapTexture)) return;
 
 			saveTexture (snapshotTextureName, snapTexture);
 		}

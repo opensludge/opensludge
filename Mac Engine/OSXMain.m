@@ -327,7 +327,7 @@ void msgBox (const char * head, const char * msg) {
 
 int msgBoxQuestion (const char * head, const char * msg) {
 	usingCocoa = true;
-	if (NSRunAlertPanel ([NSString stringWithCString: head encoding: NSUTF8StringEncoding], [NSString stringWithCString: msg encoding: NSWindowsCP1250StringEncoding], @"No", @"Yes", NULL) == NSAlertDefaultReturn) {
+	if (NSRunAlertPanel ([NSString stringWithCString: head encoding: NSUTF8StringEncoding], [NSString stringWithCString: msg encoding: NSUTF8StringEncoding], @"No", @"Yes", NULL) == NSAlertDefaultReturn) {
 		usingCocoa = false;
 		return false;
 	}

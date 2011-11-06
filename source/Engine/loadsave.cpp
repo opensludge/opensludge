@@ -35,7 +35,7 @@ extern zBufferData zBuffer;							// In zbuffer.cpp
 extern speechStruct * speech;						// In talk.cpp
 extern personaAnimation * mouseCursorAnim;			// In cursor.cpp
 extern int mouseCursorFrameNum;						// "	"	"
-extern int loadedFontNum, fontHeight, fontLoaded;	// In fonttext.cpp
+extern int loadedFontNum, fontHeight, fontTableSize;	// In fonttext.cpp
 extern int numFontColours;							// "	"	"
 extern char * fontOrderString;						// "	"	"
 extern FILETIME fileTime;							// In sludger.cpp
@@ -381,9 +381,9 @@ bool saveGame (char * fname) {
 	fputc (allowAnyFilename, fp);
 	fputc (captureAllKeys, fp);
 	fputc (true, fp); // updateDisplay
-	fputc (fontLoaded, fp);
+	fputc (fontTableSize>0, fp);
 
-	if (fontLoaded) {
+	if (fontTableSize>0) {
 		put2bytes (loadedFontNum, fp);
 		put2bytes (fontHeight, fp);
 		writeString(fontOrderString, fp);
@@ -509,7 +509,7 @@ bool loadGame (char * fname) {
 	captureAllKeys = fgetc (fp);
 	fgetc (fp); // updateDisplay (part of movie playing)
 
-	fontLoaded = fgetc (fp);
+	bool fontLoaded = fgetc (fp);
 	int fontNum;
 	char * charOrder;
 	if (fontLoaded) {
@@ -519,6 +519,8 @@ bool loadGame (char * fname) {
 		if (ssgVersion < VERSION(2,2)) {
 			int x;
 			charOrder = new char[257];
+			if (! checkNew (charOrder)) return false;
+
 			for (int a = 0; a < 256; a ++) {
 				x = fgetc (fp);
 				charOrder[x] = a;
@@ -526,8 +528,7 @@ bool loadGame (char * fname) {
 			charOrder[256] = 0;
 		} else {
 			charOrder = readString(fp);
-		}
-		
+		}		
 	}
 	loadFont (fontNum, charOrder, fontHeight);
 	delete [] charOrder;

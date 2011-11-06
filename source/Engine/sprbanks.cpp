@@ -6,7 +6,7 @@
 
 loadedSpriteBank * allLoadedBanks = NULL;
 extern spriteBank theFont;
-extern int loadedFontNum, fontLoaded;
+extern int loadedFontNum, fontTableSize;
 
 
 loadedSpriteBank * loadBankForAnim (int ID) {
@@ -45,7 +45,7 @@ void reloadSpriteTextures () {
 		loadSpriteBank (spriteBank->ID, spriteBank->bank, false);
 		spriteBank = spriteBank -> next;
 	}
-	if (fontLoaded) {
+	if (fontTableSize) {
 		delete theFont.sprites;
 		theFont.sprites = NULL;
 		loadSpriteBank (loadedFontNum, theFont, true);

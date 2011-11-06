@@ -442,6 +442,7 @@ int playMovie (int fileNumber)
         die_codec(&codec, "Failed to initialize decoder for movie.");         //
 
     unsigned char *frame = new unsigned char[256*1024];
+	if (! checkNew (frame)) return false;
 
     const mkvparser::Cluster* pCluster = pSegment->GetFirst();
 
@@ -692,6 +693,7 @@ int playMovie (int fileNumber)
 							vorbis_fpu_control fpu;
 
 							char * buffer = new char[bytespersample*numSamples];
+							if (! checkNew (buffer)) return false;
 
 							/* a tight loop to pack each size */
 							{

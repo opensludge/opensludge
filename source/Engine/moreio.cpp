@@ -167,8 +167,11 @@ void put4bytes (unsigned int i, FILE * fp) {
 }
 
 char * encodeFilename (char * nameIn) {
+	if (! nameIn) return NULL;
 	if (allowAnyFilename) {
 		char * newName = new char[strlen (nameIn) * 2 + 1];
+		if (! checkNew (newName)) return false;
+
 		int i = 0;
 		while (*nameIn) {
 			switch (*nameIn) {
@@ -206,6 +209,8 @@ char * encodeFilename (char * nameIn) {
 char * decodeFilename (char * nameIn) {
 	if (allowAnyFilename) {
 		char * newName = new char[strlen (nameIn) + 1];
+		if (! checkNew (newName)) return false;
+
 		int i = 0;
 		while (* nameIn) {
 			if (* nameIn == '_') {

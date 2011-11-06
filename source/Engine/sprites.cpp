@@ -70,9 +70,14 @@ bool reserveSpritePal (spritePalette & sP, int n) {
 	}
 
 	sP.pal = new unsigned short int [n];
+	if (! checkNew (sP.pal)) return false;
+
 	sP.r = new unsigned char [n];
+	if (! checkNew (sP.r)) return false;
 	sP.g = new unsigned char [n];
+	if (! checkNew (sP.g)) return false;
 	sP.b = new unsigned char [n];
+	if (! checkNew (sP.b)) return false;
 	sP.total = n;
 	return (bool) (sP.pal != NULL) && (sP.r != NULL) && (sP.g != NULL) && (sP.b != NULL);
 }
@@ -103,15 +108,27 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 
 	loadhere.total = total;
 	loadhere.sprites = new sprite [total];
-	byte ** spriteData = new byte * [total];
 	if (! checkNew (loadhere.sprites)) return false;
+	byte ** spriteData = new byte * [total];
+	if (! checkNew (spriteData)) return false;
 
 	totalwidth = new int[total];
+	if (! checkNew (totalwidth)) return false;
+
 	maxheight = new int[total];
+	if (! checkNew (maxheight)) return false;
+
 	loadhere.myPalette.tex_names = new GLuint [total];
-	if (isFont) loadhere.myPalette.burnTex_names = new GLuint [total];
+	if (! checkNew (loadhere.myPalette.tex_names)) return false;
+
+	if (isFont) {
+		loadhere.myPalette.burnTex_names = new GLuint [total];
+		if (! checkNew (loadhere.myPalette.burnTex_names)) return false;
+	}
 	loadhere.myPalette.tex_w = new int [total];
+	if (! checkNew (loadhere.myPalette.tex_w)) return false;
 	loadhere.myPalette.tex_h = new int [total];
+	if (! checkNew (loadhere.myPalette.tex_h)) return false;
 	
 	if (spriteBankVersion && spriteBankVersion < 3) {
 		howmany = fgetc (bigDataFile);
@@ -156,6 +173,8 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 
 				unsigned char * row_pointers[height];
 				spriteData[i] = new unsigned char [rowbytes*height];
+				if (! checkNew (spriteData[i])) return false;
+
 				for (unsigned int row = 0; row<height; row++)
 					row_pointers[row] = spriteData[i] + row*rowbytes;
 
@@ -264,9 +283,11 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 			maxheight[tex_num] = getNextPOT(maxheight[tex_num]);
 		}
 		tmp[tex_num] = new GLubyte [(maxheight[tex_num]+1)*totalwidth[tex_num]*4];
+		if (! checkNew (tmp[tex_num])) return false;
 		memset (tmp[tex_num], 0, maxheight[tex_num]*totalwidth[tex_num]*4);
 		if (isFont) {
 			tmp2[tex_num] = new GLubyte [(maxheight[tex_num]+1)*totalwidth[tex_num]*4];
+			if (! checkNew (tmp2[tex_num])) return false;
 			memset (tmp2[tex_num], 0, maxheight[tex_num]*totalwidth[tex_num]*4);
 		}
 		loadhere.myPalette.tex_w[tex_num] = totalwidth[tex_num];

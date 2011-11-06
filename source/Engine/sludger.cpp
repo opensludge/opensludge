@@ -177,17 +177,23 @@ bool initSludge (char * filename) {
 	if (fgetc (fp)) {
 		numBIFNames = get2bytes (fp);
 		allBIFNames = new char * [numBIFNames];
+		if (! checkNew (allBIFNames)) return false;
+
 		for (int fn = 0; fn < numBIFNames; fn ++) {
 			allBIFNames[fn] = readString (fp);
 		}
 		numUserFunc = get2bytes (fp);
 		allUserFunc = new char * [numUserFunc];
+		if (! checkNew (allUserFunc)) return false;
+
 		for (int fn = 0; fn < numUserFunc; fn ++) {
 			allUserFunc[fn] = readString (fp);
 		}
 		if (gameVersion >= VERSION(1,3)) {
 			numResourceNames = get2bytes (fp);
 			allResourceNames = new char * [numResourceNames];
+			if (! checkNew (allResourceNames)) return false;
+
 			for (int fn = 0; fn < numResourceNames; fn ++) {
 				allResourceNames[fn] = readString (fp);
 			}
@@ -466,26 +472,10 @@ bool initSludge (char * filename) {
 	// Get the original (untranslated) name of the game and convert it to Unicode.
 	// We use this to find saved preferences and saved games.
 	setFileIndices (fp, gameSettings.numLanguages, 0);
-	char * gameNameWin = getNumberedString(1);
-	char * gameName = new char[ 1024];
-	char **tmp1 = &gameNameWin;
-	char **tmp2 = &gameName;
-	char * nameOrig = gameNameWin;
-	char * gameNameOrig = gameName;
+	char * gameNameOrig = getNumberedString(1);
 
-	iconv_t convert = iconv_open ("UTF-8", "CP1252");
-	size_t len1 = strlen(gameNameWin)+1;
-	size_t len2 = 1023;
-#ifdef WIN32
-	iconv (convert,(const char **) tmp1, &len1, tmp2, &len2);
-#else
-	iconv (convert,(char **) tmp1, &len1, tmp2, &len2);
-#endif
-	iconv_close (convert);
+	char * gameName = encodeFilename (gameNameOrig);
 
-	gameName = encodeFilename (gameNameOrig);
-
-	delete nameOrig;
 	delete gameNameOrig;
 
 	changeToUserDir ();
@@ -498,6 +488,8 @@ bool initSludge (char * filename) {
 
 	if (chdir (gameName)) return fatal ("This game's preference folder is inaccessible!\nI can't access the following directory (maybe there's a file with the same name, or maybe it's read-protected):", gameName);
 
+	delete [] gameName;
+	
 	// Get user settings
 	readIniFile (filename);
 
@@ -1261,8 +1253,8 @@ bool handleInput () {
 
 	if (lastRegion != overRegion && currentEvents -> focusFunction) {
 		variableStack * tempStack = new variableStack;
-
 		if (! checkNew (tempStack)) return false;
+		
 		initVarNew (tempStack -> thisVar);
 		if (overRegion) {
 			setVariable (tempStack -> thisVar, SVT_OBJTYPE, overRegion -> thisType -> objectNum);

@@ -5,6 +5,7 @@
 #include "colours.h"
 #include "backdrop.h"
 #include "graphics.h"
+#include "newfatal.h"
 
 extern GLuint snapshotTextureName;
 extern unsigned char brightnessLevel;
@@ -145,8 +146,10 @@ bool reserveTransitionTexture () {
 	
 	glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
 	
-	if (! transitionTexture) 
+	if (! transitionTexture) {
 		transitionTexture = new GLubyte [256*256*4];
+		if (! checkNew (transitionTexture)) return false;
+	}
 	
 	if (! transitionTextureName) glGenTextures (1, &transitionTextureName);
 	glBindTexture (GL_TEXTURE_2D, transitionTextureName);
