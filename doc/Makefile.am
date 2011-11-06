@@ -193,6 +193,7 @@ nobase_dist_doc_DATA=\
 	SLUDGEDevKitHelp/unfreeze.html \
 	SLUDGEDevKitHelp/Functions_(subs).html \
 	SLUDGEDevKitHelp/parallaxAdd.html \
+	SLUDGEDevKitHelp/inFont.html \
 	SLUDGEDevKitHelp/setFont.html \
 	SLUDGEDevKitHelp/updateDisplay.html \
 	SLUDGEDevKitHelp/getCharacterDirection.html \

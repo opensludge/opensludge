@@ -1,5 +1,5 @@
 #include <stdint.h>
-#include <strings.h>
+#include <string.h>
 
 #include "debug.h"
 #include "allfiles.h"
