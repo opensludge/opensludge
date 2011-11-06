@@ -16,6 +16,7 @@ sludge_engine_SOURCES = \
 	sludger.h sound.h sprbanks.h sprites.h statusba.h \
 	stringy.h talk.h thumbnail.h timing.h transition.h variable.h \
 	platform-dependent.h linuxstuff.h zbuffer.h \
+	../CommonCode/utf8.cpp ../CommonCode/utf8.h \
 	../CommonCode/functionlist.h \
 	../CommonCode/specialsettings.h \
 	../CommonCode/version.h \
