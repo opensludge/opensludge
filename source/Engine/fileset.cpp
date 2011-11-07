@@ -1,3 +1,4 @@
+#include <errno.h>
 #include <stdint.h>
 #include <string.h>
 
@@ -74,6 +75,9 @@ unsigned int openFileFromNum (int num) {
 	return get4bytes (bigDataFile);
 }
 
+
+// Converts a string from Windows CP-1252 to UTF-8. 
+// This is needed for old games.
 char * convertString(char * s) {
 	static char *buf = NULL;
 	
@@ -87,16 +91,35 @@ char * convertString(char * s) {
 	char * sOrig = s;
 	char * bufOrig = buf;
 	
-	iconv_t convert = iconv_open ("UTF-8", "CP1252");
+	iconv_t convert = iconv_open ("UTF-8", "CP1250");
 	size_t len1 = strlen(s)+1;
 	size_t len2 = 65535;
-	//size_t numChars =
+	size_t iconv_value =
 #ifdef _WIN32
 	iconv (convert,(const char **) tmp1, &len1, tmp2, &len2);
 #else
 	iconv (convert,(char **) tmp1, &len1, tmp2, &len2);
 #endif
+	
+    if (iconv_value == (size_t) -1) {
+		switch (errno) {
+				/* See "man 3 iconv" for an explanation. */
+			case EILSEQ:
+				fprintf (stderr, "Invalid multibyte sequence.\n");
+				break;
+			case EINVAL:
+				fprintf (stderr, "Incomplete multibyte sequence.\n");
+				break;
+			case E2BIG:
+				fprintf (stderr, "No more room.\n");
+				break;
+			default:
+				fprintf (stderr, "Error: %s.\n", strerror (errno));
+		}
+		fatal("Conversion to Unicode failed. Fix this by recompiling the game in a current version of the SLUDGE Development Kit.");
+    }
 	iconv_close (convert);
+	
 	
 	delete [] sOrig;
 	return copyString(buf = bufOrig);
@@ -116,7 +139,6 @@ char * getNumberedString (int value) {
 	char * s = readString (bigDataFile);
 	
 	if (gameVersion < VERSION(2,2)) {
-		
 		// This is an older game - We need to convert the string to UTF-8
 		s = convertString(s);
 	}

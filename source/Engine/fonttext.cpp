@@ -22,7 +22,7 @@ char * fontOrderString = NULL;
 short fontSpace = -1;
 
 uint32_t * fontTable = NULL;
-int fontTableSize = 0;
+unsigned int fontTableSize = 0;
 
 #define fontInTable(x) ((x<fontTableSize) ? fontTable[(uint32_t) x] : 0)
 
@@ -147,6 +147,7 @@ bool loadFont (int filenum, const char * charOrder, int h) {
 	forgetSpriteBank (theFont);
 
 	loadedFontNum = filenum;
+	
 
 	fontTableSize = 0;
 	while (charOrder[a]) {
@@ -154,7 +155,7 @@ bool loadFont (int filenum, const char * charOrder, int h) {
 		if (c > fontTableSize) fontTableSize = c;
 	}
 	fontTableSize++;
-	
+
 	delete [] fontTable;
 	fontTable = new uint32_t [fontTableSize];
 	if (! checkNew (fontTable)) return false;	
