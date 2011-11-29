@@ -313,7 +313,7 @@ int winMouseLookup[4] = {
 void writeFinalData (FILE * mainFile) {
 	fprintf (mainFile, "SLUDGE");
 	fputc (0, mainFile);
-	fprintf (mainFile, "\r\nSLUDGE data file\r\nSLUDGE is (c) Hungry Software and contributors 2006-2011\r\nThis data file must be run using the SLUDGE engine available at http://www.hungrysoftware.com/\r\n");
+	fprintf (mainFile, "\r\nSLUDGE data file\r\nSLUDGE is (c) Hungry Software and contributors 2006-2011\r\nThis data file must be run using the SLUDGE engine available at http://opensludge.sourceforge.net/\r\n");
 	fputc (0, mainFile);
 
 	fputc (MAJOR_VERSION, mainFile);		// Major version

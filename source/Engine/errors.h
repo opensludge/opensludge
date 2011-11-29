@@ -5,7 +5,7 @@
 //---------------------------------------
 
 #define ERROR_VERSION_TOO_LOW_1		"This SLUDGE file requires a more recent version of the SLUDGE engine"
-#define ERROR_VERSION_TOO_LOW_2		"(it was created for v%i.%i).\n\nVisit http://www.hungrysoftware.com/ to download the most recent version."
+#define ERROR_VERSION_TOO_LOW_2		"(it was created for v%i.%i).\n\nVisit http://opensludge.sourceforge.net/ to download the most recent version."
 #define ERROR_VERSION_TOO_HIGH_1 	"This SLUDGE file was created for an older version of the SLUDGE engine"
 #define ERROR_VERSION_TOO_HIGH_2	"(v%i.%i).\n\nPlease contact the author of this game to obtain a version compatible with your SLUDGE engine (v"TEXT_VERSION")."
 #define ERROR_BAD_HEADER			"Bad header information... this isn't a valid SLUDGE game"
@@ -30,9 +30,9 @@
 #define ERROR_SOUND_MEMORY_LOW		"Your computer doesn't have enough memory available to load a sound resource that needs playing." _NO_MEMORY_GENERAL_
 #define ERROR_MUSIC_UNKNOWN			"I can't understand a piece of music which I've been told to play!\n\n" \
 									"Maybe it's stored in a format that SLUDGE doesn't know about... " \
-									"make sure you've got a recent version of the SLUDGE engine from http://www.hungrysoftware.com/. " \
+									"make sure you've got a recent version of the SLUDGE engine from http://opensludge.sourceforge.net/. " \
 									"Failing that, maybe the resource in question isn't a valid music format at all... in which case, contact the game's author and tell them what's happened."
-#define ERROR_SOUND_UNKNOWN			"I can't understand a sample which I've been told to play!\nMake sure you've got the latest SLUDGE engine from http://www.hungrysoftware.com/. Failing that, maybe the resource in question isn't a valid sound at all... in which case, contact the game's author and tell them what's happened."
+#define ERROR_SOUND_UNKNOWN			"I can't understand a sample which I've been told to play!\nMake sure you've got the latest SLUDGE engine from http://opensludge.sourceforge.net/. Failing that, maybe the resource in question isn't a valid sound at all... in which case, contact the game's author and tell them what's happened."
 #define ERROR_MUSIC_ODDNESS			"I can't load a music resource I've been told to play. Sorry."
 #define ERROR_SOUND_ODDNESS			"I can't load a sound resource I've been told to play. Sorry."
 #define ERROR_MOVIE_ODDNESS			"I can't load a music resource I've been told to play. Sorry."
