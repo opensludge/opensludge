@@ -155,7 +155,7 @@ bool loadTranslationFile (char * fileIn, transLine ** firstTransLine, char **lan
 	return (error == 0);
 }
 
-bool saveTranslationFile (const char * filename, transLine * firstTransLine, char *langName, unsigned int lan) {
+bool saveTranslationFile (const char * filename, transLine * firstTransLine, const char *langName, unsigned int lan) {
 	
 	FILE * fp = fopen (filename, "wt");
 	

@@ -23,7 +23,7 @@ struct transLine {
 };
 
 bool loadTranslationFile (char * fileIn, struct transLine ** firstTransLine, char **langName, unsigned int *lanID);
-bool saveTranslationFile (const char * filename, struct transLine * firstTransLine, char *langName, unsigned int lan);
+bool saveTranslationFile (const char * filename, struct transLine * firstTransLine, const char *langName, unsigned int lan);
 bool updateFromProject (const char * filename, struct transLine **firstTransLine);
 void newFile (struct transLine ** firstTransLine);
 

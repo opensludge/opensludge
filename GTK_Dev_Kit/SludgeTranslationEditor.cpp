@@ -102,18 +102,7 @@ const char * SludgeTranslationEditor::getUntitledFilename()
 
 gboolean SludgeTranslationEditor::saveFile(char *filename)
 {
-	gboolean retval;
-	char *latin1LangName;
-
-	latin1LangName = g_convert(gtk_entry_get_text(theLanguageEntry), -1, "ISO-8859-1", "UTF-8", NULL, NULL, NULL);
-	if (!latin1LangName) {
-		retval = FALSE;
-		errorBox("Invalid language name!", "The text in the 'Language name' field contains characters that have no representation in the ISO-8859-1 character encoding. Use this encoding for SLUDGE scripts and translation files. If you need support for translation files with other ISO-8859 encodings in the SLUDGE Translation Editor, contact the SLUDGE developers.");
-	} else {
-		retval = saveTranslationFile (filename, firstTransLine, latin1LangName, (unsigned int)gtk_adjustment_get_value(theIdAdjustment));
-		g_free(latin1LangName);
-	}
-	return retval;
+	return saveTranslationFile (filename, firstTransLine, gtk_entry_get_text(theLanguageEntry), (unsigned int)gtk_adjustment_get_value(theIdAdjustment));
 }
 
 gboolean SludgeTranslationEditor::loadFile(char *filename)
@@ -123,10 +112,10 @@ gboolean SludgeTranslationEditor::loadFile(char *filename)
 	if (loadTranslationFile(filename, &firstTransLine, &langName, &langID)) {
 		gtk_adjustment_set_value(theIdAdjustment, (double)langID);
 		if (langName) {
-			utf8LangName = g_convert(langName, -1, "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
-			if (utf8LangName) {
+			if (!g_utf8_validate(langName, -1, NULL)) {
+				errorBox("Invalid characters!", "The language name field of this translation file is badly encoded. Starting with SLUDGE 2.2 all SLUDGE scripts have to be UTF-8 encoded. Please convert your files.");	
+			} else {		
 				gtk_entry_set_text(theLanguageEntry, utf8LangName);
-				g_free(utf8LangName);
 			}
 			deleteString(langName);
 			langName = NULL;
@@ -169,23 +158,25 @@ void SludgeTranslationEditor::listChanged()
 		for (int k = 0; k < 2; k++) {
 			stringPtr = k?line->transTo:line->transFrom;
 			if (!stringPtr) continue;
-			listitem = g_convert(stringPtr, -1, "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
-			if (listitem) {
-				gtk_list_store_set(listStore, &iter, 2*k, listitem, -1);
-				g_free(listitem);
+
+			if (g_utf8_validate(stringPtr, -1, NULL)) {
+				gtk_list_store_set(listStore, &iter, 2*k, stringPtr, -1);
 			} else {
 				badChars = TRUE;
-				listitem = new char[1000];
-				listitem = strcpy(listitem, stringPtr);
-				int retval = 1;
-				replaceInvalidCharacters(listitem, &retval);
-				if (!retval) {
-					badChars = TRUE;
+				listitem = g_convert(stringPtr, -1, "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
+				if (listitem) {
+					gtk_list_store_set(listStore, &iter, 2*k, listitem, -1);
+					g_free(listitem);
+				} else {
+					listitem = new char[1000];
+					listitem = strcpy(listitem, stringPtr);
+					int retval = 1;
+					replaceInvalidCharacters(listitem, &retval);
+					gtk_list_store_set(listStore, &iter, 2*k, listitem, -1);
+					delete listitem;
 				}
-				gtk_list_store_set(listStore, &iter, 2*k, listitem, -1);
-				delete listitem;
+				listitem = NULL;
 			}
-			listitem = NULL;
 		}
 		gtk_list_store_set(listStore, &iter, COLUMN_TRANSLATE, line?line->type != TYPE_NONE:FALSE, -1);
 		gtk_list_store_set(listStore, &iter, COLUMN_ID, stringId, -1);
@@ -196,7 +187,7 @@ void SludgeTranslationEditor::listChanged()
 	}
 
 	if (badChars)
-			errorBox("Invalid characters!", "SLUDGE scripts in the project or the translation file contain characters that are encoded in something else than ISO-8859-1. I will show an underscore in place of these characters. Use the ISO-8859-1 encoding for SLUDGE scripts and translation files. If you need support for translation files with other ISO-8859 encodings in the SLUDGE Translation Editor, contact the SLUDGE developers.");
+			errorBox("Invalid characters!", "The translation file or SLUDGE scripts in the project contain characters that are encoded in something else than UTF-8. Starting with SLUDGE 2.2 all SLUDGE scripts have to be UTF-8 encoded. Please convert your files.");
 }
 
 // Callbacks:
@@ -346,7 +337,6 @@ void SludgeTranslationEditor::on_column_changed(int column, GtkCellRenderer *the
 	GtkTreeIter iter;
 	gchar *indexStr;
 	int index;
-	char *latin1NewText;
 
 	sortedPath = gtk_tree_path_new_from_string(thePath);
 	filterPath = gtk_tree_model_sort_convert_path_to_child_path(GTK_TREE_MODEL_SORT(sortModel), sortedPath);
@@ -397,29 +387,20 @@ void SludgeTranslationEditor::on_column_changed(int column, GtkCellRenderer *the
 				}
 			}
 
-			latin1NewText = g_convert(theNewText, -1, "ISO-8859-1", "UTF-8", NULL, NULL, NULL);
-			
-			if (!latin1NewText) {
-				errorBox("Invalid string!", "This translation contains characters that have no representation in the ISO-8859-1 character encoding. Use this encoding for SLUDGE scripts and translation files. If you need support for translation files with other ISO-8859 encodings in the SLUDGE Translation Editor, contact the SLUDGE developers.");
-				return;
-			}
-
 			if (line->transTo) {
-				if (! strcmp(line->transTo, latin1NewText)) {
-					g_free(latin1NewText);
+				if (! strcmp(line->transTo, theNewText)) {
 					return;
 				} else {
 					setFileChanged();
 				}
 				deleteString(line->transTo);
 				line->transTo = NULL;
-			} else if (! strlen(latin1NewText)) {
-				g_free(latin1NewText);
+			} else if (! strlen(theNewText)) {
 				return;
 			} else {
 				setFileChanged();
 			}
-			line->transTo = copyString(latin1NewText);
+			line->transTo = copyString(theNewText);
 			if (!strlen(line->transTo)) {
 				if (line->type != TYPE_NONE)
 					line->type = TYPE_NEW;
@@ -430,7 +411,6 @@ void SludgeTranslationEditor::on_column_changed(int column, GtkCellRenderer *the
 			}
 			gtk_list_store_set(listStore, &iter, COLUMN_TRANSLATION, theNewText, -1);
 			on_tree_selection_changed(selection);
-			g_free(latin1NewText);
 			break;
 		}
 		default:
