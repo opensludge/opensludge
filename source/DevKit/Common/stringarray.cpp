@@ -55,7 +55,7 @@ void addToStringArray (stringArray * & theArray, const char * theString, int sta
 	unsigned int lineNum=0;
 	
 	if (! theString) return;
-	
+		
 	if (size == -1) size = strlen (theString);
 	size -= start;
 

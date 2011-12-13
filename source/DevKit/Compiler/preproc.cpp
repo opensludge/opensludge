@@ -7,6 +7,7 @@
 #include "helpers.h"
 #include "messbox.h"
 #include "dumpfiles.h"
+#include "utf8.h"
 
 #define numDoubleCharTypes 13
 
@@ -60,6 +61,10 @@ bool preProcess (char * codeFileName, int fileNumber, stringArray * & strings, s
 		addComment (ERRORTYPE_PROJECTERROR, "Either this file contains nothing, or it doesn't exist...", codeFileName);
 		return false;
 	}
+	if (! u8_isvalid(wholeFile)) {
+		return addComment (ERRORTYPE_PROJECTERROR, "Invalid string found. (It is not UTF-8 encoded.)", NULL, codeFileName, 0);
+	}
+	
 
 	fprintf (outputFile, "%s*", codeFileName);
 	fprintf(outputFile, "%c%05d", 1,currentLine);

@@ -111,6 +111,7 @@
 		E80D9E7F12C9E6C800663154 /* SLUDGE Document.m in Sources */ = {isa = PBXBuildFile; fileRef = E80D9E7E12C9E6C800663154 /* SLUDGE Document.m */; };
 		E839AAD412D739B1007DD503 /* helpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E839AAD212D739B1007DD503 /* helpers.cpp */; };
 		E850AB691271E77300224E49 /* compilerinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E850AB671271E77300224E49 /* compilerinfo.cpp */; };
+		E89B14A41497E52D0059BF63 /* utf8.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E89B14A21497E52D0059BF63 /* utf8.cpp */; };
 		E8F4F7A5132B8877000F35A9 /* stringarray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E8F4F7A3132B8877000F35A9 /* stringarray.cpp */; };
 /* End PBXBuildFile section */
 
@@ -277,6 +278,8 @@
 		E839AAD312D739B1007DD503 /* helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = helpers.h; path = ../source/DevKit/Common/helpers.h; sourceTree = SOURCE_ROOT; };
 		E850AB671271E77300224E49 /* compilerinfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = compilerinfo.cpp; path = ../source/DevKit/Compiler/compilerinfo.cpp; sourceTree = "<group>"; };
 		E850AB681271E77300224E49 /* compilerinfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = compilerinfo.h; path = ../source/DevKit/Compiler/compilerinfo.h; sourceTree = "<group>"; };
+		E89B14A21497E52D0059BF63 /* utf8.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = utf8.cpp; sourceTree = "<group>"; };
+		E89B14A31497E52D0059BF63 /* utf8.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utf8.h; sourceTree = "<group>"; };
 		E8F4F7A3132B8877000F35A9 /* stringarray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = stringarray.cpp; path = ../source/DevKit/Common/stringarray.cpp; sourceTree = SOURCE_ROOT; };
 		E8F4F7A4132B8877000F35A9 /* stringarray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stringarray.h; path = ../source/DevKit/Common/stringarray.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -404,6 +407,8 @@
 		2F7EA3DC0FFCEBCF005E5C36 /* CommonCode */ = {
 			isa = PBXGroup;
 			children = (
+				E89B14A21497E52D0059BF63 /* utf8.cpp */,
+				E89B14A31497E52D0059BF63 /* utf8.h */,
 				E839AAD212D739B1007DD503 /* helpers.cpp */,
 				E839AAD312D739B1007DD503 /* helpers.h */,
 				2F7EA4700FFCEBE6005E5C36 /* splitter.cpp */,
@@ -599,6 +604,7 @@
 				E80D9E7F12C9E6C800663154 /* SLUDGE Document.m in Sources */,
 				E839AAD412D739B1007DD503 /* helpers.cpp in Sources */,
 				E8F4F7A5132B8877000F35A9 /* stringarray.cpp in Sources */,
+				E89B14A41497E52D0059BF63 /* utf8.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -32,6 +32,7 @@
 #include "objtype.h"
 #include "interface.h"
 #include "compilerinfo.h"
+#include "utf8.h"
 
 enum { CSTEP_INIT,
 	   CSTEP_PARSE,
@@ -112,7 +113,13 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 		}
 
 		addToStringArray (allSourceStrings, "");
+		if (! u8_isvalid(settings.windowName)) {
+			return addComment (ERRORTYPE_PROJECTERROR, "Invalid window name.", "(It is not UTF-8 encoded.)", NULL, 0);
+		}			
 		addToStringArray (allSourceStrings, settings.windowName);
+		if (! u8_isvalid(settings.quitMessage)) {
+			return addComment (ERRORTYPE_PROJECTERROR, "Invalid quit message.", "(It is not UTF-8 encoded.)", NULL, 0);
+		}
 		addToStringArray (allSourceStrings, settings.quitMessage);
 		clearComments();
 		setCompileStep (CSTEP_PARSE, *numFiles);

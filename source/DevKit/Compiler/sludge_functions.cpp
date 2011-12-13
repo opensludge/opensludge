@@ -13,6 +13,8 @@
 #include "allknown.h"
 #include "compilerinfo.h"
 
+#include "utf8.h"
+
 extern char * inThisClass;
 
 // Sludge commands
@@ -894,6 +896,11 @@ void doDefines (char * fn, stringArray * & strings, stringArray * & fileHandles)
 		for (;;) {
 			char * t = readText (fp);
 			if (!t) break;
+			if (! u8_isvalid(t)) {
+				addComment (ERRORTYPE_PROJECTERROR, "Invalid string found. (It is not UTF-8 encoded.)", NULL, fn, 0);
+				return;
+			}
+			
 			stringArray * sa = splitString (t, '#');
 			if (sa -> string[0]) {
 				stringArray * bits = splitString (sa -> string, '=', ONCE);

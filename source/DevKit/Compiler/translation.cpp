@@ -10,6 +10,7 @@
 #include "interface.h"
 #include "settings.h"
 #include "dumpfiles.h"
+#include "utf8.h"
 
 int numberOfValidTranslations = 0;
 
@@ -137,6 +138,10 @@ bool cacheTranslationData (char * f) {
 		theLine = readText (fp);
 		if (theLine && theLine[0] && theLine[0] != '\t') {
 			stringArray * pair = splitString (theLine, '\t', ONCE, false);
+			if (! u8_isvalid(pair->string)) {
+				return addComment (ERRORTYPE_PROJECTERROR, "Invalid string found. (It is not UTF-8 encoded.)", NULL, f, 0);
+			}
+			
 			addToStringArray (transFrom, pair->string, 0, -1, true);
 			if (pair->next == NULL) {
 				// No translation
@@ -154,6 +159,9 @@ bool cacheTranslationData (char * f) {
 			// The only thing we DO want to trim is excess tabbage
 			trimStart (pair->string, '\t');
 
+			if (! u8_isvalid(pair->string)) {
+				return addComment (ERRORTYPE_PROJECTERROR, "Invalid string found. (It is not UTF-8 encoded.)", NULL, f, 0);
+			}
 			addToStringArray (transTo, pair->string, 0, -1, true);
 			while (destroyFirst (pair)) {;}
 		}
