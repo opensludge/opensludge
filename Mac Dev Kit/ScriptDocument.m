@@ -79,7 +79,7 @@ void addFunction (NSMutableDictionary *words, char *name) {
 
 -(NSData*)	dataRepresentationOfType: (NSString*)aType
 {
-    return [[text string] dataUsingEncoding: NSISOLatin1StringEncoding];
+    return [[text string] dataUsingEncoding: NSUTF8StringEncoding];
 }
 
 -(BOOL)	loadDataRepresentation: (NSData*)data ofType: (NSString*)aType
@@ -88,8 +88,13 @@ void addFunction (NSMutableDictionary *words, char *name) {
 		[sourceCode release];
 		sourceCode = nil;
 	}
-	sourceCode = [[NSString alloc] initWithData:data encoding: NSISOLatin1StringEncoding];
-		
+	sourceCode = [[NSString alloc] initWithData:data encoding: NSUTF8StringEncoding];
+	if (! sourceCode) {
+		errorBox("Error opening file", "Is it an old file? I'll try opening it using the old Windows string encoding. If that works, it will be automatically converted to UTF-8. (Don't worry - that's what you want.)");
+		sourceCode = [[NSString alloc] initWithData:data encoding: NSISOLatin1StringEncoding];
+		[self updateChangeCount: NSChangeDone];	
+	}
+	
 	return YES;
 }
 

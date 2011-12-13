@@ -63,7 +63,7 @@
     [super windowControllerDidLoadNib:aController];
     // Add any code here that needs to be executed once the windowController has loaded the document's window.
 	
-	if (langName) [languageName setStringValue: [NSString stringWithCString: langName encoding:NSISOLatin1StringEncoding]];
+	if (langName) [languageName setStringValue: [NSString stringWithCString: langName encoding:NSUTF8StringEncoding]];
 	if (langID) [languageID setIntValue:langID];
 }
 
@@ -154,7 +154,7 @@
 	switch (col) {
 	case 0:
 		if (line->transFrom)
-			return [NSString stringWithCString: line->transFrom encoding:NSISOLatin1StringEncoding];
+			return [NSString stringWithCString: line->transFrom encoding:NSUTF8StringEncoding];
 		else 
 			return @"";
 	case 1:
@@ -165,7 +165,7 @@
 		}
 	case 2:
 		if (line->transTo)
-			return [NSString stringWithCString: line->transTo encoding:NSISOLatin1StringEncoding];
+			return [NSString stringWithCString: line->transTo encoding:NSUTF8StringEncoding];
 		else 
 			return @"";
 	}
@@ -213,12 +213,12 @@
 			break;
 		case 2:
 			if (line->transTo) {
-				if (! strcmp(line->transTo, [anObject cStringUsingEncoding: NSISOLatin1StringEncoding]))
+				if (! strcmp(line->transTo, [anObject cStringUsingEncoding: NSUTF8StringEncoding]))
 					return;
 				deleteString (line->transTo);
-			} else if (! strlen([anObject cStringUsingEncoding: NSISOLatin1StringEncoding]))
+			} else if (! strlen([anObject cStringUsingEncoding: NSUTF8StringEncoding]))
 				return;
-			line->transTo = copyString([anObject cStringUsingEncoding: NSISOLatin1StringEncoding]);
+			line->transTo = copyString([anObject cStringUsingEncoding: NSUTF8StringEncoding]);
 			if (!strlen(line->transTo)) {
 				if (line->type != TYPE_NONE)
 					line->type = TYPE_NEW;
@@ -292,7 +292,7 @@
 			[originalString setStringValue:@""];
 			return;
 		} 
-		[originalString setStringValue: [NSString stringWithCString: line->transFrom encoding:NSISOLatin1StringEncoding]];
+		[originalString setStringValue: [NSString stringWithCString: line->transFrom encoding:NSUTF8StringEncoding]];
 	} else {
 		[originalString setStringValue:@""];
 	}
@@ -302,13 +302,13 @@
 - (IBAction)changeDone:(id)sender
 {
 	if (! langName) {
-		if (strlen([[languageName stringValue] cStringUsingEncoding: NSISOLatin1StringEncoding])) {
-			langName = copyString ([[languageName stringValue] cStringUsingEncoding: NSISOLatin1StringEncoding]);
+		if (strlen([[languageName stringValue] cStringUsingEncoding: NSUTF8StringEncoding])) {
+			langName = copyString ([[languageName stringValue] cStringUsingEncoding: NSUTF8StringEncoding]);
 			[self updateChangeCount: NSChangeDone];
 		}
-	} else if (strcmp(langName, [[languageName stringValue] cStringUsingEncoding: NSISOLatin1StringEncoding])) {
+	} else if (strcmp(langName, [[languageName stringValue] cStringUsingEncoding: NSUTF8StringEncoding])) {
 		deleteString (langName);
-		langName = copyString ([[languageName stringValue] cStringUsingEncoding: NSISOLatin1StringEncoding]);
+		langName = copyString ([[languageName stringValue] cStringUsingEncoding: NSUTF8StringEncoding]);
 		[self updateChangeCount: NSChangeDone];
 	}
 	
