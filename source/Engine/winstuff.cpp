@@ -37,10 +37,29 @@ extern variableStack * noStack;
 
 // The platform-specific functions - Windows edition.
 
+WCHAR * ConvertToUTF16 (const char * input)
+{
+    int s = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, input, -1, NULL, 0);
+    WCHAR * ret = new WCHAR [s];
+    checkNew(ret);
+    /*int a = */MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, input, -1, ret, s);
+    return ret;
+}
+
+char * ConvertFromUTF16 (const WCHAR * input)
+{
+    int s = WideCharToMultiByte(CP_UTF8, 0, input, -1, NULL, 0, NULL, NULL);
+    char * ret = new char [s];
+    checkNew(ret);
+    /*int a = */WideCharToMultiByte(CP_UTF8, 0, input, -1, ret, s, NULL, NULL);
+    return ret;
+}
+
+
 char * grabFileName () {
 	OPENFILENAME ofn;
-	char path[MAX_PATH];
-	char file[MAX_PATH]="";
+	WCHAR path[MAX_PATH];
+	WCHAR file[MAX_PATH]=TEXT("");
 
 	hInst = GetModuleHandle(NULL);
 
@@ -51,11 +70,11 @@ char * grabFileName () {
 	ofn.nMaxFile = MAX_PATH;
 	ofn.lpstrInitialDir = path;
 	ofn.Flags = OFN_HIDEREADONLY | OFN_EXPLORER;
-	ofn.lpstrFilter = "SLUDGE games (*.SLG)\0*.slg\0\0";
+	ofn.lpstrFilter = TEXT("SLUDGE games (*.SLG)\0*.slg\0\0");
 	ofn.lpstrFile = file;
 
 	if (GetOpenFileName (& ofn)) {
-		return copyString (file);
+		return ConvertFromUTF16 (file);
 	} else {
 		return NULL;
 	}
@@ -81,9 +100,9 @@ BOOL CALLBACK setupDlgProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
         else
             CheckDlgButton (hDlg, 1000, BST_UNCHECKED);
 
-        SendDlgItemMessage(hDlg, 1002, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>((LPCTSTR)"Default (best looking)"));
-        SendDlgItemMessage(hDlg, 1002, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>((LPCTSTR)"Linear (faster but blurry)"));
-        SendDlgItemMessage(hDlg, 1002, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>((LPCTSTR)"Off (blocky graphics)"));
+        SendDlgItemMessage(hDlg, 1002, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>((LPCTSTR)TEXT("Default (best looking)")));
+        SendDlgItemMessage(hDlg, 1002, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>((LPCTSTR)TEXT("Linear (faster but blurry)")));
+        SendDlgItemMessage(hDlg, 1002, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>((LPCTSTR)TEXT("Off (blocky graphics)")));
 
         if (gameSettings.antiAlias < 0)
             SendDlgItemMessage(hDlg, 1002, CB_SETCURSEL, 1, 0);
@@ -93,18 +112,20 @@ BOOL CALLBACK setupDlgProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
             SendDlgItemMessage(hDlg, 1002, CB_SETCURSEL, 2, 0);
 
         if (gameSettings.numLanguages) {
-          char text[20];
+          WCHAR text[20];
           for (unsigned int i = 0; i<=gameSettings.numLanguages; i++) {
-                if (languageName[i])
-                    SendDlgItemMessage(hDlg, 1001, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>((LPCTSTR)languageName[i]));
-                else {
-                    sprintf(text, "Language %d", i);
+                if (languageName[i]) {
+                    WCHAR * w_lang = ConvertToUTF16(languageName[i]);
+                    SendDlgItemMessage(hDlg, 1001, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>((LPCTSTR)w_lang));
+                    delete w_lang;
+                } else {
+                    swprintf(text, TEXT("Language %d"), i);
                     SendDlgItemMessage(hDlg, 1001, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>((LPCTSTR)text));
                 }
           }
           SendDlgItemMessage(hDlg, 1001, CB_SETCURSEL, getLanguageForFileB(), 0);
        } else {
-            const char * text = "No translations available";
+            const WCHAR * text = TEXT("No translations available");
             SendDlgItemMessage(hDlg, 1001, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>((LPCTSTR)text));
             SendDlgItemMessage(hDlg, 1001, CB_SETCURSEL, 0, 0);
             EnableWindow(GetDlgItem(hDlg, 1001), false);
@@ -145,17 +166,26 @@ int showSetupWindow() {
 
     if (! hInst) debugOut("ERROR: No hInst!\n");
 
-    if (DialogBox (hInst, "SETUPWINDOW", NULL, setupDlgProc)) return true;
+    if (DialogBox (hInst, TEXT("SETUPWINDOW"), NULL, setupDlgProc)) return true;
     return false;
 
 }
 
 void msgBox (const char * head, const char * msg) {
-	MessageBox (NULL, msg, head, MB_OK | MB_ICONSTOP | MB_SYSTEMMODAL | MB_SETFOREGROUND);
+    WCHAR * w_head = ConvertToUTF16(head);
+    WCHAR * w_msg = ConvertToUTF16(msg);
+	MessageBox (NULL, w_msg, w_head, MB_OK | MB_ICONSTOP | MB_SYSTEMMODAL | MB_SETFOREGROUND);
+	delete w_head;
+	delete w_msg;
 }
 
 int msgBoxQuestion (const char * head, const char * msg) {
-	if (MessageBox (NULL, msg, head, MB_YESNO | MB_SETFOREGROUND | MB_APPLMODAL | MB_ICONQUESTION) == IDNO)
+    WCHAR * w_head = ConvertToUTF16(head);
+    WCHAR * w_msg = ConvertToUTF16(msg);
+    int val = MessageBox (NULL, w_msg, w_head, MB_YESNO | MB_SETFOREGROUND | MB_APPLMODAL | MB_ICONQUESTION) == IDNO;
+	delete w_head;
+	delete w_msg;
+	if (val)
 		return false;
 	return true;
 }
@@ -163,11 +193,14 @@ int msgBoxQuestion (const char * head, const char * msg) {
 void changeToUserDir () {
 	TCHAR szAppData[MAX_PATH];
 	/*hr = */SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, szAppData);
-	_chdir(szAppData);
+	_wchdir(szAppData);
 }
 
 uint32_t launch(char * f) {
-	return (uint32_t) ShellExecute (hMainWindow, "open", f, NULL, "C:\\", SW_SHOWNORMAL);
+    WCHAR * w_f = ConvertToUTF16(f);
+    uint32_t r = (uint32_t) ShellExecute (hMainWindow, TEXT("open"), w_f, NULL, TEXT("C:\\"), SW_SHOWNORMAL);
+    delete w_f;
+	return r;
 }
 
 bool defaultUserFullScreen() {
