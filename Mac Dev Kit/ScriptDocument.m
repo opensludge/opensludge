@@ -45,6 +45,7 @@ void addFunction (NSMutableDictionary *words, char *name) {
 
 	keyWords = [[NSMutableDictionary alloc] init];
 	addFunction(keyWords, "sub");
+	addFunction(keyWords, "return");
 	addFunction(keyWords, "var");
 	addFunction(keyWords, "unfreezable");
 	addFunction(keyWords, "for");

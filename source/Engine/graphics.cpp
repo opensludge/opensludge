@@ -36,7 +36,7 @@ extern int lightMapNumber;
 extern GLuint yTextureName;
 extern GLuint uTextureName;
 extern GLuint vTextureName;
-extern GLubyte * ytex, * utex, * vtex;
+//extern GLubyte * ytex, * utex, * vtex;
 
 shaders shader;
 
@@ -442,6 +442,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 			glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, winWidth, winHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, snapTexture);
 			delete snapTexture;
 		}
+		/*
 		if (ytex) {
 			if (!glIsTexture(yTextureName)) {
 				glGenTextures (1, &yTextureName);
@@ -452,7 +453,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 			delete [] utex;
 			delete [] vtex;
 			ytex = utex = vtex = NULL;
-		}
+		}*/
 
 		reloadSpriteTextures ();
 		reloadParallaxTextures ();
