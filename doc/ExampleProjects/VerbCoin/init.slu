@@ -2,11 +2,11 @@ sub init () {
 	if (getLanguageID()) {
 		# The Language is set to German.
 		# Lets use the ISO-8859-1 subset of the "Hasty Pudding" font to
-		# get some more characters. Thanks to Rudolf ¶lavka for the font!
-		setFont ('nicupfontsmall.duc', "*ABCDEFGHIJKLMNOPQRSTUVWXYZ¡ƒ…ÀÕ”‘÷⁄‹›abcdefghijklmnopqrstuvwxyz·‰ÈÎÌÛÙˆ˙¸˝0123456789\"'?!.,;:()*&-@$ ", 27);
+		# get some more characters. Thanks to Rudolf ¬¶lavka for the font!
+		setFont ('nicupfontsmall.duc', "*ABCDEFGHIJKLMNOPQRSTUVWXYZ√Å√Ñ√â√ã√ç√ì√î√ñ√ö√ú√ùabcdefghijklmnopqrstuvwxyz√°√§√©√´√≠√≥√¥√∂√∫√º√Ω0123456789\"'?!.,;:()*&-@$ ", 27);
 	} else {
 		# We're speaking English, so let's use the original demo font by Tim Furnish.
-		setFont ('demofont.duc', "…ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\"'/?!.,;:()*%& -~`@", 32);
+		setFont ('demofont.duc', "√âABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\"'/?!.,;:()*%& -~`@", 32);
 	}
 	setDefaultMusicVolume (150);
 	onKeyboard (keys);
