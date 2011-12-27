@@ -225,10 +225,7 @@ inline static int video_queue_get(videoQueue *q,
 
 static void die_codec(vpx_codec_ctx_t *ctx, const char *s) {
     //const char *detail = vpx_codec_error_detail(ctx);
-    printf("%s: %s\n", s, vpx_codec_error(ctx));
 	fatal (s, vpx_codec_error(ctx));
- //   if(detail)
-   //     printf("    %s\n",detail);
 }
 
 
@@ -288,46 +285,41 @@ ALuint feedAudio (void *userdata, ALubyte *data, ALuint length) {
 	ALuint got = 0;
 	int bufLen;
 
-//	while (length>0) {
-		if (! buffer) {
-			bufSize = audio_queue_get(&audioQ, &buffer);
-			bufOffset = 0;
-			if (bufSize <= 0) {
-				//movieSoundPlaying = false;
-				bufSize = 0;
-				buffer = NULL;
-				if (! got) {
-					got = audioChannels*2;
-					memset(data, 0, got);
-					fprintf (stderr, "Faking audio...\n");
-					fakeAudio = true;
-				}
-//				SDL_CondSignal(audioQ.cond);
-				return got;
-			}
-		}
-
-		fakeAudio = false;
-
-		if (length > bufSize-bufOffset)
-			bufLen = bufSize-bufOffset;
-		else
-			bufLen = length;
-
-		memcpy(data, buffer+bufOffset, bufLen);
-
-		bufOffset += bufLen;
-		length -= bufLen;
-		got += bufLen;
-
-		if (bufSize <= bufOffset) {
+	if (! buffer) {
+		bufSize = audio_queue_get(&audioQ, &buffer);
+		bufOffset = 0;
+		if (bufSize <= 0) {
+			bufSize = 0;
 			buffer = NULL;
-			delete [] buffer;
+			if (! got) {
+				got = audioChannels*2;
+				memset(data, 0, got);
+				fprintf (stderr, "Faking audio...\n");
+				fakeAudio = true;
+			}
+//				SDL_CondSignal(audioQ.cond);
+			return got;
 		}
-//	}
-//	SDL_CondSignal(audioQ.cond);
-//	fprintf (stderr, "Sending %d bytes of audio.\n", got);
+	}
 
+	fakeAudio = false;
+
+	if (length > bufSize-bufOffset)
+		bufLen = bufSize-bufOffset;
+	else
+		bufLen = length;
+
+	memcpy(data, buffer+bufOffset, bufLen);
+
+	bufOffset += bufLen;
+	length -= bufLen;
+	got += bufLen;
+
+	if (bufSize <= bufOffset) {
+		buffer = NULL;
+		delete [] buffer;
+	}
+//	fprintf (stderr, "Sending %d bytes of audio.\n", got);
 	
 	return got;
 }
@@ -371,15 +363,11 @@ int playMovie (int fileNumber)
     }
 
     //const SegmentInfo* const pSegmentInfo = pSegment->GetInfo();
-
     //const long long timeCodeScale = pSegmentInfo->GetTimeCodeScale();
     //const long long duration_ns = pSegmentInfo->GetDuration();
-
     //const char* const pTitle = pSegmentInfo->GetTitleAsUTF8();
     //const char* const pMuxingApp = pSegmentInfo->GetMuxingAppAsUTF8();
     //const char* const pWritingApp = pSegmentInfo->GetWritingAppAsUTF8();
-
-    //const double duration_sec = double(duration_ns) / 1000000000;
 
     const mkvparser::Tracks* pTracks = pSegment->GetTracks();
 
@@ -404,7 +392,6 @@ int playMovie (int fileNumber)
             continue;
 
         const long long trackType = pTrack->GetType();
-        //const long long trackNumber = pTrack->GetNumber();
         //const unsigned long long trackUid = pTrack->GetUid();
         //const char* pTrackName = pTrack->GetNameAsUTF8();
 
@@ -500,7 +487,6 @@ int playMovie (int fileNumber)
 			audioNsPerByte = (1000000000 / audioSampleRate) / (audioChannels * 2);
 			audioNsBuffered = 0;
 			audioBufferLen = audioChannels*audioSampleRate;
-			//fprintf (stderr, "audioNsPerByte: %lld\n", audioNsPerByte);
         }
     }
 
@@ -519,9 +505,9 @@ int playMovie (int fileNumber)
         fatal ("Movie error: Segment has no clusters.\n");
     }
 
-	/* Initialize video codec */                                                    //
-    if(vpx_codec_dec_init(&codec, interface, NULL, 0))                    //
-        die_codec(&codec, "Failed to initialize decoder for movie.");         //
+	/* Initialize video codec */
+    if(vpx_codec_dec_init(&codec, interface, NULL, 0))
+        die_codec(&codec, "Failed to initialize decoder for movie.");
 
     unsigned char *frame = new unsigned char[256*1024];
 	if (! checkNew (frame)) return false;
@@ -569,7 +555,7 @@ int playMovie (int fileNumber)
 		handleInput ();
 
 		if (movieIsPlaying && (! movieIsEnding) && (videoQ.size < 100 || audioQ.size < 100)) {
-			// Decode the movie!
+			// Decode a frame!
 
 			if  ((pCluster != NULL) && !pCluster->EOS())
 			{
@@ -606,7 +592,6 @@ int playMovie (int fileNumber)
 					if (! checkNew(frame)) return 0;
 				}
 /*
-
 				fprintf (stderr, "Block :%s,%s,%15lld\n",
 				 (trackType == VIDEO_TRACK) ? "V" : "A",
 				 pBlock->IsKey() ? "I" : "P",
@@ -618,7 +603,7 @@ int playMovie (int fileNumber)
 					theFrame.Read(&reader, frame);
 
 					/* Decode the frame */
-					if(vpx_codec_decode(&codec, frame, size, NULL, 0))                //
+					if(vpx_codec_decode(&codec, frame, size, NULL, 0))
 						die_codec(&codec, "Failed to decode frame");
 
 					// Let's decode an image frame!
@@ -763,17 +748,12 @@ int playMovie (int fileNumber)
 							}
 						}
 					}
-
-
 				}
 				++frameCounter;
-
 
 			} else {
 movieHasEnded:	movieIsEnding = 1;
 			}
-
-
 		}
 
 		bool videoUpdated = false;
@@ -932,8 +912,8 @@ movieHasEnded:	movieIsEnding = 1;
 	movieIsPlaying = nothing;
 	for (int i =0; i<10; i++) Wait_Frame();
 	huntKillFreeSound(fileNumber);
-    if(vpx_codec_destroy(&codec))                                             //
-        die_codec(&codec, "Failed to destroy codec");                         //
+    if(vpx_codec_destroy(&codec))
+        die_codec(&codec, "Failed to destroy codec");
 	vorbis_dsp_clear(&vorbisDspState);
 	vorbis_block_clear(&vorbisBlock);
 	vorbis_comment_clear(&vorbisComment);
@@ -942,8 +922,26 @@ movieHasEnded:	movieIsEnding = 1;
 	glDeleteTextures (1, &yTextureName);
 	glDeleteTextures (1, &uTextureName);
 	glDeleteTextures (1, &vTextureName);
+	yTextureName = uTextureName = vTextureName = 0;
 	
-	// Todo: delete any remaining buffers
+	// Delete any remaining buffers
+	videoBuffers *vB = videoQ.first;
+	while (vB = videoQ.first) {
+		videoQ.first = vB->next;
+		delete [] vB->ytex;
+		delete [] vB->utex;
+		delete [] vB->vtex;		
+		delete vB;
+	}
+	videoQ.size = 0;
+
+	audioBuffers *aB = audioQ.first;
+	while (aB = audioQ.first) {
+		audioQ.first = aB->next;
+		delete [] aB->buffer;
+		delete aB;
+	}
+	audioQ.size = 0;
 	
 	Init_Timer();
 	glViewport (viewportOffsetX, viewportOffsetY, viewportWidth, viewportHeight);
