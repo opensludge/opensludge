@@ -45,13 +45,8 @@ void playMovieStream (int a);
 int initMovieSound(int f, ALenum format, int audioChannels, ALuint samplerate,
 				   ALuint (*callback)(void *userdata, ALubyte *data, ALuint bytes));
 
-/*
- movieIsPlaying tracks the state of movie playing
- 0 = no movie
- 1 = movie is played
- 2 = paused
-*/
-int movieIsPlaying = 0;
+
+movieStates movieIsPlaying = nothing;
 
 int movieIsEnding = 0;
 
@@ -61,7 +56,7 @@ typedef struct audioBuffers {
 	char * buffer;
 	unsigned int size;
 	audioBuffers *next;
-	long long time_ns;
+	Uint32 time_ms;
 } audioBuffers;
 
 typedef struct audioQueue {
@@ -72,6 +67,8 @@ typedef struct audioQueue {
 } audioQueue;
 
 audioQueue audioQ;
+
+Uint32 movieStartTick, movieCurrentTime;
 
 long long audioNsPerByte;
 long long audioNsPlayed;
@@ -89,7 +86,7 @@ typedef struct videoBuffers {
 	GLubyte * vtex;
 	videoBuffers *next;
 	GLsizei w, h;
-	long long time_ns;
+	Uint32 time_ms;
 } videoBuffers;
 
 typedef struct videoQueue {
@@ -107,7 +104,7 @@ void audio_queue_init(audioQueue *q) {
 	q->mutex = SDL_CreateMutex();
 	q->cond = SDL_CreateCond();
 }
-int audio_queue_put(audioQueue *q, char *buffer, unsigned int size, long long time_ns) {
+int audio_queue_put(audioQueue *q, char *buffer, unsigned int size, long long time_ms) {
 
 	audioBuffers *audioBuf = new audioBuffers;
 	if (!audioBuf)
@@ -115,7 +112,7 @@ int audio_queue_put(audioQueue *q, char *buffer, unsigned int size, long long ti
 	audioBuf->buffer = buffer;
 	audioBuf->next = NULL;
 	audioBuf->size = size;
-	audioBuf->time_ns = time_ns;
+	audioBuf->time_ms = time_ms;
 
 	SDL_LockMutex(q->mutex);
 
@@ -130,36 +127,30 @@ int audio_queue_put(audioQueue *q, char *buffer, unsigned int size, long long ti
 	SDL_UnlockMutex(q->mutex);
 	return 0;
 }
-inline static int audio_queue_get(audioQueue *q, char **buffer, int block)
+inline static int audio_queue_get(audioQueue *q, char **buffer)
 {
 	audioBuffers *audioBuf;
 	int ret = 0;
 
 	SDL_LockMutex(q->mutex);
 
-//	for(;;) {
-/*
-		if(quit) {
-			ret = -1;
-			break;
+	audioBuf = q->first;
+	if (audioBuf) {
+		// Synch video timer to audio
+		Uint32 tick = SDL_GetTicks()+100;
+		if (abs((tick - movieStartTick)-(audioBuf->time_ms)) > 300) {
+			movieStartTick = tick - audioBuf->time_ms;
 		}
-*/
-		audioBuf = q->first;
-		if (audioBuf) {
-			q->first = audioBuf->next;
-			if (!q->first)
-				q->last = NULL;
-			q->size--;
-			*buffer = audioBuf->buffer;
-			ret = audioBuf->size;
-			//break;
-		} /*else if (!block) {
-			ret = 0;
-			break;
-		} else {
-			SDL_CondWait(q->cond, q->mutex);
-		}
-	}*/
+				
+		q->first = audioBuf->next;
+		if (!q->first)
+			q->last = NULL;
+		q->size--;
+		*buffer = audioBuf->buffer;
+		ret = audioBuf->size;
+		delete audioBuf;
+	} 
+	
 	SDL_UnlockMutex(q->mutex);
 
 	return ret;
@@ -174,7 +165,7 @@ int video_queue_put(videoQueue *q, GLubyte * ytex,
 					GLubyte * utex, 
 					GLubyte * vtex,
 					GLsizei w, GLsizei h, 
-					long long time_ns) {
+					long long time_ms) {
 	
 	videoBuffers *videoBuf = new videoBuffers;
 	if (!videoBuf)
@@ -185,7 +176,7 @@ int video_queue_put(videoQueue *q, GLubyte * ytex,
 	videoBuf->next = NULL;
 	videoBuf->w = w;
 	videoBuf->h = h;
-	videoBuf->time_ns = time_ns;
+	videoBuf->time_ms = time_ms;
 	
 	SDL_LockMutex(q->mutex);
 	
@@ -204,20 +195,13 @@ inline static int video_queue_get(videoQueue *q,
 								  GLubyte ** ytex, 
 								  GLubyte ** utex, 
 								  GLubyte ** vtex,
-								  GLsizei *w, GLsizei *h, int block)
+								  GLsizei *w, GLsizei *h)
 {
 	videoBuffers *videoBuf;
 	int ret = 0;
 	
 	SDL_LockMutex(q->mutex);
 	
-	//	for(;;) {
-	/*
-	 if(quit) {
-	 ret = -1;
-	 break;
-	 }
-	 */
 	videoBuf = q->first;
 	if (videoBuf) {
 		q->first = videoBuf->next;
@@ -230,14 +214,9 @@ inline static int video_queue_get(videoQueue *q,
 		*w = videoBuf->w;
 		*h = videoBuf->h;
 		ret = 1;
-		//break;
-	} /*else if (!block) {
-	   ret = 0;
-	   break;
-	   } else {
-	   SDL_CondWait(q->cond, q->mutex);
-	   }
-	   }*/
+		delete videoBuf;
+	} 
+	
 	SDL_UnlockMutex(q->mutex);
 	
 	return ret;
@@ -311,7 +290,7 @@ ALuint feedAudio (void *userdata, ALubyte *data, ALuint length) {
 
 //	while (length>0) {
 		if (! buffer) {
-			bufSize = audio_queue_get(&audioQ, &buffer, 0);
+			bufSize = audio_queue_get(&audioQ, &buffer);
 			bufOffset = 0;
 			if (bufSize <= 0) {
 				//movieSoundPlaying = false;
@@ -347,6 +326,9 @@ ALuint feedAudio (void *userdata, ALubyte *data, ALuint length) {
 		}
 //	}
 //	SDL_CondSignal(audioQ.cond);
+//	fprintf (stderr, "Sending %d bytes of audio.\n", got);
+
+	
 	return got;
 }
 
@@ -548,7 +530,7 @@ int playMovie (int fileNumber)
 
 	setMovieViewport();
 
-	movieIsPlaying = 1;
+	movieIsPlaying = playing;
 	movieIsEnding = 0;
 
 	glDepthMask (GL_FALSE);
@@ -577,6 +559,8 @@ int playMovie (int fileNumber)
 
 	int frameCounter = 0;
 
+	movieStartTick = SDL_GetTicks();
+	
 	while ( movieIsPlaying ) {
 
 		checkInput();
@@ -584,8 +568,8 @@ int playMovie (int fileNumber)
 			break;
 		handleInput ();
 
-		if (movieIsPlaying && (! movieIsEnding)) {
-			// Play the movie!
+		if (movieIsPlaying && (! movieIsEnding) && (videoQ.size < 100 || audioQ.size < 100)) {
+			// Decode the movie!
 
 			if  ((pCluster != NULL) && !pCluster->EOS())
 			{
@@ -641,7 +625,6 @@ int playMovie (int fileNumber)
 					vpx_codec_iter_t  iter = NULL;
 					vpx_image_t      *img;
 					/* Get frame data */
-					fprintf (stderr, "Let's get frame data.\n");
 					while((img = vpx_codec_get_frame(&codec, &iter))) {
 						if (img->fmt != VPX_IMG_FMT_I420)
 							fatal("Movie error. The movie is not in I420 colour format, which is the only one I can hanlde at the moment.");
@@ -678,7 +661,7 @@ int playMovie (int fileNumber)
 						}
 						
 						video_queue_put(&videoQ, ytex, utex, vtex,
-										img->d_w, img->d_h, time_ns);
+										img->d_w, img->d_h, time_ns/1000000);
 						
 
 					}
@@ -769,10 +752,9 @@ int playMovie (int fileNumber)
 
 							vorbis_synthesis_read(&vorbisDspState,numSamples);
 							audioBufferLen = bytespersample*numSamples;
-							audio_queue_put(&audioQ, buffer, audioBufferLen, time_ns+ audioNsPerByte*audioBufferLen);
+							audio_queue_put(&audioQ, buffer, audioBufferLen, time_ns/1000000);
 
-							//audioNsBuffered = time_ns + audioNsPerByte*audioBufferLen;
-						//	fprintf (stderr, "Audio buffered: %lld\n", audioBufferLen);
+							//fprintf (stderr, "Audio buffered: %lld byte %lld ns\n",audioBufferLen, audioNsPerByte*audioBufferLen);
 
 							if (! movieSoundPlaying && size > 1) {
 								fprintf (stderr, "** starting sound ** \n");
@@ -795,83 +777,72 @@ movieHasEnded:	movieIsEnding = 1;
 		}
 
 		bool videoUpdated = false;
-		if (movieIsPlaying == 1) {
+		// Get a video frame.
+		if (movieIsPlaying == playing) {
 			
-			// Get a video frame if it's time for it.
-			audioBuffers *aB;
 			videoBuffers *vB;
+			// Do we have decoded video waiting?
 			if (vB = videoQ.first) {
+				Uint32 tick = SDL_GetTicks() - movieStartTick;
 				
-				fprintf (stderr, "There is video waiting...\n");
-				if (movieSoundPlaying) {
-					aB = audioQ.first;
-					if (! aB || aB->time_ns > vB->time_ns) {
-				
-						GLubyte * ytex=NULL;
-						GLubyte * utex=NULL;
-						GLubyte * vtex=NULL;
-						GLsizei w, h;
+				// Is it time to display the frame yet?
+				if ((tick+1) < vB->time_ms) {
+					SDL_Delay(1);
+				} else {
+					GLubyte * ytex=NULL;
+					GLubyte * utex=NULL;
+					GLubyte * vtex=NULL;
+					GLsizei w, h;
 						
-						fprintf (stderr, "Get it...\n");
-						if (video_queue_get(&videoQ, &ytex, &utex, &vtex, &w, &h, false)) {
-							fprintf (stderr, "Got it...\n");
-
-							glEnable (GL_TEXTURE_2D);
-							if (! yTextureName) glGenTextures (1, &yTextureName);
-							if (! uTextureName) glGenTextures (1, &uTextureName);
-							if (! vTextureName) glGenTextures (1, &vTextureName);
-							glBindTexture (GL_TEXTURE_2D, yTextureName);
-							glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, w, h, 0,
+					if (video_queue_get(&videoQ, &ytex, &utex, &vtex, &w, &h)) {
+						
+						glEnable (GL_TEXTURE_2D);
+						if (! yTextureName) glGenTextures (1, &yTextureName);
+						if (! uTextureName) glGenTextures (1, &uTextureName);
+						if (! vTextureName) glGenTextures (1, &vTextureName);
+						glBindTexture (GL_TEXTURE_2D, yTextureName);
+						glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, w, h, 0,
 										 GL_ALPHA, GL_UNSIGNED_BYTE, ytex);
-							glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-							glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-							glBindTexture (GL_TEXTURE_2D, uTextureName);
-							glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, w>>1, h>>1, 0,
+						glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+						glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+						glBindTexture (GL_TEXTURE_2D, uTextureName);
+						glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, w>>1, h>>1, 0,
 										 GL_ALPHA, GL_UNSIGNED_BYTE, utex);
-							glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-							glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-							glBindTexture (GL_TEXTURE_2D, vTextureName);
-							glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, w>>1, h>>1, 0,
+						glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+						glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+						glBindTexture (GL_TEXTURE_2D, vTextureName);
+						glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, w>>1, h>>1, 0,
 										 GL_ALPHA, GL_UNSIGNED_BYTE, vtex);
-							glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-							glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+						glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+						glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-							
-							
-							glBindTexture (GL_TEXTURE_2D, yTextureName);
-							glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, w, h,
-											GL_ALPHA, GL_UNSIGNED_BYTE, ytex);
-							glBindTexture (GL_TEXTURE_2D, uTextureName);
-							glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, w>>1, h>>1,
+						
+						glBindTexture (GL_TEXTURE_2D, yTextureName);
+						glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, w, h,
+										GL_ALPHA, GL_UNSIGNED_BYTE, ytex);
+						glBindTexture (GL_TEXTURE_2D, uTextureName);
+						glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, w>>1, h>>1,
 											GL_ALPHA, GL_UNSIGNED_BYTE, utex);
-							glBindTexture (GL_TEXTURE_2D, vTextureName);
-							glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, w>>1, h>>1,
+						glBindTexture (GL_TEXTURE_2D, vTextureName);
+						glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, w>>1, h>>1,
 											GL_ALPHA, GL_UNSIGNED_BYTE, vtex);
+														
+						delete [] ytex;
+						delete [] utex;
+						delete [] vtex;
+						ytex = utex = vtex = NULL;
+						videoUpdated = true;
 							
-							fprintf (stderr, "Textures created.\n");
-							
-							delete [] ytex;
-							delete [] utex;
-							delete [] vtex;
-							ytex = utex = vtex = NULL;
-							videoUpdated = true;
-							
-						}
-		//			} else {
-		//				while (movieIsPlaying == 1 && ! fakeAudio && movieSoundPlaying && getSoundSource(movieAudioIndex)) {
-		//				}
 					}
 				}
 			} else if (movieIsEnding) {
-				// We have reached the end.
-				movieIsPlaying = 0;
+				// We have reached the end of the movie.
+				movieIsPlaying = nothing;
 			}
 		}
-		fprintf (stderr, "About to update screen.\n");
 			
-		
-		// Don't update the screen on audio frames
-		if (videoUpdated || trackNum == videoTrack || movieIsPlaying == 2) {
+		// Update the screen if there's new video, or if we're paused
+		if (videoUpdated || movieIsPlaying == paused) {
 
 			// Clear The Screen
 			glClear(GL_COLOR_BUFFER_BIT);
@@ -910,7 +881,7 @@ movieHasEnded:	movieIsEnding = 1;
 
 			glUseProgram(0);
 
-			if (movieIsPlaying == 2) {
+			if (movieIsPlaying == paused) {
 				pausefade -= 1.0 / 24;
 				if (pausefade<-1.0) pausefade = 1.0;
 
@@ -954,9 +925,11 @@ movieHasEnded:	movieIsEnding = 1;
 			SDL_GL_SwapBuffers();
 
 		}
+		videoUpdated = false;
 	}
 
 	// Cleanup
+	movieIsPlaying = nothing;
 	for (int i =0; i<10; i++) Wait_Frame();
 	huntKillFreeSound(fileNumber);
     if(vpx_codec_destroy(&codec))                                             //
@@ -969,7 +942,9 @@ movieHasEnded:	movieIsEnding = 1;
 	glDeleteTextures (1, &yTextureName);
 	glDeleteTextures (1, &uTextureName);
 	glDeleteTextures (1, &vTextureName);
-	movieIsPlaying = 0;
+	
+	// Todo: delete any remaining buffers
+	
 	Init_Timer();
 	glViewport (viewportOffsetX, viewportOffsetY, viewportWidth, viewportHeight);
 	setPixelCoords (false);
@@ -979,13 +954,13 @@ movieHasEnded:	movieIsEnding = 1;
 int stopMovie ()
 {
 	int r = movieIsPlaying;
-	movieIsPlaying = 0;
+	movieIsPlaying = nothing;
 	return r;
 }
 
 int pauseMovie()
 {
-	if (movieIsPlaying == 1) {
+	if (movieIsPlaying == playing) {
 		ALuint source = getSoundSource(movieAudioIndex);
 		if (source) {
 #if defined __unix__
@@ -994,9 +969,9 @@ int pauseMovie()
 			alurePauseSource(source, false);
 #endif
 		}
-		movieIsPlaying = 2;
+		movieIsPlaying = paused;
 		fprintf (stderr, "** Pausing **\n");
-	} else if (movieIsPlaying == 2) {
+	} else if (movieIsPlaying == paused) {
 		ALuint source = getSoundSource(movieAudioIndex);
 		if (source) {
 #if defined __unix__
@@ -1006,7 +981,7 @@ int pauseMovie()
 #endif
 		}
 		fprintf (stderr, "** Restarted movie ** sound: %d source: %d\n", movieSoundPlaying, source);
-		movieIsPlaying = 1;
+		movieIsPlaying = playing;
 	}
 	return movieIsPlaying;
 }

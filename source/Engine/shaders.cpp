@@ -29,9 +29,6 @@ char *shaderFileRead(const char *name)
 {
 	FILE *fp;
 	char *content = NULL;
-
-	//fprintf(stderr, "bundleFolder is %s\n", bundleFolder);
-
 	char * fn = joinStrings (bundleFolder, name);
 
 	int count=0;

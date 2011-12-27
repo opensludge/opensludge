@@ -116,7 +116,7 @@ char * convertString(char * s) {
 			default:
 				fprintf (stderr, "Error: %s.\n", strerror (errno));
 		}
-		fatal("Conversion to Unicode failed. Fix this by recompiling the game in a current version of the SLUDGE Development Kit.");
+		fatal("Conversion to Unicode failed. This can be fixed by recompiling the game in a current version of the SLUDGE Development Kit, but this error should never happen. Congratulations, you've found a bug in the SLUDGE engine! Please let us know about it.");
     }
 	iconv_close (convert);
 	

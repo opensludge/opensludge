@@ -760,7 +760,7 @@ int initMovieSound(int f, ALenum format, int audioChannels, ALuint samplerate,
 		soundCache[a].fileLoaded = -1;
 		retval = -1;
 	}
-	fprintf (stderr, "Stream %d created. Sample rate: %d Channels: %d\n", retval, samplerate, audioChannels);
+	//fprintf (stderr, "Stream %d created. Sample rate: %d Channels: %d\n", retval, samplerate, audioChannels);
 	
 	return retval;
 }

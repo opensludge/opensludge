@@ -7,7 +7,16 @@
  *
  */
 
-extern int movieIsPlaying;
+
+/*
+ movieIsPlaying tracks the state of movie playing
+ */
+enum movieStates {
+	nothing = 0,
+	playing,
+	paused
+};
+extern movieStates movieIsPlaying;
 
 int playMovie (int fileNumber);
 int stopMovie ();

@@ -740,7 +740,6 @@ bool continueFunction (loadedFunction * fun) {
 				case SVT_BUILT:
 					{
 					builtReturn br = callBuiltIn (fun -> reg.varData.intValue, param, fun);
-				    //fprintf (stderr, "Function returned. \n");    fflush (stderr);
 
 					switch (br) {
 						case BR_ERROR:

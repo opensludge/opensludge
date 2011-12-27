@@ -10,6 +10,7 @@
 #include "zbuffer.h"
 #include "backdrop.h"
 #include "shaders.h"
+#include "movie.h"
 
 #include "language.h" // for settings
 
@@ -24,7 +25,6 @@ bool NPOT_textures = true;
 extern int specialSettings;
 
 void setMovieViewport();
-extern int movieIsPlaying;
 
 extern GLuint backdropTextureName;
 extern GLuint snapshotTextureName;
