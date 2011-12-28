@@ -4,6 +4,30 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeIconFile</key>
+			<string>scriptIcon.icns</string>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.utf8-plain-text </string>
+				<string>public.script</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>SLUDGE Script</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.hungrysoftware.sludge-script</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>slu</string>
+					<string>sld</string>
+				</array>
+			</dict>
+		</dict>
+	</array>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
@@ -25,6 +49,10 @@
 			<string>Binary</string>
 		</dict>
 		<dict>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.hungrysoftware.sludge-script</string>
+			</array>
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>slu</string>
