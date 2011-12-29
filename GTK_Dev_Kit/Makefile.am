@@ -12,6 +12,7 @@ sludge_floormaker_SOURCES = \
 	../source/DevKit/Common/moreio.cpp ../source/DevKit/Common/moreio.h \
 	../source/DevKit/Common/helpers.cpp ../source/DevKit/Common/helpers.h \
 	../source/CommonCode/tga.cpp ../source/CommonCode/tga.h \
+	../source/CommonCode/utf8.cpp ../source/CommonCode/utf8.h \
 	../source/CommonCode/version.h
 
 sludge_zbuffermaker_SOURCES = \
@@ -24,6 +25,7 @@ sludge_zbuffermaker_SOURCES = \
 	../source/DevKit/Common/moreio.cpp ../source/DevKit/Common/moreio.h \
 	../source/DevKit/Common/helpers.cpp ../source/DevKit/Common/helpers.h \
 	../source/CommonCode/tga.cpp ../source/CommonCode/tga.h \
+	../source/CommonCode/utf8.cpp ../source/CommonCode/utf8.h \
 	../source/CommonCode/version.h
 
 sludge_spritebankeditor_SOURCES = \
@@ -35,6 +37,7 @@ sludge_spritebankeditor_SOURCES = \
 	../source/DevKit/Common/moreio.cpp ../source/DevKit/Common/moreio.h \
 	../source/DevKit/Common/helpers.cpp ../source/DevKit/Common/helpers.h \
 	../source/CommonCode/tga.cpp ../source/CommonCode/tga.h \
+	../source/CommonCode/utf8.cpp ../source/CommonCode/utf8.h \
 	../source/CommonCode/version.h
 
 sludge_translationeditor_SOURCES = \
@@ -47,6 +50,7 @@ sludge_translationeditor_SOURCES = \
 	../source/DevKit/Common/moreio.cpp ../source/DevKit/Common/moreio.h \
 	../source/DevKit/Common/helpers.cpp ../source/DevKit/Common/helpers.h \
 	../source/DevKit/Common/stringarray.cpp ../source/DevKit/Common/stringarray.h \
+	../source/CommonCode/utf8.cpp ../source/CommonCode/utf8.h \
 	../source/CommonCode/version.h
 
 sludge_projectmanager_SOURCES = \
@@ -78,6 +82,7 @@ sludge_projectmanager_SOURCES = \
 	../source/DevKit/Common/helpers.cpp ../source/DevKit/Common/helpers.h \
 	../source/DevKit/Common/stringarray.cpp ../source/DevKit/Common/stringarray.h \
 	../source/CommonCode/tga.cpp ../source/CommonCode/tga.h \
+	../source/CommonCode/utf8.cpp ../source/CommonCode/utf8.h \
 	../source/CommonCode/functionlist.h \
 	../source/CommonCode/version.h
 
@@ -107,6 +112,7 @@ sludge_compiler_SOURCES = \
 	../source/DevKit/Common/helpers.cpp ../source/DevKit/Common/helpers.h \
 	../source/DevKit/Common/stringarray.cpp ../source/DevKit/Common/stringarray.h \
 	../source/CommonCode/tga.cpp ../source/CommonCode/tga.h \
+	../source/CommonCode/utf8.cpp ../source/CommonCode/utf8.h \
 	../source/CommonCode/functionlist.h \
 	../source/CommonCode/version.h
 
