@@ -67,7 +67,7 @@ SludgeTranslationEditor::SludgeTranslationEditor()
 	theOriginalTextBuffer = GTK_TEXT_BUFFER (gtk_builder_get_object(theXml, "original_textbuffer"));
 	theTranslationTextBuffer = GTK_TEXT_BUFFER (gtk_builder_get_object(theXml, "translation_textbuffer"));
 
-    init(TRUE);
+	init(TRUE);
 }
 
 // Concrete methods for SludgeApplication:
@@ -76,6 +76,8 @@ gboolean SludgeTranslationEditor::init(gboolean calledFromConstructor)
 {
 	currentFilename[0] = 0;
 	sprintf(currentShortname, "%s", getUntitledFilename());
+
+	badLangName = FALSE;
 
     return FALSE;
 }
@@ -108,14 +110,14 @@ gboolean SludgeTranslationEditor::saveFile(char *filename)
 gboolean SludgeTranslationEditor::loadFile(char *filename)
 {
 	unsigned int langID;
-	char *utf8LangName;
 	if (loadTranslationFile(filename, &firstTransLine, &langName, &langID)) {
 		gtk_adjustment_set_value(theIdAdjustment, (double)langID);
 		if (langName) {
-			if (!g_utf8_validate(langName, -1, NULL)) {
-				errorBox("Invalid characters!", "The language name field of this translation file is badly encoded. Starting with SLUDGE 2.2 all SLUDGE scripts have to be UTF-8 encoded. Please convert your files.");	
-			} else {		
-				gtk_entry_set_text(theLanguageEntry, utf8LangName);
+			if (g_utf8_validate(langName, -1, NULL)) {
+				badLangName = FALSE;
+				gtk_entry_set_text(theLanguageEntry, langName);
+			} else {
+				badLangName = TRUE;
 			}
 			deleteString(langName);
 			langName = NULL;
@@ -138,7 +140,6 @@ void SludgeTranslationEditor::postNew()
 	gtk_adjustment_set_value(theIdAdjustment, 0.);
 	gtk_entry_set_text(theLanguageEntry, "");
 	listChanged();
-	on_load_strings_clicked();
 }
 
 
@@ -163,19 +164,6 @@ void SludgeTranslationEditor::listChanged()
 				gtk_list_store_set(listStore, &iter, 2*k, stringPtr, -1);
 			} else {
 				badChars = TRUE;
-				listitem = g_convert(stringPtr, -1, "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
-				if (listitem) {
-					gtk_list_store_set(listStore, &iter, 2*k, listitem, -1);
-					g_free(listitem);
-				} else {
-					listitem = new char[1000];
-					listitem = strcpy(listitem, stringPtr);
-					int retval = 1;
-					replaceInvalidCharacters(listitem, &retval);
-					gtk_list_store_set(listStore, &iter, 2*k, listitem, -1);
-					delete listitem;
-				}
-				listitem = NULL;
 			}
 		}
 		gtk_list_store_set(listStore, &iter, COLUMN_TRANSLATE, line?line->type != TYPE_NONE:FALSE, -1);
@@ -186,8 +174,10 @@ void SludgeTranslationEditor::listChanged()
 		line = line->next;
 	}
 
-	if (badChars)
-			errorBox("Invalid characters!", "The translation file or SLUDGE scripts in the project contain characters that are encoded in something else than UTF-8. Starting with SLUDGE 2.2 all SLUDGE scripts have to be UTF-8 encoded. Please convert your files.");
+	if (badChars || badLangName) {
+		on_new();
+		errorBox("Invalid characters!", "The translation file or SLUDGE scripts in the project contain characters that are encoded in something else than UTF-8. Starting with SLUDGE 2.2 all SLUDGE scripts have to be UTF-8 encoded. Please convert your files.");
+	}
 }
 
 // Callbacks:

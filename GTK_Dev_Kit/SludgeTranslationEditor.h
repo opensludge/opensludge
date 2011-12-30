@@ -35,6 +35,8 @@ private:
 	struct transLine * firstTransLine;
 	char * langName;
 
+	gboolean badLangName;
+
 	GtkComboBox *comboBox;
 	GtkListStore *listStore;
 	GtkTreeModel *filterModel, *sortModel;
