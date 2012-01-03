@@ -280,6 +280,7 @@ int compareVars (const variable & var1, const variable & var2) {
 			break;
 
 			case SVT_STRING:
+
 			re = (strcmp (var1.varData.theString, var2.varData.theString) == 0);
 			break;
 
@@ -294,7 +295,7 @@ int compareVars (const variable & var1, const variable & var2) {
 	return re;
 }
 
-void compareVariablesInSecond (const variable & var1, variable & var2) {
+void compareVariablesInSecond (const variable & var1, variable & var2) {	
 	setVariable (var2, SVT_INT, compareVars (var1, var2));
 }
 

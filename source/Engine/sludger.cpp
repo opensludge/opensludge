@@ -1277,7 +1277,8 @@ bool handleInput () {
 	if (input.keyPressed && currentEvents -> spaceFunction) {
 		char * tempString = NULL;
 		switch (input.keyPressed) {
-			case 127:	tempString = copyString ("BACKSPACE");	break;
+			case 127:	
+				tempString = copyString ("BACKSPACE");	break;
 			case 9:		tempString = copyString ("TAB");		break;
 			case 13:	tempString = copyString ("ENTER");		break;
 			case 27:	tempString = copyString ("ESCAPE");		break;

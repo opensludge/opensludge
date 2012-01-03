@@ -32,6 +32,9 @@ bool isInFont (char * theText) {
 	if (! fontTableSize) return 0;
 	if (! theText[0]) return 0;
 	
+	// We don't want to compare strings. Only single characters allowed!
+	if (u8_strlen (theText) > 1) return false;
+	
 	int i=0;
 	uint32_t c = u8_nextchar(theText, &i);
 	
