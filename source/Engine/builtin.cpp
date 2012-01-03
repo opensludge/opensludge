@@ -35,6 +35,7 @@
 #include "language.h"
 #include "thumbnail.h"
 #include "graphics.h"
+#include "utf8.h"
 
 extern char * gamePath;
 
@@ -513,7 +514,7 @@ builtIn(substring)
 	UNUSEDALL
 	char * wholeString;
 	char * newString;
-	int start, length, a;
+	int start, length;
 
 	//debugOut ("BUILTIN: substring\n");
 
@@ -523,23 +524,30 @@ builtIn(substring)
 	trimStack (fun -> stack);
 	wholeString = getTextFromAnyVar (fun -> stack -> thisVar);
 	trimStack (fun -> stack);
-	//debugOut ("String is %s (%i)\n", wholeString, length);
+	
+	if (u8_strlen(wholeString) < start+length) {
+		length = u8_strlen(wholeString) - start;
+		if (u8_strlen(wholeString) < start) {
+			start = 0;
+		}
+	}
 	if (length<0) {
 		length=0;
 	}
+	
+	int startoffset = u8_offset (wholeString, start);
+	int endoffset = u8_offset (wholeString, start+length);
 
-	newString = new char[length + 1];
+	newString = new char[endoffset - startoffset + 1];
 	if (! checkNew (newString)) {
-		//debugOut ("BUILTIN: substring exiting early.\n");
 		return BR_ERROR;
 	}
-
-	for (a = 0; a < length; a ++) newString[a] = wholeString[start ++];
-
-	newString[length] = 0;
+	
+	memcpy (newString, wholeString + startoffset, endoffset - startoffset);
+	newString[endoffset - startoffset] = 0;
+	
 	makeTextVar (fun -> reg, newString);
 	delete newString;
-	//debugOut ("BUILTIN: substring exiting normally.\n");
 	return BR_CONTINUE;
 }
 
