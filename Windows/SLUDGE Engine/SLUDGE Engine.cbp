@@ -35,6 +35,8 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-Wno-sign-compare" />
+			<Add option="-DUNICODE" />
+			<Add option="-D_UNICODE" />
 			<Add directory="..\..\..\SDL\include" />
 			<Add directory="..\..\..\GnuWin32\include" />
 			<Add directory="..\..\..\Bass\c" />
@@ -81,6 +83,7 @@
 		<Unit filename="..\..\source\CommonCode\TGA.h" />
 		<Unit filename="..\..\source\CommonCode\functionList.h" />
 		<Unit filename="..\..\source\CommonCode\specialSettings.h" />
+		<Unit filename="..\..\source\CommonCode\utf8.cpp" />
 		<Unit filename="..\..\source\CommonCode\version.h" />
 		<Unit filename="..\..\source\Engine\ALLFILES.H" />
 		<Unit filename="..\..\source\Engine\BACKDROP.CPP" />
