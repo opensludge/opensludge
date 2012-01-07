@@ -1077,7 +1077,7 @@ builtIn (playMovie)
 {
 	UNUSEDALL
 	int fileNumber, r;
-	
+		
 	if (movieIsPlaying) return BR_PAUSE;
 	
 	if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
@@ -1087,7 +1087,7 @@ builtIn (playMovie)
 	
 	setVariable (fun -> reg, SVT_INT, r);
 	
-	if (! fun->next) {
+	if (r && (! fun->next)) {
 		restartFunction (fun);
 		return BR_ALREADY_GONE;
 	}

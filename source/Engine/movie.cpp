@@ -10,6 +10,7 @@
 #include <SDL/SDL.h>
 #include <math.h>
 
+#include "specialsettings.h"
 
 #include "libwebm/mkvreader.hpp"
 #include "libwebm/mkvparser.hpp"
@@ -32,6 +33,9 @@
 #include "libvorbis/vorbis_os.h"
 
 #include "AL/alure.h"
+
+
+extern int specialSettings;
 
 // in main.c
 int checkInput();
@@ -326,6 +330,9 @@ ALuint feedAudio (void *userdata, ALubyte *data, ALuint length) {
 
 int playMovie (int fileNumber)
 {
+	if (specialSettings & SPECIAL_SILENT)
+		return 0;
+
 	if (movieIsPlaying) return 0;
 
 	movieSoundPlaying = false;
@@ -957,7 +964,7 @@ int stopMovie ()
 }
 
 int pauseMovie()
-{
+{	
 	if (movieIsPlaying == playing) {
 		ALuint source = getSoundSource(movieAudioIndex);
 		if (source) {
