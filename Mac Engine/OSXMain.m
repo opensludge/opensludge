@@ -321,13 +321,13 @@ char * grabFileName () {
 void msgBox (const char * head, const char * msg) {
 // stringWithUTF8String?
 	usingCocoa = true;
-	NSRunAlertPanel ([NSString stringWithCString: head encoding: NSUTF8StringEncoding], [NSString stringWithCString: msg encoding: NSUTF8StringEncoding], NULL, NULL, NULL);
+	NSRunAlertPanel ([NSString stringWithUTF8String: head], [NSString stringWithUTF8String: msg], NULL, NULL, NULL);
 	usingCocoa = false;
 }
 
 int msgBoxQuestion (const char * head, const char * msg) {
 	usingCocoa = true;
-	if (NSRunAlertPanel ([NSString stringWithCString: head encoding: NSUTF8StringEncoding], [NSString stringWithCString: msg encoding: NSUTF8StringEncoding], @"No", @"Yes", NULL) == NSAlertDefaultReturn) {
+	if (NSRunAlertPanel ([NSString stringWithUTF8String: head], [NSString stringWithUTF8String: msg], @"No", @"Yes", NULL) == NSAlertDefaultReturn) {
 		usingCocoa = false;
 		return false;
 	}

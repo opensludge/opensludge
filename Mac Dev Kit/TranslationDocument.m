@@ -63,7 +63,7 @@
     [super windowControllerDidLoadNib:aController];
     // Add any code here that needs to be executed once the windowController has loaded the document's window.
 	
-	if (langName) [languageName setStringValue: [NSString stringWithCString: langName encoding:NSUTF8StringEncoding]];
+	if (langName) [languageName setStringValue: [NSString stringWithUTF8String: langName]];
 	if (langID) [languageID setIntValue:langID];
 }
 
@@ -154,7 +154,7 @@
 	switch (col) {
 	case 0:
 		if (line->transFrom)
-			return [NSString stringWithCString: line->transFrom encoding:NSUTF8StringEncoding];
+			return [NSString stringWithUTF8String: line->transFrom];
 		else 
 			return @"";
 	case 1:
@@ -165,7 +165,7 @@
 		}
 	case 2:
 		if (line->transTo)
-			return [NSString stringWithCString: line->transTo encoding:NSUTF8StringEncoding];
+			return [NSString stringWithUTF8String: line->transTo];
 		else 
 			return @"";
 	}
@@ -292,7 +292,7 @@
 			[originalString setStringValue:@""];
 			return;
 		} 
-		[originalString setStringValue: [NSString stringWithCString: line->transFrom encoding:NSUTF8StringEncoding]];
+		[originalString setStringValue: [NSString stringWithUTF8String: line->transFrom]];
 	} else {
 		[originalString setStringValue:@""];
 	}
