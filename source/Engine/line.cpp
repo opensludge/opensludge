@@ -63,7 +63,7 @@ void drawLine(int x1, int y1, int x2, int y2) {
 			// Render the scene - first the old backdrop
 			glEnable (GL_TEXTURE_2D);
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
-			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+			//glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
 			const GLint vertices[] = { 
 				-x-xoffset, 1-y-yoffset, 0, 

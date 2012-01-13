@@ -470,7 +470,7 @@ void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette
 
 			setPrimaryColor(fontPal.originalRed/255.f, fontPal.originalGreen/255.f, fontPal.originalBlue/255.f, 1.0f);
 			glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
-			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+			//glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
 			const GLint vertices[] = { 
 				-xoffset, -yoffset, 0,
@@ -641,7 +641,7 @@ void fontSprite (bool flip, int x, int y, sprite & single, const spritePalette &
 		tx2, ty2
 	}; 
 
-	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // GL_MODULATE instead of decal mixes the colours!
+	//glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // GL_MODULATE instead of decal mixes the colours!
 	setPrimaryColor(fontPal.originalRed/255.f, fontPal.originalGreen/255.f, fontPal.originalBlue/255.f, 1.0f);
 	glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
 
@@ -684,7 +684,7 @@ void setDrawMode (onScreenPerson * thisPerson) {
 		setSecondaryColor(curLight[0]*thisPerson->r*thisPerson->colourmix/65025/255.f, curLight[1]*thisPerson->g*thisPerson->colourmix/65025/255.f, curLight[2]*thisPerson->b*thisPerson->colourmix/65025/255.f, 1.0f);
 	}
 
-	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	//glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	setPrimaryColor(curLight[0]*(255-thisPerson->colourmix)/65025.f, curLight[1]*(255-thisPerson->colourmix)/65025.f, curLight[2]*(255-thisPerson->colourmix)/65025.f, 1.0f - thisPerson->transparency/255.f);
 }
 
@@ -976,7 +976,7 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 			int h = (diffY-yoffset< viewportHeight) ? (int) (diffY-yoffset) : viewportHeight;
 
 			// Render the scene - first the old backdrop (so that it'll show through when the z-buffer is active
-			glTexEnvi (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+			//glTexEnvi (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);

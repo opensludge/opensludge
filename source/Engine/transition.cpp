@@ -82,7 +82,7 @@ void transitionSnapshotBox () {
 	
 	if (! snapshotTextureName) return; 
 
-	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+	//glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 	glBindTexture (GL_TEXTURE_2D,snapshotTextureName);
 	
 	float xScale = (float) brightnessLevel * winWidth / 510.f;	// 510 = 255*2

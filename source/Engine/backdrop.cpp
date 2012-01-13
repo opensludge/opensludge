@@ -424,7 +424,7 @@ void darkScreen () {
 
 			// Render the scene - first the old backdrop
 			glEnable (GL_TEXTURE_2D);
-			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+			//glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -492,7 +492,7 @@ void drawBackDrop () {
 
 	setPrimaryColor(1.0, 1.0, 1.0, 1.0);
 	glEnable (GL_TEXTURE_2D);
-	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	//glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glEnable(GL_BLEND);
 
 	glUseProgram(shader.smartScaler);
@@ -1095,7 +1095,7 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture);
 
 	glEnable (GL_TEXTURE_2D);
-	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+	//glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
 
 	float btx1;
@@ -1162,7 +1162,7 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 
 				setPrimaryColor(1.0, 1.0, 1.0, 1.0);
 				glBindTexture(GL_TEXTURE_2D, tmpTex);
-				glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+				//glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
 				drawTexturedQuadNew(shader.paste, vertices, 3, texCoords, NULL, btexCoords);
 
@@ -1377,7 +1377,7 @@ bool mixHSI (FILE * fp, int x, int y) {
 	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture);
 
 	glEnable (GL_TEXTURE_2D);
-	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+	//glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
 	setPixelCoords (true);
 
@@ -1406,7 +1406,7 @@ bool mixHSI (FILE * fp, int x, int y) {
 
 			setPrimaryColor(1.0, 1.0, 1.0, 0.5);
 			glBindTexture(GL_TEXTURE_2D, tmpTex);
-			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+			//glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
 			const GLint vertices[] = { 
 				-xoffset, -yoffset, 0, 
@@ -1450,7 +1450,7 @@ void saveCorePNG  (FILE * writer, GLuint texture, int w, int h) {
 	setPixelCoords (true);
 		
 	glEnable (GL_TEXTURE_2D);
-	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+	//glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
 	const GLfloat texCoords[] = { 
 		0.0f, 0.0f,
@@ -1546,7 +1546,7 @@ void saveCoreHSI (FILE * writer, GLuint texture, int w, int h) {
 	
 	
 	glEnable (GL_TEXTURE_2D);
-	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+	//glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 	
 	const GLfloat texCoords[] = { 
 		0.0f, 0.0f,

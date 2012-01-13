@@ -848,7 +848,7 @@ movieHasEnded:	movieIsEnding = 1;
 			glEnable (GL_TEXTURE_2D);
 			glBindTexture (GL_TEXTURE_2D, yTextureName);
 			glEnable(GL_BLEND);
-			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+			//glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 			glColor4f(1.0, 1.0, 1.0, 1.0);
 
 			glBegin(GL_QUADS);
