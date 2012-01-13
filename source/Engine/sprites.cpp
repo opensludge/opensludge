@@ -548,6 +548,20 @@ void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette 
 		while (yoffset < diffY) {
 			int h = (diffY-yoffset < viewportHeight) ? diffY-yoffset : viewportHeight;
 
+			const GLfloat backdropVertices[] = { 
+				-x1-xoffset, -y1+yoffset, 0.0f, 
+				sceneWidth-1.0f-x1-xoffset, -y1+yoffset, 0.0f, 
+				-x1-xoffset, sceneHeight-1.0f-y1+yoffset, 0.0f,
+				sceneWidth-1.0f-x1-xoffset, sceneHeight-1.0f-y1+yoffset, 0.0f
+			};
+
+			const GLfloat spriteVertices[] = { 
+				-xoffset, -yoffset, 0.0f, 
+				single.width-1-xoffset, -yoffset, 0.0f, 
+				-xoffset, single.height-1-yoffset, 0.0f,
+				single.width-1-xoffset, single.height-1-yoffset, 0.0f
+			};
+/*
 			// Render the scene - first the old backdrop
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
@@ -555,12 +569,7 @@ void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette 
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
-			const GLfloat backdropVertices[] = { 
-				-x1-xoffset, -y1+yoffset, 0.0f, 
-				sceneWidth-1.0f-x1-xoffset, -y1+yoffset, 0.0f, 
-				-x1-xoffset, sceneHeight-1.0f-y1+yoffset, 0.0f,
-				sceneWidth-1.0f-x1-xoffset, sceneHeight-1.0f-y1+yoffset, 0.0f
-			};
+
 fprintf(stdout, "QUAD: sprites.cpp - burnSpriteToBackDrop\n");
 			drawTexturedQuad(backdropVertices, backdropTexCoords);
 
@@ -569,17 +578,29 @@ fprintf(stdout, "QUAD: sprites.cpp - burnSpriteToBackDrop\n");
 			glBindTexture (GL_TEXTURE_2D, fontPal.burnTex_names[single.texNum]);
 			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // GL_MODULATE instead of decal mixes the colours!
 
-			const GLfloat spriteVertices[] = { 
-				-xoffset, -yoffset, 0.0f, 
-				single.width-1-xoffset, -yoffset, 0.0f, 
-				-xoffset, single.height-1-yoffset, 0.0f,
-				single.width-1-xoffset, single.height-1-yoffset, 0.0f
-			};
-
 			drawTexturedQuad(spriteVertices, spriteTexCoords);
 
 			glDisable(GL_BLEND);
+*/
 
+				glClientActiveTexture(GL_TEXTURE2);
+				glActiveTexture(GL_TEXTURE2);
+				glBindTexture (GL_TEXTURE_2D, backdropTextureName);
+				glClientActiveTexture(GL_TEXTURE0);
+				glActiveTexture(GL_TEXTURE0);
+
+				glUseProgram(shader.paste);
+				GLint uniform = glGetUniformLocation(shader.paste, "useLightTexture");
+				if (uniform >= 0) glUniform1i(uniform, 0); // No lighting
+
+				setPMVMatrix(shader.paste);
+
+				glBindTexture (GL_TEXTURE_2D, fontPal.burnTex_names[single.texNum]);
+				glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+fprintf(stdout, "QUAD: sprites.cpp - burnSpriteToBackDrop\n");
+				drawTexturedQuadNew(shader.paste, backdropVertices, 3, backdropTexCoords, NULL,  spriteTexCoords);
+
+				glUseProgram(0);
 			// Copy Our ViewPort To The Texture
 			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
 			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, (x1<0) ? xoffset : x1+xoffset, (y1<0) ? yoffset: y1+yoffset, viewportOffsetX, viewportOffsetY, w, h);

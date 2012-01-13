@@ -88,24 +88,28 @@ void drawTexturedQuadNew(GLint program, const GLfloat* vertices, int numTexCoord
 
 	vertexLoc = glGetAttribLocation(program, "myVertex");
 	texCoordLocs[0] = glGetAttribLocation(program, "myUV0");
-	if (numTexCoords > 1) texCoordLocs[1] = glGetAttribLocation(program, "myUV1");
-	if (numTexCoords > 2) texCoordLocs[2] = glGetAttribLocation(program, "myUV2");
-	if (numTexCoords > 3) texCoordLocs[3] = glGetAttribLocation(program, "myUV3");
+	if (numTexCoords > 1 && texCoords[0]) texCoordLocs[1] = glGetAttribLocation(program, "myUV1");
+	if (numTexCoords > 2 && texCoords[1]) texCoordLocs[2] = glGetAttribLocation(program, "myUV2");
+	if (numTexCoords > 3 && texCoords[2]) texCoordLocs[3] = glGetAttribLocation(program, "myUV3");
  		
 	glEnableVertexAttribArray(vertexLoc);
 	glVertexAttribPointer(vertexLoc, 3, GL_FLOAT, GL_FALSE, 0, vertices);
 
 	for (i=0;i<numTexCoords;i++)
 	{
-		glEnableVertexAttribArray(texCoordLocs[i]);
-		glVertexAttribPointer(texCoordLocs[i], 2, GL_FLOAT, GL_FALSE, 0, texCoords[i]);
+		if (texCoords[i]) {
+			glEnableVertexAttribArray(texCoordLocs[i]);
+			glVertexAttribPointer(texCoordLocs[i], 2, GL_FLOAT, GL_FALSE, 0, texCoords[i]);
+		}
 	}
 
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 	for (i=0;i<numTexCoords;i++)
 	{
-		glDisableVertexAttribArray(texCoordLocs[i]);
+		if (texCoords[i]) {
+			glDisableVertexAttribArray(texCoordLocs[i]);
+		}
 	}
 
 	glDisableVertexAttribArray(vertexLoc);
@@ -126,9 +130,9 @@ void drawTexturedQuadNew(GLint program, const GLint* vertices, int numTexCoords,
 
 	vertexLoc = glGetAttribLocation(program, "myVertex");
 	texCoordLocs[0] = glGetAttribLocation(program, "myUV0");
-	if (numTexCoords > 1) texCoordLocs[1] = glGetAttribLocation(program, "myUV1");
-	if (numTexCoords > 2) texCoordLocs[2] = glGetAttribLocation(program, "myUV2");
-	if (numTexCoords > 3) texCoordLocs[3] = glGetAttribLocation(program, "myUV3");
+	if (numTexCoords > 1 && texCoords[0]) texCoordLocs[1] = glGetAttribLocation(program, "myUV1");
+	if (numTexCoords > 2 && texCoords[1]) texCoordLocs[2] = glGetAttribLocation(program, "myUV2");
+	if (numTexCoords > 3 && texCoords[2]) texCoordLocs[3] = glGetAttribLocation(program, "myUV3");
  		
 	glEnableVertexAttribArray(vertexLoc);
 	glVertexAttribPointer(vertexLoc, 3, GL_INT, GL_FALSE, 0, vertices);
