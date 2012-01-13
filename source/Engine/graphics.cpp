@@ -47,6 +47,60 @@ void sludgeDisplay ();
 GLfloat primaryColor[4];
 GLfloat secondaryColor[4];
 
+struct textureList *firstTexture = NULL;
+
+textureList * addTexture () {
+	textureList * newTexture = new textureList;
+	newTexture -> next = firstTexture;
+	newTexture -> name = 0;
+	firstTexture = newTexture;
+	return newTexture;
+}
+
+void preTexImage2D(GLuint name, GLsizei width,  GLsizei height)
+{
+	textureList *list = firstTexture;
+	while (list) {
+		if (list->name == name)  {
+			break;
+		}
+		list = list->next;
+	}
+	if (list == NULL) {
+		list = addTexture();
+	}
+	list->width = width;
+	list->height = height;
+
+	glBindTexture(GL_TEXTURE_2D, name);
+}
+
+
+void copyTexImage2D(GLenum target,  GLint level,  GLenum internalformat,  GLint x,  GLint y,  GLsizei width,  GLsizei height,  GLint border, GLuint name)
+{
+	preTexImage2D(name, width,  height);
+	glCopyTexImage2D(target, level, internalformat, x, y, width, height, border);
+}
+
+void copyTexSubImage2D(GLenum target,  GLint level,  GLint xoffset,  GLint yoffset,  GLint x,  GLint y,  GLsizei width,  GLsizei height, GLuint name)
+{
+	glCopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height);
+}
+
+void texImage2D(GLenum target,  GLint level,  GLint internalformat,  GLsizei width,  GLsizei height, 
+		GLint border,  GLenum format,  GLenum type,  const GLvoid * data, GLuint name)
+{
+	glTexImage2D(target, level, internalformat, width, height, border, format, type,  data);
+}
+
+void texSubImage2D(GLenum target,  GLint level,  GLint xoffset,  GLint yoffset,  GLsizei width,  GLsizei height,
+		GLenum format,  GLenum type,  const GLvoid * data, GLuint name) 
+{
+	glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, data);
+}
+
+
+
 /* FIXME: remove this
 void drawTexturedQuad(const GLfloat* vertices, const GLfloat* texCoords)
 {

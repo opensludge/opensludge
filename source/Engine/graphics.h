@@ -31,6 +31,13 @@ struct shaders {
 	GLuint color;
 };
 
+struct textureList {
+	GLuint name;
+	GLsizei width;
+	GLsizei height; 
+	struct textureList * next;
+};
+
 // From Backdrop.cpp, but they're here anyway
 extern GLubyte * backdropTexture;
 extern GLfloat backdropTexW, backdropTexH;
@@ -64,6 +71,11 @@ void setupOpenGLStuff();
 int getNextPOT(int n);
 
 void saveTexture (GLuint tex, GLubyte * data);
+
+void copyTexImage2D(GLenum target,  GLint level,  GLenum internalformat,  GLint x,  GLint y,  GLsizei width,  GLsizei height,  GLint border, GLuint name);
+void copyTexSubImage2D(GLenum target,  GLint level,  GLint xoffset,  GLint yoffset,  GLint x,  GLint y,  GLsizei width,  GLsizei height, GLuint name);
+void texImage2D(GLenum target,  GLint level,  GLint internalformat,  GLsizei width,  GLsizei height,  GLint border,  GLenum format,  GLenum type,  const GLvoid * data, GLuint name);
+void texSubImage2D(GLenum target,  GLint level,  GLint xoffset,  GLint yoffset,  GLsizei width,  GLsizei height,  GLenum format,  GLenum type,  const GLvoid * data, GLuint name);
 
 int printOglError (const char *file, int         line);
 #define printOpenGLError() printOglError(__FILE__, __LINE__)
