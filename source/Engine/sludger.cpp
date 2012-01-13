@@ -15,6 +15,7 @@
 #include "GLee.h"
 #else
 #include <GLES2/gl2.h>
+#include "eglport/eglport.h"
 #endif
 
 #include <unistd.h>
@@ -570,8 +571,11 @@ void sludgeDisplay () {
 	if (brightnessLevel < 255) fixBrightness ();	// This is for transitionLevel special effects
 
 	glFlush();
-	SDL_GL_SwapBuffers();
-
+#if !defined(HAVE_GLES2)
+        SDL_GL_SwapBuffers();
+#else
+	EGL_SwapBuffers();
+#endif
 }
 
 void pauseFunction (loadedFunction * fun) {

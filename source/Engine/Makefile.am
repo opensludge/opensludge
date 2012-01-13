@@ -20,10 +20,13 @@ sludge_engine_SOURCES = \
 	../CommonCode/functionlist.h \
 	../CommonCode/specialsettings.h \
 	../CommonCode/version.h \
-	eglport/eglport.cpp egleport/eglport.h \
 	libvorbis/vorbis_misc.h libvorbis/vorbis_os.h \
 	libwebm/mkvparser.cpp libwebm/mkvparser.hpp \
 	libwebm/mkvreader.cpp libwebm/mkvreader.hpp 
+
+if COND_GLES2
+  sludge_engine_SOURCES += eglport/eglport.cpp egleport/eglport.h
+endif
 
 dist_pkgdata_DATA = \
 	fixScaleSprite.frag fixScaleSprite.vert \
@@ -37,7 +40,7 @@ AM_CPPFLAGS = -std=c++0x -I$(top_srcdir)/source/CommonCode -I$(top_srcdir)/sourc
 LDADD = @ENGINE_LIBS@ @LIBPNG_LIBS@
 
 if COND_GLES2
-  AM_CPPFLAGS += @GLES2_CFLAGS@ -DHAVE_GLES2
+  AM_CPPFLAGS += @GLES2_CFLAGS@ -DHAVE_GLES2 -DUSE_EGL_SDL -DUSE_GLES2
   LDADD += @GLES2_LIBS@
 else
   AM_CPPFLAGS += @GL_CFLAGS@

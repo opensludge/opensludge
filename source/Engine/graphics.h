@@ -13,6 +13,7 @@
 #include "GLee.h"
 #else
 #include <GLES2/gl2.h>
+#include "eglport/eglport.h"
 #endif
 
 struct texture {

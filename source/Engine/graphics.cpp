@@ -371,7 +371,11 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 
 	if (fullscreen) {
 		specialSettings &= ~SPECIAL_INVISIBLE;
-		videoflags = SDL_OPENGL | SDL_FULLSCREEN;
+#if !defined(HAVE_GLES2)
+ 		videoflags = SDL_OPENGL | SDL_FULLSCREEN;
+#else
+		videoflags = SDL_SWSURFACE | SDL_FULLSCREEN;
+#endif
 
         if (gameSettings.fixedPixels) {
             viewportWidth = realWinWidth = winWidth;
@@ -398,7 +402,11 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
         }
 
 	} else {
-		videoflags = SDL_OPENGL/* | SDL_RESIZABLE*/;
+#if !defined(HAVE_GLES2)
+ 		videoflags = SDL_OPENGL/* | SDL_RESIZABLE*/;
+#else
+		videoflags = SDL_SWSURFACE;
+#endif
 
 		if (resize) {
             float realAspect = (float) desktopW / desktopH;
@@ -455,6 +463,9 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 	}
 	debugOut( "Video mode %d %d set successfully.\n", realWinWidth, realWinHeight);
 
+#if defined(HAVE_GLES2)
+	EGL_Init();
+#endif
 	GLint uniform;
 
 
