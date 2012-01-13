@@ -13,7 +13,6 @@
 extern int sceneWidth, sceneHeight;
 extern GLuint backdropTextureName;
 
-
 void drawLine(int x1, int y1, int x2, int y2) {
 	int x, y;
 	bool backwards = false;
@@ -49,11 +48,9 @@ void drawLine(int x1, int y1, int x2, int y2) {
 		if (y == sceneHeight - 1) y = sceneHeight -2;
 	}
 	
-	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 	setPixelCoords (true);
 	
 	glLineWidth (2.0);
-	glColor3ub (255, 255, 255);
 	
 	int xoffset = 0;
 	while (xoffset < diffX) {
@@ -81,15 +78,15 @@ void drawLine(int x1, int y1, int x2, int y2) {
 				0.0f, backdropTexH,
 				backdropTexW, backdropTexH
 			}; 
-	
-fprintf(stdout, "QUAD: line.cpp - drawLine\n");
-			drawTexturedQuad(vertices, texCoords);
+
+			glUseProgram(shader.texture);
+			setPMVMatrix(shader.texture);
+			drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
 			
 			glDisable (GL_TEXTURE_2D);
 			
 			// Then the line
-			glEnable (GL_COLOR_LOGIC_OP);
-			glLogicOp (GL_XOR);
+			//FIXME:Removing the lines doesn't work, but also didn't work properly before.
 
 			GLint xo1=-xoffset, xo2=-xoffset;
 			if (! backwards) {
@@ -102,16 +99,18 @@ fprintf(stdout, "QUAD: line.cpp - drawLine\n");
 				xo2, -yoffset+diffY, 0, 
 			};
 
-			glEnableClientState(GL_VERTEX_ARRAY);
+			glUseProgram(shader.color);
+			setPMVMatrix(shader.color);
+			glUniform4f(glGetUniformLocation(shader.color, "myColor"), 0.0f, 0.0f, 0.0f, 1.0f);
 
-			glVertexPointer(3, GL_INT, 0, lineVertices);
-
+			int vertexLoc = glGetAttribLocation(shader.color, "myVertex");
+			glEnableVertexAttribArray(vertexLoc);
+			glVertexAttribPointer(vertexLoc, 3, GL_INT, GL_FALSE, 0, lineVertices);
 			glDrawArrays(GL_LINES, 0, 2);
+			glDisableVertexAttribArray(vertexLoc);
 
-			glDisableClientState(GL_VERTEX_ARRAY);
-
-			glDisable (GL_COLOR_LOGIC_OP);				
-				
+			glUseProgram(0);
+	
 			// Copy Our ViewPort To The Texture
 			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
 			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, x+xoffset, y+yoffset, viewportOffsetX, viewportOffsetY, w, h);
