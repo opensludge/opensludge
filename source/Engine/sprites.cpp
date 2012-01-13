@@ -488,16 +488,7 @@ void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette
 				tx2, ty2
 			}; 
 
-			glEnableClientState(GL_VERTEX_ARRAY);
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-			glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
-			glVertexPointer(3, GL_INT, 0, vertices);
-
-			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-			glDisableClientState(GL_VERTEX_ARRAY);
+			drawTexturedQuad(vertices, texCoords);
 
 			glClientActiveTexture(GL_TEXTURE2);
 			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -575,16 +566,7 @@ void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette 
 				sceneWidth-1.0f-x1-xoffset, sceneHeight-1.0f-y1+yoffset, 0.0f
 			};
 
-			glEnableClientState(GL_VERTEX_ARRAY);
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-			glVertexPointer(3, GL_FLOAT, 0, backdropVertices);
-			glTexCoordPointer(2, GL_FLOAT, 0, backdropTexCoords);
-
-			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-			glDisableClientState(GL_VERTEX_ARRAY);
+			drawTexturedQuad(backdropVertices, backdropTexCoords);
 
 			// Then the sprite
 			glEnable(GL_BLEND);
@@ -598,16 +580,7 @@ void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette 
 				single.width-1-xoffset, single.height-1-yoffset, 0.0f
 			};
 
-			glEnableClientState(GL_VERTEX_ARRAY);
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-			glVertexPointer(3, GL_FLOAT, 0, spriteVertices);
-			glTexCoordPointer(2, GL_FLOAT, 0, spriteTexCoords);
-
-			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-			glDisableClientState(GL_VERTEX_ARRAY);
+			drawTexturedQuad(spriteVertices, spriteTexCoords);
 
 			glDisable(GL_BLEND);
 
@@ -624,11 +597,11 @@ void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette 
 
 extern GLuint backdropTextureName;
 
-void fontSprite (int x, int y, sprite & single, const spritePalette & fontPal) {
+void fontSprite (bool flip, int x, int y, sprite & single, const spritePalette & fontPal) {
 
 	float tx1 = (float)(single.tex_x-0.5) / fontPal.tex_w[single.texNum];
 	float ty1 = 0.0;
-	float tx2 = (float)(single.tex_x + single.width+0.5) / fontPal.tex_w[single.texNum];
+	float tx2 = (float)(single.tex_x + single.width+(flip ? 1.0 : 0.5)) / fontPal.tex_w[single.texNum];
 	float ty2 = (float)(single.height+2)/fontPal.tex_h[single.texNum];
 
 	float x1 = (float)x - (float)single.xhot/cameraZoom;
@@ -636,12 +609,18 @@ void fontSprite (int x, int y, sprite & single, const spritePalette & fontPal) {
 	float x2 = x1 + (float)single.width/cameraZoom;
 	float y2 = y1 + (float)single.height/cameraZoom;
 
-	const GLfloat vertices[] = { 
+	GLfloat vertices[] = { 
 		x1, y1, 0.0f, 
 		x2, y1, 0.0f, 
 		x1, y2, 0.0f,
 		x2, y2, 0.0f
 	};
+	if (flip) {
+		vertices[0] = x2;
+		vertices[3] = x1;
+		vertices[6] = x2;
+		vertices[9] = x1;
+	}
 
 	const GLfloat texCoords[] = { 
 		tx1, ty1,
@@ -662,73 +641,18 @@ void fontSprite (int x, int y, sprite & single, const spritePalette & fontPal) {
 
 	glEnable(GL_BLEND);
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-	glVertexPointer(3, GL_FLOAT, 0, vertices);
-	glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
-
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	glDisableClientState(GL_VERTEX_ARRAY);
+	drawTexturedQuad(vertices, texCoords);
 
 	glDisable(GL_BLEND);
 	glUseProgram(0);
 }
 
+void fontSprite (int x, int y, sprite & single, const spritePalette & fontPal) {
+	fontSprite (false, x, y, single, fontPal);
+}
+
 void flipFontSprite (int x, int y, sprite & single, const spritePalette & fontPal) {
-
-	float tx1 = (float)(single.tex_x-0.5) / fontPal.tex_w[single.texNum];
-	float ty1 = 0.0;
-	float tx2 = (float)(single.tex_x + single.width+1.0) / fontPal.tex_w[single.texNum];
-	float ty2 = (float)(single.height+2)/fontPal.tex_h[single.texNum];
-
-	float x1 = (float)x - (float)single.xhot/cameraZoom;
-	float y1 = (float)y - (float)single.yhot/cameraZoom;
-	float x2 = x1 + (float)single.width/cameraZoom;
-	float y2 = y1 + (float)single.height/cameraZoom;
-
-	const GLfloat vertices[] = { 
-		x2, y1, 0.0f, 
-		x1, y1, 0.0f, 
-		x2, y2, 0.0f,
-		x1, y2, 0.0f
-	};
-
-	const GLfloat texCoords[] = { 
-		tx1, ty1,
-		tx2, ty1,
-		tx1, ty2,
-		tx2, ty2
-	}; 
-
-	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // GL_MODULATE instead of decal mixes the colours!
-	glColor3ub (fontPal.originalRed, fontPal.originalGreen, fontPal.originalBlue);
-	glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
-
-	if (gameSettings.antiAlias == 1) {
-		glUseProgram(shader.smartScaler);
-		GLuint uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
-		if (uniform >= 0) glUniform1i(uniform, 0);
-	}
-
-	glEnable(GL_BLEND);
-
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-	glVertexPointer(3, GL_FLOAT, 0, vertices);
-	glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
-
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	glDisableClientState(GL_VERTEX_ARRAY);
-
-	glDisable(GL_BLEND);
-	glUseProgram(0);
-
+	fontSprite (true, x, y, single, fontPal);
 }
 
 
@@ -894,16 +818,7 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 		tx1, ty2
 	}; 
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-	glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
-	glVertexPointer(3, GL_FLOAT, 0, vertices);
-
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	glDisableClientState(GL_VERTEX_ARRAY);
+	drawTexturedQuad(vertices, texCoords);
 
 	glDisable(GL_BLEND);
 	glUseProgram(0);
@@ -1070,16 +985,7 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 				backdropTexW, backdropTexH
 			}; 
 	
-			glEnableClientState(GL_VERTEX_ARRAY);
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-			glVertexPointer(3, GL_FLOAT, 0, vertices);
-			glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
-
-			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-			glDisableClientState(GL_VERTEX_ARRAY);
+			drawTexturedQuad(vertices, texCoords);
 
 			// The z-buffer
 			if (useZB) {
@@ -1119,16 +1025,7 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 				tx1, ty2
 			}; 
 
-			glEnableClientState(GL_VERTEX_ARRAY);
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-			glVertexPointer(3, GL_FLOAT, 0, vertices2);
-			glTexCoordPointer(2, GL_FLOAT, 0, texCoords2);
-
-			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-			glDisableClientState(GL_VERTEX_ARRAY);
+			drawTexturedQuad(vertices2, texCoords2);
 
 			glSecondaryColor3ub (0, 0, 0);
 			glDisable(GL_COLOR_SUM);

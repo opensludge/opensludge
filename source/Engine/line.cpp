@@ -82,16 +82,7 @@ void drawLine(int x1, int y1, int x2, int y2) {
 				backdropTexW, backdropTexH
 			}; 
 	
-			glEnableClientState(GL_VERTEX_ARRAY);
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-			glVertexPointer(3, GL_INT, 0, vertices);
-			glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
-
-			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-			glDisableClientState(GL_VERTEX_ARRAY);
+			drawTexturedQuad(vertices, texCoords);
 			
 			glDisable (GL_TEXTURE_2D);
 			

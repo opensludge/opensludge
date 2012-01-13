@@ -60,16 +60,7 @@ bool saveThumbnail (FILE * fp) {
 			backdropTexW, backdropTexH
 		}; 
 
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-		glVertexPointer(3, GL_INT, 0, vertices);
-		glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
-
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-		glDisableClientState(GL_VERTEX_ARRAY);
+		drawTexturedQuad(vertices, texCoords);
 
 		if (gameSettings.antiAlias < 0) {
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -188,16 +179,7 @@ void showThumbnail (char * filename, int atX, int atY) {
 					0.0f, backdropTexH
 				}; 
 	
-				glEnableClientState(GL_VERTEX_ARRAY);
-				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-				glVertexPointer(3, GL_INT, 0, vertices);
-				glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
-
-				glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-				glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-				glDisableClientState(GL_VERTEX_ARRAY);
+				drawTexturedQuad(vertices, texCoords);
 
 				glDisable(GL_BLEND);
 

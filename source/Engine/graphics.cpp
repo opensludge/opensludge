@@ -223,16 +223,7 @@ void saveTexture (GLuint tex, GLubyte * data) {
 				1.0f, 1.0f
 			}; 
 	
-			glEnableClientState(GL_VERTEX_ARRAY);
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-			glVertexPointer(3, GL_INT, 0, vertices);
-			glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
-
-			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-			glDisableClientState(GL_VERTEX_ARRAY);
+			drawTexturedQuad(vertices, texCoords);
 
 			for (int i = 0; i<h; i++)	{
 				glReadPixels(viewportOffsetX, viewportOffsetY+i, w, 1, GL_RGBA, GL_UNSIGNED_BYTE, data+xoffset*4+(yoffset+i)*4*tw);
