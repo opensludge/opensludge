@@ -40,9 +40,71 @@ extern GLuint vTextureName;
 
 shaders shader;
 int textureVertexLoc, textureTexCoordLoc;
+GLfloat aPMVMatrix[16];
+GLfloat pixelPMVMatrix[16];
 
 void sludgeDisplay ();
 
+const GLfloat quadMatrix(int dim, GLfloat x, GLfloat y, GLfloat w, GLfloat h, GLfloat z)
+{
+	if (dim == 3)
+	{
+		const GLfloat mat1[] = { 
+			  x,   y, z,
+			x+w,   y, z, 
+			  x, y+h, z,
+			x+w, y+h, z
+		};
+		return *mat1;
+	} else {
+		const GLfloat mat2[] = { 
+			  x,   y,
+			x+w,   y, 
+			  x, y+h,
+			x+w, y+h
+		};
+		return *mat2;
+	}
+}
+
+const GLint quadMatrix(GLint x, GLint y, GLint w, GLint h, GLint z)
+{
+	const GLint mat[] = { 
+		  x,   y, z,
+		x+w,   y, z, 
+		  x, y+h, z,
+		x+w, y+h, z
+	};
+	return *mat;
+}
+
+void drawTexturedQuad(const GLfloat* vertices, const GLfloat* texCoords)
+{
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	glVertexPointer(3, GL_FLOAT, 0, vertices);
+	glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
+
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY);
+}
+
+void drawTexturedQuad(const GLint* vertices, const GLfloat* texCoords)
+{
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	glVertexPointer(3, GL_INT, 0, vertices);
+	glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
+
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY);
+}
 
 // This is for swapping settings between rendering to texture or to the screen
 void setPixelCoords (bool pixels) {
@@ -62,6 +124,23 @@ void setPixelCoords (bool pixels) {
 		glMatrixMode(GL_MODELVIEW);
 
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		if (shader.texture)
+		{
+			const GLfloat bPMVMatrix[] =
+			{
+			2.0f/viewportWidth,                  .0,   .0,  .0,
+			                .0, 2.0f/viewportHeight,   .0,  .0,
+			                .0,                  .0, 1.0f,  .0,
+			              -1.0,                1.0f,   .0, 1.0f
+
+			};
+			for (int i = 0; i < 16; i++)
+			{
+				pixelPMVMatrix[i] = bPMVMatrix[i];
+			}
+			//glUniformMatrix4fv( glGetUniformLocation(shader.texture, "myPMVMatrix"), 1, GL_FALSE, aPMVMatrix);
+		}
 	} else {
 		if (gameSettings.antiAlias < 0) {
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -73,14 +152,31 @@ void setPixelCoords (bool pixels) {
 
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		GLdouble w = (GLdouble) winWidth / cameraZoom;
-		GLdouble h = (GLdouble) winHeight / cameraZoom;
+		GLfloat w = (GLfloat) winWidth / cameraZoom;
+		GLfloat h = (GLfloat) winHeight / cameraZoom;
 
 		glOrtho(0, w, h, 0, 1.0, -1.0);
 
 //		glOrtho(0, winWidth, winHeight, 0, 1.0, -1.0);
 
 		glMatrixMode(GL_MODELVIEW);
+
+		if (shader.texture)
+		{
+			const GLfloat bPMVMatrix[] =
+			{
+			2.0f/w,      .0,   .0,  .0,
+			    .0, -2.0f/h,   .0,  .0,
+			    .0,      .0, 1.0f,  .0,
+			  -1.0,    1.0f,   .0, 1.0f
+
+			};
+			for (int i = 0; i < 16; i++)
+			{
+				aPMVMatrix[i] = bPMVMatrix[i];
+			}
+			//glUniformMatrix4fv( glGetUniformLocation(shader.texture, "myPMVMatrix"), 1, GL_FALSE, aPMVMatrix);
+		}
 	}
 }
 

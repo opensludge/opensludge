@@ -9,7 +9,6 @@
 
 zBufferData zBuffer;
 extern int sceneWidth, sceneHeight;
-extern float cameraZoom; //FIXME: create a better way to get PMV matrix
 
 void killZBuffer () {
 	if (zBuffer.tex) {
@@ -154,19 +153,6 @@ void drawZBuffer(int x, int y, bool upsidedown) {
 
 //FIXME: clean up
 
-GLfloat w = (GLfloat) winWidth / cameraZoom;
-GLfloat h = (GLfloat) winHeight / cameraZoom;
-
-const GLfloat aPMVMatrix[] =
-{
-2.0f/w,      .0,   .0,  .0,
-    .0, -2.0f/h,   .0,  .0,
-    .0,      .0, 1.0f,  .0,
-  -1.0,    1.0f,   .0, 1.0f
-
-};
-
-
 GLfloat modelview[16];
 GLfloat projection[16];
 
@@ -195,9 +181,7 @@ if (dr % 4 == 0) fprintf(stderr, "\n");
 	fprintf(stderr, "%f, ", aPMVMatrix[dr]);
 }
 */
-
 glUniformMatrix4fv( glGetUniformLocation(shader.texture, "myPMVMatrix"), 1, GL_FALSE, aPMVMatrix);
-glUniformMatrix4fv( glGetUniformLocation(shader.texture, "myProjectionMatrix"), 1, GL_FALSE, projection);
 glUniformMatrix4fv( glGetUniformLocation(shader.texture, "myModelViewMatrix"), 1, GL_FALSE, modelview);
 
 

@@ -389,16 +389,7 @@ void hardScroll (int distance) {
 				sceneWidth-xoffset, sceneHeight-distance-yoffset, 0 
 			};
 
-			glEnableClientState(GL_VERTEX_ARRAY);
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-			glVertexPointer(3, GL_INT, 0, vertices);
-			glTexCoordPointer(2, GL_FLOAT, 0, backdropTexCoords);
-
-			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-			glDisableClientState(GL_VERTEX_ARRAY);
+			drawTexturedQuad(vertices, backdropTexCoords);
 
 			// Copy Our ViewPort To The Texture
 			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
@@ -451,16 +442,7 @@ void darkScreen () {
 				backdropTexW, backdropTexH
 			}; 
 	
-			glEnableClientState(GL_VERTEX_ARRAY);
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-			glVertexPointer(3, GL_INT, 0, vertices);
-			glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
-
-			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-			glDisableClientState(GL_VERTEX_ARRAY);
+			drawTexturedQuad(vertices, texCoords);
 
 			// Then the darkness
 			glDisable (GL_TEXTURE_2D);
@@ -551,16 +533,7 @@ void drawBackDrop () {
 				texw, texh
 			}; 
 	
-			glEnableClientState(GL_VERTEX_ARRAY);
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-			glVertexPointer(3, GL_FLOAT, 0, vertices);
-			glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
-
-			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-			glDisableClientState(GL_VERTEX_ARRAY);
+			drawTexturedQuad(vertices, texCoords);
 
 			ps = ps -> prev;
 		}
@@ -582,16 +555,8 @@ void drawBackDrop () {
 		sceneWidth-cameraX, sceneHeight-cameraY, 0
 	};
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-	glVertexPointer(3, GL_INT, 0, vertices);
-	glTexCoordPointer(2, GL_FLOAT, 0, backdropTexCoords);
-
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	glDisableClientState(GL_VERTEX_ARRAY);
+	drawTexturedQuad(vertices, backdropTexCoords);
 
 	glDisable(GL_BLEND);
 
@@ -1192,16 +1157,7 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 				glBindTexture(GL_TEXTURE_2D, tmpTex);
 				glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
-				glEnableClientState(GL_VERTEX_ARRAY);
-				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-				glVertexPointer(3, GL_INT, 0, vertices);
-				glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
-
-				glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-				glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-				glDisableClientState(GL_VERTEX_ARRAY);
+				drawTexturedQuad(vertices, texCoords);
 
 				glClientActiveTexture(GL_TEXTURE2);
 				glActiveTexture(GL_TEXTURE2);
@@ -1218,16 +1174,7 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 
 				glColor4f(1.0, 0.0, 0.0, 0.0);
 
-				glEnableClientState(GL_VERTEX_ARRAY);
-				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-				glVertexPointer(3, GL_INT, 0, vertices);
-				glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
-
-				glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-				glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-				glDisableClientState(GL_VERTEX_ARRAY);
+				drawTexturedQuad(vertices, texCoords);
 			}
 
 			// Copy Our ViewPort To The Texture
@@ -1464,16 +1411,7 @@ bool mixHSI (FILE * fp, int x, int y) {
 				realPicWidth-xoffset, -yoffset+realPicHeight, 0
 			};
 
-			glEnableClientState(GL_VERTEX_ARRAY);
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-			glVertexPointer(3, GL_INT, 0, vertices);
-			glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
-
-			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-			glDisableClientState(GL_VERTEX_ARRAY);
+			drawTexturedQuad(vertices, texCoords);
 
 			glClientActiveTexture(GL_TEXTURE2);
 			glActiveTexture(GL_TEXTURE2);
@@ -1540,16 +1478,7 @@ void saveCorePNG  (FILE * writer, GLuint texture, int w, int h) {
 				tw-xoffset, -yoffset+th, 0
 			};
 
-			glEnableClientState(GL_VERTEX_ARRAY);
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-			glVertexPointer(3, GL_INT, 0, vertices);
-			glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
-
-			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-			glDisableClientState(GL_VERTEX_ARRAY);
+			drawTexturedQuad(vertices, texCoords);
 
 			for (int i = 0; i<h; i++)	{
 				glReadPixels(viewportOffsetX, viewportOffsetY+i, w, 1, GL_RGBA, GL_UNSIGNED_BYTE, image+xoffset*4+(yoffset+i)*4*tw);
@@ -1640,16 +1569,7 @@ void saveCoreHSI (FILE * writer, GLuint texture, int w, int h) {
 				w-xoffset, -yoffset+h, 0
 			};
 
-			glEnableClientState(GL_VERTEX_ARRAY);
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-			glVertexPointer(3, GL_INT, 0, vertices);
-			glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
-
-			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-			glDisableClientState(GL_VERTEX_ARRAY);
+			drawTexturedQuad(vertices, texCoords);
 			
 			for (int i = 0; i<h; i++)	{
 				glReadPixels(viewportOffsetX, viewportOffsetY+i, w, 1, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, image+xoffset+(yoffset+i)*tw);
