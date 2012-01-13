@@ -538,8 +538,7 @@ void drawBackDrop () {
 				0.0f, texh,
 				texw, texh
 			}; 
-	
-			drawTexturedQuadSmartScaler(vertices, texCoords, texCoords);  // last parameter is not used
+			drawTexturedQuadNew(shader.smartScaler, vertices, 1, texCoords);
 
 			ps = ps -> prev;
 		}
@@ -561,7 +560,7 @@ void drawBackDrop () {
 		sceneWidth-cameraX, sceneHeight-cameraY, 0
 	};
 
-	drawTexturedQuadSmartScaler(vertices, backdropTexCoords, backdropTexCoords);
+	drawTexturedQuadNew(shader.smartScaler, vertices, 2, backdropTexCoords, backdropTexCoords);
 
 	glDisable(GL_BLEND);
 
@@ -1149,8 +1148,6 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 				glClientActiveTexture(GL_TEXTURE2);
 				glActiveTexture(GL_TEXTURE2);
 				glBindTexture (GL_TEXTURE_2D, backdropTextureName);
-				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-				glTexCoordPointer(2, GL_FLOAT, 0, btexCoords);
 				glClientActiveTexture(GL_TEXTURE0);
 				glActiveTexture(GL_TEXTURE0);
 
@@ -1158,17 +1155,13 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 				GLint uniform = glGetUniformLocation(shader.paste, "useLightTexture");
 				if (uniform >= 0) glUniform1i(uniform, 0); // No lighting
 
+				setPMVMatrix(shader.paste);
+
 				glColor4f(1.0, 1.0, 1.0, 1.0);
 				glBindTexture(GL_TEXTURE_2D, tmpTex);
 				glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
-				drawTexturedQuad(vertices, texCoords);
-
-				glClientActiveTexture(GL_TEXTURE2);
-				glActiveTexture(GL_TEXTURE2);
-				glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-				glClientActiveTexture(GL_TEXTURE0);
-				glActiveTexture(GL_TEXTURE0);
+				drawTexturedQuadNew(shader.paste, vertices, 3, texCoords, NULL, btexCoords);
 
 				glUseProgram(0);
 
@@ -1396,14 +1389,14 @@ bool mixHSI (FILE * fp, int x, int y) {
 			glClientActiveTexture(GL_TEXTURE2);
 			glActiveTexture(GL_TEXTURE2);
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-			glTexCoordPointer(2, GL_FLOAT, 0, btexCoords);
 			glClientActiveTexture(GL_TEXTURE0);
 			glActiveTexture(GL_TEXTURE0);
 
 			glUseProgram(shader.paste);
 			GLint uniform = glGetUniformLocation(shader.paste, "useLightTexture");
 			if (uniform >= 0) glUniform1i(uniform, 0); // No lighting
+
+			setPMVMatrix(shader.paste);
 
 			glColor4f(1.0, 1.0, 1.0, 0.5);
 			glBindTexture(GL_TEXTURE_2D, tmpTex);
@@ -1416,13 +1409,7 @@ bool mixHSI (FILE * fp, int x, int y) {
 				realPicWidth-xoffset, -yoffset+realPicHeight, 0
 			};
 
-			drawTexturedQuad(vertices, texCoords);
-
-			glClientActiveTexture(GL_TEXTURE2);
-			glActiveTexture(GL_TEXTURE2);
-			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-			glClientActiveTexture(GL_TEXTURE0);
-			glActiveTexture(GL_TEXTURE0);
+			drawTexturedQuadNew(shader.paste, vertices, 3, texCoords, NULL, btexCoords);
 
 			// Copy Our ViewPort To The Texture
 			glBindTexture(GL_TEXTURE_2D, backdropTextureName);

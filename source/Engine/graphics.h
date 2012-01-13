@@ -48,8 +48,8 @@ const GLfloat quadMatrix(int dim, GLfloat x, GLfloat y, GLfloat w, GLfloat h, GL
 const GLint quadMatrix(GLint x, GLint y, GLint w, GLint h, GLint z);
 void drawTexturedQuad(const GLfloat* vertices, const GLfloat* texCoords);
 void drawTexturedQuad(const GLint* vertices, const GLfloat* texCoords);
-void drawTexturedQuadSmartScaler(const GLfloat* vertices, const GLfloat* texCoords0, const GLfloat* texCoords1);
-void drawTexturedQuadSmartScaler(const GLint* vertices, const GLfloat* texCoords0, const GLfloat* texCoords1);
+void drawTexturedQuadNew(GLint program, const GLfloat* vertices, int numTexCoords, ...);
+void drawTexturedQuadNew(GLint program, const GLint* vertices, int numTexCoords, ...);
 
 void setPMVMatrix(GLint program);
 

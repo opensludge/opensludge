@@ -461,14 +461,14 @@ void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette
 			glClientActiveTexture(GL_TEXTURE2);
 			glActiveTexture(GL_TEXTURE2);
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-			glTexCoordPointer(2, GL_FLOAT, 0, btexCoords);
 			glClientActiveTexture(GL_TEXTURE0);
 			glActiveTexture(GL_TEXTURE0);
 
 			glUseProgram(shader.paste);
 			GLint uniform = glGetUniformLocation(shader.paste, "useLightTexture");
 			if (uniform >= 0) glUniform1i(uniform, 0); // No lighting
+
+			setPMVMatrix(shader.paste);
 
 			glColor4ub (fontPal.originalRed, fontPal.originalGreen, fontPal.originalBlue, 255);
 			glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
@@ -488,11 +488,7 @@ void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette
 				tx2, ty2
 			}; 
 
-			drawTexturedQuad(vertices, texCoords);
-
-			glClientActiveTexture(GL_TEXTURE2);
-			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-			glClientActiveTexture(GL_TEXTURE0);
+			drawTexturedQuadNew(shader.paste, vertices, 3, texCoords, NULL, btexCoords);
 
 			// Copy Our ViewPort To The Texture
 			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
@@ -647,7 +643,7 @@ void fontSprite (bool flip, int x, int y, sprite & single, const spritePalette &
 
 	glEnable(GL_BLEND);
 
-	drawTexturedQuadSmartScaler(vertices, texCoords, texCoords); // last parameter is not used
+	drawTexturedQuadNew(shader.smartScaler, vertices, 1, texCoords);
 
 	glDisable(GL_BLEND);
 	glUseProgram(0);
@@ -828,7 +824,7 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 		tx1, ty2
 	}; 
 
-	drawTexturedQuadSmartScaler(vertices, texCoords, ltexCoords);
+	drawTexturedQuadNew(shader.smartScaler, vertices, 1, texCoords, ltexCoords);
 
 	glDisable(GL_BLEND);
 	glUseProgram(0);
@@ -950,8 +946,6 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 			glClientActiveTexture(GL_TEXTURE1);
 			glActiveTexture(GL_TEXTURE1);
 			glBindTexture (GL_TEXTURE_2D, lightMap.name);
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-			glTexCoordPointer(2, GL_FLOAT, 0, ltexCoords);
 		}
 	} else {
 		curLight[0] = curLight[1] = curLight[2] = 255;
@@ -959,8 +953,6 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 	glClientActiveTexture(GL_TEXTURE2);
 	glActiveTexture(GL_TEXTURE2);
 	glBindTexture (GL_TEXTURE_2D, backdropTextureName);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	glTexCoordPointer(2, GL_FLOAT, 0, btexCoords);
 	glClientActiveTexture(GL_TEXTURE0);
 	glActiveTexture(GL_TEXTURE0);
 
@@ -1011,6 +1003,8 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 			GLint uniform = glGetUniformLocation(shader.paste, "useLightTexture");
 			if (uniform >= 0) glUniform1i(uniform, light && lightMapMode == LIGHTMAPMODE_PIXEL && lightMap.data);
 
+			setPMVMatrix(shader.paste);
+
 			setDrawMode (thisPerson);
 
 			glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
@@ -1034,7 +1028,7 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 				tx1, ty2
 			}; 
 
-			drawTexturedQuad(vertices2, texCoords2);
+			drawTexturedQuadNew(shader.paste, vertices2, 3, texCoords2, ltexCoords, btexCoords);
 
 			glSecondaryColor3ub (0, 0, 0);
 			glDisable(GL_COLOR_SUM);
@@ -1042,17 +1036,6 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 			// Copy Our ViewPort To The Texture
 			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
 			glUseProgram(0);
-
-			if (light && lightMapMode == LIGHTMAPMODE_PIXEL) {
-				glClientActiveTexture(GL_TEXTURE1);
-				glActiveTexture(GL_TEXTURE1);
-				glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-			}
-			glClientActiveTexture(GL_TEXTURE2);
-			glActiveTexture(GL_TEXTURE2);
-			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-			glClientActiveTexture(GL_TEXTURE0);
-			glActiveTexture(GL_TEXTURE0);
 
 			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, (int) ((x1<0) ? xoffset: x1+xoffset), (int) ((y1<0) ? yoffset: y1+yoffset), (int) ((x1<0) ?viewportOffsetX-x1:viewportOffsetX), (int) ((y1<0) ?viewportOffsetY-y1:viewportOffsetY), w, h);
 

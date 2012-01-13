@@ -1,3 +1,4 @@
+#include <stdarg.h>
 #include <SDL/SDL.h>
 
 #include "debug.h"
@@ -106,47 +107,83 @@ void drawTexturedQuad(const GLint* vertices, const GLfloat* texCoords)
 	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
-void drawTexturedQuadSmartScaler(const GLfloat* vertices, const GLfloat* texCoords0, const GLfloat* texCoords1)
+void drawTexturedQuadNew(GLint program, const GLfloat* vertices, int numTexCoords, ...)
 {
-	int vertexLoc, texCoordLoc0, texCoordLoc1;
-	vertexLoc = glGetAttribLocation(shader.smartScaler, "myVertex");
-	texCoordLoc0 = glGetAttribLocation(shader.smartScaler, "myUV0");
-	texCoordLoc1 = glGetAttribLocation(shader.smartScaler, "myUV1");
+	int i, vertexLoc, texCoordLocs[numTexCoords];
+	const GLfloat* texCoords[numTexCoords];
+
+	va_list vl;
+	va_start(vl,numTexCoords);
+	for (i=0;i<numTexCoords;i++)
+	{
+		texCoords[i]=va_arg(vl,const GLfloat*);
+	}
+	va_end(vl);
+
+	vertexLoc = glGetAttribLocation(program, "myVertex");
+	texCoordLocs[0] = glGetAttribLocation(program, "myUV0");
+	if (numTexCoords > 1) texCoordLocs[1] = glGetAttribLocation(program, "myUV1");
+	if (numTexCoords > 2) texCoordLocs[2] = glGetAttribLocation(program, "myUV2");
+	if (numTexCoords > 3) texCoordLocs[3] = glGetAttribLocation(program, "myUV3");
  		
 	glEnableVertexAttribArray(vertexLoc);
-	glEnableVertexAttribArray(texCoordLoc0);
-	glEnableVertexAttribArray(texCoordLoc1);
-
 	glVertexAttribPointer(vertexLoc, 3, GL_FLOAT, GL_FALSE, 0, vertices);
-	glVertexAttribPointer(texCoordLoc0, 2, GL_FLOAT, GL_FALSE, 0, texCoords0);
-	glVertexAttribPointer(texCoordLoc1, 2, GL_FLOAT, GL_FALSE, 0, texCoords1);
+
+	for (i=0;i<numTexCoords;i++)
+	{
+		glEnableVertexAttribArray(texCoordLocs[i]);
+		glVertexAttribPointer(texCoordLocs[i], 2, GL_FLOAT, GL_FALSE, 0, texCoords[i]);
+	}
 
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-	glDisableVertexAttribArray(texCoordLoc1);
-	glDisableVertexAttribArray(texCoordLoc0);
+	for (i=0;i<numTexCoords;i++)
+	{
+		glDisableVertexAttribArray(texCoordLocs[i]);
+	}
+
 	glDisableVertexAttribArray(vertexLoc);
 }
 
-void drawTexturedQuadSmartScaler(const GLint* vertices, const GLfloat* texCoords0, const GLfloat* texCoords1)
+void drawTexturedQuadNew(GLint program, const GLint* vertices, int numTexCoords, ...)
 {
-	int vertexLoc, texCoordLoc0, texCoordLoc1;
-	vertexLoc = glGetAttribLocation(shader.smartScaler, "myVertex");
-	texCoordLoc0 = glGetAttribLocation(shader.smartScaler, "myUV0");
-	texCoordLoc1 = glGetAttribLocation(shader.smartScaler, "myUV1");
+	int i, vertexLoc, texCoordLocs[numTexCoords];
+	const GLfloat* texCoords[numTexCoords];
+
+	va_list vl;
+	va_start(vl,numTexCoords);
+	for (i=0;i<numTexCoords;i++)
+	{
+		texCoords[i]=va_arg(vl,const GLfloat*);
+	}
+	va_end(vl);
+
+	vertexLoc = glGetAttribLocation(program, "myVertex");
+	texCoordLocs[0] = glGetAttribLocation(program, "myUV0");
+	if (numTexCoords > 1) texCoordLocs[1] = glGetAttribLocation(program, "myUV1");
+	if (numTexCoords > 2) texCoordLocs[2] = glGetAttribLocation(program, "myUV2");
+	if (numTexCoords > 3) texCoordLocs[3] = glGetAttribLocation(program, "myUV3");
  		
 	glEnableVertexAttribArray(vertexLoc);
-	glEnableVertexAttribArray(texCoordLoc0);
-	glEnableVertexAttribArray(texCoordLoc1);
-
 	glVertexAttribPointer(vertexLoc, 3, GL_INT, GL_FALSE, 0, vertices);
-	glVertexAttribPointer(texCoordLoc0, 2, GL_FLOAT, GL_FALSE, 0, texCoords0);
-	glVertexAttribPointer(texCoordLoc1, 2, GL_FLOAT, GL_FALSE, 0, texCoords1);
+
+	for (i=0;i<numTexCoords;i++)
+	{
+		if (texCoords[i]) {
+			glEnableVertexAttribArray(texCoordLocs[i]);
+			glVertexAttribPointer(texCoordLocs[i], 2, GL_FLOAT, GL_FALSE, 0, texCoords[i]);
+		}
+	}
 
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-	glDisableVertexAttribArray(texCoordLoc1);
-	glDisableVertexAttribArray(texCoordLoc0);
+	for (i=0;i<numTexCoords;i++)
+	{
+		if (texCoords[i]) {
+			glDisableVertexAttribArray(texCoordLocs[i]);
+		}
+	}
+
 	glDisableVertexAttribArray(vertexLoc);
 }
 
