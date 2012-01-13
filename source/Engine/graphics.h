@@ -72,10 +72,18 @@ int getNextPOT(int n);
 
 void saveTexture (GLuint tex, GLubyte * data);
 
-void copyTexImage2D(GLenum target,  GLint level,  GLenum internalformat,  GLint x,  GLint y,  GLsizei width,  GLsizei height,  GLint border, GLuint name);
-void copyTexSubImage2D(GLenum target,  GLint level,  GLint xoffset,  GLint yoffset,  GLint x,  GLint y,  GLsizei width,  GLsizei height, GLuint name);
-void texImage2D(GLenum target,  GLint level,  GLint internalformat,  GLsizei width,  GLsizei height,  GLint border,  GLenum format,  GLenum type,  const GLvoid * data, GLuint name);
-void texSubImage2D(GLenum target,  GLint level,  GLint xoffset,  GLint yoffset,  GLsizei width,  GLsizei height,  GLenum format,  GLenum type,  const GLvoid * data, GLuint name);
+void dcopyTexImage2D(GLenum target,  GLint level,  GLenum internalformat,  GLint x,  GLint y,  GLsizei width,  GLsizei height,  GLint border, GLuint name, const char *file, int line);
+void dcopyTexSubImage2D(GLenum target,  GLint level,  GLint xoffset,  GLint yoffset,  GLint x,  GLint y,  GLsizei width,  GLsizei height, GLuint name, const char *file, int line);
+void dtexImage2D(GLenum target,  GLint level,  GLint internalformat,  GLsizei width,  GLsizei height,  GLint border,  GLenum format,  GLenum type,  const GLvoid * data, GLuint name, const char *file, int line);
+void dtexSubImage2D(GLenum target,  GLint level,  GLint xoffset,  GLint yoffset,  GLsizei width,  GLsizei height,  GLenum format,  GLenum type,  const GLvoid * data, GLuint name, const char *file, int line);
+
+#define copyTexImage2D(target, level, internalformat, x, y,  width, height, border, name) dcopyTexImage2D(target,  level,  internalformat,  x,  y,  width,height, border, name, __FILE__, __LINE__)
+
+#define copyTexSubImage2D(target,  level,  xoffset,yoffset, x,  y,   width,   height, name) dcopyTexSubImage2D(target,  level,  xoffset,  yoffset,  x,  y,   width,  height, name, __FILE__, __LINE__)
+
+#define texImage2D(target,  level,  internalformat,  width,  height,  border,  format, type,  data,name) dtexImage2D( target,   level,  internalformat, width, height, border,  format,  type,  data, name, __FILE__, __LINE__)
+
+#define texSubImage2D( target,  level,   xoffset,   yoffset,   width,  height, format,  type,   data,name) dtexSubImage2D( target, level,   xoffset,  yoffset,  width,  height, format,  type,  data,  name, __FILE__, __LINE__)
 
 void getTextureDimensions(GLuint name, GLint *width,  GLint *height);
 

@@ -71,7 +71,7 @@ void getTextureDimensions(GLuint name, GLint *width,  GLint *height)
 	fatal("Texture not found in list.");
 }
 
-void preTexImage2D(GLuint name, GLsizei width,  GLsizei height)
+void preTexImage2D(GLuint name, GLsizei width,  GLsizei height, const char *file, int line)
 {
 	textureList *list = firstTexture;
 	while (list) {
@@ -87,35 +87,37 @@ void preTexImage2D(GLuint name, GLsizei width,  GLsizei height)
 	list->width = width;
 	list->height = height;
 
-	debugOut("Creating texture with dimensions %ix%i.\n", width, height);
+	if (! NPOT_textures && !(((height & (height - 1)) == 0) || ((width & (width - 1)) == 0))) {
+		debugOut("Creating texture with dimensions %ix%i in %s @ line %d although NPOT textures are disabled.\n", width, height, file, line);
+	}
 
 	glBindTexture(GL_TEXTURE_2D, name);
 }
 
 
-void copyTexImage2D(GLenum target,  GLint level,  GLenum internalformat,  GLint x,  GLint y,  GLsizei width,  GLsizei height,  GLint border, GLuint name)
+void dcopyTexImage2D(GLenum target,  GLint level,  GLenum internalformat,  GLint x,  GLint y,  GLsizei width,  GLsizei height,  GLint border, GLuint name, const char *file, int line)
 {
-	preTexImage2D(name, width,  height);
+	preTexImage2D(name, width,  height, file, line);
 	glCopyTexImage2D(target, level, internalformat, x, y, width, height, border);
 }
 
-void copyTexSubImage2D(GLenum target,  GLint level,  GLint xoffset,  GLint yoffset,  GLint x,  GLint y,  GLsizei width,  GLsizei height, GLuint name)
+void dcopyTexSubImage2D(GLenum target,  GLint level,  GLint xoffset,  GLint yoffset,  GLint x,  GLint y,  GLsizei width,  GLsizei height, GLuint name, const char *file, int line)
 {
-	preTexImage2D(name, width,  height);
+	preTexImage2D(name, width,  height, file, line);
 	glCopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height);
 }
 
-void texImage2D(GLenum target,  GLint level,  GLint internalformat,  GLsizei width,  GLsizei height, 
-		GLint border,  GLenum format,  GLenum type,  const GLvoid * data, GLuint name)
+void dtexImage2D(GLenum target,  GLint level,  GLint internalformat,  GLsizei width,  GLsizei height, 
+		GLint border,  GLenum format,  GLenum type,  const GLvoid * data, GLuint name, const char *file, int line)
 {
-	preTexImage2D(name, width,  height);
+	preTexImage2D(name, width,  height, file, line);
 	glTexImage2D(target, level, internalformat, width, height, border, format, type,  data);
 }
 
-void texSubImage2D(GLenum target,  GLint level,  GLint xoffset,  GLint yoffset,  GLsizei width,  GLsizei height,
-		GLenum format,  GLenum type,  const GLvoid * data, GLuint name) 
+void dtexSubImage2D(GLenum target,  GLint level,  GLint xoffset,  GLint yoffset,  GLsizei width,  GLsizei height,
+		GLenum format,  GLenum type,  const GLvoid * data, GLuint name, const char *file, int line) 
 {
-	preTexImage2D(name, width,  height);
+	preTexImage2D(name, width,  height, file, line);
 	glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, data);
 }
 
