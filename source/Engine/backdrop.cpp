@@ -490,10 +490,23 @@ void drawBackDrop () {
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glEnable(GL_BLEND);
 
+	glUseProgram(shader.smartScaler);
+	GLuint uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
+	if (uniform >= 0) glUniform1i(uniform, 0);
+
+	GLfloat modelview[16];
+	GLfloat projection[16];
+
+	glGetFloatv( GL_MODELVIEW_MATRIX, modelview );
+	glGetFloatv( GL_PROJECTION_MATRIX, projection );
+
+	glUniformMatrix4fv( glGetUniformLocation(shader.smartScaler, "myProjectionMatrix"), 1, GL_FALSE, projection);
+	glUniformMatrix4fv( glGetUniformLocation(shader.smartScaler, "myModelViewMatrix"), 1, GL_FALSE, modelview);
+
 	if (gameSettings.antiAlias == 1) {
-		glUseProgram(shader.smartScaler);
-		GLuint uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
-		if (uniform >= 0) glUniform1i(uniform, 0);
+		glUniform1i(glGetUniformLocation(shader.smartScaler, "antialias"), 1);
+	} else {
+		glUniform1i(glGetUniformLocation(shader.smartScaler, "antialias"), 0);
 	}
 
 	if (parallaxStuff) {
@@ -533,7 +546,7 @@ void drawBackDrop () {
 				texw, texh
 			}; 
 	
-			drawTexturedQuad(vertices, texCoords);
+			drawTexturedQuadSmartScaler(vertices, texCoords, texCoords);
 
 			ps = ps -> prev;
 		}
@@ -555,20 +568,7 @@ void drawBackDrop () {
 		sceneWidth-cameraX, sceneHeight-cameraY, 0
 	};
 
-	glUseProgram(shader.texture);
-
-GLfloat modelview[16];
-GLfloat projection[16];
-
-glGetFloatv( GL_MODELVIEW_MATRIX, modelview );
-glGetFloatv( GL_PROJECTION_MATRIX, projection );
-
-glUniformMatrix4fv( glGetUniformLocation(shader.texture, "myPMVMatrix"), 1, GL_FALSE, aPMVMatrix);
-glUniformMatrix4fv( glGetUniformLocation(shader.texture, "myProjectionMatrix"), 1, GL_FALSE, projection);
-glUniformMatrix4fv( glGetUniformLocation(shader.texture, "myModelViewMatrix"), 1, GL_FALSE, modelview);
-	drawTexturedQuadNew(vertices, backdropTexCoords);
-
-
+	drawTexturedQuadSmartScaler(vertices, backdropTexCoords, backdropTexCoords);
 
 	glDisable(GL_BLEND);
 

@@ -106,40 +106,48 @@ void drawTexturedQuad(const GLint* vertices, const GLfloat* texCoords)
 	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
-void drawTexturedQuadNew(const GLfloat* vertices, const GLfloat* texCoords)
+void drawTexturedQuadSmartScaler(const GLfloat* vertices, const GLfloat* texCoords0, const GLfloat* texCoords1)
 {
-		glUniform1i(glGetUniformLocation(shader.texture, "sampler2d"), 0);
-		glUniform1i(glGetUniformLocation(shader.texture, "zBuffer"), 0);
-		glUniform1f(glGetUniformLocation(shader.texture, "zBufferLayer"), 0.0f);
+	int vertexLoc, texCoordLoc0, texCoordLoc1;
+	vertexLoc = glGetAttribLocation(shader.smartScaler, "myVertex");
+	texCoordLoc0 = glGetAttribLocation(shader.smartScaler, "myUV0");
+	texCoordLoc1 = glGetAttribLocation(shader.smartScaler, "myUV1");
  		
-		glEnableVertexAttribArray(textureVertexLoc);
-		glEnableVertexAttribArray(textureTexCoordLoc);
+	glEnableVertexAttribArray(vertexLoc);
+	glEnableVertexAttribArray(texCoordLoc0);
+	glEnableVertexAttribArray(texCoordLoc1);
 
-		glVertexAttribPointer(textureVertexLoc, 3, GL_FLOAT, GL_FALSE, 0, vertices);
-		glVertexAttribPointer(textureTexCoordLoc, 2, GL_FLOAT, GL_FALSE, 0, texCoords);
+	glVertexAttribPointer(vertexLoc, 3, GL_FLOAT, GL_FALSE, 0, vertices);
+	glVertexAttribPointer(texCoordLoc0, 2, GL_FLOAT, GL_FALSE, 0, texCoords0);
+	glVertexAttribPointer(texCoordLoc1, 2, GL_FLOAT, GL_FALSE, 0, texCoords1);
 
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-		glDisableVertexAttribArray(textureTexCoordLoc);
-		glDisableVertexAttribArray(textureVertexLoc);
+	glDisableVertexAttribArray(texCoordLoc1);
+	glDisableVertexAttribArray(texCoordLoc0);
+	glDisableVertexAttribArray(vertexLoc);
 }
 
-void drawTexturedQuadNew(const GLint* vertices, const GLfloat* texCoords)
+void drawTexturedQuadSmartScaler(const GLint* vertices, const GLfloat* texCoords0, const GLfloat* texCoords1)
 {
-		glUniform1i(glGetUniformLocation(shader.texture, "sampler2d"), 0);
-		glUniform1i(glGetUniformLocation(shader.texture, "zBuffer"), 0);
-		glUniform1f(glGetUniformLocation(shader.texture, "zBufferLayer"), 0.0f);
+	int vertexLoc, texCoordLoc0, texCoordLoc1;
+	vertexLoc = glGetAttribLocation(shader.smartScaler, "myVertex");
+	texCoordLoc0 = glGetAttribLocation(shader.smartScaler, "myUV0");
+	texCoordLoc1 = glGetAttribLocation(shader.smartScaler, "myUV1");
  		
-		glEnableVertexAttribArray(textureVertexLoc);
-		glEnableVertexAttribArray(textureTexCoordLoc);
+	glEnableVertexAttribArray(vertexLoc);
+	glEnableVertexAttribArray(texCoordLoc0);
+	glEnableVertexAttribArray(texCoordLoc1);
 
-		glVertexAttribPointer(textureVertexLoc, 3, GL_INT, GL_FALSE, 0, vertices);
-		glVertexAttribPointer(textureTexCoordLoc, 2, GL_FLOAT, GL_FALSE, 0, texCoords);
+	glVertexAttribPointer(vertexLoc, 3, GL_INT, GL_FALSE, 0, vertices);
+	glVertexAttribPointer(texCoordLoc0, 2, GL_FLOAT, GL_FALSE, 0, texCoords0);
+	glVertexAttribPointer(texCoordLoc1, 2, GL_FLOAT, GL_FALSE, 0, texCoords1);
 
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-		glDisableVertexAttribArray(textureTexCoordLoc);
-		glDisableVertexAttribArray(textureVertexLoc);
+	glDisableVertexAttribArray(texCoordLoc1);
+	glDisableVertexAttribArray(texCoordLoc0);
+	glDisableVertexAttribArray(vertexLoc);
 }
 
 // This is for swapping settings between rendering to texture or to the screen
@@ -452,6 +460,8 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 				uniform = glGetUniformLocation(shader.smartScaler, "lightTexture");
 				if (uniform >= 0) glUniform1i(uniform, 1);
 				uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
+				if (uniform >= 0) glUniform1i(uniform, 0);
+				uniform = glGetUniformLocation(shader.smartScaler, "antialias");
 				if (uniform >= 0) glUniform1i(uniform, 0);
 				uniform = glGetUniformLocation(shader.smartScaler, "scale");
 				float scale = (float)realWinWidth/(float)winWidth*0.25;

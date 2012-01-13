@@ -633,7 +633,7 @@ void fontSprite (bool flip, int x, int y, sprite & single, const spritePalette &
 	glColor3ub (fontPal.originalRed, fontPal.originalGreen, fontPal.originalBlue);
 	glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
 
-	if (gameSettings.antiAlias == 1) {
+	if (gameSettings.antiAlias == 12) { //FIXME
 		glUseProgram(shader.smartScaler);
 		GLuint uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
 		if (uniform >= 0) glUniform1i(uniform, 0);
@@ -793,7 +793,7 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 
 	glEnable(GL_BLEND);
 
-	if (gameSettings.antiAlias == 1) {
+	if (gameSettings.antiAlias == 12) { //FIXME
 		glUseProgram(shader.smartScaler);
 		GLuint uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
 		if (uniform >= 0) glUniform1i(uniform, light && lightMapMode == LIGHTMAPMODE_PIXEL && lightMap.data);
