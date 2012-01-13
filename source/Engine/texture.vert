@@ -1,4 +1,4 @@
-attribute vec4 myUV;
+attribute vec2 myUV;
 
 varying vec2 varCoord;
 

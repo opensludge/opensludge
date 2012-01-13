@@ -154,15 +154,19 @@ void drawZBuffer(int x, int y, bool upsidedown) {
 		const GLfloat vertices[] = { 
 			(GLfloat)-x, vy1, z,
 			(GLfloat)zBuffer.width-x, vy1, z, 
-			(GLfloat)zBuffer.width-x, vy2, z, 
-			(GLfloat)-x, vy2, z
+			(GLfloat)-x, vy2, z,
+			(GLfloat)-x, vy2, z,
+			(GLfloat)zBuffer.width-x, vy1, z, 
+			(GLfloat)zBuffer.width-x, vy2, z
 		};
 
 		const GLfloat texCoords[] = { 
 			0.0f, 0.0f,
 			backdropTexW, 0.0f,
-			backdropTexW, backdropTexH, 
-			0.0f, backdropTexH
+			0.0f, backdropTexH,
+			0.0f, backdropTexH,
+			backdropTexW, 0.0f,
+			backdropTexW, backdropTexH
 		}; 
 
 		glEnableClientState(GL_VERTEX_ARRAY);
@@ -173,7 +177,7 @@ void drawZBuffer(int x, int y, bool upsidedown) {
 		glEnableVertexAttribArray(TEXCOORD_ARRAY);
 		glVertexAttribPointer(TEXCOORD_ARRAY, 2, GL_FLOAT, GL_FALSE, 0, texCoords);
 
-		glDrawArrays(GL_QUADS, 0, 4);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
 
 		glDisableClientState(GL_VERTEX_ARRAY);
 	}
