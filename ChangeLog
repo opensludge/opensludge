@@ -575,8 +575,13 @@ GTK Z-Buffer Maker:
 * Bugfix: Crash on creating new Z-Buffer.
 
 ----------------------
-next
+2.2
 ----------------------
+
+New features:
+* The Dev Kit now supports (and requires) UTF-8 encoding for all text files.
+* Polished movie support.
+* OpenGL ES 2 support for the Engine.
 
 Compiler (all platforms):
 * Bugfix: Don't assume that all files end with a newline!
