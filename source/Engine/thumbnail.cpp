@@ -30,7 +30,9 @@ bool saveThumbnail (FILE * fp) {
 
 		glEnable (GL_TEXTURE_2D);
 		setPixelCoords (true);
-		glUseProgram(0);
+		glUseProgram(shader.texture);
+		setPMVMatrix(shader.texture);
+		glUniform1i(glGetUniformLocation(shader.texture, "zBuffer"), 0);
 
 		glGenTextures (1, &thumbnailTextureName);
 		glBindTexture(GL_TEXTURE_2D, thumbnailTextureName);
@@ -60,7 +62,7 @@ bool saveThumbnail (FILE * fp) {
 			backdropTexW, backdropTexH
 		}; 
 
-		drawTexturedQuad(vertices, texCoords);
+		drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
 
 		if (gameSettings.antiAlias < 0) {
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -77,6 +79,7 @@ bool saveThumbnail (FILE * fp) {
 		if (! checkNew (image)) return false;
 		glReadPixels(viewportOffsetX, viewportOffsetY, thumbWidth, thumbHeight, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, image);
 
+		glUseProgram(0);
 		setPixelCoords (false);
 
 		for (int y = 0; y < thumbHeight; y ++) {
@@ -155,6 +158,11 @@ void showThumbnail (char * filename, int atX, int atY) {
 
 		glEnable (GL_TEXTURE_2D);
 		setPixelCoords (true);
+
+		glUseProgram(shader.texture);
+		setPMVMatrix(shader.texture);
+		glUniform1i(glGetUniformLocation(shader.texture, "zBuffer"), 0);
+
 		int xoffset = 0;
 		while (xoffset < fileWidth) {
 			int w = (fileWidth-xoffset < viewportWidth) ? fileWidth-xoffset : viewportWidth;
@@ -179,7 +187,7 @@ void showThumbnail (char * filename, int atX, int atY) {
 					0.0f, backdropTexH
 				}; 
 	
-				drawTexturedQuad(vertices, texCoords);
+				drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
 
 				glDisable(GL_BLEND);
 
@@ -191,7 +199,7 @@ void showThumbnail (char * filename, int atX, int atY) {
 			}
 			xoffset += viewportWidth;
 		}
-
+		glUseProgram(0);
 		setPixelCoords (false);
 		glDeleteTextures (1, &thumbnailTextureName);
 		thumbnailTextureName = 0;
