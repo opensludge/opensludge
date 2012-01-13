@@ -470,7 +470,7 @@ void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette
 
 			setPMVMatrix(shader.paste);
 
-			glColor4ub (fontPal.originalRed, fontPal.originalGreen, fontPal.originalBlue, 255);
+			setPrimaryColor(fontPal.originalRed/255.f, fontPal.originalGreen/255.f, fontPal.originalBlue/255.f, 1.0f);
 			glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
 			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
@@ -550,7 +550,7 @@ void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette 
 	if (diffY < 0) return;
 
 	setPixelCoords (true);
-	glColor3ub (currentBurnR, currentBurnG, currentBurnB);
+	setPrimaryColor(currentBurnR/255.f, currentBurnG/255.f, currentBurnB/255.f, 1.0f);
 
 	GLfloat xoffset = 0.0f;
 	while (xoffset < diffX) {
@@ -646,7 +646,7 @@ void fontSprite (bool flip, int x, int y, sprite & single, const spritePalette &
 	}; 
 
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // GL_MODULATE instead of decal mixes the colours!
-	glColor3ub (fontPal.originalRed, fontPal.originalGreen, fontPal.originalBlue);
+	setPrimaryColor(fontPal.originalRed/255.f, fontPal.originalGreen/255.f, fontPal.originalBlue/255.f, 1.0f);
 	glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
 
 	glUseProgram(shader.smartScaler);
@@ -685,11 +685,11 @@ unsigned char curLight[3];
 void setDrawMode (onScreenPerson * thisPerson) {
 	if (thisPerson->colourmix) {
 		glEnable(GL_COLOR_SUM);
-		glSecondaryColor3ub (curLight[0]*thisPerson->r*thisPerson->colourmix/65025, curLight[1]*thisPerson->g*thisPerson->colourmix/65025, curLight[2]*thisPerson->b*thisPerson->colourmix/65025);
+		setSecondaryColor(curLight[0]*thisPerson->r*thisPerson->colourmix/65025/255.f, curLight[1]*thisPerson->g*thisPerson->colourmix/65025/255.f, curLight[2]*thisPerson->b*thisPerson->colourmix/65025/255.f, 1.0f);
 	}
 
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glColor4ub (curLight[0]*(255-thisPerson->colourmix)/255, curLight[1]*(255-thisPerson->colourmix)/255, curLight[2]*(255-thisPerson->colourmix)/255, 255 - thisPerson->transparency);
+	setPrimaryColor(curLight[0]*(255-thisPerson->colourmix)/65025.f, curLight[1]*(255-thisPerson->colourmix)/65025.f, curLight[2]*(255-thisPerson->colourmix)/65025.f, 1.0f - thisPerson->transparency/255.f);
 }
 
 extern GLuint backdropTextureName;
@@ -856,7 +856,7 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 		glClientActiveTexture(GL_TEXTURE0);
 		glActiveTexture(GL_TEXTURE0);
 	}
-	glSecondaryColor3ub (0, 0, 0);
+	setSecondaryColor(0., 0., 0.,1.);
 	glDisable(GL_COLOR_SUM);
 
 	// Are we pointing at the sprite?
@@ -1053,7 +1053,7 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 
 			drawTexturedQuadNew(shader.paste, vertices2, 3, texCoords2, ltexCoords, btexCoords);
 
-			glSecondaryColor3ub (0, 0, 0);
+			setSecondaryColor(0., 0., 0., 1.);
 			glDisable(GL_COLOR_SUM);
 
 			// Copy Our ViewPort To The Texture

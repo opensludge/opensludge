@@ -138,7 +138,7 @@ void drawZBuffer(int x, int y, bool upsidedown) {
 
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); //FIXME: Do this differently.
 	glBindTexture (GL_TEXTURE_2D, zBuffer.texName);
-	glColor4f(1.0, 1.0, 1.0, 1.0);
+	setPrimaryColor(1.0, 1.0, 1.0, 1.0);
 
 	for (i = 1; i<zBuffer.numPanels; i++) {
 		GLfloat z = 1.0 - (double) i * (1.0 / 128.0);

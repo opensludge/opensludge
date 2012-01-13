@@ -490,7 +490,7 @@ inline int sortOutPCamera (int cX, int fX, int sceneMax, int boxMax) {
 
 void drawBackDrop () {
 
-	glColor4f(1.0, 1.0, 1.0, 1.0);
+	setPrimaryColor(1.0, 1.0, 1.0, 1.0);
 	glEnable (GL_TEXTURE_2D);
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glEnable(GL_BLEND);
@@ -1162,7 +1162,7 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 
 				setPMVMatrix(shader.paste);
 
-				glColor4f(1.0, 1.0, 1.0, 1.0);
+				setPrimaryColor(1.0, 1.0, 1.0, 1.0);
 				glBindTexture(GL_TEXTURE_2D, tmpTex);
 				glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
@@ -1178,9 +1178,8 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 
 				glBindTexture(GL_TEXTURE_2D, tmpTex);
 
-				glColor4f(1.0, 0.0, 0.0, 0.0);
+				setPrimaryColor(1.0, 0.0, 0.0, 0.0);
 
-fprintf(stdout, "QUAD: loadHSI\n");
 				drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
 
 				glUseProgram(0);
@@ -1409,7 +1408,7 @@ bool mixHSI (FILE * fp, int x, int y) {
 
 			setPMVMatrix(shader.paste);
 
-			glColor4f(1.0, 1.0, 1.0, 0.5);
+			setPrimaryColor(1.0, 1.0, 1.0, 0.5);
 			glBindTexture(GL_TEXTURE_2D, tmpTex);
 			glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
@@ -1484,7 +1483,6 @@ void saveCorePNG  (FILE * writer, GLuint texture, int w, int h) {
 			glUseProgram(shader.texture);
 			setPMVMatrix(shader.texture);
 
-fprintf(stdout, "QUAD: saveCorePng\n");
 			drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
 
 			glUseProgram(0);

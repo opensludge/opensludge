@@ -107,9 +107,10 @@ void drawTexturedQuadNew(GLint program, const GLfloat* vertices, int numTexCoord
 	}
 	va_end(vl);
 
-	if (program == shader.color || program == shader.texture)
+	glUniform4f(glGetUniformLocation(program, "myColor"), primaryColor[0], primaryColor[1], primaryColor[2], primaryColor[3]);
+	if (program == shader.smartScaler || program == shader.paste)
 	{
-		glUniform4f(glGetUniformLocation(program, "myColor"), primaryColor[0], primaryColor[1], primaryColor[2], primaryColor[3]);
+		glUniform4f(glGetUniformLocation(program, "mySecondaryColor"), secondaryColor[0], secondaryColor[1], secondaryColor[2], secondaryColor[3]);
 	}
 
 	vertexLoc = glGetAttribLocation(program, "myVertex");
@@ -154,9 +155,10 @@ void drawTexturedQuadNew(GLint program, const GLint* vertices, int numTexCoords,
 	}
 	va_end(vl);
 
-	if (program == shader.color || program == shader.texture)
+	glUniform4f(glGetUniformLocation(program, "myColor"), primaryColor[0], primaryColor[1], primaryColor[2], primaryColor[3]);
+	if (program == shader.smartScaler || program == shader.paste)
 	{
-		glUniform4f(glGetUniformLocation(program, "myColor"), primaryColor[0], primaryColor[1], primaryColor[2], primaryColor[3]);
+		glUniform4f(glGetUniformLocation(program, "mySecondaryColor"), secondaryColor[0], secondaryColor[1], secondaryColor[2], secondaryColor[3]);
 	}
 
 	vertexLoc = glGetAttribLocation(program, "myVertex");
