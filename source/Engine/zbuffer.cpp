@@ -134,6 +134,7 @@ void drawZBuffer(int x, int y, bool upsidedown) {
 	glDepthMask (GL_TRUE);
 
 	glUseProgram(shader.texture);
+	setPMVMatrix(shader.texture);
 
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); //FIXME: Do this differently.
 	glBindTexture (GL_TEXTURE_2D, zBuffer.texName);
@@ -172,7 +173,6 @@ if (dr % 4 == 0) fprintf(stderr, "\n");
 	fprintf(stderr, "%f, ", aPMVMatrix[dr]);
 }
 */
-		setPMVMatrix(shader.texture);
 
 		const GLfloat vertices[] = { 
 			(GLfloat)-x, vy1, z,

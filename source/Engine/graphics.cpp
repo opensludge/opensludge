@@ -444,8 +444,6 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
     const GLchar *Vertex;
     const GLchar *Fragment;
 
-	if (gameSettings.antiAlias > 0) {
-
         Vertex = shaderFileRead("scale.vert");
         Fragment = shaderFileRead("scale.frag");
 
@@ -478,7 +476,6 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 				if (uniform >= 0) glUniform1f(uniform, scale);
 			}
         }
-	}
 
 	Vertex = shaderFileRead("fixScaleSprite.vert");
 	Fragment = shaderFileRead("fixScaleSprite.frag");
