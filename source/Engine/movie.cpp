@@ -925,7 +925,11 @@ movieHasEnded:	movieIsEnding = 1;
 				Wait_Frame();
 			}
 			glFlush();
-			SDL_GL_SwapBuffers();
+#if !defined(HAVE_GLES2)
+        		SDL_GL_SwapBuffers();
+#else
+			EGL_SwapBuffers();
+#endif
 
 		}
 		videoUpdated = false;
