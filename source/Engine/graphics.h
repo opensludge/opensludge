@@ -44,8 +44,6 @@ extern shaders shader;
 extern int textureVertexLoc, textureTexCoordLoc;
 extern GLfloat aPMVMatrix[], pixelPMVMatrix[];
 
-const GLfloat quadMatrix(int dim, GLfloat x, GLfloat y, GLfloat w, GLfloat h, GLfloat z);
-const GLint quadMatrix(GLint x, GLint y, GLint w, GLint h, GLint z);
 void drawTexturedQuad(const GLfloat* vertices, const GLfloat* texCoords);
 void drawTexturedQuad(const GLint* vertices, const GLfloat* texCoords);
 void drawTexturedQuadNew(GLint program, const GLfloat* vertices, int numTexCoords, ...);

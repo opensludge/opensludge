@@ -46,39 +46,6 @@ GLfloat pixelPMVMatrix[16];
 
 void sludgeDisplay ();
 
-const GLfloat quadMatrix(int dim, GLfloat x, GLfloat y, GLfloat w, GLfloat h, GLfloat z)
-{
-	if (dim == 3)
-	{
-		const GLfloat mat1[] = { 
-			  x,   y, z,
-			x+w,   y, z, 
-			  x, y+h, z,
-			x+w, y+h, z
-		};
-		return *mat1;
-	} else {
-		const GLfloat mat2[] = { 
-			  x,   y,
-			x+w,   y, 
-			  x, y+h,
-			x+w, y+h
-		};
-		return *mat2;
-	}
-}
-
-const GLint quadMatrix(GLint x, GLint y, GLint w, GLint h, GLint z)
-{
-	const GLint mat[] = { 
-		  x,   y, z,
-		x+w,   y, z, 
-		  x, y+h, z,
-		x+w, y+h, z
-	};
-	return *mat;
-}
-
 void drawTexturedQuad(const GLfloat* vertices, const GLfloat* texCoords)
 {
 	glEnableClientState(GL_VERTEX_ARRAY);
