@@ -36,11 +36,11 @@ void main()
 
 	//	gl_FragColor = (temp1/(m1+m2)) * 0.5;
 		gl_FragColor = c11*0.333333 + (temp1/(m1+m2)) * 0.333333;
-
-		if (gl_FragColor.a<0.001) discard;
 	} else {
 		gl_FragColor = c11;
 	}
+
+	if (gl_FragColor.a<0.001) discard;
 	
 	vec3 col;
 	if (useLightTexture) {

@@ -546,7 +546,7 @@ void drawBackDrop () {
 				texw, texh
 			}; 
 	
-			drawTexturedQuadSmartScaler(vertices, texCoords, texCoords);
+			drawTexturedQuadSmartScaler(vertices, texCoords, texCoords);  // last parameter is not used
 
 			ps = ps -> prev;
 		}

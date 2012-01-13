@@ -633,15 +633,28 @@ void fontSprite (bool flip, int x, int y, sprite & single, const spritePalette &
 	glColor3ub (fontPal.originalRed, fontPal.originalGreen, fontPal.originalBlue);
 	glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
 
-	if (gameSettings.antiAlias == 12) { //FIXME
-		glUseProgram(shader.smartScaler);
-		GLuint uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
-		if (uniform >= 0) glUniform1i(uniform, 0);
+	glUseProgram(shader.smartScaler);
+	GLuint uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
+	if (uniform >= 0) glUniform1i(uniform, 0);
+
+	GLfloat modelview[16];
+	GLfloat projection[16];
+
+	glGetFloatv( GL_MODELVIEW_MATRIX, modelview );
+	glGetFloatv( GL_PROJECTION_MATRIX, projection );
+
+	glUniformMatrix4fv( glGetUniformLocation(shader.smartScaler, "myProjectionMatrix"), 1, GL_FALSE, projection);
+	glUniformMatrix4fv( glGetUniformLocation(shader.smartScaler, "myModelViewMatrix"), 1, GL_FALSE, modelview);
+
+	if (gameSettings.antiAlias == 1) {
+		glUniform1i(glGetUniformLocation(shader.smartScaler, "antialias"), 1);
+	} else {
+		glUniform1i(glGetUniformLocation(shader.smartScaler, "antialias"), 0);
 	}
 
 	glEnable(GL_BLEND);
 
-	drawTexturedQuad(vertices, texCoords);
+	drawTexturedQuadSmartScaler(vertices, texCoords, texCoords); // last parameter is not used
 
 	glDisable(GL_BLEND);
 	glUseProgram(0);
@@ -775,8 +788,6 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 			glActiveTexture(GL_TEXTURE1);
 			glEnable(GL_TEXTURE_2D);
 			glBindTexture (GL_TEXTURE_2D, lightMap.name);
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-			glTexCoordPointer(2, GL_FLOAT, 0, ltexCoords);
 			glClientActiveTexture(GL_TEXTURE0);
 			glActiveTexture(GL_TEXTURE0);
 		}
@@ -793,10 +804,23 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 
 	glEnable(GL_BLEND);
 
-	if (gameSettings.antiAlias == 12) { //FIXME
-		glUseProgram(shader.smartScaler);
-		GLuint uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
-		if (uniform >= 0) glUniform1i(uniform, light && lightMapMode == LIGHTMAPMODE_PIXEL && lightMap.data);
+	glUseProgram(shader.smartScaler);
+	GLuint uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
+	if (uniform >= 0) glUniform1i(uniform, light && lightMapMode == LIGHTMAPMODE_PIXEL && lightMap.data);
+
+	GLfloat modelview[16];
+	GLfloat projection[16];
+
+	glGetFloatv( GL_MODELVIEW_MATRIX, modelview );
+	glGetFloatv( GL_PROJECTION_MATRIX, projection );
+
+	glUniformMatrix4fv( glGetUniformLocation(shader.smartScaler, "myProjectionMatrix"), 1, GL_FALSE, projection);
+	glUniformMatrix4fv( glGetUniformLocation(shader.smartScaler, "myModelViewMatrix"), 1, GL_FALSE, modelview);
+
+	if (gameSettings.antiAlias == 1) {
+		glUniform1i(glGetUniformLocation(shader.smartScaler, "antialias"), 1);
+	} else {
+		glUniform1i(glGetUniformLocation(shader.smartScaler, "antialias"), 0);
 	}
 
 	const GLfloat vertices[] = { 
@@ -818,7 +842,7 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 		tx1, ty2
 	}; 
 
-	drawTexturedQuad(vertices, texCoords);
+	drawTexturedQuadSmartScaler(vertices, texCoords, ltexCoords);
 
 	glDisable(GL_BLEND);
 	glUseProgram(0);
@@ -826,7 +850,6 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 	if (light && lightMapMode == LIGHTMAPMODE_PIXEL) {
 		glClientActiveTexture(GL_TEXTURE1);
 		glActiveTexture(GL_TEXTURE1);
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 		glDisable(GL_TEXTURE_2D);
 		glClientActiveTexture(GL_TEXTURE0);
 		glActiveTexture(GL_TEXTURE0);
