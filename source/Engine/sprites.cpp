@@ -435,8 +435,8 @@ void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette
 	const GLfloat btexCoords[] = { 
 		btx1, bty1,
 		btx2, bty1,
-		btx2, bty2, 
-		btx1, bty2
+		btx1, bty2,
+		btx2, bty2
 	}; 
 
 	if (x1 < 0) diffX += x1;
@@ -477,15 +477,15 @@ void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette
 			const GLint vertices[] = { 
 				-xoffset, -yoffset, 0,
 				single.width-xoffset, -yoffset, 0,
-				single.width-xoffset, single.height-yoffset, 0,
-				-xoffset, single.height-yoffset, 0
+				-xoffset, single.height-yoffset, 0,
+				single.width-xoffset, single.height-yoffset, 0
 			};
 
 			const GLfloat texCoords[] = { 
 				tx1, ty1,
 				tx2, ty1,
-				tx2, ty2, 
-				tx1, ty2
+				tx1, ty2,
+				tx2, ty2
 			}; 
 
 			glEnableClientState(GL_VERTEX_ARRAY);
@@ -494,7 +494,7 @@ void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette
 			glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
 			glVertexPointer(3, GL_INT, 0, vertices);
 
-			glDrawArrays(GL_QUADS, 0, 4);
+			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 			glDisableClientState(GL_VERTEX_ARRAY);
@@ -526,15 +526,15 @@ void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette 
 	const GLfloat backdropTexCoords[] = { 
 		0.0f, 0.0f,
 		backdropTexW, 0.0f,
-		backdropTexW, backdropTexH, 
-		0.0f, backdropTexH
+		0.0f, backdropTexH,
+		backdropTexW, backdropTexH
 	}; 
 
 	const GLfloat spriteTexCoords[] = { 
 		tx1, ty1,
 		tx2, ty1,
-		tx2, ty2, 
-		tx1, ty2
+		tx1, ty2,
+		tx2, ty2
 	}; 
 
 	int diffX = single.width+1;
@@ -571,8 +571,8 @@ void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette 
 			const GLfloat backdropVertices[] = { 
 				-x1-xoffset, -y1+yoffset, 0.0f, 
 				sceneWidth-1.0f-x1-xoffset, -y1+yoffset, 0.0f, 
-				sceneWidth-1.0f-x1-xoffset, sceneHeight-1.0f-y1+yoffset, 0.0f, 
-				-x1-xoffset, sceneHeight-1.0f-y1+yoffset, 0.0f
+				-x1-xoffset, sceneHeight-1.0f-y1+yoffset, 0.0f,
+				sceneWidth-1.0f-x1-xoffset, sceneHeight-1.0f-y1+yoffset, 0.0f
 			};
 
 			glEnableClientState(GL_VERTEX_ARRAY);
@@ -581,7 +581,7 @@ void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette 
 			glVertexPointer(3, GL_FLOAT, 0, backdropVertices);
 			glTexCoordPointer(2, GL_FLOAT, 0, backdropTexCoords);
 
-			glDrawArrays(GL_QUADS, 0, 4);
+			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 			glDisableClientState(GL_VERTEX_ARRAY);
@@ -594,8 +594,8 @@ void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette 
 			const GLfloat spriteVertices[] = { 
 				-xoffset, -yoffset, 0.0f, 
 				single.width-1-xoffset, -yoffset, 0.0f, 
-				single.width-1-xoffset, single.height-1-yoffset, 0.0f, 
-				-xoffset, single.height-1-yoffset, 0.0f
+				-xoffset, single.height-1-yoffset, 0.0f,
+				single.width-1-xoffset, single.height-1-yoffset, 0.0f
 			};
 
 			glEnableClientState(GL_VERTEX_ARRAY);
@@ -604,7 +604,7 @@ void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette 
 			glVertexPointer(3, GL_FLOAT, 0, spriteVertices);
 			glTexCoordPointer(2, GL_FLOAT, 0, spriteTexCoords);
 
-			glDrawArrays(GL_QUADS, 0, 4);
+			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 			glDisableClientState(GL_VERTEX_ARRAY);
@@ -639,15 +639,15 @@ void fontSprite (int x, int y, sprite & single, const spritePalette & fontPal) {
 	const GLfloat vertices[] = { 
 		x1, y1, 0.0f, 
 		x2, y1, 0.0f, 
-		x2, y2, 0.0f, 
-		x1, y2, 0.0f
+		x1, y2, 0.0f,
+		x2, y2, 0.0f
 	};
 
 	const GLfloat texCoords[] = { 
 		tx1, ty1,
 		tx2, ty1,
-		tx2, ty2, 
-		tx1, ty2
+		tx1, ty2,
+		tx2, ty2
 	}; 
 
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // GL_MODULATE instead of decal mixes the colours!
@@ -668,7 +668,7 @@ void fontSprite (int x, int y, sprite & single, const spritePalette & fontPal) {
 	glVertexPointer(3, GL_FLOAT, 0, vertices);
 	glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
 
-	glDrawArrays(GL_QUADS, 0, 4);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
@@ -692,15 +692,15 @@ void flipFontSprite (int x, int y, sprite & single, const spritePalette & fontPa
 	const GLfloat vertices[] = { 
 		x2, y1, 0.0f, 
 		x1, y1, 0.0f, 
-		x1, y2, 0.0f, 
-		x2, y2, 0.0f
+		x2, y2, 0.0f,
+		x1, y2, 0.0f
 	};
 
 	const GLfloat texCoords[] = { 
 		tx1, ty1,
 		tx2, ty1,
-		tx2, ty2, 
-		tx1, ty2
+		tx1, ty2,
+		tx2, ty2
 	}; 
 
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // GL_MODULATE instead of decal mixes the colours!
@@ -721,7 +721,7 @@ void flipFontSprite (int x, int y, sprite & single, const spritePalette & fontPa
 	glVertexPointer(3, GL_FLOAT, 0, vertices);
 	glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
 
-	glDrawArrays(GL_QUADS, 0, 4);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
@@ -822,8 +822,8 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 	const GLfloat ltexCoords[] = { 
 		ltx1, lty1,
 		ltx2, lty1,
-		ltx2, lty2, 
-		ltx1, lty2
+		ltx1, lty2,
+		ltx2, lty2
 	}; 
 
 	if (light && lightMap.data) {
@@ -878,8 +878,8 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 	const GLfloat vertices[] = { 
 		x1, y1, z, 
 		x2, y1, z, 
-		x2, y2, z, 
-		x1, y2, z
+		x1, y2, z,
+		x2, y2, z
 	};
 
 	if (! mirror) {
@@ -890,8 +890,8 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 	const GLfloat texCoords[] = { 
 		tx2, ty1,
 		tx1, ty1,
-		tx1, ty2, 
-		tx2, ty2
+		tx2, ty2,
+		tx1, ty2
 	}; 
 
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -900,7 +900,7 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 	glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
 	glVertexPointer(3, GL_FLOAT, 0, vertices);
 
-	glDrawArrays(GL_QUADS, 0, 4);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
@@ -998,15 +998,15 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 	const GLfloat ltexCoords[] = { 
 		ltx1, lty1,
 		ltx2, lty1,
-		ltx2, lty2, 
-		ltx1, lty2
+		ltx1, lty2,
+		ltx2, lty2
 	}; 
 
 	const GLfloat btexCoords[] = { 
 		btx1, bty1,
 		btx2, bty1,
-		btx2, bty2, 
-		btx1, bty2
+		btx1, bty2,
+		btx2, bty2
 	}; 
 
 	if (light && lightMap.data) {
@@ -1059,15 +1059,15 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 			const GLfloat vertices[] = { 
 				-x1-xoffset, -y1-yoffset, 0.0f, 
 				sceneWidth-x1-xoffset, -y1-yoffset, 0.0f, 
-				sceneWidth-x1-xoffset, sceneHeight-y1-yoffset, 0.0f, 
-				-x1-xoffset, sceneHeight-y1-yoffset, 0.0f
+				-x1-xoffset, sceneHeight-y1-yoffset, 0.0f,
+				sceneWidth-x1-xoffset, sceneHeight-y1-yoffset, 0.0f
 			};
 
 			const GLfloat texCoords[] = { 
 				0.0f, 0.0f,
 				backdropTexW, 0.0f,
-				backdropTexW, backdropTexH, 
-				0.0f, backdropTexH
+				0.0f, backdropTexH,
+				backdropTexW, backdropTexH
 			}; 
 	
 			glEnableClientState(GL_VERTEX_ARRAY);
@@ -1076,7 +1076,7 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 			glVertexPointer(3, GL_FLOAT, 0, vertices);
 			glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
 
-			glDrawArrays(GL_QUADS, 0, 4);
+			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 			glDisableClientState(GL_VERTEX_ARRAY);
@@ -1103,8 +1103,8 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 			const GLfloat vertices2[] = { 
 				-xoffset, -yoffset, z, 
 				spriteWidth-xoffset, -yoffset, z, 
-				spriteWidth-xoffset, spriteHeight-yoffset, z, 
-				-xoffset, spriteHeight-yoffset, z
+				-xoffset, spriteHeight-yoffset, z,
+				spriteWidth-xoffset, spriteHeight-yoffset, z
 			};
 
 			if (! mirror) {
@@ -1115,8 +1115,8 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 			const GLfloat texCoords2[] = { 
 				tx2, ty1,
 				tx1, ty1,
-				tx1, ty2, 
-				tx2, ty2
+				tx2, ty2,
+				tx1, ty2
 			}; 
 
 			glEnableClientState(GL_VERTEX_ARRAY);
@@ -1125,7 +1125,7 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 			glVertexPointer(3, GL_FLOAT, 0, vertices2);
 			glTexCoordPointer(2, GL_FLOAT, 0, texCoords2);
 
-			glDrawArrays(GL_QUADS, 0, 4);
+			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 			glDisableClientState(GL_VERTEX_ARRAY);

@@ -31,13 +31,13 @@ void transitionFader () {
 	const GLint vertices[] = { 
 		0, winHeight, 0, 
 		winWidth, winHeight, 0, 
-		winWidth, 0, 0, 
-		0, 0, 0
+		0, 0, 0,
+		winWidth, 0, 0
 	};
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_INT, 0, vertices);
-	glDrawArrays(GL_QUADS, 0, 4);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	glDisableClientState(GL_VERTEX_ARRAY);
 
 	glDisable(GL_BLEND);
@@ -57,15 +57,15 @@ void transitionCrossFader () {
 	const GLint vertices[] = { 
 		0, winHeight, 0, 
 		winWidth, winHeight, 0, 
-		winWidth, 0, 0, 
-		0, 0, 0
+		0, 0, 0,
+		winWidth, 0, 0
 	};
 
 	const GLfloat texCoords[] = { 
 		0.0f, snapTexH,
 		snapTexW, snapTexH,
-		snapTexW, 0.0f, 
-		0.0f, 0.0f
+		0.0f, 0.0f,
+		snapTexW, 0.0f
 	}; 
 
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -74,7 +74,7 @@ void transitionCrossFader () {
 	glVertexPointer(3, GL_INT, 0, vertices);
 	glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
 
-	glDrawArrays(GL_QUADS, 0, 4);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
@@ -95,15 +95,15 @@ void transitionSnapshotBox () {
 	const GLfloat vertices[] = { 
 		xScale, winHeight-yScale, 0, 
 		winWidth-xScale, winHeight-yScale, 0, 
-		winWidth-xScale, yScale, 0, 
-		xScale, yScale, 0
+		xScale, yScale, 0,
+		winWidth-xScale, yScale, 0
 	};
 
 	const GLfloat texCoords[] = { 
 		0.0f, snapTexH,
 		snapTexW, snapTexH,
-		snapTexW, 0.0f, 
-		0.0f, 0.0f
+		0.0f, 0.0f,
+		snapTexW, 0.0f
 	}; 
 
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -112,7 +112,7 @@ void transitionSnapshotBox () {
 	glVertexPointer(3, GL_FLOAT, 0, vertices);
 	glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
 
-	glDrawArrays(GL_QUADS, 0, 4);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
@@ -212,15 +212,15 @@ void transitionDisolve () {
 	const GLint vertices[] = { 
 		0, winHeight, 0, 
 		winWidth, winHeight, 0, 
-		winWidth, 0, 0, 
-		0, 0, 0
+		0, 0, 0,
+		winWidth, 0, 0
 	};
 
 	const GLfloat texCoords[] = { 
 		0.0f, 1.0f,
 		1.0f, 1.0f,
-		1.0f, 0.0f, 
-		0.0f, 0.0f
+		0.0f, 0.0f,
+		1.0f, 0.0f
 	}; 
 
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -229,7 +229,7 @@ void transitionDisolve () {
 	glVertexPointer(3, GL_INT, 0, vertices);
 	glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
 
-	glDrawArrays(GL_QUADS, 0, 4);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
@@ -280,15 +280,15 @@ void transitionTV () {
 	const GLint vertices[] = { 
 		0, winHeight, 0, 
 		winWidth, winHeight, 0, 
-		winWidth, 0, 0, 
-		0, 0, 0
+		0, 0, 0,
+		winWidth, 0, 0
 	};
 
 	const GLfloat texCoords[] = { 
 		0.0f, 1.0f,
 		1.0f, 1.0f,
-		1.0f, 0.0f, 
-		0.0f, 0.0f
+		0.0f, 0.0f,
+		1.0f, 0.0f
 	}; 
 
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -297,7 +297,7 @@ void transitionTV () {
 	glVertexPointer(3, GL_INT, 0, vertices);
 	glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
 
-	glDrawArrays(GL_QUADS, 0, 4);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
@@ -322,13 +322,13 @@ void transitionBlinds () {
 	const GLint vertices[] = { 
 		0, winHeight, 0, 
 		winWidth, winHeight, 0, 
-		winWidth, 0, 0, 
-		0, 0, 0
+		0, 0, 0,
+		winWidth, 0, 0
 	};
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_INT, 0, vertices);
-	glDrawArrays(GL_QUADS, 0, 4);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	glDisableClientState(GL_VERTEX_ARRAY);
 
 	glDisable(GL_POLYGON_STIPPLE);

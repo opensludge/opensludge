@@ -326,15 +326,15 @@ void blankScreen (int x1, int y1, int x2, int y2) {
 			const GLfloat vertices[] = { 
 				-10.325f, -1.325f, 0.0f, 
 				w+1.325f, -1.325f, 0.0f, 
-				w+1.325f, h+1.325f, 0.0f, 
-				-10.325f, h+1.325f, 0.0f
+				-10.325f, h+1.325f, 0.0f,
+				w+1.325f, h+1.325f, 0.0f 
 			};
 
 			glEnableClientState(GL_VERTEX_ARRAY);
 
 			glVertexPointer(3, GL_FLOAT, 0, vertices);
 
-			glDrawArrays(GL_QUADS, 0, 4);
+			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 			glDisableClientState(GL_VERTEX_ARRAY);
 
@@ -361,8 +361,8 @@ void hardScroll (int distance) {
 	const GLfloat backdropTexCoords[] = { 
 		0.0f, 0.0f,
 		backdropTexW, 0.0f,
-		backdropTexW, backdropTexH, 
-		0.0f, backdropTexH
+		0.0f, backdropTexH,
+		backdropTexW, backdropTexH
 	}; 
 
 	setPixelCoords (true);
@@ -385,8 +385,8 @@ void hardScroll (int distance) {
 			const GLint vertices[] = { 
 				-xoffset, -distance-yoffset, 0, 
 				sceneWidth-xoffset, -distance-yoffset, 0, 
-				sceneWidth-xoffset, sceneHeight-distance-yoffset, 0, 
-				-xoffset, sceneHeight-distance-yoffset, 0
+				-xoffset, sceneHeight-distance-yoffset, 0,
+				sceneWidth-xoffset, sceneHeight-distance-yoffset, 0 
 			};
 
 			glEnableClientState(GL_VERTEX_ARRAY);
@@ -395,7 +395,7 @@ void hardScroll (int distance) {
 			glVertexPointer(3, GL_INT, 0, vertices);
 			glTexCoordPointer(2, GL_FLOAT, 0, backdropTexCoords);
 
-			glDrawArrays(GL_QUADS, 0, 4);
+			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 			glDisableClientState(GL_VERTEX_ARRAY);
@@ -440,15 +440,15 @@ void darkScreen () {
 			const GLint vertices[] = { 
 				-xoffset, -yoffset, 0, 
 				sceneWidth-xoffset, -yoffset, 0, 
-				sceneWidth-xoffset, sceneHeight-yoffset, 0, 
-				-xoffset, sceneHeight-yoffset, 0
+				-xoffset, sceneHeight-yoffset, 0,
+				sceneWidth-xoffset, sceneHeight-yoffset, 0
 			};
 
 			const GLfloat texCoords[] = { 
 				0.0f, 0.0f,
 				backdropTexW, 0.0f,
-				backdropTexW, backdropTexH, 
-				0.0f, backdropTexH
+				0.0f, backdropTexH,
+				backdropTexW, backdropTexH
 			}; 
 	
 			glEnableClientState(GL_VERTEX_ARRAY);
@@ -457,7 +457,7 @@ void darkScreen () {
 			glVertexPointer(3, GL_INT, 0, vertices);
 			glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
 
-			glDrawArrays(GL_QUADS, 0, 4);
+			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 			glDisableClientState(GL_VERTEX_ARRAY);
@@ -471,7 +471,7 @@ void darkScreen () {
 
 			glEnableClientState(GL_VERTEX_ARRAY);
 			glVertexPointer(3, GL_INT, 0, vertices);
-			glDrawArrays(GL_QUADS, 0, 4);
+			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 			glDisableClientState(GL_VERTEX_ARRAY);
 
 			glDisable(GL_BLEND);
@@ -540,15 +540,15 @@ void drawBackDrop () {
 			const GLfloat vertices[] = { 
 				(GLfloat)-ps -> cameraX, (GLfloat)-ps -> cameraY, 0.1f, 
 				w -ps -> cameraX, (GLfloat)-ps -> cameraY, 0.1f, 
-				w -ps -> cameraX, h -ps -> cameraY, 0.1f, 
-				(GLfloat)-ps -> cameraX, h -ps -> cameraY, 0.1f
+				(GLfloat)-ps -> cameraX, h -ps -> cameraY, 0.1f,
+				w -ps -> cameraX, h -ps -> cameraY, 0.1f
 			};
 
 			const GLfloat texCoords[] = { 
 				0.0f, 0.0f,
 				texw, 0.0f,
-				texw, texh, 
-				0.0f, texh
+				0.0f, texh,
+				texw, texh
 			}; 
 	
 			glEnableClientState(GL_VERTEX_ARRAY);
@@ -557,7 +557,7 @@ void drawBackDrop () {
 			glVertexPointer(3, GL_FLOAT, 0, vertices);
 			glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
 
-			glDrawArrays(GL_QUADS, 0, 4);
+			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 			glDisableClientState(GL_VERTEX_ARRAY);
@@ -571,15 +571,15 @@ void drawBackDrop () {
 	const GLfloat backdropTexCoords[] = { 
 		0.0f, 0.0f,
 		backdropTexW, 0.0f,
-		backdropTexW, backdropTexH, 
-		0.0f, backdropTexH
+		0.0f, backdropTexH,
+		backdropTexW, backdropTexH
 	}; 
 
 	const GLint vertices[] = { 
 		-cameraX, -cameraY, 0, 
 		sceneWidth-cameraX, -cameraY, 0, 
-		sceneWidth-cameraX, sceneHeight-cameraY, 0, 
-		-cameraX, sceneHeight-cameraY, 0
+		-cameraX, sceneHeight-cameraY, 0,
+		sceneWidth-cameraX, sceneHeight-cameraY, 0
 	};
 
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -588,7 +588,7 @@ void drawBackDrop () {
 	glVertexPointer(3, GL_INT, 0, vertices);
 	glTexCoordPointer(2, GL_FLOAT, 0, backdropTexCoords);
 
-	glDrawArrays(GL_QUADS, 0, 4);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
@@ -1143,8 +1143,8 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 	const GLfloat btexCoords[] = { 
 		btx1, bty1,
 		btx2, bty1,
-		btx2, bty2, 
-		btx1, bty2
+		btx1, bty2,
+		btx2, bty2 
 	}; 
 
 	setPixelCoords (true);
@@ -1162,15 +1162,15 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 			const GLint vertices[] = { 
 				-xoffset, -yoffset, 0, 
 				realPicWidth-xoffset, -yoffset, 0, 
-				realPicWidth-xoffset, -yoffset+realPicHeight, 0, 
-				-xoffset, -yoffset+realPicHeight, 0
+				-xoffset, -yoffset+realPicHeight, 0,
+				realPicWidth-xoffset, -yoffset+realPicHeight, 0
 			};
 
 			const GLfloat texCoords[] = { 
 				0.0f, 0.0f,
 				texCoordW, 0.0f,
-				texCoordW, texCoordH, 
-				0.0f, texCoordH
+				0.0f, texCoordH,
+				texCoordW, texCoordH
 			}; 
 
 			if (backdropExists) {
@@ -1198,7 +1198,7 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 				glVertexPointer(3, GL_INT, 0, vertices);
 				glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
 
-				glDrawArrays(GL_QUADS, 0, 4);
+				glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 				glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 				glDisableClientState(GL_VERTEX_ARRAY);
@@ -1224,7 +1224,7 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 				glVertexPointer(3, GL_INT, 0, vertices);
 				glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
 
-				glDrawArrays(GL_QUADS, 0, 4);
+				glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 				glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 				glDisableClientState(GL_VERTEX_ARRAY);
@@ -1352,15 +1352,15 @@ bool mixHSI (FILE * fp, int x, int y) {
 	const GLfloat texCoords[] = { 
 		tx1, ty1,
 		tx2, ty1,
-		tx2, ty2, 
-		tx1, ty2
+		tx1, ty2,
+		tx2, ty2
 	}; 
 
 	const GLfloat btexCoords[] = { 
 		btx1, bty1,
 		btx2, bty1,
-		btx2, bty2, 
-		btx1, bty2
+		btx1, bty2,
+		btx2, bty2
 	}; 
 
 	int t1, t2, n;
@@ -1460,8 +1460,8 @@ bool mixHSI (FILE * fp, int x, int y) {
 			const GLint vertices[] = { 
 				-xoffset, -yoffset, 0, 
 				realPicWidth-xoffset, -yoffset, 0, 
-				realPicWidth-xoffset, -yoffset+realPicHeight, 0, 
-				-xoffset, -yoffset+realPicHeight, 0
+				-xoffset, -yoffset+realPicHeight, 0,
+				realPicWidth-xoffset, -yoffset+realPicHeight, 0
 			};
 
 			glEnableClientState(GL_VERTEX_ARRAY);
@@ -1470,7 +1470,7 @@ bool mixHSI (FILE * fp, int x, int y) {
 			glVertexPointer(3, GL_INT, 0, vertices);
 			glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
 
-			glDrawArrays(GL_QUADS, 0, 4);
+			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 			glDisableClientState(GL_VERTEX_ARRAY);
@@ -1519,8 +1519,8 @@ void saveCorePNG  (FILE * writer, GLuint texture, int w, int h) {
 	const GLfloat texCoords[] = { 
 		0.0f, 0.0f,
 		1.0f, 0.0f,
-		1.0f, 1.0f, 
-		0.0f, 1.0f
+		0.0f, 1.0f,
+		1.0f, 1.0f
 	}; 
 
 	int xoffset = 0;
@@ -1536,8 +1536,8 @@ void saveCorePNG  (FILE * writer, GLuint texture, int w, int h) {
 			const GLint vertices[] = { 
 				-xoffset, -yoffset, 0, 
 				tw-xoffset, -yoffset, 0, 
-				tw-xoffset, -yoffset+th, 0, 
-				-xoffset, -yoffset+th, 0
+				-xoffset, -yoffset+th, 0,
+				tw-xoffset, -yoffset+th, 0
 			};
 
 			glEnableClientState(GL_VERTEX_ARRAY);
@@ -1546,7 +1546,7 @@ void saveCorePNG  (FILE * writer, GLuint texture, int w, int h) {
 			glVertexPointer(3, GL_INT, 0, vertices);
 			glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
 
-			glDrawArrays(GL_QUADS, 0, 4);
+			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 			glDisableClientState(GL_VERTEX_ARRAY);
@@ -1619,8 +1619,8 @@ void saveCoreHSI (FILE * writer, GLuint texture, int w, int h) {
 	const GLfloat texCoords[] = { 
 		0.0f, 0.0f,
 		1.0f, 0.0f,
-		1.0f, 1.0f, 
-		0.0f, 1.0f
+		0.0f, 1.0f,
+		1.0f, 1.0f
 	}; 
 
 	int xoffset = 0;
@@ -1636,8 +1636,8 @@ void saveCoreHSI (FILE * writer, GLuint texture, int w, int h) {
 			const GLint vertices[] = { 
 				-xoffset, -yoffset, 0, 
 				w-xoffset, -yoffset, 0, 
-				w-xoffset, -yoffset+h, 0, 
-				-xoffset, -yoffset+h, 0
+				-xoffset, -yoffset+h, 0,
+				w-xoffset, -yoffset+h, 0
 			};
 
 			glEnableClientState(GL_VERTEX_ARRAY);
@@ -1646,7 +1646,7 @@ void saveCoreHSI (FILE * writer, GLuint texture, int w, int h) {
 			glVertexPointer(3, GL_INT, 0, vertices);
 			glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
 
-			glDrawArrays(GL_QUADS, 0, 4);
+			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 			glDisableClientState(GL_VERTEX_ARRAY);

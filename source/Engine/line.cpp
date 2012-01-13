@@ -71,15 +71,15 @@ void drawLine(int x1, int y1, int x2, int y2) {
 			const GLint vertices[] = { 
 				-x-xoffset, 1-y-yoffset, 0, 
 				sceneWidth-x-xoffset, 1-y-yoffset, 0, 
-				sceneWidth-x-xoffset, sceneHeight-y-yoffset, 0, 
-				-x-xoffset, sceneHeight-y-yoffset, 0
+				-x-xoffset, sceneHeight-y-yoffset, 0,
+				sceneWidth-x-xoffset, sceneHeight-y-yoffset, 0
 			};
 
 			const GLfloat texCoords[] = { 
 				0.0f, 0.0f,
 				backdropTexW, 0.0f,
-				backdropTexW, backdropTexH, 
-				0.0f, backdropTexH
+				0.0f, backdropTexH,
+				backdropTexW, backdropTexH
 			}; 
 	
 			glEnableClientState(GL_VERTEX_ARRAY);
@@ -88,7 +88,7 @@ void drawLine(int x1, int y1, int x2, int y2) {
 			glVertexPointer(3, GL_INT, 0, vertices);
 			glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
 
-			glDrawArrays(GL_QUADS, 0, 4);
+			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 			glDisableClientState(GL_VERTEX_ARRAY);

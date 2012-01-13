@@ -49,15 +49,15 @@ bool saveThumbnail (FILE * fp) {
 		const GLint vertices[] = { 
 			0, 0, 0, 
 			thumbWidth-1, 0, 0, 
-			thumbWidth-1, thumbHeight-1, 0, 
-			0, thumbHeight-1, 0
+			0, thumbHeight-1, 0,
+			thumbWidth-1, thumbHeight-1, 0
 		};
 
 		const GLfloat texCoords[] = { 
 			0.0f, 0.0f,
 			backdropTexW, 0.0f,
-			backdropTexW, backdropTexH, 
-			0.0f, backdropTexH
+			0.0f, backdropTexH,
+			backdropTexW, backdropTexH
 		}; 
 
 		glEnableClientState(GL_VERTEX_ARRAY);
@@ -66,7 +66,7 @@ bool saveThumbnail (FILE * fp) {
 		glVertexPointer(3, GL_INT, 0, vertices);
 		glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
 
-		glDrawArrays(GL_QUADS, 0, 4);
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 		glDisableClientState(GL_VERTEX_ARRAY);
@@ -177,15 +177,15 @@ void showThumbnail (char * filename, int atX, int atY) {
 				const GLint vertices[] = { 
 					fileWidth-1-xoffset, -yoffset, 0, 
 					-xoffset, -yoffset, 0, 
-					-xoffset, fileHeight-1-yoffset, 0, 
-					fileWidth-1-xoffset, fileHeight-1-yoffset, 0
+					fileWidth-1-xoffset, fileHeight-1-yoffset, 0,
+					-xoffset, fileHeight-1-yoffset, 0
 				};
 
 				const GLfloat texCoords[] = { 
 					backdropTexW, 0.0f,
 					0.0f, 0.0f,
-					0.0f, backdropTexH, 
-					backdropTexW, backdropTexH
+					backdropTexW, backdropTexH,
+					0.0f, backdropTexH
 				}; 
 	
 				glEnableClientState(GL_VERTEX_ARRAY);
@@ -194,7 +194,7 @@ void showThumbnail (char * filename, int atX, int atY) {
 				glVertexPointer(3, GL_INT, 0, vertices);
 				glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
 
-				glDrawArrays(GL_QUADS, 0, 4);
+				glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 				glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 				glDisableClientState(GL_VERTEX_ARRAY);

@@ -116,15 +116,15 @@ void saveTexture (GLuint tex, GLubyte * data) {
 			const GLint vertices[] = { 
 				-xoffset, -yoffset, 0, 
 				tw-xoffset, -yoffset, 0, 
-				tw-xoffset, -yoffset+th, 0, 
-				-xoffset, -yoffset+th, 0
+				-xoffset, -yoffset+th, 0,
+				tw-xoffset, -yoffset+th, 0
 			};
 
 			const GLfloat texCoords[] = { 
 				0.0f, 0.0f,
 				1.0f, 0.0f,
-				1.0f, 1.0f, 
-				0.0f, 1.0f
+				0.0f, 1.0f,
+				1.0f, 1.0f
 			}; 
 	
 			glEnableClientState(GL_VERTEX_ARRAY);
@@ -133,7 +133,7 @@ void saveTexture (GLuint tex, GLubyte * data) {
 			glVertexPointer(3, GL_INT, 0, vertices);
 			glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
 
-			glDrawArrays(GL_QUADS, 0, 4);
+			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 			glDisableClientState(GL_VERTEX_ARRAY);

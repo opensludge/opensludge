@@ -137,7 +137,7 @@ void drawZBuffer(int x, int y, bool upsidedown) {
 
 	glUseProgram(shader.texture);
 
-	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); //FIXME: Do this differently.
 	glBindTexture (GL_TEXTURE_2D, zBuffer.texName);
 	glColor4f(1.0, 1.0, 1.0, 1.0);
 
