@@ -80,7 +80,7 @@ void drawLine(int x1, int y1, int x2, int y2) {
 
 			glUseProgram(shader.texture);
 			setPMVMatrix(shader.texture);
-			drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
+			drawQuad(shader.texture, vertices, 1, texCoords);
 			
 			// Then the line
 			//FIXME:Removing the lines doesn't work, but also didn't work properly before.

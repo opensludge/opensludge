@@ -15,6 +15,14 @@
 
 #include "language.h" // for settings
 
+#ifdef _WIN32
+#include <GL\glu.h> // handy for gluErrorString
+#elif defined __APPLE__
+#include <OpenGL/glu.h>
+#else
+#include <GL/glu.h>
+#endif
+
 unsigned int winWidth, winHeight;
 int viewportHeight, viewportWidth;
 int viewportOffsetX = 0, viewportOffsetY = 0;
@@ -182,7 +190,7 @@ void setSecondaryColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
 	secondaryColor[3] = a;
 }
 
-void drawTexturedQuadNew(GLint program, const GLfloat* vertices, int numTexCoords, ...)
+void drawQuad(GLint program, const GLfloat* vertices, int numTexCoords, ...)
 {
 	int i, vertexLoc, texCoordLocs[numTexCoords];
 	const GLfloat* texCoords[numTexCoords];
@@ -331,7 +339,7 @@ void saveTexture (GLuint tex, GLubyte * data) {
 			glUseProgram(shader.texture);
 			setPMVMatrix(shader.texture);
 
-			drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
+			drawQuad(shader.texture, vertices, 1, texCoords);
 			glUseProgram(0);
 
 			for (int i = 0; i<h; i++)	{

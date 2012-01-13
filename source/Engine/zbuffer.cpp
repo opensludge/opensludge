@@ -191,7 +191,7 @@ if (dr % 4 == 0) fprintf(stderr, "\n");
 		glUniform1i(glGetUniformLocation(shader.texture, "zBuffer"), 1);
 		glUniform1f(glGetUniformLocation(shader.texture, "zBufferLayer"), i);
  
-		drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
+		drawQuad(shader.texture, vertices, 1, texCoords);
 		glUniform1i(glGetUniformLocation(shader.texture, "zBuffer"), 0);
 	}
 	

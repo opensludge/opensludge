@@ -13,13 +13,6 @@
 #include "stringy.h"
 #include "shaders.h"
 #include "graphics.h"
-#ifdef _WIN32
-#include <GL\glu.h> // handy for gluErrorString
-#elif defined __APPLE__
-#include <OpenGL/glu.h> // handy for gluErrorString
-#else
-#include <GL/glu.h> // handy for gluErrorString
-#endif
 
 extern char *bundleFolder;
 

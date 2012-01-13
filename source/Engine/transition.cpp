@@ -35,7 +35,7 @@ void transitionFader () {
 	glUseProgram(shader.color);
 	setPMVMatrix(shader.color);
 	setPrimaryColor(0.0f, 0.0f, 0.0f, 1.0f - brightnessLevel/255.f);
-	drawTexturedQuadNew(shader.color, vertices, 0);
+	drawQuad(shader.color, vertices, 0);
 
 	glUseProgram(0);
 
@@ -69,7 +69,7 @@ void transitionCrossFader () {
 	glUniform1i(glGetUniformLocation(shader.texture, "modulateColor"), 1);
 	setPrimaryColor(1.0f, 1.0f, 1.0f, 1.0f - brightnessLevel/255.f);
 
-	drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
+	drawQuad(shader.texture, vertices, 1, texCoords);
 	glUniform1i(glGetUniformLocation(shader.texture, "modulateColor"), 0);
 	glUseProgram(0);
 
@@ -103,7 +103,7 @@ void transitionSnapshotBox () {
 	glUseProgram(shader.texture);
 	setPMVMatrix(shader.texture);
 
-	drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
+	drawQuad(shader.texture, vertices, 1, texCoords);
 	glUseProgram(0);
 }
 
@@ -213,7 +213,7 @@ void transitionDisolve () {
 	glUniform1i(glGetUniformLocation(shader.texture, "modulateColor"), 1);
 	setPrimaryColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-	drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
+	drawQuad(shader.texture, vertices, 1, texCoords);
 	glUniform1i(glGetUniformLocation(shader.texture, "modulateColor"), 0);
 	glUseProgram(0);
 
@@ -275,7 +275,7 @@ void transitionTV () {
 	glUniform1i(glGetUniformLocation(shader.texture, "modulateColor"), 1);
 	setPrimaryColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-	drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
+	drawQuad(shader.texture, vertices, 1, texCoords);
 	glUniform1i(glGetUniformLocation(shader.texture, "modulateColor"), 0);
 	glUseProgram(0);
 
@@ -303,7 +303,7 @@ void transitionBlinds () {
 	glUseProgram(shader.color);
 	setPMVMatrix(shader.color);
 	setPrimaryColor(0.0f, 0.0f, 0.0f, 1.0f);
-	drawTexturedQuadNew(shader.color, vertices, 0);
+	drawQuad(shader.color, vertices, 0);
 
 	glUseProgram(0);
 

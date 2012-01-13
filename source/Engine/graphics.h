@@ -59,7 +59,7 @@ void setSecondaryColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
 void drawTexturedQuad(const GLfloat* vertices, const GLfloat* texCoords);
 void drawTexturedQuad(const GLint* vertices, const GLfloat* texCoords);
 */
-void drawTexturedQuadNew(GLint program, const GLfloat* vertices, int numTexCoords, ...);
+void drawQuad(GLint program, const GLfloat* vertices, int numTexCoords, ...);
 
 void setPMVMatrix(GLint program);
 

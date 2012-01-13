@@ -60,7 +60,7 @@ bool saveThumbnail (FILE * fp) {
 			backdropTexW, backdropTexH
 		}; 
 
-		drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
+		drawQuad(shader.texture, vertices, 1, texCoords);
 
 		if (gameSettings.antiAlias < 0) {
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -183,7 +183,7 @@ void showThumbnail (char * filename, int atX, int atY) {
 					0.0f, backdropTexH
 				}; 
 	
-				drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
+				drawQuad(shader.texture, vertices, 1, texCoords);
 
 				glDisable(GL_BLEND);
 

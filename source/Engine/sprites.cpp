@@ -486,7 +486,7 @@ void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette
 				tx2, ty2
 			}; 
 
-			drawTexturedQuadNew(shader.paste, vertices, 3, texCoords, NULL, btexCoords);
+			drawQuad(shader.paste, vertices, 3, texCoords, NULL, btexCoords);
 
 			// Copy Our ViewPort To The Texture
 			glUseProgram(0);
@@ -575,7 +575,7 @@ void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette 
 			glUseProgram(shader.texture);
 			setPMVMatrix(shader.texture);
 
-			drawTexturedQuadNew(shader.texture, backdropVertices, 1, backdropTexCoords2);
+			drawQuad(shader.texture, backdropVertices, 1, backdropTexCoords2);
 
 			glActiveTexture(GL_TEXTURE2);
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
@@ -591,7 +591,7 @@ void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette 
 
 fprintf(stdout, "QUAD: sprites.cpp - burnSpriteToBackDrop\n");
 //FIXME: Test this some more. Also pasting the backdrop again is not strictly necessary but allows using the paste shader.
-			drawTexturedQuadNew(shader.paste, spriteVertices, 3, spriteTexCoords, NULL,  backdropTexCoords);
+			drawQuad(shader.paste, spriteVertices, 3, spriteTexCoords, NULL,  backdropTexCoords);
 
 			glUseProgram(0);
 
@@ -657,7 +657,7 @@ void fontSprite (bool flip, int x, int y, sprite & single, const spritePalette &
 
 	glEnable(GL_BLEND);
 
-	drawTexturedQuadNew(shader.smartScaler, vertices, 1, texCoords);
+	drawQuad(shader.smartScaler, vertices, 1, texCoords);
 
 	glDisable(GL_BLEND);
 	glUseProgram(0);
@@ -835,7 +835,7 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 		tx1, ty2
 	}; 
 
-	drawTexturedQuadNew(shader.smartScaler, vertices, 2, texCoords, ltexCoords);
+	drawQuad(shader.smartScaler, vertices, 2, texCoords, ltexCoords);
 
 	glDisable(GL_BLEND);
 	glUseProgram(0);
@@ -994,7 +994,7 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 			glUseProgram(shader.texture);
 			setPMVMatrix(shader.texture);
 
-			drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
+			drawQuad(shader.texture, vertices, 1, texCoords);
 
 			// The z-buffer
 			if (useZB) {
@@ -1036,7 +1036,7 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 				tx1, ty2
 			}; 
 
-			drawTexturedQuadNew(shader.paste, vertices2, 3, texCoords2, ltexCoords, btexCoords);
+			drawQuad(shader.paste, vertices2, 3, texCoords2, ltexCoords, btexCoords);
 
 			setSecondaryColor(0., 0., 0., 1.);
 			//glDisable(GL_COLOR_SUM); FIXME: replace line?

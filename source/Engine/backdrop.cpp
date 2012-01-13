@@ -331,7 +331,7 @@ void blankScreen (int x1, int y1, int x2, int y2) {
 			glUseProgram(shader.color);
 			setPMVMatrix(shader.color);
 			setPrimaryColor(redValue(currentBlankColour)/255.0f, greenValue(currentBlankColour)/255.0f, blueValue(currentBlankColour)/255.0f, 1.0f);
-			drawTexturedQuadNew(shader.color, vertices, 0);
+			drawQuad(shader.color, vertices, 0);
 			glUseProgram(0);
 
 			// Copy Our ViewPort To The Texture
@@ -387,7 +387,7 @@ void hardScroll (int distance) {
 			glUseProgram(shader.texture);
 			setPMVMatrix(shader.texture);
 
-			drawTexturedQuadNew(shader.texture, vertices, 1, backdropTexCoords);
+			drawQuad(shader.texture, vertices, 1, backdropTexCoords);
 			glUseProgram(0);
 
 			// Copy Our ViewPort To The Texture
@@ -443,7 +443,7 @@ void darkScreen () {
 			glUseProgram(shader.texture);
 			setPMVMatrix(shader.texture);
 
-			drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
+			drawQuad(shader.texture, vertices, 1, texCoords);
 
 			// Then the darkness
 		
@@ -454,7 +454,7 @@ void darkScreen () {
 			glUseProgram(shader.color);
 			setPMVMatrix(shader.color);
 			setPrimaryColor(0.0f, 0.0f, 0.0f, 0.5f);
-			drawTexturedQuadNew(shader.color, vertices, 0);
+			drawQuad(shader.color, vertices, 0);
 			glUseProgram(0);
 
 			glDisable(GL_BLEND);
@@ -539,7 +539,7 @@ void drawBackDrop () {
 				0.0f, texh,
 				texw, texh
 			}; 
-			drawTexturedQuadNew(shader.smartScaler, vertices, 1, texCoords);
+			drawQuad(shader.smartScaler, vertices, 1, texCoords);
 
 			ps = ps -> prev;
 		}
@@ -561,7 +561,7 @@ void drawBackDrop () {
 		(GLfloat)sceneWidth-cameraX, (GLfloat)sceneHeight-cameraY, 0.
 	};
 
-	drawTexturedQuadNew(shader.smartScaler, vertices, 2, backdropTexCoords, backdropTexCoords);
+	drawQuad(shader.smartScaler, vertices, 2, backdropTexCoords, backdropTexCoords);
 
 	glDisable(GL_BLEND);
 
@@ -1160,7 +1160,7 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 				glBindTexture(GL_TEXTURE_2D, tmpTex);
 				//glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
-				drawTexturedQuadNew(shader.paste, vertices, 3, texCoords, NULL, btexCoords);
+				drawQuad(shader.paste, vertices, 3, texCoords, NULL, btexCoords);
 
 				glUseProgram(0);
 
@@ -1174,7 +1174,7 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 
 				setPrimaryColor(1.0, 0.0, 0.0, 0.0);
 
-				drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
+				drawQuad(shader.texture, vertices, 1, texCoords);
 
 				glUseProgram(0);
 			}
@@ -1410,7 +1410,7 @@ bool mixHSI (FILE * fp, int x, int y) {
 				(GLfloat)realPicWidth-xoffset, (GLfloat)-yoffset+realPicHeight, 0.
 			};
 
-			drawTexturedQuadNew(shader.paste, vertices, 3, texCoords, NULL, btexCoords);
+			drawQuad(shader.paste, vertices, 3, texCoords, NULL, btexCoords);
 
 			// Copy Our ViewPort To The Texture
 			glUseProgram(0);
@@ -1472,7 +1472,7 @@ void saveCorePNG  (FILE * writer, GLuint texture, int w, int h) {
 			glUseProgram(shader.texture);
 			setPMVMatrix(shader.texture);
 
-			drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
+			drawQuad(shader.texture, vertices, 1, texCoords);
 
 			glUseProgram(0);
 
@@ -1565,7 +1565,7 @@ void saveCoreHSI (FILE * writer, GLuint texture, int w, int h) {
 
 			glUseProgram(shader.texture);
 			setPMVMatrix(shader.texture);
-			drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
+			drawQuad(shader.texture, vertices, 1, texCoords);
 			glUseProgram(0);
 			
 			for (int i = 0; i<h; i++)	{
