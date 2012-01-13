@@ -66,4 +66,7 @@ int getNextPOT(int n);
 
 void saveTexture (GLuint tex, GLubyte * data);
 
+int printOglError (const char *file, int         line);
+#define printOpenGLError() printOglError(__FILE__, __LINE__)
+
 #endif

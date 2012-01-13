@@ -767,3 +767,20 @@ int getNextPOT(int n) {
 	++n;
 	return n;
 }
+
+int printOglError (const char *file, int         line)
+{
+	/* Returns 1 if an OpenGL error occurred, 0 otherwise. */
+	GLenum glErr;
+	int    retCode = 0;
+
+	glErr = glGetError ();
+	while (glErr != GL_NO_ERROR)
+    {
+		//debugOut("glError in file %s @ line %d: %s\n", file, line, gluErrorString (glErr)); FIXME: reenable
+		debugOut("glError in file %s @ line %d: error code %i\n", file, line, glErr);
+		retCode = 1;
+		glErr = glGetError ();
+    }
+	return retCode;
+}

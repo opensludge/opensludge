@@ -17,6 +17,3 @@
 char *shaderFileRead(const char *fn); 
 int buildShaders (const GLchar *vertexShader, const GLchar *fragmentShader);
 
-int printOglError (const char *file, int         line);
-#define printOpenGLError() printOglError(__FILE__, __LINE__)
-
