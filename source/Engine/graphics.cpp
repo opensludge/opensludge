@@ -176,7 +176,7 @@ void dtexSubImage2D(GLenum target,  GLint level,  GLint xoffset,  GLint yoffset,
 
 
 
-/* FIXME: remove this
+// FIXME: remove this
 void drawTexturedQuad(const GLfloat* vertices, const GLfloat* texCoords)
 {
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -204,7 +204,7 @@ void drawTexturedQuad(const GLint* vertices, const GLfloat* texCoords)
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
 }
-*/
+
 
 void setPrimaryColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
 {

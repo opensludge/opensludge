@@ -851,14 +851,22 @@ movieHasEnded:	movieIsEnding = 1;
 			//glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 			glColor4f(1.0, 1.0, 1.0, 1.0);
 
-			glBegin(GL_QUADS);
+			const GLfloat texCoords[] = { 
+				0.0, 0.0,
+				1.0, 0.0,
+				0.0, 1.0,
+				1.0, 1.0
+			};
 
-			glTexCoord2f(0.0, 0.0); glVertex3f(0.0, 0.0, 0.1);
-			glTexCoord2f(1.0, 0.0); glVertex3f(640.0, 0.0, 0.1);
-			glTexCoord2f(1.0, 1.0); glVertex3f(640.0, 400.0, 0.1);
-			glTexCoord2f(0.0, 1.0); glVertex3f(0.0, 400.0, 0.1);
+			const GLfloat vertices[] = { 
+				0.0, 0.0, 0.1,
+				640.0, 0.0, 0.1,
+				0.0, 400.0, 0.1,
+				640.0, 400.0, 0.1
+			};
+			setPMVMatrix(shader.yuv);
+			drawQuad(shader.yuv, vertices, 1, texCoords);
 
-			glEnd();
 
 			glActiveTexture(GL_TEXTURE1);
 			glDisable(GL_TEXTURE_2D);
