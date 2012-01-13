@@ -1483,8 +1483,15 @@ void saveCorePNG  (FILE * writer, GLuint texture, int w, int h) {
 				-xoffset, -yoffset+th, 0,
 				tw-xoffset, -yoffset+th, 0
 			};
+
+			glUseProgram(shader.texture);
+			setPMVMatrix(shader.texture);
+			glUniform1i(glGetUniformLocation(shader.texture, "zBuffer"), 0);
+
 fprintf(stdout, "QUAD: saveCorePng\n");
-			drawTexturedQuad(vertices, texCoords);
+			drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
+
+			glUseProgram(0);
 
 			for (int i = 0; i<h; i++)	{
 				glReadPixels(viewportOffsetX, viewportOffsetY+i, w, 1, GL_RGBA, GL_UNSIGNED_BYTE, image+xoffset*4+(yoffset+i)*4*tw);
