@@ -13,7 +13,7 @@ BEGIN
       VALUE "FileDescription", "SLUDGE Project Manager"
       VALUE "FileVersion", TEXT_VERSION
       VALUE "InternalName", "sludge-projectmanager"
-      VALUE "LegalCopyright", "(C) 2000 - 2011 Hungry Software and contributors"
+      VALUE "LegalCopyright", "(C) 2000 - 2012 Hungry Software and contributors"
       VALUE "OriginalFilename", "sludge-projectmanager.exe"
       VALUE "ProductName", "SLUDGE Dev Kit"
       VALUE "ProductVersion", TEXT_VERSION

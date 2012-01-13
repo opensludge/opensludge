@@ -364,7 +364,7 @@ void SludgeApplication::on_about()
 	gtk_show_about_dialog(  GTK_WINDOW(theWindow),
 							"program-name", getWindowTitle(),
 							"authors", authors,
-							"copyright", "© 2000-2011 Hungry Software and contributors",
+							"copyright", "© 2000-2012 Hungry Software and contributors",
 							"license", 
 "This program is free software: you can redistribute it and/or modify\n\
 it under the terms of the GNU General Public License as published by\n\
