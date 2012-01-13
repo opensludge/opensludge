@@ -792,17 +792,17 @@ void setupOpenGLStuff() {
 		if (GLEE_ARB_shader_objects) {
 			debugOut("ARB_shader_objects supported.\n");
 		} else {
-			debugOut("Warning: Old graphics card! ARB_shader_objects not supported.\n");
+			fatal("Error: Old graphics card! ARB_shader_objects not supported.\n");
 		}
 		if (GLEE_ARB_vertex_shader) {
 			debugOut("ARB_vertex_shader supported.\n");
 		} else {
-			debugOut("Warning: Old graphics card! ARB_vertex_shader not supported.\n");
+			fatal("Error: Old graphics card! ARB_vertex_shader not supported.\n");
 		}
 		if (GLEE_ARB_fragment_shader) {
 			debugOut("ARB_fragment_shader supported.\n");
 		} else {
-			debugOut("Warning: Old graphics card! ARB_fragment_shader not supported.\n");
+			fatal("Error: Old graphics card! ARB_fragment_shader not supported.\n");
 		}
 	}
 #else
