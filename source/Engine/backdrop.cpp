@@ -319,7 +319,6 @@ void blankScreen (int x1, int y1, int x2, int y2) {
 			int h = (picHeight-yoffset < viewportHeight) ? picHeight-yoffset : viewportHeight;
 
 			// Render the scene
-			glColor3ub(redValue(currentBlankColour), greenValue(currentBlankColour), blueValue(currentBlankColour));
 
 			glDisable (GL_TEXTURE_2D);
 
@@ -330,13 +329,11 @@ void blankScreen (int x1, int y1, int x2, int y2) {
 				w+1.325f, h+1.325f, 0.0f 
 			};
 
-			glEnableClientState(GL_VERTEX_ARRAY);
-
-			glVertexPointer(3, GL_FLOAT, 0, vertices);
-
-			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-			glDisableClientState(GL_VERTEX_ARRAY);
+			glUseProgram(shader.color);
+			setPMVMatrix(shader.color);
+			glUniform4f(glGetUniformLocation(shader.color, "myColor"), redValue(currentBlankColour)/256.0f, greenValue(currentBlankColour)/256.0f, blueValue(currentBlankColour)/256.0f, 1.0f);
+			drawTexturedQuadNew(shader.color, vertices, 0);
+			glUseProgram(0);
 
 			// Copy Our ViewPort To The Texture
 			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
@@ -445,22 +442,19 @@ void darkScreen () {
 			glUseProgram(shader.texture);
 			setPMVMatrix(shader.texture);
 
-	fprintf(stdout, "QUAD: darkScreen\n");
 			drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
-
-			glUseProgram(0);
 
 			// Then the darkness
 			glDisable (GL_TEXTURE_2D);
-			glColor4ub (0, 0, 0, 127);
 			glColorMask (GL_TRUE, GL_TRUE, GL_TRUE, GL_FALSE);
 
 			glEnable(GL_BLEND);
 
-			glEnableClientState(GL_VERTEX_ARRAY);
-			glVertexPointer(3, GL_INT, 0, vertices);
-			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-			glDisableClientState(GL_VERTEX_ARRAY);
+			glUseProgram(shader.color);
+			setPMVMatrix(shader.color);
+			glUniform4f(glGetUniformLocation(shader.color, "myColor"), 0.0f, 0.0f, 0.0f, 0.5f);
+			drawTexturedQuadNew(shader.color, vertices, 0);
+			glUseProgram(0);
 
 			glDisable(GL_BLEND);
 			glColorMask (GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
