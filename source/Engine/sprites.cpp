@@ -680,7 +680,7 @@ unsigned char curLight[3];
 
 void setDrawMode (onScreenPerson * thisPerson) {
 	if (thisPerson->colourmix) {
-		glEnable(GL_COLOR_SUM);
+		//glEnable(GL_COLOR_SUM); FIXME: replace line?
 		setSecondaryColor(curLight[0]*thisPerson->r*thisPerson->colourmix/65025/255.f, curLight[1]*thisPerson->g*thisPerson->colourmix/65025/255.f, curLight[2]*thisPerson->b*thisPerson->colourmix/65025/255.f, 1.0f);
 	}
 
@@ -849,7 +849,7 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 		glActiveTexture(GL_TEXTURE0);
 	}
 	setSecondaryColor(0., 0., 0.,1.);
-	glDisable(GL_COLOR_SUM);
+	//glDisable(GL_COLOR_SUM); FIXME: replace line?
 
 	// Are we pointing at the sprite?
 	if (input.mouseX >= x1 && input.mouseX <= x2 && input.mouseY >= y1 && input.mouseY <= y2) {
@@ -1043,7 +1043,7 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 			drawTexturedQuadNew(shader.paste, vertices2, 3, texCoords2, ltexCoords, btexCoords);
 
 			setSecondaryColor(0., 0., 0., 1.);
-			glDisable(GL_COLOR_SUM);
+			//glDisable(GL_COLOR_SUM); FIXME: replace line?
 
 			// Copy Our ViewPort To The Texture
 			glBindTexture(GL_TEXTURE_2D, backdropTextureName);

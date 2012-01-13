@@ -117,7 +117,7 @@ bool setZBuffer (int y) {
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexImage2D (GL_TEXTURE_2D, 0, GL_ALPHA8, picWidth, picHeight, 0, GL_ALPHA, GL_UNSIGNED_BYTE, zBuffer.tex);
+	glTexImage2D (GL_TEXTURE_2D, 0, GL_ALPHA, picWidth, picHeight, 0, GL_ALPHA, GL_UNSIGNED_BYTE, zBuffer.tex);
 	
 	
 	return true;
@@ -136,7 +136,7 @@ void drawZBuffer(int x, int y, bool upsidedown) {
 	glUseProgram(shader.texture);
 	setPMVMatrix(shader.texture);
 
-	//glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); //FIXME: Do this differently.
+	//glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glBindTexture (GL_TEXTURE_2D, zBuffer.texName);
 	setPrimaryColor(1.0, 1.0, 1.0, 1.0);
 

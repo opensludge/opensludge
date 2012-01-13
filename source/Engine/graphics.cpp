@@ -192,7 +192,7 @@ void drawTexturedQuadNew(GLint program, const GLint* vertices, int numTexCoords,
 
 void setPMVMatrix(GLint program) {
 	GLfloat projection[16];
-	glGetFloatv( GL_PROJECTION_MATRIX, projection );
+	glGetFloatv( GL_PROJECTION_MATRIX, projection ); //FIXME: prepare one yourself
 	glUniformMatrix4fv( glGetUniformLocation(program, "myPMVMatrix"), 1, GL_FALSE, projection);
 }
 
@@ -274,7 +274,7 @@ int desktopW = 0, desktopH = 0;
 bool runningFullscreen = false;
 
 
-#ifdef _WIN32
+#if defined _WIN32 || defined(HAVE_GLES2)
 // Replacement for glGetTexImage, because some ATI drivers are buggy.
 void saveTexture (GLuint tex, GLubyte * data) {
 	setPixelCoords (true);
@@ -711,6 +711,7 @@ void setupOpenGLStuff() {
 
 	setGraphicsWindow(gameSettings.userFullScreen, false);
 
+#if !defined(HAVE_GLES2)
 	/* Check for graphics capabilities... */
 	if (GLEE_VERSION_2_0) {
 		// Yes! Textures can be any size!
@@ -759,6 +760,9 @@ void setupOpenGLStuff() {
 			debugOut("Warning: Old graphics card! ARB_fragment_shader not supported.\n");
 		}
 	}
+#else
+	NPOT_textures = false;
+#endif
 
 	int n;
 	glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, (GLint *) &n);
