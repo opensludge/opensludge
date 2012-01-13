@@ -1150,10 +1150,8 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 			if (backdropExists) {
 				// Render the sprite to the backdrop
 				// (using mulitexturing, so the old backdrop is seen where alpha < 1.0)
-				glClientActiveTexture(GL_TEXTURE2);
 				glActiveTexture(GL_TEXTURE2);
 				glBindTexture (GL_TEXTURE_2D, backdropTextureName);
-				glClientActiveTexture(GL_TEXTURE0);
 				glActiveTexture(GL_TEXTURE0);
 
 				glUseProgram(shader.paste);
@@ -1396,10 +1394,8 @@ bool mixHSI (FILE * fp, int x, int y) {
 
 			// Render the sprite to the backdrop
 			// (using mulitexturing, so the backdrop is seen where alpha < 1.0)
-			glClientActiveTexture(GL_TEXTURE2);
 			glActiveTexture(GL_TEXTURE2);
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
-			glClientActiveTexture(GL_TEXTURE0);
 			glActiveTexture(GL_TEXTURE0);
 
 			glUseProgram(shader.paste);

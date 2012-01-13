@@ -458,10 +458,8 @@ void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette
 
 			// Render the sprite to the backdrop
 			// (using mulitexturing, so the backdrop is seen where alpha < 1.0)
-			glClientActiveTexture(GL_TEXTURE2);
 			glActiveTexture(GL_TEXTURE2);
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
-			glClientActiveTexture(GL_TEXTURE0);
 			glActiveTexture(GL_TEXTURE0);
 
 			glUseProgram(shader.paste);
@@ -580,10 +578,8 @@ void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette 
 
 			drawTexturedQuadNew(shader.texture, backdropVertices, 1, backdropTexCoords2);
 
-			glClientActiveTexture(GL_TEXTURE2);
 			glActiveTexture(GL_TEXTURE2);
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
-			glClientActiveTexture(GL_TEXTURE0);
 			glActiveTexture(GL_TEXTURE0);
 
 			glUseProgram(shader.paste);
@@ -793,11 +789,9 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 			curLight[2] = target[2];
 		} else if (lightMapMode == LIGHTMAPMODE_PIXEL) {
 			curLight[0] = curLight[1] = curLight[2] = 255;
-			glClientActiveTexture(GL_TEXTURE1);
 			glActiveTexture(GL_TEXTURE1);
 			glEnable(GL_TEXTURE_2D);
 			glBindTexture (GL_TEXTURE_2D, lightMap.name);
-			glClientActiveTexture(GL_TEXTURE0);
 			glActiveTexture(GL_TEXTURE0);
 		}
 	} else {
@@ -850,10 +844,8 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 	glUseProgram(0);
 
 	if (light && lightMapMode == LIGHTMAPMODE_PIXEL) {
-		glClientActiveTexture(GL_TEXTURE1);
 		glActiveTexture(GL_TEXTURE1);
 		glDisable(GL_TEXTURE_2D);
-		glClientActiveTexture(GL_TEXTURE0);
 		glActiveTexture(GL_TEXTURE0);
 	}
 	setSecondaryColor(0., 0., 0.,1.);
@@ -963,17 +955,14 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 			}
 		} else if (lightMapMode == LIGHTMAPMODE_PIXEL) {
 			curLight[0] = curLight[1] = curLight[2] = 255;
-			glClientActiveTexture(GL_TEXTURE1);
 			glActiveTexture(GL_TEXTURE1);
 			glBindTexture (GL_TEXTURE_2D, lightMap.name);
 		}
 	} else {
 		curLight[0] = curLight[1] = curLight[2] = 255;
 	}
-	glClientActiveTexture(GL_TEXTURE2);
 	glActiveTexture(GL_TEXTURE2);
 	glBindTexture (GL_TEXTURE_2D, backdropTextureName);
-	glClientActiveTexture(GL_TEXTURE0);
 	glActiveTexture(GL_TEXTURE0);
 
 	setPixelCoords (true);
