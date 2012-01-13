@@ -1432,8 +1432,6 @@ void saveCorePNG  (FILE * writer, GLuint texture, int w, int h) {
 	GLint tw, th;
 
 	glBindTexture (GL_TEXTURE_2D, texture);
-	//glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &tw); FIXME: remove line
-	//glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &th); FIXME: remove line
 	getTextureDimensions(texture, &tw, &th);
 
 	GLubyte* image = new GLubyte [tw*th*4];
@@ -1526,10 +1524,7 @@ void saveCorePNG  (FILE * writer, GLuint texture, int w, int h) {
 void saveCoreHSI (FILE * writer, GLuint texture, int w, int h) {
 
 	GLint tw, th;
-
 	glBindTexture (GL_TEXTURE_2D, texture);
-	//glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &tw); FIXME: replace line
-	//glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &th); FIXME: replace line
 	getTextureDimensions(texture, &tw, &th);
 
 	GLushort* image = new GLushort [tw*th];

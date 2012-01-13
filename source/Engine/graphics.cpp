@@ -64,6 +64,16 @@ void getTextureDimensions(GLuint name, GLint *width,  GLint *height)
 		if (list->name == name)  {
 			*width = list->width;
 			*height = list->height;
+#if !defined(HAVE_GLES2)
+			//For the following test it is assumed that glBindTexture is always 
+			//called for the right texture before getTextureDimensions.
+			GLint tw, th;
+			glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &tw); 
+			glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &th);
+			if (tw != *width || th != *height) {
+				debugOut ("Warning: Texture dimensions don't match: They are %ix%i, but SLUDGEs bookkeeping says %ix%i.\n", tw, th, *width, *height);
+			}
+#endif
 			return;
 		}
 		list = list->next;
@@ -71,11 +81,18 @@ void getTextureDimensions(GLuint name, GLint *width,  GLint *height)
 	fatal("Texture not found in list.");
 }
 
-void preTexImage2D(GLuint name, GLsizei width,  GLsizei height, const char *file, int line)
+void storeTextureDimensions(GLuint name, GLsizei width,  GLsizei height, const char *file, int line)
 {
+	if (! NPOT_textures && !(((height & (height - 1)) == 0) || ((width & (width - 1)) == 0))) {
+		debugOut("I was told to create a texture with dimensions %ix%i in %s @ line %d although NPOT textures are disabled.\n", width, height, file, line);
+		//height = getNextPOT(height);
+		//width = getNextPOT(width);
+	}
+
 	textureList *list = firstTexture;
 	while (list) {
 		if (list->name == name)  {
+			debugOut("Texture dimensions are overwritten.\n");
 			break;
 		}
 		list = list->next;
@@ -86,38 +103,34 @@ void preTexImage2D(GLuint name, GLsizei width,  GLsizei height, const char *file
 	list->name = name;
 	list->width = width;
 	list->height = height;
-
-	if (! NPOT_textures && !(((height & (height - 1)) == 0) || ((width & (width - 1)) == 0))) {
-		debugOut("Creating texture with dimensions %ix%i in %s @ line %d although NPOT textures are disabled.\n", width, height, file, line);
-	}
-
-	glBindTexture(GL_TEXTURE_2D, name);
 }
 
 
 void dcopyTexImage2D(GLenum target,  GLint level,  GLenum internalformat,  GLint x,  GLint y,  GLsizei width,  GLsizei height,  GLint border, GLuint name, const char *file, int line)
 {
-	preTexImage2D(name, width,  height, file, line);
+	glBindTexture(GL_TEXTURE_2D, name);
 	glCopyTexImage2D(target, level, internalformat, x, y, width, height, border);
 }
 
 void dcopyTexSubImage2D(GLenum target,  GLint level,  GLint xoffset,  GLint yoffset,  GLint x,  GLint y,  GLsizei width,  GLsizei height, GLuint name, const char *file, int line)
 {
-	preTexImage2D(name, width,  height, file, line);
+	glBindTexture(GL_TEXTURE_2D, name);
 	glCopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height);
 }
 
 void dtexImage2D(GLenum target,  GLint level,  GLint internalformat,  GLsizei width,  GLsizei height, 
 		GLint border,  GLenum format,  GLenum type,  const GLvoid * data, GLuint name, const char *file, int line)
 {
-	preTexImage2D(name, width,  height, file, line);
+	storeTextureDimensions(name, width,  height, file, line);
+	glBindTexture(GL_TEXTURE_2D, name);
 	glTexImage2D(target, level, internalformat, width, height, border, format, type,  data);
 }
 
 void dtexSubImage2D(GLenum target,  GLint level,  GLint xoffset,  GLint yoffset,  GLsizei width,  GLsizei height,
 		GLenum format,  GLenum type,  const GLvoid * data, GLuint name, const char *file, int line) 
 {
-	preTexImage2D(name, width,  height, file, line);
+	storeTextureDimensions(name, width,  height, file, line);
+	glBindTexture(GL_TEXTURE_2D, name);
 	glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, data);
 }
 
@@ -287,9 +300,6 @@ void saveTexture (GLuint tex, GLubyte * data) {
 	glBindTexture (GL_TEXTURE_2D, tex);
 
 	GLint tw, th;
-
-	//glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &tw); FIXME: replace line
-	//glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &th); FIXME: replace line
 	getTextureDimensions(tex, &tw, &th);
 
 	//glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
