@@ -388,7 +388,7 @@ void hardScroll (int distance) {
 				-xoffset, sceneHeight-distance-yoffset, 0,
 				sceneWidth-xoffset, sceneHeight-distance-yoffset, 0 
 			};
-
+fprintf(stdout, "QUAD: hardScroll\n");
 			drawTexturedQuad(vertices, backdropTexCoords);
 
 			// Copy Our ViewPort To The Texture
@@ -441,7 +441,7 @@ void darkScreen () {
 				0.0f, backdropTexH,
 				backdropTexW, backdropTexH
 			}; 
-	
+	fprintf(stdout, "QUAD: darkScreen\n");
 			drawTexturedQuad(vertices, texCoords);
 
 			// Then the darkness
@@ -1171,7 +1171,7 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 				glBindTexture(GL_TEXTURE_2D, tmpTex);
 
 				glColor4f(1.0, 0.0, 0.0, 0.0);
-
+fprintf(stdout, "QUAD: loadHSI\n");
 				drawTexturedQuad(vertices, texCoords);
 			}
 
@@ -1469,7 +1469,7 @@ void saveCorePNG  (FILE * writer, GLuint texture, int w, int h) {
 				-xoffset, -yoffset+th, 0,
 				tw-xoffset, -yoffset+th, 0
 			};
-
+fprintf(stdout, "QUAD: saveCorePng\n");
 			drawTexturedQuad(vertices, texCoords);
 
 			for (int i = 0; i<h; i++)	{
@@ -1560,7 +1560,7 @@ void saveCoreHSI (FILE * writer, GLuint texture, int w, int h) {
 				-xoffset, -yoffset+h, 0,
 				w-xoffset, -yoffset+h, 0
 			};
-
+fprintf(stdout, "QUAD: saveCoreHSI\n");
 			drawTexturedQuad(vertices, texCoords);
 			
 			for (int i = 0; i<h; i++)	{

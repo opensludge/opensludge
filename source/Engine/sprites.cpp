@@ -561,7 +561,7 @@ void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette 
 				-x1-xoffset, sceneHeight-1.0f-y1+yoffset, 0.0f,
 				sceneWidth-1.0f-x1-xoffset, sceneHeight-1.0f-y1+yoffset, 0.0f
 			};
-
+fprintf(stdout, "QUAD: sprites.cpp - burnSpriteToBackDrop\n");
 			drawTexturedQuad(backdropVertices, backdropTexCoords);
 
 			// Then the sprite
@@ -985,7 +985,8 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 				0.0f, backdropTexH,
 				backdropTexW, backdropTexH
 			}; 
-	
+
+fprintf(stdout, "QUAD: sprites.cpp - fixScaleSprite\n");
 			drawTexturedQuad(vertices, texCoords);
 
 			// The z-buffer

@@ -68,6 +68,7 @@ void transitionCrossFader () {
 		snapTexW, 0.0f
 	}; 
 
+fprintf(stdout, "QUAD: transition.cpp - transitionCrossFader\n");
 	drawTexturedQuad(vertices, texCoords);
 
 	glDisable(GL_BLEND);
@@ -97,6 +98,7 @@ void transitionSnapshotBox () {
 		snapTexW, 0.0f
 	}; 
 
+fprintf(stdout, "QUAD: transition.cpp - transitionSnapshotBox\n");
 	drawTexturedQuad(vertices, texCoords);
 }
 
@@ -205,6 +207,7 @@ void transitionDisolve () {
 		1.0f, 0.0f
 	}; 
 
+fprintf(stdout, "QUAD: transition.cpp - transitionDisolve\n");
 	drawTexturedQuad(vertices, texCoords);
 
 	glDisable(GL_BLEND);
@@ -264,6 +267,7 @@ void transitionTV () {
 		1.0f, 0.0f
 	}; 
 
+fprintf(stdout, "QUAD: transition.cpp - transitionTV\n");
 	drawTexturedQuad(vertices, texCoords);
 
 	glDisable(GL_BLEND);	

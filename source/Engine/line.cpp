@@ -82,6 +82,7 @@ void drawLine(int x1, int y1, int x2, int y2) {
 				backdropTexW, backdropTexH
 			}; 
 	
+fprintf(stdout, "QUAD: line.cpp - drawLine\n");
 			drawTexturedQuad(vertices, texCoords);
 			
 			glDisable (GL_TEXTURE_2D);

@@ -275,7 +275,7 @@ void saveTexture (GLuint tex, GLubyte * data) {
 				0.0f, 1.0f,
 				1.0f, 1.0f
 			}; 
-	
+fprintf(stdout, "QUAD: graphics.cpp - saveTexture\n");
 			drawTexturedQuad(vertices, texCoords);
 
 			for (int i = 0; i<h; i++)	{
