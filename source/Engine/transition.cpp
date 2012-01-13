@@ -35,7 +35,7 @@ void transitionFader () {
 
 	glUseProgram(shader.color);
 	setPMVMatrix(shader.color);
-	glUniform4f(glGetUniformLocation(shader.color, "myColor"), 0.0f, 0.0f, 0.0f, 1.0f - brightnessLevel/256.f);
+	setPrimaryColor(0.0f, 0.0f, 0.0f, 1.0f - brightnessLevel/255.f);
 	drawTexturedQuadNew(shader.color, vertices, 0);
 
 	glUseProgram(0);
@@ -69,7 +69,7 @@ void transitionCrossFader () {
 	glUseProgram(shader.texture);
 	setPMVMatrix(shader.texture);
 	glUniform1i(glGetUniformLocation(shader.texture, "modulateColor"), 1);
-	glUniform4f(glGetUniformLocation(shader.texture, "myColor"), 1.0f, 1.0f, 1.0f, 1.0f - brightnessLevel/256.f);
+	setPrimaryColor(1.0f, 1.0f, 1.0f, 1.0f - brightnessLevel/255.f);
 
 	drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
 	glUniform1i(glGetUniformLocation(shader.texture, "modulateColor"), 0);
@@ -214,7 +214,7 @@ void transitionDisolve () {
 	glUseProgram(shader.texture);
 	setPMVMatrix(shader.texture);
 	glUniform1i(glGetUniformLocation(shader.texture, "modulateColor"), 1);
-	glUniform4f(glGetUniformLocation(shader.texture, "myColor"), 1.0f, 1.0f, 1.0f, 1.0f);
+	setPrimaryColor(1.0f, 1.0f, 1.0f, 1.0f);
 
 	drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
 	glUniform1i(glGetUniformLocation(shader.texture, "modulateColor"), 0);
@@ -277,7 +277,7 @@ void transitionTV () {
 	glUseProgram(shader.texture);
 	setPMVMatrix(shader.texture);
 	glUniform1i(glGetUniformLocation(shader.texture, "modulateColor"), 1);
-	glUniform4f(glGetUniformLocation(shader.texture, "myColor"), 1.0f, 1.0f, 1.0f, 1.0f);
+	setPrimaryColor(1.0f, 1.0f, 1.0f, 1.0f);
 
 	drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
 	glUniform1i(glGetUniformLocation(shader.texture, "modulateColor"), 0);
@@ -308,7 +308,7 @@ void transitionBlinds () {
 
 	glUseProgram(shader.color);
 	setPMVMatrix(shader.color);
-	glUniform4f(glGetUniformLocation(shader.color, "myColor"), 0.0f, 0.0f, 0.0f, 1.0f);
+	setPrimaryColor(0.0f, 0.0f, 0.0f, 1.0f);
 	drawTexturedQuadNew(shader.color, vertices, 0);
 
 	glUseProgram(0);

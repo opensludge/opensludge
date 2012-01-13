@@ -45,6 +45,9 @@ GLfloat pixelPMVMatrix[16];
 
 void sludgeDisplay ();
 
+GLfloat primaryColor[4];
+GLfloat secondaryColor[4];
+
 /* FIXME: remove this
 void drawTexturedQuad(const GLfloat* vertices, const GLfloat* texCoords)
 {
@@ -75,6 +78,22 @@ void drawTexturedQuad(const GLint* vertices, const GLfloat* texCoords)
 }
 */
 
+void setPrimaryColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
+{
+	primaryColor[0] = r;
+	primaryColor[1] = g;
+	primaryColor[2] = b;
+	primaryColor[3] = a;
+}
+
+void setSecondaryColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
+{
+	secondaryColor[0] = r;
+	secondaryColor[1] = g;
+	secondaryColor[2] = b;
+	secondaryColor[3] = a;
+}
+
 void drawTexturedQuadNew(GLint program, const GLfloat* vertices, int numTexCoords, ...)
 {
 	int i, vertexLoc, texCoordLocs[numTexCoords];
@@ -87,6 +106,11 @@ void drawTexturedQuadNew(GLint program, const GLfloat* vertices, int numTexCoord
 		texCoords[i]=va_arg(vl,const GLfloat*);
 	}
 	va_end(vl);
+
+	if (program == shader.color || program == shader.texture)
+	{
+		glUniform4f(glGetUniformLocation(program, "myColor"), primaryColor[0], primaryColor[1], primaryColor[2], primaryColor[3]);
+	}
 
 	vertexLoc = glGetAttribLocation(program, "myVertex");
 	texCoordLocs[0] = glGetAttribLocation(program, "myUV0");
@@ -129,6 +153,11 @@ void drawTexturedQuadNew(GLint program, const GLint* vertices, int numTexCoords,
 		texCoords[i]=va_arg(vl,const GLfloat*);
 	}
 	va_end(vl);
+
+	if (program == shader.color || program == shader.texture)
+	{
+		glUniform4f(glGetUniformLocation(program, "myColor"), primaryColor[0], primaryColor[1], primaryColor[2], primaryColor[3]);
+	}
 
 	vertexLoc = glGetAttribLocation(program, "myVertex");
 	texCoordLocs[0] = glGetAttribLocation(program, "myUV0");

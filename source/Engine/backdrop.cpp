@@ -331,7 +331,7 @@ void blankScreen (int x1, int y1, int x2, int y2) {
 
 			glUseProgram(shader.color);
 			setPMVMatrix(shader.color);
-			glUniform4f(glGetUniformLocation(shader.color, "myColor"), redValue(currentBlankColour)/256.0f, greenValue(currentBlankColour)/256.0f, blueValue(currentBlankColour)/256.0f, 1.0f);
+			setPrimaryColor(redValue(currentBlankColour)/255.0f, greenValue(currentBlankColour)/255.0f, blueValue(currentBlankColour)/255.0f, 1.0f);
 			drawTexturedQuadNew(shader.color, vertices, 0);
 			glUseProgram(0);
 
@@ -456,7 +456,7 @@ void darkScreen () {
 
 			glUseProgram(shader.color);
 			setPMVMatrix(shader.color);
-			glUniform4f(glGetUniformLocation(shader.color, "myColor"), 0.0f, 0.0f, 0.0f, 0.5f);
+			setPrimaryColor(0.0f, 0.0f, 0.0f, 0.5f);
 			drawTexturedQuadNew(shader.color, vertices, 0);
 			glUseProgram(0);
 
