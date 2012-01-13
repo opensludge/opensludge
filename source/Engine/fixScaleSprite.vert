@@ -18,8 +18,6 @@ void main() {
 	varCoord0 = myUV0.st;
 	varCoord1 = myUV1.st;
 	varCoord2 = myUV2.st;
-	gl_FrontColor = myColor;
-	gl_FrontSecondaryColor = mySecondaryColor;
 	gl_Position = myPMVMatrix * myVertex;
 
 	color = myColor;

@@ -4,7 +4,7 @@ sludge_engine_SOURCES = \
 	backdrop.cpp bg_effects.cpp builtin.cpp cursors.cpp debug.cpp \
 	fileset.cpp floor.cpp fonttext.cpp freeze.cpp graphics.cpp helpers.cpp \
 	language.cpp line.cpp linuxstuff.cpp loadsave.cpp main.cpp \
-	memwatch.cpp moreio.cpp movie.cpp newfatal.cpp objtypes.cpp people.cpp \
+	memwatch.cpp moreio.cpp fakemovie.cpp newfatal.cpp objtypes.cpp people.cpp \
 	region.cpp savedata.cpp shaders.cpp sludger.cpp sprbanks.cpp \
 	sprites.cpp statusba.cpp stringy.cpp talk.cpp \
 	thumbnail.cpp timing.cpp transition.cpp variable.cpp \

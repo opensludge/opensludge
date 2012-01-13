@@ -56,7 +56,8 @@ if test "x$enable_engine" = xyes; then
   PKG_CHECK_MODULES([ENGINE], [sdl alure >= 1.1 openal vorbis ogg])
   AC_CHECK_LIB([vpx], [vpx_codec_decode], [ENGINE_LIBS+=" -lvpx"], [AC_MSG_ERROR([cannot find vpx library])])
   if test "x$enable_gles2" = xyes; then
-    PKG_CHECK_MODULES([GLES2], [glesv2])
+    PKG_CHECK_MODULES([GLES2], [glesv2 egl])
+    AC_CHECK_LIB([SDL_gles], [SDL_GLES_Init], [GLES2_LIBS+=" -lSDL_gles"], [AC_MSG_ERROR([cannot find SDL_gles library])])
   else
     PKG_CHECK_MODULES([GL], [gl glu])
   fi

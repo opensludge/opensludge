@@ -19,8 +19,6 @@ void main()
 
 	// Light
 	varCoord1 = myUV1.st;
-	gl_FrontColor = myColor;
-	gl_FrontSecondaryColor = mySecondaryColor;
 
 	color = myColor;
 	secondaryColor = mySecondaryColor;

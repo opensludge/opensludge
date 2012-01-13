@@ -20,7 +20,8 @@ void main()
 	vec4 c11 = texture2D(Texture, varCoord0.xy);
 
 	if (antialias) {
-		vec2 fw = fwidth(varCoord0.xy)*scale;
+		//vec2 fw = fwidth(varCoord0.xy)*scale; FIXME: reenable antialiasing
+		vec2 fw = vec2(0.0,0.0);
 
 		vec2 sd1 = vec2( fw.x,fw.y);
 		vec2 sd2 = vec2(-fw.x,fw.y);

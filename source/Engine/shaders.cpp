@@ -67,7 +67,8 @@ int printOglError (const char *file, int         line)
 	glErr = glGetError ();
 	while (glErr != GL_NO_ERROR)
     {
-		debugOut("glError in file %s @ line %d: %s\n", file, line, gluErrorString (glErr));
+		//debugOut("glError in file %s @ line %d: %s\n", file, line, gluErrorString (glErr)); FIXME: reenable
+		debugOut("glError in file %s @ line %d: error code %i\n", file, line, glErr);
 		retCode = 1;
 		glErr = glGetError ();
     }
