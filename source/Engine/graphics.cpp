@@ -41,7 +41,6 @@ extern GLuint vTextureName;
 
 shaders shader;
 GLfloat aPMVMatrix[16];
-GLfloat pixelPMVMatrix[16];
 
 void sludgeDisplay ();
 
@@ -191,9 +190,7 @@ void drawTexturedQuadNew(GLint program, const GLint* vertices, int numTexCoords,
 }
 
 void setPMVMatrix(GLint program) {
-	GLfloat projection[16];
-	glGetFloatv( GL_PROJECTION_MATRIX, projection ); //FIXME: prepare one yourself
-	glUniformMatrix4fv( glGetUniformLocation(program, "myPMVMatrix"), 1, GL_FALSE, projection);
+	glUniformMatrix4fv( glGetUniformLocation(program, "myPMVMatrix"), 1, GL_FALSE, aPMVMatrix);
 }
 
 // This is for swapping settings between rendering to texture or to the screen
@@ -207,29 +204,20 @@ void setPixelCoords (bool pixels) {
 	if (pixels) {
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		glOrtho(0, viewportWidth, 0, viewportHeight, 1.0, -1.0);
-
-		glMatrixMode(GL_MODELVIEW);
 
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		if (shader.texture)
+		const GLfloat bPMVMatrix[] =
 		{
-			const GLfloat bPMVMatrix[] =
-			{
-			2.0f/viewportWidth,                  .0,   .0,  .0,
-			                .0, 2.0f/viewportHeight,   .0,  .0,
-			                .0,                  .0, 1.0f,  .0,
-			              -1.0,                1.0f,   .0, 1.0f
+		2.0f/viewportWidth,                  .0,   .0,  .0,
+			        .0, 2.0f/viewportHeight,   .0,  .0,
+			        .0,                  .0, 1.0f,  .0,
+			      -1.0,               -1.0f,   .0, 1.0f
 
-			};
-			for (int i = 0; i < 16; i++)
-			{
-				pixelPMVMatrix[i] = bPMVMatrix[i];
-			}
-			//glUniformMatrix4fv( glGetUniformLocation(shader.texture, "myPMVMatrix"), 1, GL_FALSE, aPMVMatrix);
+		};
+		for (int i = 0; i < 16; i++)
+		{
+			aPMVMatrix[i] = bPMVMatrix[i];
 		}
 	} else {
 		if (gameSettings.antiAlias < 0) {
@@ -240,32 +228,20 @@ void setPixelCoords (bool pixels) {
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		}
 
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
 		GLfloat w = (GLfloat) winWidth / cameraZoom;
 		GLfloat h = (GLfloat) winHeight / cameraZoom;
 
-		glOrtho(0, w, h, 0, 1.0, -1.0);
-
-//		glOrtho(0, winWidth, winHeight, 0, 1.0, -1.0);
-
-		glMatrixMode(GL_MODELVIEW);
-
-		if (shader.texture)
+		const GLfloat bPMVMatrix[] =
 		{
-			const GLfloat bPMVMatrix[] =
-			{
-			2.0f/w,      .0,   .0,  .0,
-			    .0, -2.0f/h,   .0,  .0,
-			    .0,      .0, 1.0f,  .0,
-			  -1.0,    1.0f,   .0, 1.0f
+		2.0f/w,      .0,   .0,  .0,
+		    .0, -2.0f/h,   .0,  .0,
+		    .0,      .0, 1.0f,  .0,
+		  -1.0,    1.0f,   .0, 1.0f
 
-			};
-			for (int i = 0; i < 16; i++)
-			{
-				aPMVMatrix[i] = bPMVMatrix[i];
-			}
-			//glUniformMatrix4fv( glGetUniformLocation(shader.texture, "myPMVMatrix"), 1, GL_FALSE, aPMVMatrix);
+		};
+		for (int i = 0; i < 16; i++)
+		{
+			aPMVMatrix[i] = bPMVMatrix[i];
 		}
 	}
 }
@@ -283,8 +259,8 @@ void saveTexture (GLuint tex, GLubyte * data) {
 
 	GLint tw, th;
 
-	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &tw);
-	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &th);
+	//glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &tw); FIXME: replace line
+	//glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &th); FIXME: replace line
 
 	glEnable (GL_TEXTURE_2D);
 	//glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
@@ -620,9 +596,6 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	setPixelCoords (false);
-
-	glLoadIdentity();
-	glTranslatef(0.0f, 0.0f, 0.0f);
 
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 

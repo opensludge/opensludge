@@ -296,8 +296,8 @@ void transitionBlinds () {
 
 	glDisable (GL_TEXTURE_2D);
 	
-	glPolygonStipple(stippleMask);
-	glEnable(GL_POLYGON_STIPPLE); //FIXME: not supported in GLES2
+	//glPolygonStipple(stippleMask);
+	//glEnable(GL_POLYGON_STIPPLE); //FIXME: not supported in GLES2
 	
 	const GLint vertices[] = { 
 		0, winHeight, 0, 
@@ -313,7 +313,7 @@ void transitionBlinds () {
 
 	glUseProgram(0);
 
-	glDisable(GL_POLYGON_STIPPLE);
+	//glDisable(GL_POLYGON_STIPPLE);
 	glEnable (GL_TEXTURE_2D);
 }
 

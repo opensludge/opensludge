@@ -42,7 +42,7 @@ extern int realWinWidth, realWinHeight;
 
 extern bool NPOT_textures;
 extern shaders shader;
-extern GLfloat aPMVMatrix[], pixelPMVMatrix[];
+extern GLfloat aPMVMatrix[];
 
 void setPrimaryColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
 void setSecondaryColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a);

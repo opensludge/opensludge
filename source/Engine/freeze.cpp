@@ -83,11 +83,19 @@ void freezeGraphics() {
 			} else {
 				h = realWinHeight;
 			}
-			glMatrixMode(GL_PROJECTION);
-			glLoadIdentity();
-			glOrtho(x, x+(GLdouble) realWinWidth / cameraZoom, y, y+(GLdouble) realWinHeight / cameraZoom, 1.0, -1.0);
-			glMatrixMode(GL_MODELVIEW);
-	//		glOrtho(x, viewportWidth+x, y, viewportHeight+y, 1.0, -1.0);
+
+			const GLfloat bPMVMatrix[] =
+			{
+			2.0f/realWinWidth*cameraZoom,                            .0,   .0,  .0,
+			                          .0, 2.0f/realWinHeight*cameraZoom,   .0,  .0,
+			                          .0,                            .0, 1.0f,  .0,
+			                        -1.0,                         -1.0f,   .0, 1.0f
+
+			};
+			for (int i = 0; i < 16; i++)
+			{
+				aPMVMatrix[i] = bPMVMatrix[i];
+			}
 			
 			// Render scene
 			glDepthMask (GL_TRUE);
