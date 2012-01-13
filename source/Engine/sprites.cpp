@@ -844,7 +844,7 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 		tx1, ty2
 	}; 
 
-	drawTexturedQuadNew(shader.smartScaler, vertices, 1, texCoords, ltexCoords);
+	drawTexturedQuadNew(shader.smartScaler, vertices, 2, texCoords, ltexCoords);
 
 	glDisable(GL_BLEND);
 	glUseProgram(0);
