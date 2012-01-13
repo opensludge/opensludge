@@ -9,6 +9,7 @@
 
 zBufferData zBuffer;
 extern int sceneWidth, sceneHeight;
+extern float cameraZoom; //FIXME: create a better way to get PMV matrix
 
 void killZBuffer () {
 	if (zBuffer.tex) {
@@ -151,6 +152,55 @@ void drawZBuffer(int x, int y, bool upsidedown) {
 			vy2 -= zBuffer.height;
 		}
 
+//FIXME: clean up
+
+GLfloat w = (GLfloat) winWidth / cameraZoom;
+GLfloat h = (GLfloat) winHeight / cameraZoom;
+
+const GLfloat aPMVMatrix[] =
+{
+2.0f/w,      .0,   .0,  .0,
+    .0, -2.0f/h,   .0,  .0,
+    .0,      .0, 1.0f,  .0,
+  -1.0,    1.0f,   .0, 1.0f
+
+};
+
+
+GLfloat modelview[16];
+GLfloat projection[16];
+
+glGetFloatv( GL_MODELVIEW_MATRIX, modelview );
+glGetFloatv( GL_PROJECTION_MATRIX, projection );
+
+/*
+fprintf(stderr, "\nModelView matrix:\n");
+for (int dr = 0; dr < 16; dr++)
+{
+if (dr % 4 == 0) fprintf(stderr, "\n");
+	fprintf(stderr, "%f, ", modelview[dr]);
+}
+
+fprintf(stderr, "\nProjection matrix:\n");
+for (int dr = 0; dr < 16; dr++)
+{
+if (dr % 4 == 0) fprintf(stderr, "\n");
+	fprintf(stderr, "%f, ", projection[dr]);
+}
+
+fprintf(stderr, "\nCustom matrix:\n");
+for (int dr = 0; dr < 16; dr++)
+{
+if (dr % 4 == 0) fprintf(stderr, "\n");
+	fprintf(stderr, "%f, ", aPMVMatrix[dr]);
+}
+*/
+
+glUniformMatrix4fv( glGetUniformLocation(shader.texture, "myPMVMatrix"), 1, GL_FALSE, aPMVMatrix);
+glUniformMatrix4fv( glGetUniformLocation(shader.texture, "myProjectionMatrix"), 1, GL_FALSE, projection);
+glUniformMatrix4fv( glGetUniformLocation(shader.texture, "myModelViewMatrix"), 1, GL_FALSE, modelview);
+
+
 		const GLfloat vertices[] = { 
 			(GLfloat)-x, vy1, z,
 			(GLfloat)zBuffer.width-x, vy1, z, 
@@ -165,22 +215,24 @@ void drawZBuffer(int x, int y, bool upsidedown) {
 			backdropTexW, backdropTexH
 		}; 
 
-		glEnableClientState(GL_VERTEX_ARRAY);
-
-		glVertexPointer(3, GL_FLOAT, 0, vertices);
-
 		glUniform1i(glGetUniformLocation(shader.texture, "sampler2d"), 0);
-		glEnableVertexAttribArray(TEXCOORD_ARRAY);
-		glVertexAttribPointer(TEXCOORD_ARRAY, 2, GL_FLOAT, GL_FALSE, 0, texCoords);
+ 		
+		glEnableVertexAttribArray(textureVertexLoc);
+		glEnableVertexAttribArray(textureTexCoordLoc);
+
+		glVertexAttribPointer(textureVertexLoc, 3, GL_FLOAT, GL_FALSE, 0, vertices);
+		glVertexAttribPointer(textureTexCoordLoc, 2, GL_FLOAT, GL_FALSE, 0, texCoords);
 
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableVertexAttribArray(textureTexCoordLoc);
+		glDisableVertexAttribArray(textureVertexLoc);
 	}
 	
 	glColorMask (GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 	glDepthMask (GL_FALSE);
 	glDisable(GL_ALPHA_TEST);
 	glDisable(GL_BLEND);	
+	glUseProgram(0);
 }
 

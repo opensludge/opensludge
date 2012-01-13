@@ -15,8 +15,6 @@
 #include <GLES2/gl2.h>
 #endif
 
-#define TEXCOORD_ARRAY 1
-
 struct texture {
 	GLubyte * data;
 	GLuint name;
@@ -43,6 +41,7 @@ extern int realWinWidth, realWinHeight;
 
 extern bool NPOT_textures;
 extern shaders shader;
+extern int textureVertexLoc, textureTexCoordLoc;
 
 void setPixelCoords (bool pixels);
 void setGraphicsWindow(bool fullscreen, bool restoreGraphics = true, bool resize = false);
