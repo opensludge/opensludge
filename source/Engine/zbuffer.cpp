@@ -192,6 +192,7 @@ if (dr % 4 == 0) fprintf(stderr, "\n");
 		glUniform1f(glGetUniformLocation(shader.texture, "zBufferLayer"), i);
  
 		drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
+		glUniform1i(glGetUniformLocation(shader.texture, "zBuffer"), 0);
 	}
 	
 	glColorMask (GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);

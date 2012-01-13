@@ -27,6 +27,7 @@ struct shaders {
 	GLuint smartScaler;
 	GLuint yuv;
 	GLuint texture;
+	GLuint color;
 };
 
 // From Backdrop.cpp, but they're here anyway

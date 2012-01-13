@@ -444,7 +444,6 @@ void darkScreen () {
 
 			glUseProgram(shader.texture);
 			setPMVMatrix(shader.texture);
-			glUniform1i(glGetUniformLocation(shader.texture, "zBuffer"), 0);
 
 	fprintf(stdout, "QUAD: darkScreen\n");
 			drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
@@ -1182,7 +1181,7 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 				glBindTexture(GL_TEXTURE_2D, tmpTex);
 
 				glColor4f(1.0, 0.0, 0.0, 0.0);
-				glUniform1i(glGetUniformLocation(shader.texture, "zBuffer"), 0);
+
 fprintf(stdout, "QUAD: loadHSI\n");
 				drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
 
@@ -1486,7 +1485,6 @@ void saveCorePNG  (FILE * writer, GLuint texture, int w, int h) {
 
 			glUseProgram(shader.texture);
 			setPMVMatrix(shader.texture);
-			glUniform1i(glGetUniformLocation(shader.texture, "zBuffer"), 0);
 
 fprintf(stdout, "QUAD: saveCorePng\n");
 			drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);

@@ -577,7 +577,6 @@ void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette 
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
 			glUseProgram(shader.texture);
 			setPMVMatrix(shader.texture);
-			glUniform1i(glGetUniformLocation(shader.texture, "zBuffer"), 0);
 
 			drawTexturedQuadNew(shader.texture, backdropVertices, 1, backdropTexCoords2);
 

@@ -24,8 +24,6 @@ unsigned lastFrom, lastTo;
 
 void transitionFader () {
 	glDisable (GL_TEXTURE_2D);
-	glColor4ub (0, 0, 0, 255 - brightnessLevel);
-	
 	glEnable(GL_BLEND);
 	
 	const GLint vertices[] = { 
@@ -35,10 +33,12 @@ void transitionFader () {
 		winWidth, 0, 0
 	};
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(3, GL_INT, 0, vertices);
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	glDisableClientState(GL_VERTEX_ARRAY);
+	glUseProgram(shader.color);
+	setPMVMatrix(shader.color);
+	glUniform4f(glGetUniformLocation(shader.color, "myColor"), 0.0f, 0.0f, 0.0f, 1.0f - brightnessLevel/256.f);
+	drawTexturedQuadNew(shader.color, vertices, 0);
+
+	glUseProgram(0);
 
 	glDisable(GL_BLEND);
 	glEnable (GL_TEXTURE_2D);
@@ -47,13 +47,11 @@ void transitionFader () {
 void transitionCrossFader () {
 
 	if (! snapshotTextureName) return;
-	
-	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glColor4ub (255, 255, 255, 255 - brightnessLevel);
+
 	glBindTexture (GL_TEXTURE_2D,snapshotTextureName);
 	
 	glEnable(GL_BLEND);
-	
+
 	const GLint vertices[] = { 
 		0, winHeight, 0, 
 		winWidth, winHeight, 0, 
@@ -68,8 +66,14 @@ void transitionCrossFader () {
 		snapTexW, 0.0f
 	}; 
 
-fprintf(stdout, "QUAD: transition.cpp - transitionCrossFader\n");
-	drawTexturedQuad(vertices, texCoords);
+	glUseProgram(shader.texture);
+	setPMVMatrix(shader.texture);
+	glUniform1i(glGetUniformLocation(shader.texture, "modulateColor"), 1);
+	glUniform4f(glGetUniformLocation(shader.texture, "myColor"), 1.0f, 1.0f, 1.0f, 1.0f - brightnessLevel/256.f);
+
+	drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
+	glUniform1i(glGetUniformLocation(shader.texture, "modulateColor"), 0);
+	glUseProgram(0);
 
 	glDisable(GL_BLEND);
 }
@@ -98,8 +102,11 @@ void transitionSnapshotBox () {
 		snapTexW, 0.0f
 	}; 
 
-fprintf(stdout, "QUAD: transition.cpp - transitionSnapshotBox\n");
-	drawTexturedQuad(vertices, texCoords);
+	glUseProgram(shader.texture);
+	setPMVMatrix(shader.texture);
+
+	drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
+	glUseProgram(0);
 }
 
 //----------------------------------------------------
@@ -188,9 +195,6 @@ void transitionDisolve () {
 	glBindTexture (GL_TEXTURE_2D, transitionTextureName);
 	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, transitionTexture);
 
-	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glColor4ub (255, 255, 255, 255);
-	
 	glEnable(GL_BLEND);
 
 	const GLint vertices[] = { 
@@ -207,8 +211,14 @@ void transitionDisolve () {
 		1.0f, 0.0f
 	}; 
 
-fprintf(stdout, "QUAD: transition.cpp - transitionDisolve\n");
-	drawTexturedQuad(vertices, texCoords);
+	glUseProgram(shader.texture);
+	setPMVMatrix(shader.texture);
+	glUniform1i(glGetUniformLocation(shader.texture, "modulateColor"), 1);
+	glUniform4f(glGetUniformLocation(shader.texture, "myColor"), 1.0f, 1.0f, 1.0f, 1.0f);
+
+	drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
+	glUniform1i(glGetUniformLocation(shader.texture, "modulateColor"), 0);
+	glUseProgram(0);
 
 	glDisable(GL_BLEND);
 }
@@ -248,9 +258,6 @@ void transitionTV () {
 	glBindTexture (GL_TEXTURE_2D, transitionTextureName);
 	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, transitionTexture);
 	
-	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glColor4ub (255, 255, 255, 255);
-	
 	glEnable(GL_BLEND);
 	
 	const GLint vertices[] = { 
@@ -267,8 +274,14 @@ void transitionTV () {
 		1.0f, 0.0f
 	}; 
 
-fprintf(stdout, "QUAD: transition.cpp - transitionTV\n");
-	drawTexturedQuad(vertices, texCoords);
+	glUseProgram(shader.texture);
+	setPMVMatrix(shader.texture);
+	glUniform1i(glGetUniformLocation(shader.texture, "modulateColor"), 1);
+	glUniform4f(glGetUniformLocation(shader.texture, "myColor"), 1.0f, 1.0f, 1.0f, 1.0f);
+
+	drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
+	glUniform1i(glGetUniformLocation(shader.texture, "modulateColor"), 0);
+	glUseProgram(0);
 
 	glDisable(GL_BLEND);	
 }
@@ -282,10 +295,9 @@ void transitionBlinds () {
 	if (level < 32) memset (stippleMask+level*4, 255, 4*(32-level));
 
 	glDisable (GL_TEXTURE_2D);
-	glColor4ub (0, 0, 0, 255);
 	
 	glPolygonStipple(stippleMask);
-	glEnable(GL_POLYGON_STIPPLE);
+	glEnable(GL_POLYGON_STIPPLE); //FIXME: not supported in GLES2
 	
 	const GLint vertices[] = { 
 		0, winHeight, 0, 
@@ -294,14 +306,15 @@ void transitionBlinds () {
 		winWidth, 0, 0
 	};
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(3, GL_INT, 0, vertices);
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	glDisableClientState(GL_VERTEX_ARRAY);
+	glUseProgram(shader.color);
+	setPMVMatrix(shader.color);
+	glUniform4f(glGetUniformLocation(shader.color, "myColor"), 0.0f, 0.0f, 0.0f, 1.0f);
+	drawTexturedQuadNew(shader.color, vertices, 0);
+
+	glUseProgram(0);
 
 	glDisable(GL_POLYGON_STIPPLE);
 	glEnable (GL_TEXTURE_2D);
-	
 }
 
 //----------------------------------------------------

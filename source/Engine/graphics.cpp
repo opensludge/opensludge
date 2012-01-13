@@ -549,6 +549,25 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 			if (uniform >= 0) glUniform1i(uniform, 0);
 			uniform = glGetUniformLocation(shader.texture, "zBufferLayer");
 			if (uniform >= 0) glUniform1i(uniform, 0);
+			uniform = glGetUniformLocation(shader.texture, "modulateColor");
+			if (uniform >= 0) glUniform1i(uniform, 0);
+		}
+	}
+
+	Vertex = shaderFileRead("color.vert");
+	Fragment = shaderFileRead("color.frag");
+
+	if (! Vertex || ! Fragment) {
+		msgBox( "Error loading \"color\" shader program!", "Try re-installing the game. The game will run anyway, but some graphics may be corrupted.");
+		shader.color = 0;
+	} else {
+
+		shader.color = buildShaders (Vertex, Fragment);
+		if (! shader.color) {
+			msgBox( "Error building \"color\" shader program!", "Try updating the drivers for your graphics card. If that doesn't help - sorry, your graphics card simply doesn't have all features needed for this game. It will run anyway, but some graphics may be corrupted.");
+		} else {
+			debugOut( "Built shader program: %d (color)\n", shader.color);
+			glUseProgram(shader.color);
 		}
 	}
 

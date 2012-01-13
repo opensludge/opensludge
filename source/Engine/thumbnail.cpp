@@ -32,7 +32,6 @@ bool saveThumbnail (FILE * fp) {
 		setPixelCoords (true);
 		glUseProgram(shader.texture);
 		setPMVMatrix(shader.texture);
-		glUniform1i(glGetUniformLocation(shader.texture, "zBuffer"), 0);
 
 		glGenTextures (1, &thumbnailTextureName);
 		glBindTexture(GL_TEXTURE_2D, thumbnailTextureName);
@@ -161,7 +160,6 @@ void showThumbnail (char * filename, int atX, int atY) {
 
 		glUseProgram(shader.texture);
 		setPMVMatrix(shader.texture);
-		glUniform1i(glGetUniformLocation(shader.texture, "zBuffer"), 0);
 
 		int xoffset = 0;
 		while (xoffset < fileWidth) {
