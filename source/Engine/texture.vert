@@ -9,7 +9,7 @@ varying vec2 varCoord;
 
 void main(void)
 {
-	gl_Position = myPMVMatrix * myVertex;
+	gl_Position = myProjectionMatrix * myModelViewMatrix * myVertex;
 	varCoord = myUV.st;
 }
 

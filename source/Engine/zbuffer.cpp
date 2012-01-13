@@ -179,6 +179,7 @@ if (dr % 4 == 0) fprintf(stderr, "\n");
 }
 */
 glUniformMatrix4fv( glGetUniformLocation(shader.texture, "myPMVMatrix"), 1, GL_FALSE, aPMVMatrix);
+glUniformMatrix4fv( glGetUniformLocation(shader.texture, "myProjectionMatrix"), 1, GL_FALSE, projection);
 glUniformMatrix4fv( glGetUniformLocation(shader.texture, "myModelViewMatrix"), 1, GL_FALSE, modelview);
 
 
@@ -197,7 +198,7 @@ glUniformMatrix4fv( glGetUniformLocation(shader.texture, "myModelViewMatrix"), 1
 		}; 
 
 		glUniform1i(glGetUniformLocation(shader.texture, "sampler2d"), 0);
-		glUniform1f(glGetUniformLocation(shader.texture, "zBuffer"), 1);
+		glUniform1i(glGetUniformLocation(shader.texture, "zBuffer"), 1);
 		glUniform1f(glGetUniformLocation(shader.texture, "zBufferLayer"), i);
  		
 		glEnableVertexAttribArray(textureVertexLoc);

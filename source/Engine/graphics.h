@@ -48,6 +48,8 @@ const GLfloat quadMatrix(int dim, GLfloat x, GLfloat y, GLfloat w, GLfloat h, GL
 const GLint quadMatrix(GLint x, GLint y, GLint w, GLint h, GLint z);
 void drawTexturedQuad(const GLfloat* vertices, const GLfloat* texCoords);
 void drawTexturedQuad(const GLint* vertices, const GLfloat* texCoords);
+void drawTexturedQuadNew(const GLfloat* vertices, const GLfloat* texCoords);
+void drawTexturedQuadNew(const GLint* vertices, const GLfloat* texCoords);
 
 void setPixelCoords (bool pixels);
 void setGraphicsWindow(bool fullscreen, bool restoreGraphics = true, bool resize = false);

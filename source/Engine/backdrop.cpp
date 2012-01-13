@@ -555,8 +555,20 @@ void drawBackDrop () {
 		sceneWidth-cameraX, sceneHeight-cameraY, 0
 	};
 
+	glUseProgram(shader.texture);
 
-	drawTexturedQuad(vertices, backdropTexCoords);
+GLfloat modelview[16];
+GLfloat projection[16];
+
+glGetFloatv( GL_MODELVIEW_MATRIX, modelview );
+glGetFloatv( GL_PROJECTION_MATRIX, projection );
+
+glUniformMatrix4fv( glGetUniformLocation(shader.texture, "myPMVMatrix"), 1, GL_FALSE, aPMVMatrix);
+glUniformMatrix4fv( glGetUniformLocation(shader.texture, "myProjectionMatrix"), 1, GL_FALSE, projection);
+glUniformMatrix4fv( glGetUniformLocation(shader.texture, "myModelViewMatrix"), 1, GL_FALSE, modelview);
+	drawTexturedQuadNew(vertices, backdropTexCoords);
+
+
 
 	glDisable(GL_BLEND);
 

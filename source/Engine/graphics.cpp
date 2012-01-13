@@ -106,6 +106,42 @@ void drawTexturedQuad(const GLint* vertices, const GLfloat* texCoords)
 	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
+void drawTexturedQuadNew(const GLfloat* vertices, const GLfloat* texCoords)
+{
+		glUniform1i(glGetUniformLocation(shader.texture, "sampler2d"), 0);
+		glUniform1i(glGetUniformLocation(shader.texture, "zBuffer"), 0);
+		glUniform1f(glGetUniformLocation(shader.texture, "zBufferLayer"), 0.0f);
+ 		
+		glEnableVertexAttribArray(textureVertexLoc);
+		glEnableVertexAttribArray(textureTexCoordLoc);
+
+		glVertexAttribPointer(textureVertexLoc, 3, GL_FLOAT, GL_FALSE, 0, vertices);
+		glVertexAttribPointer(textureTexCoordLoc, 2, GL_FLOAT, GL_FALSE, 0, texCoords);
+
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+		glDisableVertexAttribArray(textureTexCoordLoc);
+		glDisableVertexAttribArray(textureVertexLoc);
+}
+
+void drawTexturedQuadNew(const GLint* vertices, const GLfloat* texCoords)
+{
+		glUniform1i(glGetUniformLocation(shader.texture, "sampler2d"), 0);
+		glUniform1i(glGetUniformLocation(shader.texture, "zBuffer"), 0);
+		glUniform1f(glGetUniformLocation(shader.texture, "zBufferLayer"), 0.0f);
+ 		
+		glEnableVertexAttribArray(textureVertexLoc);
+		glEnableVertexAttribArray(textureTexCoordLoc);
+
+		glVertexAttribPointer(textureVertexLoc, 3, GL_INT, GL_FALSE, 0, vertices);
+		glVertexAttribPointer(textureTexCoordLoc, 2, GL_FLOAT, GL_FALSE, 0, texCoords);
+
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+		glDisableVertexAttribArray(textureTexCoordLoc);
+		glDisableVertexAttribArray(textureVertexLoc);
+}
+
 // This is for swapping settings between rendering to texture or to the screen
 void setPixelCoords (bool pixels) {
 	static int current = -1;
