@@ -20,6 +20,7 @@ sludge_engine_SOURCES = \
 	../CommonCode/functionlist.h \
 	../CommonCode/specialsettings.h \
 	../CommonCode/version.h \
+	eglport/eglport.cpp egleport/eglport.h \
 	libvorbis/vorbis_misc.h libvorbis/vorbis_os.h \
 	libwebm/mkvparser.cpp libwebm/mkvparser.hpp \
 	libwebm/mkvreader.cpp libwebm/mkvreader.hpp 
