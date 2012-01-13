@@ -441,8 +441,15 @@ void darkScreen () {
 				0.0f, backdropTexH,
 				backdropTexW, backdropTexH
 			}; 
+
+			glUseProgram(shader.texture);
+			setPMVMatrix(shader.texture);
+			glUniform1i(glGetUniformLocation(shader.texture, "zBuffer"), 0);
+
 	fprintf(stdout, "QUAD: darkScreen\n");
-			drawTexturedQuad(vertices, texCoords);
+			drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
+
+			glUseProgram(0);
 
 			// Then the darkness
 			glDisable (GL_TEXTURE_2D);
@@ -469,6 +476,7 @@ void darkScreen () {
 		}
 		xoffset += w;
 	}
+
 	glEnable (GL_TEXTURE_2D);
 	setPixelCoords (false);
 }
@@ -1168,11 +1176,17 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 			} else {
 				// It's all new - nothing special to be done.
 
+				glUseProgram(shader.texture);
+				setPMVMatrix(shader.texture);
+
 				glBindTexture(GL_TEXTURE_2D, tmpTex);
 
 				glColor4f(1.0, 0.0, 0.0, 0.0);
+				glUniform1i(glGetUniformLocation(shader.texture, "zBuffer"), 0);
 fprintf(stdout, "QUAD: loadHSI\n");
-				drawTexturedQuad(vertices, texCoords);
+				drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
+
+				glUseProgram(0);
 			}
 
 			// Copy Our ViewPort To The Texture
