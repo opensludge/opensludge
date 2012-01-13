@@ -150,6 +150,12 @@ void drawTexturedQuadSmartScaler(const GLint* vertices, const GLfloat* texCoords
 	glDisableVertexAttribArray(vertexLoc);
 }
 
+void setPMVMatrix(GLint program) {
+	GLfloat projection[16];
+	glGetFloatv( GL_PROJECTION_MATRIX, projection );
+	glUniformMatrix4fv( glGetUniformLocation(program, "myPMVMatrix"), 1, GL_FALSE, projection);
+}
+
 // This is for swapping settings between rendering to texture or to the screen
 void setPixelCoords (bool pixels) {
 	static int current = -1;

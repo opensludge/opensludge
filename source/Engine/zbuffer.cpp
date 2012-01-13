@@ -150,12 +150,6 @@ void drawZBuffer(int x, int y, bool upsidedown) {
 
 //FIXME: clean up
 
-GLfloat modelview[16];
-GLfloat projection[16];
-
-glGetFloatv( GL_MODELVIEW_MATRIX, modelview );
-glGetFloatv( GL_PROJECTION_MATRIX, projection );
-
 /*
 fprintf(stderr, "\nModelView matrix:\n");
 for (int dr = 0; dr < 16; dr++)
@@ -178,10 +172,7 @@ if (dr % 4 == 0) fprintf(stderr, "\n");
 	fprintf(stderr, "%f, ", aPMVMatrix[dr]);
 }
 */
-glUniformMatrix4fv( glGetUniformLocation(shader.texture, "myPMVMatrix"), 1, GL_FALSE, aPMVMatrix);
-glUniformMatrix4fv( glGetUniformLocation(shader.texture, "myProjectionMatrix"), 1, GL_FALSE, projection);
-glUniformMatrix4fv( glGetUniformLocation(shader.texture, "myModelViewMatrix"), 1, GL_FALSE, modelview);
-
+		setPMVMatrix(shader.texture);
 
 		const GLfloat vertices[] = { 
 			(GLfloat)-x, vy1, z,

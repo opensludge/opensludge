@@ -51,6 +51,8 @@ void drawTexturedQuad(const GLint* vertices, const GLfloat* texCoords);
 void drawTexturedQuadSmartScaler(const GLfloat* vertices, const GLfloat* texCoords0, const GLfloat* texCoords1);
 void drawTexturedQuadSmartScaler(const GLint* vertices, const GLfloat* texCoords0, const GLfloat* texCoords1);
 
+void setPMVMatrix(GLint program);
+
 void setPixelCoords (bool pixels);
 void setGraphicsWindow(bool fullscreen, bool restoreGraphics = true, bool resize = false);
 

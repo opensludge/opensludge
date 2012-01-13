@@ -494,14 +494,7 @@ void drawBackDrop () {
 	GLuint uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
 	if (uniform >= 0) glUniform1i(uniform, 0);
 
-	GLfloat modelview[16];
-	GLfloat projection[16];
-
-	glGetFloatv( GL_MODELVIEW_MATRIX, modelview );
-	glGetFloatv( GL_PROJECTION_MATRIX, projection );
-
-	glUniformMatrix4fv( glGetUniformLocation(shader.smartScaler, "myProjectionMatrix"), 1, GL_FALSE, projection);
-	glUniformMatrix4fv( glGetUniformLocation(shader.smartScaler, "myModelViewMatrix"), 1, GL_FALSE, modelview);
+	setPMVMatrix(shader.smartScaler);
 
 	if (gameSettings.antiAlias == 1) {
 		glUniform1i(glGetUniformLocation(shader.smartScaler, "antialias"), 1);
