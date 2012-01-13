@@ -508,14 +508,25 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 #if defined(HAVE_GLES2)
 	EGL_Init();
 #endif
+
 	GLint uniform;
-
-
-    const GLchar *Vertex;
-    const GLchar *Fragment;
+	const GLchar *Vertex;
+	const GLchar *Fragment;
 
         Vertex = shaderFileRead("scale.vert");
         Fragment = shaderFileRead("scale.frag");
+
+#if defined(HAVE_GLES2)
+	const GLubyte *str;
+	int glDerivativesAvailable;
+	str = glGetString (GL_EXTENSIONS);
+	glDerivativesAvailable = (strstr((const char *)str, "GL_OES_standard_derivatives") != NULL);
+	if (!glDerivativesAvailable) {
+		debugOut("Extension \"GL_OES_standard_derivatives\" not available. Advanced anti-aliasing is not possible. Using linear anti-aliasing instead.");
+		gameSettings.antiAlias = -1;
+        	Fragment = shaderFileRead("scale_noaa.frag");
+	}
+#endif
 
         if (! Vertex || ! Fragment) {
             msgBox ("Error loading \"scale\" shader program!", "Try re-installing the game. Advanced anti-aliasing is not possible. Using linear anti-aliasing instead.");
@@ -820,8 +831,11 @@ int printOglError (const char *file, int         line)
 	glErr = glGetError ();
 	while (glErr != GL_NO_ERROR)
     {
-		//debugOut("glError in file %s @ line %d: %s\n", file, line, gluErrorString (glErr)); FIXME: reenable
+#if !defined(HAVE_GLES2)
+		debugOut("glError in file %s @ line %d: %s\n", file, line, gluErrorString (glErr));
+#else
 		debugOut("glError in file %s @ line %d: error code %i\n", file, line, glErr);
+#endif
 		retCode = 1;
 		glErr = glGetError ();
     }

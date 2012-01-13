@@ -25,12 +25,12 @@ sludge_engine_SOURCES = \
 	libwebm/mkvreader.cpp libwebm/mkvreader.hpp 
 
 if COND_GLES2
-  sludge_engine_SOURCES += eglport/eglport.cpp egleport/eglport.h
+  sludge_engine_SOURCES += eglport/eglport.cpp eglport/eglport.h
 endif
 
 dist_pkgdata_DATA = \
 	fixScaleSprite.frag fixScaleSprite.vert \
-	scale.frag scale.vert \
+	scale.frag scale_noaa.frag scale.vert \
 	texture.frag texture.vert \
 	color.frag color.vert \
 	yuv.frag yuv.vert
