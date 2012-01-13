@@ -149,31 +149,6 @@ void drawZBuffer(int x, int y, bool upsidedown) {
 			vy2 -= zBuffer.height;
 		}
 
-//FIXME: clean up
-
-/*
-fprintf(stderr, "\nModelView matrix:\n");
-for (int dr = 0; dr < 16; dr++)
-{
-if (dr % 4 == 0) fprintf(stderr, "\n");
-	fprintf(stderr, "%f, ", modelview[dr]);
-}
-
-fprintf(stderr, "\nProjection matrix:\n");
-for (int dr = 0; dr < 16; dr++)
-{
-if (dr % 4 == 0) fprintf(stderr, "\n");
-	fprintf(stderr, "%f, ", projection[dr]);
-}
-
-fprintf(stderr, "\nCustom matrix:\n");
-for (int dr = 0; dr < 16; dr++)
-{
-if (dr % 4 == 0) fprintf(stderr, "\n");
-	fprintf(stderr, "%f, ", aPMVMatrix[dr]);
-}
-*/
-
 		const GLfloat vertices[] = { 
 			(GLfloat)-x, vy1, z,
 			(GLfloat)zBuffer.width-x, vy1, z, 

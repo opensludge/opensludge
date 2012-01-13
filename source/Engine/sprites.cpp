@@ -589,7 +589,6 @@ void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette 
 
 			glBindTexture (GL_TEXTURE_2D, fontPal.burnTex_names[single.texNum]);
 
-fprintf(stdout, "QUAD: sprites.cpp - burnSpriteToBackDrop\n");
 //FIXME: Test this some more. Also pasting the backdrop again is not strictly necessary but allows using the paste shader.
 			drawQuad(shader.paste, spriteVertices, 3, spriteTexCoords, NULL,  backdropTexCoords);
 
