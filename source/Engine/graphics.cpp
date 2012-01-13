@@ -410,6 +410,9 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 
 	if( SDL_SetVideoMode( realWinWidth, realWinHeight, 32, videoflags ) == 0 ) {
 		msgBox("Startup Error: Couldn't set video mode.", SDL_GetError());
+#if defined(HAVE_GLES2)
+		EGL_Close();
+#endif
 		SDL_Quit();
 		exit(2);
 	}
