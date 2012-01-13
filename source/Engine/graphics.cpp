@@ -491,6 +491,10 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 			glUseProgram(shader.texture);
 			uniform = glGetUniformLocation(shader.texture, "sampler2d");
 			if (uniform >= 0) glUniform1i(uniform, 0);
+			uniform = glGetUniformLocation(shader.texture, "zBuffer");
+			if (uniform >= 0) glUniform1i(uniform, 0);
+			uniform = glGetUniformLocation(shader.texture, "zBufferLayer");
+			if (uniform >= 0) glUniform1i(uniform, 0);
 		}
 	}
 
