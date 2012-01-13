@@ -155,8 +155,6 @@ void drawZBuffer(int x, int y, bool upsidedown) {
 			(GLfloat)-x, vy1, z,
 			(GLfloat)zBuffer.width-x, vy1, z, 
 			(GLfloat)-x, vy2, z,
-			(GLfloat)-x, vy2, z,
-			(GLfloat)zBuffer.width-x, vy1, z, 
 			(GLfloat)zBuffer.width-x, vy2, z
 		};
 
@@ -164,8 +162,6 @@ void drawZBuffer(int x, int y, bool upsidedown) {
 			0.0f, 0.0f,
 			backdropTexW, 0.0f,
 			0.0f, backdropTexH,
-			0.0f, backdropTexH,
-			backdropTexW, 0.0f,
 			backdropTexW, backdropTexH
 		}; 
 
@@ -177,7 +173,7 @@ void drawZBuffer(int x, int y, bool upsidedown) {
 		glEnableVertexAttribArray(TEXCOORD_ARRAY);
 		glVertexAttribPointer(TEXCOORD_ARRAY, 2, GL_FLOAT, GL_FALSE, 0, texCoords);
 
-		glDrawArrays(GL_TRIANGLES, 0, 6);
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 		glDisableClientState(GL_VERTEX_ARRAY);
 	}
