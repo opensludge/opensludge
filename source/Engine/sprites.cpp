@@ -32,9 +32,9 @@ unsigned char currentBurnR = 0, currentBurnG = 0, currentBurnB = 0;
 
 void forgetSpriteBank (spriteBank & forgetme) {
 
-	glDeleteTextures (forgetme.myPalette.numTextures, forgetme.myPalette.tex_names);
+	deleteTextures (forgetme.myPalette.numTextures, forgetme.myPalette.tex_names);
 	if (forgetme.isFont) {
-		glDeleteTextures (forgetme.myPalette.numTextures, forgetme.myPalette.burnTex_names);
+		deleteTextures (forgetme.myPalette.numTextures, forgetme.myPalette.burnTex_names);
 		delete [] forgetme.myPalette.burnTex_names;
 		forgetme.myPalette.burnTex_names = NULL;
 	}

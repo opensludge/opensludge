@@ -85,6 +85,8 @@ void dtexSubImage2D(GLenum target,  GLint level,  GLint xoffset,  GLint yoffset,
 
 #define texSubImage2D( target,  level,   xoffset,   yoffset,   width,  height, format,  type,   data,name) dtexSubImage2D( target, level,   xoffset,  yoffset,  width,  height, format,  type,  data,  name, __FILE__, __LINE__)
 
+void deleteTextures(GLsizei n,  const GLuint * textures);
+
 void getTextureDimensions(GLuint name, GLint *width,  GLint *height);
 
 int printOglError (const char *file, int         line);

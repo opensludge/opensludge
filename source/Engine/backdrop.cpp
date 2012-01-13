@@ -66,7 +66,7 @@ extern int cameraX, cameraY;
 extern float cameraZoom;
 
 void nosnapshot () {
-	glDeleteTextures (1, &snapshotTextureName);
+	deleteTextures (1, &snapshotTextureName);
 	snapshotTextureName = 0;
 }
 
@@ -184,13 +184,13 @@ bool restoreSnapshot (FILE * fp) {
 
 
 void killBackDrop () {
-	glDeleteTextures (1, &backdropTextureName);
+	deleteTextures (1, &backdropTextureName);
 	backdropTextureName = 0;
 	backdropExists = false;
 }
 
 void killLightMap () {
-	glDeleteTextures (1, &lightMap.name);
+	deleteTextures (1, &lightMap.name);
 	lightMap.name = 0;
 	if (lightMap.data) {
 		delete lightMap.data;
@@ -206,7 +206,7 @@ void killParallax () {
 		parallaxStuff = k -> next;
 
 		// Now kill the image
-		glDeleteTextures (1, &k -> textureName);
+		deleteTextures (1, &k -> textureName);
 		delete k -> texture;
 		delete k;
 		k = NULL;
@@ -1187,7 +1187,7 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 
 		xoffset += viewportWidth;
 	}
-	glDeleteTextures(1, &tmpTex);
+	deleteTextures(1, &tmpTex);
 
 	setPixelCoords (false);
 
@@ -1422,7 +1422,7 @@ bool mixHSI (FILE * fp, int x, int y) {
 
 		xoffset += viewportWidth;
 	}
-	glDeleteTextures(1, &tmpTex);
+	deleteTextures(1, &tmpTex);
 	setPixelCoords (false);
 
 	return true;

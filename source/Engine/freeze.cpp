@@ -176,24 +176,24 @@ bool freeze () {
 	}
 
 	// Copy the old scene to the new backdrop
-	glDeleteTextures (1, &backdropTextureName);
+	deleteTextures (1, &backdropTextureName);
 	backdropTextureName = freezeTextureName;
 	backdropExists = true;
 
 	// Free texture memory used by old stuff
 	parallaxStuff = newFreezer -> parallaxStuff;
 	while (parallaxStuff) {
-		glDeleteTextures (1, &parallaxStuff -> textureName);
+		deleteTextures (1, &parallaxStuff -> textureName);
 		parallaxStuff = parallaxStuff -> next;
 	}
 	if (newFreezer -> zBufferImage) {
-		glDeleteTextures (1, &zBuffer.texName);
+		deleteTextures (1, &zBuffer.texName);
 	}
 	if (newFreezer -> lightMapTextureName) {
-		glDeleteTextures (1, &newFreezer -> lightMapTextureName);
+		deleteTextures (1, &newFreezer -> lightMapTextureName);
 	}
 	if (newFreezer -> backdropTextureName) {
-		glDeleteTextures (1, &newFreezer -> backdropTextureName);
+		deleteTextures (1, &newFreezer -> backdropTextureName);
 	}
 
 	newFreezer -> allPeople = allPeople;

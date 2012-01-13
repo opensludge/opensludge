@@ -69,7 +69,7 @@ bool saveThumbnail (FILE * fp) {
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		}
-		glDeleteTextures (1, &thumbnailTextureName);
+		deleteTextures (1, &thumbnailTextureName);
 		thumbnailTextureName = 0;
 		
 		// Save Our ViewPort
@@ -196,7 +196,7 @@ void showThumbnail (char * filename, int atX, int atY) {
 		}
 		glUseProgram(0);
 		setPixelCoords (false);
-		glDeleteTextures (1, &thumbnailTextureName);
+		deleteTextures (1, &thumbnailTextureName);
 		thumbnailTextureName = 0;
 	}
 }

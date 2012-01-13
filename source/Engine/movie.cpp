@@ -926,9 +926,9 @@ movieHasEnded:	movieIsEnding = 1;
 	vorbis_comment_clear(&vorbisComment);
 	vorbis_info_clear(&vorbisInfo);
     delete pSegment;
-	glDeleteTextures (1, &yTextureName);
-	glDeleteTextures (1, &uTextureName);
-	glDeleteTextures (1, &vTextureName);
+	deleteTextures (1, &yTextureName);
+	deleteTextures (1, &uTextureName);
+	deleteTextures (1, &vTextureName);
 	yTextureName = uTextureName = vTextureName = 0;
 	
 	// Delete any remaining buffers

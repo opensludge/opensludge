@@ -60,9 +60,41 @@ struct textureList *firstTexture = NULL;
 textureList * addTexture () {
 	textureList * newTexture = new textureList;
 	newTexture -> next = firstTexture;
-	newTexture -> name = 0;
 	firstTexture = newTexture;
 	return newTexture;
+}
+
+void deleteTextures(GLsizei n,  const GLuint * textures)
+{
+	if (firstTexture == NULL) {
+		debugOut("Deleting texture while list is already empty.\n");
+	} else {
+		for (int i = 0; i < n; i++) {
+			bool found = false;
+			textureList *list = firstTexture;
+			if (list->name == textures[i]) {
+				found = true;
+				firstTexture = list->next;
+				delete list;
+				continue;
+			}
+
+			while (list->next) {
+				if (list->next->name == textures[i]) {
+					found = true;
+					textureList *deleteMe = list->next;
+					list->next = list->next->next;
+					delete deleteMe;
+					break;
+				}
+				list = list->next;
+			}
+			if (!found)
+				debugOut("Deleting texture that was not in list.\n");
+		}
+	}
+
+	glDeleteTextures(n, textures);
 }
 
 void getTextureDimensions(GLuint name, GLint *width,  GLint *height)
@@ -86,7 +118,7 @@ void getTextureDimensions(GLuint name, GLint *width,  GLint *height)
 		}
 		list = list->next;
 	}
-	fatal("Texture not found in list.");
+	fatal("Texture not found in list.\n");
 }
 
 void storeTextureDimensions(GLuint name, GLsizei width,  GLsizei height, const char *file, int line)
