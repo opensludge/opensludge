@@ -102,7 +102,7 @@ bool snapshot () {
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+	texImage2D (GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0, snapshotTextureName);
 
 	// Render scene
 	glDepthMask (GL_TRUE);
@@ -119,8 +119,7 @@ bool snapshot () {
 	drawStatusBar ();
 
 	// Copy Our ViewPort To The Texture
-	glBindTexture(GL_TEXTURE_2D, snapshotTextureName);
-	glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, viewportOffsetX, viewportOffsetY, winWidth, winHeight);
+	copyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, viewportOffsetX, viewportOffsetY, winWidth, winHeight, snapshotTextureName);
 
 	setPixelCoords (false);
 
@@ -175,7 +174,7 @@ bool restoreSnapshot (FILE * fp) {
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, snapshotTexture);
+	texImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, snapshotTexture, snapshotTextureName);
 
 	delete snapshotTexture;
 	snapshotTexture = NULL;
@@ -250,7 +249,7 @@ bool reserveBackdrop () {
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	}
 
-	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture);
+	texImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture, backdropTextureName);
 
 	return true;
 }
@@ -336,8 +335,7 @@ void blankScreen (int x1, int y1, int x2, int y2) {
 			glUseProgram(0);
 
 			// Copy Our ViewPort To The Texture
-			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
-			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, x1+xoffset, y1+yoffset, viewportOffsetX, viewportOffsetY, w, h);
+			copyTexSubImage2D(GL_TEXTURE_2D, 0, x1+xoffset, y1+yoffset, viewportOffsetX, viewportOffsetY, w, h, backdropTextureName);
 
 			yoffset += viewportHeight;
 		}
@@ -393,8 +391,7 @@ void hardScroll (int distance) {
 			glUseProgram(0);
 
 			// Copy Our ViewPort To The Texture
-			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
-			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, xoffset, yoffset, viewportOffsetX, viewportOffsetY, w, h);
+			copyTexSubImage2D(GL_TEXTURE_2D, 0, xoffset, yoffset, viewportOffsetX, viewportOffsetY, w, h, backdropTextureName);
 			
 			yoffset += viewportHeight;
 		}
@@ -464,8 +461,7 @@ void darkScreen () {
 			glColorMask (GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 
 			// Copy Our ViewPort To The Texture
-			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
-			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, xoffset, yoffset, viewportOffsetX, viewportOffsetY, w, h);
+			copyTexSubImage2D(GL_TEXTURE_2D, 0, xoffset, yoffset, viewportOffsetX, viewportOffsetY, w, h, backdropTextureName);
 
 			yoffset += h;
 			glClear(GL_COLOR_BUFFER_BIT);
@@ -716,7 +712,7 @@ bool loadLightMap (int v) {
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, newPicWidth, newPicHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, lightMap.data);
+	texImage2D (GL_TEXTURE_2D, 0, GL_RGBA, newPicWidth, newPicHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, lightMap.data, lightMap.name);
 
 	finishAccess ();
 	setResourceForFatal (-1);
@@ -751,9 +747,9 @@ void reloadParallaxTextures () {
 		}
 
 		if (! NPOT_textures) {
-			glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, getNextPOT(nP->width), getNextPOT(nP->height), 0, GL_RGBA, GL_UNSIGNED_BYTE, nP->texture);
+			texImage2D (GL_TEXTURE_2D, 0, GL_RGBA, getNextPOT(nP->width), getNextPOT(nP->height), 0, GL_RGBA, GL_UNSIGNED_BYTE, nP->texture, nP->textureName);
 		} else {
-			glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, nP->width, nP->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nP->texture);
+			texImage2D (GL_TEXTURE_2D, 0, GL_RGBA, nP->width, nP->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nP->texture, nP->textureName);
 		}
 		nP = nP->next;
 	}
@@ -937,7 +933,7 @@ bool loadParallax (unsigned short v, unsigned short fracX, unsigned short fracY)
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	}
 
-	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, nP->texture);
+	texImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, nP->texture, nP->textureName);
 
 	finishAccess ();
 	setResourceForFatal (-1);
@@ -1092,7 +1088,7 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	}
-	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture);
+	texImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture, tmpTex);
 
 
 	//glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
@@ -1184,8 +1180,7 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 			}
 
 			// Copy Our ViewPort To The Texture
-			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
-			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, x+xoffset, y+yoffset, viewportOffsetX, viewportOffsetY, w, h);
+			copyTexSubImage2D(GL_TEXTURE_2D, 0, x+xoffset, y+yoffset, viewportOffsetX, viewportOffsetY, w, h, backdropTextureName);
 
 			yoffset += viewportHeight;
 		}
@@ -1374,7 +1369,7 @@ bool mixHSI (FILE * fp, int x, int y) {
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	}
 
-	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture);
+	texImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture, tmpTex);
 
 
 	//glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
@@ -1418,10 +1413,9 @@ bool mixHSI (FILE * fp, int x, int y) {
 			drawTexturedQuadNew(shader.paste, vertices, 3, texCoords, NULL, btexCoords);
 
 			// Copy Our ViewPort To The Texture
-			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
 			glUseProgram(0);
 
-			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, (int) ((x<0) ? xoffset: x+xoffset), (int) ((y<0) ? yoffset: y+yoffset), (int) ((x<0) ?viewportOffsetX-x:viewportOffsetX), (int) ((y<0) ?viewportOffsetY-y:viewportOffsetY), w, h);
+			copyTexSubImage2D(GL_TEXTURE_2D, 0, (int) ((x<0) ? xoffset: x+xoffset), (int) ((y<0) ? yoffset: y+yoffset), (int) ((x<0) ?viewportOffsetX-x:viewportOffsetX), (int) ((y<0) ?viewportOffsetY-y:viewportOffsetY), w, h, backdropTextureName);
 
 			yoffset += viewportHeight;
 		}
@@ -1438,8 +1432,9 @@ void saveCorePNG  (FILE * writer, GLuint texture, int w, int h) {
 	GLint tw, th;
 
 	glBindTexture (GL_TEXTURE_2D, texture);
-	//glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &tw); FIXME: replace line
-	//glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &th); FIXME: replace line
+	//glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &tw); FIXME: remove line
+	//glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &th); FIXME: remove line
+	getTextureDimensions(texture, &tw, &th);
 
 	GLubyte* image = new GLubyte [tw*th*4];
 	if (! checkNew (image)) return;
@@ -1535,6 +1530,7 @@ void saveCoreHSI (FILE * writer, GLuint texture, int w, int h) {
 	glBindTexture (GL_TEXTURE_2D, texture);
 	//glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &tw); FIXME: replace line
 	//glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &th); FIXME: replace line
+	getTextureDimensions(texture, &tw, &th);
 
 	GLushort* image = new GLushort [tw*th];
 	if (! checkNew (image)) return;

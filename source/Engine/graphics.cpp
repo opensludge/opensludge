@@ -57,6 +57,20 @@ textureList * addTexture () {
 	return newTexture;
 }
 
+void getTextureDimensions(GLuint name, GLint *width,  GLint *height)
+{
+	textureList *list = firstTexture;
+	while (list) {
+		if (list->name == name)  {
+			*width = list->width;
+			*height = list->height;
+			return;
+		}
+		list = list->next;
+	}
+	fatal("Texture not found in list.");
+}
+
 void preTexImage2D(GLuint name, GLsizei width,  GLsizei height)
 {
 	textureList *list = firstTexture;
@@ -69,8 +83,11 @@ void preTexImage2D(GLuint name, GLsizei width,  GLsizei height)
 	if (list == NULL) {
 		list = addTexture();
 	}
+	list->name = name;
 	list->width = width;
 	list->height = height;
+
+	debugOut("Creating texture with dimensions %ix%i.\n", width, height);
 
 	glBindTexture(GL_TEXTURE_2D, name);
 }
@@ -84,18 +101,21 @@ void copyTexImage2D(GLenum target,  GLint level,  GLenum internalformat,  GLint 
 
 void copyTexSubImage2D(GLenum target,  GLint level,  GLint xoffset,  GLint yoffset,  GLint x,  GLint y,  GLsizei width,  GLsizei height, GLuint name)
 {
+	preTexImage2D(name, width,  height);
 	glCopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height);
 }
 
 void texImage2D(GLenum target,  GLint level,  GLint internalformat,  GLsizei width,  GLsizei height, 
 		GLint border,  GLenum format,  GLenum type,  const GLvoid * data, GLuint name)
 {
+	preTexImage2D(name, width,  height);
 	glTexImage2D(target, level, internalformat, width, height, border, format, type,  data);
 }
 
 void texSubImage2D(GLenum target,  GLint level,  GLint xoffset,  GLint yoffset,  GLsizei width,  GLsizei height,
 		GLenum format,  GLenum type,  const GLvoid * data, GLuint name) 
 {
+	preTexImage2D(name, width,  height);
 	glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, data);
 }
 
@@ -268,6 +288,7 @@ void saveTexture (GLuint tex, GLubyte * data) {
 
 	//glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &tw); FIXME: replace line
 	//glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &th); FIXME: replace line
+	getTextureDimensions(tex, &tw, &th);
 
 	//glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
@@ -640,7 +661,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 			}
 
 			// Restore the backdrop
-			glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, sceneWidth, sceneHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture);
+			texImage2D (GL_TEXTURE_2D, 0, GL_RGBA, sceneWidth, sceneHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture, backdropTextureName);
 
 		}
 		if (snapshotTextureName) {
@@ -655,7 +676,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
 			// Restore the backdrop
-			glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, winWidth, winHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, snapTexture);
+			texImage2D (GL_TEXTURE_2D, 0, GL_RGBA, winWidth, winHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, snapTexture, snapshotTextureName);
 			delete snapTexture;
 		}
 		if (yTextureName) {

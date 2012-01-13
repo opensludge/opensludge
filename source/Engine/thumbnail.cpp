@@ -38,7 +38,7 @@ bool saveThumbnail (FILE * fp) {
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, thumbWidth, thumbHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+		texImage2D (GL_TEXTURE_2D, 0, GL_RGBA, thumbWidth, thumbHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0, thumbnailTextureName);
 
 		// Render the backdrop (scaled)
 		//glTexEnvi (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
@@ -138,7 +138,7 @@ void showThumbnail (char * filename, int atX, int atY) {
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, thumbnailTexture);
+		texImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, thumbnailTexture, thumbnailTextureName);
 
 		delete thumbnailTexture;
 		thumbnailTexture = NULL;
@@ -188,8 +188,7 @@ void showThumbnail (char * filename, int atX, int atY) {
 				glDisable(GL_BLEND);
 
 				// Copy Our ViewPort To The Texture
-				glBindTexture(GL_TEXTURE_2D, backdropTextureName);
-				glCopyTexSubImage2D(GL_TEXTURE_2D, 0, atX+xoffset, atY+yoffset, viewportOffsetX, viewportOffsetY, w, h);
+				copyTexSubImage2D(GL_TEXTURE_2D, 0, atX+xoffset, atY+yoffset, viewportOffsetX, viewportOffsetY, w, h, backdropTextureName);
 
 				yoffset += viewportHeight;
 			}

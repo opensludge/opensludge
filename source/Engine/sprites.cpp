@@ -373,7 +373,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		}
-		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, totalwidth[tex_num], maxheight[tex_num], 0, GL_RGBA, GL_UNSIGNED_BYTE, tmp[tex_num]);
+		texImage2D (GL_TEXTURE_2D, 0, GL_RGBA, totalwidth[tex_num], maxheight[tex_num], 0, GL_RGBA, GL_UNSIGNED_BYTE, tmp[tex_num], loadhere.myPalette.tex_names[tex_num]);
 
 		delete tmp[tex_num];
 		tmp[tex_num] = NULL;
@@ -389,7 +389,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			}
-			glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, totalwidth[tex_num], maxheight[tex_num], 0, GL_RGBA, GL_UNSIGNED_BYTE, tmp2[tex_num]);
+			texImage2D (GL_TEXTURE_2D, 0, GL_RGBA, totalwidth[tex_num], maxheight[tex_num], 0, GL_RGBA, GL_UNSIGNED_BYTE, tmp2[tex_num], loadhere.myPalette.burnTex_names[tex_num]);
 
 			delete tmp2[tex_num];
 			tmp2[tex_num] = NULL;
@@ -489,10 +489,9 @@ void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette
 			drawTexturedQuadNew(shader.paste, vertices, 3, texCoords, NULL, btexCoords);
 
 			// Copy Our ViewPort To The Texture
-			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
 			glUseProgram(0);
 
-			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, (int) ((x1<0) ? xoffset: x1+xoffset), (int) ((y1<0) ? yoffset: y1+yoffset), (int) ((x1<0) ?viewportOffsetX-x1:viewportOffsetX), (int) ((y1<0) ?viewportOffsetY-y1:viewportOffsetY), w, h);
+			copyTexSubImage2D(GL_TEXTURE_2D, 0, (int) ((x1<0) ? xoffset: x1+xoffset), (int) ((y1<0) ? yoffset: y1+yoffset), (int) ((x1<0) ?viewportOffsetX-x1:viewportOffsetX), (int) ((y1<0) ?viewportOffsetY-y1:viewportOffsetY), w, h, backdropTextureName);
 
 			yoffset += viewportHeight;
 		}
@@ -597,8 +596,7 @@ fprintf(stdout, "QUAD: sprites.cpp - burnSpriteToBackDrop\n");
 			glUseProgram(0);
 
 			// Copy Our ViewPort To The Texture
-			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
-			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, (x1<0) ? xoffset : x1+xoffset, (y1<0) ? yoffset: y1+yoffset, viewportOffsetX, viewportOffsetY, w, h);
+			copyTexSubImage2D(GL_TEXTURE_2D, 0, (x1<0) ? xoffset : x1+xoffset, (y1<0) ? yoffset: y1+yoffset, viewportOffsetX, viewportOffsetY, w, h, backdropTextureName);
 
 			yoffset += viewportHeight;
 		}
@@ -1044,10 +1042,9 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 			//glDisable(GL_COLOR_SUM); FIXME: replace line?
 
 			// Copy Our ViewPort To The Texture
-			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
 			glUseProgram(0);
 
-			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, (int) ((x1<0) ? xoffset: x1+xoffset), (int) ((y1<0) ? yoffset: y1+yoffset), (int) ((x1<0) ?viewportOffsetX-x1:viewportOffsetX), (int) ((y1<0) ?viewportOffsetY-y1:viewportOffsetY), w, h);
+			copyTexSubImage2D(GL_TEXTURE_2D, 0, (int) ((x1<0) ? xoffset: x1+xoffset), (int) ((y1<0) ? yoffset: y1+yoffset), (int) ((x1<0) ?viewportOffsetX-x1:viewportOffsetX), (int) ((y1<0) ?viewportOffsetY-y1:viewportOffsetY), w, h, backdropTextureName);
 
 			yoffset += viewportHeight;
 		}

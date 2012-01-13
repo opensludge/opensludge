@@ -109,8 +109,7 @@ void drawLine(int x1, int y1, int x2, int y2) {
 			glUseProgram(0);
 	
 			// Copy Our ViewPort To The Texture
-			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
-			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, x+xoffset, y+yoffset, viewportOffsetX, viewportOffsetY, w, h);
+			copyTexSubImage2D(GL_TEXTURE_2D, 0, x+xoffset, y+yoffset, viewportOffsetX, viewportOffsetY, w, h, backdropTextureName);
 			
 			yoffset += viewportHeight;
 		}		

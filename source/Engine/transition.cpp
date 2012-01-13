@@ -147,7 +147,7 @@ bool reserveTransitionTexture () {
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	
-	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, transitionTexture);
+	texImage2D (GL_TEXTURE_2D, 0, GL_RGBA, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, transitionTexture, transitionTextureName);
 	
 	return true;
 }
@@ -190,8 +190,7 @@ void transitionDisolve () {
 		toScreen += 4;
 	} while (toScreen < end);
 
-	glBindTexture (GL_TEXTURE_2D, transitionTextureName);
-	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, transitionTexture);
+	texImage2D (GL_TEXTURE_2D, 0, GL_RGBA, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, transitionTexture, transitionTextureName);
 
 	glEnable(GL_BLEND);
 
@@ -253,8 +252,7 @@ void transitionTV () {
 		toScreen += 4;
 	} while (toScreen < end);
 	
-	glBindTexture (GL_TEXTURE_2D, transitionTextureName);
-	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, transitionTexture);
+	texImage2D (GL_TEXTURE_2D, 0, GL_RGBA, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, transitionTexture, transitionTextureName);
 	
 	glEnable(GL_BLEND);
 	

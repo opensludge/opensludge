@@ -391,7 +391,7 @@ bool blurScreen () {
 		delete sourceLine;
 		sourceLine = NULL;
 
-		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture);
+		texImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture, backdropTextureName);
 		return true;
 	}
 	return false;

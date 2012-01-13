@@ -77,6 +77,8 @@ void copyTexSubImage2D(GLenum target,  GLint level,  GLint xoffset,  GLint yoffs
 void texImage2D(GLenum target,  GLint level,  GLint internalformat,  GLsizei width,  GLsizei height,  GLint border,  GLenum format,  GLenum type,  const GLvoid * data, GLuint name);
 void texSubImage2D(GLenum target,  GLint level,  GLint xoffset,  GLint yoffset,  GLsizei width,  GLsizei height,  GLenum format,  GLenum type,  const GLvoid * data, GLuint name);
 
+void getTextureDimensions(GLuint name, GLint *width,  GLint *height);
+
 int printOglError (const char *file, int         line);
 #define printOpenGLError() printOglError(__FILE__, __LINE__)
 

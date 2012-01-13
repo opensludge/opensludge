@@ -59,7 +59,7 @@ void freezeGraphics() {
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+	texImage2D (GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0, freezeTextureName);
 
 	// Temporarily disable AA
 	int antiAlias = gameSettings.antiAlias;
@@ -109,8 +109,7 @@ void freezeGraphics() {
 			glDisable(GL_DEPTH_TEST);
 
 			// Copy Our ViewPort To The Texture
-			glBindTexture(GL_TEXTURE_2D, freezeTextureName);
-			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, x, y, 0, 0, w, h);
+			copyTexSubImage2D(GL_TEXTURE_2D, 0, x, y, 0, 0, w, h, freezeTextureName);
 			
 			y += h;
 		}
@@ -310,7 +309,7 @@ void unfreeze (bool killImage) {
 			picHeight = getNextPOT(picHeight);
 		}
 		// Restore the backdrop
-		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, frozenStuff -> backdropTexture);
+		texImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, frozenStuff -> backdropTexture, backdropTextureName);
 
 	}
 
