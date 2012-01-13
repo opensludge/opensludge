@@ -174,38 +174,6 @@ void dtexSubImage2D(GLenum target,  GLint level,  GLint xoffset,  GLint yoffset,
 	glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, data);
 }
 
-
-
-// FIXME: remove this
-void drawTexturedQuad(const GLfloat* vertices, const GLfloat* texCoords)
-{
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-	glVertexPointer(3, GL_FLOAT, 0, vertices);
-	glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
-
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	glDisableClientState(GL_VERTEX_ARRAY);
-}
-
-void drawTexturedQuad(const GLint* vertices, const GLfloat* texCoords)
-{
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-	glVertexPointer(3, GL_INT, 0, vertices);
-	glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
-
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	glDisableClientState(GL_VERTEX_ARRAY);
-}
-
-
 void setPrimaryColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
 {
 	primaryColor[0] = r;

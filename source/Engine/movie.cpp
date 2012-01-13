@@ -142,7 +142,7 @@ inline static int audio_queue_get(audioQueue *q, char **buffer)
 	if (audioBuf) {
 		// Synch video timer to audio
 		Uint32 tick = SDL_GetTicks()+100;
-		if (abs((tick - movieStartTick)-(audioBuf->time_ms)) > 300) {
+		if (abs((long)(tick - movieStartTick)-(audioBuf->time_ms)) > 300) {
 			movieStartTick = tick - audioBuf->time_ms;
 		}
 				
@@ -251,10 +251,19 @@ void setMovieViewport()
 	}
 
 	glViewport (vpOffsetX, vpOffsetY, vpWidth, vpHeight);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(0, 640, 400, 0, 1.0, -1.0);
-	glMatrixMode(GL_MODELVIEW);
+
+	const GLfloat bPMVMatrix[] =
+	{
+	2.0f/640.f,                  .0,   .0,  .0,
+		        .0, -2.0f/400.f,   .0,  .0,
+		        .0,               1.0, 1.0f,  .0,
+		      -1.0,              1.0f,  .0, 1.0f
+
+	};
+	for (int i = 0; i < 16; i++)
+	{
+		aPMVMatrix[i] = bPMVMatrix[i];
+	}
 }
 
 static uint64_t xiph_lace_value(unsigned char ** np)
@@ -550,6 +559,48 @@ int playMovie (int fileNumber)
 	int frameCount = pBlock->GetFrameCount();
 	time_ns = pBlock->GetTime(pCluster);
 
+	const GLfloat texCoords[] = { 
+		0.0, 0.0,
+		1.0, 0.0,
+		0.0, 1.0,
+		1.0, 1.0
+	};
+
+	const GLfloat vertices[] = { 
+		0.0, 0.0, 0.1,
+		640.0, 0.0, 0.1,
+		0.0, 400.0, 0.1,
+		640.0, 400.0, 0.1
+	};
+
+	const GLfloat vertices1[] = { 
+		7.0, 7.0, 0.1,
+		17.0, 7.0, 0.1,
+		7.0, 29.0, 0.1,
+		17.0, 29.0, 0.1
+	};
+
+	const GLfloat vertices2[] = { 
+		27.0, 7.0, 0.1,
+		37.0, 7.0, 0.1,
+		27.0, 29.0, 0.1,
+		37.0, 29.0, 0.1
+	};
+
+	const GLfloat vertices3[] = { 
+		5.0, 5.0, 0.1,
+		15.0, 5.0, 0.1,
+		5.0, 27.0, 0.1,
+		15.0, 27.0, 0.1
+	};
+
+	const GLfloat vertices4[] = { 
+		25.0, 5.0, 0.1,
+		35.0, 5.0, 0.1,
+		25.0, 27.0, 0.1,
+		35.0, 27.0, 0.1
+	};
+
 	int frameCounter = 0;
 
 	movieStartTick = SDL_GetTicks();
@@ -783,7 +834,6 @@ movieHasEnded:	movieIsEnding = 1;
 						
 					if (video_queue_get(&videoQ, &ytex, &utex, &vtex, &w, &h)) {
 						
-						glEnable (GL_TEXTURE_2D);
 						if (! yTextureName) glGenTextures (1, &yTextureName);
 						if (! uTextureName) glGenTextures (1, &uTextureName);
 						if (! vTextureName) glGenTextures (1, &vTextureName);
@@ -838,41 +888,17 @@ movieHasEnded:	movieIsEnding = 1;
 			if (shader.yuv) {
 				glUseProgram(shader.yuv);
 				glActiveTexture(GL_TEXTURE1);
-				glEnable(GL_TEXTURE_2D);
 				glBindTexture (GL_TEXTURE_2D, uTextureName);
 				glActiveTexture(GL_TEXTURE2);
-				glEnable(GL_TEXTURE_2D);
 				glBindTexture (GL_TEXTURE_2D, vTextureName);
 				glActiveTexture(GL_TEXTURE0);
 			}
-			glEnable (GL_TEXTURE_2D);
 			glBindTexture (GL_TEXTURE_2D, yTextureName);
 			glEnable(GL_BLEND);
 			//glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-			glColor4f(1.0, 1.0, 1.0, 1.0);
 
-			const GLfloat texCoords[] = { 
-				0.0, 0.0,
-				1.0, 0.0,
-				0.0, 1.0,
-				1.0, 1.0
-			};
-
-			const GLfloat vertices[] = { 
-				0.0, 0.0, 0.1,
-				640.0, 0.0, 0.1,
-				0.0, 400.0, 0.1,
-				640.0, 400.0, 0.1
-			};
 			setPMVMatrix(shader.yuv);
 			drawQuad(shader.yuv, vertices, 1, texCoords);
-
-
-			glActiveTexture(GL_TEXTURE1);
-			glDisable(GL_TEXTURE_2D);
-			glActiveTexture(GL_TEXTURE2);
-			glDisable(GL_TEXTURE_2D);
-			glActiveTexture(GL_TEXTURE0);
 
 			glUseProgram(0);
 
@@ -881,36 +907,18 @@ movieHasEnded:	movieIsEnding = 1;
 				if (pausefade<-1.0) pausefade = 1.0;
 
 				// Paused.
-				glDisable (GL_TEXTURE_2D);
 				glEnable(GL_BLEND);
-				glColor4f(0.0, 0.0, 0.0, fabs(pausefade));
 
-				glBegin(GL_QUADS);
+				glUseProgram(shader.color);
+				setPMVMatrix(shader.color);
+				setPrimaryColor(0.0f, 0.0f, 0.0f, fabs(pausefade));
+				drawQuad(shader.color, vertices1, 0);
+				drawQuad(shader.color, vertices2, 0);
+				setPrimaryColor(1.0f, 1.0f, 1.0f, fabs(pausefade));
+				drawQuad(shader.color, vertices3, 0);
+				drawQuad(shader.color, vertices4, 0);
+				glUseProgram(0);
 
-
-				glVertex3f(7.0, 7.0, 0.1);
-				glVertex3f(17.0, 7.0, 0.1);
-				glVertex3f(17.0, 29.0, 0.1);
-				glVertex3f(7.0, 29.0, 0.1);
-
-				glVertex3f(27.0, 7.0, 0.1);
-				glVertex3f(37.0, 7.0, 0.1);
-				glVertex3f(37.0, 29.0, 0.1);
-				glVertex3f(27.0, 29.0, 0.1);
-
-				glColor4f(1.0, 1.0, 1.0, fabs(pausefade));
-
-				glVertex3f(5.0, 5.0, 0.1);
-				glVertex3f(15.0, 5.0, 0.1);
-				glVertex3f(15.0, 27.0, 0.1);
-				glVertex3f(5.0, 27.0, 0.1);
-
-				glVertex3f(25.0, 5.0, 0.1);
-				glVertex3f(35.0, 5.0, 0.1);
-				glVertex3f(35.0, 27.0, 0.1);
-				glVertex3f(25.0, 27.0, 0.1);
-
-				glEnd();
 
 				glDisable(GL_BLEND);
 
