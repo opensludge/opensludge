@@ -23,7 +23,6 @@ unsigned char fadeMode = 2;
 unsigned lastFrom, lastTo;
 
 void transitionFader () {
-	glDisable (GL_TEXTURE_2D);
 	glEnable(GL_BLEND);
 	
 	const GLint vertices[] = { 
@@ -41,7 +40,6 @@ void transitionFader () {
 	glUseProgram(0);
 
 	glDisable(GL_BLEND);
-	glEnable (GL_TEXTURE_2D);
 }
 
 void transitionCrossFader () {
@@ -293,8 +291,6 @@ void transitionBlinds () {
 	
 	if (level) memset (stippleMask, 0, 4*level);
 	if (level < 32) memset (stippleMask+level*4, 255, 4*(32-level));
-
-	glDisable (GL_TEXTURE_2D);
 	
 	//glPolygonStipple(stippleMask);
 	//glEnable(GL_POLYGON_STIPPLE); //FIXME: not supported in GLES2
@@ -314,7 +310,6 @@ void transitionBlinds () {
 	glUseProgram(0);
 
 	//glDisable(GL_POLYGON_STIPPLE);
-	glEnable (GL_TEXTURE_2D);
 }
 
 //----------------------------------------------------

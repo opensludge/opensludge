@@ -262,7 +262,6 @@ void saveTexture (GLuint tex, GLubyte * data) {
 	//glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &tw); FIXME: replace line
 	//glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &th); FIXME: replace line
 
-	glEnable (GL_TEXTURE_2D);
 	//glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
 	int xoffset = 0;
@@ -572,7 +571,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 			uniform = glGetUniformLocation(shader.texture, "zBuffer");
 			if (uniform >= 0) glUniform1i(uniform, 0);
 			uniform = glGetUniformLocation(shader.texture, "zBufferLayer");
-			if (uniform >= 0) glUniform1i(uniform, 0);
+			if (uniform >= 0) glUniform1f(uniform, 0.);
 			uniform = glGetUniformLocation(shader.texture, "modulateColor");
 			if (uniform >= 0) glUniform1i(uniform, 0);
 		}

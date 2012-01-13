@@ -790,7 +790,6 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 		} else if (lightMapMode == LIGHTMAPMODE_PIXEL) {
 			curLight[0] = curLight[1] = curLight[2] = 255;
 			glActiveTexture(GL_TEXTURE1);
-			glEnable(GL_TEXTURE_2D);
 			glBindTexture (GL_TEXTURE_2D, lightMap.name);
 			glActiveTexture(GL_TEXTURE0);
 		}
@@ -845,7 +844,6 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 
 	if (light && lightMapMode == LIGHTMAPMODE_PIXEL) {
 		glActiveTexture(GL_TEXTURE1);
-		glDisable(GL_TEXTURE_2D);
 		glActiveTexture(GL_TEXTURE0);
 	}
 	setSecondaryColor(0., 0., 0.,1.);

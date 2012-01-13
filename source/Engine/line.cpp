@@ -61,7 +61,6 @@ void drawLine(int x1, int y1, int x2, int y2) {
 			int h = (diffY-yoffset < viewportHeight) ? diffY-yoffset : viewportHeight;
 			
 			// Render the scene - first the old backdrop
-			glEnable (GL_TEXTURE_2D);
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
 			//glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
@@ -82,8 +81,6 @@ void drawLine(int x1, int y1, int x2, int y2) {
 			glUseProgram(shader.texture);
 			setPMVMatrix(shader.texture);
 			drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
-			
-			glDisable (GL_TEXTURE_2D);
 			
 			// Then the line
 			//FIXME:Removing the lines doesn't work, but also didn't work properly before.
@@ -119,6 +116,5 @@ void drawLine(int x1, int y1, int x2, int y2) {
 		}		
 		xoffset += viewportWidth;
 	}
-	glEnable (GL_TEXTURE_2D);
 	setPixelCoords (false);	
 }

@@ -28,7 +28,6 @@ bool saveThumbnail (FILE * fp) {
 		if (! freeze ()) return false;
 
 
-		glEnable (GL_TEXTURE_2D);
 		setPixelCoords (true);
 		glUseProgram(shader.texture);
 		setPMVMatrix(shader.texture);
@@ -155,7 +154,6 @@ void showThumbnail (char * filename, int atX, int atY) {
 		if (fileWidth + atX > sceneWidth) fileWidth = sceneWidth-atX;
 		if (fileHeight + atY > sceneHeight) fileHeight = sceneHeight-atY;
 
-		glEnable (GL_TEXTURE_2D);
 		setPixelCoords (true);
 
 		glUseProgram(shader.texture);
