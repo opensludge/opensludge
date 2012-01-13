@@ -7,7 +7,11 @@
 #include <stdlib.h>
 #include <stdint.h>
 
+#if !defined(HAVE_GLES2)
 #include "GLee.h"
+#else
+#include <GLES2/gl2.h>
+#endif
 
 #include "allfiles.h"
 

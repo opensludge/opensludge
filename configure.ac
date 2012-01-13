@@ -18,6 +18,7 @@ PKG_PROG_PKG_CONFIG()
 AC_ARG_ENABLE([engine], [AC_HELP_STRING([--disable-engine], [don't build the SLUDGE Engine])])
 AC_ARG_ENABLE([devkit], [AC_HELP_STRING([--enable-devkit], [build the SLUDGE DevKit])])
 AC_ARG_ENABLE([doc], [AC_HELP_STRING([--enable-doc], [install the SLUDGE documentation])])
+AC_ARG_ENABLE([gles2], [AC_HELP_STRING([--enable-gles2], [build engine using OpenGL ES 2.0])])
 
 # Set default targets:
 if test "x$enable_engine" = x; then
@@ -28,6 +29,9 @@ if test "x$enable_devkit" = x; then
 fi
 if test "x$enable_doc" = x; then
   enable_doc="no"
+fi
+if test "x$enable_gles2" = x; then
+  enable_gles2="no"
 fi
 
 # Are we cross compiling for windows?
@@ -49,8 +53,13 @@ AC_CHECK_LIB([glee], [GLeeInit], [GLEE_LIBS="-lglee"], [AC_CHECK_LIB([GLee], [GL
 AC_SUBST([GLEE_LIBS])
 
 if test "x$enable_engine" = xyes; then
-  PKG_CHECK_MODULES([ENGINE], [gl glu sdl alure >= 1.1 openal vorbis ogg])
+  PKG_CHECK_MODULES([ENGINE], [sdl alure >= 1.1 openal vorbis ogg])
   AC_CHECK_LIB([vpx], [vpx_codec_decode], [ENGINE_LIBS+=" -lvpx"], [AC_MSG_ERROR([cannot find vpx library])])
+  if test "x$enable_gles2" = xyes; then
+    PKG_CHECK_MODULES([GLES2], [glesv2])
+  else
+    PKG_CHECK_MODULES([GL], [gl glu])
+  fi
 fi
 
 if test "x$enable_devkit" = xyes; then
@@ -91,6 +100,7 @@ AC_CHECK_FUNCS([atexit getcwd memset mkdir rmdir sqrt strstr strtol])
 AM_CONDITIONAL([COND_ENGINE], [test "x$enable_engine" = xyes])
 AM_CONDITIONAL([COND_DEVKIT], [test "x$enable_devkit" = xyes])
 AM_CONDITIONAL([COND_DOC], [test "x$enable_doc" = xyes])
+AM_CONDITIONAL([COND_GLES2], [test "x$enable_gles2" = xyes])
 
 AC_CONFIG_FILES([Makefile
                  source/Makefile

@@ -134,7 +134,6 @@ void drawZBuffer(int x, int y, bool upsidedown) {
 	glColorMask (GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 	glDepthMask (GL_TRUE);
 
-	glBindAttribLocation(shader.texture, TEXCOORD_ARRAY, "myUV");
 	glUseProgram(shader.texture);
 
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);

@@ -1,7 +1,11 @@
 #ifndef _ZBUFFER_H_
 #define _ZBUFFER_H_
 
+#if !defined(HAVE_GLES2)
 #include "GLee.h"
+#else
+#include <GLES2/gl2.h>
+#endif
 
 struct zBufferData {
 	int width, height;

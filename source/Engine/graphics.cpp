@@ -398,6 +398,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 			msgBox( "Error building \"texture\" shader program!", "Try updating the drivers for your graphics card. If that doesn't help - sorry, your graphics card simply doesn't have all features needed for this game. It will run anyway, but some graphics may be corrupted.");
 		} else {
 			debugOut( "Built shader program: %d (texture)\n", shader.texture);
+			glBindAttribLocation(shader.texture, TEXCOORD_ARRAY, "myUV");
 			glUseProgram(shader.texture);
 			uniform = glGetUniformLocation(shader.texture, "sampler2d");
 			if (uniform >= 0) glUniform1i(uniform, 0);

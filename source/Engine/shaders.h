@@ -8,7 +8,11 @@
  */
 
 
+#if !defined(HAVE_GLES2)
 #include "GLee.h"
+#else
+#include <GLES2/gl2.h>
+#endif
 
 char *shaderFileRead(const char *fn); 
 int buildShaders (const GLchar *vertexShader, const GLchar *fragmentShader);

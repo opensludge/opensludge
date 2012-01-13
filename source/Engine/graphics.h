@@ -9,7 +9,11 @@
 #ifndef __SLUDGE_GRAPHICS_H__
 #define __SLUDGE_GRAPHICS_H__
 
+#if !defined(HAVE_GLES2)
 #include "GLee.h"
+#else
+#include <GLES2/gl2.h>
+#endif
 
 #define TEXCOORD_ARRAY 1
 

@@ -32,7 +32,15 @@ dist_pkgdata_DATA = \
 
 AM_CPPFLAGS = -std=c++0x -I$(top_srcdir)/source/CommonCode -I$(top_srcdir)/source/Engine/libwebm @ENGINE_CFLAGS@ @LIBPNG_CFLAGS@ -DDATADIR='"$(pkgdatadir)/"'
 
-LDADD = @ENGINE_LIBS@ @LIBPNG_LIBS@ @GLEE_LIBS@
+LDADD = @ENGINE_LIBS@ @LIBPNG_LIBS@
+
+if COND_GLES2
+  AM_CPPFLAGS += @GLES2_CFLAGS@ -DHAVE_GLES2
+  LDADD += @GLES2_LIBS@
+else
+  AM_CPPFLAGS += @GL_CFLAGS@
+  LDADD += @GL_LIBS@ @GLEE_LIBS@
+endif
 
 EXTRA_DIST = \
 	libvorbis/COPYING \

@@ -17,7 +17,13 @@
 
 #include <time.h>
 #include <sys/time.h>
+
+#if !defined(HAVE_GLES2)
 #include "GLee.h"
+#else
+#include <GLES2/gl2.h>
+#endif
+
 #include <SDL/SDL.h>
 #include <SDL/SDL_syswm.h>
 

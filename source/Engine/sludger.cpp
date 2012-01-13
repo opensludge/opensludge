@@ -11,7 +11,11 @@
 #include <sys/stat.h>
 #include <iconv.h>
 
+#if !defined(HAVE_GLES2)
 #include "GLee.h"
+#else
+#include <GLES2/gl2.h>
+#endif
 
 #include <unistd.h>
 #include <stdlib.h>
