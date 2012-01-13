@@ -11,6 +11,8 @@
 
 #include "GLee.h"
 
+#define TEXCOORD_ARRAY 1
+
 struct texture {
 	GLubyte * data;
 	GLuint name;
@@ -22,6 +24,7 @@ struct shaders {
 	GLuint paste;
 	GLuint smartScaler;
 	GLuint yuv;
+	GLuint texture;
 };
 
 // From Backdrop.cpp, but they're here anyway

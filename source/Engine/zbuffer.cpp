@@ -133,7 +133,10 @@ void drawZBuffer(int x, int y, bool upsidedown) {
 	glEnable(GL_ALPHA_TEST);
 	glColorMask (GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 	glDepthMask (GL_TRUE);
-	
+
+	glBindAttribLocation(shader.texture, TEXCOORD_ARRAY, "myUV");
+	glUseProgram(shader.texture);
+
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glBindTexture (GL_TEXTURE_2D, zBuffer.texName);
 	glColor4f(1.0, 1.0, 1.0, 1.0);
@@ -164,14 +167,15 @@ void drawZBuffer(int x, int y, bool upsidedown) {
 		}; 
 
 		glEnableClientState(GL_VERTEX_ARRAY);
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 		glVertexPointer(3, GL_FLOAT, 0, vertices);
-		glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
+
+		glUniform1i(glGetUniformLocation(shader.texture, "sampler2d"), 0);
+		glEnableVertexAttribArray(TEXCOORD_ARRAY);
+		glVertexAttribPointer(TEXCOORD_ARRAY, 2, GL_FLOAT, GL_FALSE, 0, texCoords);
 
 		glDrawArrays(GL_QUADS, 0, 4);
 
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 		glDisableClientState(GL_VERTEX_ARRAY);
 	}
 	

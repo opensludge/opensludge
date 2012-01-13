@@ -385,6 +385,25 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 		}
 	}
 
+	Vertex = shaderFileRead("texture.vert");
+	Fragment = shaderFileRead("texture.frag");
+
+	if (! Vertex || ! Fragment) {
+		msgBox( "Error loading \"texture\" shader program!", "Try re-installing the game. The game will run anyway, but some graphics may be corrupted.");
+		shader.texture = 0;
+	} else {
+
+		shader.texture = buildShaders (Vertex, Fragment);
+		if (! shader.texture) {
+			msgBox( "Error building \"texture\" shader program!", "Try updating the drivers for your graphics card. If that doesn't help - sorry, your graphics card simply doesn't have all features needed for this game. It will run anyway, but some graphics may be corrupted.");
+		} else {
+			debugOut( "Built shader program: %d (texture)\n", shader.texture);
+			glUseProgram(shader.texture);
+			uniform = glGetUniformLocation(shader.texture, "sampler2d");
+			if (uniform >= 0) glUniform1i(uniform, 0);
+		}
+	}
+
 	glUseProgram(0);
 
 	glViewport (viewportOffsetX, viewportOffsetY, viewportWidth, viewportHeight);

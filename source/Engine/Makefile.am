@@ -27,6 +27,7 @@ sludge_engine_SOURCES = \
 dist_pkgdata_DATA = \
 	fixScaleSprite.frag fixScaleSprite.vert \
 	scale.frag scale.vert \
+	texture.frag texture.vert \
 	yuv.frag yuv.vert
 
 AM_CPPFLAGS = -std=c++0x -I$(top_srcdir)/source/CommonCode -I$(top_srcdir)/source/Engine/libwebm @ENGINE_CFLAGS@ @LIBPNG_CFLAGS@ -DDATADIR='"$(pkgdatadir)/"'
