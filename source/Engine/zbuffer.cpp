@@ -130,7 +130,6 @@ void drawZBuffer(int x, int y, bool upsidedown) {
 	
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
-	glEnable(GL_ALPHA_TEST);
 	glColorMask (GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 	glDepthMask (GL_TRUE);
 
@@ -142,8 +141,6 @@ void drawZBuffer(int x, int y, bool upsidedown) {
 
 	for (i = 1; i<zBuffer.numPanels; i++) {
 		GLfloat z = 1.0 - (double) i * (1.0 / 128.0);
-
-		glAlphaFunc (GL_GREATER, 0.0625*i-0.03);
 
 		GLfloat vy1 = -y, vy2 = zBuffer.height-y;
 		if (upsidedown) {
@@ -200,6 +197,8 @@ glUniformMatrix4fv( glGetUniformLocation(shader.texture, "myModelViewMatrix"), 1
 		}; 
 
 		glUniform1i(glGetUniformLocation(shader.texture, "sampler2d"), 0);
+		glUniform1f(glGetUniformLocation(shader.texture, "zBuffer"), 1);
+		glUniform1f(glGetUniformLocation(shader.texture, "zBufferLayer"), i);
  		
 		glEnableVertexAttribArray(textureVertexLoc);
 		glEnableVertexAttribArray(textureTexCoordLoc);
@@ -215,7 +214,6 @@ glUniformMatrix4fv( glGetUniformLocation(shader.texture, "myModelViewMatrix"), 1
 	
 	glColorMask (GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 	glDepthMask (GL_FALSE);
-	glDisable(GL_ALPHA_TEST);
 	glDisable(GL_BLEND);	
 	glUseProgram(0);
 }
