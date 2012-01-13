@@ -45,6 +45,7 @@ GLfloat pixelPMVMatrix[16];
 
 void sludgeDisplay ();
 
+/* FIXME: remove this
 void drawTexturedQuad(const GLfloat* vertices, const GLfloat* texCoords)
 {
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -72,6 +73,7 @@ void drawTexturedQuad(const GLint* vertices, const GLfloat* texCoords)
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
 }
+*/
 
 void drawTexturedQuadNew(GLint program, const GLfloat* vertices, int numTexCoords, ...)
 {
@@ -279,8 +281,12 @@ void saveTexture (GLuint tex, GLubyte * data) {
 				0.0f, 1.0f,
 				1.0f, 1.0f
 			}; 
-fprintf(stdout, "QUAD: graphics.cpp - saveTexture\n");
-			drawTexturedQuad(vertices, texCoords);
+
+			glUseProgram(shader.texture);
+			setPMVMatrix(shader.texture);
+
+			drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
+			glUseProgram(0);
 
 			for (int i = 0; i<h; i++)	{
 				glReadPixels(viewportOffsetX, viewportOffsetY+i, w, 1, GL_RGBA, GL_UNSIGNED_BYTE, data+xoffset*4+(yoffset+i)*4*tw);

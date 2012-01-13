@@ -1006,8 +1006,10 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 				backdropTexW, backdropTexH
 			}; 
 
-fprintf(stdout, "QUAD: sprites.cpp - fixScaleSprite\n");
-			drawTexturedQuad(vertices, texCoords);
+			glUseProgram(shader.texture);
+			setPMVMatrix(shader.texture);
+
+			drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
 
 			// The z-buffer
 			if (useZB) {

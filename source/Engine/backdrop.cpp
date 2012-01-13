@@ -385,8 +385,12 @@ void hardScroll (int distance) {
 				-xoffset, sceneHeight-distance-yoffset, 0,
 				sceneWidth-xoffset, sceneHeight-distance-yoffset, 0 
 			};
-fprintf(stdout, "QUAD: hardScroll\n");
-			drawTexturedQuad(vertices, backdropTexCoords);
+
+			glUseProgram(shader.texture);
+			setPMVMatrix(shader.texture);
+
+			drawTexturedQuadNew(shader.texture, vertices, 1, backdropTexCoords);
+			glUseProgram(0);
 
 			// Copy Our ViewPort To The Texture
 			glBindTexture(GL_TEXTURE_2D, backdropTextureName);
@@ -1573,8 +1577,11 @@ void saveCoreHSI (FILE * writer, GLuint texture, int w, int h) {
 				-xoffset, -yoffset+h, 0,
 				w-xoffset, -yoffset+h, 0
 			};
-fprintf(stdout, "QUAD: saveCoreHSI\n");
-			drawTexturedQuad(vertices, texCoords);
+
+			glUseProgram(shader.texture);
+			setPMVMatrix(shader.texture);
+			drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
+			glUseProgram(0);
 			
 			for (int i = 0; i<h; i++)	{
 				glReadPixels(viewportOffsetX, viewportOffsetY+i, w, 1, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, image+xoffset+(yoffset+i)*tw);

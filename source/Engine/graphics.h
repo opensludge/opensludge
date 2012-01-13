@@ -44,8 +44,10 @@ extern bool NPOT_textures;
 extern shaders shader;
 extern GLfloat aPMVMatrix[], pixelPMVMatrix[];
 
+/* FIXME: remove this
 void drawTexturedQuad(const GLfloat* vertices, const GLfloat* texCoords);
 void drawTexturedQuad(const GLint* vertices, const GLfloat* texCoords);
+*/
 void drawTexturedQuadNew(GLint program, const GLfloat* vertices, int numTexCoords, ...);
 void drawTexturedQuadNew(GLint program, const GLint* vertices, int numTexCoords, ...);
 
