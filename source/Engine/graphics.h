@@ -41,7 +41,6 @@ extern int realWinWidth, realWinHeight;
 
 extern bool NPOT_textures;
 extern shaders shader;
-extern int textureVertexLoc, textureTexCoordLoc;
 extern GLfloat aPMVMatrix[], pixelPMVMatrix[];
 
 void drawTexturedQuad(const GLfloat* vertices, const GLfloat* texCoords);

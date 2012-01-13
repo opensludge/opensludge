@@ -188,20 +188,10 @@ if (dr % 4 == 0) fprintf(stderr, "\n");
 			backdropTexW, backdropTexH
 		}; 
 
-		glUniform1i(glGetUniformLocation(shader.texture, "sampler2d"), 0);
 		glUniform1i(glGetUniformLocation(shader.texture, "zBuffer"), 1);
 		glUniform1f(glGetUniformLocation(shader.texture, "zBufferLayer"), i);
- 		
-		glEnableVertexAttribArray(textureVertexLoc);
-		glEnableVertexAttribArray(textureTexCoordLoc);
-
-		glVertexAttribPointer(textureVertexLoc, 3, GL_FLOAT, GL_FALSE, 0, vertices);
-		glVertexAttribPointer(textureTexCoordLoc, 2, GL_FLOAT, GL_FALSE, 0, texCoords);
-
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-		glDisableVertexAttribArray(textureTexCoordLoc);
-		glDisableVertexAttribArray(textureVertexLoc);
+ 
+		drawTexturedQuadNew(shader.texture, vertices, 1, texCoords);
 	}
 	
 	glColorMask (GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);

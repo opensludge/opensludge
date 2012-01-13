@@ -40,7 +40,6 @@ extern GLuint vTextureName;
 //extern GLubyte * ytex, * utex, * vtex;
 
 shaders shader;
-int textureVertexLoc, textureTexCoordLoc;
 GLfloat aPMVMatrix[16];
 GLfloat pixelPMVMatrix[16];
 
@@ -542,8 +541,6 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 			msgBox( "Error building \"texture\" shader program!", "Try updating the drivers for your graphics card. If that doesn't help - sorry, your graphics card simply doesn't have all features needed for this game. It will run anyway, but some graphics may be corrupted.");
 		} else {
 			debugOut( "Built shader program: %d (texture)\n", shader.texture);
-			textureVertexLoc = glGetAttribLocation(shader.texture, "myVertex");
- 			textureTexCoordLoc = glGetAttribLocation(shader.texture, "myUV");
 			glUseProgram(shader.texture);
 			uniform = glGetUniformLocation(shader.texture, "sampler2d");
 			if (uniform >= 0) glUniform1i(uniform, 0);
