@@ -472,11 +472,11 @@ void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette
 			glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
 			//glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
-			const GLint vertices[] = { 
-				-xoffset, -yoffset, 0,
-				single.width-xoffset, -yoffset, 0,
-				-xoffset, single.height-yoffset, 0,
-				single.width-xoffset, single.height-yoffset, 0
+			const GLfloat vertices[] = { 
+				(GLfloat)-xoffset, (GLfloat)-yoffset, 0.,
+				(GLfloat)single.width-xoffset, (GLfloat)-yoffset, 0.,
+				(GLfloat)-xoffset, (GLfloat)single.height-yoffset, 0.,
+				(GLfloat)single.width-xoffset, (GLfloat)single.height-yoffset, 0.
 			};
 
 			const GLfloat texCoords[] = { 

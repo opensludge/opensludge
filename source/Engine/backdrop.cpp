@@ -379,11 +379,11 @@ void hardScroll (int distance) {
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
-			const GLint vertices[] = { 
-				-xoffset, -distance-yoffset, 0, 
-				sceneWidth-xoffset, -distance-yoffset, 0, 
-				-xoffset, sceneHeight-distance-yoffset, 0,
-				sceneWidth-xoffset, sceneHeight-distance-yoffset, 0 
+			const GLfloat vertices[] = { 
+				(GLfloat)-xoffset, (GLfloat)-distance-yoffset, 0., 
+				(GLfloat)sceneWidth-xoffset, (GLfloat)-distance-yoffset, 0., 
+				(GLfloat)-xoffset, (GLfloat)sceneHeight-distance-yoffset, 0.,
+				(GLfloat)sceneWidth-xoffset, (GLfloat)sceneHeight-distance-yoffset, 0. 
 			};
 
 			glUseProgram(shader.texture);
@@ -429,11 +429,11 @@ void darkScreen () {
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
-			const GLint vertices[] = { 
-				-xoffset, -yoffset, 0, 
-				sceneWidth-xoffset, -yoffset, 0, 
-				-xoffset, sceneHeight-yoffset, 0,
-				sceneWidth-xoffset, sceneHeight-yoffset, 0
+			const GLfloat vertices[] = { 
+				(GLfloat)-xoffset, (GLfloat)-yoffset, 0., 
+				(GLfloat)sceneWidth-xoffset, (GLfloat)-yoffset, 0., 
+				(GLfloat)-xoffset, (GLfloat)sceneHeight-yoffset, 0.,
+				(GLfloat)sceneWidth-xoffset, (GLfloat)sceneHeight-yoffset, 0.
 			};
 
 			const GLfloat texCoords[] = { 
@@ -558,11 +558,11 @@ void drawBackDrop () {
 		backdropTexW, backdropTexH
 	}; 
 
-	const GLint vertices[] = { 
-		-cameraX, -cameraY, 0, 
-		sceneWidth-cameraX, -cameraY, 0, 
-		-cameraX, sceneHeight-cameraY, 0,
-		sceneWidth-cameraX, sceneHeight-cameraY, 0
+	const GLfloat vertices[] = { 
+		(GLfloat)-cameraX, (GLfloat)-cameraY, 0., 
+		(GLfloat)sceneWidth-cameraX, (GLfloat)-cameraY, 0., 
+		(GLfloat)-cameraX, (GLfloat)sceneHeight-cameraY, 0.,
+		(GLfloat)sceneWidth-cameraX, (GLfloat)sceneHeight-cameraY, 0.
 	};
 
 	drawTexturedQuadNew(shader.smartScaler, vertices, 2, backdropTexCoords, backdropTexCoords);
@@ -1133,11 +1133,11 @@ bool loadHSI (FILE * fp, int x, int y, bool reserve) {
 
 			glClear(GL_COLOR_BUFFER_BIT);	// Clear The Screen
 
-			const GLint vertices[] = { 
-				-xoffset, -yoffset, 0, 
-				realPicWidth-xoffset, -yoffset, 0, 
-				-xoffset, -yoffset+realPicHeight, 0,
-				realPicWidth-xoffset, -yoffset+realPicHeight, 0
+			const GLfloat vertices[] = { 
+				(GLfloat)-xoffset, (GLfloat)-yoffset, 0., 
+				(GLfloat)realPicWidth-xoffset, (GLfloat)-yoffset, 0., 
+				(GLfloat)-xoffset, (GLfloat)-yoffset+realPicHeight, 0.,
+				(GLfloat)realPicWidth-xoffset, (GLfloat)-yoffset+realPicHeight, 0.
 			};
 
 			const GLfloat texCoords[] = { 
@@ -1408,11 +1408,11 @@ bool mixHSI (FILE * fp, int x, int y) {
 			glBindTexture(GL_TEXTURE_2D, tmpTex);
 			//glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
-			const GLint vertices[] = { 
-				-xoffset, -yoffset, 0, 
-				realPicWidth-xoffset, -yoffset, 0, 
-				-xoffset, -yoffset+realPicHeight, 0,
-				realPicWidth-xoffset, -yoffset+realPicHeight, 0
+			const GLfloat vertices[] = { 
+				(GLfloat)-xoffset, (GLfloat)-yoffset, 0., 
+				(GLfloat)realPicWidth-xoffset, (GLfloat)-yoffset, 0., 
+				(GLfloat)-xoffset, (GLfloat)-yoffset+realPicHeight, 0.,
+				(GLfloat)realPicWidth-xoffset, (GLfloat)-yoffset+realPicHeight, 0.
 			};
 
 			drawTexturedQuadNew(shader.paste, vertices, 3, texCoords, NULL, btexCoords);
@@ -1469,11 +1469,11 @@ void saveCorePNG  (FILE * writer, GLuint texture, int w, int h) {
 			
 			glClear(GL_COLOR_BUFFER_BIT);	// Clear The Screen
 
-			const GLint vertices[] = { 
-				-xoffset, -yoffset, 0, 
-				tw-xoffset, -yoffset, 0, 
-				-xoffset, -yoffset+th, 0,
-				tw-xoffset, -yoffset+th, 0
+			const GLfloat vertices[] = { 
+				(GLfloat)-xoffset, (GLfloat)-yoffset, 0., 
+				(GLfloat)tw-xoffset, (GLfloat)-yoffset, 0., 
+				(GLfloat)-xoffset, (GLfloat)-yoffset+th, 0.,
+				(GLfloat)tw-xoffset, (GLfloat)-yoffset+th, 0.
 			};
 
 			glUseProgram(shader.texture);
@@ -1565,11 +1565,11 @@ void saveCoreHSI (FILE * writer, GLuint texture, int w, int h) {
 			
 			glClear(GL_COLOR_BUFFER_BIT);	// Clear The Screen
 
-			const GLint vertices[] = { 
-				-xoffset, -yoffset, 0, 
-				w-xoffset, -yoffset, 0, 
-				-xoffset, -yoffset+h, 0,
-				w-xoffset, -yoffset+h, 0
+			const GLfloat vertices[] = { 
+				(GLfloat)-xoffset, (GLfloat)-yoffset, 0., 
+				(GLfloat)w-xoffset, (GLfloat)-yoffset, 0., 
+				(GLfloat)-xoffset, (GLfloat)-yoffset+h, 0.,
+				(GLfloat)w-xoffset, (GLfloat)-yoffset+h, 0.
 			};
 
 			glUseProgram(shader.texture);

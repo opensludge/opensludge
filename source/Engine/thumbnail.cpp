@@ -46,11 +46,11 @@ bool saveThumbnail (FILE * fp) {
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-		const GLint vertices[] = { 
-			0, 0, 0, 
-			thumbWidth-1, 0, 0, 
-			0, thumbHeight-1, 0,
-			thumbWidth-1, thumbHeight-1, 0
+		const GLfloat vertices[] = { 
+			0., 0., 0., 
+			thumbWidth-1.f, 0., 0., 
+			0., thumbHeight-1.f, 0.,
+			thumbWidth-1.f, thumbHeight-1.f, 0.
 		};
 
 		const GLfloat texCoords[] = { 
@@ -169,11 +169,11 @@ void showThumbnail (char * filename, int atX, int atY) {
 
 				glBindTexture (GL_TEXTURE_2D, thumbnailTextureName);
 
-				const GLint vertices[] = { 
-					fileWidth-1-xoffset, -yoffset, 0, 
-					-xoffset, -yoffset, 0, 
-					fileWidth-1-xoffset, fileHeight-1-yoffset, 0,
-					-xoffset, fileHeight-1-yoffset, 0
+				const GLfloat vertices[] = { 
+					(GLfloat)fileWidth-1.f-xoffset, (GLfloat)-yoffset, 0., 
+					(GLfloat)-xoffset, (GLfloat)-yoffset, 0., 
+					(GLfloat)fileWidth-1.f-xoffset, (GLfloat)fileHeight-1.f-yoffset, 0.,
+					(GLfloat)-xoffset, (GLfloat)fileHeight-1.f-yoffset, 0.
 				};
 
 				const GLfloat texCoords[] = { 

@@ -25,11 +25,11 @@ unsigned lastFrom, lastTo;
 void transitionFader () {
 	glEnable(GL_BLEND);
 	
-	const GLint vertices[] = { 
-		0, winHeight, 0, 
-		winWidth, winHeight, 0, 
-		0, 0, 0,
-		winWidth, 0, 0
+	const GLfloat vertices[] = { 
+		0.f, (GLfloat)winHeight, 0.f, 
+		(GLfloat)winWidth, (GLfloat)winHeight, 0.f, 
+		0.f, 0.f, 0.f,
+		(GLfloat)winWidth, 0.f, 0.f
 	};
 
 	glUseProgram(shader.color);
@@ -50,11 +50,11 @@ void transitionCrossFader () {
 	
 	glEnable(GL_BLEND);
 
-	const GLint vertices[] = { 
-		0, winHeight, 0, 
-		winWidth, winHeight, 0, 
-		0, 0, 0,
-		winWidth, 0, 0
+	const GLfloat vertices[] = { 
+		0.f, (GLfloat)winHeight, 0.f, 
+		(GLfloat)winWidth, (GLfloat)winHeight, 0.f, 
+		0.f, 0.f, 0.f,
+		(GLfloat)winWidth, 0.f, 0.f
 	};
 
 	const GLfloat texCoords[] = { 
@@ -195,11 +195,11 @@ void transitionDisolve () {
 
 	glEnable(GL_BLEND);
 
-	const GLint vertices[] = { 
-		0, winHeight, 0, 
-		winWidth, winHeight, 0, 
-		0, 0, 0,
-		winWidth, 0, 0
+	const GLfloat vertices[] = { 
+		0.f, (GLfloat)winHeight, 0.f, 
+		(GLfloat)winWidth, (GLfloat)winHeight, 0.f, 
+		0.f, 0.f, 0.f,
+		(GLfloat)winWidth, 0.f, 0.f
 	};
 
 	const GLfloat texCoords[] = { 
@@ -258,11 +258,11 @@ void transitionTV () {
 	
 	glEnable(GL_BLEND);
 	
-	const GLint vertices[] = { 
-		0, winHeight, 0, 
-		winWidth, winHeight, 0, 
-		0, 0, 0,
-		winWidth, 0, 0
+	const GLfloat vertices[] = { 
+		0.f, (GLfloat)winHeight, 0.f, 
+		(GLfloat)winWidth, (GLfloat)winHeight, 0.f, 
+		0.f, 0.f, 0.f,
+		(GLfloat)winWidth, 0.f, 0.f
 	};
 
 	const GLfloat texCoords[] = { 
@@ -295,11 +295,11 @@ void transitionBlinds () {
 	//glPolygonStipple(stippleMask);
 	//glEnable(GL_POLYGON_STIPPLE); //FIXME: not supported in GLES2
 	
-	const GLint vertices[] = { 
-		0, winHeight, 0, 
-		winWidth, winHeight, 0, 
-		0, 0, 0,
-		winWidth, 0, 0
+	const GLfloat vertices[] = { 
+		0.f, (GLfloat)winHeight, 0.f, 
+		(GLfloat)winWidth, (GLfloat)winHeight, 0.f, 
+		0.f, 0.f, 0.f,
+		(GLfloat)winWidth, 0.f, 0.f
 	};
 
 	glUseProgram(shader.color);

@@ -64,11 +64,11 @@ void drawLine(int x1, int y1, int x2, int y2) {
 			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
 			//glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
-			const GLint vertices[] = { 
-				-x-xoffset, 1-y-yoffset, 0, 
-				sceneWidth-x-xoffset, 1-y-yoffset, 0, 
-				-x-xoffset, sceneHeight-y-yoffset, 0,
-				sceneWidth-x-xoffset, sceneHeight-y-yoffset, 0
+			const GLfloat vertices[] = { 
+				(GLfloat)-x-xoffset, (GLfloat)1-y-yoffset, 0., 
+				(GLfloat)sceneWidth-x-xoffset, (GLfloat)1-y-yoffset, 0., 
+				(GLfloat)-x-xoffset, (GLfloat)sceneHeight-y-yoffset, 0.,
+				(GLfloat)sceneWidth-x-xoffset, (GLfloat)sceneHeight-y-yoffset, 0.
 			};
 
 			const GLfloat texCoords[] = { 

@@ -141,53 +141,6 @@ void drawTexturedQuadNew(GLint program, const GLfloat* vertices, int numTexCoord
 	glDisableVertexAttribArray(vertexLoc);
 }
 
-void drawTexturedQuadNew(GLint program, const GLint* vertices, int numTexCoords, ...)
-{
-	int i, vertexLoc, texCoordLocs[numTexCoords];
-	const GLfloat* texCoords[numTexCoords];
-
-	va_list vl;
-	va_start(vl,numTexCoords);
-	for (i=0;i<numTexCoords;i++)
-	{
-		texCoords[i]=va_arg(vl,const GLfloat*);
-	}
-	va_end(vl);
-
-	glUniform4f(glGetUniformLocation(program, "myColor"), primaryColor[0], primaryColor[1], primaryColor[2], primaryColor[3]);
-	if (program == shader.smartScaler || program == shader.paste)
-	{
-		glUniform4f(glGetUniformLocation(program, "mySecondaryColor"), secondaryColor[0], secondaryColor[1], secondaryColor[2], secondaryColor[3]);
-	}
-
-	vertexLoc = glGetAttribLocation(program, "myVertex");
-	texCoordLocs[0] = glGetAttribLocation(program, "myUV0");
-	if (numTexCoords > 1) texCoordLocs[1] = glGetAttribLocation(program, "myUV1");
-	if (numTexCoords > 2) texCoordLocs[2] = glGetAttribLocation(program, "myUV2");
-	if (numTexCoords > 3) texCoordLocs[3] = glGetAttribLocation(program, "myUV3");
- 		
-	glEnableVertexAttribArray(vertexLoc);
-	glVertexAttribPointer(vertexLoc, 3, GL_INT, GL_FALSE, 0, vertices);
-
-	for (i=0;i<numTexCoords;i++)
-	{
-		if (texCoords[i]) {
-			glEnableVertexAttribArray(texCoordLocs[i]);
-			glVertexAttribPointer(texCoordLocs[i], 2, GL_FLOAT, GL_FALSE, 0, texCoords[i]);
-		}
-	}
-
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-	for (i=0;i<numTexCoords;i++)
-	{
-		if (texCoords[i]) {
-			glDisableVertexAttribArray(texCoordLocs[i]);
-		}
-	}
-
-	glDisableVertexAttribArray(vertexLoc);
-}
 
 void setPMVMatrix(GLint program) {
 	glUniformMatrix4fv( glGetUniformLocation(program, "myPMVMatrix"), 1, GL_FALSE, aPMVMatrix);
@@ -274,11 +227,11 @@ void saveTexture (GLuint tex, GLubyte * data) {
 
 			glClear(GL_COLOR_BUFFER_BIT);	// Clear The Screen
 
-			const GLint vertices[] = { 
-				-xoffset, -yoffset, 0, 
-				tw-xoffset, -yoffset, 0, 
-				-xoffset, -yoffset+th, 0,
-				tw-xoffset, -yoffset+th, 0
+			const GLfloat vertices[] = { 
+				(GLfloat)-xoffset, (GLfloat)-yoffset, 0.f, 
+				(GLfloat)tw-xoffset, (GLfloat)-yoffset, 0.f, 
+				(GLfloat)-xoffset, (GLfloat)-yoffset+th, 0.f,
+				(GLfloat)tw-xoffset, (GLfloat)-yoffset+th, 0.f
 			};
 
 			const GLfloat texCoords[] = { 
