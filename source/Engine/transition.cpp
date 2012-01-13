@@ -289,10 +289,12 @@ void transitionBlinds () {
 	
 	if (level) memset (stippleMask, 0, 4*level);
 	if (level < 32) memset (stippleMask+level*4, 255, 4*(32-level));
-	
-	//glPolygonStipple(stippleMask);
-	//glEnable(GL_POLYGON_STIPPLE); //FIXME: not supported in GLES2
-	
+
+#if !defined(HAVE_GLES2)
+	glPolygonStipple(stippleMask); //FIXME: implement for in GLES2
+	glEnable(GL_POLYGON_STIPPLE); 
+#endif
+
 	const GLfloat vertices[] = { 
 		0.f, (GLfloat)winHeight, 0.f, 
 		(GLfloat)winWidth, (GLfloat)winHeight, 0.f, 
@@ -306,8 +308,9 @@ void transitionBlinds () {
 	drawQuad(shader.color, vertices, 0);
 
 	glUseProgram(0);
-
-	//glDisable(GL_POLYGON_STIPPLE);
+#if !defined(HAVE_GLES2)
+	glDisable(GL_POLYGON_STIPPLE);
+#endif
 }
 
 //----------------------------------------------------
