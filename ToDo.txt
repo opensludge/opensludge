@@ -10,4 +10,3 @@ Known bugs:
 
 * BLINDS transition mode not yet supported with GLES2.
 * Parallax scrolling bug with GLES2.
-* Thumbnails are shown distorted with GLES2 (POT texture issue).
