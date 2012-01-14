@@ -183,10 +183,10 @@ void showThumbnail (char * filename, int atX, int atY) {
 				};
 
 				const GLfloat texCoords[] = { 
-					0.0f, 0.0f,
 					texCoordW, 0.0f,
-					0.0f, texCoordH,
-					texCoordW, texCoordH
+					0.0f, 0.0f,
+					texCoordW, texCoordH,
+					0.0f, texCoordH
 				}; 
 	
 				drawQuad(shader.texture, vertices, 1, texCoords);
