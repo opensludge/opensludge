@@ -97,6 +97,9 @@ void showThumbnail (char * filename, int atX, int atY) {
 	GLubyte * thumbnailTexture = NULL;
 	GLuint thumbnailTextureName = 0;
 
+	GLfloat texCoordW = 1.0;
+	GLfloat texCoordH = 1.0;	
+	
 	int ssgVersion;
 	FILE * fp = openAndVerify (filename, 'S', 'A', ERROR_GAME_LOAD_NO, ssgVersion);
 	if (ssgVersion >= VERSION(1,4)) {
@@ -109,6 +112,9 @@ void showThumbnail (char * filename, int atX, int atY) {
 		if (! NPOT_textures) {
 			picWidth = getNextPOT(picWidth);
 			picHeight = getNextPOT(picHeight);
+			texCoordW = ((double)fileWidth) / picWidth;
+			texCoordH = ((double)fileHeight) / picHeight;
+			
 		}
 
 		thumbnailTexture = new GLubyte [picHeight*picWidth*4];
@@ -177,10 +183,10 @@ void showThumbnail (char * filename, int atX, int atY) {
 				};
 
 				const GLfloat texCoords[] = { 
-					backdropTexW, 0.0f,
 					0.0f, 0.0f,
-					backdropTexW, backdropTexH,
-					0.0f, backdropTexH
+					texCoordW, 0.0f,
+					0.0f, texCoordH,
+					texCoordW, texCoordH
 				}; 
 	
 				drawQuad(shader.texture, vertices, 1, texCoords);
