@@ -36,6 +36,11 @@ libopenal-dev, libalure-dev (version 1.1 required, only available in Debian
 Wheezy / Ubuntu 11.10 or above, the packages can be used for older releases),
 libvorbis-dev, libflac-dev and libdumb1-dev.
 
+   To use OpenGL ES 2 as graphics library, the dependencies OpenGL, GLee
+and libGLU are replaced by OpenGL ES 2 and EGL. That means in the above list
+for Debian and Ubuntu mesa-common-dev, glee-dev and libglu1-mesa-dev are
+replaced by libgles2-mesa-dev.
+
 Dependencies (Dev Kit)
 ======================
 
@@ -56,6 +61,9 @@ is build. You can use the configure options --disable-engine,
 --enable-devkit and/or --enable-doc to (de)select components. For example
 `./configure --disable-engine --enable-devkit' will only install the Dev
 Kit, but neither the engine nor the documentation.
+
+   The configure option --enable-gles2 causes the engine to use OpenGL ES 2
+as graphics library.
 
    The following more-detailed instructions are generic and
 

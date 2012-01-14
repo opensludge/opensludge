@@ -75,6 +75,12 @@ There are generic instructions how to compile SLUDGE in the <strong>INSTALL</str
 <p><div class="bash">cd opensludge</div></p>
 <p><div class="bash">./autogen.sh</div></p>
 
+<h3>OpenGL ES 2</h3>
+
+SLUDGE 2.2 has experimental support for OpenGL ES 2. This means it should work on mobile devices such as smartphones without much effort. To use OpenGL ES 2 on Debian or Ubuntu, the dependencies <strong>glee-dev</strong> and <strong>libglu1-mesa-dev</strong> are replaced by <strong>libgles2-mesa-dev</strong> and configuring is done by
+
+<p><pre><div class="bash">./configure --enable-gles2</div></pre></p>
+
 <h3>See also:</h3>
 
 <p><a href="Using_the_SLUDGE_Engine_on_Linux.html">Using the SLUDGE Engine on Linux</a></p>
