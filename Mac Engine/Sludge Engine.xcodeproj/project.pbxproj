@@ -124,6 +124,16 @@
 		E8DB5E9411B17DFB00137FE3 /* fixScaleSprite.vert in Resources */ = {isa = PBXBuildFile; fileRef = E8DB5E9311B17DFB00137FE3 /* fixScaleSprite.vert */; };
 		E8DB5E9811B17E4600137FE3 /* fixScaleSprite.frag in Resources */ = {isa = PBXBuildFile; fileRef = E8DB5E9711B17E4600137FE3 /* fixScaleSprite.frag */; };
 		E8E5000D111CBEAC00FD4DBD /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8E5000C111CBEAC00FD4DBD /* OpenAL.framework */; };
+		E8E9E64514C1D0EB0056A79F /* color.frag in Sources */ = {isa = PBXBuildFile; fileRef = E8E9E64214C1D0EB0056A79F /* color.frag */; };
+		E8E9E64614C1D0EB0056A79F /* scale_noaa.frag in Sources */ = {isa = PBXBuildFile; fileRef = E8E9E64314C1D0EB0056A79F /* scale_noaa.frag */; };
+		E8E9E64714C1D0EB0056A79F /* texture.frag in Sources */ = {isa = PBXBuildFile; fileRef = E8E9E64414C1D0EB0056A79F /* texture.frag */; };
+		E8E9E64A14C1D1010056A79F /* color.vert in Sources */ = {isa = PBXBuildFile; fileRef = E8E9E64814C1D1010056A79F /* color.vert */; };
+		E8E9E64B14C1D1010056A79F /* texture.vert in Sources */ = {isa = PBXBuildFile; fileRef = E8E9E64914C1D1010056A79F /* texture.vert */; };
+		E8E9E64C14C1D1120056A79F /* color.vert in Resources */ = {isa = PBXBuildFile; fileRef = E8E9E64814C1D1010056A79F /* color.vert */; };
+		E8E9E64D14C1D1120056A79F /* texture.vert in Resources */ = {isa = PBXBuildFile; fileRef = E8E9E64914C1D1010056A79F /* texture.vert */; };
+		E8E9E64E14C1D1120056A79F /* color.frag in Resources */ = {isa = PBXBuildFile; fileRef = E8E9E64214C1D0EB0056A79F /* color.frag */; };
+		E8E9E64F14C1D1120056A79F /* scale_noaa.frag in Resources */ = {isa = PBXBuildFile; fileRef = E8E9E64314C1D0EB0056A79F /* scale_noaa.frag */; };
+		E8E9E65014C1D1120056A79F /* texture.frag in Resources */ = {isa = PBXBuildFile; fileRef = E8E9E64414C1D0EB0056A79F /* texture.frag */; };
 		E8EC92D112E605E500BFF763 /* sludge_launcher_logo_4c0c.png in Resources */ = {isa = PBXBuildFile; fileRef = E8EC92D012E605E500BFF763 /* sludge_launcher_logo_4c0c.png */; };
 		E8F5CF18131E4A8800EF8C14 /* yuv.frag in Resources */ = {isa = PBXBuildFile; fileRef = E8F5CF13131E4A1600EF8C14 /* yuv.frag */; };
 		E8F5CF19131E4A8800EF8C14 /* yuv.vert in Resources */ = {isa = PBXBuildFile; fileRef = E8F5CF14131E4A1600EF8C14 /* yuv.vert */; };
@@ -327,6 +337,11 @@
 		E8DB5E9311B17DFB00137FE3 /* fixScaleSprite.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = fixScaleSprite.vert; path = ../source/Engine/fixScaleSprite.vert; sourceTree = SOURCE_ROOT; };
 		E8DB5E9711B17E4600137FE3 /* fixScaleSprite.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = fixScaleSprite.frag; path = ../source/Engine/fixScaleSprite.frag; sourceTree = SOURCE_ROOT; };
 		E8E5000C111CBEAC00FD4DBD /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		E8E9E64214C1D0EB0056A79F /* color.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = color.frag; path = ../source/Engine/color.frag; sourceTree = SOURCE_ROOT; };
+		E8E9E64314C1D0EB0056A79F /* scale_noaa.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = scale_noaa.frag; path = ../source/Engine/scale_noaa.frag; sourceTree = SOURCE_ROOT; };
+		E8E9E64414C1D0EB0056A79F /* texture.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = texture.frag; path = ../source/Engine/texture.frag; sourceTree = SOURCE_ROOT; };
+		E8E9E64814C1D1010056A79F /* color.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = color.vert; path = ../source/Engine/color.vert; sourceTree = SOURCE_ROOT; };
+		E8E9E64914C1D1010056A79F /* texture.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = texture.vert; path = ../source/Engine/texture.vert; sourceTree = SOURCE_ROOT; };
 		E8EC92D012E605E500BFF763 /* sludge_launcher_logo_4c0c.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sludge_launcher_logo_4c0c.png; path = ../images/sludge_launcher_logo_4c0c.png; sourceTree = SOURCE_ROOT; };
 		E8F5CF13131E4A1600EF8C14 /* yuv.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = yuv.frag; path = ../source/Engine/yuv.frag; sourceTree = SOURCE_ROOT; };
 		E8F5CF14131E4A1600EF8C14 /* yuv.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = yuv.vert; path = ../source/Engine/yuv.vert; sourceTree = SOURCE_ROOT; };
@@ -572,6 +587,11 @@
 		E8DB5E2711B1772100137FE3 /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
+				E8E9E64814C1D1010056A79F /* color.vert */,
+				E8E9E64914C1D1010056A79F /* texture.vert */,
+				E8E9E64214C1D0EB0056A79F /* color.frag */,
+				E8E9E64314C1D0EB0056A79F /* scale_noaa.frag */,
+				E8E9E64414C1D0EB0056A79F /* texture.frag */,
 				E8F5CF13131E4A1600EF8C14 /* yuv.frag */,
 				E8F5CF14131E4A1600EF8C14 /* yuv.vert */,
 				E8DB5E2811B1774100137FE3 /* scale.frag */,
@@ -638,12 +658,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E8E9E64C14C1D1120056A79F /* color.vert in Resources */,
+				E8E9E64D14C1D1120056A79F /* texture.vert in Resources */,
+				E8E9E64E14C1D1120056A79F /* color.frag in Resources */,
+				E8E9E64F14C1D1120056A79F /* scale_noaa.frag in Resources */,
+				E8E9E65014C1D1120056A79F /* texture.frag in Resources */,
 				E8F5CF18131E4A8800EF8C14 /* yuv.frag in Resources */,
 				E8F5CF19131E4A8800EF8C14 /* yuv.vert in Resources */,
-				E8DB5E9411B17DFB00137FE3 /* fixScaleSprite.vert in Resources */,
-				E8DB5E9811B17E4600137FE3 /* fixScaleSprite.frag in Resources */,
 				E8DB5E2A11B1774100137FE3 /* scale.frag in Resources */,
 				E8DB5E2B11B1774100137FE3 /* scale.vert in Resources */,
+				E8DB5E9411B17DFB00137FE3 /* fixScaleSprite.vert in Resources */,
+				E8DB5E9811B17E4600137FE3 /* fixScaleSprite.frag in Resources */,
 				2F9B3FBC0F557405003B4998 /* Sludge.icns in Resources */,
 				2F695B78100D0BD1008A8DC1 /* SDLMain.nib in Resources */,
 				2FA550870FF90E90006A67ED /* Startup.nib in Resources */,
@@ -724,6 +749,11 @@
 				E8140220131D28AA00CCA8EC /* mkvreader.cpp in Sources */,
 				E89D32F814059706004FC507 /* helpers.cpp in Sources */,
 				E8C9413F1466DB6A00B9BD26 /* utf8.cpp in Sources */,
+				E8E9E64514C1D0EB0056A79F /* color.frag in Sources */,
+				E8E9E64614C1D0EB0056A79F /* scale_noaa.frag in Sources */,
+				E8E9E64714C1D0EB0056A79F /* texture.frag in Sources */,
+				E8E9E64A14C1D1010056A79F /* color.vert in Sources */,
+				E8E9E64B14C1D1010056A79F /* texture.vert in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
