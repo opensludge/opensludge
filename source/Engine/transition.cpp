@@ -283,17 +283,19 @@ void transitionTV () {
 }
 
 void transitionBlinds () {
-	GLubyte stippleMask[128];
+	if (! transitionTextureName) reserveTransitionTexture();
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	GLubyte * toScreen = transitionTexture;
 
 	int level = brightnessLevel/8;
 	
-	if (level) memset (stippleMask, 0, 4*level);
-	if (level < 32) memset (stippleMask+level*4, 255, 4*(32-level));
+	if (level) memset (toScreen, 0, 256*32*level);
+	if (level < 32) memset (toScreen+256*32*level, 255, 256*32*(32-level));
+	
+	texImage2D (GL_TEXTURE_2D, 0, GL_RGBA, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, transitionTexture, transitionTextureName);
 
-#if !defined(HAVE_GLES2)
-	glPolygonStipple(stippleMask); //FIXME: implement for in GLES2
-	glEnable(GL_POLYGON_STIPPLE); 
-#endif
+	glEnable(GL_BLEND);
 
 	const GLfloat vertices[] = { 
 		0.f, (GLfloat)winHeight, 0.f, 
@@ -302,15 +304,23 @@ void transitionBlinds () {
 		(GLfloat)winWidth, 0.f, 0.f
 	};
 
-	glUseProgram(shader.color);
-	setPMVMatrix(shader.color);
-	setPrimaryColor(0.0f, 0.0f, 0.0f, 1.0f);
-	drawQuad(shader.color, vertices, 0);
+	const GLfloat texCoords[] = { 
+		0.0f, 0.0f,
+		1.0f, 0.0f,
+		0.0f, 25.0f,
+		1.0f, 25.0f
+	}; 
 
+	glUseProgram(shader.texture);
+	setPMVMatrix(shader.texture);
+	glUniform1i(glGetUniformLocation(shader.texture, "modulateColor"), 1);
+	setPrimaryColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+	drawQuad(shader.texture, vertices, 1, texCoords);
+	glUniform1i(glGetUniformLocation(shader.texture, "modulateColor"), 0);
 	glUseProgram(0);
-#if !defined(HAVE_GLES2)
-	glDisable(GL_POLYGON_STIPPLE);
-#endif
+
+	glDisable(GL_BLEND);
 }
 
 //----------------------------------------------------

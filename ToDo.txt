@@ -8,4 +8,4 @@ This is a possible to-do list. Not everything here may be a good idea, but it's 
 
 Known bugs:
 
-* BLINDS transition mode not yet supported with GLES2.
+* drawLine() doensn't work yet with GLES2.
