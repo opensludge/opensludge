@@ -49,8 +49,15 @@ if test x"$WIN32" = xyes; then
 fi
 
 # Checks for libraries.
-AC_CHECK_LIB([glee], [GLeeInit], [GLEE_LIBS="-lglee"], [AC_CHECK_LIB([GLee], [GLeeInit], [GLEE_LIBS="-lGLee"], [AC_MSG_ERROR([cannot find glee library])])])
-AC_SUBST([GLEE_LIBS])
+if test "x$enable_gles2" = xno; then
+  AC_CHECK_LIB([glee], [GLeeInit], [GLEE_LIBS="-lglee"], [AC_CHECK_LIB([GLee], [GLeeInit], [GLEE_LIBS="-lGLee"], [AC_MSG_ERROR([cannot find glee library])])])
+  AC_SUBST([GLEE_LIBS])
+else
+  if test "x$enable_devkit" = xyes; then
+    AC_CHECK_LIB([glee], [GLeeInit], [GLEE_LIBS="-lglee"], [AC_CHECK_LIB([GLee], [GLeeInit], [GLEE_LIBS="-lGLee"], [AC_MSG_ERROR([cannot find glee library (needed for devkit)])])])
+    AC_SUBST([GLEE_LIBS])
+  fi
+fi
 
 if test "x$enable_engine" = xyes; then
   PKG_CHECK_MODULES([ENGINE], [sdl alure >= 1.1 openal vorbis ogg])
@@ -71,16 +78,29 @@ PKG_CHECK_MODULES([LIBPNG], [libpng])
 
 # Checks for header files.
 AC_CHECK_HEADERS([limits.h malloc.h stddef.h stdint.h stdlib.h string.h sys/time.h unistd.h], [], [AC_MSG_ERROR([cannot find one or more of these header files: limits.h malloc.h stddef.h stdint.h stdlib.h string.h sys/time.h unistd.h])])
-AC_CHECK_HEADERS([GLee.h], [], [AC_MSG_ERROR([cannot find glee header files])])
 AC_CHECK_HEADERS([getopt.h], [], [AC_MSG_ERROR([cannot find getopt header files])])
 
+if test "x$enable_gles2" = xno; then
+  AC_CHECK_HEADERS([GLee.h], [], [AC_MSG_ERROR([cannot find glee header files])])
+else
+  if test "x$enable_devkit" = xyes; then
+    AC_CHECK_HEADERS([GLee.h], [], [AC_MSG_ERROR([cannot find glee header files (needed for devkit)])])
+  fi
+fi
+
 if test "x$enable_engine" = xyes; then
-  AC_CHECK_HEADERS([GL/glu.h], [], [AC_MSG_ERROR([cannot find glu header files])])
   AC_CHECK_HEADERS([SDL/SDL.h SDL/SDL_syswm.h], [], [AC_MSG_ERROR([cannot find SDL header files])])
   AC_CHECK_HEADERS([AL/alure.h], [], [AC_MSG_ERROR([cannot find alure header files])])
   AC_CHECK_HEADERS([vpx/vpx_decoder.h], [], [AC_MSG_ERROR([cannot find vpx header files])])
   AC_CHECK_HEADERS([vorbis/codec.h], [], [AC_MSG_ERROR([cannot find vorbis header files])])
   AC_CHECK_HEADERS([ogg/ogg.h], [], [AC_MSG_ERROR([cannot find ogg header files])])
+  if test "x$enable_gles2" = xyes; then
+    AC_CHECK_HEADERS([GLES2/gl2.h], [], [AC_MSG_ERROR([cannot find gles2 header files])])
+    AC_CHECK_HEADERS([EGL/egl.h], [], [AC_MSG_ERROR([cannot find egl header files])])
+    AC_CHECK_HEADERS([X11/Xlib.h X11/Xutil.h], [], [AC_MSG_ERROR([cannot find x11 header files])])
+  else
+    AC_CHECK_HEADERS([GL/glu.h], [], [AC_MSG_ERROR([cannot find glu header files])])
+  fi
 fi
 
 # Checks for typedefs, structures, and compiler characteristics.
