@@ -311,14 +311,16 @@ int8_t FindAppropriateEGLConfigs( void )
 {
     EGLBoolean result;
     int attrib = 0;
-    EGLint ConfigAttribs[17];
+    EGLint ConfigAttribs[19];
 
     ConfigAttribs[attrib++] = EGL_RED_SIZE;
     ConfigAttribs[attrib++] = 5;
     ConfigAttribs[attrib++] = EGL_GREEN_SIZE;
-    ConfigAttribs[attrib++] = 6;
+    ConfigAttribs[attrib++] = 5;
     ConfigAttribs[attrib++] = EGL_BLUE_SIZE;
     ConfigAttribs[attrib++] = 5;
+    ConfigAttribs[attrib++] = EGL_ALPHA_SIZE;
+    ConfigAttribs[attrib++] = 1;
     ConfigAttribs[attrib++] = EGL_DEPTH_SIZE;
     ConfigAttribs[attrib++] = 16;
     ConfigAttribs[attrib++] = EGL_SURFACE_TYPE;

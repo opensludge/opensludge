@@ -561,7 +561,7 @@ void drawBackDrop () {
 		(GLfloat)sceneWidth-cameraX, (GLfloat)sceneHeight-cameraY, 0.
 	};
 
-	drawQuad(shader.smartScaler, vertices, 2, backdropTexCoords, backdropTexCoords);
+	drawQuad(shader.smartScaler, vertices, 1, backdropTexCoords);
 
 	glDisable(GL_BLEND);
 
