@@ -12,6 +12,7 @@
 #include "backdrop.h"
 #include "shaders.h"
 #include "movie.h"
+#include "stringy.h"
 
 #include "language.h" // for settings
 
@@ -524,18 +525,22 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 	const char *Fragment;
 
         Vertex = shaderFileRead("scale.vert");
-        Fragment = shaderFileRead("scale.frag");
 
-#if defined(HAVE_GLES2)
-	const GLubyte *str;
+#if !defined(HAVE_GLES2)
+        Fragment = shaderFileRead("scale.frag");
+#else
+/*	const GLubyte *str;
 	int glDerivativesAvailable;
 	str = glGetString (GL_EXTENSIONS);
 	glDerivativesAvailable = (strstr((const char *)str, "GL_OES_standard_derivatives") != NULL);
 	if (!glDerivativesAvailable) {
 		debugOut("Extension \"GL_OES_standard_derivatives\" not available. Advanced anti-aliasing is not possible. Using linear anti-aliasing instead.");
 		gameSettings.antiAlias = -1;
+*/
         	Fragment = shaderFileRead("scale_noaa.frag");
-	}
+//	}
+
+	Fragment = joinStrings("precision mediump float;\n", Fragment);
 #endif
 
         if (! Vertex || ! Fragment) {
@@ -571,6 +576,10 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 	Vertex = shaderFileRead("fixScaleSprite.vert");
 	Fragment = shaderFileRead("fixScaleSprite.frag");
 
+#if defined(HAVE_GLES2)
+	Fragment = joinStrings("precision mediump float;\n", Fragment);
+#endif
+
 	if (! Vertex || ! Fragment) {
 		fatal ("Error loading \"fixScaleSprite\" shader program!", "Try re-installing the game. (fixScaleSprite.frag or fixScaleSprite.vert was not found.)");
 		shader.paste = 0;
@@ -596,6 +605,10 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 	Vertex = shaderFileRead("yuv.vert");
 	Fragment = shaderFileRead("yuv.frag");
 
+#if defined(HAVE_GLES2)
+	Fragment = joinStrings("precision mediump float;\n", Fragment);
+#endif
+
 	if (! Vertex || ! Fragment) {
 		fatal ("Error loading \"yuv\" shader program!", "Try re-installing the game. (yuv.frag or yuv.vert was not found.)");
 		shader.yuv = 0;
@@ -618,6 +631,10 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 
 	Vertex = shaderFileRead("texture.vert");
 	Fragment = shaderFileRead("texture.frag");
+
+#if defined(HAVE_GLES2)
+	Fragment = joinStrings("precision mediump float;\n", Fragment);
+#endif
 
 	if (! Vertex || ! Fragment) {
 		fatal ("Error loading \"texture\" shader program!", "Try re-installing the game. (texture.frag or texture.vert was not found.)");
@@ -643,6 +660,10 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 
 	Vertex = shaderFileRead("color.vert");
 	Fragment = shaderFileRead("color.frag");
+
+#if defined(HAVE_GLES2)
+	Fragment = joinStrings("precision mediump float;\n", Fragment);
+#endif
 
 	if (! Vertex || ! Fragment) {
 		fatal ("Error loading \"color\" shader program!", "Try re-installing the game. (color.frag or color.vert was not found.)");
