@@ -90,8 +90,11 @@ char * convertString(char * s) {
 	char **tmp2 = (char **) &buf;
 	char * sOrig = s;
 	char * bufOrig = buf;
-	
+#if defined __unix__ && !(defined __APPLE__)
+	iconv_t convert = iconv_open ("UTF-8", "ISO8859-2");
+#else
 	iconv_t convert = iconv_open ("UTF-8", "CP1250");
+#endif
 
 	if (convert == (iconv_t)-1) {
 			switch (errno) {
