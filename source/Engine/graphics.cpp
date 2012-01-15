@@ -539,7 +539,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 #endif
 
         if (! Vertex || ! Fragment) {
-            msgBox ("Error loading \"scale\" shader program!", "Try re-installing the game. Advanced anti-aliasing is not possible. Using linear anti-aliasing instead.");
+            fatal ("Error loading \"scale\" shader program!", "Try re-installing the game. (scale.frag, scale_noaa.frag or scale.vert was not found.)");
             gameSettings.antiAlias = -1;
             shader.smartScaler = 0;
         } else {
@@ -547,7 +547,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
             shader.smartScaler = buildShaders (Vertex, Fragment);
 			
 			if (! shader.smartScaler) {
-				msgBox ("Error building \"scale\" shader program!", "Advanced anti-aliasing is not possible. Using linear anti-aliasing instead.");
+				fatal ("Error building \"scale\" shader program!");
 				gameSettings.antiAlias = -1;
 				shader.smartScaler = 0;
 			} else {
@@ -572,13 +572,13 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 	Fragment = shaderFileRead("fixScaleSprite.frag");
 
 	if (! Vertex || ! Fragment) {
-		msgBox( "Error loading \"fixScaleSprite\" shader program!", "Try re-installing the game. The game will run anyway, but some graphics may be corrupted.");
+		fatal ("Error loading \"fixScaleSprite\" shader program!", "Try re-installing the game. (fixScaleSprite.frag or fixScaleSprite.vert was not found.)");
 		shader.paste = 0;
 	} else {
 
 		shader.paste = buildShaders (Vertex, Fragment);
 		if (! shader.paste) {
-			msgBox( "Error building \"fixScaleSprite\" shader program!", "Try updating the drivers for your graphics card. If that doesn't help - sorry, your graphics card simply doesn't have all features needed for this game. It will run anyway, but some graphics may be corrupted.");
+			fatal( "Error building \"fixScaleSprite\" shader program!");
 		} else {
 			debugOut( "Built shader program: %d (fixScaleSprite)\n", shader.paste);
 			glUseProgram(shader.paste);
@@ -597,13 +597,13 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 	Fragment = shaderFileRead("yuv.frag");
 
 	if (! Vertex || ! Fragment) {
-		msgBox( "Error loading \"yuv\" shader program!", "Try re-installing the game. It will run anyway, but any movies will be greyscale.");
+		fatal ("Error loading \"yuv\" shader program!", "Try re-installing the game. (yuv.frag or yuv.vert was not found.)");
 		shader.yuv = 0;
 	} else {
 
 		shader.yuv = buildShaders (Vertex, Fragment);
 		if (! shader.yuv) {
-			msgBox( "Error building \"yuv\" shader program!", "Try updating the drivers for your graphics card. If that doesn't help - sorry, your graphics card simply doesn't have all features needed for this game. It will run anyway, but any movies will be greyscale.");			
+			fatal( "Error building \"yuv\" shader program!");			
 		} else {
 			debugOut( "Built shader program: %d (yuv)\n", shader.yuv);
 			glUseProgram(shader.yuv);
@@ -620,13 +620,13 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 	Fragment = shaderFileRead("texture.frag");
 
 	if (! Vertex || ! Fragment) {
-		msgBox( "Error loading \"texture\" shader program!", "Try re-installing the game. The game will run anyway, but some graphics may be corrupted.");
+		fatal ("Error loading \"texture\" shader program!", "Try re-installing the game. (texture.frag or texture.vert was not found.)");
 		shader.texture = 0;
 	} else {
 
 		shader.texture = buildShaders (Vertex, Fragment);
 		if (! shader.texture) {
-			msgBox( "Error building \"texture\" shader program!", "Try updating the drivers for your graphics card. If that doesn't help - sorry, your graphics card simply doesn't have all features needed for this game. It will run anyway, but some graphics may be corrupted.");
+			fatal( "Error building \"texture\" shader program!");
 		} else {
 			debugOut( "Built shader program: %d (texture)\n", shader.texture);
 			glUseProgram(shader.texture);
@@ -645,13 +645,13 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 	Fragment = shaderFileRead("color.frag");
 
 	if (! Vertex || ! Fragment) {
-		msgBox( "Error loading \"color\" shader program!", "Try re-installing the game. The game will run anyway, but some graphics may be corrupted.");
+		fatal ("Error loading \"color\" shader program!", "Try re-installing the game. (color.frag or color.vert was not found.)");
 		shader.color = 0;
 	} else {
 
 		shader.color = buildShaders (Vertex, Fragment);
 		if (! shader.color) {
-			msgBox( "Error building \"color\" shader program!", "Try updating the drivers for your graphics card. If that doesn't help - sorry, your graphics card simply doesn't have all features needed for this game. It will run anyway, but some graphics may be corrupted.");
+			fatal( "Error building \"color\" shader program!");
 		} else {
 			debugOut( "Built shader program: %d (color)\n", shader.color);
 			glUseProgram(shader.color);
