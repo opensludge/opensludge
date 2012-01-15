@@ -135,7 +135,7 @@ void storeTextureDimensions(GLuint name, GLsizei width,  GLsizei height, const c
 	textureList *list = firstTexture;
 	while (list) {
 		if (list->name == name)  {
-			debugOut("Texture dimensions are overwritten.\n");
+			//debugOut("Texture dimensions are overwritten.\n");
 			break;
 		}
 		list = list->next;
