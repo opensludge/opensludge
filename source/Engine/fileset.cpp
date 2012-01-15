@@ -92,6 +92,17 @@ char * convertString(char * s) {
 	char * bufOrig = buf;
 	
 	iconv_t convert = iconv_open ("UTF-8", "CP1250");
+
+	if (convert == (iconv_t)-1) {
+			switch (errno) {
+			case EINVAL:
+				fprintf (stderr, "Error: Encoding not supported by iconv.\n");
+				break;
+			default:
+				fprintf (stderr, "Error: Could not open iconv conversion descriptor.\n");
+		}	
+	}
+
 	size_t len1 = strlen(s)+1;
 	size_t len2 = 65535;
 	size_t iconv_value =
