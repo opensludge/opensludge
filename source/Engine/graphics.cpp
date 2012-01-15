@@ -91,8 +91,8 @@ void deleteTextures(GLsizei n,  const GLuint * textures)
 				}
 				list = list->next;
 			}
-			if (!found)
-				//debugOut("Deleting texture that was not in list.\n");
+			//if (!found)
+			//	debugOut("Deleting texture that was not in list.\n");
 		}
 	}
 

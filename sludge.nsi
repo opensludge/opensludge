@@ -196,18 +196,23 @@ SectionIn 1 RO
 
 	SetOutPath "$INSTDIR\Engine"
 	File Engine/ALURE32.dll
-	File Engine/fixScaleSprite.vert
-	File Engine/libiconv2.dll
-	File Engine/libvorbis-0.dll
-	File Engine/OpenAL32.dll
-	File Engine/scale.vert
-	File "Engine/SLUDGE Engine.exe"
+	File Engine/color.frag
+	File Engine/color.vert
 	File Engine/fixScaleSprite.frag
+	File Engine/fixScaleSprite.vert
 	File Engine/libFLAC.dll
+	File Engine/libiconv2.dll
 	File Engine/libogg-0.dll
+	File Engine/libvorbis-0.dll
 	File Engine/libvorbisfile-3.dll
+	File Engine/OpenAL32.dll
 	File Engine/scale.frag
+	File Engine/scale_noaa.frag
+	File Engine/scale.vert
 	File Engine/SDL.dll
+	File "Engine/SLUDGE Engine.exe"
+	File Engine/texture.frag
+	File Engine/texture.vert
 	File Engine/yuv.frag
 	File Engine/yuv.vert
 
@@ -723,13 +728,13 @@ FunctionEnd
 
 ; Prevent running multiple instances of the installer
 Function PreventMultipleInstances
-	Push $R0
-	System::Call 'kernel32::CreateMutexA(i 0, i 0, t ${PRODUCT_NAME}) ?e'
-	Pop $R0
-	StrCmp $R0 0 +3
-		MessageBox MB_OK|MB_ICONEXCLAMATION "The installer is already running." /SD IDOK
-		Abort
-	Pop $R0
+;	Push $R0
+;	System::Call 'kernel32::CreateMutexA(i 0, i 0, t ${PRODUCT_NAME}) i .r1 ?e'
+;	Pop $R0
+;	StrCmp $R0 0 +3
+;		MessageBox MB_OK|MB_ICONEXCLAMATION "The installer is already running." /SD IDOK
+;		Abort
+;	Pop $R0
 FunctionEnd
 
 
