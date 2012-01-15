@@ -69,7 +69,7 @@ textureList * addTexture () {
 void deleteTextures(GLsizei n,  const GLuint * textures)
 {
 	if (firstTexture == NULL) {
-		debugOut("Deleting texture while list is already empty.\n");
+		//debugOut("Deleting texture while list is already empty.\n");
 	} else {
 		for (int i = 0; i < n; i++) {
 			bool found = false;
@@ -92,7 +92,7 @@ void deleteTextures(GLsizei n,  const GLuint * textures)
 				list = list->next;
 			}
 			if (!found)
-				debugOut("Deleting texture that was not in list.\n");
+				//debugOut("Deleting texture that was not in list.\n");
 		}
 	}
 
