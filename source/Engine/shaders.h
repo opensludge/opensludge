@@ -15,5 +15,5 @@
 #endif
 
 char *shaderFileRead(const char *fn); 
-int buildShaders (const GLchar *vertexShader, const GLchar *fragmentShader);
+int buildShaders (const char *vertexShader, const char *fragmentShader);
 
