@@ -142,7 +142,7 @@ inline static int audio_queue_get(audioQueue *q, char **buffer)
 	if (audioBuf) {
 		// Synch video timer to audio
 		Uint32 tick = SDL_GetTicks()+100;
-		if (abs((long)(tick - movieStartTick)-(audioBuf->time_ms)) > 300) {
+		if (abs((long int)((tick - movieStartTick)-(audioBuf->time_ms))) > 300) {
 			movieStartTick = tick - audioBuf->time_ms;
 		}
 				

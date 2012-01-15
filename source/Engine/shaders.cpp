@@ -57,7 +57,7 @@ printShaderInfoLog (GLuint shader)
 {
 	GLint     infologLength = 0;
 	GLint     charsWritten  = 0;
-	GLchar *infoLog;
+	char *infoLog;
 
 	printOpenGLError ();  // Check for OpenGL errors
 	glGetShaderiv (shader, GL_INFO_LOG_LENGTH, &infologLength);
@@ -65,7 +65,7 @@ printShaderInfoLog (GLuint shader)
 
 	if (infologLength > 0)
     {
-		infoLog = new GLchar [infologLength];
+		infoLog = new char [infologLength];
 		if (infoLog == NULL)
         {
 			debugOut("ERROR: Could not allocate InfoLog buffer");
@@ -84,7 +84,7 @@ printProgramInfoLog (GLuint program)
 {
 	GLint     infologLength = 0;
 	GLint     charsWritten  = 0;
-	GLchar *infoLog;
+	char *infoLog;
 
 	printOpenGLError ();  // Check for OpenGL errors
 	glGetProgramiv (program, GL_INFO_LOG_LENGTH, &infologLength);
@@ -92,7 +92,7 @@ printProgramInfoLog (GLuint program)
 
 	if (infologLength > 0)
     {
-		infoLog = new GLchar [infologLength];
+		infoLog = new char [infologLength];
 		if (infoLog == NULL)
         {
 			debugOut( "ERROR: Could not allocate InfoLog buffer");
@@ -105,7 +105,7 @@ printProgramInfoLog (GLuint program)
 	printOpenGLError ();  // Check for OpenGL errors
 }
 
-int buildShaders (const GLchar *vertexShader, const GLchar *fragmentShader)
+int buildShaders (const char *vertexShader, const char *fragmentShader)
 {
 	GLuint VS, FS, prog;
 	GLint vertCompiled, fragCompiled;

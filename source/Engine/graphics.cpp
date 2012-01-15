@@ -15,12 +15,14 @@
 
 #include "language.h" // for settings
 
+#if !defined(HAVE_GLES2)
 #ifdef _WIN32
 #include <GL\glu.h> // handy for gluErrorString
 #elif defined __APPLE__
 #include <OpenGL/glu.h>
 #else
 #include <GL/glu.h>
+#endif
 #endif
 
 unsigned int winWidth, winHeight;
@@ -518,8 +520,8 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 #endif
 
 	GLint uniform;
-	const GLchar *Vertex;
-	const GLchar *Fragment;
+	const char *Vertex;
+	const char *Fragment;
 
         Vertex = shaderFileRead("scale.vert");
         Fragment = shaderFileRead("scale.frag");
