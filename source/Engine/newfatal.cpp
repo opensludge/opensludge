@@ -37,13 +37,13 @@ bool hasFatal () {
 
 void displayFatal () {
 	if (fatalMessage) {
-		msgBox ("SLUDGE v"TEXT_VERSION" fatal error!", fatalMessage);
+		msgBox ("SLUDGE v" TEXT_VERSION " fatal error!", fatalMessage);
 	}
 }
 
 void warning (const char * l) {
 	setGraphicsWindow(false);
-	msgBox ("SLUDGE v"TEXT_VERSION" non-fatal indigestion report", l);
+	msgBox ("SLUDGE v" TEXT_VERSION " non-fatal indigestion report", l);
 }
 
 void registerWindowForFatal () {

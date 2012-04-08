@@ -7,7 +7,7 @@
 #define ERROR_VERSION_TOO_LOW_1		"This SLUDGE file requires a more recent version of the SLUDGE engine"
 #define ERROR_VERSION_TOO_LOW_2		"(it was created for v%i.%i).\n\nVisit http://opensludge.sourceforge.net/ to download the most recent version."
 #define ERROR_VERSION_TOO_HIGH_1 	"This SLUDGE file was created for an older version of the SLUDGE engine"
-#define ERROR_VERSION_TOO_HIGH_2	"(v%i.%i).\n\nPlease contact the author of this game to obtain a version compatible with your SLUDGE engine (v"TEXT_VERSION")."
+#define ERROR_VERSION_TOO_HIGH_2	"(v%i.%i).\n\nPlease contact the author of this game to obtain a version compatible with your SLUDGE engine (v" TEXT_VERSION ")."
 #define ERROR_BAD_HEADER			"Bad header information... this isn't a valid SLUDGE game"
 #define ERROR_HACKER				"What have you been up to? Think we're a hacker, do we? Nice try."
 
@@ -24,7 +24,7 @@
 #define ERROR_INDEX_NONSTACK		"Tried to index a non-stack variable"
 #define ERROR_NOSTACK				"Corrupt file - no stack"
 #define ERROR_UNKNOWN_CODE			"Unimplemented internal SLUDGE command code."
-#define ERROR_OUT_OF_MEMORY			"Out of memory!"_NO_MEMORY_GENERAL_
+#define ERROR_OUT_OF_MEMORY			"Out of memory!" _NO_MEMORY_GENERAL_
 
 #define ERROR_MUSIC_MEMORY_LOW		"Your computer doesn't have enough memory available to load a music resource that needs playing." _NO_MEMORY_GENERAL_
 #define ERROR_SOUND_MEMORY_LOW		"Your computer doesn't have enough memory available to load a sound resource that needs playing." _NO_MEMORY_GENERAL_
