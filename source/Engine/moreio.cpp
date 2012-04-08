@@ -170,7 +170,7 @@ char * encodeFilename (char * nameIn) {
 	if (! nameIn) return NULL;
 	if (allowAnyFilename) {
 		char * newName = new char[strlen (nameIn) * 2 + 1];
-		if (! checkNew (newName)) return false;
+		if (! checkNew (newName)) return NULL;
 
 		int i = 0;
 		while (*nameIn) {
@@ -209,7 +209,7 @@ char * encodeFilename (char * nameIn) {
 char * decodeFilename (char * nameIn) {
 	if (allowAnyFilename) {
 		char * newName = new char[strlen (nameIn) + 1];
-		if (! checkNew (newName)) return false;
+		if (! checkNew (newName)) return NULL;
 
 		int i = 0;
 		while (* nameIn) {

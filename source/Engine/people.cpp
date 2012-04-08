@@ -85,7 +85,7 @@ personaAnimation * createPersonaAnim (int num, variableStack * & stacky) {
 
 personaAnimation * makeNullAnim () {
 	personaAnimation * newAnim	= new personaAnimation;
-	if (! checkNew (newAnim)) return false;
+	if (! checkNew (newAnim)) return NULL;
 
 
 	newAnim -> theSprites		= NULL;
@@ -98,7 +98,7 @@ personaAnimation * copyAnim (personaAnimation * orig) {
 	int num = orig -> numFrames;
 
 	personaAnimation * newAnim	= new personaAnimation;
-	if (! checkNew (newAnim)) return false;
+	if (! checkNew (newAnim)) return NULL;
 
 	// Copy the easy bits...
 	newAnim -> theSprites		= orig -> theSprites;
@@ -109,7 +109,7 @@ personaAnimation * copyAnim (personaAnimation * orig) {
 		// Argh! Frames! We need a whole NEW array of animFrame structures...
 
 		newAnim->frames = new animFrame[num];
-		if (! checkNew (newAnim->frames)) return false;
+		if (! checkNew (newAnim->frames)) return NULL;
 
 		for (int a = 0; a < num; a ++) {
 			newAnim -> frames[a].frameNum = orig -> frames[a].frameNum;

@@ -138,7 +138,7 @@ FILE * openAndVerify (char * filename, char extra1, char extra2, const char * er
 	FILE * fp = fopen (filename, "rb");
 	if (! fp) {
 		fatal ("Can't open file", filename);
-		return false;
+		return NULL;
 	}
 	bool headerBad = false;
 	if (fgetc (fp) != 'S') headerBad = true;
