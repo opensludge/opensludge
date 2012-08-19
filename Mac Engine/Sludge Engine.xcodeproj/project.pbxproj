@@ -856,7 +856,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"../libs/libvpx-v0.9.5",
+					"../libs/libvpx-v1.0.0",
 					"/Users/rikard/Documents/libpng-1.2.38/projects/xcode/build/Release/libpng.framework/Headers",
 					"$(HOME)/Library/Frameworks/SDL.framework/Headers",
 					/Library/Frameworks/SDL.framework/Headers,
@@ -897,7 +897,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"../libs/libvpx-v0.9.5",
+					"../libs/libvpx-v1.0.0",
 					"/Users/rikard/Documents/libpng-1.2.38/projects/xcode/build/Release/libpng.framework/Headers",
 					"$(HOME)/Library/Frameworks/SDL.framework/Headers",
 					/Library/Frameworks/SDL.framework/Headers,

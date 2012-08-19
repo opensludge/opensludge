@@ -4,6 +4,8 @@
 #include <libpng/png.h>
 #endif
 
+#include <math.h>
+
 #include "allfiles.h"
 
 #include "fileset.h"
@@ -690,6 +692,10 @@ bool checkColourChange (bool reset);
 
 bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson * thisPerson, bool mirror) {
 
+	static double r = 0.0; 
+	r += 0.01;
+	if (r > 6.28) r = 0.0;
+	
 	float x = thisPerson->x;
 	float y = thisPerson->y;
 
@@ -706,30 +712,42 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 	int diffX = (int)(((float)single.width) * scale);
 	int diffY = (int)(((float)single.height) * scale);
 
-	GLfloat x1, y1, x2, y2;
+	GLfloat x1, y1, x2, y2, x3, y3, x4, y4;
 
+	double xoffset, yoffset, floaty;
+	
 	if (thisPerson -> extra & EXTRA_FIXTOSCREEN) {
 		x = x / cameraZoom;
 		y = y / cameraZoom;
-		if (single.xhot < 0)
-			x1 = x - (int)((mirror ? (float) (single.width - single.xhot) : (float)(single.xhot+1) ) * scale/cameraZoom);
-		else
-			x1 = x - (int)((mirror ? (float) (single.width - (single.xhot+1)) : (float)single.xhot ) * scale / cameraZoom);
-		y1 = y - (int)((single.yhot - thisPerson->floaty) * scale / cameraZoom);
-		x2 = x1 + (int)(diffX / cameraZoom);
-		y2 = y1 + (int)(diffY / cameraZoom);
+		if (single.xhot < 0) {
+			xoffset = - (int)((mirror ? (float) (single.width - single.xhot) : (float)(single.xhot+1) ) * scale/cameraZoom);
+		} else {
+			xoffset = - (int)((mirror ? (float) (single.width - (single.xhot+1)) : (float)single.xhot ) * scale / cameraZoom);
+		}
+		yoffset = - (int)(single.yhot * scale / cameraZoom);
+		floaty = thisPerson->floaty * scale / cameraZoom;
 	} else {
 		x -= cameraX;
 		y -= cameraY;
-		if (single.xhot < 0)
-			x1 = x - (int)((mirror ? (float) (single.width - single.xhot) : (float)(single.xhot+1) ) * scale);
-		else
-			x1 = x - (int)((mirror ? (float) (single.width - (single.xhot+1)) : (float)single.xhot ) * scale);
-		y1 = y - (int)((single.yhot - thisPerson->floaty) * scale);
-		x2 = x1 + diffX;
-		y2 = y1 + diffY;
+		if (single.xhot < 0) {
+			xoffset = -(int)((mirror ? (float) (single.width - single.xhot) : (float)(single.xhot+1) ) * scale);
+		} else {
+			xoffset = -(int)((mirror ? (float) (single.width - (single.xhot+1)) : (float)single.xhot ) * scale);
+		}
+		yoffset = -(int)(single.yhot * scale);
+		floaty = thisPerson->floaty * scale;
 	}
 
+	x1 = x + (xoffset*cos(r)-yoffset*sin(r));
+	x2 = x1 + (double)diffX*cos(r);
+	x3 = x1 - (double)diffY*sin(r);
+	x4 = x2 - (double)diffY*sin(r);
+	y1 = y + (xoffset*sin(r)+yoffset*cos(r)) - floaty;
+	y2 = y1 + (double)diffX*sin(r);
+	y3 = y1 + (double)diffY*cos(r);
+	y4 = y3 + (double)diffX*sin(r);
+	
+	
 	GLfloat z;
 
 	if ((! (thisPerson->extra & EXTRA_NOZB)) && zBuffer.numPanels) {
@@ -745,24 +763,32 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 		z = -0.5;
 	}
 
-	float ltx1, ltx2, lty1, lty2;
+	float ltx1, ltx2,ltx3, ltx4, lty1, lty2, lty3, lty4;
 	if (! NPOT_textures) {
 		ltx1 = lightMap.texW * (x1+cameraX) / sceneWidth;
 		ltx2 = lightMap.texW * (x2+cameraX) / sceneWidth;
+		ltx3 = lightMap.texW * (x3+cameraX) / sceneWidth;
+		ltx4 = lightMap.texW * (x4+cameraX) / sceneWidth;
 		lty1 = lightMap.texH * (y1+cameraY) / sceneHeight;
 		lty2 = lightMap.texH * (y2+cameraY) / sceneHeight;
+		lty3 = lightMap.texH * (y3+cameraY) / sceneHeight;
+		lty4 = lightMap.texH * (y4+cameraY) / sceneHeight;
 	} else {
 		ltx1 = (float) (x1+cameraX) / sceneWidth;
 		ltx2 = (float) (x2+cameraX) / sceneWidth;
+		ltx3 = (float) (x3+cameraX) / sceneWidth;
+		ltx4 = (float) (x4+cameraX) / sceneWidth;
 		lty1 = (float) (y1+cameraY) / sceneHeight;
 		lty2 = (float) (y2+cameraY) / sceneHeight;
+		lty3 = (float) (y3+cameraY) / sceneHeight;
+		lty4 = (float) (y4+cameraY) / sceneHeight;
 	}
 
 	const GLfloat ltexCoords[] = { 
 		ltx1, lty1,
-		ltx2, lty1,
-		ltx1, lty2,
-		ltx2, lty2
+		ltx2, lty2,
+		ltx3, lty3,
+		ltx4, lty4
 	}; 
 
 	if (light && lightMap.data) {
@@ -817,15 +843,15 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 
 	const GLfloat vertices[] = { 
 		x1, y1, z, 
-		x2, y1, z, 
-		x1, y2, z,
-		x2, y2, z
+		x2, y2, z, 
+		x3, y3, z,
+		x4, y4, z
 	};
 
 	if (! mirror) {
-		GLfloat tx3 = tx1;
+		GLfloat tmp = tx1;
 		tx1 = tx2;
-		tx2 = tx3;
+		tx2 = tmp;
 	}
 	const GLfloat texCoords[] = { 
 		tx2, ty1,
@@ -846,8 +872,34 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 	setSecondaryColor(0., 0., 0.,1.);
 	//glDisable(GL_COLOR_SUM); FIXME: replace line?
 
+	// Create a bounding box
+	float minx, miny, maxx, maxy;
+	if (x1 < x2) {
+		minx = x1; 
+		maxx = x2;
+	} else {
+		minx = x2;
+		maxx = x1;
+	}
+	if (minx > x3) minx = x3;
+	else if (maxx < x3) maxx = x3;
+	if (minx > x4) minx = x4;
+	else if (maxx < x4) maxx = x4;
+	
+	if (y1 < y2) {
+		miny = y1; 
+		maxy = y2;
+	} else {
+		miny = y2;
+		maxy = y1;
+	}
+	if (miny > y3) miny = y3;
+	else if (maxy < y3) maxy = y3;
+	if (miny > y4) miny = y4;
+	else if (maxy < y4) maxy = y4;
+	
 	// Are we pointing at the sprite?
-	if (input.mouseX >= x1 && input.mouseX <= x2 && input.mouseY >= y1 && input.mouseY <= y2) {
+	if (input.mouseX >= minx && input.mouseX <= maxx && input.mouseY >= miny && input.mouseY <= maxy) {
 		if (thisPerson->extra & EXTRA_RECTANGULAR) return true;
 		return checkColourChange (false);
 	}
