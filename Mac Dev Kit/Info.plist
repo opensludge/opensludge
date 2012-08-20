@@ -4,147 +4,9 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
-	<key>UTExportedTypeDeclarations</key>
-	<array>
-		<dict>
-			<key>UTTypeDescription</key>
-			<string>SLUDGE zBuffer</string>
-			<key>UTTypeIconFile</key>
-			<string>zIcon.icns</string>
-			<key>UTTypeConformsTo</key>
-			<array>
-				<string>public.data</string>
-			</array>
-			<key>UTTypeIdentifier</key>
-			<string>com.hungrysoftware.sludge-zbuf</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<array>
-					<string>zbu</string>
-				</array>
-			</dict>
-		</dict>
-		<dict>
-			<key>UTTypeIconFile</key>
-			<string>scriptIcon.icns</string>
-			<key>UTTypeConformsTo</key>
-			<array>
-				<string>public.utf8-plain-text</string>
-				<string>public.script</string>
-			</array>
-			<key>UTTypeDescription</key>
-			<string>SLUDGE Script</string>
-			<key>UTTypeIdentifier</key>
-			<string>com.hungrysoftware.sludge-script</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<array>
-					<string>slu</string>
-					<string>sld</string>
-				</array>
-			</dict>
-		</dict>
-		<dict>
-			<key>UTTypeIconFile</key>
-			<string>spriteIcon.icns</string>
-			<key>UTTypeDescription</key>
-			<string>SLUDGE Sprite Bank</string>
-			<key>UTTypeConformsTo</key>
-			<array>
-				<string>public.data</string>
-			</array>
-			<key>UTTypeIdentifier</key>
-			<string>com.hungrysoftware.sludge-spritebank</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<string>duc</string>
-			</dict>
-		</dict>
-		<dict>
-			<key>UTTypeIconFile</key>
-			<string>slx.icns</string>
-			<key>UTTypeDescription</key>
-			<string>SLUDGE Image</string>
-			<key>UTTypeConformsTo</key>
-			<array>
-				<string>public.data</string>
-			</array>
-			<key>UTTypeIdentifier</key>
-			<string>com.hungrysoftware.sludge-image</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<dict>
-					<key>Item 0</key>
-					<string>slx</string>
-					<key>Item 1</key>
-					<string>sl2</string>
-				</dict>
-			</dict>
-		</dict>
-		<dict>
-			<key>UTTypeIconFile</key>
-			<string>ProjIcon.icns</string>
-			<key>UTTypeDescription</key>
-			<string>SLUDGE Project File</string>
-			<key>UTTypeConformsTo</key>
-			<array>
-				<string>public.data</string>
-			</array>
-			<key>UTTypeIdentifier</key>
-			<string>com.hungrysoftware.sludge-project</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<string>slp</string>
-			</dict>
-		</dict>
-		<dict>
-			<key>UTTypeIconFile</key>
-			<string>floorIcon.icns</string>
-			<key>UTTypeDescription</key>
-			<string>SLUDGE Floor</string>
-			<key>UTTypeConformsTo</key>
-			<array>
-				<string>public.data</string>
-			</array>
-			<key>UTTypeIdentifier</key>
-			<string>com.hungrysoftware.sludge-floor</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<string>flo</string>
-			</dict>
-		</dict>
-		<dict>
-			<key>UTTypeIconFile</key>
-			<string>flags.icns</string>
-			<key>UTTypeDescription</key>
-			<string>SLUDGE Translation File</string>
-			<key>UTTypeConformsTo</key>
-			<array>
-				<string>public.data</string>
-				<string>public.utf8-plain-text</string>
-			</array>
-			<key>UTTypeIdentifier</key>
-			<string>com.hungrysoftware.sludge-translation</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<string>tra</string>
-			</dict>
-		</dict>
-	</array>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>com.hungrysoftware.sludge-zbuf</string>
-			</array>
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>zbu</string>
@@ -155,6 +17,10 @@
 			<string>SLUDGE zBuffer</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.hungrysoftware.sludge-zbuf</string>
+			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
 			<key>NSDocumentClass</key>
@@ -163,10 +29,6 @@
 			<string>Binary</string>
 		</dict>
 		<dict>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>com.hungrysoftware.sludge-script</string>
-			</array>
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>slu</string>
@@ -178,6 +40,10 @@
 			<string>SLUDGE Script</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.hungrysoftware.sludge-script</string>
+			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
 			<key>NSDocumentClass</key>
@@ -186,10 +52,6 @@
 			<string>Binary</string>
 		</dict>
 		<dict>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>com.hungrysoftware.sludge-spritebank</string>
-			</array>
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>duc</string>
@@ -200,6 +62,10 @@
 			<string>SLUDGE Sprite Bank</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.hungrysoftware.sludge-spritebank</string>
+			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
 			<key>NSDocumentClass</key>
@@ -208,10 +74,6 @@
 			<string>Binary</string>
 		</dict>
 		<dict>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>com.hungrysoftware.sludge-image</string>
-			</array>
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>slx</string>
@@ -223,16 +85,16 @@
 			<string>SLUDGE Image</string>
 			<key>CFBundleTypeRole</key>
 			<string>None</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.hungrysoftware.sludge-image</string>
+			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
 			<key>NSPersistentStoreTypeKey</key>
 			<string>Binary</string>
 		</dict>
 		<dict>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>com.hungrysoftware.sludge-project</string>
-			</array>
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>slp</string>
@@ -243,6 +105,10 @@
 			<string>SLUDGE Project file</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.hungrysoftware.sludge-project</string>
+			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
 			<key>NSDocumentClass</key>
@@ -251,10 +117,6 @@
 			<string>Binary</string>
 		</dict>
 		<dict>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>com.hungrysoftware.sludge-floor</string>
-			</array>
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>flo</string>
@@ -265,6 +127,10 @@
 			<string>SLUDGE Floor</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.hungrysoftware.sludge-floor</string>
+			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
 			<key>NSDocumentClass</key>
@@ -273,10 +139,6 @@
 			<string>Binary</string>
 		</dict>
 		<dict>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>com.hungrysoftware.sludge-translation</string>
-			</array>
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>tra</string>
@@ -287,6 +149,10 @@
 			<string>SLUDGE Translation file</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.hungrysoftware.sludge-translation</string>
+			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
 			<key>NSDocumentClass</key>
@@ -314,7 +180,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>207</string>
+	<string>208</string>
 	<key>LSMinimumSystemVersionByArchitecture</key>
 	<dict>
 		<key>i386</key>
@@ -328,5 +194,139 @@
 	<string>DevKit Main</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>SLUDGE zBuffer</string>
+			<key>UTTypeIconFile</key>
+			<string>zIcon.icns</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.hungrysoftware.sludge-zbuf</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>zbu</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.utf8-plain-text</string>
+				<string>public.script</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>SLUDGE Script</string>
+			<key>UTTypeIconFile</key>
+			<string>scriptIcon.icns</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.hungrysoftware.sludge-script</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>slu</string>
+					<string>sld</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>SLUDGE Sprite Bank</string>
+			<key>UTTypeIconFile</key>
+			<string>spriteIcon.icns</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.hungrysoftware.sludge-spritebank</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<string>duc</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>SLUDGE Image</string>
+			<key>UTTypeIconFile</key>
+			<string>slx.icns</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.hungrysoftware.sludge-image</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<dict>
+					<key>Item 0</key>
+					<string>slx</string>
+					<key>Item 1</key>
+					<string>sl2</string>
+				</dict>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>SLUDGE Project File</string>
+			<key>UTTypeIconFile</key>
+			<string>ProjIcon.icns</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.hungrysoftware.sludge-project</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<string>slp</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>SLUDGE Floor</string>
+			<key>UTTypeIconFile</key>
+			<string>floorIcon.icns</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.hungrysoftware.sludge-floor</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<string>flo</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+				<string>public.utf8-plain-text</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>SLUDGE Translation File</string>
+			<key>UTTypeIconFile</key>
+			<string>flags.icns</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.hungrysoftware.sludge-translation</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<string>tra</string>
+			</dict>
+		</dict>
+	</array>
 </dict>
 </plist>

@@ -99,7 +99,8 @@ int paramNum[] = {-1, 0, 1, 1, -1, -1, 1, 3, 4, 1, 0, 0, 8, -1,		// SAY -> MOVEM
 	2,											// setCharacterAngleOffset
 	2, 5,										// setCharacterTransparency, setCharacterColourise
 	1,											// zoomCamera
-	1, 0, 0										// playMovie, stopMovie, pauseMovie
+	1, 0, 0,									// playMovie, stopMovie, pauseMovie
+	2											// rotateCharacter
 };
 
 bool failSecurityCheck (char * fn) {
@@ -1677,6 +1678,18 @@ builtIn(floatCharacter)
 	if (! getValueType (obj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	setVariable (fun -> reg, SVT_INT, floatCharacter (di, obj));
+	return BR_CONTINUE;
+}
+
+builtIn(rotateCharacter)
+{
+	UNUSEDALL
+	int obj, angle;
+	if (! getValueType (angle, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
+	trimStack (fun -> stack);
+	if (! getValueType (obj, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
+	trimStack (fun -> stack);
+	setVariable (fun -> reg, SVT_INT, rotateCharacter (angle, obj));
 	return BR_CONTINUE;
 }
 

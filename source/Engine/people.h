@@ -26,6 +26,7 @@ struct persona {
 struct onScreenPerson {
 	float x, y;
 	int height, floaty, walkSpeed;
+	int tilt;
 	float scale;
 	onScreenPerson * next;
 	int walkToX, walkToY, thisStepX, thisStepY, inPoly, walkToPoly;
@@ -83,6 +84,7 @@ bool turnPersonToFace (int thisNum, int direc);
 bool stopPerson (int o);
 bool floatCharacter (int f, int objNum);
 bool setCharacterWalkSpeed (int f, int objNum);
+bool rotateCharacter (int f, int objNum);
 
 // Animating 'em
 

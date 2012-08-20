@@ -22,6 +22,8 @@
 
 #include "shaders.h"
 
+const double PI = 3.141592653589793;
+
 extern zBufferData zBuffer;
 extern GLuint backdropTextureName;
 
@@ -692,10 +694,8 @@ bool checkColourChange (bool reset);
 
 bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson * thisPerson, bool mirror) {
 
-	static double r = 0.0; 
-	r += 0.01;
-	if (r > 6.28) r = 0.0;
-	
+	double r = (thisPerson->tilt * PI / 180);
+		
 	float x = thisPerson->x;
 	float y = thisPerson->y;
 

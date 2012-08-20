@@ -16,7 +16,7 @@ AppController *aC;
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender
 {
 	return NO;
-}
+} 
 
 -(id) init
 {

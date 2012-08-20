@@ -734,6 +734,15 @@ bool floatCharacter (int f, int objNum) {
 	return true;
 }
 
+bool rotateCharacter (int f, int objNum) {
+	onScreenPerson * moveMe = findPerson (objNum);
+	if (! moveMe) return false;
+	while (f < 0) f+= 360;
+	f %= 360;
+	moveMe -> tilt = f;
+	return true;
+}
+
 bool setCharacterWalkSpeed (int f, int objNum) {
 	if (f <= 0) return false;
 	onScreenPerson * moveMe = findPerson (objNum);
@@ -781,6 +790,7 @@ bool addPerson (int x, int y, int objNum, persona * p) {
 	newPerson -> wantAngle = 180;
 	newPerson -> angleOffset = 0;
 	newPerson -> floaty = 0;
+	newPerson -> tilt = 0;
 	newPerson -> walkSpeed = newPerson -> thisType -> walkSpeed;
 	newPerson -> myAnim = NULL;
 	newPerson -> spinSpeed = newPerson -> thisType -> spinSpeed;
@@ -1025,6 +1035,7 @@ bool savePeople (FILE * fp) {
 		put2bytes (me -> walkSpeed, fp);
 		put2bytes (me -> spinSpeed, fp);
 		putSigned (me -> floaty, fp);
+		put2bytes (me->tilt, fp);
 		fputc (me -> show, fp);
 		fputc (me -> walking, fp);
 		fputc (me -> spinning, fp);
@@ -1096,6 +1107,9 @@ bool loadPeople (FILE * fp) {
 		me -> frameTick = get2bytes (fp);
 		me -> walkSpeed = get2bytes (fp);
 		me -> spinSpeed = get2bytes (fp);
+		if (ssgVersion >= VERSION(2,3)) {
+			me -> tilt = get2bytes(fp);
+		}
 		me -> floaty = getSigned (fp);
 		me -> show = fgetc (fp);
 		me -> walking = fgetc (fp);

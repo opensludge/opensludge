@@ -1642,6 +1642,11 @@
 		<param name="Local" value="SLUDGEDevKitHelp\renameFile.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="rotateCharacter">
+		<param name="Name" value="rotateCharacter (built-in function)">
+		<param name="Local" value="SLUDGEDevKitHelp\rotateCharacter.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="saveGame">
 		<param name="Name" value="saveGame (built-in function)">
 		<param name="Local" value="SLUDGEDevKitHelp\saveGame.html">
