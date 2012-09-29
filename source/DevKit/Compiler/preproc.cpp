@@ -32,7 +32,7 @@ void doLine() {
 }
 
 bool preProcess (char * codeFileName, int fileNumber, stringArray * & strings, stringArray * & fileHandles) {
-	char * wholeFile;
+	unsigned char * wholeFile;
 	char outputName[13], quoteChar = ' ';
 	bool showStringWhenFinished = false;
 	int index = 0, stringPosition = 0;
@@ -56,15 +56,18 @@ bool preProcess (char * codeFileName, int fileNumber, stringArray * & strings, s
 	}
 
 	if (! gotoSourceDirectory ()) return false;
-	wholeFile = grabWholeFile (codeFileName);
+	wholeFile = (unsigned char *) grabWholeFile (codeFileName);
 	if (wholeFile == NULL) {
 		addComment (ERRORTYPE_PROJECTERROR, "Either this file contains nothing, or it doesn't exist...", codeFileName);
 		return false;
 	}
-	if (! u8_isvalid(wholeFile)) {
+	if (! u8_isvalid((char *) wholeFile)) {
 		return addComment (ERRORTYPE_PROJECTERROR, "Invalid string found. (It is not UTF-8 encoded.)", NULL, codeFileName, 0);
 	}
 	
+	// Check for BOM (shouldn't really be there in UTF-8, but we don't want to choke on it)
+	if (wholeFile[0] == 0xEF && wholeFile[1] == 0xBB && wholeFile[2] == 0xBF)
+		index = 3;
 
 	fprintf (outputFile, "%s*", codeFileName);
 	fprintf(outputFile, "%c%05d", 1,currentLine);

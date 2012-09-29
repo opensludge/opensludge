@@ -289,7 +289,7 @@ void playStream (int a, bool isMOD, bool loopy) {
 	ALuint src;
 	soundThing *st;
 	void (*eos_callback)(void *userdata, ALuint source);
-
+	
 	if (isMOD) {
 		st = &modCache[a];
 		eos_callback = mod_eos_callback;
@@ -466,6 +466,7 @@ int cacheSound (int f) {
 
 	if (! soundOK) return 0;
 
+	// Is the sound already in the cache?
 	int a = findInSoundCache (f);
 	if (a != -1) {
 		if (soundCache[a].playing) {

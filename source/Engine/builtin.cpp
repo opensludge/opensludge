@@ -1634,7 +1634,7 @@ builtIn(pasteCharacter)
 		}
 
 		int fNum = myAnim -> frames[thisPerson -> frameNum].frameNum;
-		fixScaleSprite (thisPerson -> x, thisPerson -> y, myAnim -> theSprites -> bank.sprites[abs (fNum)], myAnim -> theSprites -> bank.myPalette, thisPerson, 0, 0, fNum < 0);
+		scaleSprite (myAnim -> theSprites -> bank.sprites[abs (fNum)], myAnim -> theSprites -> bank.myPalette, thisPerson, fNum < 0, true);
 		setVariable (fun -> reg, SVT_INT, 1);
 	} else {
 		setVariable (fun -> reg, SVT_INT, 0);

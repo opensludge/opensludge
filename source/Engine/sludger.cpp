@@ -695,8 +695,6 @@ bool continueFunction (loadedFunction * fun) {
 		return true;
 	}
 
-//	if (numBIFNames) newDebug ("*** Function:", allUserFunc[fun -> originalNumber]);
-
 	//debugOut ("SLUDGER: continueFunction\n");
 
 	while (keepLooping) {

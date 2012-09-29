@@ -681,7 +681,6 @@ unsigned char curLight[3];
 
 void setDrawMode (onScreenPerson * thisPerson) {
 	if (thisPerson->colourmix) {
-		//glEnable(GL_COLOR_SUM); FIXME: replace line?
 		setSecondaryColor(curLight[0]*thisPerson->r*thisPerson->colourmix/65025/255.f, curLight[1]*thisPerson->g*thisPerson->colourmix/65025/255.f, curLight[2]*thisPerson->b*thisPerson->colourmix/65025/255.f, 1.0f);
 	}
 
@@ -692,14 +691,17 @@ void setDrawMode (onScreenPerson * thisPerson) {
 extern GLuint backdropTextureName;
 bool checkColourChange (bool reset);
 
-bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson * thisPerson, bool mirror) {
+bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson * thisPerson, bool mirror, bool paste) {
 
 	double r = (thisPerson->tilt * PI / 180);
+	double cosr = cos(r);
+	double sinr = sin(r);
 		
 	float x = thisPerson->x;
 	float y = thisPerson->y;
 
 	float scale = thisPerson-> scale;
+	bool useZB = (! (thisPerson->extra & EXTRA_NOZB)) && zBuffer.numPanels;
 	bool light = ! (thisPerson->extra & EXTRA_NOLITE);
 
 	if (scale <= 0.05) return false;
@@ -708,9 +710,20 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 	float ty1 = (float) 1.0/fontPal.tex_h[single.texNum];
 	float tx2 = (float)(single.tex_x + single.width) / fontPal.tex_w[single.texNum];
 	float ty2 = (float)(single.height+1)/fontPal.tex_h[single.texNum];
+	if (! mirror) {
+		GLfloat tmp = tx1;
+		tx1 = tx2;
+		tx2 = tmp;
+	}
+	const GLfloat texCoords[] = { 
+		tx2, ty1,
+		tx1, ty1,
+		tx2, ty2,
+		tx1, ty2
+	}; 	
 
-	int diffX = (int)(((float)single.width) * scale);
-	int diffY = (int)(((float)single.height) * scale);
+	double spriteW = ((double)single.width) * scale;
+	double spriteH = ((double)single.height) * scale;
 
 	GLfloat x1, y1, x2, y2, x3, y3, x4, y4;
 
@@ -738,140 +751,15 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 		floaty = thisPerson->floaty * scale;
 	}
 
-	x1 = x + (xoffset*cos(r)-yoffset*sin(r));
-	x2 = x1 + (double)diffX*cos(r);
-	x3 = x1 - (double)diffY*sin(r);
-	x4 = x2 - (double)diffY*sin(r);
-	y1 = y + (xoffset*sin(r)+yoffset*cos(r)) - floaty;
-	y2 = y1 + (double)diffX*sin(r);
-	y3 = y1 + (double)diffY*cos(r);
-	y4 = y3 + (double)diffX*sin(r);
+	x1 = x + (xoffset*cosr - yoffset*sinr);
+	x2 = x1 + spriteW*cosr;
+	x3 = x1 - spriteH*sinr;
+	x4 = x2 - spriteH*sinr;
+	y1 = y + (xoffset*sinr + yoffset*cosr) + floaty;
+	y2 = y1 + spriteW*sinr;
+	y3 = y1 + spriteH*cosr;
+	y4 = y3 + spriteW*sinr;
 	
-	
-	GLfloat z;
-
-	if ((! (thisPerson->extra & EXTRA_NOZB)) && zBuffer.numPanels) {
-		int i;
-		for (i = 1; i<zBuffer.numPanels; i++) {
-			if (zBuffer.panel[i] >= y + cameraY) {
-				i--;
-				break;
-			}
-		}
-		z = 0.999 - (double) i * (1.0 / 128.0);
-	} else {
-		z = -0.5;
-	}
-
-	float ltx1, ltx2,ltx3, ltx4, lty1, lty2, lty3, lty4;
-	if (! NPOT_textures) {
-		ltx1 = lightMap.texW * (x1+cameraX) / sceneWidth;
-		ltx2 = lightMap.texW * (x2+cameraX) / sceneWidth;
-		ltx3 = lightMap.texW * (x3+cameraX) / sceneWidth;
-		ltx4 = lightMap.texW * (x4+cameraX) / sceneWidth;
-		lty1 = lightMap.texH * (y1+cameraY) / sceneHeight;
-		lty2 = lightMap.texH * (y2+cameraY) / sceneHeight;
-		lty3 = lightMap.texH * (y3+cameraY) / sceneHeight;
-		lty4 = lightMap.texH * (y4+cameraY) / sceneHeight;
-	} else {
-		ltx1 = (float) (x1+cameraX) / sceneWidth;
-		ltx2 = (float) (x2+cameraX) / sceneWidth;
-		ltx3 = (float) (x3+cameraX) / sceneWidth;
-		ltx4 = (float) (x4+cameraX) / sceneWidth;
-		lty1 = (float) (y1+cameraY) / sceneHeight;
-		lty2 = (float) (y2+cameraY) / sceneHeight;
-		lty3 = (float) (y3+cameraY) / sceneHeight;
-		lty4 = (float) (y4+cameraY) / sceneHeight;
-	}
-
-	const GLfloat ltexCoords[] = { 
-		ltx1, lty1,
-		ltx2, lty2,
-		ltx3, lty3,
-		ltx4, lty4
-	}; 
-
-	if (light && lightMap.data) {
-		if (lightMapMode == LIGHTMAPMODE_HOTSPOT) {
-			int lx=(int)(x+cameraX);
-			int ly=(int)(y+cameraY);
-
-			if (lx<0) lx = 0;
-			else if (lx>=sceneWidth) lx = sceneWidth-1;
-			if (ly<0) ly = 0;
-			else if (ly>=sceneHeight) ly = sceneHeight-1;
-
-			GLubyte *target;
-			if (! NPOT_textures) {
-				target = lightMap.data + (ly*getNextPOT(sceneWidth) + lx)*4;
-			} else {
-				target = lightMap.data + (ly*sceneWidth + lx)*4;
-			}
-			curLight[0] = target[0];
-			curLight[1] = target[1];
-			curLight[2] = target[2];
-		} else if (lightMapMode == LIGHTMAPMODE_PIXEL) {
-			curLight[0] = curLight[1] = curLight[2] = 255;
-			glActiveTexture(GL_TEXTURE1);
-			glBindTexture (GL_TEXTURE_2D, lightMap.name);
-			glActiveTexture(GL_TEXTURE0);
-		}
-	} else {
-		curLight[0] = curLight[1] = curLight[2] = 255;
-	}
-
-	if (! (thisPerson->extra & EXTRA_RECTANGULAR))
-		checkColourChange (true);
-
-	setDrawMode (thisPerson);
-
-	glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
-
-	glEnable(GL_BLEND);
-
-	glUseProgram(shader.smartScaler);
-	GLuint uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
-	if (uniform >= 0) glUniform1i(uniform, light && lightMapMode == LIGHTMAPMODE_PIXEL && lightMap.data);
-
-	setPMVMatrix(shader.smartScaler);
-
-	if (gameSettings.antiAlias == 1) {
-		glUniform1i(glGetUniformLocation(shader.smartScaler, "antialias"), 1);
-	} else {
-		glUniform1i(glGetUniformLocation(shader.smartScaler, "antialias"), 0);
-	}
-
-	const GLfloat vertices[] = { 
-		x1, y1, z, 
-		x2, y2, z, 
-		x3, y3, z,
-		x4, y4, z
-	};
-
-	if (! mirror) {
-		GLfloat tmp = tx1;
-		tx1 = tx2;
-		tx2 = tmp;
-	}
-	const GLfloat texCoords[] = { 
-		tx2, ty1,
-		tx1, ty1,
-		tx2, ty2,
-		tx1, ty2
-	}; 
-
-	drawQuad(shader.smartScaler, vertices, 2, texCoords, ltexCoords);
-
-	glDisable(GL_BLEND);
-	glUseProgram(0);
-
-	if (light && lightMapMode == LIGHTMAPMODE_PIXEL) {
-		glActiveTexture(GL_TEXTURE1);
-		glActiveTexture(GL_TEXTURE0);
-	}
-	setSecondaryColor(0., 0., 0.,1.);
-	//glDisable(GL_COLOR_SUM); FIXME: replace line?
-
 	// Create a bounding box
 	float minx, miny, maxx, maxy;
 	if (x1 < x2) {
@@ -897,51 +785,15 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 	else if (maxy < y3) maxy = y3;
 	if (miny > y4) miny = y4;
 	else if (maxy < y4) maxy = y4;
+	if (minx < 0) minx = 0;
+	if (miny < 0) miny = 0;
+	if (maxx >= sceneWidth) maxx = sceneWidth - 1;
+	if (maxy >= sceneHeight) maxy = sceneHeight - 1;
+	if (minx >= maxx || miny >= maxy) return false;
 	
-	// Are we pointing at the sprite?
-	if (input.mouseX >= minx && input.mouseX <= maxx && input.mouseY >= miny && input.mouseY <= maxy) {
-		if (thisPerson->extra & EXTRA_RECTANGULAR) return true;
-		return checkColourChange (false);
-	}
-	return false;
-}
-
-// Paste a scaled sprite onto the backdrop
-void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPal, onScreenPerson * thisPerson, int camX, int camY, bool mirror) {
-
-	float scale = thisPerson-> scale;
-	bool useZB = ! (thisPerson->extra & EXTRA_NOZB);
-	bool light = ! (thisPerson->extra & EXTRA_NOLITE);
-
-	if (scale <= 0.05) return;
-
-	float tx1 = (float)(single.tex_x) / fontPal.tex_w[single.texNum];
-	float ty1 = (float) 1.0/fontPal.tex_h[single.texNum];//0.0;
-	float tx2 = (float)(single.tex_x + single.width) / fontPal.tex_w[single.texNum];
-	float ty2 = (float)(single.height+1)/fontPal.tex_h[single.texNum];
-
-	int diffX = (int)(((float)single.width) * scale);
-	int diffY = (int)(((float)single.height) * scale);
-	int x1;
-	if (single.xhot < 0)
-		x1 = x - (int)((mirror ? (float) (single.width - single.xhot) : (float)(single.xhot+1) ) * scale);
-	else
-		x1 = x - (int)((mirror ? (float) (single.width - (single.xhot+1)) : (float)single.xhot ) * scale);
-	int y1 = y - (int)((single.yhot - thisPerson->floaty) * scale);
-
-	float spriteWidth = diffX;
-	float spriteHeight = diffY;
-	if (x1 < 0) diffX += x1;
-	if (y1 < 0) diffY += y1;
-	if (x1 + diffX > sceneWidth) diffX = sceneWidth - x1;
-	if (y1 + diffY > sceneHeight) diffY = sceneHeight - y1;
-	if (diffX < 0) return;
-	if (diffY < 0) return;
-
 	GLfloat z;
 
-
-	if (useZB && zBuffer.numPanels) {
+	if (useZB) {
 		int i;
 		for (i = 1; i<zBuffer.numPanels; i++) {
 			if (zBuffer.panel[i] >= y + cameraY) {
@@ -954,52 +806,92 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 		z = -0.5;
 	}
 
-	float ltx1, btx1;
-	float ltx2, btx2;
-	float lty1, bty1;
-	float lty2, bty2;
-	if (! NPOT_textures) {
-		ltx1 = lightMap.texW * x1 / sceneWidth;
-		ltx2 = lightMap.texW * (x1+spriteWidth) / sceneWidth;
-		lty1 = lightMap.texH * y1 / sceneHeight;
-		lty2 = lightMap.texH * (y1+spriteHeight) / sceneHeight;
-		btx1 = backdropTexW * x1 / sceneWidth;
-		btx2 = backdropTexW * (x1+spriteWidth) / sceneWidth;
-		bty1 = backdropTexH * y1 / sceneHeight;
-		bty2 = backdropTexH * (y1+spriteHeight) / sceneHeight;
+	float ltx1, ltx2,ltx3, ltx4, lty1, lty2, lty3, lty4;
+	float btx1, btx2,btx3, btx4, bty1, bty2, bty3, bty4;
+	if (paste) {
+		if (! NPOT_textures) {
+			ltx1 = lightMap.texW * x1 / sceneWidth;
+			ltx2 = lightMap.texW * x2 / sceneWidth;
+			ltx3 = lightMap.texW * x3 / sceneWidth;
+			ltx4 = lightMap.texW * x4 / sceneWidth;
+			lty1 = lightMap.texH * y1 / sceneHeight;
+			lty2 = lightMap.texH * y2 / sceneHeight;
+			lty3 = lightMap.texH * y3 / sceneHeight;
+			lty4 = lightMap.texH * y4 / sceneHeight;
+			btx1 = backdropTexW * x1 / sceneWidth;
+			btx2 = backdropTexW * x2 / sceneWidth;
+			btx3 = backdropTexW * x3 / sceneWidth;
+			btx4 = backdropTexW * x4 / sceneWidth;
+			bty1 = backdropTexH * y1 / sceneHeight;
+			bty2 = backdropTexH * y1 / sceneHeight;
+			bty3 = backdropTexH * y1 / sceneHeight;
+			bty4 = backdropTexH * y4 / sceneHeight;
+		} else {
+			btx1 = ltx1 = (float) x1 / sceneWidth;
+			btx2 = ltx2 = (float) x2 / sceneWidth;
+			btx3 = ltx3 = (float) x3 / sceneWidth;
+			btx4 = ltx4 = (float) x4 / sceneWidth;
+			bty1 = lty1 = (float) y1 / sceneHeight;
+			bty2 = lty2 = (float) y2 / sceneHeight;
+			bty3 = lty3 = (float) y3 / sceneHeight;
+			bty4 = lty4 = (float) y4 / sceneHeight;
+		}
 	} else {
-		btx1 = ltx1 = (float) x1 / sceneWidth;
-		btx2 = ltx2 = (float) (x1+spriteWidth) / sceneWidth;
-		bty1 = lty1 = (float) y1 / sceneHeight;
-		bty2 = lty2 = (float) (y1+spriteHeight) / sceneHeight;
+		if (! NPOT_textures) {
+			ltx1 = lightMap.texW * (x1+cameraX) / sceneWidth;
+			ltx2 = lightMap.texW * (x2+cameraX) / sceneWidth;
+			ltx3 = lightMap.texW * (x3+cameraX) / sceneWidth;
+			ltx4 = lightMap.texW * (x4+cameraX) / sceneWidth;
+			lty1 = lightMap.texH * (y1+cameraY) / sceneHeight;
+			lty2 = lightMap.texH * (y2+cameraY) / sceneHeight;
+			lty3 = lightMap.texH * (y3+cameraY) / sceneHeight;
+			lty4 = lightMap.texH * (y4+cameraY) / sceneHeight;
+		} else {
+			ltx1 = (float) (x1+cameraX) / sceneWidth;
+			ltx2 = (float) (x2+cameraX) / sceneWidth;
+			ltx3 = (float) (x3+cameraX) / sceneWidth;
+			ltx4 = (float) (x4+cameraX) / sceneWidth;
+			lty1 = (float) (y1+cameraY) / sceneHeight;
+			lty2 = (float) (y2+cameraY) / sceneHeight;
+			lty3 = (float) (y3+cameraY) / sceneHeight;
+			lty4 = (float) (y4+cameraY) / sceneHeight;
+		}
 	}
 
 	const GLfloat ltexCoords[] = { 
 		ltx1, lty1,
-		ltx2, lty1,
-		ltx1, lty2,
-		ltx2, lty2
+		ltx2, lty2,
+		ltx3, lty3,
+		ltx4, lty4
 	}; 
-
+	
 	const GLfloat btexCoords[] = { 
 		btx1, bty1,
-		btx2, bty1,
-		btx1, bty2,
-		btx2, bty2
+		btx2, bty2,
+		btx3, bty3,
+		btx4, bty4
 	}; 
+	
 
 	if (light && lightMap.data) {
 		if (lightMapMode == LIGHTMAPMODE_HOTSPOT) {
-			int lx=x+cameraX;
-			int ly=y+cameraY;
-			if (lx<0 || ly<0 || lx>=sceneWidth || ly>=sceneHeight) {
-				curLight[0] = curLight[1] = curLight[2] = 255;
+			int lx=(int)(x+cameraX);
+			int ly=(int)(y+cameraY);
+
+			if (lx<0) lx = 0;
+			else if (lx>=sceneWidth) lx = sceneWidth-1;
+			if (ly<0) ly = 0;
+			else if (ly>=sceneHeight) ly = sceneHeight-1;
+
+			GLubyte *target;
+			if (! NPOT_textures) {
+				target = lightMap.data + (ly*getNextPOT(sceneWidth) + lx)*4;
 			} else {
-				GLubyte *target = lightMap.data + (ly*sceneWidth + lx)*4;
-				curLight[0] = target[0];
-				curLight[1] = target[1];
-				curLight[2] = target[2];
+				target = lightMap.data + (ly*sceneWidth + lx)*4;
 			}
+			curLight[0] = target[0];
+			curLight[1] = target[1];
+			curLight[2] = target[2];
 		} else if (lightMapMode == LIGHTMAPMODE_PIXEL) {
 			curLight[0] = curLight[1] = curLight[2] = 255;
 			glActiveTexture(GL_TEXTURE1);
@@ -1008,101 +900,141 @@ void fixScaleSprite (int x, int y, sprite & single, const spritePalette & fontPa
 	} else {
 		curLight[0] = curLight[1] = curLight[2] = 255;
 	}
-	glActiveTexture(GL_TEXTURE2);
-	glBindTexture (GL_TEXTURE_2D, backdropTextureName);
-	glActiveTexture(GL_TEXTURE0);
-
-	setPixelCoords (true);
-	GLfloat xoffset = 0.0f;
-	while (xoffset < diffX) {
-		int w = (diffX-xoffset < viewportWidth) ? (int) (diffX-xoffset) : viewportWidth;
-
-		GLfloat yoffset = 0.0f;
-		while (yoffset < diffY) {
-
-			int h = (diffY-yoffset< viewportHeight) ? (int) (diffY-yoffset) : viewportHeight;
-
-			// Render the scene - first the old backdrop (so that it'll show through when the z-buffer is active
-			//glTexEnvi (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
-			const GLfloat vertices[] = { 
-				-x1-xoffset, -y1-yoffset, 0.0f, 
-				sceneWidth-x1-xoffset, -y1-yoffset, 0.0f, 
-				-x1-xoffset, sceneHeight-y1-yoffset, 0.0f,
-				sceneWidth-x1-xoffset, sceneHeight-y1-yoffset, 0.0f
-			};
-
-			const GLfloat texCoords[] = { 
-				0.0f, 0.0f,
-				backdropTexW, 0.0f,
-				0.0f, backdropTexH,
-				backdropTexW, backdropTexH
-			}; 
-
-			glUseProgram(shader.texture);
-			setPMVMatrix(shader.texture);
-
-			drawQuad(shader.texture, vertices, 1, texCoords);
-
-			// The z-buffer
-			if (useZB) {
-				glDepthMask (GL_TRUE);
-				glClear(GL_DEPTH_BUFFER_BIT);
-				drawZBuffer((int) (x1+xoffset+camX), (int) (y1+yoffset+camY), false);
-
-				glDepthMask (GL_FALSE);
-				glEnable(GL_DEPTH_TEST);
-			}
-
-			// Then the sprite
-			glUseProgram(shader.paste);
-			GLint uniform = glGetUniformLocation(shader.paste, "useLightTexture");
-			if (uniform >= 0) glUniform1i(uniform, light && lightMapMode == LIGHTMAPMODE_PIXEL && lightMap.data);
-
-			setPMVMatrix(shader.paste);
-
-			setDrawMode (thisPerson);
-
-			glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
-
-			const GLfloat vertices2[] = { 
-				-xoffset, -yoffset, z, 
-				spriteWidth-xoffset, -yoffset, z, 
-				-xoffset, spriteHeight-yoffset, z,
-				spriteWidth-xoffset, spriteHeight-yoffset, z
-			};
-
-			if (! mirror) {
-				GLfloat tx3 = tx1;
-				tx1 = tx2;
-				tx2 = tx3;
-			}
-			const GLfloat texCoords2[] = { 
-				tx2, ty1,
-				tx1, ty1,
-				tx2, ty2,
-				tx1, ty2
-			}; 
-
-			drawQuad(shader.paste, vertices2, 3, texCoords2, ltexCoords, btexCoords);
-
-			setSecondaryColor(0., 0., 0., 1.);
-			//glDisable(GL_COLOR_SUM); FIXME: replace line?
-
-			// Copy Our ViewPort To The Texture
-			glUseProgram(0);
-
-			copyTexSubImage2D(GL_TEXTURE_2D, 0, (int) ((x1<0) ? xoffset: x1+xoffset), (int) ((y1<0) ? yoffset: y1+yoffset), (int) ((x1<0) ?viewportOffsetX-x1:viewportOffsetX), (int) ((y1<0) ?viewportOffsetY-y1:viewportOffsetY), w, h, backdropTextureName);
-
-			yoffset += viewportHeight;
-		}
-		xoffset += viewportWidth;
+	if (paste) {
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture (GL_TEXTURE_2D, backdropTextureName);
 	}
+	glActiveTexture(GL_TEXTURE0);	
+	
+	if (! paste) {
+	
+		if (! (thisPerson->extra & EXTRA_RECTANGULAR))
+			checkColourChange (true);
 
-	setPixelCoords (false);
-	glUseProgram(0);
+		setDrawMode (thisPerson);
+
+		glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
+
+		glEnable(GL_BLEND);
+
+		glUseProgram(shader.smartScaler);
+		GLuint uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
+		if (uniform >= 0) glUniform1i(uniform, light && lightMapMode == LIGHTMAPMODE_PIXEL && lightMap.data);
+
+		setPMVMatrix(shader.smartScaler);
+
+		if (gameSettings.antiAlias == 1) {
+			glUniform1i(glGetUniformLocation(shader.smartScaler, "antialias"), 1);
+		} else {
+			glUniform1i(glGetUniformLocation(shader.smartScaler, "antialias"), 0);
+		}
+
+		const GLfloat vertices[] = { 
+			x1, y1, z, 
+			x2, y2, z, 
+			x3, y3, z,
+			x4, y4, z
+		};
+
+		drawQuad(shader.smartScaler, vertices, 2, texCoords, ltexCoords);
+
+		glDisable(GL_BLEND);
+		glUseProgram(0);
+
+		if (light && lightMapMode == LIGHTMAPMODE_PIXEL) {
+			glActiveTexture(GL_TEXTURE1);
+			glActiveTexture(GL_TEXTURE0);
+		}
+		setSecondaryColor(0.0, 0.0, 0.0, 1.0);
+
+	} else {
+		setPixelCoords (true);
+		GLfloat xoffset = 0.0f;
+		while (xoffset < (maxx-minx)) {
+			int w = ((maxx-minx)-xoffset < viewportWidth) ? (int) ((maxx-minx)-xoffset) : viewportWidth;
+			
+			GLfloat yoffset = 0.0f;
+			while (yoffset < (maxy-miny)) {
+				
+				int h = ((maxy-miny)-yoffset< viewportHeight) ? (int) ((maxy-miny)-yoffset) : viewportHeight;
+				
+				// Render the scene - first the old backdrop (so that it'll show through when the z-buffer is active
+				//glTexEnvi (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+				glBindTexture (GL_TEXTURE_2D, backdropTextureName);
+				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+				
+				const GLfloat vertices[] = { 
+					-minx-xoffset, -miny-yoffset, 0.0f, 
+					sceneWidth-minx-xoffset, -miny-yoffset, 0.0f, 
+					-minx-xoffset, sceneHeight-miny-yoffset, 0.0f,
+					sceneWidth-minx-xoffset, sceneHeight-miny-yoffset, 0.0f
+				};
+				
+				const GLfloat backdropTexCoords[] = { 
+					0.0f, 0.0f,
+					backdropTexW, 0.0f,
+					0.0f, backdropTexH,
+					backdropTexW, backdropTexH
+				}; 
+				
+				glUseProgram(shader.texture);
+				setPMVMatrix(shader.texture);
+				
+				drawQuad(shader.texture, vertices, 1, backdropTexCoords);
+				
+				// The z-buffer
+				if (useZB) {
+					glDepthMask (GL_TRUE);
+					glClear(GL_DEPTH_BUFFER_BIT);
+					drawZBuffer((int) (x1+xoffset), (int) (y1+yoffset), false);
+					
+					glDepthMask (GL_FALSE);
+					glEnable(GL_DEPTH_TEST);
+				}
+				
+				// Then the sprite
+				glUseProgram(shader.paste);
+				GLint uniform = glGetUniformLocation(shader.paste, "useLightTexture");
+				if (uniform >= 0) glUniform1i(uniform, light && lightMapMode == LIGHTMAPMODE_PIXEL && lightMap.data);
+				
+				setPMVMatrix(shader.paste);
+				
+				setDrawMode (thisPerson);
+				
+				glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
+				
+				const GLfloat vertices2[] = { 
+					x1-minx-xoffset, y1-miny-yoffset, z, 
+					x2-minx-xoffset, y2-miny-yoffset, z, 
+					x3-minx-xoffset, y3-miny-yoffset, z, 
+					x4-minx-xoffset, y4-miny-yoffset, z, 
+				};
+								
+				drawQuad(shader.paste, vertices2, 3, texCoords, ltexCoords, btexCoords);
+				
+				setSecondaryColor(0.0, 0.0, 0.0, 1.0);
+				
+				// Copy Our ViewPort To The Texture
+				glUseProgram(0);
+				
+				copyTexSubImage2D(GL_TEXTURE_2D, 0, (int) ((x1<0) ? xoffset: x1+xoffset), (int) ((y1<0) ? yoffset: y1+yoffset), (int) ((x1<0) ?viewportOffsetX-x1:viewportOffsetX), (int) ((y1<0) ?viewportOffsetY-y1:viewportOffsetY), w, h, backdropTextureName);
+				
+				yoffset += viewportHeight;
+			}
+			xoffset += viewportWidth;
+		}
+		
+		setPixelCoords (false);
+		glUseProgram(0);
+		
+	}
+	
+	// Are we pointing at the sprite?
+	if (input.mouseX >= minx && input.mouseX <= maxx && input.mouseY >= miny && input.mouseY <= maxy) {
+		if (thisPerson->extra & EXTRA_RECTANGULAR) return true;
+		return checkColourChange (false);
+	}
+	return false;
 }
 
