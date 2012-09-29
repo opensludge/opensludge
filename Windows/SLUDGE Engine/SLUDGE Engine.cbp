@@ -41,11 +41,11 @@
 			<Add directory="..\..\..\GnuWin32\include" />
 			<Add directory="..\..\..\Bass\c" />
 			<Add directory="..\..\source\CommonCode" />
-			<Add directory="C:\Program Files\OpenAL 1.1 SDK\include" />
 			<Add directory="..\..\..\alure\include" />
 			<Add directory="..\..\..\..\Programmering" />
 			<Add directory="..\..\..\zlib" />
 			<Add directory="..\..\..\libvpx-v0.9.6" />
+			<Add directory="..\..\..\openal-soft-1.12.854-bin\include\AL" />
 		</Compiler>
 		<Linker>
 			<Add library="gdi32" />
