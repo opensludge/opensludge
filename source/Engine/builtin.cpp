@@ -100,7 +100,7 @@ int paramNum[] = {-1, 0, 1, 1, -1, -1, 1, 3, 4, 1, 0, 0, 8, -1,		// SAY -> MOVEM
 	2, 5,										// setCharacterTransparency, setCharacterColourise
 	1,											// zoomCamera
 	1, 0, 0,									// playMovie, stopMovie, pauseMovie
-	2											// rotateCharacter
+	2, 2										// rotateCharacter, ponder
 };
 
 bool failSecurityCheck (char * fn) {
@@ -183,6 +183,23 @@ builtIn(think)
 {
 	UNUSEDALL
 	return sayCore (numParams, fun, false);
+}
+
+builtIn(ponder)
+{
+	UNUSEDALL
+	char * newText;
+	int objT;
+	
+	newText = getTextFromAnyVar (fun -> stack -> thisVar);
+	if (! newText) return BR_ERROR;
+	trimStack (fun -> stack);
+	if (! getValueType (objT, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
+	trimStack (fun -> stack);
+	wrapPondering (newText, objT);
+	delete newText;
+	newText = NULL;
+	return BR_CONTINUE;
 }
 
 builtIn(freeze)
@@ -2148,6 +2165,9 @@ builtIn(normalCharacter)
 	int objectNumber;
 	if (! getValueType (objectNumber, SVT_OBJTYPE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
+	
+	wrapPondering((char *) "", objectNumber);
+
 	onScreenPerson * thisPerson = findPerson (objectNumber);
 	if (thisPerson)
 	{

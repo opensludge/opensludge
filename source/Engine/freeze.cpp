@@ -22,6 +22,7 @@ extern onScreenPerson * allPeople;
 extern screenRegion * allScreenRegions;
 extern screenRegion * overRegion;
 extern speechStruct * speech;
+extern ponderingStruct * pondering;
 extern inputType input;
 extern GLuint backdropTextureName;
 extern parallaxLayer * parallaxStuff;
@@ -214,6 +215,8 @@ bool freeze () {
 
 	newFreezer -> speech = speech;
 	initSpeech ();
+	newFreezer -> pondering = pondering;
+	pondering = NULL;
 
 	newFreezer -> currentEvents = currentEvents;
 	currentEvents = new eventHandlers;
@@ -325,6 +328,9 @@ void unfreeze (bool killImage) {
 	killAllSpeech ();
 	delete speech;
 	speech = frozenStuff -> speech;
+	
+	killAllPonderings();
+	pondering = frozenStuff -> pondering;
 
 	frozenStuff = frozenStuff -> next;
 

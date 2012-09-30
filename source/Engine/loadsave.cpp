@@ -447,6 +447,7 @@ bool saveGame (char * fname) {
 	fputc (speechMode, fp);
 	fputc (fadeMode, fp);
 	saveSpeech (speech, fp);
+	savePonderings (fp);
 	saveStatusBars (fp);
 	saveSounds (fp);
 
@@ -597,6 +598,9 @@ bool loadGame (char * fname) {
 	speechMode = fgetc (fp);
 	fadeMode = fgetc (fp);
 	loadSpeech (speech, fp);
+	if (ssgVersion >= VERSION(2,3)) {
+		loadPonderings (fp);
+	}
 	loadStatusBars (fp);
 	loadSounds (fp);
 

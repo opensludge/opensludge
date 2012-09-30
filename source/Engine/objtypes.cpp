@@ -9,6 +9,8 @@
 objectType * allObjectTypes = NULL;
 extern char * outputDir;
 
+void wrapPondering (char * theText, int objT);
+
 #define DEBUG_COMBINATIONS	0
 
 bool initObjectTypes () {
@@ -146,6 +148,8 @@ void removeObjectType (objectType * oT) {
 //			fprintf (debuggy2, "DELETING OBJECT TYPE: %p %s\n", oT, oT -> screenName);
 //			fclose (debuggy2);
 
+			wrapPondering((char *) "", oT->objectNum);			
+			
 			* huntRegion = oT -> next;
 			delete oT -> allCombis;
 			delete oT -> screenName;

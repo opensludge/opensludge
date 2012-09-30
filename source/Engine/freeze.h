@@ -10,6 +10,7 @@ struct frozenStuffStruct {
 	parallaxLayer * parallaxStuff;
 	int lightMapNumber, zBufferNumber;
 	speechStruct * speech;
+	ponderingStruct * pondering;
 	statusStuff * frozenStatus;
 	eventHandlers * currentEvents;
 	personaAnimation * mouseCursorAnim;

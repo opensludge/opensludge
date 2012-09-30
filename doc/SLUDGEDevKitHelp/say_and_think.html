@@ -1,37 +1,45 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-<TITLE>say and think</TITLE>
+<TITLE>say, think and ponder</TITLE>
   <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 <BODY>
 <HR>
 <div align="center"><img id="headerGraphic" src="images/sludge300.png" alt="SLUDGE"/></div>
-<h2>say and think</h2>
+<h2>say, think and ponder</h2>
 <HR>
 
 <H3>Syntax:</H3>
 
 <P>
-<pre class="syntax">say (<i>thisObject, textToSay</i>);</pre>
+<pre class="syntax">say (<i>thisObject, text</i>);</pre>
 </P>
 
 <P>
-<pre class="syntax">say (<i>thisObject, textToSay, soundFile</i>);</pre>
+<pre class="syntax">say (<i>thisObject, text, soundFile</i>);</pre>
 </P>
 
 <P>
-<pre class="syntax">think (<i>thisObject, textToThink</i>);</pre>
+<pre class="syntax">think (<i>thisObject, text</i>);</pre>
 </P>
 
 <P>
-<pre class="syntax">think (<i>thisObject, textToThink, soundFile</i>);</pre>
+<pre class="syntax">think (<i>thisObject, text, soundFile</i>);</pre>
+</P>
+
+<P>
+<pre class="syntax">ponder (<i>thisObject, text</i>);</pre>
 </P>
 
 <H3>Purpose:</H3>
 
 <P>
-Makes <i>thisObject</i> say the contents of the <i>textToSay</i> parameter (or think the contents of the <i>textToThink </i>parameter). The text is shown on the screen in the speech colour defined in the object type definition. If a <i>soundFile</i> parameter is specified, the sound may be used instead of (or as well as) the text - this depends on the current <a href="setSpeechMode.html">setSpeechMode</a> setting.
+<b>Say</b> makes <i>thisObject</i> say the contents of the <i>text</i> parameter. 
+The text is shown on the screen in the speech colour defined in the object type definition. 
+If a <i>soundFile</i> parameter is specified, the sound may be used instead of (or as well 
+as) the text - this depends on the current <a href="setSpeechMode.html">setSpeechMode</a> 
+setting.
 </P>
 
 <P>
@@ -39,7 +47,11 @@ Makes <i>thisObject</i> say the contents of the <i>textToSay</i> parameter (or t
 </P>
 
 <P>
-Any displayed text will be shown over the head of the character.<b> </b>If the say command is being used, the character's current animation will be changed to the speaking animation (for the character facing its current direction) defined in the <a href="costume.html">costume</a> assigned to the character. When the character has finished speaking, the character's animation will change to the standing still animation. If the think command is being used, the character will not be made to animate.
+Any displayed text will be shown over the head of the character and the character's current 
+animation will be changed to the speaking animation (for the character facing its current 
+direction) defined in the <a href="costume.html">costume</a> 
+assigned to the character. When the character has finished speaking, the character's animation 
+will change to the standing still animation.
 </P>
 
 <P>
@@ -47,7 +59,9 @@ Any displayed text will be shown over the head of the character.<b> </b>If the s
 </P>
 
 <P>
-Any displayed text will be shown above the last region to have been added which represents the object; that is, if there are three screen regions which represent the same object and the object is told to speak, the text will appear over the third region.
+Any displayed text will be shown above the last region to have been added which represents 
+the object; that is, if there are three screen regions which represent the same object and 
+the object is told to speak, the text will appear over the third region.
 </P>
 
 <P>
@@ -59,12 +73,49 @@ Any displayed text will appear centred at the top of the screen.
 </P>
 
 <P>
-The function from which the say command is called will pause until the object stops speaking. The time this takes depends on the number of characters in <i>textToSay</i> or <i>textToThink </i>and is calculated by the SLUDGE engine at runtime. If the <i>soundFile</i> parameter is specified (and used), the time for which the function pauses is the length of time needed to play the sound.
+The function from which the say command is called will pause until the object stops speaking. 
+The time this takes depends on the number of characters in <i>text</i> and is calculated by the 
+SLUDGE engine at runtime. If the <i>soundFile</i> parameter is specified (and used), the time 
+for which the function pauses is the length of time needed to play the sound.
 </P>
 
 <P>
-Valid file formats for the <i>soundFile</i> parameter are Windows wave files (.WAV) and Ogg Vorbis (.OGG), as in the <a href="playSound.html">playSound</a> and <a href="loopSound.html">loopSound</a> functions.
+Valid file formats for the <i>soundFile</i> parameter are Windows wave files (.WAV) and 
+Ogg Vorbis (.OGG), as in the <a href="playSound.html">playSound</a> function.
 </P>
+
+<H3>The difference between say, think and ponder</H3>
+
+<P>The above text describes <B>say</B>, which is the standard function for making
+characters talk. <B>think</B> and <B>ponder</B> exist for when you want more control.</P>
+
+<P><B>think</B> doesn't automatically animate the character, which allows you to put in
+a custom animation for the speech.</P>
+
+<P><B>ponder</B> doesn't animate the character, and does not pause the calling function. 
+The text will remain until the same character is made to speak, think or ponder again
+(ponder with an empty string to stop pondering), or the character is removed, or 
+<a href="normalCharacter.html">normalCharacter</a> is called. With ponder, it is possible
+to have several people pondering at the same time. Also note that because ponder does
+not stop the action, it's not affected by <a href="skipSpeech.html">skipSpeech</a>.
+You'll have to take care of that yourself too. Does this seem complicated? Don't worry 
+- in most cases, you'll never need to use ponder.
+</P>
+
+<P>These three examples do almost the same thing:</P>
+
+<P><pre>
+say (woman, "Hello!");
+
+animate (woman, jumpingOfJoyAnimation);
+think (woman, "Hello!");
+normalCharacter (woman);
+
+ponder (woman, "Hello!");
+pause (animate (woman, elaborateJumpingOfJoyAnimation));
+normalCharacter (woman);
+
+</pre></P>
 
 <H3>Return value:</H3>
 

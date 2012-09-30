@@ -1109,6 +1109,8 @@ bool loadPeople (FILE * fp) {
 		me -> spinSpeed = get2bytes (fp);
 		if (ssgVersion >= VERSION(2,3)) {
 			me -> tilt = get2bytes(fp);
+		} else {
+			me -> tilt = 0;
 		}
 		me -> floaty = getSigned (fp);
 		me -> show = fgetc (fp);

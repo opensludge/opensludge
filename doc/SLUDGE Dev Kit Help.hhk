@@ -1572,6 +1572,11 @@
 		<param name="Local" value="SLUDGEDevKitHelp\playSound.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="ponder">
+		<param name="Name" value="say and think (built-in functions)">
+		<param name="Local" value="SLUDGEDevKitHelp\say_and_think.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="popFromStack">
 		<param name="Name" value="popFromStack (built-in function)">
 		<param name="Local" value="SLUDGEDevKitHelp\popFromStack.html">
@@ -1653,12 +1658,12 @@
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="say">
-		<param name="Name" value="say and think (built-in function)">
+		<param name="Name" value="say and think (built-in functions)">
 		<param name="Local" value="SLUDGEDevKitHelp\say_and_think.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="think">
-		<param name="Name" value="say and think (built-in function)">
+		<param name="Name" value="say and think (built-in functions)">
 		<param name="Local" value="SLUDGEDevKitHelp\say_and_think.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
@@ -1902,6 +1907,11 @@
 		<param name="Local" value="SLUDGEDevKitHelp\spawnSub.html">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="spinCharacter">
+		<param name="Name" value="turnCharacter and spinCharacter (built-in function)">
+		<param name="Local" value="SLUDGEDevKitHelp\turnCharacter_and_spinCharacter.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="stackSize">
 		<param name="Name" value="stackSize (built-in function)">
 		<param name="Local" value="SLUDGEDevKitHelp\stackSize.html">
@@ -1963,11 +1973,6 @@
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="turnCharacter">
-		<param name="Name" value="turnCharacter and spinCharacter (built-in function)">
-		<param name="Local" value="SLUDGEDevKitHelp\turnCharacter_and_spinCharacter.html">
-		</OBJECT>
-	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="spinCharacter">
 		<param name="Name" value="turnCharacter and spinCharacter (built-in function)">
 		<param name="Local" value="SLUDGEDevKitHelp\turnCharacter_and_spinCharacter.html">
 		</OBJECT>

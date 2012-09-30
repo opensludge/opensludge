@@ -406,6 +406,8 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 	return true;
 }
 
+
+// Used for pasteString and pasteImage
 void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette & fontPal) {
 
 	float tx1 = (float)(single.tex_x) / fontPal.tex_w[single.texNum];
@@ -504,6 +506,7 @@ void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette
 	setPixelCoords (false);
 }
 
+// Used by burnString
 void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette & fontPal) {
 
 	float tx1 = (float)(single.tex_x - 0.5) / fontPal.tex_w[single.texNum];
@@ -608,8 +611,8 @@ void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette 
 	setPixelCoords (false);
 }
 
-extern GLuint backdropTextureName;
 
+// Used to draw text and the cursor
 void fontSprite (bool flip, int x, int y, sprite & single, const spritePalette & fontPal) {
 
 	float tx1 = (float)(single.tex_x-0.5) / fontPal.tex_w[single.texNum];
@@ -688,7 +691,6 @@ void setDrawMode (onScreenPerson * thisPerson) {
 	setPrimaryColor(curLight[0]*(255-thisPerson->colourmix)/65025.f, curLight[1]*(255-thisPerson->colourmix)/65025.f, curLight[2]*(255-thisPerson->colourmix)/65025.f, 1.0f - thisPerson->transparency/255.f);
 }
 
-extern GLuint backdropTextureName;
 bool checkColourChange (bool reset);
 
 bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson * thisPerson, bool mirror, bool paste) {

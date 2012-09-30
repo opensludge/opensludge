@@ -60,7 +60,7 @@ int stringWidth (char * theText) {
 	return xOff;
 }
 
-void pasteString (char * theText, int xOff, int y, spritePalette & thePal) {
+void drawString (char * theText, int xOff, int y, spritePalette & thePal) {
 	sprite * mySprite;
 	int a = 0;
     uint32_t c;

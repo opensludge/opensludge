@@ -19,6 +19,7 @@
 extern int fontHeight, cameraX, cameraY, speechMode;
 extern float cameraZoom;
 speechStruct * speech;
+ponderingStruct * pondering = NULL;
 float speechSpeed = 1;
 
 void initSpeech () {
@@ -52,14 +53,34 @@ void killAllSpeech () {
 	}
 }
 
+void killAllPonderings () {
+	ponderingStruct *killPonder;
+	speechLine * killMe;
+	speechStruct *s;
+	while (pondering) {
+		killPonder = pondering;
+		pondering = pondering->next;
+		s = pondering->speech;
+			
+		while (s -> allSpeech) {
+			killMe = s -> allSpeech;
+			s -> allSpeech = s -> allSpeech -> next;
+			delete killMe -> textLine;
+			delete killMe;
+		}		
+		delete s;
+		delete killPonder;
+	}	
+}
+
 #define TF_max(a, b) ((a > b) ? a : b)
 #define TF_min(a, b) ((a > b) ? b : a)
 
-inline void setObjFontColour (objectType * t) {
+inline void setObjFontColour (objectType * t, speechStruct *speech) {
 	setFontColour (speech -> talkCol, t -> r, t -> g, t -> b);
 }
 
-void addSpeechLine (char * theLine, int x, int & offset) {
+void addSpeechLine (char * theLine, int x, int & offset, speechStruct *speech) {
 	int halfWidth = (stringWidth (theLine) >> 1)/cameraZoom;
 	int xx1 = x - (halfWidth);
 	int xx2 = x + (halfWidth);
@@ -81,7 +102,7 @@ int isThereAnySpeechGoingOn () {
 	return speech -> allSpeech ? speech -> lookWhosTalking : -1;
 }
 
-int wrapSpeechXY (char * theText, int x, int y, int wrap, int sampleFile) {
+int wrapSpeechXY (char * theText, int x, int y, int wrap, int sampleFile, speechStruct *speech) {
 	int a, offset = 0;
 	killAllSpeech ();
 
@@ -109,12 +130,12 @@ int wrapSpeechXY (char * theText, int x, int y, int wrap, int sampleFile) {
 			}
 		}
 		theText[a] = 0;
-		addSpeechLine (theText, x, offset);
+		addSpeechLine (theText, x, offset, speech);
 		theText[a] = ' ';
 		theText += a + 1;
 		y -= fontHeight/cameraZoom;
 	}
-	addSpeechLine (theText, x, offset);
+	addSpeechLine (theText, x, offset, speech);
 	y -= fontHeight/cameraZoom;
 
 	if (y < 0) speech -> speechY -= y;
@@ -131,8 +152,8 @@ int wrapSpeechXY (char * theText, int x, int y, int wrap, int sampleFile) {
 	return speechTime;
 }
 
-int wrapSpeechPerson (char * theText, onScreenPerson & thePerson, int sampleFile, bool animPerson) {
-	int i = wrapSpeechXY (theText, thePerson.x - cameraX, thePerson.y - cameraY - (thePerson.scale * (thePerson.height - thePerson.floaty)) - thePerson.thisType -> speechGap, thePerson.thisType -> wrapSpeech, sampleFile);
+int wrapSpeechPerson (char * theText, onScreenPerson & thePerson, int sampleFile, bool animPerson, speechStruct *speech) {
+	int i = wrapSpeechXY (theText, thePerson.x - cameraX, thePerson.y - cameraY - (thePerson.scale * (thePerson.height - thePerson.floaty)) - thePerson.thisType -> speechGap, thePerson.thisType -> wrapSpeech, sampleFile, speech);
 	if (animPerson) {
 		makeTalker (thePerson);
 		speech -> currentTalker = & thePerson;
@@ -143,34 +164,121 @@ int wrapSpeechPerson (char * theText, onScreenPerson & thePerson, int sampleFile
 int wrapSpeech (char * theText, int objT, int sampleFile, bool animPerson) {
 	int i;
 	
+	wrapPondering((char *) "", objT);
+	
 	speech -> lookWhosTalking = objT;
 	onScreenPerson * thisPerson = findPerson (objT);
 	if (thisPerson) {
-		setObjFontColour (thisPerson -> thisType);
-		i = wrapSpeechPerson (theText, * thisPerson, sampleFile, animPerson);
+		setObjFontColour (thisPerson -> thisType, speech);
+		i = wrapSpeechPerson (theText, * thisPerson, sampleFile, animPerson, speech);
 	} else {
 		screenRegion * thisRegion = getRegionForObject (objT);
 		if (thisRegion) {
-			setObjFontColour (thisRegion -> thisType);
-			i = wrapSpeechXY (theText, ((thisRegion -> x1 + thisRegion -> x2) >> 1) - cameraX, thisRegion -> y1 - thisRegion -> thisType -> speechGap - cameraY, thisRegion -> thisType -> wrapSpeech, sampleFile);
+			setObjFontColour (thisRegion -> thisType, speech);
+			i = wrapSpeechXY (theText, ((thisRegion -> x1 + thisRegion -> x2) >> 1) - cameraX, thisRegion -> y1 - thisRegion -> thisType -> speechGap - cameraY, thisRegion -> thisType -> wrapSpeech, sampleFile, speech);
 		} else {
 			objectType * temp = findObjectType (objT);
-			setObjFontColour (temp);
-			i = wrapSpeechXY (theText, winWidth >> 1, 10, temp -> wrapSpeech, sampleFile);
+			setObjFontColour (temp, speech);
+			i = wrapSpeechXY (theText, winWidth >> 1, 10, temp -> wrapSpeech, sampleFile, speech);
 		}
 	}
 	return i;
 }
 
+void wrapPondering (char * theText, int objT) {
+	// First check if the person already is pondering
+	ponderingStruct *p = pondering;
+	ponderingStruct *p2 = pondering;
+	speechStruct *s;
+	while (p) {
+		s = p->speech;
+		if (s->lookWhosTalking == objT) {
+			speechLine * killMe;
+			
+			while (s -> allSpeech) {
+				killMe = s -> allSpeech;
+				s -> allSpeech = s -> allSpeech -> next;
+				delete killMe -> textLine;
+				delete killMe;
+			}
+			
+			delete s;
+			p2->next = p->next;
+			if (p = pondering) pondering = NULL;
+			delete p;
+			break;
+		} else {
+			p2 = p;
+			p = p->next;
+		}
+	}
+	
+	if (! strlen (theText))
+		return;
+	
+	// Add the new pondering
+	p = pondering;
+	
+	pondering = new ponderingStruct;
+	checkNew (pondering);
+	pondering -> next = p;
+	pondering -> speech = new speechStruct;
+	
+	s = pondering -> speech;
+	
+	if (checkNew (s)) {
+		s -> currentTalker = NULL;
+		s -> allSpeech = NULL;
+		s -> speechY = 0;
+		s -> lastFile = -1;
+	}
+	
+	s -> lookWhosTalking = objT;
+	onScreenPerson * thisPerson = findPerson (objT);
+	if (thisPerson) {
+		setObjFontColour (thisPerson -> thisType, s);
+		wrapSpeechPerson (theText, * thisPerson, -1, false, s);
+	} else {
+		screenRegion * thisRegion = getRegionForObject (objT);
+		if (thisRegion) {
+			setObjFontColour (thisRegion -> thisType, s);
+			wrapSpeechXY (theText, ((thisRegion -> x1 + thisRegion -> x2) >> 1) - cameraX, thisRegion -> y1 - thisRegion -> thisType -> speechGap - cameraY, thisRegion -> thisType -> wrapSpeech, -1, s);
+		} else {
+			objectType * temp = findObjectType (objT);
+			setObjFontColour (temp, s);
+			wrapSpeechXY (theText, winWidth >> 1, 10, temp -> wrapSpeech, -1, s);
+		}
+	}
+}
+
 void viewSpeech () {
-	int viewY = speech -> speechY;
-	speechLine * viewLine = speech -> allSpeech;
+	int viewY;
+	speechLine * viewLine;
+	
+	// Ponderings
+	ponderingStruct *p = pondering;
+	while (p) {
+		viewY = p -> speech -> speechY;
+		viewLine = p-> speech -> allSpeech;
+		fixFont (p -> speech -> talkCol);
+		while (viewLine) {
+			drawString (viewLine -> textLine, viewLine -> x, viewY, p->speech -> talkCol);
+			viewY -= fontHeight / cameraZoom;
+			viewLine = viewLine -> next;
+		}
+		p = p -> next;
+	}
+	
+	// And the normal speech
+	viewY = speech -> speechY;
+	viewLine = speech -> allSpeech;
 	fixFont (speech -> talkCol);
 	while (viewLine) {
-		pasteString (viewLine -> textLine, viewLine -> x, viewY, speech -> talkCol);
+		drawString (viewLine -> textLine, viewLine -> x, viewY, speech -> talkCol);
 		viewY -= fontHeight / cameraZoom;
 		viewLine = viewLine -> next;
 	}
+	
 }
 
 void saveSpeech (speechStruct * sS, FILE * fp) {
@@ -182,27 +290,28 @@ void saveSpeech (speechStruct * sS, FILE * fp) {
 	
 	putFloat (speechSpeed, fp);
 	
-		// Write y co-ordinate
-		put2bytes (sS -> speechY, fp);
-		
-		// Write which character's talking
-		put2bytes (sS -> lookWhosTalking, fp);		
-		if (sS -> currentTalker) {
-			fputc (1, fp);
-			put2bytes (sS -> currentTalker -> thisType -> objectNum, fp);
-		} else {
-			fputc (0, fp);
-		}
-		
-		// Write what's being said
-		while (viewLine) {
-			fputc (1, fp);
-			writeString (viewLine -> textLine, fp);
-			put2bytes (viewLine -> x, fp);
-			viewLine = viewLine -> next;
-		}
+	// Write y co-ordinate
+	put2bytes (sS -> speechY, fp);
+	
+	// Write which character's talking
+	put2bytes (sS -> lookWhosTalking, fp);		
+	if (sS -> currentTalker) {
+		fputc (1, fp);
+		put2bytes (sS -> currentTalker -> thisType -> objectNum, fp);
+	} else {
 		fputc (0, fp);
+	}
+	
+	// Write what's being said
+	while (viewLine) {
+		fputc (1, fp);
+		writeString (viewLine -> textLine, fp);
+		put2bytes (viewLine -> x, fp);
+		viewLine = viewLine -> next;
+	}
+	fputc (0, fp);
 }
+
 
 bool loadSpeech (speechStruct * sS, FILE * fp) {
 	speech -> currentTalker = NULL;
@@ -239,6 +348,43 @@ bool loadSpeech (speechStruct * sS, FILE * fp) {
 		(* viewLine) = newOne;
 		viewLine = & (newOne -> next);
 	}
+	return true;
+}
 
+void savePonderings (FILE *fp) {
+	ponderingStruct *p = pondering;
+	
+	while (p) {
+		fputc (1, fp);	
+		saveSpeech(p->speech, fp);
+		p = p->next;
+	}
+	fputc (0, fp);	
+}
+
+bool loadPonderings(FILE *fp) {
+	ponderingStruct *p;
+	speechStruct *s;
+
+	killAllPonderings();
+	while (fgetc (fp)) {
+		p = pondering;
+		pondering = new ponderingStruct;
+		checkNew (pondering);
+		pondering -> next = p;
+		pondering -> speech = new speechStruct;
+		
+		s = pondering -> speech;
+		
+		if (checkNew (s)) {
+			s -> currentTalker = NULL;
+			s -> allSpeech = NULL;
+			s -> speechY = 0;
+			s -> lastFile = -1;
+		}
+		if (! loadSpeech (s, fp))
+			return false;
+		
+	}
 	return true;
 }
