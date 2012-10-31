@@ -188,7 +188,7 @@ bool saveStrings (FILE * mainFile, FILE * textFile, stringArray * theSA) {
 	if (! (projectFile && indexFile)) return false;
 
 	while (theSA) {
-		put4bytes ((ftell (projectFile) + indexSize), indexFile);
+		put4bytes (ftell (projectFile) + indexSize, indexFile);
 		writeString (theSA -> string, projectFile);
 		if (textFile) fprintf (textFile, "%s\n", theSA -> string);
 		theSA = theSA -> next;

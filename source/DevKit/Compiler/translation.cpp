@@ -226,9 +226,13 @@ bool addTranslationData (translationReg * trans, stringArray * theSA, FILE * mai
 
 	while (theSA) {
 		put4bytes ((ftell (projectFile) + indexSize), indexFile);
-		char * translation = translateMe (theSA -> string, trans->filename);
-		writeString (translation, projectFile);
-		delete translation;
+		if (theSA->translate) {
+			char * translation = translateMe (theSA -> string, trans->filename);
+			writeString (translation, projectFile);
+			delete translation;
+		} else {
+			writeString (theSA -> string, projectFile);
+		}
 		theSA = theSA -> next;
 	}
 

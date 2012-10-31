@@ -244,11 +244,14 @@ int updateFromSource (char * filename, transLine **firstTransLine) {
 	
 	int numChanges = 0;
 	
+	bool untranslateable = false;
+	
 	for (;;) {
 		char * wholeLine = readText(source);
 		if (wholeLine == NULL) break;
 		for (int a = 0; wholeLine[a]; a ++) {
 			if (wholeLine[a] == '#') break;	// Comment? Skip it!
+			if (wholeLine[a] == '@') untranslateable = true; // Do not translate @-strings
 			if (wholeLine[a] == '\"') {
 				while (wholeLine[a+1] == ' ') a ++;	// No spaces at start, please
 				bool escape = false;
@@ -258,12 +261,13 @@ int updateFromSource (char * filename, transLine **firstTransLine) {
 						escape = ! escape;
 					} else if (wholeLine[b] == '\"') {
 						if (! escape) {
-							if (b != a + 1) {
+							if ((b != a + 1) && ! untranslateable) {
 								wholeLine[b] = 0;
 								numChanges += foundStringInFileEscaped (wholeLine + a + 1, firstTransLine);
 								wholeLine[b] = '\"';
 							}
 							a = b;
+							untranslateable = false;
 							break;
 						}
 						escape = false;

@@ -38,6 +38,7 @@ bool preProcess (char * codeFileName, int fileNumber, stringArray * & strings, s
 	int index = 0, stringPosition = 0;
 	bool readingQuote = false;
 	bool escapeCharNext = false, justAComment = false;
+	bool untranslatableQuote = false;
 	char grabString[1000];
 	int doubleCheckLoop;
 	
@@ -86,7 +87,11 @@ bool preProcess (char * codeFileName, int fileNumber, stringArray * & strings, s
 				if (quoteChar == '\'' && audioFile (grabString) && settings.forceSilent)
 					grabString[0] = 0;
 
-				if (quoteChar == '\"')
+				if (untranslatableQuote) {
+					doLine();
+					fprintf (outputFile, "_%s%i ", "string", findOrAddUntranslateable (strings, grabString, false));
+					untranslatableQuote = false;
+				} else if (quoteChar == '\"')
 				{
 					doLine();
 					fprintf (outputFile, "_%s%i ", "string", findOrAdd (strings, grabString, false));
@@ -130,6 +135,13 @@ bool preProcess (char * codeFileName, int fileNumber, stringArray * & strings, s
 			}
 		} else {
 			switch (wholeFile[index]) {
+				case '@':
+					if (wholeFile[index+1] != '\"') {
+						addComment (ERRORTYPE_PROJECTERROR, "@-sign found without a \".", "That makes no sense!", codeFileName, currentLine);
+						return false;
+					}
+					untranslatableQuote = true;
+					break;
 				case '\"':
 				case '\'':
 					if (! spaceLast) {

@@ -47,7 +47,7 @@ uint32_t readLineNumber (const char * textNumber) {
 	return i;
 }
 
-void addToStringArray (stringArray * & theArray, const char * theString, int start, int size, bool trimSpa) {
+void addToStringArray (stringArray * & theArray, const char * theString, int start, int size, bool trimSpa, bool translate) {
 	char * addMe;
 	stringArray * newSection;
 	stringArray * huntArray = theArray;
@@ -87,6 +87,7 @@ void addToStringArray (stringArray * & theArray, const char * theString, int sta
 
 	newSection -> string = addMe;	
 	newSection -> line = lineNum;
+	newSection -> translate = translate;
 	newSection -> next = NULL;
 
 	// Add it
@@ -139,7 +140,7 @@ int findElement (stringArray * sA, const char * findString) {
 	int i = 0;
 
 	while (sA) {
-		if (strcmp (sA -> string, findString) == 0) return i;
+		if ((strcmp (sA -> string, findString) == 0) && (sA->translate)) return i;
 		i ++;
 		sA = sA -> next;
 	}
@@ -152,6 +153,29 @@ int findOrAdd (stringArray * & sA, const char * addString, bool trimSpa) {
 	if (i == -1) {
 		addToStringArray (sA, addString, 0, -1, trimSpa);
 		return findElement (sA, addString);
+	} else {
+		return i;
+	}
+}
+
+int findUntranslateableElement (stringArray * sA, const char * findString) {
+	int i = 0;
+	
+	while (sA) {
+		if ((strcmp (sA -> string, findString) == 0) && (! sA->translate)) return i;
+		i ++;
+		sA = sA -> next;
+	}
+	return -1;
+}
+
+
+int findOrAddUntranslateable (stringArray * & sA, const char * addString, bool trimSpa) {
+	int i = findUntranslateableElement (sA, addString);
+	
+	if (i == -1) {
+		addToStringArray (sA, addString, 0, -1, trimSpa, false);
+		return findUntranslateableElement (sA, addString);
 	} else {
 		return i;
 	}

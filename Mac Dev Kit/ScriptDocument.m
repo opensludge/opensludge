@@ -147,7 +147,51 @@ void addFunction (NSMutableDictionary *words, char *name) {
 																 blue:0.0
 																alpha:1.0]
 								range:end];
-		} else if ([[string substringWithRange:NSMakeRange(found.location, 1)] isEqualToString:@"\""]) {
+		} else if ([[string substringWithRange:NSMakeRange(found.location, 1)] isEqualToString:@"@"]) {
+			if (! [[string substringWithRange:NSMakeRange(found.location+1, 1)] isEqualToString:@"\""]) {
+				found.length = 1;
+				[textStorage addAttribute:NSForegroundColorAttributeName
+									value:[NSColor colorWithCalibratedRed:1.0 
+																	green:0.0 
+																	 blue:0.0
+																	alpha:1.0]
+									range:end];
+			} else {
+				end = [string lineRangeForRange:NSMakeRange(found.location, 0)];
+				if (end.location < found.location) {
+					end.length -= found.location - end.location;
+					end.location = found.location;
+				}
+				found.location = end.location+1;
+				found.length = end.length-1;
+				
+				int tryAgain = TRUE;
+				while (tryAgain) {
+					tryAgain = FALSE;
+					if (found.location < end.location + end.length) {
+						found.length = end.location + end.length - found.location;
+						found = [string rangeOfString: @"\""
+											  options: nil
+												range: NSMakeRange(found.location + 1, found.length-1)];
+						if (found.location != NSNotFound) {
+							if ([[string substringWithRange:NSMakeRange(found.location-1, 1)] isEqualToString:@"\\"])
+								tryAgain = TRUE;
+							else
+								end.length = found.location + found.length - end.location;
+						}
+					}
+				}
+				
+				//[text setSpellingState:(1 << 0) range:end];
+				
+				[textStorage addAttribute:NSForegroundColorAttributeName
+									value:[NSColor colorWithCalibratedRed:0.6 
+																	green:0.0 
+																	 blue:0.2
+																	alpha:1.0]
+									range:end];
+			}
+		}else if ([[string substringWithRange:NSMakeRange(found.location, 1)] isEqualToString:@"\""]) {
 			end = [string lineRangeForRange:NSMakeRange(found.location, 0)];
 			if (end.location < found.location) {
 				end.length -= found.location - end.location;

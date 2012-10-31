@@ -38,6 +38,14 @@ For those of you who know C or C++, they're long signed integers. For everyone e
 <P>
 Used for holding text. All of the other data types can be turned into strings automatically, making debugging a lot simpler - see the <a href="Treating_Variables_as_Strings.html">Treating Variables as Strings</a> page.
 </P>
+<P>
+Note that there are two kinds of strings: Normal strings and untranslatable strings. Normal strings are written like this: &quot;This is a string.&quot; 
+Untranslatable strings are written like this: @&quot;This is a string that won't be translated.&quot; All strings are
+treated the same by the engine. The only difference between the two types is that the untranslatable strings 
+are ignored by the <a href="About_the_SLUDGE_Translation_Editor.html">Translation Editor</a>, and won't be 
+translated. This is useful for strings that would break the game if they're translated, such as <a href="setFont.html">the list
+of characters in a font</a>, or <a href="onKeyboard.html">strings describing a pressed key</a>.
+</P>
 
 <P>
 <B>File handles:</B>
