@@ -13,3 +13,4 @@ void changeToUserDir ();
 uint32_t launch(char * filename);
 
 bool defaultUserFullScreen();
+void nameProgram(const char * name);

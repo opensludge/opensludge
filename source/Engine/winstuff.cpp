@@ -205,4 +205,8 @@ uint32_t launch(char * f) {
 bool defaultUserFullScreen() {
 	return true;
 }
+
+void nameProgram(const char * name) {
+}
+
 #endif

@@ -378,6 +378,8 @@ int main(int argc, char *argv[]) try
 	gameName = getNumberedString(1);
 		
 	SDL_WM_SetCaption(gameName, gameName);
+        
+    nameProgram(gameName);
 
 	if ( (specialSettings & (SPECIAL_MOUSE_1 | SPECIAL_MOUSE_2)) == SPECIAL_MOUSE_1) {
 	//	Hide the standard mouse cursor!

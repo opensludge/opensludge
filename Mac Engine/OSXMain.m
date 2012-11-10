@@ -23,6 +23,8 @@ static bool   gCalledAppMainline = false;
 
 static bool usingCocoa = false;
 
+SDLMain *minApp;
+
 static NSString *getApplicationName(void)
 {
     NSDictionary *dict;
@@ -181,6 +183,8 @@ static NSString *getApplicationName(void)
     /* Set the main menu to contain the real app name instead of "SDL App" */
     [self fixMenu:[NSApp mainMenu] withAppName:getApplicationName()];	
 	
+    minApp = self;
+    
 	NSBundle *bundle;
 	bundle = [NSBundle bundleForClass: [self class]];
 	bundleFolder = joinStrings ([[bundle resourcePath] UTF8String], "/");
@@ -192,6 +196,8 @@ static NSString *getApplicationName(void)
     /* We're done, thank you for playing */
     exit(status);
 }
+
+
 @end
 
 
@@ -291,6 +297,10 @@ int showSetupWindow() {
 	usingCocoa = false;
 	
 	return result;
+}
+
+void nameProgram(const char * name) {
+    [minApp fixMenu:[NSApp mainMenu] withAppName: [NSString stringWithUTF8String: name]];
 }
 
 
