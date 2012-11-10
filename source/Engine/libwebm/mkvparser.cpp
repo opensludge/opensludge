@@ -5102,8 +5102,8 @@ void Tracks::ParseTrackEntry(
         {
             long len;
 
-            const long long idpos = pos;
-            idpos;
+            //const long long idpos = pos;
+            //idpos;
 
             const long long id = ReadUInt(pReader, pos, len);
             assert(id >= 0);  //TODO: handle error case
@@ -6243,7 +6243,7 @@ void Cluster::LoadBlockEntries() const
         assert(m_size > 0);
 
         const long long unknown_size = (1LL << (7 * len)) - 1;
-        unknown_size;
+        //unknown_size;
         assert(m_size != unknown_size);
 
         m_pos += len;  //consume size field

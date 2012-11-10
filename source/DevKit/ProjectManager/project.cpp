@@ -186,6 +186,8 @@ char * getFullPath (const char * file) {
 
 bool loadProject (const char * filename, char **fileList, int *numFiles) {
 	char * readLine;
+    
+    fprintf(stderr, "Hello!");
 
 	FILE * fp = fopen (filename, "rb");
 	if (! fp) return false;

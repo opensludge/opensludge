@@ -8,10 +8,16 @@
 
 #import "ProjectDocument.h"
 #import "ScriptDocument.h"
+#import "interface.h"
 #include "Project.hpp"
 
 #include "moreio.h"
+#include "compiler.hpp"
 //#include "helpers.h"
+bool getSourceDirFromName (const char * filename);
+bool gotoSourceDirectory ();
+
+
 #include "settings.h"
 #include "compilerinfo.h"
 #include "errorlinktofile.h"
@@ -63,7 +69,9 @@ NSModalSession session = nil;
 			 ofType:(NSString *)typeName 
 			  error:(NSError **)outError
 {
-	if ([typeName isEqualToString:@"SLUDGE Project file"]) {	
+    
+    fprintf(stderr, "Type: %s", [typeName UTF8String]);
+	if ([typeName isEqualToString:@"com.hungrysoftware.sludge-project"]) {	
 		UInt8 buffer[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
 			if (loadProject ((char *) buffer, fileList, &fileListNum)) {
@@ -81,7 +89,7 @@ NSModalSession session = nil;
 			 error:(NSError **)outError
 {
 	[self setSettings];
-	if ([typeName isEqualToString:@"SLUDGE Project file"]) {	
+	if ([typeName isEqualToString:@"com.hungrysoftware.sludge-project"]) {	
 		UInt8 buffer[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
 			if (saveProject ((char *) buffer, fileList, &fileListNum)) {
@@ -299,7 +307,7 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 	
 	UInt8 buffer[1024];
 	if (CFURLGetFileSystemRepresentation((CFURLRef) [self fileURL], true, buffer, 1023)) {
-		success = compileEverything(buffer, fileList, &fileListNum);
+		success = compileEverything((char *) buffer, fileList, &fileListNum, NULL);
 		val = true;
 	}
 	[closeCompilerButton setEnabled:YES];
@@ -484,7 +492,7 @@ void clearRect (int i, int whichBox) {
 		[me setProgress2max:i?i:1];
 }
 
-void setCompilerText (const where, const char * tx) {
+void setCompilerText (const enum compilerStatusText where, const char * tx) {
 	[me setText:tx here:where];
 }
 

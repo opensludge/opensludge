@@ -1,9 +1,12 @@
 #import "SpriteBank.h"
 #import <unistd.h>
+#include <sys/stat.h>
 
 #import "AppController.h"
+#import "Carbon/Carbon.h"
 
 #include "settings.h"
+#include "project.hpp"
 #import "ProjectDocument.h"
 #import "ScriptDocument.h"
 #import "SLUDGE Document.h"
@@ -192,7 +195,7 @@ OSStatus MyGotoHelpPage (CFStringRef pagePath, CFStringRef anchorName)
 	
 	err = AHRegisterHelpBook(&myBundleRef);
 	if (err != noErr) {
-		fprintf (stderr, "Error registering help book. %d", err);
+		fprintf (stderr, "Error registering help book. %ld", err);
 		goto bail;
 	}
 							
@@ -217,7 +220,7 @@ bail: return err;
 	MyGotoHelpPage(NULL, NULL);
 }
 
-- (BOOL)validateMenuItem:(id <NSMenuItem>)menuItem {
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
 	int t = [menuItem tag];
 	SLUDGE_Document *doc = [[NSDocumentController sharedDocumentController] currentDocument];
 	ProjectDocument *p = (ProjectDocument *)[doc project];
@@ -237,7 +240,7 @@ bail: return err;
 			return false;
 	} else if (t == 2000)  {
 		// For script editor
-		if (! [[doc fileType] isEqualToString:@"SLUDGE Script"])
+		if (! [[doc fileType] isEqualToString:@"com.hungrysoftware.sludge-script"])
 			return false;
 	}
 	return true;

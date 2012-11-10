@@ -820,7 +820,7 @@ movieHasEnded:	movieIsEnding = 1;
 			
 			videoBuffers *vB;
 			// Do we have decoded video waiting?
-			if (vB = videoQ.first) {
+			if ((vB = videoQ.first)) {
 				Uint32 tick = SDL_GetTicks() - movieStartTick;
 				
 				// Is it time to display the frame yet?
@@ -953,7 +953,7 @@ movieHasEnded:	movieIsEnding = 1;
 	
 	// Delete any remaining buffers
 	videoBuffers *vB = videoQ.first;
-	while (vB = videoQ.first) {
+	while ((vB = videoQ.first)) {
 		videoQ.first = vB->next;
 		delete [] vB->ytex;
 		delete [] vB->utex;
@@ -963,7 +963,7 @@ movieHasEnded:	movieIsEnding = 1;
 	videoQ.size = 0;
 
 	audioBuffers *aB = audioQ.first;
-	while (aB = audioQ.first) {
+	while ((aB = audioQ.first)) {
 		audioQ.first = aB->next;
 		delete [] aB->buffer;
 		delete aB;

@@ -796,7 +796,7 @@ int defineFunction (char * funcName, const char * args, char * sourceCode, bool 
 void initBuiltInFunc ()
 {
 
-#define FUNC(special,name) addToStringArray(builtInFunc, #name);
+#define FUNC(special,name) if (special) addToStringArray(builtInFunc, #name); else addToStringArray(builtInFunc, "");
 #include "functionlist.h"
 #undef FUNC
 

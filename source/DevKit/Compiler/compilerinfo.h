@@ -34,7 +34,7 @@ enum compilerStatusText {
 };
 
 #ifdef __APPLE__
-	void setCompilerText (const compilerStatusText, const char * theText);
+	void setCompilerText (const enum compilerStatusText where, const char * theText);
 #else
 	void setCompilerText (const compilerStatusText where, const char * theText);
 #endif

@@ -1,7 +1,8 @@
 /*
  * OpenSLUDGE - sound_openal.cpp
- * Copyright (C) 2000 - 2010 Tim Furnish, Rikard Peterson, Tobias Hansen
- * OpenAL version created 2010 by Tobias Hansen <tobias.han@gmx.de>
+ * Copyright (C) Tim Furnish, Rikard Peterson, Tobias Hansen
+ * This OpenAL version created 2012 by Rikard Peterson
+ *  (partially based on earlier versions)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -29,8 +30,10 @@
 #include "moreio.h"
 #include "fileset.h"
 
-#define MAX_SAMPLES 8
+
+#define MAX_SAMPLES 13
 #define MAX_MODS 3
+#define MAX_SOUNDQS 3
 #define NUM_BUFS 3
 
 bool soundOK = false;
@@ -49,7 +52,7 @@ soundThing soundCache[MAX_SAMPLES];
 soundThing modCache[MAX_MODS];
 int intpointers[MAX_SAMPLES];
 
-int defVol = 128;
+int defMusicVol = 128;
 int defSoundVol = 255;
 const float modLoudness = 0.95f;
 
@@ -57,7 +60,7 @@ const float modLoudness = 0.95f;
  * Set up, tear down:
  */
 
-bool initSoundStuff (HWND hwnd) {
+bool initSoundStuff () {
 
 	if(!alureInitDevice(NULL, NULL))
 	{
@@ -96,6 +99,7 @@ void killSoundStuff () {
 	if (! soundOK) return;
 
 	SilenceIKillYou = true;
+	
 	for (int i = 0; i < MAX_SAMPLES; i ++) {
 		if (soundCache[i].playing) {
 			if (! alureStopSource(soundCache[i].playingOnSource, AL_TRUE)) {
@@ -146,7 +150,7 @@ void setMusicVolume (int a, int v) {
 }
 
 void setDefaultMusicVolume (int v) {
-	defVol = v;
+	defMusicVol = v;
 }
 
 void setSoundVolume (int a, int v) {
@@ -209,7 +213,7 @@ static void mod_eos_callback(void *cacheIndex, ALuint source)
 
 int findInSoundCache (int a) {
 	int i;
-	for (i = 0; i < MAX_SAMPLES; i ++) {
+	for (i = 3; i < MAX_SAMPLES; i ++) {
 		if (soundCache[i].fileLoaded == a) {
 			return i;
 		}
@@ -307,7 +311,7 @@ void playStream (int a, bool isMOD, bool loopy) {
 	}
 
 	if (isMOD) {
-		alSourcef (src, AL_GAIN, (float) modLoudness * defVol / 256);
+		alSourcef (src, AL_GAIN, (float) modLoudness * defMusicVol / 256);
 	} else {
 		alSourcef (src, AL_GAIN, (float) soundCache[a].vol / 256);
 	}
@@ -368,7 +372,7 @@ bool playMOD (int f, int a, int fromTrack) {
 	delete memImage;
 
 	if (modCache[a].stream != NULL) {
-		setMusicVolume (a, defVol);
+		setMusicVolume (a, defMusicVol);
 		if (! alureSetStreamOrder (modCache[a].stream, fromTrack)) {
 			debugOut( "Failed to set stream order: %s\n",
 						alureGetErrorString());
@@ -400,7 +404,7 @@ bool stillPlayingSound (int ch) {
 }
 
 bool forceRemoveSound () {
-	for (int a = 0; a < MAX_SAMPLES; a ++) {
+	for (int a = 3; a < MAX_SAMPLES; a ++) {
 		if (soundCache[a].fileLoaded != -1 && ! stillPlayingSound (a)) {
 //			soundWarning ("Deleting silent sound", a);
 			freeSound (a);
@@ -408,7 +412,7 @@ bool forceRemoveSound () {
 		}
 	}
 
-	for (int a = 0; a < MAX_SAMPLES; a ++) {
+	for (int a = 3; a < MAX_SAMPLES; a ++) {
 		if (soundCache[a].fileLoaded != -1) {
 //			soundWarning ("Deleting playing sound", a);
 			freeSound (a);
@@ -423,14 +427,14 @@ int emptySoundSlot = 0;
 
 int findEmptySoundSlot () {
 	int t;
-	for (t = 0; t < MAX_SAMPLES; t ++) {
+	for (t = 3; t < MAX_SAMPLES; t ++) {
 		emptySoundSlot ++;
 		emptySoundSlot %= MAX_SAMPLES;
 		if (soundCache[emptySoundSlot].stream == NULL)
 			return emptySoundSlot;
 	}
 
-	for (t = 0; t < MAX_SAMPLES; t ++) {
+	for (t = 3; t < MAX_SAMPLES; t ++) {
 		emptySoundSlot ++;
 		emptySoundSlot %= MAX_SAMPLES;
 		if (!soundCache[emptySoundSlot].playing)
@@ -439,7 +443,7 @@ int findEmptySoundSlot () {
 
 	// Argh! They're all playing! Let's trash the oldest that's not looping...
 
-	for (t = 0; t < MAX_SAMPLES; t ++) {
+	for (t = 3; t < MAX_SAMPLES; t ++) {
 		emptySoundSlot ++;
 		emptySoundSlot %= MAX_SAMPLES;
 		if (! soundCache[emptySoundSlot].looping) return emptySoundSlot;
@@ -448,7 +452,8 @@ int findEmptySoundSlot () {
 	// Holy crap, they're all looping! What's this twat playing at?
 
 	emptySoundSlot ++;
-	emptySoundSlot %= MAX_SAMPLES;
+	if (emptySoundSlot >= MAX_SAMPLES) emptySoundSlot = 3;
+	
 	return emptySoundSlot;
 }
 
@@ -555,8 +560,9 @@ bool startSound (int f, bool loopy) {
 }
 
 void saveSounds (FILE * fp) {
+	
 	if (soundOK) {
-		for (int i = 0; i < MAX_SAMPLES; i ++) {
+		for (int i = 3; i < MAX_SAMPLES; i ++) {
 			if (soundCache[i].looping) {
 				fputc (1, fp);
 				put2bytes (soundCache[i].fileLoaded, fp);
@@ -566,11 +572,11 @@ void saveSounds (FILE * fp) {
 	}
 	fputc (0, fp);
 	put2bytes (defSoundVol, fp);
-	put2bytes (defVol, fp);
+	put2bytes (defMusicVol, fp);
 }
 
 void loadSounds (FILE * fp) {
-	for (int i = 0; i < MAX_SAMPLES; i ++) freeSound (i);
+	for (int i = 3; i < MAX_SAMPLES; i ++) freeSound (i);
 
 	while (fgetc (fp)) {
 		int fileLoaded = get2bytes (fp);
@@ -579,7 +585,7 @@ void loadSounds (FILE * fp) {
 	}
 
 	defSoundVol = get2bytes (fp);
-	defVol = get2bytes (fp);
+	defMusicVol = get2bytes (fp);
 }
 
 bool getSoundCacheStack (stackHandler * sH) {
@@ -631,7 +637,7 @@ static void list_eos_callback(void *list, ALuint source)
 	soundCache[a].looping = false;
 	s-> cacheIndex = false;
 	if (SilenceIKillYou) {
-		while (s = deleteSoundFromList(s));
+		while ((s = deleteSoundFromList(s)));
 	} else {
 		if (s->next) {
 			if (s->next == s) {
@@ -639,13 +645,13 @@ static void list_eos_callback(void *list, ALuint source)
 				defSoundVol = soundCache[a].vol;
 				startSound (s->sound, true);
 				defSoundVol = v;
-				while (s = deleteSoundFromList(s));
+				while ((s = deleteSoundFromList(s)));
 				return;
 			}
 			s->next->vol = soundCache[a].vol;
 			playSoundList(s->next);
 		} else {
-			while (s = deleteSoundFromList(s));
+			while ((s = deleteSoundFromList(s)));
 		}
 	}
 }

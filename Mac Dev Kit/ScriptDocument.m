@@ -8,7 +8,7 @@
 
 
 #import "ScriptDocument.h"
-
+#import "interface.h"
 
 @implementation ScriptDocument
 
@@ -33,7 +33,7 @@ void addFunction (NSMutableDictionary *words, char *name) {
 	
 	// Built in functions
 	builtinWords = [[NSMutableDictionary alloc] init];
-#define FUNC(special,name) addFunction(builtinWords, #name);
+#define FUNC(special,name) if (special) addFunction(builtinWords, #name);
 #include "functionList.h"
 #undef FUNC
 	
@@ -171,7 +171,7 @@ void addFunction (NSMutableDictionary *words, char *name) {
 					if (found.location < end.location + end.length) {
 						found.length = end.location + end.length - found.location;
 						found = [string rangeOfString: @"\""
-											  options: nil
+											  options: 0
 												range: NSMakeRange(found.location + 1, found.length-1)];
 						if (found.location != NSNotFound) {
 							if ([[string substringWithRange:NSMakeRange(found.location-1, 1)] isEqualToString:@"\\"])
@@ -206,7 +206,7 @@ void addFunction (NSMutableDictionary *words, char *name) {
 				if (found.location < end.location + end.length) {
 					found.length = end.location + end.length - found.location;
 					found = [string rangeOfString: @"\""
-										  options: nil
+										  options: 0
 											range: NSMakeRange(found.location + 1, found.length-1)];
 					if (found.location != NSNotFound) {
 						if ([[string substringWithRange:NSMakeRange(found.location-1, 1)] isEqualToString:@"\\"])
@@ -237,7 +237,7 @@ void addFunction (NSMutableDictionary *words, char *name) {
 			if (found.location < end.location + end.length) {
 				found.length = end.location + end.length - found.location;
 				found = [string rangeOfString: @"'"
-									  options: nil
+									  options: 0
 										range: NSMakeRange(found.location + 1, found.length-1)];
 				if (found.location != NSNotFound) {
 					end.length = found.location + found.length - end.location;
@@ -306,7 +306,7 @@ void addFunction (NSMutableDictionary *words, char *name) {
 	area2 = [newstring lineRangeForRange:NSMakeRange(0, 0)];
 
 	while (area2.length) {
-		if (NSOrderedSame == [newstring compare:@"#~" options:nil range:NSMakeRange(area2.location, 2)]) {
+		if (NSOrderedSame == [newstring compare:@"#~" options:0 range:NSMakeRange(area2.location, 2)]) {
 			[newstring deleteCharactersInRange: NSMakeRange(area2.location, 2)];
 			area2 = [newstring lineRangeForRange:NSMakeRange(area2.location+area2.length-2, 0)];
 			c-=2;

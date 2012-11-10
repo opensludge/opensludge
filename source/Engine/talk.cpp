@@ -204,7 +204,7 @@ void wrapPondering (char * theText, int objT) {
 			
 			delete s;
 			p2->next = p->next;
-			if (p = pondering) pondering = NULL;
+			if (p == pondering) pondering = NULL;
 			delete p;
 			break;
 		} else {

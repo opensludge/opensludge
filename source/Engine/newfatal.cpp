@@ -46,7 +46,7 @@ void warning (const char * l) {
 	msgBox ("SLUDGE v" TEXT_VERSION " non-fatal indigestion report", l);
 }
 
-void registerWindowForFatal () {
+void initFatal () {
 	delete fatalInfo;
 	fatalInfo = joinStrings ("There's an error with this SLUDGE game! If you're designing this game, please turn on verbose error messages in the project manager and recompile. If not, please contact the author saying where and how this problem occured.", "");
 }

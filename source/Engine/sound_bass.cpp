@@ -72,14 +72,14 @@ void huntKillFreeSound (int filenum) {
 	if (gotSlot != -1) freeSound (gotSlot);
 }
 
-bool initSoundStuff (HWND hwnd) {
+bool initSoundStuff () {
 	if (HIWORD(BASS_GetVersion())!=BASSVERSION)
 	{
 		warning (WARNING_BASS_WRONG_VERSION);
 		return false;
 	}
 
-	if (!BASS_Init(-1,44100,0,hwnd,NULL)) {
+	if (!BASS_Init(-1,44100,0,0,NULL)) {
 		warning (WARNING_BASS_FAIL);
 		return false;
 	}

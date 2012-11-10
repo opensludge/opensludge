@@ -7,6 +7,7 @@
 //
 
 #import "SpriteBank.h"
+#import "interface.h"
 
 extern NSModalSession session;
 
@@ -82,7 +83,7 @@ extern NSModalSession session;
 			 ofType:(NSString *)typeName 
 			  error:(NSError **)outError
 {
-	if ([typeName isEqualToString:@"SLUDGE Sprite Bank"]) {		
+	if ([typeName isEqualToString:@"com.hungrysoftware.sludge-spritebank"]) {		
 		UInt8 buffer[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
 			if (loadSpriteBank ((char *) buffer, &sprites)) {
@@ -98,7 +99,7 @@ extern NSModalSession session;
 			ofType:(NSString *)typeName 
 			 error:(NSError **)outError
 {
-	if ([typeName isEqualToString:@"SLUDGE Sprite Bank"]) {		
+	if ([typeName isEqualToString:@"com.hungrysoftware.sludge-spritebank"]) {
 		UInt8 buffer[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
 			if (saveSpriteBank ((char *) buffer, &sprites)) {

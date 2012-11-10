@@ -492,7 +492,7 @@ void drawBackDrop () {
 	glEnable(GL_BLEND);
 
 	glUseProgram(shader.smartScaler);
-	GLuint uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
+	GLint uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
 	if (uniform >= 0) glUniform1i(uniform, 0);
 
 	setPMVMatrix(shader.smartScaler);

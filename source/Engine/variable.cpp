@@ -469,7 +469,7 @@ bool copyVariable (const variable & from, variable & to) {
 }
 
 variable * fastArrayGetByIndex (fastArrayHandler * vS, unsigned int theIndex) {
-	if (theIndex < 0 || theIndex >= vS -> size) return NULL;
+	if (theIndex >= vS -> size) return NULL;
 	return & vS -> fastVariables[theIndex];
 }
 

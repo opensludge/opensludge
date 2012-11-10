@@ -379,7 +379,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 		const SDL_VideoInfo* videoInfo = SDL_GetVideoInfo();
 		desktopW = videoInfo->current_w;
 		desktopH = videoInfo->current_h;
-	} else if (restoreGraphics && fullscreen == runningFullscreen & ! resize) return;
+	} else if (restoreGraphics && fullscreen == runningFullscreen && (! resize)) return;
 
 	runningFullscreen = fullscreen;
 

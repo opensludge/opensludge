@@ -141,6 +141,8 @@ bool loadTranslationFile (char * fileIn, transLine ** firstTransLine, char **lan
 								if (!(*firstTransLine))
 									*firstTransLine = lastSoFar;
 								break;
+                            case MODE_UNKNOWN:
+                                break;
 						}
 				}
 			}

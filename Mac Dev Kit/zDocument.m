@@ -69,7 +69,7 @@
 			 ofType:(NSString *)typeName 
 			  error:(NSError **)outError
 {
-	if ([typeName isEqualToString:@"SLUDGE zBuffer"]) {		
+	if ([typeName isEqualToString:@"com.hungrysoftware.sludge-zbuf"]) {
 		UInt8 path[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, path, 1023)) {
 			if (loadZBufferFile ((char *) path, &backdrop)) {
@@ -85,7 +85,7 @@
 			ofType:(NSString *)typeName 
 			 error:(NSError **)outError
 {
-	if ([typeName isEqualToString:@"SLUDGE zBuffer"]) {		
+	if ([typeName isEqualToString:@"com.hungrysoftware.sludge-zbuf"]) {		
 		UInt8 path[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, path, 1023)) {
 			if (saveZBufferFile ((char *) path, &backdrop)) {

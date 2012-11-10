@@ -650,7 +650,7 @@ void fontSprite (bool flip, int x, int y, sprite & single, const spritePalette &
 	glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
 
 	glUseProgram(shader.smartScaler);
-	GLuint uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
+	GLint uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
 	if (uniform >= 0) glUniform1i(uniform, 0);
 
 	setPMVMatrix(shader.smartScaler);
@@ -920,7 +920,7 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 		glEnable(GL_BLEND);
 
 		glUseProgram(shader.smartScaler);
-		GLuint uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
+		GLint uniform = glGetUniformLocation(shader.smartScaler, "useLightTexture");
 		if (uniform >= 0) glUniform1i(uniform, light && lightMapMode == LIGHTMAPMODE_PIXEL && lightMap.data);
 
 		setPMVMatrix(shader.smartScaler);

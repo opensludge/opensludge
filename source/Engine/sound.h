@@ -1,10 +1,4 @@
 #include "variable.h"
-#ifdef _WIN32
-#include <windows.h>
-#else
-#define HWND void *
-#endif
-
 
 // Sound list stuff
 struct soundList {
@@ -20,28 +14,27 @@ void playSoundList(soundList *s);
 
 
 // GENERAL...
-bool initSoundStuff (HWND);
+bool initSoundStuff ();
 void killSoundStuff ();
 
-// MUSIC...
-bool playMOD (int, int, int);
-void stopMOD (int);
-void setMusicVolume (int a, int v);
-void setDefaultMusicVolume (int v);
+// MOD MUSIC...
+bool playMOD (int filenum, int channel, int position);
+void stopMOD (int channel);
+void setMusicVolume (int channel, int volume);
+void setDefaultMusicVolume (int volume);
 
 // SAMPLES...
 int cacheSound (int f);
-bool startSound (int, bool = false);
-void huntKillSound (int a);
+bool startSound (int filenum, bool loopy = false);
+void huntKillSound (int filenum);
 void huntKillFreeSound (int filenum);
-void setSoundVolume (int a, int v);
-void setDefaultSoundVolume (int v);
-void setSoundLoop (int a, int s, int e);
-bool stillPlayingSound (int ch);
+void setSoundVolume (int filenum, int volume);
+void setDefaultSoundVolume (int volume);
+void setSoundLoop (int filenum, int start, int end);
+bool stillPlayingSound (int channel);
 bool getSoundCacheStack (stackHandler * sH);
-int findInSoundCache (int a);
+int findInSoundCache (int filenum);
 
-void debugSounds ();
 void loadSounds (FILE * fp);
 void saveSounds (FILE * fp);
 

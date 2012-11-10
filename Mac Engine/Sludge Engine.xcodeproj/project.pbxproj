@@ -109,6 +109,7 @@
 		E8140220131D28AA00CCA8EC /* mkvreader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E814021A131D28AA00CCA8EC /* mkvreader.cpp */; };
 		E8140221131D28AA00CCA8EC /* PATENTS.TXT in Resources */ = {isa = PBXBuildFile; fileRef = E814021C131D28AA00CCA8EC /* PATENTS.TXT */; };
 		E832EDCC131D522B005AE714 /* libvpx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E832EDCB131D522B005AE714 /* libvpx.a */; };
+		E8995977164E6F2C003BACB4 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E8995976164E6F2C003BACB4 /* libiconv.dylib */; };
 		E89D32F814059706004FC507 /* helpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E89D32F614059706004FC507 /* helpers.cpp */; };
 		E8C9413F1466DB6A00B9BD26 /* utf8.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E8C9413D1466DB6A00B9BD26 /* utf8.cpp */; };
 		E8CA57A9111D9EDF00E971B4 /* sound_openal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E8981D35111A2A8500762C10 /* sound_openal.cpp */; };
@@ -251,7 +252,7 @@
 		2F7BFEEC0E338627003F5DC3 /* transition.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = transition.cpp; path = ../source/Engine/transition.cpp; sourceTree = SOURCE_ROOT; };
 		2F7BFEED0E338627003F5DC3 /* timing.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = timing.cpp; path = ../source/Engine/timing.cpp; sourceTree = SOURCE_ROOT; };
 		2F7BFEEE0E338627003F5DC3 /* stringy.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = stringy.cpp; path = ../source/Engine/stringy.cpp; sourceTree = SOURCE_ROOT; };
-		2F7BFEEF0E338627003F5DC3 /* talk.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = talk.cpp; path = ../source/Engine/talk.cpp; sourceTree = SOURCE_ROOT; };
+		2F7BFEEF0E338627003F5DC3 /* talk.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = talk.cpp; path = ../source/Engine/talk.cpp; sourceTree = SOURCE_ROOT; };
 		2F7BFEF00E338627003F5DC3 /* variable.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = variable.cpp; path = ../source/Engine/variable.cpp; sourceTree = SOURCE_ROOT; };
 		2F7BFEF10E338627003F5DC3 /* thumbnail.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = thumbnail.cpp; path = ../source/Engine/thumbnail.cpp; sourceTree = SOURCE_ROOT; };
 		2F7BFEF20E338627003F5DC3 /* statusba.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = statusba.cpp; path = ../source/Engine/statusba.cpp; sourceTree = SOURCE_ROOT; };
@@ -321,6 +322,7 @@
 		E832EDCB131D522B005AE714 /* libvpx.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvpx.a; path = ../libs/libvpx.a; sourceTree = SOURCE_ROOT; };
 		E836739E1101D9E2001449BC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E8981D35111A2A8500762C10 /* sound_openal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sound_openal.cpp; path = ../source/Engine/sound_openal.cpp; sourceTree = SOURCE_ROOT; };
+		E8995976164E6F2C003BACB4 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = ../../../../../usr/lib/libiconv.dylib; sourceTree = "<group>"; };
 		E89D32F614059706004FC507 /* helpers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = helpers.cpp; path = ../source/Engine/helpers.cpp; sourceTree = SOURCE_ROOT; };
 		E89D32F714059706004FC507 /* helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = helpers.h; path = ../source/Engine/helpers.h; sourceTree = SOURCE_ROOT; };
 		E8C9413D1466DB6A00B9BD26 /* utf8.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = utf8.cpp; path = ../source/CommonCode/utf8.cpp; sourceTree = SOURCE_ROOT; };
@@ -365,6 +367,7 @@
 				E8D7614D1128A5A900A5F7D7 /* libvorbisfile.a in Frameworks */,
 				E8D7614F1128A5C700A5F7D7 /* libalure.a in Frameworks */,
 				E832EDCC131D522B005AE714 /* libvpx.a in Frameworks */,
+				E8995977164E6F2C003BACB4 /* libiconv.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -460,6 +463,7 @@
 			children = (
 				2F59E737102E230800008746 /* libpng.framework */,
 				2F6E5C2F0E49FE33007408A4 /* libbass.dylib */,
+				E8995976164E6F2C003BACB4 /* libiconv.dylib */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
@@ -632,6 +636,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = SLUDGE;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Sludge Engine" */;
@@ -763,10 +768,8 @@
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -774,7 +777,6 @@
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../libpng-1.2.38/projects/xcode/build/Release\"";
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = Info.plist;
@@ -795,7 +797,9 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../libs\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/../alure/build\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_5 = "\"$(SRCROOT)/../libs\"";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				PRODUCT_NAME = SLUDGE;
+				SDKROOT = macosx10.7;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
 			};
@@ -804,10 +808,8 @@
 		C01FCF4C08A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
@@ -833,7 +835,9 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../libs\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/../alure/build\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_5 = "\"$(SRCROOT)/../libs\"";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				PRODUCT_NAME = SLUDGE;
+				SDKROOT = macosx10.7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -868,9 +872,8 @@
 					../libs,
 					"$(inherited)",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				OTHER_LDFLAGS = /Developer/SDKs/MacOSX10.5.sdk/usr/lib/libiconv.dylib;
-				PREBINDING = NO;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = OpenSLUDGE;
 				SDKROOT = macosx10.5;
 				USER_HEADER_SEARCH_PATHS = "/Users/rikard/Documents/SLUDGE/bass24-osx $(inherited)";
@@ -909,9 +912,8 @@
 					../libs,
 					"$(inherited)",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				OTHER_LDFLAGS = /Developer/SDKs/MacOSX10.5.sdk/usr/lib/libiconv.dylib;
-				PREBINDING = NO;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = OpenSLUDGE;
 				SDKROOT = macosx10.5;
 				USER_HEADER_SEARCH_PATHS = "/Users/rikard/Documents/SLUDGE/bass24-osx $(inherited)";

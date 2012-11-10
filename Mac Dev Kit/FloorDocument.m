@@ -7,8 +7,10 @@
 //
 
 #import "FloorDocument.h"
+#import "interface.h"
 
 #import "FloorMaker.h"
+#include "moreio.h"
 
 @implementation FloorDocument
 
@@ -59,7 +61,7 @@
 			 ofType:(NSString *)typeName 
 			  error:(NSError **)outError
 {
-	if ([typeName isEqualToString:@"SLUDGE Floor"]) {	
+	if ([typeName isEqualToString:@"com.hungrysoftware.sludge-floor"]) {
 		UInt8 buffer[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
 			if (loadFloorFromFile ((char *) buffer, &firstPoly)) {
@@ -75,7 +77,7 @@
 			ofType:(NSString *)typeName 
 			 error:(NSError **)outError
 {
-	if ([typeName isEqualToString:@"SLUDGE Floor"]) {		
+	if ([typeName isEqualToString:@"com.hungrysoftware.sludge-floor"]) {
 		UInt8 buffer[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
 			if (saveFloorToFile ((char *) buffer, &firstPoly)) {
@@ -136,7 +138,7 @@
 		forgetSpriteBank (&backdrop);
 		backdrop.total = 0;
 		noFloor (&firstPoly);
-		deleteString (firstPoly);
+		deleteString ((char *) firstPoly);
 	}
 	[super close];
 }

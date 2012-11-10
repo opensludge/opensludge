@@ -62,9 +62,6 @@ extern bool runningFullscreen;
 #define MAX_PATH        1024          // maximum size of a path name
 #endif
 
-HWND hMainWindow = NULL;
-
-
 int realWinWidth = 640, realWinHeight = 480;
 
 extern float cameraZoom;
@@ -367,16 +364,7 @@ int main(int argc, char *argv[]) try
 
 	setupOpenGLStuff();
 
-
-#ifdef _WIN32
-	SDL_SysWMinfo wmInfo;
-	SDL_VERSION(&wmInfo.version);
-	SDL_GetWMInfo(&wmInfo);
-	hMainWindow = wmInfo.window;
-#endif
-
-	registerWindowForFatal ();
-
+	initFatal ();
 
 	if (! resizeBackdrop (winWidth, winHeight)) return fatal ("Couldn't allocate memory for backdrop");
 	blankScreen (0, 0, winWidth, winHeight);
@@ -402,7 +390,7 @@ int main(int argc, char *argv[]) try
     }
 
 	if (! (specialSettings & SPECIAL_SILENT)) {
-		initSoundStuff (hMainWindow);
+		initSoundStuff ();
 	}
 
 	startNewFunctionNum (0, 0, NULL, noStack);

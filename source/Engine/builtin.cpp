@@ -55,7 +55,6 @@ extern eventHandlers * currentEvents;
 extern variableStack * noStack;
 extern statusStuff * nowStatus;
 extern screenRegion * overRegion;
-extern HWND hMainWindow;
 extern unsigned int sceneWidth, sceneHeight;
 extern int numBIFNames, numUserFunc;
 extern char builtInFunctionNames[][25];
@@ -77,15 +76,19 @@ extern unsigned int currentBlankColour;
 extern unsigned int languageID;
 extern unsigned char currentBurnR, currentBurnG, currentBurnB;
 
-int paramNum[] = {-1, 0, 1, 1, -1, -1, 1, 3, 4, 1, 0, 0, 8, -1,		// SAY -> MOVEMOUSE
-	-1, 0, 0, -1, -1, 1, 1, 1, 1, 4, 1, 1, 2, 1,// FOCUS -> REMOVEREGION
-	2, 2, 0, 0, 2,								// ANIMATE -> SETSCALE
+int paramNum[] = {-1, 0, 1, 1, -1, -1,			// say, skipSpeech, statusText, pause, onLeftMouse, onRightMouse
+	1, 3, 4,									// setCursor, addOverlay, addCharacter
+	1, 0, 0, 8, -1,								// playSound, getMouseX, getMouseY, addSCreenRegion, onMouseMove
+	-1, 0, 0, -1,								// onFocusChange, getOverObject, blankScreen, moveCharacter
+	-1, 1, 1, 1, 1,								// onKeyboard, getObjectX, getObjectY, random, spawnSub
+	4, 1, 1, 2, 1,								// blankArea, hideCharacter, showCharacter, callEvent, removeScreenregion
+	2, 2, 0, 0, 2,								// animate, turnCharacter, removeAllCharacters, removeAllScreenRegions, setScale
 	-1, 2, 1, 0, 0, 0, 1, 0, 3, 				// new/push/pop stack, status stuff
 	2, 0, 0, 3, 1, 0, 2,						// delFromStack -> completeTimers
 	-1, -1, -1, 2, 2, 0, 3, 1, 					// anim, costume, pO, setC, wait, sS, substring, stringLength
 	0, 1, 1, 0, 2,  							// dark, save, load, quit, rename
 	1, 3, 3, 1, 2, 1, 1, 3, 1, 0, 0, 2, 1,		// stackSize, pasteString, startMusic, defvol, vol, stopmus, stopsound, setfont, alignStatus, show x 2, pos'Status, setFloor
-	-1, -1, 1, 1, 2, 1, 1, 1, -1, -1, -1, 1, 1,	// force, jump, peekstart, peekend, enqueue, getSavedGames, inFont, loopSound, removeChar, stopCharacter
+	-1, -1, 1, 1, 2, 1, 1, 1, -1, -1, 1, 1, 1,	// force, jump, peekstart, peekend, enqueue, getSavedGames, inFont, loopSound, removeChar, stopCharacter
 	1, 0, 3, 3, 1, 2, 1, 2, 2,					// launch, howFrozen, pastecol, litcol, checksaved, float, cancelfunc, walkspeed, delAll
 	2, 3, 1, 2, 2, 0, 0, 1, 2, 3, 1, -1,		// extras, mixoverlay, pastebloke, getMScreenX/Y, setSound(Default/-)Volume, looppoints, speechMode, setLightMap
 	-1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1,			// think, getCharacterDirection, is(char/region/moving), deleteGame, renameGame, hardScroll, stringWidth, speechSpeed, normalCharacter
@@ -1067,9 +1070,9 @@ builtIn(quitGame)
 
 
 #pragma mark -
-#pragma mark Movie functions
+#pragma mark Removed functions
 
-// The old movie functions are deprecated and does nothing.
+// The old movie functions are removed and does nothing.
 builtIn(_rem_movieStart)
 {
 	UNUSEDALL
@@ -1090,6 +1093,62 @@ builtIn(_rem_moviePlaying)
 	setVariable (fun -> reg, SVT_INT, 0);
 	return BR_CONTINUE;
 }
+
+// Removed function - does nothing
+builtIn(_rem_updateDisplay)
+{
+	UNUSEDALL
+	trimStack (fun -> stack);
+	setVariable (fun -> reg, SVT_INT, true);
+	return BR_CONTINUE;
+}
+// Removed function
+builtIn(_rem_launchWith)
+{
+	UNUSEDALL
+	
+	trimStack (fun -> stack);
+	trimStack (fun -> stack);
+	setVariable (fun -> reg, SVT_INT, false);
+	
+	return BR_CONTINUE;
+	
+}
+// Removed - does nothing.
+builtIn(_rem_registryGetString)
+{
+	UNUSEDALL
+	trimStack (fun -> stack);
+	trimStack (fun -> stack);
+	setVariable (fun -> reg, SVT_INT, 0);
+	
+	return BR_CONTINUE;
+}
+builtIn(_rem_setCharacterAA)
+{
+	UNUSEDALL
+	
+	trimStack (fun -> stack);
+	trimStack (fun -> stack);
+	trimStack (fun -> stack);
+	trimStack (fun -> stack);
+	
+	return BR_CONTINUE;
+}
+builtIn(_rem_setMaximumAA)
+{
+	UNUSEDALL
+	
+	trimStack (fun -> stack);
+	trimStack (fun -> stack);
+	trimStack (fun -> stack);
+	
+	return BR_CONTINUE;
+	
+}
+
+#pragma mark -
+#pragma mark Movie functions
 
 builtIn (playMovie)
 {
@@ -1258,6 +1317,15 @@ builtIn(stopSound)
 	huntKillSound (v);
 	return BR_CONTINUE;
 }
+builtIn(freeSound)
+{
+	UNUSEDALL
+	int v;
+	if (! getValueType (v, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
+	trimStack (fun -> stack);
+	huntKillFreeSound (v);
+	return BR_CONTINUE;
+}
 
 builtIn(setDefaultSoundVolume)
 {
@@ -1281,7 +1349,6 @@ builtIn(setSoundVolume)
 	return BR_CONTINUE;
 }
 
-
 builtIn(setSoundLoopPoints)
 {
 	UNUSEDALL
@@ -1295,6 +1362,31 @@ builtIn(setSoundLoopPoints)
 	setSoundLoop (musChan, theStart, theEnd);
 	return BR_CONTINUE;
 }
+
+builtIn(cacheSound)
+{
+	UNUSEDALL
+	int fileNumber;
+	if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
+	trimStack (fun -> stack);
+	if (cacheSound (fileNumber) == -1) return BR_ERROR;
+	return BR_CONTINUE;
+}
+
+builtIn(getSoundCache)
+{
+	UNUSEDALL
+	fun -> reg.varType = SVT_STACK;
+	fun -> reg.varData.theStack = new stackHandler;
+	if (! checkNew (fun -> reg.varData.theStack)) return BR_ERROR;
+	fun -> reg.varData.theStack -> first = NULL;
+	fun -> reg.varData.theStack -> last = NULL;
+	fun -> reg.varData.theStack -> timesUsed = 1;
+	if (! getSoundCacheStack (fun -> reg.varData.theStack)) return BR_ERROR;
+	return BR_CONTINUE;
+}
+
+
 
 #pragma mark -
 #pragma mark Extra room bits
@@ -2255,16 +2347,6 @@ builtIn(renameFile)
 	return BR_CONTINUE;
 }
 
-builtIn(cacheSound)
-{
-	UNUSEDALL
-	int fileNumber;
-	if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
-	trimStack (fun -> stack);
-	if (cacheSound (fileNumber) == -1) return BR_ERROR;
-	return BR_CONTINUE;
-}
-
 builtIn(burnString)
 {
 	UNUSEDALL
@@ -2335,28 +2417,6 @@ builtIn(transitionMode)
 }
 
 
-// Removed function - does nothing
-builtIn(_rem_updateDisplay)
-{
-	UNUSEDALL
-	trimStack (fun -> stack);
-	setVariable (fun -> reg, SVT_INT, true);
-	return BR_CONTINUE;
-}
-
-builtIn(getSoundCache)
-{
-	UNUSEDALL
-	fun -> reg.varType = SVT_STACK;
-	fun -> reg.varData.theStack = new stackHandler;
-	if (! checkNew (fun -> reg.varData.theStack)) return BR_ERROR;
-	fun -> reg.varData.theStack -> first = NULL;
-	fun -> reg.varData.theStack -> last = NULL;
-	fun -> reg.varData.theStack -> timesUsed = 1;
-	if (! getSoundCacheStack (fun -> reg.varData.theStack)) return BR_ERROR;
-	return BR_CONTINUE;
-}
-
 builtIn(saveCustomData)
 {
 	UNUSEDALL
@@ -2413,16 +2473,6 @@ builtIn(setCustomEncoding)
 	saveEncoding = n;
 	trimStack (fun -> stack);
 	setVariable (fun -> reg, SVT_INT, 1);
-	return BR_CONTINUE;
-}
-
-builtIn(freeSound)
-{
-	UNUSEDALL
-	int v;
-	if (! getValueType (v, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
-	trimStack (fun -> stack);
-	huntKillFreeSound (v);
 	return BR_CONTINUE;
 }
 
@@ -2526,18 +2576,6 @@ builtIn(getLanguageID)
 	return BR_CONTINUE;
 }
 
-// Removed function
-builtIn(_rem_launchWith)
-{
-	UNUSEDALL
-
-	trimStack (fun -> stack);
-	trimStack (fun -> stack);
-	setVariable (fun -> reg, SVT_INT, false);
-
-	return BR_CONTINUE;
-
-}
 
 builtIn(getFramesPerSecond)
 {
@@ -2623,17 +2661,6 @@ builtIn(bodgeFilenames)
 	return BR_CONTINUE;
 }
 
-// Deprecated - does nothing.
-builtIn(_rem_registryGetString)
-{
-	UNUSEDALL
-	trimStack (fun -> stack);
-	trimStack (fun -> stack);
-	setVariable (fun -> reg, SVT_INT, 0);
-
-	return BR_CONTINUE;
-}
-
 builtIn(quitWithFatalError)
 {
 	UNUSEDALL
@@ -2641,30 +2668,6 @@ builtIn(quitWithFatalError)
 	trimStack (fun -> stack);
 	fatal (mess);
 	return BR_ERROR;
-}
-
-builtIn(_rem_setCharacterAA)
-{
-	UNUSEDALL
-
-	trimStack (fun -> stack);
-	trimStack (fun -> stack);
-	trimStack (fun -> stack);
-	trimStack (fun -> stack);
-
-	return BR_CONTINUE;
-}
-
-builtIn(_rem_setMaximumAA)
-{
-	UNUSEDALL
-
-	trimStack (fun -> stack);
-	trimStack (fun -> stack);
-	trimStack (fun -> stack);
-
-	return BR_CONTINUE;
-
 }
 
 builtIn(setBackgroundEffect)

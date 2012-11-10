@@ -117,7 +117,7 @@ static NSString *getApplicationName(void)
         if ([menuItem hasSubmenu])
             [self fixMenu:[menuItem submenu] withAppName:appName];
     }
-    [ aMenu sizeToFit ];
+    //[ aMenu sizeToFit ];
 	 
 }
 
@@ -246,6 +246,7 @@ static NSString *getApplicationName(void)
 /* Main entry point to executable - should *not* be SDL_main! */
 int main (int argc, char *argv[])
 {
+    
     /* Copy the arguments into a global variable */
     /* This is passed if we are launched by double-clicking */
     if ( argc >= 2 && strncmp (argv[1], "-psn", 4) == 0 ) {
@@ -254,16 +255,19 @@ int main (int argc, char *argv[])
         gArgv[1] = NULL;
         gArgc = 1;
         gFinderLaunch = YES;
+        
     } else {
         int i;
         gArgc = argc;
         gArgv = (char **) SDL_malloc(sizeof (char *) * (argc+1));
-        for (i = 0; i <= argc; i++)
+        for (i = 0; i <= argc; i++) {
             gArgv[i] = argv[i];
+        }
         gFinderLaunch = NO;
-    }
-
-    [SDLApplication poseAsClass:[NSApplication class]];
+   }
+    
+    
+   // [SDLApplication poseAsClass:[NSApplication class]];
     NSApplicationMain (argc, (const char **) argv);
     return 0;
 }

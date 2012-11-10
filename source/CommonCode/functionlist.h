@@ -2,8 +2,7 @@
 This is the list of the built in functions
 
 true or false states if it's a used function
-in the current version of the engine, 
-but that value currently isn't used anywhere
+in the current version of the engine.
 */
 
 FUNC (true, say)

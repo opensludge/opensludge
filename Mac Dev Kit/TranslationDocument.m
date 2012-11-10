@@ -72,7 +72,7 @@
 			 ofType:(NSString *)typeName 
 			  error:(NSError **)outError
 {
-	if ([typeName isEqualToString:@"SLUDGE Translation file"]) {	
+	if ([typeName isEqualToString:@"com.hungrysoftware.sludge-translation"]) {
 		UInt8 buffer[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
 			if (loadTranslationFile ((char *) buffer, &firstTransLine, &langName, &langID)) {
@@ -89,7 +89,7 @@
 			ofType:(NSString *)typeName 
 			 error:(NSError **)outError
 {
-	if ([typeName isEqualToString:@"SLUDGE Translation file"]) {		
+	if ([typeName isEqualToString:@"com.hungrysoftware.sludge-translation"]) {		
 		UInt8 buffer[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
 			if (saveTranslationFile ((char *) buffer, firstTransLine, langName, langID)) {
@@ -273,7 +273,7 @@
 	int c = -1;
 	int row = [listOfStrings selectedRow];
 	if (row >=0 ) {
-		int type = (int) [[aNotification object] type];
+		int type = (int) [(stringTable *)[aNotification object] type];
 		struct transLine * line = firstTransLine;
 		while (line && c<row) {
 			switch (type) {
