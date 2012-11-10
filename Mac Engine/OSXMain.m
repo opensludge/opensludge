@@ -36,7 +36,7 @@ static NSString *getApplicationName(void)
     	
     if (![appName length])
         appName = [[NSProcessInfo processInfo] processName];
-	
+	    
     return appName;
 }
 
@@ -74,6 +74,7 @@ static NSString *getApplicationName(void)
 		[super sendEvent: anEvent];
 }
 
+
 @end
 
 /* The main class of the application, the application's delegate */
@@ -93,7 +94,6 @@ static NSString *getApplicationName(void)
 		CFRelease(url);
 		CFRelease(url2);
 	}
-	
 }
 
 /* Fix menu to contain the real app name instead of "SDL App" */
@@ -102,8 +102,8 @@ static NSString *getApplicationName(void)
     NSRange aRange;
     NSEnumerator *enumerator;
     NSMenuItem *menuItem;
-	
-    aRange = [[aMenu title] rangeOfString:@"Sludge"];
+	    
+    aRange = [[aMenu title] rangeOfString:@"SLUDGE"];
     if (aRange.length != 0)
         [aMenu setTitle: [[aMenu title] stringByReplacingRange:aRange with:appName]];
 	
@@ -111,14 +111,12 @@ static NSString *getApplicationName(void)
     enumerator = [[aMenu itemArray] objectEnumerator];
     while ((menuItem = [enumerator nextObject]))
     {
-        aRange = [[menuItem title] rangeOfString:@"Sludge"];
+        aRange = [[menuItem title] rangeOfString:@"SLUDGE"];
         if (aRange.length != 0)
             [menuItem setTitle: [[menuItem title] stringByReplacingRange:aRange with:appName]];
         if ([menuItem hasSubmenu])
             [self fixMenu:[menuItem submenu] withAppName:appName];
-    }
-    //[ aMenu sizeToFit ];
-	 
+    }	 
 }
 
 
@@ -266,8 +264,7 @@ int main (int argc, char *argv[])
         gFinderLaunch = NO;
    }
     
-    
-   // [SDLApplication poseAsClass:[NSApplication class]];
+    [SDLApplication sharedApplication];
     NSApplicationMain (argc, (const char **) argv);
     return 0;
 }

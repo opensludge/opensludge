@@ -345,6 +345,7 @@
 		E8E9E64814C1D1010056A79F /* color.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = color.vert; path = ../source/Engine/color.vert; sourceTree = SOURCE_ROOT; };
 		E8E9E64914C1D1010056A79F /* texture.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = texture.vert; path = ../source/Engine/texture.vert; sourceTree = SOURCE_ROOT; };
 		E8EC92D012E605E500BFF763 /* sludge_launcher_logo_4c0c.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sludge_launcher_logo_4c0c.png; path = ../images/sludge_launcher_logo_4c0c.png; sourceTree = SOURCE_ROOT; };
+		E8F05700164E8DF9003B1225 /* SLUDGE.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SLUDGE.entitlements; sourceTree = "<group>"; };
 		E8F5CF13131E4A1600EF8C14 /* yuv.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = yuv.frag; path = ../source/Engine/yuv.frag; sourceTree = SOURCE_ROOT; };
 		E8F5CF14131E4A1600EF8C14 /* yuv.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = yuv.vert; path = ../source/Engine/yuv.vert; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -416,6 +417,7 @@
 		29B97314FDCFA39411CA2CEA /* SdlSludge */ = {
 			isa = PBXGroup;
 			children = (
+				E8F05700164E8DF9003B1225 /* SLUDGE.entitlements */,
 				E8DB5E2711B1772100137FE3 /* Shaders */,
 				29B97315FDCFA39411CA2CEA /* Common Code */,
 				2F7BFEB50E33848B003F5DC3 /* Source Files */,
@@ -769,6 +771,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_ENTITLEMENTS = SLUDGE.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -809,6 +812,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_ENTITLEMENTS = SLUDGE.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
