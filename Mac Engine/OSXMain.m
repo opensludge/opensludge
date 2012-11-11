@@ -271,6 +271,7 @@ int main (int argc, char *argv[])
    }
     
     [SDLApplication sharedApplication];
+    
     NSApplicationMain (argc, (const char **) argv);
     return 0;
 }
@@ -301,6 +302,9 @@ int showSetupWindow() {
 
 void nameProgram(const char * name) {
     [minApp fixMenu:[NSApp mainMenu] withAppName: [NSString stringWithUTF8String: name]];
+
+    [[NSApplication sharedApplication]
+     setPresentationOptions:NSFullScreenWindowMask];
 }
 
 
