@@ -76,7 +76,7 @@ extern int *languageTable;
 	gameSettings.antiAlias = [[aaCheck selectedItem] tag];
 	if (gameSettings.numLanguages) {
 		gameSettings.languageID = [languageList indexOfSelectedItem];
-		if (gameSettings.languageID < 0) gameSettings.languageID = 0;
+		if (gameSettings.languageID > gameSettings.numLanguages) gameSettings.languageID = 0;
 		gameSettings.languageID = languageTable[gameSettings.languageID];
 	}
 	[[SDLApplication sharedApplication] stopModalWithCode:1];

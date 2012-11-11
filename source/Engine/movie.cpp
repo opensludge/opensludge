@@ -28,6 +28,7 @@
 
 #include "sound.h"
 #include "vorbis/codec.h"
+#define OV_EXCLUDE_STATIC_CALLBACKS
 #include "vorbis/vorbisfile.h"
 #include "ogg/ogg.h"
 #include "libvorbis/vorbis_os.h"
@@ -988,22 +989,14 @@ int pauseMovie()
 	if (movieIsPlaying == playing) {
 		ALuint source = getSoundSource(movieAudioIndex);
 		if (source) {
-#if defined __unix__
 			alurePauseSource(source);
-#else
-			alurePauseSource(source, false);
-#endif
 		}
 		movieIsPlaying = paused;
 		fprintf (stderr, "** Pausing **\n");
 	} else if (movieIsPlaying == paused) {
 		ALuint source = getSoundSource(movieAudioIndex);
 		if (source) {
-#if defined __unix__
 			alureResumeSource(source);
-#else
-			alurePauseSource(source, true);
-#endif
 		}
 		fprintf (stderr, "** Restarted movie ** sound: %d source: %d\n", movieSoundPlaying, source);
 		movieIsPlaying = playing;

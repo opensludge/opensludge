@@ -107,28 +107,25 @@
 		E8140220131D28AA00CCA8EC /* mkvreader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E814021A131D28AA00CCA8EC /* mkvreader.cpp */; };
 		E8140221131D28AA00CCA8EC /* PATENTS.TXT in Resources */ = {isa = PBXBuildFile; fileRef = E814021C131D28AA00CCA8EC /* PATENTS.TXT */; };
 		E832EDCC131D522B005AE714 /* libvpx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E832EDCB131D522B005AE714 /* libvpx.a */; };
+		E86EDFEF164FC83B008CBEEC /* libvorbisfile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E86EDFEE164FC83B008CBEEC /* libvorbisfile.a */; };
+		E86EDFF1164FC84B008CBEEC /* libFLAC.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E86EDFF0164FC84B008CBEEC /* libFLAC.a */; };
+		E86EDFF7164FC998008CBEEC /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E86EDFF6164FC998008CBEEC /* OpenAL.framework */; };
+		E86EE006164FD4A0008CBEEC /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E86EE005164FD4A0008CBEEC /* libiconv.dylib */; };
+		E86EE00A164FD788008CBEEC /* libalure-static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E86EE009164FD788008CBEEC /* libalure-static.a */; };
+		E86EE00E164FE372008CBEEC /* libsndfile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E86EE00D164FE372008CBEEC /* libsndfile.a */; };
 		E89D32F814059706004FC507 /* helpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E89D32F614059706004FC507 /* helpers.cpp */; };
 		E8C9413F1466DB6A00B9BD26 /* utf8.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E8C9413D1466DB6A00B9BD26 /* utf8.cpp */; };
 		E8CA57A9111D9EDF00E971B4 /* sound_openal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E8981D35111A2A8500762C10 /* sound_openal.cpp */; };
 		E8D5A5E01712C007006698FE /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8D5A5DF1712C007006698FE /* SDL.framework */; };
 		E8D5A5E11712C13C006698FE /* SDL.framework in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = E8D5A5DF1712C007006698FE /* SDL.framework */; };
 		E8D761481128A5A900A5F7D7 /* libdumb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8D761421128A5A900A5F7D7 /* libdumb.a */; };
-		E8D761491128A5A900A5F7D7 /* libFLAC.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8D761431128A5A900A5F7D7 /* libFLAC.a */; };
 		E8D7614A1128A5A900A5F7D7 /* libogg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8D761441128A5A900A5F7D7 /* libogg.a */; };
 		E8D7614B1128A5A900A5F7D7 /* libvorbis.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8D761451128A5A900A5F7D7 /* libvorbis.a */; };
 		E8D7614C1128A5A900A5F7D7 /* libvorbisenc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8D761461128A5A900A5F7D7 /* libvorbisenc.a */; };
-		E8D7614D1128A5A900A5F7D7 /* libvorbisfile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8D761471128A5A900A5F7D7 /* libvorbisfile.a */; };
-		E8D7614F1128A5C700A5F7D7 /* libalure.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8D7614E1128A5C700A5F7D7 /* libalure.a */; };
 		E8DB5E2A11B1774100137FE3 /* scale.frag in Resources */ = {isa = PBXBuildFile; fileRef = E8DB5E2811B1774100137FE3 /* scale.frag */; };
 		E8DB5E2B11B1774100137FE3 /* scale.vert in Resources */ = {isa = PBXBuildFile; fileRef = E8DB5E2911B1774100137FE3 /* scale.vert */; };
 		E8DB5E9411B17DFB00137FE3 /* fixScaleSprite.vert in Resources */ = {isa = PBXBuildFile; fileRef = E8DB5E9311B17DFB00137FE3 /* fixScaleSprite.vert */; };
 		E8DB5E9811B17E4600137FE3 /* fixScaleSprite.frag in Resources */ = {isa = PBXBuildFile; fileRef = E8DB5E9711B17E4600137FE3 /* fixScaleSprite.frag */; };
-		E8E5000D111CBEAC00FD4DBD /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8E5000C111CBEAC00FD4DBD /* OpenAL.framework */; };
-		E8E9E64514C1D0EB0056A79F /* color.frag in Sources */ = {isa = PBXBuildFile; fileRef = E8E9E64214C1D0EB0056A79F /* color.frag */; };
-		E8E9E64614C1D0EB0056A79F /* scale_noaa.frag in Sources */ = {isa = PBXBuildFile; fileRef = E8E9E64314C1D0EB0056A79F /* scale_noaa.frag */; };
-		E8E9E64714C1D0EB0056A79F /* texture.frag in Sources */ = {isa = PBXBuildFile; fileRef = E8E9E64414C1D0EB0056A79F /* texture.frag */; };
-		E8E9E64A14C1D1010056A79F /* color.vert in Sources */ = {isa = PBXBuildFile; fileRef = E8E9E64814C1D1010056A79F /* color.vert */; };
-		E8E9E64B14C1D1010056A79F /* texture.vert in Sources */ = {isa = PBXBuildFile; fileRef = E8E9E64914C1D1010056A79F /* texture.vert */; };
 		E8E9E64C14C1D1120056A79F /* color.vert in Resources */ = {isa = PBXBuildFile; fileRef = E8E9E64814C1D1010056A79F /* color.vert */; };
 		E8E9E64D14C1D1120056A79F /* texture.vert in Resources */ = {isa = PBXBuildFile; fileRef = E8E9E64914C1D1010056A79F /* texture.vert */; };
 		E8E9E64E14C1D1120056A79F /* color.frag in Resources */ = {isa = PBXBuildFile; fileRef = E8E9E64214C1D0EB0056A79F /* color.frag */; };
@@ -218,7 +215,6 @@
 		2F6274FA10EA337700BBDEDF /* shaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = shaders.h; path = ../source/Engine/shaders.h; sourceTree = SOURCE_ROOT; };
 		2F6274FB10EA337700BBDEDF /* shaders.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = shaders.cpp; path = ../source/Engine/shaders.cpp; sourceTree = SOURCE_ROOT; };
 		2F684E190FFEAF6700EED6FE /* gameicon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = gameicon.icns; path = ../images/gameicon.icns; sourceTree = SOURCE_ROOT; };
-		2F6E5C2F0E49FE33007408A4 /* libbass.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbass.dylib; path = "../bass24-osx/libbass.dylib"; sourceTree = SOURCE_ROOT; };
 		2F6E5C310E49FE55007408A4 /* bass.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = bass.h; path = "../bass24-osx/bass.h"; sourceTree = SOURCE_ROOT; };
 		2F6F29600FBEFE3C00BC6A67 /* OSXMain.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = OSXMain.h; sourceTree = "<group>"; };
 		2F6F29630FBEFE4800BC6A67 /* OSXMain.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = OSXMain.m; sourceTree = "<group>"; };
@@ -319,6 +315,12 @@
 		E81E15581166A98F000C3483 /* platform-dependent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "platform-dependent.h"; path = "../source/Engine/platform-dependent.h"; sourceTree = SOURCE_ROOT; };
 		E832EDCB131D522B005AE714 /* libvpx.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvpx.a; path = ../libs/libvpx.a; sourceTree = SOURCE_ROOT; };
 		E836739E1101D9E2001449BC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E86EDFEE164FC83B008CBEEC /* libvorbisfile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvorbisfile.a; path = ../libs/libvorbisfile.a; sourceTree = "<group>"; };
+		E86EDFF0164FC84B008CBEEC /* libFLAC.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFLAC.a; path = ../libs/libFLAC.a; sourceTree = "<group>"; };
+		E86EDFF6164FC998008CBEEC /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/OpenAL.framework; sourceTree = DEVELOPER_DIR; };
+		E86EE005164FD4A0008CBEEC /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = ../../../../../usr/lib/libiconv.dylib; sourceTree = "<group>"; };
+		E86EE009164FD788008CBEEC /* libalure-static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libalure-static.a"; path = "../libs/libalure-static.a"; sourceTree = "<group>"; };
+		E86EE00D164FE372008CBEEC /* libsndfile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsndfile.a; path = ../../../../../usr/local/lib/libsndfile.a; sourceTree = "<group>"; };
 		E8981D35111A2A8500762C10 /* sound_openal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sound_openal.cpp; path = ../source/Engine/sound_openal.cpp; sourceTree = SOURCE_ROOT; };
 		E89D32F614059706004FC507 /* helpers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = helpers.cpp; path = ../source/Engine/helpers.cpp; sourceTree = SOURCE_ROOT; };
 		E89D32F714059706004FC507 /* helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = helpers.h; path = ../source/Engine/helpers.h; sourceTree = SOURCE_ROOT; };
@@ -326,17 +328,13 @@
 		E8C9413E1466DB6A00B9BD26 /* utf8.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = utf8.h; path = ../source/CommonCode/utf8.h; sourceTree = SOURCE_ROOT; };
 		E8D5A5DF1712C007006698FE /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = /Library/Frameworks/SDL.framework; sourceTree = "<absolute>"; };
 		E8D761421128A5A900A5F7D7 /* libdumb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libdumb.a; path = ../libs/libdumb.a; sourceTree = SOURCE_ROOT; };
-		E8D761431128A5A900A5F7D7 /* libFLAC.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFLAC.a; path = ../libs/libFLAC.a; sourceTree = SOURCE_ROOT; };
 		E8D761441128A5A900A5F7D7 /* libogg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libogg.a; path = ../libs/libogg.a; sourceTree = SOURCE_ROOT; };
 		E8D761451128A5A900A5F7D7 /* libvorbis.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvorbis.a; path = ../libs/libvorbis.a; sourceTree = SOURCE_ROOT; };
 		E8D761461128A5A900A5F7D7 /* libvorbisenc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvorbisenc.a; path = ../libs/libvorbisenc.a; sourceTree = SOURCE_ROOT; };
-		E8D761471128A5A900A5F7D7 /* libvorbisfile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvorbisfile.a; path = ../libs/libvorbisfile.a; sourceTree = SOURCE_ROOT; };
-		E8D7614E1128A5C700A5F7D7 /* libalure.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libalure.a; path = ../libs/libalure.a; sourceTree = SOURCE_ROOT; };
 		E8DB5E2811B1774100137FE3 /* scale.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = scale.frag; path = ../source/Engine/scale.frag; sourceTree = SOURCE_ROOT; };
 		E8DB5E2911B1774100137FE3 /* scale.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = scale.vert; path = ../source/Engine/scale.vert; sourceTree = SOURCE_ROOT; };
 		E8DB5E9311B17DFB00137FE3 /* fixScaleSprite.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = fixScaleSprite.vert; path = ../source/Engine/fixScaleSprite.vert; sourceTree = SOURCE_ROOT; };
 		E8DB5E9711B17E4600137FE3 /* fixScaleSprite.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = fixScaleSprite.frag; path = ../source/Engine/fixScaleSprite.frag; sourceTree = SOURCE_ROOT; };
-		E8E5000C111CBEAC00FD4DBD /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		E8E9E64214C1D0EB0056A79F /* color.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = color.frag; path = ../source/Engine/color.frag; sourceTree = SOURCE_ROOT; };
 		E8E9E64314C1D0EB0056A79F /* scale_noaa.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = scale_noaa.frag; path = ../source/Engine/scale_noaa.frag; sourceTree = SOURCE_ROOT; };
 		E8E9E64414C1D0EB0056A79F /* texture.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = texture.frag; path = ../source/Engine/texture.frag; sourceTree = SOURCE_ROOT; };
@@ -356,15 +354,17 @@
 				2F59E738102E230800008746 /* libpng.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				2F83725B0E5042FA00CC8352 /* OpenGL.framework in Frameworks */,
-				E8E5000D111CBEAC00FD4DBD /* OpenAL.framework in Frameworks */,
 				E8D761481128A5A900A5F7D7 /* libdumb.a in Frameworks */,
-				E8D761491128A5A900A5F7D7 /* libFLAC.a in Frameworks */,
 				E8D7614A1128A5A900A5F7D7 /* libogg.a in Frameworks */,
 				E8D7614B1128A5A900A5F7D7 /* libvorbis.a in Frameworks */,
 				E8D7614C1128A5A900A5F7D7 /* libvorbisenc.a in Frameworks */,
-				E8D7614D1128A5A900A5F7D7 /* libvorbisfile.a in Frameworks */,
-				E8D7614F1128A5C700A5F7D7 /* libalure.a in Frameworks */,
 				E832EDCC131D522B005AE714 /* libvpx.a in Frameworks */,
+				E86EDFEF164FC83B008CBEEC /* libvorbisfile.a in Frameworks */,
+				E86EDFF1164FC84B008CBEEC /* libFLAC.a in Frameworks */,
+				E86EDFF7164FC998008CBEEC /* OpenAL.framework in Frameworks */,
+				E86EE006164FD4A0008CBEEC /* libiconv.dylib in Frameworks */,
+				E86EE00A164FD788008CBEEC /* libalure-static.a in Frameworks */,
+				E86EE00E164FE372008CBEEC /* libsndfile.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,9 +385,9 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E86EDFF6164FC998008CBEEC /* OpenAL.framework */,
 				2F83725A0E5042FA00CC8352 /* OpenGL.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
-				E8E5000C111CBEAC00FD4DBD /* OpenAL.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -459,7 +459,6 @@
 			children = (
 				E8D5A5DF1712C007006698FE /* SDL.framework */,
 				2F59E737102E230800008746 /* libpng.framework */,
-				2F6E5C2F0E49FE33007408A4 /* libbass.dylib */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
@@ -572,14 +571,16 @@
 		E8A808771128BDE900343CFF /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				E86EE00D164FE372008CBEEC /* libsndfile.a */,
+				E86EE005164FD4A0008CBEEC /* libiconv.dylib */,
+				E86EE009164FD788008CBEEC /* libalure-static.a */,
 				E832EDCB131D522B005AE714 /* libvpx.a */,
-				E8D7614E1128A5C700A5F7D7 /* libalure.a */,
 				E8D761421128A5A900A5F7D7 /* libdumb.a */,
-				E8D761431128A5A900A5F7D7 /* libFLAC.a */,
 				E8D761441128A5A900A5F7D7 /* libogg.a */,
 				E8D761451128A5A900A5F7D7 /* libvorbis.a */,
+				E86EDFF0164FC84B008CBEEC /* libFLAC.a */,
+				E86EDFEE164FC83B008CBEEC /* libvorbisfile.a */,
 				E8D761461128A5A900A5F7D7 /* libvorbisenc.a */,
-				E8D761471128A5A900A5F7D7 /* libvorbisfile.a */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -749,11 +750,6 @@
 				E8140220131D28AA00CCA8EC /* mkvreader.cpp in Sources */,
 				E89D32F814059706004FC507 /* helpers.cpp in Sources */,
 				E8C9413F1466DB6A00B9BD26 /* utf8.cpp in Sources */,
-				E8E9E64514C1D0EB0056A79F /* color.frag in Sources */,
-				E8E9E64614C1D0EB0056A79F /* scale_noaa.frag in Sources */,
-				E8E9E64714C1D0EB0056A79F /* texture.frag in Sources */,
-				E8E9E64A14C1D1010056A79F /* color.vert in Sources */,
-				E8E9E64B14C1D1010056A79F /* texture.vert in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -777,6 +773,15 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = (
+					"../alure-1.2/include",
+					"../libs/libvpx-v1.0.0",
+					"/Users/rikard/Documents/libpng-1.2.38/projects/xcode/build/Release/libpng.framework/Headers",
+					"$(HOME)/Library/Frameworks/SDL.framework/Headers",
+					/Library/Frameworks/SDL.framework/Headers,
+					"$(HEADER_SEARCH_PATHS)",
+					../source/CommonCode,
+				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
@@ -789,13 +794,10 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_5)",
 					"\"$(SRCROOT)/../libs\"",
+					/usr/local/lib,
+					"\"$(SRCROOT)/../alure-1.2/build\"",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../bass24-osx\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../alure/build\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../alure/build\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../libs\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/../alure/build\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_5 = "\"$(SRCROOT)/../libs\"";
 				PRODUCT_NAME = SLUDGE;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
@@ -816,6 +818,15 @@
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../libpng-1.2.38/projects/xcode/build/Release\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
+				HEADER_SEARCH_PATHS = (
+					"../alure-1.2/include",
+					"../libs/libvpx-v1.0.0",
+					"/Users/rikard/Documents/libpng-1.2.38/projects/xcode/build/Release/libpng.framework/Headers",
+					"$(HOME)/Library/Frameworks/SDL.framework/Headers",
+					/Library/Frameworks/SDL.framework/Headers,
+					"$(HEADER_SEARCH_PATHS)",
+					../source/CommonCode,
+				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
@@ -828,13 +839,10 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_5)",
 					"\"$(SRCROOT)/../libs\"",
+					/usr/local/lib,
+					"\"$(SRCROOT)/../alure-1.2/build\"",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../bass24-osx\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../alure/build\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../alure/build\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../libs\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/../alure/build\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_5 = "\"$(SRCROOT)/../libs\"";
 				PRODUCT_NAME = SLUDGE;
 				WRAPPER_EXTENSION = app;
 			};
