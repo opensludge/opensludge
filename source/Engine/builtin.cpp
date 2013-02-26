@@ -93,7 +93,7 @@ int paramNum[] = {-1, 0, 1, 1, -1, -1,			// say, skipSpeech, statusText, pause, 
 	2, 3, 1, 2, 2, 0, 0, 1, 2, 3, 1, -1,		// extras, mixoverlay, pastebloke, getMScreenX/Y, setSound(Default/-)Volume, looppoints, speechMode, setLightMap
 	-1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1,			// think, getCharacterDirection, is(char/region/moving), deleteGame, renameGame, hardScroll, stringWidth, speechSpeed, normalCharacter
 	2, 1, 2, 1, 3, 1, 1, 2, 1,					// fetchEvent, setBrightness, spin, fontSpace, burnString, captureAll, _rem_cacheSound, setSpinSpeed, transitionMode
-	1, 0, 0, 1, 0, 2, 1, 1, 1,					// movie(Start/Abort/Playing), updateDisplay, getSoundCache, savedata, loaddata, savemode, freeSound
+	1, 0, 0, 1, 0, 2, 1, 1, 1,					// movie(Start/Abort/Playing), updateDisplay, getSoundCache, savedata, loaddata, savemode, _rem_freeSound
 	3, 0, 3, 3, 2, 1, 1,						// setParallax, clearParallax, setBlankColour, setBurnColour, getPixelColour, makeFastArray, getCharacterScale
 	0, 2, 0,									// getLanguage, launchWith, getFramesPerSecond
 	3, 2, 2, 0, 0, 1,							// readThumbnail, setThumbnailSize, hasFlag, snapshot, clearSnapshot, anyFilename
@@ -1317,15 +1317,16 @@ builtIn(stopSound)
 	huntKillSound (v);
 	return BR_CONTINUE;
 }
-builtIn(freeSound)
+builtIn(_rem_freeSound)
 {
 	UNUSEDALL
 	int v;
 	if (! getValueType (v, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	huntKillFreeSound (v);
+	huntKillSound (v);
 	return BR_CONTINUE;
 }
+
 
 builtIn(setDefaultSoundVolume)
 {
@@ -1372,7 +1373,7 @@ builtIn(_rem_cacheSound)
 	return BR_CONTINUE;
 }
 
-builtIn(getSoundCache)
+builtIn(getActiveSounds)
 {
 	UNUSEDALL
 	fun -> reg.varType = SVT_STACK;
