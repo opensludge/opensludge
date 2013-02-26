@@ -92,7 +92,7 @@ int paramNum[] = {-1, 0, 1, 1, -1, -1,			// say, skipSpeech, statusText, pause, 
 	1, 0, 3, 3, 1, 2, 1, 2, 2,					// launch, howFrozen, pastecol, litcol, checksaved, float, cancelfunc, walkspeed, delAll
 	2, 3, 1, 2, 2, 0, 0, 1, 2, 3, 1, -1,		// extras, mixoverlay, pastebloke, getMScreenX/Y, setSound(Default/-)Volume, looppoints, speechMode, setLightMap
 	-1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1,			// think, getCharacterDirection, is(char/region/moving), deleteGame, renameGame, hardScroll, stringWidth, speechSpeed, normalCharacter
-	2, 1, 2, 1, 3, 1, 1, 2, 1,					// fetchEvent, setBrightness, spin, fontSpace, burnString, captureAll, cacheSound, setSpinSpeed, transitionMode
+	2, 1, 2, 1, 3, 1, 1, 2, 1,					// fetchEvent, setBrightness, spin, fontSpace, burnString, captureAll, _rem_cacheSound, setSpinSpeed, transitionMode
 	1, 0, 0, 1, 0, 2, 1, 1, 1,					// movie(Start/Abort/Playing), updateDisplay, getSoundCache, savedata, loaddata, savemode, freeSound
 	3, 0, 3, 3, 2, 1, 1,						// setParallax, clearParallax, setBlankColour, setBurnColour, getPixelColour, makeFastArray, getCharacterScale
 	0, 2, 0,									// getLanguage, launchWith, getFramesPerSecond
@@ -1363,13 +1363,12 @@ builtIn(setSoundLoopPoints)
 	return BR_CONTINUE;
 }
 
-builtIn(cacheSound)
+builtIn(_rem_cacheSound)
 {
 	UNUSEDALL
 	int fileNumber;
 	if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (cacheSound (fileNumber) == -1) return BR_ERROR;
 	return BR_CONTINUE;
 }
 

@@ -72,6 +72,8 @@ extern variableStack * noStack;
 
 int dialogValue = 0;
 
+char * sludgeFile = NULL;
+
 char * gameName = NULL;
 char * gamePath = NULL;
 char *bundleFolder;
@@ -284,8 +286,6 @@ int main(int argc, char *argv[]) try
 	/* Dimensions of our window. */
     winWidth = 640;
     winHeight = 480;
-
-	char * sludgeFile;
 
 	time_t t;
 	srand((unsigned) time(&t));

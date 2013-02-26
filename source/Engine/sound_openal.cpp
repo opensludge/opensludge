@@ -1,7 +1,7 @@
 /*
  * OpenSLUDGE - sound_openal.cpp
  * Copyright (C) Tim Furnish, Rikard Peterson, Tobias Hansen
- * This OpenAL version created 2012 by Rikard Peterson
+ * This OpenAL version created 2012-13 by Rikard Peterson
  *  (partially based on earlier versions)
  *
  * This library is free software; you can redistribute it and/or
@@ -20,6 +20,7 @@
 
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "AL/alure.h"
 
@@ -36,8 +37,10 @@
 #define MAX_SOUNDQS 3
 #define NUM_BUFS 3
 
+extern char * sludgeFile;
+extern uint32_t startOfDataIndex;
+
 bool soundOK = false;
-bool cacheLoopySound = false;
 bool SilenceIKillYou = false;
 
 struct soundThing {
@@ -56,6 +59,97 @@ int defMusicVol = 128;
 int defSoundVol = 255;
 const float modLoudness = 0.95f;
 
+// File IO Callbacks to enable Alure to read our big data file
+struct file_forAlure {
+	FILE *fp;
+    int filenum;
+    long l;
+    long pos;
+};
+
+
+void * open_forAlure(const char *filename, ALuint mode) {
+    fprintf (stderr, "Yay!\n");
+
+    
+    FILE * fp = fopen (sludgeFile, "rb");
+    if (! fp) {
+        fatal ("Can't open file ", sludgeFile);
+        return 0;
+    }
+    
+    int filenum = strtol(filename, NULL, 10);
+    
+	fseek (fp, startOfDataIndex + (filenum << 2), 0);
+	fseek (fp, get4bytes (fp), 1);
+    uint32_t length = get4bytes (fp);
+    if (! length) {
+        fclose (fp);
+        return 0;
+    }
+    
+    file_forAlure * h = new file_forAlure;
+	if (! h) fatal("Out of memory while opening sound file.");
+    h->fp = fp;
+    h->l = length;
+    h->filenum = filenum;
+    h->pos = 0;
+
+    fprintf (stderr, "Length: %d\n", length);
+
+    return h;
+}
+void close_forAlure(void *handle) {
+    file_forAlure *h = (file_forAlure *)handle;
+    fclose(h->fp);
+    delete h;
+}
+ALsizei read_forAlure(void *handle, ALubyte *buf, ALuint bytes) {
+    file_forAlure *h = (file_forAlure *)handle;
+    ALsizei l = 0;
+
+    if (bytes > h->l - h->pos) bytes = h->l - h->pos;
+    
+    l = fread (buf, 1, bytes, h->fp);
+    h->pos = h->pos + l;
+
+    return l;
+}
+ALsizei write_forAlure(void *handle, const ALubyte *buf, ALuint bytes) {
+    fprintf (stderr, "Trying to write!\n");
+    return -1;
+}
+alureInt64 seek_forAlure(void *handle, alureInt64 offset, int whence) {
+    file_forAlure *h = (file_forAlure *)handle;
+    
+    long pos;
+    
+    if (whence == SEEK_SET) {
+        pos = offset;
+    } else if (whence == SEEK_CUR) {
+        pos = offset + h->pos;
+    } else if (whence == SEEK_END) {
+        pos = h->l + offset;
+    } else {
+        fprintf (stderr, "Unexpected seeking attempt!\n");
+        return -1;
+    }
+    
+   // fprintf (stderr, "Seeking to %ld of %ld.\n", pos, h->l);
+    if (pos > h->l) {
+        fprintf (stderr, "Seeking past end.\n");
+        return -1;
+    }
+
+	fseek (h->fp, startOfDataIndex + (h->filenum << 2), 0);
+	fseek (h->fp, get4bytes (h->fp)+4+pos, 1);
+ 
+    h->pos = pos;
+    
+    return pos;
+}
+
+
 /*
  * Set up, tear down:
  */
@@ -68,6 +162,12 @@ bool initSoundStuff () {
 				alureGetErrorString());
 		return 1;
 	}
+    
+    if (!alureSetIOCallbacks(open_forAlure, close_forAlure, read_forAlure, write_forAlure, seek_forAlure)) {
+		debugOut( "Failed to setAlure IO Callbacks: %s\n",
+                 alureGetErrorString());
+		return 1;
+    }
 
 	int a;
 	for (a = 0; a < MAX_SAMPLES; a ++) {
@@ -133,6 +233,8 @@ void killSoundStuff () {
 
 	alureShutdownDevice();
 }
+
+
 
 /*
  * Some setters:
@@ -352,22 +454,33 @@ char * loadEntireFileToMemory (FILE * inputFile, uint32_t size) {
 bool playMOD (int f, int a, int fromTrack) {
 	if (! soundOK) return true;
 	stopMOD (a);
+    
+    fprintf (stderr, "Hello!\n");
 
-	setResourceForFatal (f);
+    char * file = new char [7];
+	if (! checkNew (file)) return false;
+    snprintf(file, 7, "%d", f);
+    fprintf (stderr, "%s", file);
+
+	modCache[a].stream = alureCreateStreamFromFile(file, 19200, 0, NULL);
+/*
+    setResourceForFatal (f);
 	uint32_t length = openFileFromNum (f);
 	if (length == 0) {
 		finishAccess();
 		setResourceForFatal (-1);
 		return false;
 	}
-
+    
 	unsigned char * memImage;
 	memImage = (unsigned char *) loadEntireFileToMemory (bigDataFile, length);
 	if (! memImage) return fatal (ERROR_MUSIC_MEMORY_LOW);
-
+    
 	modCache[a].stream = alureCreateStreamFromMemory(memImage, length, 19200, 0, NULL);
 	delete memImage;
-
+    
+*/
+    
 	if (modCache[a].stream != NULL) {
 		setMusicVolume (a, defMusicVol);
 		if (! alureSetStreamOrder (modCache[a].stream, fromTrack)) {
@@ -378,9 +491,12 @@ bool playMOD (int f, int a, int fromTrack) {
 		playStream (a, true, true);
 
 	} else {
-		debugOut("Failed to create stream from MOD: %s\n",
-						alureGetErrorString());
+//		debugOut("Failed to create stream from MOD: %s\n",
+//						alureGetErrorString());
+		fprintf(stderr, "Failed to create stream from MOD: %s\n",
+                 alureGetErrorString());
 		warning (ERROR_MUSIC_ODDNESS);
+        warning (resourceNameFromNum (f));
 		soundCache[a].stream = NULL;
 		soundCache[a].playing = false;
 		soundCache[a].playingOnSource = 0;
@@ -390,13 +506,14 @@ bool playMOD (int f, int a, int fromTrack) {
 	return true;
 }
 
-bool stillPlayingSound (int ch) {
-	if (soundOK)
+bool stillPlayingSound (int filenum) {
+	if (soundOK) {
+        int ch = findInSoundCache (filenum);
 		if (ch != -1)
 			if (soundCache[ch].fileLoaded != -1)
 				if (soundCache[ch].playing)
 					return true;
-
+    }
 	return false;
 }
 
@@ -454,60 +571,38 @@ int findEmptySoundSlot () {
 	return emptySoundSlot;
 }
 
-int cacheSound (int f) {
+
+
+int openSoundFile (int filenum, bool loopy) {
+    int retVal = 0;
+ 	unsigned int chunkLength = 19200;
+   
 	if (! soundOK) return -1;
+ 	setResourceForFatal (filenum);
 
-	unsigned int chunkLength;
-	int retval;
-	bool loopy;
-
-	loopy = cacheLoopySound;
-	cacheLoopySound = false;
-
-	setResourceForFatal (f);
-
-	if (! soundOK) return 0;
-
-	// Is the sound already in the cache?
-	int a = findInSoundCache (f);
+	// Is the sound already playing?
+	int a = findInSoundCache (filenum);
 	if (a != -1) {
 		if (soundCache[a].playing) {
 			if (! alureStopSource(soundCache[a].playingOnSource, AL_TRUE)) {
 				debugOut( "Failed to stop source: %s\n",
-							alureGetErrorString());
+                         alureGetErrorString());
 			}
 		}
 		if (! alureRewindStream (soundCache[a].stream)) {
 			debugOut( "Failed to rewind stream: %s\n",
-						alureGetErrorString());
+                     alureGetErrorString());
 		}
-
+        
 		return a;
 	}
-	if (f == -2) return -1;
 	a = findEmptySoundSlot ();
 	freeSound (a);
-
-	uint32_t length = openFileFromNum (f);
-	if (! length) return -1;
-
-	unsigned char * memImage;
-
-	bool tryAgain = true;
-
-	while (tryAgain) {
-		memImage = (unsigned char*)loadEntireFileToMemory (bigDataFile, length);
-		tryAgain = memImage == NULL;
-		if (tryAgain) {
-			if (! forceRemoveSound ()) {
-				fatal (ERROR_SOUND_MEMORY_LOW);
-				return -1;
-			}
-		}
-	}
-
-	chunkLength = 19200;
-
+    
+    
+    
+/*
+    
 	// Small looping sounds need small chunklengths.
 	if (loopy) {
 		if (length < NUM_BUFS * chunkLength) {
@@ -516,36 +611,43 @@ int cacheSound (int f) {
 	} else if (length < chunkLength) {
 		chunkLength = length;
 	}
-
-	soundCache[a].stream = alureCreateStreamFromMemory(memImage, length, chunkLength, 0, NULL);
-
-	delete memImage;
-
+    */
+    
+    char * file = new char [7];
+	if (! checkNew (file)) return false;
+    snprintf(file, 7, "%d", filenum);
+    fprintf (stderr, "%s", file);
+    
+	soundCache[a].stream = alureCreateStreamFromFile(file, chunkLength, 0, NULL);
+    
 	if (soundCache[a].stream != NULL) {
-		soundCache[a].fileLoaded = f;
+		soundCache[a].fileLoaded = filenum;
 		setResourceForFatal (-1);
-		retval = a;
+		retVal = a;
 	} else {
 		debugOut("Failed to create stream from sound: %s\n",
-						alureGetErrorString());
+                 alureGetErrorString());
 		warning (ERROR_SOUND_ODDNESS);
+        //warning (resourceNameFromNum (filenum));
+
 		soundCache[a].stream = NULL;
 		soundCache[a].playing = false;
 		soundCache[a].playingOnSource = 0;
 		soundCache[a].fileLoaded = -1;
 		soundCache[a].looping = false;
-		retval = -1;
+		retVal = -1;
 	}
-
-	return retval;
+   
+    
+    return retVal;
 }
+
 
 bool startSound (int f, bool loopy) {
 	if (soundOK) {
-		cacheLoopySound = loopy;
-		int a = cacheSound (f);
+		int a = openSoundFile (f, loopy);
 		if (a == -1) {
-			debugOut( "Failed to cache sound!\n");
+			debugOut( "Failed to open sound file!\n");
 			return false;
 		}
 		soundCache[a].looping = loopy;
@@ -657,10 +759,9 @@ static void list_eos_callback(void *list, ALuint source)
 void playSoundList(soundList *s) {
 	if (soundOK) {
 
-		cacheLoopySound = true;
-		int a = cacheSound (s->sound);
+		int a = openSoundFile (s->sound, true);
 		if (a == -1) {
-			debugOut("Failed to cache sound!\n");
+			debugOut("Failed to open sound file!\n");
 			return;
 		}
 		soundCache[a].looping = false;

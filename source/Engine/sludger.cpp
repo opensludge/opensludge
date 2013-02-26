@@ -1117,7 +1117,7 @@ bool runSludge () {
 		if (! thisFunction -> freezerLevel) {
 			if (thisFunction -> timeLeft) {
 				if (thisFunction -> timeLeft < 0) {
-					if (! stillPlayingSound (findInSoundCache (speech -> lastFile))) {
+					if (! stillPlayingSound (speech -> lastFile)) {
 						thisFunction -> timeLeft = 0;
 					}
 				} else if (! -- (thisFunction -> timeLeft)) {

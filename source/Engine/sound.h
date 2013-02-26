@@ -24,14 +24,13 @@ void setMusicVolume (int channel, int volume);
 void setDefaultMusicVolume (int volume);
 
 // SAMPLES...
-int cacheSound (int f);
 bool startSound (int filenum, bool loopy = false);
 void huntKillSound (int filenum);
 void huntKillFreeSound (int filenum);
 void setSoundVolume (int filenum, int volume);
 void setDefaultSoundVolume (int volume);
 void setSoundLoop (int filenum, int start, int end);
-bool stillPlayingSound (int channel);
+bool stillPlayingSound (int filenum);
 bool getSoundCacheStack (stackHandler * sH);
 int findInSoundCache (int filenum);
 
