@@ -56,16 +56,20 @@
 			}
 			if (path) {	
 				NSURL *file = [NSURL fileURLWithPath: path];
-				NSError **err;
+				NSError *err;
 				
 				if ([self saveToURL: [file absoluteURL] 
 							 ofType: [self fileType]
 				   forSaveOperation: NSSaveOperation 
-							  error: err]) {
+							  error: &err]) {
 					
 					[p addNamedFileToProject: file];
 					project = p;
 				}
+                if (err) {
+                    [NSApp presentError:err];
+                }
+
 			}
 		} else {
 			// File exists ... look for it in project!

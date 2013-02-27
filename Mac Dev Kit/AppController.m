@@ -51,8 +51,12 @@ AppController *aC;
 	if (path) {	
 		NSURL *file = [NSURL fileURLWithPath: path];
 		NSDocumentController *docControl = [NSDocumentController sharedDocumentController];
-		NSError **err;
-		NSDocument *project = [docControl makeDocumentWithContentsOfURL:file ofType:@"SLUDGE Project file" error:err];
+		NSError *err = nil;
+		NSDocument *project = [docControl makeDocumentWithContentsOfURL:file ofType:@"com.hungrysoftware.sludge-project" error:&err];
+        if (err) {
+            [NSApp presentError:err];
+        }
+        
 		if (project) {
 			[docControl addDocument: project];
 			[project makeWindowControllers];
@@ -64,8 +68,15 @@ AppController *aC;
 - (IBAction)scriptNew:(id)sender
 {
 	NSDocumentController *docControl = [NSDocumentController sharedDocumentController];
-	NSError **err;
-	SLUDGE_Document *doc = [docControl makeUntitledDocumentOfType:@"SLUDGE Script" error:err];
+	NSError *err = nil;
+        
+	SLUDGE_Document *doc = [docControl makeUntitledDocumentOfType:@"com.hungrysoftware.sludge-script" error:&err];
+    
+    if (err) {
+        [NSApp presentError:err];
+        return;
+    }
+    
 	[docControl addDocument: doc];
 	[doc makeWindowControllers];
 	[doc showWindows];
@@ -75,8 +86,12 @@ AppController *aC;
 - (IBAction)spriteBankNew:(id)sender
 {
 	NSDocumentController *docControl = [NSDocumentController sharedDocumentController];
-	NSError **err;
-	SpriteBank *doc = [docControl makeUntitledDocumentOfType:@"SLUDGE Sprite Bank" error:err];
+	NSError *err = nil;
+	SpriteBank *doc = [docControl makeUntitledDocumentOfType:@"com.hungrysoftware.sludge-spritebank" error:&err];
+    if (err) {
+        [NSApp presentError:err];
+        return;
+    }
 	[docControl addDocument: doc];
 	[doc makeWindowControllers];
 	[doc showWindows];
@@ -84,8 +99,12 @@ AppController *aC;
 - (IBAction)spriteBankFontify:(id)sender
 {
 	NSDocumentController *docControl = [NSDocumentController sharedDocumentController];
-	NSError **err;
-	SpriteBank *doc = [docControl makeUntitledDocumentOfType:@"SLUDGE Sprite Bank" error:err];
+	NSError *err = nil;
+	SpriteBank *doc = [docControl makeUntitledDocumentOfType:@"com.hungrysoftware.sludge-spritebank" error:&err];
+    if (err) {
+        [NSApp presentError:err];
+        return;
+    }
 	[docControl addDocument: doc];
 	[doc makeWindowControllers];
 	[doc showWindows];
@@ -94,8 +113,12 @@ AppController *aC;
 - (IBAction)floorNew:(id)sender
 {
 	NSDocumentController *docControl = [NSDocumentController sharedDocumentController];
-	NSError **err;
-	SLUDGE_Document *doc = [docControl makeUntitledDocumentOfType:@"SLUDGE Floor" error:err];
+	NSError *err = nil;
+	SLUDGE_Document *doc = [docControl makeUntitledDocumentOfType:@"com.hungrysoftware.sludge-floor" error:&err];
+    if (err) {
+        [NSApp presentError:err];
+        return;
+    }
 	[docControl addDocument: doc];
 	[doc makeWindowControllers];
 	[doc showWindows];
@@ -103,8 +126,12 @@ AppController *aC;
 - (IBAction)translationNew:(id)sender
 {
 	NSDocumentController *docControl = [NSDocumentController sharedDocumentController];
-	NSError **err;
-	SLUDGE_Document *doc = [docControl makeUntitledDocumentOfType:@"SLUDGE Translation file" error:err];
+	NSError *err = nil;
+	SLUDGE_Document *doc = [docControl makeUntitledDocumentOfType:@"com.hungrysoftware.sludge-translation" error:&err];
+    if (err) {
+        [NSApp presentError:err];
+        return;
+    }
 	[docControl addDocument: doc];
 	[doc makeWindowControllers];
 	[doc showWindows];
@@ -112,8 +139,12 @@ AppController *aC;
 - (IBAction)zBufferNew:(id)sender
 {
 	NSDocumentController *docControl = [NSDocumentController sharedDocumentController];
-	NSError **err;
-	SLUDGE_Document *doc = [docControl makeUntitledDocumentOfType:@"SLUDGE zBuffer" error:err];
+	NSError *err = nil;
+	SLUDGE_Document *doc = [docControl makeUntitledDocumentOfType:@"com.hungrysoftware.sludge-zbuf" error:&err];
+    if (err) {
+        [NSApp presentError:err];
+        return;
+    }
 	[docControl addDocument: doc];
 	[doc makeWindowControllers];
 	[doc showWindows];

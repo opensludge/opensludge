@@ -663,16 +663,14 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 105;
+				CURRENT_PROJECT_VERSION = 106;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(HOME)/Library/Frameworks",
 					/Library/Frameworks,
 					"$(FRAMEWORK_SEARCH_PATHS)",
 				);
-				GCC_ENABLE_SSE3_EXTENSIONS = YES;
-				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 3;
-				GCC_VERSION = 4.0;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_MISSING_PARENTHESES = NO;
 				GCC_WARN_UNUSED_FUNCTION = YES;
@@ -685,7 +683,7 @@
 					"$(HEADER_SEARCH_PATHS)",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				SDKROOT = macosx;
+				SDKROOT = "";
 				USER_HEADER_SEARCH_PATHS = "$(inherited) ../source/CommonCode";
 				VERSIONING_SYSTEM = "";
 			};
@@ -700,10 +698,8 @@
 					/Library/Frameworks,
 					"$(FRAMEWORK_SEARCH_PATHS)",
 				);
-				GCC_ENABLE_SSE3_EXTENSIONS = YES;
-				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 3;
-				GCC_VERSION = 4.0;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_MISSING_PARENTHESES = NO;
 				GCC_WARN_UNUSED_FUNCTION = YES;
@@ -716,7 +712,7 @@
 					"$(HEADER_SEARCH_PATHS)",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				SDKROOT = macosx;
+				SDKROOT = "";
 				USER_HEADER_SEARCH_PATHS = "$(inherited) ../source/CommonCode";
 				VERSIONING_SYSTEM = "";
 			};

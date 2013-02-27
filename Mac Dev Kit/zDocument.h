@@ -6,6 +6,7 @@
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
+#include "glee.h"
 #import <Cocoa/Cocoa.h>
 #import "SLUDGE Document.h"
 
@@ -19,8 +20,7 @@
 //
 
 
-//#include <OpenGL/gl.h>
-#include "glee.h"
+// #include <OpenGL/gl.h>
 #import <Cocoa/Cocoa.h>
 #include "sprites.h"
 

@@ -70,8 +70,7 @@ NSModalSession session = nil;
 			  error:(NSError **)outError
 {
     
-    fprintf(stderr, "Type: %s", [typeName UTF8String]);
-	if ([typeName isEqualToString:@"com.hungrysoftware.sludge-project"]) {	
+	if ([typeName isEqualToString:@"com.hungrysoftware.sludge-project"]) {
 		UInt8 buffer[1024];
 		if (CFURLGetFileSystemRepresentation((CFURLRef) absoluteURL, true, buffer, 1023)) {
 			if (loadProject ((char *) buffer, fileList, &fileListNum)) {

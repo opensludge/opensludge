@@ -49,7 +49,7 @@
 			<key>NSDocumentClass</key>
 			<string>ScriptDocument</string>
 			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
+			<string>NSBinaryStoreType</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -220,27 +220,6 @@
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
-				<string>public.utf8-plain-text</string>
-				<string>public.script</string>
-			</array>
-			<key>UTTypeDescription</key>
-			<string>SLUDGE Script</string>
-			<key>UTTypeIconFile</key>
-			<string>scriptIcon.icns</string>
-			<key>UTTypeIdentifier</key>
-			<string>com.hungrysoftware.sludge-script</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<array>
-					<string>slu</string>
-					<string>sld</string>
-				</array>
-			</dict>
-		</dict>
-		<dict>
-			<key>UTTypeConformsTo</key>
-			<array>
 				<string>public.data</string>
 			</array>
 			<key>UTTypeDescription</key>
@@ -327,6 +306,27 @@
 			<dict>
 				<key>public.filename-extension</key>
 				<string>tra</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+				<string>public.utf8-plain-text</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>SLUDGE Script</string>
+			<key>UTTypeIconFile</key>
+			<string>scriptIcon</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.hungrysoftware.sludge-script</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>slu</string>
+					<string>sld</string>
+				</array>
 			</dict>
 		</dict>
 	</array>
