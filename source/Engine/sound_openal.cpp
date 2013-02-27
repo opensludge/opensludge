@@ -37,6 +37,7 @@
 #define MAX_SOUNDQS 3
 #define NUM_BUFS 3
 
+// Variables from fileset.cpp, for accessing the datafile.
 extern char * sludgeFile;
 extern uint32_t startOfDataIndex;
 
@@ -268,10 +269,6 @@ void setDefaultSoundVolume (int v) {
 	defSoundVol = v;
 }
 
-void setSoundLoop (int a, int s, int e) {
-//#pragma unused (a,s,e)
-}
-
 /*
  * End of stream callbacks:
  */
@@ -455,31 +452,14 @@ bool playMOD (int f, int a, int fromTrack) {
 	if (! soundOK) return true;
 	stopMOD (a);
     
-    fprintf (stderr, "Hello!\n");
-
     char * file = new char [7];
 	if (! checkNew (file)) return false;
     snprintf(file, 7, "%d", f);
     fprintf (stderr, "%s", file);
 
 	modCache[a].stream = alureCreateStreamFromFile(file, 19200, 0, NULL);
-/*
-    setResourceForFatal (f);
-	uint32_t length = openFileFromNum (f);
-	if (length == 0) {
-		finishAccess();
-		setResourceForFatal (-1);
-		return false;
-	}
     
-	unsigned char * memImage;
-	memImage = (unsigned char *) loadEntireFileToMemory (bigDataFile, length);
-	if (! memImage) return fatal (ERROR_MUSIC_MEMORY_LOW);
-    
-	modCache[a].stream = alureCreateStreamFromMemory(memImage, length, 19200, 0, NULL);
-	delete memImage;
-    
-*/
+    delete file;
     
 	if (modCache[a].stream != NULL) {
 		setMusicVolume (a, defMusicVol);
@@ -491,12 +471,10 @@ bool playMOD (int f, int a, int fromTrack) {
 		playStream (a, true, true);
 
 	} else {
-//		debugOut("Failed to create stream from MOD: %s\n",
-//						alureGetErrorString());
-		fprintf(stderr, "Failed to create stream from MOD: %s\n",
-                 alureGetErrorString());
+		debugOut("Failed to create stream from MOD: %s\n",
+						alureGetErrorString());
 		warning (ERROR_MUSIC_ODDNESS);
-        warning (resourceNameFromNum (f));
+//        warning (resourceNameFromNum (f));
 		soundCache[a].stream = NULL;
 		soundCache[a].playing = false;
 		soundCache[a].playingOnSource = 0;
@@ -556,7 +534,6 @@ int findEmptySoundSlot () {
 	}
 
 	// Argh! They're all playing! Let's trash the oldest that's not looping...
-
 	for (t = 3; t < MAX_SAMPLES; t ++) {
 		emptySoundSlot ++;
 		emptySoundSlot %= MAX_SAMPLES;
@@ -564,7 +541,6 @@ int findEmptySoundSlot () {
 	}
 
 	// Holy crap, they're all looping! What's this twat playing at?
-
 	emptySoundSlot ++;
 	if (emptySoundSlot >= MAX_SAMPLES) emptySoundSlot = 3;
 	
@@ -599,11 +575,9 @@ int openSoundFile (int filenum, bool loopy) {
 	a = findEmptySoundSlot ();
 	freeSound (a);
     
-    
-    
-/*
-    
 	// Small looping sounds need small chunklengths.
+    unsigned int length = openFileFromNum (filenum);
+    finishAccess();
 	if (loopy) {
 		if (length < NUM_BUFS * chunkLength) {
 			chunkLength = length / NUM_BUFS;
@@ -611,7 +585,6 @@ int openSoundFile (int filenum, bool loopy) {
 	} else if (length < chunkLength) {
 		chunkLength = length;
 	}
-    */
     
     char * file = new char [7];
 	if (! checkNew (file)) return false;
@@ -619,6 +592,8 @@ int openSoundFile (int filenum, bool loopy) {
     fprintf (stderr, "%s", file);
     
 	soundCache[a].stream = alureCreateStreamFromFile(file, chunkLength, 0, NULL);
+    
+    delete file;
     
 	if (soundCache[a].stream != NULL) {
 		soundCache[a].fileLoaded = filenum;
@@ -637,7 +612,6 @@ int openSoundFile (int filenum, bool loopy) {
 		soundCache[a].looping = false;
 		retVal = -1;
 	}
-   
     
     return retVal;
 }

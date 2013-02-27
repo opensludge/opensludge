@@ -29,7 +29,6 @@ void huntKillSound (int filenum);
 void huntKillFreeSound (int filenum);
 void setSoundVolume (int filenum, int volume);
 void setDefaultSoundVolume (int volume);
-void setSoundLoop (int filenum, int start, int end);
 bool stillPlayingSound (int filenum);
 bool getSoundCacheStack (stackHandler * sH);
 int findInSoundCache (int filenum);

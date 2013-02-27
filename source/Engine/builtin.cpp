@@ -1350,7 +1350,7 @@ builtIn(setSoundVolume)
 	return BR_CONTINUE;
 }
 
-builtIn(setSoundLoopPoints)
+builtIn(_rem_setSoundLoopPoints)
 {
 	UNUSEDALL
 	int musChan, theEnd, theStart;
@@ -1360,7 +1360,7 @@ builtIn(setSoundLoopPoints)
 	trimStack (fun -> stack);
 	if (! getValueType (musChan, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	setSoundLoop (musChan, theStart, theEnd);
+	//setSoundLoop (musChan, theStart, theEnd);
 	return BR_CONTINUE;
 }
 

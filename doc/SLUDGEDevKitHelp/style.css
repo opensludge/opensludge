@@ -59,7 +59,8 @@ P.copyright-notice {
 }
 
 .syntax-deprecated {
-	font-size:x-large;
+	font-size:medium;
+    text-decoration: line-through;
 	color:#FF8888;
 }
 

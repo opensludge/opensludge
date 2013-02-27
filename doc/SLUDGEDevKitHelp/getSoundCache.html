@@ -1,41 +1,41 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-<TITLE>getSoundCache</TITLE>
+<TITLE>getActiveSounds</TITLE>
   <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 <BODY>
 <HR>
 <div align="center"><img id="headerGraphic" src="images/sludge300.png" alt="SLUDGE"/></div>
-<h2>getSoundCache</h2>
+<h2>getActiveSounds</h2>
 <HR>
 
 <H3>Syntax:</H3>
 
 <P>
-<pre class="syntax">getSoundCache ();</pre>
+<pre class="syntax">getActiveSounds ();</pre>
+</P>
+
+<P>
+<pre class="syntax-deprecated">getSoundCache (); * This function used to be called getSoundCache.</pre>
 </P>
 
 <H3>Purpose:</H3>
 
 <P>
-Finds out which samples are currently cached.
+Finds out which samples are currently playing.
 </P>
 
 <H3>Return value:</H3>
 
 <P>
-The function returns a <a href="The_Multi-Purpose_Stack___Array___Queue_Type.html">stack</a> containing up to 8 file handles, one for each sample which is in the cache. You can subsequently loop through this stack to change the volume of or stop all active samples (as a sample must be in the cache in order for it to be playing).
+The function returns a <a href="The_Multi-Purpose_Stack___Array___Queue_Type.html">stack</a> containing up to 8 file handles, one for each sample which is currently playing. You can subsequently loop through this stack to change the volume of or stop all active samples.
 </P>
 
 <H3>See also:</H3>
 
 <P>
 <a href="The_Multi-Purpose_Stack___Array___Queue_Type.html">The Multi-Purpose Stack / Array / Queue Type</a>
-</P>
-
-<P>
-<a href="cacheSound.html">cacheSound</a>
 </P>
 
 <P>
@@ -46,7 +46,7 @@ The function returns a <a href="The_Multi-Purpose_Stack___Array___Queue_Type.htm
 <a href="stopSound.html">stopSound</a>
 </P>
 
-<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2012
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2013
 </P>
 
 <HR>

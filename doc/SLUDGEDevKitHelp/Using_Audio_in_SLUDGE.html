@@ -30,17 +30,7 @@ When sampled sounds are played using either of the above functions, they are pla
 </P>
 
 <P>
-After a sound has started playing, its volume can be changed using <a href="setSoundVolume.html">setSoundVolume</a> and the function <a href="setSoundLoopPoints.html">setSoundLoopPoints</a> can be used to change the start and end points at which a sample played using <a href="loopSound.html">loopSound</a> loops.
-</P>
-
-<H3>Preloading sounds before you need them:</H3>
-
-<P>
-You can use the <a href="cacheSound.html">cacheSound</a> function to load (and, if required, decompress) a sound file into memory without playing it. This means there's no pause when you actually come to play the sound, because it's already been loaded.
-</P>
-
-<P>
-Using the <a href="freeSound.html">freeSound</a> function you can also remove sounds from the cache once you no longer need them, although this is only really worthwhile for huge sounds (music, for example). Sounds are also removed from the cache automatically once they become old - it can only hold 8 files at once. Call <a href="getSoundCache.html">getSoundCache</a> to determine the contents of the cache at any given moment.
+After a sound has started playing, its volume can be changed using <a href="setSoundVolume.html">setSoundVolume</a>.
 </P>
 
 <H3>Stopping one sound when starting another:</H3>
@@ -97,7 +87,7 @@ Like sampled sounds, SLUDGE can set the default volume at which songs will start
 <a href="playMovie.html">playMovie</a>
 </P>
 
-<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2012
+<P class="copyright-notice">SLUDGE and this SLUDGE documentation are <A HREF="Copyright.html">copyright</A> Hungry Software and contributors 2000-2013
 </P>
 
 <HR>
