@@ -939,7 +939,7 @@ movieHasEnded:	movieIsEnding = 1;
 	// Cleanup
 	movieIsPlaying = nothing;
 	for (int i =0; i<10; i++) Wait_Frame();
-	huntKillFreeSound(fileNumber);
+	huntKillSound(fileNumber);
     if(vpx_codec_destroy(&codec))
         die_codec(&codec, "Failed to destroy codec");
 	vorbis_dsp_clear(&vorbisDspState);

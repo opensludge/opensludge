@@ -76,34 +76,36 @@ extern unsigned int currentBlankColour;
 extern unsigned int languageID;
 extern unsigned char currentBurnR, currentBurnG, currentBurnB;
 
-int paramNum[] = {-1, 0, 1, 1, -1, -1,			// say, skipSpeech, statusText, pause, onLeftMouse, onRightMouse
-	1, 3, 4,									// setCursor, addOverlay, addCharacter
-	1, 0, 0, 8, -1,								// playSound, getMouseX, getMouseY, addSCreenRegion, onMouseMove
-	-1, 0, 0, -1,								// onFocusChange, getOverObject, blankScreen, moveCharacter
-	-1, 1, 1, 1, 1,								// onKeyboard, getObjectX, getObjectY, random, spawnSub
-	4, 1, 1, 2, 1,								// blankArea, hideCharacter, showCharacter, callEvent, removeScreenregion
-	2, 2, 0, 0, 2,								// animate, turnCharacter, removeAllCharacters, removeAllScreenRegions, setScale
-	-1, 2, 1, 0, 0, 0, 1, 0, 3, 				// new/push/pop stack, status stuff
-	2, 0, 0, 3, 1, 0, 2,						// delFromStack -> completeTimers
-	-1, -1, -1, 2, 2, 0, 3, 1, 					// anim, costume, pO, setC, wait, sS, substring, stringLength
-	0, 1, 1, 0, 2,  							// dark, save, load, quit, rename
+int paramNum[] = {-1, 0, 1, 1, -1, -1,	// say, skipSpeech, statusText, pause, onLeftMouse, onRightMouse
+	1, 3, 4,							// setCursor, addOverlay, addCharacter
+	1, 0, 0, 8, -1,						// playSound, getMouseX, getMouseY, addSCreenRegion, onMouseMove
+	-1, 0, 0, -1,						// onFocusChange, getOverObject, blankScreen, moveCharacter
+	-1, 1, 1, 1, 1,						// onKeyboard, getObjectX, getObjectY, random, spawnSub
+	4, 1, 1, 2, 1,						// blankArea, hideCharacter, showCharacter, callEvent, removeScreenregion
+	2, 2, 0, 0, 2,						// animate, turnCharacter, removeAllCharacters, removeAllScreenRegions, setScale
+	-1, 2, 1, 0, 0, 0, 1, 0, 3, 		// new/push/pop stack, status stuff
+	2, 0, 0, 3, 1, 0, 2,				// delFromStack -> completeTimers
+	-1, -1, -1, 2, 2, 0, 3, 1, 			// anim, costume, pO, setC, wait, sS, substring, stringLength
+	0, 1, 1, 0, 2,  					// dark, save, load, quit, rename
 	1, 3, 3, 1, 2, 1, 1, 3, 1, 0, 0, 2, 1,		// stackSize, pasteString, startMusic, defvol, vol, stopmus, stopsound, setfont, alignStatus, show x 2, pos'Status, setFloor
 	-1, -1, 1, 1, 2, 1, 1, 1, -1, -1, 1, 1, 1,	// force, jump, peekstart, peekend, enqueue, getSavedGames, inFont, loopSound, removeChar, stopCharacter
-	1, 0, 3, 3, 1, 2, 1, 2, 2,					// launch, howFrozen, pastecol, litcol, checksaved, float, cancelfunc, walkspeed, delAll
-	2, 3, 1, 2, 2, 0, 0, 1, 2, 3, 1, -1,		// extras, mixoverlay, pastebloke, getMScreenX/Y, setSound(Default/-)Volume, looppoints, speechMode, setLightMap
-	-1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1,			// think, getCharacterDirection, is(char/region/moving), deleteGame, renameGame, hardScroll, stringWidth, speechSpeed, normalCharacter
-	2, 1, 2, 1, 3, 1, 1, 2, 1,					// fetchEvent, setBrightness, spin, fontSpace, burnString, captureAll, _rem_cacheSound, setSpinSpeed, transitionMode
-	1, 0, 0, 1, 0, 2, 1, 1, 1,					// movie(Start/Abort/Playing), updateDisplay, getSoundCache, savedata, loaddata, savemode, _rem_freeSound
-	3, 0, 3, 3, 2, 1, 1,						// setParallax, clearParallax, setBlankColour, setBurnColour, getPixelColour, makeFastArray, getCharacterScale
-	0, 2, 0,									// getLanguage, launchWith, getFramesPerSecond
-	3, 2, 2, 0, 0, 1,							// readThumbnail, setThumbnailSize, hasFlag, snapshot, clearSnapshot, anyFilename
-	2, 1,										// regGet, fatal
-	4, 3, -1, 0,								// chr AA, max AA, setBackgroundEffect, doBackgroundEffect
-	2,											// setCharacterAngleOffset
-	2, 5,										// setCharacterTransparency, setCharacterColourise
-	1,											// zoomCamera
-	1, 0, 0,									// playMovie, stopMovie, pauseMovie
-	2, 2										// rotateCharacter, ponder
+	1, 0, 3, 3, 1, 2, 1, 2, 2,				// launch, howFrozen, pastecol, litcol, checksaved, float, cancelfunc, walkspeed, delAll
+	2, 3, 1, 2, 2, 0, 0, 1, 2, 3, 1, -1,	// extras, mixoverlay, pastebloke, getMScreenX/Y, setSound(Default/-)Volume, looppoints, speechMode, setLightMap
+	-1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1,		// think, getCharacterDirection, is(char/region/moving), deleteGame, renameGame, hardScroll, stringWidth, speechSpeed, normalCharacter
+	2, 1, 2, 1, 3, 1, 1, 2, 1,				// fetchEvent, setBrightness, spin, fontSpace, burnString, captureAll, _rem_cacheSound, setSpinSpeed, transitionMode
+	1, 0, 0, 1, 0, 2, 1, 1, 1,				// movie(Start/Abort/Playing), updateDisplay, getActiveSounds, savedata, loaddata, savemode, _rem_freeSound
+	3, 0, 3, 3, 2, 1, 1,					// setParallax, clearParallax, setBlankColour, setBurnColour, getPixelColour, makeFastArray, getCharacterScale
+	0, 2, 0,			// getLanguage, launchWith, getFramesPerSecond
+	3, 2, 2, 0, 0, 1,	// readThumbnail, setThumbnailSize, hasFlag, snapshot, clearSnapshot, anyFilename
+	2, 1,				// regGet, fatal
+	4, 3, -1, 0,		// chr AA, max AA, setBackgroundEffect, doBackgroundEffect
+	2, 2, 5,			// setCharacterAngleOffset, setCharacterTransparency, setCharacterColourise
+	1,					// zoomCamera
+	1, 0, 0,            // playMovie, stopMovie, pauseMovie
+	2, 2,               // rotateCharacter, ponder
+    2, 2, 1, 1, 1,      // addSoundQ, replaceSoundQ, stopSoundQ, pauseSoundQ, resumeSoundQ
+    2, 2, 1,            // setSoundQLoop, setSoundQVolume, setDefaultSoundQVolume
+    1, 1                // getSoundQInfo, skipSoundQ
 };
 
 bool failSecurityCheck (char * fn) {
@@ -1320,11 +1322,7 @@ builtIn(stopSound)
 builtIn(_rem_freeSound)
 {
 	UNUSEDALL
-	int v;
-	if (! getValueType (v, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
-	trimStack (fun -> stack);
-	huntKillSound (v);
-	return BR_CONTINUE;
+    return builtIn_stopSound(numParams, fun);
 }
 
 
@@ -1353,22 +1351,15 @@ builtIn(setSoundVolume)
 builtIn(_rem_setSoundLoopPoints)
 {
 	UNUSEDALL
-	int musChan, theEnd, theStart;
-	if (! getValueType (theEnd, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (theStart, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (! getValueType (musChan, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	//setSoundLoop (musChan, theStart, theEnd);
 	return BR_CONTINUE;
 }
 
 builtIn(_rem_cacheSound)
 {
 	UNUSEDALL
-	int fileNumber;
-	if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	return BR_CONTINUE;
 }
@@ -1382,11 +1373,116 @@ builtIn(getActiveSounds)
 	fun -> reg.varData.theStack -> first = NULL;
 	fun -> reg.varData.theStack -> last = NULL;
 	fun -> reg.varData.theStack -> timesUsed = 1;
-	if (! getSoundCacheStack (fun -> reg.varData.theStack)) return BR_ERROR;
+	if (! getActiveSounds (fun -> reg.varData.theStack)) return BR_ERROR;
 	return BR_CONTINUE;
 }
 
 
+builtIn(addSoundQ)
+{
+	UNUSEDALL
+	int fileNumber, ch;
+	if (! getValueType (ch, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
+	trimStack (fun -> stack);
+	if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
+	trimStack (fun -> stack);
+    addSoundQ(fileNumber, ch);
+	return BR_CONTINUE;
+}
+builtIn(replaceSoundQ)
+{
+	UNUSEDALL
+	int fileNumber, ch;
+	if (! getValueType (ch, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
+	trimStack (fun -> stack);
+	if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
+	trimStack (fun -> stack);
+    replaceSoundQ(fileNumber, ch);
+	return BR_CONTINUE;
+}
+builtIn(stopSoundQ)
+{
+	UNUSEDALL
+	int ch;
+	if (! getValueType (ch, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
+	trimStack (fun -> stack);
+    stopSoundQ(ch);
+	return BR_CONTINUE;
+}
+builtIn(pauseSoundQ)
+{
+	UNUSEDALL
+	int ch;
+	if (! getValueType (ch, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
+	trimStack (fun -> stack);
+    pauseSoundQ(ch);
+	return BR_CONTINUE;
+}
+builtIn(resumeSoundQ)
+{
+	UNUSEDALL
+	int ch;
+	if (! getValueType (ch, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
+	trimStack (fun -> stack);
+    resumeSoundQ(ch);
+	return BR_CONTINUE;
+}
+builtIn(setSoundQLoop)
+{
+	UNUSEDALL
+	int loopHow, ch;
+	if (! getValueType (ch, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
+	trimStack (fun -> stack);
+	if (! getValueType (loopHow, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
+	trimStack (fun -> stack);
+    setSoundQLoop(loopHow, ch);
+	return BR_CONTINUE;
+}
+builtIn(setSoundQVolume)
+{
+	UNUSEDALL
+	int v, ch;
+	if (! getValueType (ch, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
+	trimStack (fun -> stack);
+	if (! getValueType (v, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
+	trimStack (fun -> stack);
+    setSoundQVolume (v, ch);
+	return BR_CONTINUE;
+}
+builtIn(setDefaultSoundQVolume)
+{
+	UNUSEDALL
+	int v;
+	if (! getValueType (v, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
+	trimStack (fun -> stack);
+    setDefaultSoundQVolume (v);
+	return BR_CONTINUE;
+}
+builtIn(getSoundQInfo)
+{
+	UNUSEDALL
+    int ch;
+	if (! getValueType (ch, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
+	trimStack (fun -> stack);
+	fun -> reg.varType = SVT_STACK;
+	fun -> reg.varData.theStack = new stackHandler;
+	if (! checkNew (fun -> reg.varData.theStack)) return BR_ERROR;
+	fun -> reg.varData.theStack -> first = NULL;
+	fun -> reg.varData.theStack -> last = NULL;
+	fun -> reg.varData.theStack -> timesUsed = 1;
+	if (! getSoundQInfo (fun -> reg.varData.theStack)) return BR_ERROR;
+	return BR_CONTINUE;
+}
+builtIn(skipSoundQ)
+{
+	UNUSEDALL
+	int ch;
+	if (! getValueType (ch, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
+	trimStack (fun -> stack);
+    int ended = skipSoundQ (ch);
+    setVariable (fun -> reg, SVT_INT, ended);
+	return BR_CONTINUE;
+}
 
 #pragma mark -
 #pragma mark Extra room bits

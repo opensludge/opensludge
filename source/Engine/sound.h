@@ -5,7 +5,7 @@ struct soundList {
 	int sound;
 	struct soundList * next;
 	struct soundList * prev;
-	int cacheIndex;
+	int ch;
 	int vol;
 };
 soundList *deleteSoundFromList (soundList *s);
@@ -26,14 +26,27 @@ void setDefaultMusicVolume (int volume);
 // SAMPLES...
 bool startSound (int filenum, bool loopy = false);
 void huntKillSound (int filenum);
-void huntKillFreeSound (int filenum);
 void setSoundVolume (int filenum, int volume);
 void setDefaultSoundVolume (int volume);
 bool stillPlayingSound (int filenum);
-bool getSoundCacheStack (stackHandler * sH);
-int findInSoundCache (int filenum);
+bool getActiveSounds (stackHandler * sH);
+int findSoundChannel (int filenum);
+
+// SOUND Queues...
+void addSoundQ(int filenum, int ch);
+void replaceSoundQ(int filenum, int ch);
+void stopSoundQ(int ch);
+void pauseSoundQ(int ch);
+void resumeSoundQ(int ch);
+void setSoundQLoop(int loopHow, int ch);
+void setSoundQVolume (int volume, int ch);
+void setDefaultSoundQVolume (int volume);
+bool getSoundQInfo (stackHandler * sH);
+bool skipSoundQ (int ch);
+
 
 void loadSounds (FILE * fp);
 void saveSounds (FILE * fp);
 
 unsigned int getSoundSource(int index);
+
