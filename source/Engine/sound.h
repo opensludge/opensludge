@@ -1,18 +1,5 @@
 #include "variable.h"
 
-// Sound list stuff
-struct soundList {
-	int sound;
-	struct soundList * next;
-	struct soundList * prev;
-	int ch;
-	int vol;
-};
-soundList *deleteSoundFromList (soundList *s);
-void playSoundList(soundList *s);
-
-
-
 // GENERAL...
 bool initSoundStuff ();
 void killSoundStuff ();
@@ -40,8 +27,7 @@ void pauseSoundQ(int ch);
 void resumeSoundQ(int ch);
 void setSoundQLoop(int loopHow, int ch);
 void setSoundQVolume (int volume, int ch);
-void setDefaultSoundQVolume (int volume);
-bool getSoundQInfo (stackHandler * sH);
+bool getSoundQInfo (stackHandler * sH, int ch);
 bool skipSoundQ (int ch);
 
 

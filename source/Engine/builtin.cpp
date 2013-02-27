@@ -104,8 +104,7 @@ int paramNum[] = {-1, 0, 1, 1, -1, -1,	// say, skipSpeech, statusText, pause, on
 	1, 0, 0,            // playMovie, stopMovie, pauseMovie
 	2, 2,               // rotateCharacter, ponder
     2, 2, 1, 1, 1,      // addSoundQ, replaceSoundQ, stopSoundQ, pauseSoundQ, resumeSoundQ
-    2, 2, 1,            // setSoundQLoop, setSoundQVolume, setDefaultSoundQVolume
-    1, 1                // getSoundQInfo, skipSoundQ
+    2, 2, 1, 1          // setSoundQLoop, setSoundQVolume, getSoundQInfo, skipSoundQ
 };
 
 bool failSecurityCheck (char * fn) {
@@ -1259,55 +1258,10 @@ builtIn(loopSound)
 	UNUSEDALL
 	int fileNumber;
 
-	if (numParams < 1) {
-		fatal ("Built-in function loopSound() must have at least 1 parameter.");
-		return BR_ERROR;
-	} else if (numParams < 2) {
-
-		if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
-		trimStack (fun -> stack);
-		if (! startSound (fileNumber, true)) return BR_CONTINUE;	// Was BR_ERROR
-		return BR_CONTINUE;
-	} else {
-		// We have more than one sound to play!
-
-		int doLoop = 2;
-		soundList *s = NULL;
-		soundList * old = NULL;
-
-		// Should we loop?
-		if (fun->stack->thisVar.varType != SVT_FILE) {
-			getValueType (doLoop, SVT_INT, fun -> stack -> thisVar);
-			trimStack (fun -> stack);
-			numParams--;
-		}
-		while (numParams) {
-			if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) {
-				fatal ("Illegal parameter given built-in function loopSound().");
-				return BR_ERROR;
-			}
-			s = new soundList;
-			if (! checkNew (s)) return BR_ERROR;
-
-			s-> next = old;
-			s-> prev = NULL;
-			s-> sound = fileNumber;
-			old = s;
-
-			trimStack(fun->stack);
-			numParams--;
-		}
-		while (s->next) s = s-> next;
-		if (doLoop > 1) {
-			s->next = old;
-			old->prev = s;
-		} else if (doLoop) {
-			s->next = s;
-		}
-		old->vol = -1;
-		playSoundList(old);
-		return BR_CONTINUE;
-	}
+    if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
+    trimStack (fun -> stack);
+    if (! startSound (fileNumber, true)) return BR_CONTINUE;	// Was BR_ERROR
+    return BR_CONTINUE;
 }
 
 builtIn(stopSound)
@@ -1325,17 +1279,6 @@ builtIn(_rem_freeSound)
     return builtIn_stopSound(numParams, fun);
 }
 
-
-builtIn(setDefaultSoundVolume)
-{
-	UNUSEDALL
-	int v;
-	if (! getValueType (v, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
-	trimStack (fun -> stack);
-	setDefaultSoundVolume (v);
-	return BR_CONTINUE;
-}
-
 builtIn(setSoundVolume)
 {
 	UNUSEDALL
@@ -1345,6 +1288,16 @@ builtIn(setSoundVolume)
 	if (! getValueType (musChan, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 	setSoundVolume (musChan, v);
+	return BR_CONTINUE;
+}
+
+builtIn(setDefaultSoundVolume)
+{
+	UNUSEDALL
+	int v;
+	if (! getValueType (v, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
+	trimStack (fun -> stack);
+    setDefaultSoundVolume (v);
 	return BR_CONTINUE;
 }
 
@@ -1449,15 +1402,6 @@ builtIn(setSoundQVolume)
     setSoundQVolume (v, ch);
 	return BR_CONTINUE;
 }
-builtIn(setDefaultSoundQVolume)
-{
-	UNUSEDALL
-	int v;
-	if (! getValueType (v, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
-	trimStack (fun -> stack);
-    setDefaultSoundQVolume (v);
-	return BR_CONTINUE;
-}
 builtIn(getSoundQInfo)
 {
 	UNUSEDALL
@@ -1470,7 +1414,7 @@ builtIn(getSoundQInfo)
 	fun -> reg.varData.theStack -> first = NULL;
 	fun -> reg.varData.theStack -> last = NULL;
 	fun -> reg.varData.theStack -> timesUsed = 1;
-	if (! getSoundQInfo (fun -> reg.varData.theStack)) return BR_ERROR;
+	if (! getSoundQInfo (fun -> reg.varData.theStack, ch)) return BR_ERROR;
 	return BR_CONTINUE;
 }
 builtIn(skipSoundQ)

@@ -241,7 +241,6 @@
 		2F7BFEDA0E33856C003F5DC3 /* region.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = region.cpp; path = ../source/Engine/region.cpp; sourceTree = SOURCE_ROOT; };
 		2F7BFEE00E338583003F5DC3 /* savedata.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = savedata.cpp; path = ../source/Engine/savedata.cpp; sourceTree = SOURCE_ROOT; };
 		2F7BFEE20E33858E003F5DC3 /* sludger.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sludger.cpp; path = ../source/Engine/sludger.cpp; sourceTree = SOURCE_ROOT; };
-		2F7BFEE40E3385B3003F5DC3 /* sound_bass.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sound_bass.cpp; path = ../source/Engine/sound_bass.cpp; sourceTree = SOURCE_ROOT; };
 		2F7BFEE60E3385F8003F5DC3 /* sprbanks.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sprbanks.cpp; path = ../source/Engine/sprbanks.cpp; sourceTree = SOURCE_ROOT; };
 		2F7BFEE70E3385F8003F5DC3 /* sprites.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sprites.cpp; path = ../source/Engine/sprites.cpp; sourceTree = SOURCE_ROOT; };
 		2F7BFEEC0E338627003F5DC3 /* transition.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = transition.cpp; path = ../source/Engine/transition.cpp; sourceTree = SOURCE_ROOT; };
@@ -536,7 +535,6 @@
 				2F7BFEE00E338583003F5DC3 /* savedata.cpp */,
 				2F6274FB10EA337700BBDEDF /* shaders.cpp */,
 				2F7BFEE20E33858E003F5DC3 /* sludger.cpp */,
-				2F7BFEE40E3385B3003F5DC3 /* sound_bass.cpp */,
 				E8981D35111A2A8500762C10 /* sound_openal.cpp */,
 				2F7BFEE60E3385F8003F5DC3 /* sprbanks.cpp */,
 				2F7BFEE70E3385F8003F5DC3 /* sprites.cpp */,

@@ -32,9 +32,12 @@
 #include "fileset.h"
 
 
-#define MAX_SAMPLES 13
 #define MAX_MODS 3
+#define MAX_SAMPLES 10
 #define MAX_SOUNDQS 3
+#define SAMPLE_CHAN0 MAX_MODS
+#define SQ_CHAN0 SAMPLE_CHAN0+MAX_SAMPLES
+#define TOTAL_CHANNELS MAX_MODS+MAX_SAMPLES+MAX_SOUNDQS
 #define NUM_BUFS 3
 
 // Variables from fileset.cpp, for accessing the datafile.
@@ -44,17 +47,26 @@ extern uint32_t startOfDataIndex;
 bool soundOK = false;
 bool SilenceIKillYou = false;
 
+struct soundQThing {
+    int file;
+	struct soundQThing * next;
+	struct soundQThing * prev;
+};
+
 struct soundThing {
 	alureStream *stream;
 	ALuint playingOnSource;
 	bool playing;
-	int fileLoaded, vol;	//Used for sounds only.
-	bool looping;			//Used for sounds only.
+	bool looping;
+    int vol;			// Not used for mods.
+	int fileLoaded;             // Used for sounds only.
+
+    soundQThing *soundQ;        // for soundQ only
 };
 
-soundThing soundChannel[MAX_SAMPLES];
-soundThing modChannel[MAX_MODS];
-int intpointers[MAX_SAMPLES];
+
+soundThing soundChannel[TOTAL_CHANNELS];
+int intpointers[TOTAL_CHANNELS];
 
 int defMusicVol = 128;
 int defSoundVol = 255;
@@ -68,10 +80,9 @@ struct file_forAlure {
     long pos;
 };
 
+void playStream (int ch, bool isMOD, bool loopy);
 
 void * open_forAlure(const char *filename, ALuint mode) {
-    fprintf (stderr, "Yay!\n");
-
     
     FILE * fp = fopen (sludgeFile, "rb");
     if (! fp) {
@@ -96,8 +107,6 @@ void * open_forAlure(const char *filename, ALuint mode) {
     h->filenum = filenum;
     h->pos = 0;
 
-    fprintf (stderr, "Length: %d\n", length);
-
     return h;
 }
 void close_forAlure(void *handle) {
@@ -117,7 +126,7 @@ ALsizei read_forAlure(void *handle, ALubyte *buf, ALuint bytes) {
     return l;
 }
 ALsizei write_forAlure(void *handle, const ALubyte *buf, ALuint bytes) {
-    fprintf (stderr, "Trying to write!\n");
+    fprintf (stderr, "Alure is trying to write to the datafile! I'm not letting it.\n");
     return -1;
 }
 alureInt64 seek_forAlure(void *handle, alureInt64 offset, int whence) {
@@ -132,13 +141,13 @@ alureInt64 seek_forAlure(void *handle, alureInt64 offset, int whence) {
     } else if (whence == SEEK_END) {
         pos = h->l + offset;
     } else {
-        fprintf (stderr, "Unexpected seeking attempt!\n");
+        fprintf (stderr, "Alure is trying an unexpected seeking attempt!\n");
         return -1;
     }
     
    // fprintf (stderr, "Seeking to %ld of %ld.\n", pos, h->l);
     if (pos > h->l) {
-        fprintf (stderr, "Seeking past end.\n");
+        fprintf (stderr, "Alure is seeking past end.\n");
         return -1;
     }
 
@@ -171,17 +180,14 @@ bool initSoundStuff () {
     }
 
 	int a;
-	for (a = 0; a < MAX_SAMPLES; a ++) {
+	for (a = 0; a < TOTAL_CHANNELS; a ++) {
 		soundChannel[a].stream = NULL;
 		soundChannel[a].playing = false;
 		soundChannel[a].fileLoaded = -1;
 		soundChannel[a].looping = false;
+        soundChannel[a].soundQ = NULL;
+        soundChannel[a].vol = defSoundVol;
 		intpointers[a] = a;
-	}
-
-	for (a = 0; a < MAX_MODS; a ++) {
-		modChannel[a].stream = NULL;
-		modChannel[a].playing = false;
 	}
 
 	if (! alureUpdateInterval(0.01))
@@ -198,7 +204,7 @@ void killSoundStuff () {
 
 	SilenceIKillYou = true;
 	
-	for (int i = 0; i < MAX_SAMPLES; i ++) {
+	for (int i = 0; i < TOTAL_CHANNELS; i ++) {
 		if (soundChannel[i].playing) {
 			if (! alureStopSource(soundChannel[i].playingOnSource, AL_TRUE)) {
 				debugOut( "Failed to stop source: %s\n",
@@ -208,22 +214,6 @@ void killSoundStuff () {
 
 		if (soundChannel[i].stream != NULL) {
 			if (! alureDestroyStream(soundChannel[i].stream, 0, NULL)) {
-				debugOut("Failed to destroy stream: %s\n",
-							alureGetErrorString());
-			}
-		}
-	}
-
-	for (int i = 0; i < MAX_MODS; i ++) {
-		if (modChannel[i].playing) {
-			if (! alureStopSource(modChannel[i].playingOnSource, AL_TRUE)) {
-				debugOut( "Failed to stop source: %s\n",
-							alureGetErrorString());
-			}
-		}
-
-		if (modChannel[i].stream != NULL) {
-			if (! alureDestroyStream(modChannel[i].stream, 0, NULL)) {
 				debugOut("Failed to destroy stream: %s\n",
 							alureGetErrorString());
 			}
@@ -241,11 +231,12 @@ void killSoundStuff () {
  * Some setters:
  */
 
-void setMusicVolume (int a, int v) {
+void setMusicVolume (int ch, int v) {
 	if (! soundOK) return;
+    if (ch >= MAX_MODS || ch < 0) return;
 
-	if (modChannel[a].playing) {
-		alSourcef (modChannel[a].playingOnSource, AL_GAIN, (float) modLoudness * v / 256);
+	if (soundChannel[ch].playing) {
+		alSourcef (soundChannel[ch].playingOnSource, AL_GAIN, (float) modLoudness * v / 256);
 	}
 }
 
@@ -253,9 +244,9 @@ void setDefaultMusicVolume (int v) {
 	defMusicVol = v;
 }
 
-void setSoundVolume (int a, int v) {
+void setSoundVolume (int fileNum, int v) {
 	if (! soundOK) return;
-	int ch = findSoundChannel (a);
+	int ch = findSoundChannel (fileNum);
 	if (ch != -1) {
 		if (soundChannel[ch].playing) {
 			soundChannel[ch].vol = v;
@@ -276,15 +267,118 @@ void setDefaultSoundVolume (int v) {
 static void sound_eos_callback(void *ch, ALuint source)
 {
 	int *a = (int*)ch;
-	alDeleteSources(1, &source);
-	if(alGetError() != AL_NO_ERROR)
-	{
-		debugOut("Failed to delete OpenAL source!\n");
-	}
-	soundChannel[*a].playingOnSource = 0;
-	soundChannel[*a].playing = false;
-	soundChannel[*a].looping = false;
+    soundThing *channel = &soundChannel[*a];
+    
+    // Is it a non-queued sound? Just clean up.
+    if (*a < SQ_CHAN0) {
+        alDeleteSources(1, &source);
+        if(alGetError() != AL_NO_ERROR)
+        {
+            debugOut("Failed to delete OpenAL source!\n");
+        }
+        channel->playingOnSource = 0;
+        channel->playing = false;
+        channel->looping = false;
+        return;
+    }
+    
+    // Ok, so we have a queue!
+    soundQThing * qt = channel->soundQ;
+    if (!qt) fatal("Something is very messed up with the sound queue internals. This error should never happen: You have found a bug in the SLUDGE engine.");
+    
+    if (SilenceIKillYou) {
+        // Kill the queue
+        alDeleteSources(1, &source);
+        if(alGetError() != AL_NO_ERROR) {
+            debugOut("Failed to delete OpenAL source!\n");
+        }
+        soundQThing * next;
+        while ((next = qt->next)) {
+            delete qt;
+            qt = next;
+        }
+        delete qt;
+        channel->soundQ = NULL;
+        channel->stream = NULL;
+        channel->playing = false;
+        channel->playingOnSource = 0;
+        channel->fileLoaded = -1;
+        
+    } else {
+        if (qt->next) {
+            channel->soundQ = qt->next;
+            alDeleteSources(1, &source);
+            if(alGetError() != AL_NO_ERROR) {
+                debugOut("Failed to delete OpenAL source!\n");
+            }
+        } else if (channel->looping == 2) {
+            alureRewindStream(channel->stream);
+            playStream (*a, false, false);
+            return;
+        } else if (channel->looping) {
+            soundQThing *first = qt;
+            while (first->prev)
+                first = first->prev;
+            channel->soundQ = first;
+            if (first == qt) {
+                alureRewindStream(channel->stream);
+                playStream (*a, false, false);
+                return;               
+            }
+            alDeleteSources(1, &source);
+            if(alGetError() != AL_NO_ERROR) {
+                debugOut("Failed to delete OpenAL source!\n");
+            }
+            
+        } else {
+            // End of queue - let's clean up
+            alDeleteSources(1, &source);
+            if(alGetError() != AL_NO_ERROR) {
+                debugOut("Failed to delete OpenAL source!\n");
+            }
+            
+            channel->soundQ = NULL;
+            channel->stream = NULL;
+            channel->playing = false;
+            channel->playingOnSource = 0;
+            channel->fileLoaded = -1;            
+            delete qt;
+            return;
+        }
+        
+        int filenum = channel->soundQ->file;
+        setResourceForFatal(filenum);
+        unsigned int chunkLength = 19200;
+
+        char * file = new char [7];
+        if (! checkNew (file)) return;
+        snprintf(file, 7, "%d", filenum);
+        channel->stream = alureCreateStreamFromFile(file, chunkLength, 0, NULL);
+        
+        delete file;
+        
+        if (channel->stream != NULL) {
+            channel->fileLoaded = filenum;
+            playStream (*a, false, false);
+        } else {
+            debugOut("Failed to create stream from sound: %s\n",
+                     alureGetErrorString());
+            warning (ERROR_SOUND_ODDNESS);
+            
+            channel->stream = NULL;
+            channel->playing = false;
+            channel->playingOnSource = 0;
+            channel->fileLoaded = -1;
+        }
+        
+        if (channel->looping != 1) {
+            channel->soundQ->prev = NULL;
+            delete qt;
+        }
+        setResourceForFatal (-1);
+    }
 }
+
 
 static void mod_eos_callback(void *ch, ALuint source)
 {
@@ -294,59 +388,61 @@ static void mod_eos_callback(void *ch, ALuint source)
 	{
 		debugOut("Failed to delete OpenAL source!\n");
 	}
-	modChannel[*a].playingOnSource = 0;
-	if (! alureDestroyStream(modChannel[*a].stream, 0, NULL)) {
+	soundChannel[*a].playingOnSource = 0;
+	if (! alureDestroyStream(soundChannel[*a].stream, 0, NULL)) {
 		debugOut("Failed to destroy stream: %s\n",
 				alureGetErrorString());
 	}
-	modChannel[*a].stream = NULL;
-	modChannel[*a].playing = false;
+	soundChannel[*a].stream = NULL;
+	soundChannel[*a].playing = false;
 }
 
 /*
  * Stopping things:
  */
 
-int findSoundChannel (int a) {
+int findSoundChannel (int filenum) {
 	int i;
-	for (i = 3; i < MAX_SAMPLES; i ++) {
-		if (soundChannel[i].fileLoaded == a) {
+	for (i = SAMPLE_CHAN0; i < MAX_SAMPLES + SAMPLE_CHAN0; i ++) {
+		if (soundChannel[i].fileLoaded == filenum) {
 			return i;
 		}
 	}
 	return -1;
 }
 
-void stopMOD (int i) {
+void stopMOD (int ch) {
 	if (! soundOK) return;
+    if (ch >= MAX_MODS || ch < 0) return;
+
 	alGetError();
-	if (modChannel[i].playing) {
-		if (! alureStopSource(modChannel[i].playingOnSource, AL_TRUE)) {
+	if (soundChannel[ch].playing) {
+		if (! alureStopSource(soundChannel[ch].playingOnSource, AL_TRUE)) {
 			debugOut("Failed to stop source: %s\n",
 						alureGetErrorString());
 		}
 	}
 }
 
-void freeSound (int a) {
+void freeSound (int ch) {
 	if (! soundOK) return;
 	// Clear OpenAL errors to make sure they don't block anything:
 	alGetError();
     
 	SilenceIKillYou = true;
     
-	if (soundChannel[a].playing) {
-		if (! alureStopSource(soundChannel[a].playingOnSource, AL_TRUE)) {
+	if (soundChannel[ch].playing) {
+		if (! alureStopSource(soundChannel[ch].playingOnSource, AL_TRUE)) {
 			debugOut( "Failed to stop source: %s\n",
                      alureGetErrorString());
 		}
 	}
-	if (! alureDestroyStream(soundChannel[a].stream, 0, NULL)) {
+	if (! alureDestroyStream(soundChannel[ch].stream, 0, NULL)) {
 		debugOut("Failed to destroy stream: %s\n",
                  alureGetErrorString());
 	}
-	soundChannel[a].stream = NULL;
-	soundChannel[a].fileLoaded = -1;
+	soundChannel[ch].stream = NULL;
+	soundChannel[ch].fileLoaded = -1;
     
 	SilenceIKillYou = false;
 }
@@ -365,19 +461,15 @@ void huntKillSound (int filenum) {
  * Loading and playing:
  */
 
-void playStream (int a, bool isMOD, bool loopy) {
+void playStream (int ch, bool isMOD, bool loopy) {
 	if (! soundOK) return;
 	ALboolean ok;
 	ALuint src;
-	soundThing *st;
 	void (*eos_callback)(void *userdata, ALuint source);
 	
 	if (isMOD) {
-		st = &modChannel[a];
 		eos_callback = mod_eos_callback;
-	}
-	else {
-		st = &soundChannel[a];
+	} else {
 		eos_callback = sound_eos_callback;
 	}
 
@@ -391,75 +483,57 @@ void playStream (int a, bool isMOD, bool loopy) {
 	if (isMOD) {
 		alSourcef (src, AL_GAIN, (float) modLoudness * defMusicVol / 256);
 	} else {
-		alSourcef (src, AL_GAIN, (float) soundChannel[a].vol / 256);
+		alSourcef (src, AL_GAIN, (float) soundChannel[ch].vol / 256);
+        
 	}
 
-	if (loopy) {
-		ok = alurePlaySourceStream(src, (*st).stream,
-				NUM_BUFS, -1, eos_callback, &intpointers[a]);
-	} else {
-		ok = alurePlaySourceStream(src, (*st).stream,
-				NUM_BUFS, 0, eos_callback, &intpointers[a]);
-	}
+    ok = alurePlaySourceStream(src, soundChannel[ch].stream,
+                                NUM_BUFS, (loopy)? -1: 0, eos_callback, &intpointers[ch]);
 
 	if(!ok) {
 		debugOut("Failed to play stream: %s\n", alureGetErrorString());
 		alDeleteSources(1, &src);
-		if(alGetError() != AL_NO_ERROR)
-		{
+		if(alGetError() != AL_NO_ERROR) {
 			debugOut("Failed to delete OpenAL source!\n");
 		}
-		(*st).playingOnSource = 0;
+		soundChannel[ch].playingOnSource = 0;
 	} else {
-		(*st).playingOnSource = src;
-		(*st).playing = true;
-	}
+		soundChannel[ch].playingOnSource = src;
+		soundChannel[ch].playing = true;
+ 	}
 }
 
-char * loadEntireFileToMemory (FILE * inputFile, uint32_t size) {
-	char * allData = new char[size];
-	if (! allData) return NULL;
-
-	size_t bytes_read = fread (allData, size, 1, inputFile);
-	if (bytes_read != size && ferror (inputFile)) {
-		debugOut("Reading error in loadEntireFileToMemory.\n");
-	}
-
-	finishAccess ();
-
-	return allData;
-}
-
-bool playMOD (int f, int a, int fromTrack) {
+bool playMOD (int f, int ch, int fromTrack) {
 	if (! soundOK) return true;
-	stopMOD (a);
+	stopMOD (ch);
+    
+	setResourceForFatal (f);
+    if (ch >= MAX_MODS || ch < 0) return false;
     
     char * file = new char [7];
 	if (! checkNew (file)) return false;
     snprintf(file, 7, "%d", f);
-    fprintf (stderr, "%s", file);
-
-	modChannel[a].stream = alureCreateStreamFromFile(file, 19200, 0, NULL);
+	soundChannel[ch].stream = alureCreateStreamFromFile(file, 19200, 0, NULL);
     
     delete file;
     
-	if (modChannel[a].stream != NULL) {
-		setMusicVolume (a, defMusicVol);
-		if (! alureSetStreamOrder (modChannel[a].stream, fromTrack)) {
+	if (soundChannel[ch].stream != NULL) {
+		setMusicVolume (ch, defMusicVol);
+		if (! alureSetStreamOrder (soundChannel[ch].stream, fromTrack)) {
 			debugOut( "Failed to set stream order: %s\n",
 						alureGetErrorString());
 		}
 
-		playStream (a, true, true);
+		playStream (ch, true, true);
 
 	} else {
 		debugOut("Failed to create stream from MOD: %s\n",
 						alureGetErrorString());
 		warning (ERROR_MUSIC_ODDNESS);
 //        warning (resourceNameFromNum (f));
-		soundChannel[a].stream = NULL;
-		soundChannel[a].playing = false;
-		soundChannel[a].playingOnSource = 0;
+		soundChannel[ch].stream = NULL;
+		soundChannel[ch].playing = false;
+		soundChannel[ch].playingOnSource = 0;
 	}
 	setResourceForFatal (-1);
 
@@ -477,56 +551,36 @@ bool stillPlayingSound (int filenum) {
 	return false;
 }
 
-bool forceRemoveSound () {
-	for (int a = 3; a < MAX_SAMPLES; a ++) {
-		if (soundChannel[a].fileLoaded != -1 && ! stillPlayingSound (a)) {
-//			soundWarning ("Deleting silent sound", a);
-			freeSound (a);
-			return 1;
-		}
-	}
-
-	for (int a = 3; a < MAX_SAMPLES; a ++) {
-		if (soundChannel[a].fileLoaded != -1) {
-//			soundWarning ("Deleting playing sound", a);
-			freeSound (a);
-			return 1;
-		}
-	}
-//	soundWarning ("Cache is empty!", 0);
-	return 0;
-}
-
 int emptySoundSlot = 0;
 
 int findEmptySoundSlot () {
 	int t;
-	for (t = 3; t < MAX_SAMPLES; t ++) {
+	for (t = 0; t < MAX_SAMPLES; t ++) {
 		emptySoundSlot ++;
 		emptySoundSlot %= MAX_SAMPLES;
-		if (soundChannel[emptySoundSlot].stream == NULL)
-			return emptySoundSlot;
+		if (soundChannel[emptySoundSlot+SAMPLE_CHAN0].stream == NULL)
+			return emptySoundSlot+SAMPLE_CHAN0;
 	}
 
-	for (t = 3; t < MAX_SAMPLES; t ++) {
+	for (t = 0; t < MAX_SAMPLES; t ++) {
 		emptySoundSlot ++;
 		emptySoundSlot %= MAX_SAMPLES;
-		if (!soundChannel[emptySoundSlot].playing)
-			return emptySoundSlot;
+		if (!soundChannel[emptySoundSlot+SAMPLE_CHAN0].playing)
+			return emptySoundSlot+SAMPLE_CHAN0;
 	}
 
 	// Argh! They're all playing! Let's trash the oldest that's not looping...
-	for (t = 3; t < MAX_SAMPLES; t ++) {
+	for (t = 0; t < MAX_SAMPLES; t ++) {
 		emptySoundSlot ++;
 		emptySoundSlot %= MAX_SAMPLES;
-		if (! soundChannel[emptySoundSlot].looping) return emptySoundSlot;
+		if (! soundChannel[emptySoundSlot+SAMPLE_CHAN0].looping) return emptySoundSlot+SAMPLE_CHAN0;
 	}
 
 	// Holy crap, they're all looping! What's this twat playing at?
 	emptySoundSlot ++;
-	if (emptySoundSlot >= MAX_SAMPLES) emptySoundSlot = 3;
+	if (emptySoundSlot >= MAX_SAMPLES) emptySoundSlot = 0;
 	
-	return emptySoundSlot;
+	return emptySoundSlot + SAMPLE_CHAN0;
 }
 
 
@@ -539,23 +593,23 @@ int openSoundFile (int filenum, bool loopy) {
  	setResourceForFatal (filenum);
 
 	// Is the sound already playing?
-	int a = findSoundChannel (filenum);
-	if (a != -1) {
-		if (soundChannel[a].playing) {
-			if (! alureStopSource(soundChannel[a].playingOnSource, AL_TRUE)) {
+	int ch = findSoundChannel (filenum);
+	if (ch != -1) {
+		if (soundChannel[ch].playing) {
+			if (! alureStopSource(soundChannel[ch].playingOnSource, AL_TRUE)) {
 				debugOut( "Failed to stop source: %s\n",
                          alureGetErrorString());
 			}
 		}
-		if (! alureRewindStream (soundChannel[a].stream)) {
+		if (! alureRewindStream (soundChannel[ch].stream)) {
 			debugOut( "Failed to rewind stream: %s\n",
                      alureGetErrorString());
 		}
         
-		return a;
+		return ch;
 	}
-	a = findEmptySoundSlot ();
-	freeSound (a);
+	ch = findEmptySoundSlot ();
+	freeSound (ch);
     
 	// Small looping sounds need small chunklengths.
     unsigned int length = openFileFromNum (filenum);
@@ -571,27 +625,25 @@ int openSoundFile (int filenum, bool loopy) {
     char * file = new char [7];
 	if (! checkNew (file)) return false;
     snprintf(file, 7, "%d", filenum);
-    fprintf (stderr, "%s", file);
-    
-	soundChannel[a].stream = alureCreateStreamFromFile(file, chunkLength, 0, NULL);
+	soundChannel[ch].stream = alureCreateStreamFromFile(file, chunkLength, 0, NULL);
     
     delete file;
     
-	if (soundChannel[a].stream != NULL) {
-		soundChannel[a].fileLoaded = filenum;
+	if (soundChannel[ch].stream != NULL) {
+		soundChannel[ch].fileLoaded = filenum;
 		setResourceForFatal (-1);
-		retVal = a;
+		retVal = ch;
 	} else {
 		debugOut("Failed to create stream from sound: %s\n",
                  alureGetErrorString());
 		warning (ERROR_SOUND_ODDNESS);
         //warning (resourceNameFromNum (filenum));
 
-		soundChannel[a].stream = NULL;
-		soundChannel[a].playing = false;
-		soundChannel[a].playingOnSource = 0;
-		soundChannel[a].fileLoaded = -1;
-		soundChannel[a].looping = false;
+		soundChannel[ch].stream = NULL;
+		soundChannel[ch].playing = false;
+		soundChannel[ch].playingOnSource = 0;
+		soundChannel[ch].fileLoaded = -1;
+		soundChannel[ch].looping = false;
 		retVal = -1;
 	}
     
@@ -601,15 +653,15 @@ int openSoundFile (int filenum, bool loopy) {
 
 bool startSound (int f, bool loopy) {
 	if (soundOK) {
-		int a = openSoundFile (f, loopy);
-		if (a == -1) {
+		int ch = openSoundFile (f, loopy);
+		if (ch == -1) {
 			debugOut( "Failed to open sound file!\n");
 			return false;
 		}
-		soundChannel[a].looping = loopy;
-		soundChannel[a].vol = defSoundVol;
+		soundChannel[ch].looping = loopy;
+		soundChannel[ch].vol = defSoundVol;
 
-		playStream (a, false, loopy);
+		playStream (ch, false, loopy);
 	}
 	return true;
 }
@@ -617,7 +669,7 @@ bool startSound (int f, bool loopy) {
 void saveSounds (FILE * fp) {
 	
 	if (soundOK) {
-		for (int i = 3; i < MAX_SAMPLES; i ++) {
+		for (int i = SAMPLE_CHAN0; i < MAX_SAMPLES+SAMPLE_CHAN0; i ++) {
 			if (soundChannel[i].looping) {
 				fputc (1, fp);
 				put2bytes (soundChannel[i].fileLoaded, fp);
@@ -631,7 +683,7 @@ void saveSounds (FILE * fp) {
 }
 
 void loadSounds (FILE * fp) {
-	for (int i = 3; i < MAX_SAMPLES; i ++) freeSound (i);
+	for (int i = SAMPLE_CHAN0; i < MAX_SAMPLES+SAMPLE_CHAN0; i ++) freeSound (i);
 
 	while (fgetc (fp)) {
 		int fileLoaded = get2bytes (fp);
@@ -647,7 +699,7 @@ bool getActiveSounds (stackHandler * sH) {
 	variable newFileHandle;
 	newFileHandle.varType = SVT_NULL;
 
-	for (int a = 0; a < MAX_SAMPLES; a ++) {
+	for (int a = SAMPLE_CHAN0; a < MAX_SAMPLES+SAMPLE_CHAN0; a ++) {
 		if (soundChannel[a].fileLoaded != -1) {
 			setVariable (newFileHandle, SVT_FILE, soundChannel[a].fileLoaded);
 			if (! addVarToStackQuick (newFileHandle, sH -> first)) return false;
@@ -657,110 +709,7 @@ bool getActiveSounds (stackHandler * sH) {
 	return true;
 }
 
-soundList *deleteSoundFromList (soundList *s) {
-	// Don't delete a playing sound.
-	if (s->ch) return NULL;
-
-	soundList * o = NULL;
-	if (! s->next) {
-		o = s->prev;
-		if (o) o-> next = NULL;
-		delete s;
-		return o;
-	}
-	if (s != s->next) {
-		o = s->next;
-		o->prev = s->prev;
-		if (o->prev) o->prev->next = o;
-	}
-	delete s;
-	return o;
-}
-
-static void list_eos_callback(void *list, ALuint source)
-{
-	soundList *s = (soundList *) list;
-
-	int a = s->ch;
-	alDeleteSources(1, &source);
-	if(alGetError() != AL_NO_ERROR)
-	{
-		debugOut( "Failed to delete OpenAL source!\n");
-	}
-	soundChannel[a].playingOnSource = 0;
-	soundChannel[a].playing = false;
-	soundChannel[a].looping = false;
-	s-> ch = false;
-	if (SilenceIKillYou) {
-		while ((s = deleteSoundFromList(s)));
-	} else {
-		if (s->next) {
-			if (s->next == s) {
-				int v = defSoundVol;
-				defSoundVol = soundChannel[a].vol;
-				startSound (s->sound, true);
-				defSoundVol = v;
-				while ((s = deleteSoundFromList(s)));
-				return;
-			}
-			s->next->vol = soundChannel[a].vol;
-			playSoundList(s->next);
-		} else {
-			while ((s = deleteSoundFromList(s)));
-		}
-	}
-}
-
-
-void playSoundList(soundList *s) {
-	if (soundOK) {
-
-		int a = openSoundFile (s->sound, true);
-		if (a == -1) {
-			debugOut("Failed to open sound file!\n");
-			return;
-		}
-		soundChannel[a].looping = false;
-		if (s->vol < 0)
-			soundChannel[a].vol = defSoundVol;
-		else
-			soundChannel[a].vol = s->vol;
-		s-> ch = a;
-
-		ALboolean ok;
-		ALuint src;
-		soundThing *st;
-
-		st = &soundChannel[a];
-
-		alGenSources(1, &src);
-		if(alGetError() != AL_NO_ERROR)
-		{
-			debugOut("Failed to create OpenAL source!\n");
-			return;
-		}
-
-		alSourcef (src, AL_GAIN, (float) soundChannel[a].vol / 256);
-
-		ok = alurePlaySourceStream(src, (*st).stream,
-									   NUM_BUFS, 0, list_eos_callback, s);
-
-		if(!ok) {
-			debugOut("Failed to play stream: %s\n", alureGetErrorString());
-			alDeleteSources(1, &src);
-			if(alGetError() != AL_NO_ERROR)
-			{
-				debugOut("Failed to delete OpenAL source!\n");
-			}
-			(*st).playingOnSource = 0;
-		} else {
-			(*st).playingOnSource = src;
-			(*st).playing = true;
-		}
-	}
-}
-
-void playMovieStream (int a) {
+void playMovieStream (int ch) {
 	if (! soundOK) return;
 	ALboolean ok;
 	ALuint src;
@@ -772,10 +721,10 @@ void playMovieStream (int a) {
 		return;
 	}
 	
-	alSourcef (src, AL_GAIN, (float) soundChannel[a].vol / 256);
+	alSourcef (src, AL_GAIN, (float) soundChannel[ch].vol / 256);
 	
-	ok = alurePlaySourceStream(src, soundChannel[a].stream,
-								   10, 0, sound_eos_callback, &intpointers[a]);
+	ok = alurePlaySourceStream(src, soundChannel[ch].stream,
+								   10, 0, sound_eos_callback, &intpointers[ch]);
 	
 	if(!ok) {
 		debugOut("Failed to play stream: %s\n", alureGetErrorString());
@@ -784,10 +733,10 @@ void playMovieStream (int a) {
 		{
 			debugOut("Failed to delete OpenAL source!\n");
 		}
-		soundChannel[a].playingOnSource = 0;
+		soundChannel[ch].playingOnSource = 0;
 	} else {
-		soundChannel[a].playingOnSource = src;
-		soundChannel[a].playing = true;
+		soundChannel[ch].playingOnSource = src;
+		soundChannel[ch].playing = true;
 	}
 }
 
@@ -797,28 +746,28 @@ int initMovieSound(int f, ALenum format, int audioChannels, ALuint samplerate,
 	if (! soundOK) return 0;
 
 	int retval;
-	int a = findEmptySoundSlot ();
-	freeSound (a);
+	int ch = findEmptySoundSlot ();
+	freeSound (ch);
 	
-	soundChannel[a].looping = false;
+	soundChannel[ch].looping = false;
 	// audioChannel * sampleRate gives us a buffer of half a second. Not much, but it should be enough.
-	soundChannel[a].stream = alureCreateStreamFromCallback(
+	soundChannel[ch].stream = alureCreateStreamFromCallback(
 					 callback,
-					 &intpointers[a], format, samplerate,
+					 &intpointers[ch], format, samplerate,
 					 audioChannels*samplerate, 0, NULL);
 	
-	if (soundChannel[a].stream != NULL) {
-		soundChannel[a].fileLoaded = f;
-		soundChannel[a].vol = defSoundVol;
-		retval = a;
+	if (soundChannel[ch].stream != NULL) {
+		soundChannel[ch].fileLoaded = f;
+		soundChannel[ch].vol = defSoundVol;
+		retval = ch;
 	} else {
 		debugOut("Failed to create stream from sound: %s\n",
 				 alureGetErrorString());
 		warning (ERROR_SOUND_ODDNESS);
-		soundChannel[a].stream = NULL;
-		soundChannel[a].playing = false;
-		soundChannel[a].playingOnSource = 0;
-		soundChannel[a].fileLoaded = -1;
+		soundChannel[ch].stream = NULL;
+		soundChannel[ch].playing = false;
+		soundChannel[ch].playingOnSource = 0;
+		soundChannel[ch].fileLoaded = -1;
 		retval = -1;
 	}
 	//fprintf (stderr, "Stream %d created. Sample rate: %d Channels: %d\n", retval, samplerate, audioChannels);
@@ -831,17 +780,132 @@ unsigned int getSoundSource(int index) {
 }
 
 
-void addSoundQ(int filenum, int ch) {}
-void replaceSoundQ(int filenum, int ch) {}
-void stopSoundQ(int ch) {}
-void pauseSoundQ(int ch) {}
-void resumeSoundQ(int ch) {}
-void setSoundQLoop(int loopHow, int ch) {}
-void setSoundQVolume (int volume, int ch) {}
-void setDefaultSoundQVolume (int volume) {}
-bool getSoundQInfo (stackHandler * sH) {
+void addSoundQ(int filenum, int ch) {
+	if (! soundOK) return;
+    if (ch >= MAX_SOUNDQS || ch < 0) return;
+    ch += SQ_CHAN0;
+    
+ 	unsigned int chunkLength = 19200;
+    
+ 	setResourceForFatal (filenum);
+    
+    soundQThing *qt = new soundQThing;
+	if (! checkNew (qt)) return;
+    qt->next = NULL;
+    qt->file = filenum;
+    
+	// Is the channel busy? Then we should queue the song. 
+    if (soundChannel[ch].playing) {
+        soundQThing *last = soundChannel[ch].soundQ;
+        while (last->next)
+            last = last->next;
+        last->next = qt;
+        qt->prev = last;
+        return;
+	}
+    
+    qt->prev = NULL;
+    
+	/* Small looping sounds need small chunklengths.
+    unsigned int length = openFileFromNum (filenum);
+    finishAccess();
+	if (soundChannel[ch].looping) {
+		if (length < NUM_BUFS * chunkLength) {
+			chunkLength = length / NUM_BUFS;
+		}
+	} else if (length < chunkLength) {
+		chunkLength = length;
+	}*/
+    
+    char * file = new char [7];
+	if (! checkNew (file)) return;
+    snprintf(file, 7, "%d", filenum);
+	soundChannel[ch].stream = alureCreateStreamFromFile(file, chunkLength, 0, NULL);
+    
+    delete file;
+    
+	if (soundChannel[ch].stream != NULL) {
+		soundChannel[ch].fileLoaded = filenum;
+        soundChannel[ch].soundQ = qt;
+        playStream (ch, false, false);
+	} else {
+		debugOut("Failed to create stream from sound: %s\n",
+                 alureGetErrorString());
+		warning (ERROR_SOUND_ODDNESS);
+        
+		soundChannel[ch].stream = NULL;
+		soundChannel[ch].playing = false;
+		soundChannel[ch].playingOnSource = 0;
+		soundChannel[ch].fileLoaded = -1;
+	}
+    
+    setResourceForFatal (-1);
+}
+void replaceSoundQ(int filenum, int ch) {
+    if (ch >= MAX_SOUNDQS || ch < 0) return;
+    ch += SQ_CHAN0;
+    // TODO
+}
+void stopSoundQ(int ch) {
+    if (ch >= MAX_SOUNDQS || ch < 0) return;
+    ch += SQ_CHAN0;
+    
+    freeSound(ch);
+}
+
+void pauseSoundQ(int ch) {
+    if (ch >= MAX_SOUNDQS || ch < 0) return;
+    ch += SQ_CHAN0;
+    ALuint source = getSoundSource(ch);
+    if (source) {
+        alurePauseSource(source);
+    }
+}
+void resumeSoundQ(int ch) {
+    if (ch >= MAX_SOUNDQS || ch < 0) return;
+    ch += SQ_CHAN0;
+    ALuint source = getSoundSource(ch);
+    if (source) {
+        alureResumeSource(source);
+    }
+}
+
+void setSoundQLoop(int loopHow, int ch) {
+    if (ch >= MAX_SOUNDQS || ch < 0) return;
+    ch += SQ_CHAN0;
+    
+    /* loopHow  -------------------------*\
+     |  0 = Don't loop. Remove sounds from queue as they're finished.
+     |  1 = Loop the whole thing         |
+     |  2 = Loop the last segment only.  |
+    \*-----------------------------------*/
+    soundChannel[ch].looping = loopHow;
+}
+
+void setSoundQVolume (int volume, int ch) {
+    if (! soundOK) return;
+    if (ch >= MAX_SOUNDQS || ch < 0) return;
+    ch += SQ_CHAN0;
+
+    soundChannel[ch].vol = volume;
+    if (soundChannel[ch].playing)
+        alSourcef (soundChannel[ch].playingOnSource, AL_GAIN, (float) volume / 256);
+}
+
+bool getSoundQInfo (stackHandler * sH, int ch) {
+    if (ch >= MAX_SOUNDQS || ch < 0) return false;
+    ch += SQ_CHAN0;
+    
+    // TODO
+
     return true;
 }
 bool skipSoundQ (int ch){
+    if (ch >= MAX_SOUNDQS || ch < 0) return false;
+    ch += SQ_CHAN0;
+    
+    // TODO
+    
     return false;
 }
+
