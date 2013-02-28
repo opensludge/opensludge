@@ -1423,8 +1423,8 @@ builtIn(skipSoundQ)
 	int ch;
 	if (! getValueType (ch, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-    int ended = skipSoundQ (ch);
-    setVariable (fun -> reg, SVT_INT, ended);
+    int nextSound = skipSoundQ (ch);
+    setVariable (fun -> reg, SVT_INT, nextSound);
 	return BR_CONTINUE;
 }
 

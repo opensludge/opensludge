@@ -28,7 +28,7 @@ void resumeSoundQ(int ch);
 void setSoundQLoop(int loopHow, int ch);
 void setSoundQVolume (int volume, int ch);
 bool getSoundQInfo (stackHandler * sH, int ch);
-bool skipSoundQ (int ch);
+int skipSoundQ (int ch);
 
 
 void loadSounds (FILE * fp);
