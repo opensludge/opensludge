@@ -30,14 +30,15 @@
 #include "sound.h"
 #include "moreio.h"
 #include "fileset.h"
+#include "version.h"
 
 
 #define MAX_MODS 3
 #define MAX_SAMPLES 10
 #define MAX_SOUNDQS 3
 #define SAMPLE_CHAN0 MAX_MODS
-#define SQ_CHAN0 SAMPLE_CHAN0+MAX_SAMPLES
-#define TOTAL_CHANNELS MAX_MODS+MAX_SAMPLES+MAX_SOUNDQS
+#define SQ_CHAN0 (SAMPLE_CHAN0+MAX_SAMPLES)
+#define TOTAL_CHANNELS (MAX_MODS+MAX_SAMPLES+MAX_SOUNDQS)
 #define NUM_BUFS 3
 
 // Variables from fileset.cpp, for accessing the datafile.
@@ -45,7 +46,6 @@ extern char * sludgeFile;
 extern uint32_t startOfDataIndex;
 
 bool soundOK = false;
-bool SilenceIKillYou = false;
 
 struct soundQThing {
     int file;
@@ -57,11 +57,14 @@ struct soundThing {
 	alureStream *stream;
 	ALuint playingOnSource;
 	bool playing;
-	bool looping;
+	int looping;
     int vol;			// Not used for mods.
 	int fileLoaded;             // Used for sounds only.
 
     soundQThing *soundQ;        // for soundQ only
+    ALuint buffers[4];
+    ALuint offset;
+    ALuint length;
 };
 
 
@@ -81,6 +84,7 @@ struct file_forAlure {
 };
 
 void playStream (int ch, bool isMOD, bool loopy);
+void playQStream (int ch);
 
 void * open_forAlure(const char *filename, ALuint mode) {
     
@@ -165,7 +169,6 @@ alureInt64 seek_forAlure(void *handle, alureInt64 offset, int whence) {
  */
 
 bool initSoundStuff () {
-
 	if(!alureInitDevice(NULL, NULL))
 	{
 		debugOut( "Failed to open OpenAL device: %s\n",
@@ -180,6 +183,7 @@ bool initSoundStuff () {
     }
 
 	int a;
+
 	for (a = 0; a < TOTAL_CHANNELS; a ++) {
 		soundChannel[a].stream = NULL;
 		soundChannel[a].playing = false;
@@ -190,20 +194,73 @@ bool initSoundStuff () {
 		intpointers[a] = a;
 	}
 
-	if (! alureUpdateInterval(0.01))
-	{
-		debugOut("Failed to set Alure update interval: %s\n",
-				alureGetErrorString());
-		return 1;
-	}
 	return soundOK = true;
+}
+
+void soundq_playNext(int ch);
+
+void updateSound() {
+    alureUpdate();
+    
+    // SoundQ playing must be handled manually
+    
+    int ch;
+    for (ch = SQ_CHAN0; ch < TOTAL_CHANNELS; ch++) {
+        if (soundChannel[ch].playingOnSource) {
+            ALint processed, queued, state;
+            
+            /* Check the source */
+            alGetSourcei(soundChannel[ch].playingOnSource, AL_SOURCE_STATE, &state);
+            alGetSourcei(soundChannel[ch].playingOnSource, AL_BUFFERS_QUEUED, &queued);
+            alGetSourcei(soundChannel[ch].playingOnSource, AL_BUFFERS_PROCESSED, &processed);
+            
+            /* Handle processed buffers */
+            while(processed > 0) {
+                ALuint buffer;
+                alSourceUnqueueBuffers(soundChannel[ch].playingOnSource, 1, &buffer);
+                processed--;
+                queued--;
+                    
+                /* Add the unqueued buffer's length */
+                ALint size, chans, bits;
+                alGetBufferi(buffer, AL_SIZE, &size);
+                alGetBufferi(buffer, AL_CHANNELS, &chans);
+                alGetBufferi(buffer, AL_BITS, &bits);
+                soundChannel[ch].offset += size/chans*8/bits;
+                    
+                /* Get more data from the stream and give it to the source */
+                if(alureBufferDataFromStream(soundChannel[ch].stream, 1, &buffer) < 1) {
+                    if ((soundChannel[ch].looping == 2) && (! soundChannel[ch].soundQ->next)) {
+                        alureRewindStream(soundChannel[ch].stream);
+                        soundChannel[ch].offset = 0;
+                        alureBufferDataFromStream(soundChannel[ch].stream, 1, &buffer);
+                        alSourceQueueBuffers(soundChannel[ch].playingOnSource, 1, &buffer);
+                        queued++;
+                    }
+                    
+                    /* End of Stream; we're done if the source
+                     * doesn't have any more buffers to play */
+                    else if(queued == 0) {
+                        soundq_playNext(ch);
+                    }
+                } else {
+                    alSourceQueueBuffers(soundChannel[ch].playingOnSource, 1, &buffer);
+                    queued++;
+                }
+            }
+            
+            /* Make sure the source is still playing */
+            if(state != AL_PLAYING && state != AL_PAUSED) {
+                if(queued > 0)
+                    alSourcePlay(soundChannel[ch].playingOnSource);
+            }
+        }
+    }
 }
 
 void killSoundStuff () {
 	if (! soundOK) return;
 
-	SilenceIKillYou = true;
-	
 	for (int i = 0; i < TOTAL_CHANNELS; i ++) {
 		if (soundChannel[i].playing) {
 			if (! alureStopSource(soundChannel[i].playingOnSource, AL_TRUE)) {
@@ -212,8 +269,6 @@ void killSoundStuff () {
 			}
 		}
 	}
-
-	SilenceIKillYou = false;
 
 	alureShutdownDevice();
 }
@@ -262,130 +317,18 @@ static void sound_eos_callback(void *ch, ALuint source)
 	int *a = (int*)ch;
     soundThing *channel = &soundChannel[*a];
     
-    // Is it a non-queued sound? Just clean up.
-    if (*a < SQ_CHAN0) {
-        alDeleteSources(1, &source);
-        if(alGetError() != AL_NO_ERROR)
-        {
-            debugOut("Failed to delete OpenAL source!\n");
-        }
-        if (! alureDestroyStream(channel->stream, 0, NULL)) {
-            debugOut("Failed to destroy stream: %s\n", alureGetErrorString());
-        }
-        channel->playingOnSource = 0;
-        channel->playing = false;
-        channel->looping = false;
-        return;
+    // Just clean up.
+    alDeleteSources(1, &source);
+    if(alGetError() != AL_NO_ERROR)
+    {
+        debugOut("Failed to delete OpenAL source!\n");
     }
-    
-    // Ok, so we have a queue!
-    soundQThing * qt = channel->soundQ;
-    if (!qt) fatal("Something is very messed up with the sound queue internals. This error should never happen: You have found a bug in the SLUDGE engine.");
-    
-    if (SilenceIKillYou) {
-        // Kill the queue
-        alDeleteSources(1, &source);
-        if(alGetError() != AL_NO_ERROR) {
-            debugOut("Failed to delete OpenAL source!\n");
-        }
-        if (! alureDestroyStream(channel->stream, 0, NULL)) {
-            debugOut("Failed to destroy stream: %s\n", alureGetErrorString());
-        }
-        soundQThing * next;
-        while ((next = qt->next)) {
-            delete qt;
-            qt = next;
-        }
-        delete qt;
-        channel->soundQ = NULL;
-        channel->stream = NULL;
-        channel->playing = false;
-        channel->playingOnSource = 0;
-        channel->fileLoaded = -1;
-        
-    } else {
-        if (qt->next) {
-            channel->soundQ = qt->next;
-            alDeleteSources(1, &source);
-            if(alGetError() != AL_NO_ERROR) {
-                debugOut("Failed to delete OpenAL source!\n");
-            }
-            if (! alureDestroyStream(channel->stream, 0, NULL)) {
-                debugOut("Failed to destroy stream: %s\n", alureGetErrorString());
-            }
-        } else if (channel->looping == 2) {
-            alureRewindStream(channel->stream);
-            playStream (*a, false, false);
-            return;
-        } else if (channel->looping) {
-            soundQThing *first = qt;
-            while (first->prev)
-                first = first->prev;
-            channel->soundQ = first;
-            if (first == qt) {
-                alureRewindStream(channel->stream);
-                playStream (*a, false, false);
-                return;               
-            }
-            alDeleteSources(1, &source);
-            if(alGetError() != AL_NO_ERROR) {
-                debugOut("Failed to delete OpenAL source!\n");
-            }
-            if (! alureDestroyStream(channel->stream, 0, NULL)) {
-                debugOut("Failed to destroy stream: %s\n",
-                         alureGetErrorString());
-            }
-           
-        } else {
-            // End of queue - let's clean up
-            alDeleteSources(1, &source);
-            if(alGetError() != AL_NO_ERROR) {
-                debugOut("Failed to delete OpenAL source!\n");
-            }
-            if (! alureDestroyStream(channel->stream, 0, NULL)) {
-                debugOut("Failed to destroy stream: %s\n", alureGetErrorString());
-            }
-
-            channel->soundQ = NULL;
-            channel->stream = NULL;
-            channel->playing = false;
-            channel->playingOnSource = 0;
-            channel->fileLoaded = -1;            
-            delete qt;
-            return;
-        }
-        
-        int filenum = channel->soundQ->file;
-        setResourceForFatal(filenum);
-        unsigned int chunkLength = 19200;
-
-        char * file = new char [7];
-        if (! checkNew (file)) return;
-        snprintf(file, 7, "%d", filenum);
-        channel->stream = alureCreateStreamFromFile(file, chunkLength, 0, NULL);
-        
-        delete file;
-        
-        if (channel->stream != NULL) {
-            channel->fileLoaded = filenum;
-            playStream (*a, false, false);
-        } else {
-            debugOut("Failed to create stream from sound: %s\n",
-                     alureGetErrorString());
-            warning (ERROR_SOUND_ODDNESS);
-            
-            channel->stream = NULL;
-            channel->playing = false;
-            channel->playingOnSource = 0;
-            channel->fileLoaded = -1;
-        }
-        
-        if (channel->looping != 1) {
-            channel->soundQ->prev = NULL;
-            delete qt;
-        }
-        setResourceForFatal (-1);
+    if (! alureDestroyStream(channel->stream, 0, NULL)) {
+        debugOut("Failed to destroy stream: %s\n", alureGetErrorString());
     }
+    channel->playingOnSource = 0;
+    channel->playing = false;
+    channel->looping = false;
 }
 
 
@@ -404,6 +347,111 @@ static void mod_eos_callback(void *ch, ALuint source)
 	soundChannel[*a].stream = NULL;
 	soundChannel[*a].playing = false;
 }
+
+void soundq_playNext(int ch)
+{
+    soundThing *channel = &soundChannel[ch];
+    
+    soundQThing * qt = channel->soundQ;
+    if (!qt) fatal("Something is very messed up with the sound queue internals. This error should never happen: You have found a bug in the SLUDGE engine.");
+    
+    if (qt->next) {
+        channel->soundQ = qt->next;
+        alSourceStop(channel->playingOnSource);
+        alSourcei(channel->playingOnSource, AL_BUFFER, 0);
+        alDeleteSources(1, &channel->playingOnSource);
+        if(alGetError() != AL_NO_ERROR) {
+            debugOut("Failed to delete OpenAL source!\n");
+        }
+        if (! alureDestroyStream(channel->stream, 0, NULL)) {
+            debugOut("Failed to destroy stream: %s\n", alureGetErrorString());
+        }
+    } else if (channel->looping == 1) { // looping == 2 is already handled!
+        soundQThing *first = qt;
+        while (first->prev)
+            first = first->prev;
+        channel->soundQ = first;
+        if (first == qt) {
+            alureRewindStream(channel->stream);
+            soundChannel[ch].offset = 0;
+            alureBufferDataFromStream(channel->stream, 4, channel->buffers);
+            alSourceQueueBuffers(channel->playingOnSource, 4, channel->buffers);
+            alSourcePlay(channel->playingOnSource);
+            return;
+        }
+        alSourceStop(channel->playingOnSource);
+        alSourcei(channel->playingOnSource, AL_BUFFER, 0);
+        alDeleteSources(1, &channel->playingOnSource);
+        if(alGetError() != AL_NO_ERROR) {
+            debugOut("Failed to delete OpenAL source!\n");
+        }
+        if (! alureDestroyStream(channel->stream, 4, channel->buffers)) {
+            debugOut("Failed to destroy stream: %s\n",
+                     alureGetErrorString());
+        }
+        
+    } else {
+        // End of queue - let's clean up
+        alSourceStop(channel->playingOnSource);
+        alSourcei(channel->playingOnSource, AL_BUFFER, 0);
+        alDeleteSources(1, &channel->playingOnSource);
+        if(alGetError() != AL_NO_ERROR) {
+            debugOut("Failed to delete OpenAL source!\n");
+        }
+        if (! alureDestroyStream(channel->stream, 4, channel->buffers)) {
+            debugOut("Failed to destroy stream: %s\n", alureGetErrorString());
+        }
+        
+        channel->soundQ = NULL;
+        channel->stream = NULL;
+        channel->playing = false;
+        channel->playingOnSource = 0;
+        channel->fileLoaded = -1;
+        delete qt;
+        return;
+    }
+    
+    int filenum = channel->soundQ->file;
+    setResourceForFatal(filenum);
+    unsigned int chunkLength = 19200;
+    
+    char * file = new char [7];
+    if (! checkNew (file)) return;
+    snprintf(file, 7, "%d", filenum);
+    channel->stream = alureCreateStreamFromFile(file, chunkLength, 4, channel->buffers);
+    // Get the length of the sound, in hundreds of a second.
+    int f = alureGetStreamFrequency (channel->stream);
+    if (f)
+        channel->length = alureGetStreamLength(channel->stream) * 100 / f;
+    else
+        channel->length = 0;
+
+    
+    channel->offset = 0;
+    
+    delete file;
+    
+    if (channel->stream != NULL) {
+        channel->fileLoaded = filenum;
+        playQStream (ch);
+    } else {
+        debugOut("Failed to create stream from sound: %s\n",
+                 alureGetErrorString());
+        warning (ERROR_SOUND_ODDNESS);
+        
+        channel->stream = NULL;
+        channel->playing = false;
+        channel->playingOnSource = 0;
+        channel->fileLoaded = -1;
+    }
+    
+    if (channel->looping != 1) {
+        channel->soundQ->prev = NULL;
+        delete qt;
+    }
+    setResourceForFatal (-1);
+}
+
 
 /*
  * Stopping things:
@@ -437,8 +485,6 @@ void freeSound (int ch) {
 	// Clear OpenAL errors to make sure they don't block anything:
 	alGetError();
     
-	SilenceIKillYou = true;
-    
 	if (soundChannel[ch].playing) {
 		if (! alureStopSource(soundChannel[ch].playingOnSource, AL_TRUE)) {
 			debugOut( "Failed to stop source: %s\n",
@@ -447,8 +493,6 @@ void freeSound (int ch) {
 	}
 	soundChannel[ch].stream = NULL;
 	soundChannel[ch].fileLoaded = -1;
-    
-	SilenceIKillYou = false;
 }
 
 void huntKillSound (int filenum) {
@@ -684,7 +728,11 @@ void saveSounds (FILE * fp) {
 	fputc (0, fp);
 	put2bytes (defSoundVol, fp);
 	put2bytes (defMusicVol, fp);
+    
+    // TODO: Write SoundQ stuff
 }
+
+extern int ssgVersion;
 
 void loadSounds (FILE * fp) {
 	for (int i = SAMPLE_CHAN0; i < MAX_SAMPLES+SAMPLE_CHAN0; i ++) freeSound (i);
@@ -697,6 +745,12 @@ void loadSounds (FILE * fp) {
 
 	defSoundVol = get2bytes (fp);
 	defMusicVol = get2bytes (fp);
+    
+    // Get SoundQ stuff
+    if (ssgVersion >= VERSION(2,3)) {
+        
+    }
+
 }
 
 bool getActiveSounds (stackHandler * sH) {
@@ -784,7 +838,39 @@ unsigned int getSoundSource(int index) {
 }
 
 
+void playQStream (int ch) {
+	if (! soundOK) return;
+	ALboolean ok;
+	ALuint src;
+    
+	alGenSources(1, &src);
+	if(alGetError() != AL_NO_ERROR)
+	{
+		debugOut( "Failed to create OpenAL source!\n");
+		return;
+	}
+    
+    alSourcef (src, AL_GAIN, (float) soundChannel[ch].vol / 256);
+    alSourceQueueBuffers(src, 4, soundChannel[ch].buffers);
+    alSourcePlay(src);
+
+    ok = alGetError();
+    
+	if(ok != AL_NO_ERROR) {
+		debugOut("Failed to play stream: %s\n", alureGetErrorString());
+		alDeleteSources(1, &src);
+		if(alGetError() != AL_NO_ERROR) {
+			debugOut("Failed to delete OpenAL source!\n");
+		}
+		soundChannel[ch].playingOnSource = 0;
+	} else {
+		soundChannel[ch].playingOnSource = src;
+		soundChannel[ch].playing = true;
+ 	}
+}
+
 void addSoundQ(int filenum, int ch) {
+
 	if (! soundOK) return;
     if (ch >= MAX_SOUNDQS || ch < 0) return;
     ch += SQ_CHAN0;
@@ -824,14 +910,21 @@ void addSoundQ(int filenum, int ch) {
     char * file = new char [7];
 	if (! checkNew (file)) return;
     snprintf(file, 7, "%d", filenum);
-	soundChannel[ch].stream = alureCreateStreamFromFile(file, chunkLength, 0, NULL);
+	soundChannel[ch].stream = alureCreateStreamFromFile(file, chunkLength, 4, soundChannel[ch].buffers);
+    // Get the length of the sound, in hundreds of a second.
+    int f = alureGetStreamFrequency (soundChannel[ch].stream);
+    if (f)
+        soundChannel[ch].length = alureGetStreamLength(soundChannel[ch].stream) * 100 / f;
+    else
+        soundChannel[ch].length = 0;
+    soundChannel[ch].offset = 0;
     
     delete file;
     
 	if (soundChannel[ch].stream != NULL) {
 		soundChannel[ch].fileLoaded = filenum;
         soundChannel[ch].soundQ = qt;
-        playStream (ch, false, false);
+        playQStream (ch);
 	} else {
 		debugOut("Failed to create stream from sound: %s\n",
                  alureGetErrorString());
@@ -862,7 +955,7 @@ void replaceSoundQ(int filenum, int ch) {
             delete qt;
         }
     }
-
+    
     // Then add the new sound
     addSoundQ(filenum, ch-SQ_CHAN0);
 }
@@ -900,6 +993,22 @@ void setSoundQLoop(int loopHow, int ch) {
      |  2 = Loop the last segment only.  |
     \*-----------------------------------*/
     soundChannel[ch].looping = loopHow;
+    
+    // Remove past queue if we're not looping back
+    if (loopHow != 1) {
+        soundQThing * prev, *qt;
+        if ((qt = soundChannel[ch].soundQ)) {
+            if (qt->prev) {
+                qt = qt->prev;
+                soundChannel[ch].soundQ->prev = NULL;
+                while ((prev = qt->prev)) {
+                    delete qt;
+                    qt = prev;
+                }
+                delete qt;
+            }
+        }
+    }
 }
 
 void setSoundQVolume (int volume, int ch) {
@@ -915,9 +1024,37 @@ void setSoundQVolume (int volume, int ch) {
 bool getSoundQInfo (stackHandler * sH, int ch) {
     if (ch >= MAX_SOUNDQS || ch < 0) return false;
     ch += SQ_CHAN0;
-    
-    // TODO
 
+//    fprintf (stderr, "info: ch %d\n", ch);
+ 
+    variable newFileHandle;
+    newFileHandle.varType = SVT_NULL;
+
+    if (soundChannel[ch].fileLoaded != -1) {
+        int t, f;
+
+        f = alureGetStreamFrequency (soundChannel[ch].stream);
+        // Get the remaining time of the sound, in hundreds of a second.
+        if (f)
+            t = soundChannel[ch].length - (soundChannel[ch].offset * 100 / f);
+        else
+            t = 0;
+ 
+        setVariable (newFileHandle, SVT_INT, t);
+        if (! addVarToStackQuick (newFileHandle, sH -> first)) return false;
+        if (sH -> last == NULL) sH -> last = sH -> first;
+        
+        setVariable (newFileHandle, SVT_FILE, soundChannel[ch].fileLoaded);
+        if (! addVarToStackQuick (newFileHandle, sH -> first)) return false;
+        if (sH -> last == NULL) sH -> last = sH -> first;
+    } else {
+        // Nothing playing - just add NULL
+        setVariable (newFileHandle, SVT_INT, 0);
+        if (! addVarToStackQuick (newFileHandle, sH -> first)) return false;
+        setVariable (newFileHandle, SVT_NULL, 0);
+        if (! addVarToStackQuick (newFileHandle, sH -> first)) return false;
+    }
+    
     return true;
 }
 int skipSoundQ (int ch){
@@ -934,10 +1071,7 @@ int skipSoundQ (int ch){
 	alGetError();
         
 	if (soundChannel[ch].playing) {
-		if (! alureStopSource(soundChannel[ch].playingOnSource, AL_TRUE)) {
-			debugOut( "Failed to stop source: %s\n",
-                     alureGetErrorString());
-		}
+        soundq_playNext(ch);
 	}
     return retVal;
 }

@@ -3,6 +3,7 @@
 // GENERAL...
 bool initSoundStuff ();
 void killSoundStuff ();
+void updateSound();
 
 // MOD MUSIC...
 bool playMOD (int filenum, int channel, int position);

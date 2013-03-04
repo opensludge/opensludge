@@ -407,7 +407,9 @@ int main(int argc, char *argv[]) try
 		walkAllPeople ();
 		handleInput ();
 		sludgeDisplay ();
+        updateSound();
 		Wait_Frame();
+        updateSound();
 
 	}
 
