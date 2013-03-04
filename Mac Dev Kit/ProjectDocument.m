@@ -311,11 +311,13 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 	}
 	[closeCompilerButton setEnabled:YES];
 	[NSApp endModalSession:session];
+    [compilerErrors noteNumberOfRowsChanged];
 	if (numErrors) {
-		[compilerErrors noteNumberOfRowsChanged];
 		[tabView selectTabViewItemAtIndex:1];
 		[projectWindow orderFront: self];
-	} 
+	} else {
+		[tabView selectTabViewItemAtIndex:0];
+    }
 	if (success) {
 		[runGameButton setEnabled:YES];
 	}
