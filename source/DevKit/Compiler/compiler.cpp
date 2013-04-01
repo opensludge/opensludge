@@ -70,10 +70,14 @@ extern stringArray * allFileHandles;
 extern int numStringsFound;
 extern int numFilesFound;
 extern stringArray * functionNames;
+extern stringArray * functionFiles;
 extern stringArray * objectTypeNames;
+
+extern stringArray * globalVarFileOrigins;
 
 extern stringArray * builtInFunc;
 extern stringArray * typeDefFrom;
+extern stringArray * typeDefTo;
 extern stringArray * allKnownFlags;
 
 char * gameFile = NULL;
@@ -342,9 +346,6 @@ bool doSingleCompileStep (char **fileList, int *numFiles) {
 		unlink ("SLUDGE1.tmp");
 		unlink ("SLUDGE2.tmp");
 
-		extern stringArray * globalVarFileOrigins;
-		extern stringArray * functionFiles;
-
 		warnAboutUnused (CHECKUSED_FUNCTIONS, functionNames, "Function ", functionFiles);
 		warnAboutUnused (CHECKUSED_GLOBALS, globalVarNames, "Global variable ", globalVarFileOrigins);
 
@@ -406,9 +407,13 @@ int compileEverything (char * project, char **fileList, int *numFiles, void (*in
 	destroyAll (globalVarNames);
 	destroyAll (builtInFunc);
 	destroyAll (typeDefFrom);
+	destroyAll (typeDefTo);
 	destroyAll (allKnownFlags);
 	destroyAll (allSourceStrings);
 	destroyAll (allFileHandles);
+    destroyAll (functionFiles);
+    destroyAll (globalVarFileOrigins);
+
 
 	killTempDir();
 	setFinished(success);
