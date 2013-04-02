@@ -74,7 +74,8 @@ extern NSModalSession session;
 			[[palMode cellWithTag: 1] setEnabled:NO];
 		}
 	} else {
-		[palMode selectCellWithTag:0];
+        sprites.type = 2;
+		[palMode selectCellWithTag:2];
 		[[palMode cellWithTag: 1] setEnabled:NO];
 	}
 }
