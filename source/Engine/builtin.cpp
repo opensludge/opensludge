@@ -100,7 +100,7 @@ int paramNum[] = {-1, 0, 1, 1, -1, -1,	// say, skipSpeech, statusText, pause, on
 	2, 1,				// regGet, fatal
 	4, 3, -1, 0,		// chr AA, max AA, setBackgroundEffect, doBackgroundEffect
 	2, 2, 5,			// setCharacterAngleOffset, setCharacterTransparency, setCharacterColourise
-	1,					// zoomCamera
+	-1,					// zoomCamera
 	1, 0, 0,            // playMovie, stopMovie, pauseMovie
 	2, 2,               // rotateCharacter, ponder
     2, 2, 1, 1, 1,      // addSoundQ, replaceSoundQ, stopSoundQ, pauseSoundQ, resumeSoundQ
@@ -494,22 +494,37 @@ builtIn(aimCamera)
 builtIn(zoomCamera)
 {
 	UNUSEDALL
-	int z;
+	int z, z2 = 0;
+	if (numParams < 1) {
+		fatal ("Built-in function zoomCamera() must have at least 1 parameters.");
+		return BR_ERROR;
+	} else if (numParams > 2) {
+		fatal ("Built-in function zoomCamera() cannot take more than 2 parameters.");
+		return BR_ERROR;
+    }
+        
+    if (numParams > 1) {
+        if (! getValueType (z2, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
+        trimStack (fun -> stack);
+    }
 	if (! getValueType (z, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
 
+    if (!z2) z2 = 100;
+        
 	input.mouseX = input.mouseX * cameraZoom;
 	input.mouseY = input.mouseY * cameraZoom;
 
 
-	cameraZoom = (float) z * 0.01;
+	cameraZoom = (double) z / z2;
+
 	if ((float) winWidth / cameraZoom > sceneWidth) cameraZoom = (float)winWidth / sceneWidth;
 	if ((float) winHeight / cameraZoom > sceneHeight) cameraZoom = (float)winHeight / sceneHeight;
 	setPixelCoords (false);
 
 	input.mouseX = input.mouseX / cameraZoom;
 	input.mouseY = input.mouseY / cameraZoom;
-
+    
 	return BR_CONTINUE;
 }
 
@@ -1007,10 +1022,10 @@ builtIn(launch)
 		gameDir = joinStrings(gamePath, "/");
 #endif
 		launchMe = joinStrings (gameDir, newText);
-		delete newText;
-		if (! launchMe) return BR_ERROR;
 	}
+    delete newText;
 	delete newTextA;
+    if (! launchMe) return BR_ERROR;
 	setGraphicsWindow(false);
 	setVariable (fun -> reg, SVT_INT, 1);
 	launchResult = &fun->reg;
