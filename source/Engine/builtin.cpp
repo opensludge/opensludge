@@ -989,17 +989,16 @@ builtIn(launch)
 	if (! newTextA) return BR_ERROR;
 
 	char * newText = encodeFilename (newTextA);
-	delete newTextA;
 
 	trimStack (fun -> stack);
-	if (newText[0] == 'h' &&
-		newText[1] == 't' &&
-		newText[2] == 't' &&
-		newText[3] == 'p' &&
-		newText[4] == ':') {
+	if (newTextA[0] == 'h' &&
+		newTextA[1] == 't' &&
+		newTextA[2] == 't' &&
+		newTextA[3] == 'p' &&
+		newTextA[4] == ':') {
 
 		// IT'S A WEBSITE!
-		launchMe = newText;
+		launchMe = copyString(newTextA);
 	} else {
 		char *gameDir;
 #ifdef _WIN32
@@ -1011,6 +1010,7 @@ builtIn(launch)
 		delete newText;
 		if (! launchMe) return BR_ERROR;
 	}
+	delete newTextA;
 	setGraphicsWindow(false);
 	setVariable (fun -> reg, SVT_INT, 1);
 	launchResult = &fun->reg;
