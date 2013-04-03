@@ -15,8 +15,10 @@
 #include "newfatal.h"
 #include "stringy.h"
 #include "moreio.h"
+#include "version.h"
 
-extern int fontHeight, cameraX, cameraY, speechMode;
+extern int fontHeight, speechMode;
+extern double cameraX, cameraY;
 extern float cameraZoom;
 speechStruct * speech;
 ponderingStruct * pondering = NULL;
@@ -80,22 +82,13 @@ inline void setObjFontColour (objectType * t, speechStruct *speech) {
 	setFontColour (speech -> talkCol, t -> r, t -> g, t -> b);
 }
 
-void addSpeechLine (char * theLine, int x, int & offset, speechStruct *speech) {
-	int halfWidth = (stringWidth (theLine) >> 1)/cameraZoom;
-	int xx1 = x - (halfWidth);
-	int xx2 = x + (halfWidth);
+void addSpeechLine (char * theLine, speechStruct *speech) {
 	speechLine * newLine = new speechLine;
 	checkNew (newLine);
 
 	newLine -> next = speech -> allSpeech;
 	newLine -> textLine = copyString (theLine);
-	newLine -> x = xx1;
 	speech -> allSpeech = newLine;
-	if ((xx1 < 5) && (offset < (5 - xx1))) {
-		offset = 5 - xx1;
-	} else if ((xx2 >= ((float)winWidth/cameraZoom) - 5) && (offset > (((float)winWidth/cameraZoom) - 5 - xx2))) {
-		offset = ((float)winWidth/cameraZoom) - 5 - xx2;
-	}
 }
 
 int isThereAnySpeechGoingOn () {
@@ -103,7 +96,7 @@ int isThereAnySpeechGoingOn () {
 }
 
 int wrapSpeechXY (char * theText, int x, int y, int wrap, int sampleFile, speechStruct *speech) {
-	int a, offset = 0;
+	int a;
 	killAllSpeech ();
 
 	int speechTime = (strlen (theText) + 20) * speechSpeed;
@@ -119,6 +112,7 @@ int wrapSpeechXY (char * theText, int x, int y, int wrap, int sampleFile, speech
 		}
 	}
 	speech -> speechY = y;
+    speech -> speechH = 0;
 
 	while (strlen (theText) > wrap) {
 		a = wrap;
@@ -130,30 +124,33 @@ int wrapSpeechXY (char * theText, int x, int y, int wrap, int sampleFile, speech
 			}
 		}
 		theText[a] = 0;
-		addSpeechLine (theText, x, offset, speech);
+		addSpeechLine (theText, speech);
 		theText[a] = ' ';
 		theText += a + 1;
-		y -= fontHeight/cameraZoom;
+        speech -> speechH += fontHeight;
 	}
-	addSpeechLine (theText, x, offset, speech);
-	y -= fontHeight/cameraZoom;
-
-	if (y < 0) speech -> speechY -= y;
-	else if (speech -> speechY > cameraY + (float)(winHeight - fontHeight/3)/cameraZoom) speech -> speechY = cameraY + (float)(winHeight - fontHeight/3)/cameraZoom;
-
-	if (offset) {
-		speechLine * viewLine = speech -> allSpeech;
-		while (viewLine) {
-			viewLine -> x += offset;
-			viewLine = viewLine -> next;
-		}
-	}
+	addSpeechLine (theText, speech);
+    speech -> speechH += fontHeight;
+    
+    speech -> speechW = 0;
+    speechLine * viewLine = speech -> allSpeech;
+    while (viewLine) {
+        if (stringWidth (viewLine -> textLine) > speech -> speechW)
+            speech->speechW = stringWidth (viewLine -> textLine);
+        viewLine = viewLine -> next;
+    }
+    speech -> speechX = x;
+    viewLine = speech -> allSpeech;
+    while (viewLine) {
+        viewLine -> xoffset = (speech->speechW - stringWidth (viewLine -> textLine)) >> 1;
+        viewLine = viewLine -> next;
+    }
 
 	return speechTime;
 }
 
 int wrapSpeechPerson (char * theText, onScreenPerson & thePerson, int sampleFile, bool animPerson, speechStruct *speech) {
-	int i = wrapSpeechXY (theText, thePerson.x - cameraX, thePerson.y - cameraY - (thePerson.scale * (thePerson.height - thePerson.floaty)) - thePerson.thisType -> speechGap, thePerson.thisType -> wrapSpeech, sampleFile, speech);
+	int i = wrapSpeechXY (theText, thePerson.x, thePerson.y - (thePerson.scale * (thePerson.height - thePerson.floaty)) - thePerson.thisType -> speechGap, thePerson.thisType -> wrapSpeech, sampleFile, speech);
 	if (animPerson) {
 		makeTalker (thePerson);
 		speech -> currentTalker = & thePerson;
@@ -252,17 +249,28 @@ void wrapPondering (char * theText, int objT) {
 }
 
 void viewSpeech () {
-	int viewY;
+	double viewX, viewY;
 	speechLine * viewLine;
 	
 	// Ponderings
 	ponderingStruct *p = pondering;
 	while (p) {
-		viewY = p -> speech -> speechY;
+        viewY = p->speech -> speechY - cameraY;
+        if (viewY < p->speech->speechH/cameraZoom)
+            viewY = p->speech->speechH/cameraZoom;
+        else if (viewY > (float)(winHeight - fontHeight)/cameraZoom)
+            viewY = (float)(winHeight - fontHeight)/cameraZoom;
+        
+        viewX = (double) (p->speech -> speechX - cameraX) - (p->speech->speechW/2)/cameraZoom;
+        if (viewX < 0)
+            viewX = 0;
+        else if (viewX > ((double)winWidth - p->speech->speechW)/cameraZoom)
+            viewX = ((double)winWidth - p->speech->speechW)/cameraZoom;
+        
 		viewLine = p-> speech -> allSpeech;
 		fixFont (p -> speech -> talkCol);
 		while (viewLine) {
-			drawString (viewLine -> textLine, viewLine -> x, viewY, p->speech -> talkCol);
+			drawString (viewLine -> textLine, viewX + viewLine -> xoffset / cameraZoom, viewY, p->speech -> talkCol);
 			viewY -= fontHeight / cameraZoom;
 			viewLine = viewLine -> next;
 		}
@@ -270,11 +278,22 @@ void viewSpeech () {
 	}
 	
 	// And the normal speech
-	viewY = speech -> speechY;
+    viewY = speech -> speechY - cameraY;
+    if (viewY < speech->speechH/cameraZoom)
+        viewY = speech->speechH/cameraZoom;
+    else if (viewY > (float)(winHeight - fontHeight)/cameraZoom)
+        viewY = (float)(winHeight - fontHeight)/cameraZoom;
+    
+    viewX = (double) (speech -> speechX - cameraX) - (speech->speechW/2)/cameraZoom;
+    if (viewX < 0)
+        viewX = 0;
+    else if (viewX > ((double)winWidth - speech->speechW)/cameraZoom)
+        viewX = ((double)winWidth - speech->speechW)/cameraZoom;
+
 	viewLine = speech -> allSpeech;
 	fixFont (speech -> talkCol);
 	while (viewLine) {
-		drawString (viewLine -> textLine, viewLine -> x, viewY, speech -> talkCol);
+		drawString (viewLine -> textLine, viewX + viewLine -> xoffset/cameraZoom, viewY, speech -> talkCol);
 		viewY -= fontHeight / cameraZoom;
 		viewLine = viewLine -> next;
 	}
@@ -290,8 +309,11 @@ void saveSpeech (speechStruct * sS, FILE * fp) {
 	
 	putFloat (speechSpeed, fp);
 	
-	// Write y co-ordinate
+	// Write co-ordinates
+	put2bytes (sS -> speechX, fp);
 	put2bytes (sS -> speechY, fp);
+	put2bytes (sS -> speechW, fp);
+	put2bytes (sS -> speechH, fp);
 	
 	// Write which character's talking
 	put2bytes (sS -> lookWhosTalking, fp);		
@@ -306,12 +328,13 @@ void saveSpeech (speechStruct * sS, FILE * fp) {
 	while (viewLine) {
 		fputc (1, fp);
 		writeString (viewLine -> textLine, fp);
-		put2bytes (viewLine -> x, fp);
+		put2bytes (viewLine -> xoffset, fp);
 		viewLine = viewLine -> next;
 	}
 	fputc (0, fp);
 }
 
+extern int ssgVersion;
 
 bool loadSpeech (speechStruct * sS, FILE * fp) {
 	speech -> currentTalker = NULL;
@@ -323,8 +346,20 @@ bool loadSpeech (speechStruct * sS, FILE * fp) {
 
 	speechSpeed = getFloat (fp);
 	
-	// Read y co-ordinate
-	sS -> speechY = get2bytes (fp);
+    if (ssgVersion >= VERSION(2,3)) {
+        // Read co-ordinates
+        sS -> speechX = get2bytes (fp);
+        sS -> speechY = get2bytes (fp);
+        sS -> speechW = get2bytes (fp);
+        sS -> speechH = get2bytes (fp);
+    } else {
+        // Read y co-ordinate
+        sS -> speechY = get2bytes (fp);
+        // This won't work, but it doesn't really matter, so this is how it is
+        sS -> speechX = 0;
+        sS -> speechH = 10;
+        sS -> speechW = 20;
+    }
 
 	// Read which character's talking
 	sS -> lookWhosTalking = get2bytes (fp);
@@ -343,7 +378,7 @@ bool loadSpeech (speechStruct * sS, FILE * fp) {
 		newOne = new speechLine;
 		if (! checkNew (newOne)) return false;
 		newOne -> textLine = readString (fp);
-		newOne -> x	= get2bytes (fp);
+		newOne -> xoffset	= get2bytes (fp);
 		newOne -> next = NULL;
 		(* viewLine) = newOne;
 		viewLine = & (newOne -> next);

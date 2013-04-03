@@ -9,7 +9,7 @@
 screenRegion * allScreenRegions = NULL;
 screenRegion * overRegion = NULL;
 extern inputType input;
-extern int cameraX, cameraY;
+extern double cameraX, cameraY;
 
 void showBoxes () {
 	screenRegion * huntRegion = allScreenRegions;

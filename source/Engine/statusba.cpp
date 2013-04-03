@@ -72,15 +72,15 @@ void drawStatusBar () {
 	while (stat) {
 		switch (nowStatus -> alignStatus) {
 			case IN_THE_CENTRE:
-			drawString (stat -> text, ((winWidth - stringWidth (stat -> text)) >> 1)/cameraZoom, y/cameraZoom, (n ++ == nowStatus -> litStatus) ? litVerbLinePalette : verbLinePalette);
+			drawString (stat -> text, (double)((winWidth - stringWidth (stat -> text)) >> 1)/cameraZoom, (double)y/cameraZoom, (n ++ == nowStatus -> litStatus) ? litVerbLinePalette : verbLinePalette);
 			break;
 
 			case 1001:
-			drawString (stat -> text, (winWidth - stringWidth (stat -> text)) - nowStatus -> statusX/cameraZoom, y/cameraZoom, (n ++ == nowStatus -> litStatus) ? litVerbLinePalette : verbLinePalette);
+			drawString (stat -> text, (double)(winWidth - stringWidth (stat -> text)) - nowStatus -> statusX/cameraZoom, (double)y/cameraZoom, (n ++ == nowStatus -> litStatus) ? litVerbLinePalette : verbLinePalette);
 			break;
 
 			default:
-			drawString (stat -> text, nowStatus -> statusX/cameraZoom, y/cameraZoom, (n ++ == nowStatus -> litStatus) ? litVerbLinePalette : verbLinePalette);
+			drawString (stat -> text, (double)nowStatus -> statusX/cameraZoom, (double)y/cameraZoom, (n ++ == nowStatus -> litStatus) ? litVerbLinePalette : verbLinePalette);
 		}
 		stat = stat -> next;
 		y -= fontHeight;

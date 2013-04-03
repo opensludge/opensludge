@@ -30,7 +30,7 @@ extern int lightMapNumber, zBufferNumber;
 extern eventHandlers * currentEvents;
 extern personaAnimation * mouseCursorAnim;
 extern int mouseCursorFrameNum;
-extern int cameraX, cameraY;
+extern double cameraX, cameraY;
 extern unsigned int sceneWidth, sceneHeight;
 extern float cameraZoom;
 extern zBufferData zBuffer;

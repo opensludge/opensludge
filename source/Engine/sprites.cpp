@@ -28,7 +28,7 @@ extern zBufferData zBuffer;
 extern GLuint backdropTextureName;
 
 extern inputType input;
-extern int cameraX, cameraY;
+extern double cameraX, cameraY;
 extern float cameraZoom;
 
 unsigned char currentBurnR = 0, currentBurnG = 0, currentBurnB = 0;
@@ -613,15 +613,15 @@ void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette 
 
 
 // Used to draw text and the cursor
-void fontSprite (bool flip, int x, int y, sprite & single, const spritePalette & fontPal) {
+void fontSprite (bool flip, double x, double y, sprite & single, const spritePalette & fontPal) {
 
 	float tx1 = (float)(single.tex_x-0.5) / fontPal.tex_w[single.texNum];
 	float ty1 = 0.0;
 	float tx2 = (float)(single.tex_x + single.width+(flip ? 1.0 : 0.5)) / fontPal.tex_w[single.texNum];
 	float ty2 = (float)(single.height+2)/fontPal.tex_h[single.texNum];
 
-	float x1 = (float)x - (float)single.xhot/cameraZoom;
-	float y1 = (float)y - (float)single.yhot/cameraZoom;
+	float x1 = x - (float)single.xhot/cameraZoom;
+	float y1 = y - (float)single.yhot/cameraZoom;
 	float x2 = x1 + (float)single.width/cameraZoom;
 	float y2 = y1 + (float)single.height/cameraZoom;
 
@@ -669,11 +669,11 @@ void fontSprite (bool flip, int x, int y, sprite & single, const spritePalette &
 	glUseProgram(0);
 }
 
-void fontSprite (int x, int y, sprite & single, const spritePalette & fontPal) {
+void fontSprite (double x, double y, sprite & single, const spritePalette & fontPal) {
 	fontSprite (false, x, y, single, fontPal);
 }
 
-void flipFontSprite (int x, int y, sprite & single, const spritePalette & fontPal) {
+void flipFontSprite (double x, double y, sprite & single, const spritePalette & fontPal) {
 	fontSprite (true, x, y, single, fontPal);
 }
 

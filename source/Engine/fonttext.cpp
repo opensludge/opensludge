@@ -60,12 +60,10 @@ int stringWidth (char * theText) {
 	return xOff;
 }
 
-void drawString (char * theText, int xOff, int y, spritePalette & thePal) {
+void drawString (char * theText, double x, double y, spritePalette & thePal) {
 	sprite * mySprite;
 	int a = 0;
     uint32_t c;
-
-    double x = xOff;
     
 	if (! fontTableSize) return;
 
@@ -73,8 +71,8 @@ void drawString (char * theText, int xOff, int y, spritePalette & thePal) {
 	while (theText[a]) {
         c = u8_nextchar(theText, &a);
 		mySprite = & theFont.sprites[fontInTable(c)];
-		fontSprite (xOff, y, * mySprite, thePal);
-		xOff += ((double)(mySprite -> width + fontSpace) / cameraZoom);
+		fontSprite (x, y, * mySprite, thePal);
+		x += ((double)(mySprite -> width + fontSpace) / cameraZoom);
 	}
 }
 

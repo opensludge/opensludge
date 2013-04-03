@@ -30,7 +30,7 @@ extern variableStack * noStack;
 
 extern int ssgVersion;
 
-extern int cameraX, cameraY;
+extern double cameraX, cameraY;
 screenRegion personRegion;
 extern screenRegion * lastRegion;
 extern flor * currentFloor;

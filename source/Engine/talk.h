@@ -3,14 +3,15 @@
 struct speechLine {
 	char * textLine;
 	speechLine * next;
-	int x;
+	int xoffset;
 };
 
 struct speechStruct {
 	onScreenPerson * currentTalker;
 	speechLine * allSpeech;
-	int speechY, lastFile, lookWhosTalking;
+	int lastFile, lookWhosTalking;
 	spritePalette talkCol;
+    int speechX, speechY, speechW, speechH;
 };
 
 struct ponderingStruct {

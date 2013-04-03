@@ -42,7 +42,7 @@ extern FILETIME fileTime;							// In sludger.cpp
 extern int speechMode;								// "	"	"
 extern int lightMapNumber;							// In backdrop.cpp
 extern unsigned int sceneWidth, sceneHeight;		// "	"	"
-extern int cameraX, cameraY;						// "	"	"
+extern double cameraX, cameraY;						// "	"	"
 extern float cameraZoom;
 extern unsigned char brightnessLevel;				// "	"	"
 extern short fontSpace;								// in textfont.cpp

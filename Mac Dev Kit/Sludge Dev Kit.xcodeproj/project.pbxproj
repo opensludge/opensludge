@@ -206,7 +206,7 @@
 		2F7EA3E10FFCEBCF005E5C36 /* specialsettings.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = specialsettings.h; sourceTree = "<group>"; };
 		2F7EA3E20FFCEBCF005E5C36 /* tga.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = tga.cpp; sourceTree = "<group>"; };
 		2F7EA3E30FFCEBCF005E5C36 /* tga.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = tga.h; sourceTree = "<group>"; };
-		2F7EA3E40FFCEBCF005E5C36 /* version.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = version.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		2F7EA3E40FFCEBCF005E5C36 /* version.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = version.h; sourceTree = "<group>"; };
 		2F7EA3EE0FFCEBE6005E5C36 /* allknown.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = allknown.cpp; path = ../source/DevKit/Compiler/allknown.cpp; sourceTree = "<group>"; };
 		2F7EA3EF0FFCEBE6005E5C36 /* allknown.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = allknown.h; path = ../source/DevKit/Compiler/allknown.h; sourceTree = "<group>"; };
 		2F7EA3F00FFCEBE6005E5C36 /* hsi.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = hsi.cpp; path = ../source/DevKit/Compiler/hsi.cpp; sourceTree = "<group>"; };

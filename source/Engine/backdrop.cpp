@@ -62,7 +62,7 @@ unsigned int sceneWidth, sceneHeight;
 int lightMapNumber;
 unsigned int currentBlankColour = makeColour (0, 0, 0);
 
-extern int cameraX, cameraY;
+extern double cameraX, cameraY;
 extern float cameraZoom;
 
 void nosnapshot () {

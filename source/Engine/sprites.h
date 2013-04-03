@@ -56,8 +56,8 @@ void forgetSpriteBank (spriteBank & forgetme);
 bool loadSpriteBank (char * filename, spriteBank & loadhere);
 bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont);
 
-void fontSprite		(int x1, int y1, sprite & single, const spritePalette & fontPal);
-void flipFontSprite	(int x1, int y1, sprite & single, const spritePalette & fontPal);
+void fontSprite		(double x1, double y1, sprite & single, const spritePalette & fontPal);
+void flipFontSprite	(double x1, double y1, sprite & single, const spritePalette & fontPal);
 
 void pasteSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette & fontPal);
 void burnSpriteToBackDrop (int x1, int y1, sprite & single, const spritePalette & fontPal);

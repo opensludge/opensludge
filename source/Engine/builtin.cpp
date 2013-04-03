@@ -40,7 +40,7 @@
 extern char * gamePath;
 
 int speechMode = 0;
-int cameraX, cameraY;
+double cameraX, cameraY;
 float cameraZoom = 1.0;
 spritePalette pastePalette;
 
@@ -472,9 +472,12 @@ builtIn(setSceneDimensions)
 builtIn(aimCamera)
 {
 	UNUSEDALL
-	if (! getValueType (cameraY, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
+    int i;
+	if (! getValueType (i, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
+    cameraY = i;
 	trimStack (fun -> stack);
-	if (! getValueType (cameraX, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
+	if (! getValueType (i, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
+    cameraX = i;
 	trimStack (fun -> stack);
 
 	cameraX -= (float)(winWidth >> 1)/ cameraZoom;

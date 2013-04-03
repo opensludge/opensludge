@@ -532,7 +532,7 @@ bool initSludge (char * filename) {
 	return true;
 }
 
-extern int cameraX, cameraY;
+extern double cameraX, cameraY;
 extern float cameraZoom;
 
 bool checkColourChange (bool reset) {
