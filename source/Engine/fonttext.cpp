@@ -65,14 +65,16 @@ void drawString (char * theText, int xOff, int y, spritePalette & thePal) {
 	int a = 0;
     uint32_t c;
 
+    double x = xOff;
+    
 	if (! fontTableSize) return;
 
-	xOff += (int)((float)(fontSpace >> 1) / cameraZoom);
+	x += ((double)(fontSpace >> 1) / cameraZoom);
 	while (theText[a]) {
         c = u8_nextchar(theText, &a);
 		mySprite = & theFont.sprites[fontInTable(c)];
 		fontSprite (xOff, y, * mySprite, thePal);
-		xOff += (int)((double)(mySprite -> width + fontSpace) / cameraZoom);
+		xOff += ((double)(mySprite -> width + fontSpace) / cameraZoom);
 	}
 }
 

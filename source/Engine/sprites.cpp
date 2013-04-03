@@ -741,6 +741,8 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 		}
 		yoffset = - (int)(single.yhot * scale / cameraZoom);
 		floaty = thisPerson->floaty * scale / cameraZoom;
+        spriteW /= cameraZoom;
+        spriteH /= cameraZoom;
 	} else {
 		x -= cameraX;
 		y -= cameraY;
