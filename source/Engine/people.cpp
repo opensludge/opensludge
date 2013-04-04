@@ -769,6 +769,25 @@ void walkAllPeople () {
 	}
 }
 
+int getHeightofPerson (personaAnimation * animation) {
+    int h;
+  
+	// HEIGHT (BASED ON 1st FRAME OF 1st ANIMATION... INC. SPECIAL CASES)
+	int fNumSigned = animation -> frames[0].frameNum;
+	int fNum = abs (fNumSigned);
+	if (fNum >= animation -> theSprites -> bank.total) {
+		if (fNumSigned < 0) {
+			h = 5;
+		} else {
+			h = animation -> theSprites -> bank.sprites[0].yhot + 5;
+		}
+	} else {
+		h = animation -> theSprites -> bank.sprites[fNum].yhot + 5;
+	}
+    
+    return h;
+}
+
 bool addPerson (int x, int y, int objNum, persona * p) {
 	onScreenPerson * newPerson = new onScreenPerson;
 	if (! checkNew (newPerson)) return false;
@@ -803,19 +822,9 @@ bool addPerson (int x, int y, int objNum, persona * p) {
 
 	setFrames (* newPerson, ANI_STAND);
 
-	// HEIGHT (BASED ON 1st FRAME OF 1st ANIMATION... INC. SPECIAL CASES)
-	int fNumSigned = p -> animation[0] -> frames[0].frameNum;
-	int fNum = abs (fNumSigned);
-	if (fNum >= p -> animation[0] -> theSprites -> bank.total) {
-		if (fNumSigned < 0) {
-			newPerson -> height = 5;
-		} else {
-			newPerson -> height = p -> animation[0] -> theSprites -> bank.sprites[0].yhot + 5;
-		}
-	} else {
-		newPerson -> height = p -> animation[0] -> theSprites -> bank.sprites[fNum].yhot + 5;
-	}
-
+    newPerson -> height = getHeightofPerson(p -> animation[0]);
+    
+    
 	// NOW ADD IT IN THE RIGHT PLACE
 	onScreenPerson * * changethat = & allPeople;
 
@@ -855,6 +864,8 @@ void animatePerson (int obj, persona * per) {			// Set a new costume
 	//	moveMe -> walking = false;
 		moveMe -> spinning = false;
 		moveMe -> myPersona = per;
+        moveMe -> height = getHeightofPerson(per -> animation[0]);
+
 		rethinkAngle (moveMe);
 		if (moveMe-> walking) {
 			setFrames (* moveMe, ANI_WALK);

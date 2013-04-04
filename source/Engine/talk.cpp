@@ -176,7 +176,7 @@ int wrapSpeech (char * theText, int objT, int sampleFile, bool animPerson) {
 		} else {
 			objectType * temp = findObjectType (objT);
 			setObjFontColour (temp, speech);
-			i = wrapSpeechXY (theText, winWidth >> 1, 10, temp -> wrapSpeech, sampleFile, speech);
+			i = wrapSpeechXY (theText, cameraX + (winWidth >> 1), 10, temp -> wrapSpeech, sampleFile, speech);
 		}
 	}
 	return i;
