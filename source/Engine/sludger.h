@@ -46,7 +46,8 @@ struct loadedFunction {
 
 struct inputType {
 	bool leftClick, rightClick, justMoved, leftRelease, rightRelease;
-	int mouseX, mouseY, keyPressed;
+	float mouseX, mouseY;
+    int keyPressed;
 };
 
 extern unsigned char * gameIcon;

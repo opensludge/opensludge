@@ -176,7 +176,7 @@ int wrapSpeech (char * theText, int objT, int sampleFile, bool animPerson) {
 		} else {
 			objectType * temp = findObjectType (objT);
 			setObjFontColour (temp, speech);
-			i = wrapSpeechXY (theText, cameraX + (winWidth >> 1), 10, temp -> wrapSpeech, sampleFile, speech);
+			i = wrapSpeechXY (theText, cameraX + ((int)(winWidth/cameraZoom) >> 1), 10, temp -> wrapSpeech, sampleFile, speech);
 		}
 	}
 	return i;
@@ -243,7 +243,7 @@ void wrapPondering (char * theText, int objT) {
 		} else {
 			objectType * temp = findObjectType (objT);
 			setObjFontColour (temp, s);
-			wrapSpeechXY (theText, winWidth >> 1, 10, temp -> wrapSpeech, -1, s);
+			wrapSpeechXY (theText, (int)(winWidth/cameraZoom) >> 1, 10, temp -> wrapSpeech, -1, s);
 		}
 	}
 }

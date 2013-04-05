@@ -216,11 +216,11 @@ void killParallax () {
 bool reserveBackdrop () {
 	cameraX = 0;
 	cameraY = 0;
-	input.mouseX = (int)((float)input.mouseX * cameraZoom);
-	input.mouseY = (int)((float)input.mouseY * cameraZoom);
+	input.mouseX = input.mouseX * cameraZoom;
+	input.mouseY = input.mouseY * cameraZoom;
 	cameraZoom = 1.0;
-	input.mouseX = (int)((float)input.mouseX / cameraZoom);
-	input.mouseY = (int)((float)input.mouseY / cameraZoom);
+	input.mouseX = input.mouseX / cameraZoom;
+	input.mouseY = input.mouseY / cameraZoom;
 	setPixelCoords(false);
 	int picWidth = sceneWidth;
 	int picHeight = sceneHeight;

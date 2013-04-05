@@ -242,28 +242,28 @@ builtIn(setCursor)
 builtIn(getMouseX)
 {
 	UNUSEDALL
-	setVariable (fun -> reg, SVT_INT, input.mouseX + cameraX);
+	setVariable (fun -> reg, SVT_INT, (int)(input.mouseX + cameraX));
 	return BR_CONTINUE;
 }
 
 builtIn(getMouseY)
 {
 	UNUSEDALL
-	setVariable (fun -> reg, SVT_INT, input.mouseY + cameraY);
+	setVariable (fun -> reg, SVT_INT, (int)(input.mouseY + cameraY));
 	return BR_CONTINUE;
 }
 
 builtIn(getMouseScreenX)
 {
 	UNUSEDALL
-	setVariable (fun -> reg, SVT_INT, input.mouseX*cameraZoom);
+	setVariable (fun -> reg, SVT_INT, (int)(input.mouseX*cameraZoom));
 	return BR_CONTINUE;
 }
 
 builtIn(getMouseScreenY)
 {
 	UNUSEDALL
-	setVariable (fun -> reg, SVT_INT, input.mouseY*cameraZoom);
+	setVariable (fun -> reg, SVT_INT, (int)(input.mouseY*cameraZoom));
 	return BR_CONTINUE;
 }
 
@@ -940,7 +940,7 @@ builtIn(pasteString)
 	trimStack (fun -> stack);
 	if (! getValueType (x, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (x == IN_THE_CENTRE) x = (winWidth - stringWidth (newText)) >> 1;
+	if (x == IN_THE_CENTRE) x = (int)(winWidth/cameraZoom - stringWidth (newText)) >> 1;
 	fixFont (pastePalette);
 	pasteStringToBackdrop (newText, x, y, pastePalette);
 	delete newText;
@@ -2415,7 +2415,7 @@ builtIn(burnString)
 	trimStack (fun -> stack);
 	if (! getValueType (x, SVT_INT, fun -> stack -> thisVar)) return BR_ERROR;
 	trimStack (fun -> stack);
-	if (x == IN_THE_CENTRE) x = (winWidth - stringWidth (newText)) >> 1;
+	if (x == IN_THE_CENTRE) x = (int)(winWidth/cameraZoom - stringWidth (newText)) >> 1;
 	fixFont (pastePalette);
 	burnStringToBackdrop (newText, x, y, pastePalette);
 	delete newText;

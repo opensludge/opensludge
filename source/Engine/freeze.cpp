@@ -250,11 +250,11 @@ void unfreeze (bool killImage) {
 
 	cameraX = frozenStuff -> cameraX;
 	cameraY = frozenStuff -> cameraY;
-	input.mouseX = (int)(input.mouseX * cameraZoom);
-	input.mouseY = (int)(input.mouseY * cameraZoom);
+	input.mouseX = input.mouseX * cameraZoom;
+	input.mouseY = input.mouseY * cameraZoom;
 	cameraZoom = frozenStuff -> cameraZoom;
-	input.mouseX = (int)(input.mouseX / cameraZoom);
-	input.mouseY = (int)(input.mouseY / cameraZoom);
+	input.mouseX = input.mouseX / cameraZoom;
+	input.mouseY = input.mouseY / cameraZoom;
 	setPixelCoords(false);
 
 	killAllPeople ();
