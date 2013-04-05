@@ -11,6 +11,7 @@ extern GLuint snapshotTextureName;
 extern unsigned char brightnessLevel;
 
 extern float snapTexW, snapTexH;
+extern float cameraZoom;
 
 unsigned char fadeMode = 2;
 
@@ -26,10 +27,10 @@ void transitionFader () {
 	glEnable(GL_BLEND);
 	
 	const GLfloat vertices[] = { 
-		0.f, (GLfloat)winHeight, 0.f, 
-		(GLfloat)winWidth, (GLfloat)winHeight, 0.f, 
+		0.f, (GLfloat)winHeight / cameraZoom, 0.f,
+		(GLfloat)winWidth / cameraZoom, (GLfloat)winHeight / cameraZoom, 0.f, 
 		0.f, 0.f, 0.f,
-		(GLfloat)winWidth, 0.f, 0.f
+		(GLfloat)winWidth / cameraZoom, 0.f, 0.f
 	};
 
 	glUseProgram(shader.color);
@@ -51,10 +52,10 @@ void transitionCrossFader () {
 	glEnable(GL_BLEND);
 
 	const GLfloat vertices[] = { 
-		0.f, (GLfloat)winHeight, 0.f, 
-		(GLfloat)winWidth, (GLfloat)winHeight, 0.f, 
+		0.f, (GLfloat)winHeight / cameraZoom, 0.f, 
+		(GLfloat)winWidth, (GLfloat)winHeight / cameraZoom, 0.f, 
 		0.f, 0.f, 0.f,
-		(GLfloat)winWidth, 0.f, 0.f
+		(GLfloat)winWidth / cameraZoom, 0.f, 0.f
 	};
 
 	const GLfloat texCoords[] = { 
@@ -87,10 +88,10 @@ void transitionSnapshotBox () {
 	float yScale = (float) brightnessLevel * winHeight / 510.f;
 	
 	const GLfloat vertices[] = { 
-		xScale, winHeight-yScale, 0, 
-		winWidth-xScale, winHeight-yScale, 0, 
-		xScale, yScale, 0,
-		winWidth-xScale, yScale, 0
+		(xScale / cameraZoom), (winHeight-yScale) / cameraZoom, 0,
+		(winWidth-xScale) / cameraZoom, (winHeight-yScale)  / cameraZoom, 0,
+		xScale / cameraZoom, yScale / cameraZoom, 0,
+		(winWidth-xScale) / cameraZoom, yScale / cameraZoom, 0
 	};
 
 	const GLfloat texCoords[] = { 
@@ -195,10 +196,10 @@ void transitionDisolve () {
 	glEnable(GL_BLEND);
 
 	const GLfloat vertices[] = { 
-		0.f, (GLfloat)winHeight, 0.f, 
-		(GLfloat)winWidth, (GLfloat)winHeight, 0.f, 
+		0.f, (GLfloat)winHeight / cameraZoom, 0.f, 
+		(GLfloat)winWidth / cameraZoom, (GLfloat)winHeight / cameraZoom, 0.f, 
 		0.f, 0.f, 0.f,
-		(GLfloat)winWidth, 0.f, 0.f
+		(GLfloat)winWidth / cameraZoom, 0.f, 0.f
 	};
 
 	const GLfloat texCoords[] = { 
@@ -257,10 +258,10 @@ void transitionTV () {
 	glEnable(GL_BLEND);
 	
 	const GLfloat vertices[] = { 
-		0.f, (GLfloat)winHeight, 0.f, 
-		(GLfloat)winWidth, (GLfloat)winHeight, 0.f, 
+		0.f, (GLfloat)winHeight / cameraZoom, 0.f, 
+		(GLfloat)winWidth / cameraZoom, (GLfloat)winHeight / cameraZoom, 0.f, 
 		0.f, 0.f, 0.f,
-		(GLfloat)winWidth, 0.f, 0.f
+		(GLfloat)winWidth / cameraZoom, 0.f, 0.f
 	};
 
 	const GLfloat texCoords[] = { 
@@ -298,10 +299,10 @@ void transitionBlinds () {
 	glEnable(GL_BLEND);
 
 	const GLfloat vertices[] = { 
-		0.f, (GLfloat)winHeight, 0.f, 
-		(GLfloat)winWidth, (GLfloat)winHeight, 0.f, 
+		0.f, (GLfloat)winHeight / cameraZoom, 0.f, 
+		(GLfloat)winWidth / cameraZoom, (GLfloat)winHeight / cameraZoom, 0.f, 
 		0.f, 0.f, 0.f,
-		(GLfloat)winWidth, 0.f, 0.f
+		(GLfloat)winWidth / cameraZoom, 0.f, 0.f
 	};
 
 	const GLfloat texCoords[] = { 
