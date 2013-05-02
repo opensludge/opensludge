@@ -30,9 +30,9 @@ struct spritePalette {
 	unsigned char * r;
 	unsigned char * g;
 	unsigned char * b;
-	GLuint tex_names[256];
-	GLuint burnTex_names[256];
-	int tex_w[256], tex_h[256];
+	GLuint tex_names[65535];
+	GLuint burnTex_names[65535];
+	int tex_w[65535], tex_h[65535];
 	int numTextures;
 	unsigned char originalRed, originalGreen, originalBlue, total;
 };

@@ -59,6 +59,10 @@ void forgetSpriteBank (spriteBank & forgetme) {
 
 	delete forgetme.sprites;
 	forgetme.sprites = NULL;
+    
+    
+    // TODO: also remove sprite bank from allLoadedBanks
+    // And add a function call for this function to the scripting language
 }
 
 bool reserveSpritePal (spritePalette & sP, int n) {
