@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		002F39FA09D0881F00EBEB88 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002F39F909D0881F00EBEB88 /* SDL.framework */; };
-		002F3A0009D0884600EBEB88 /* SDL.framework in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 002F39F909D0881F00EBEB88 /* SDL.framework */; };
 		2F3AB888100CF97C00CD6A13 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 2F3AB887100CF97C00CD6A13 /* Credits.html */; };
 		2F59E738102E230800008746 /* libpng.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F59E737102E230800008746 /* libpng.framework */; };
 		2F59E748102E246100008746 /* libpng.framework in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 2F59E737102E230800008746 /* libpng.framework */; };
@@ -118,6 +116,8 @@
 		E89D32F814059706004FC507 /* helpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E89D32F614059706004FC507 /* helpers.cpp */; };
 		E8C9413F1466DB6A00B9BD26 /* utf8.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E8C9413D1466DB6A00B9BD26 /* utf8.cpp */; };
 		E8CA57A9111D9EDF00E971B4 /* sound_openal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E8981D35111A2A8500762C10 /* sound_openal.cpp */; };
+		E8D5A5E01712C007006698FE /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8D5A5DF1712C007006698FE /* SDL.framework */; };
+		E8D5A5E11712C13C006698FE /* SDL.framework in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = E8D5A5DF1712C007006698FE /* SDL.framework */; };
 		E8D761481128A5A900A5F7D7 /* libdumb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8D761421128A5A900A5F7D7 /* libdumb.a */; };
 		E8D7614A1128A5A900A5F7D7 /* libogg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8D761441128A5A900A5F7D7 /* libogg.a */; };
 		E8D7614B1128A5A900A5F7D7 /* libvorbis.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8D761451128A5A900A5F7D7 /* libvorbis.a */; };
@@ -144,7 +144,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				2F59E748102E246100008746 /* libpng.framework in Copy Frameworks into .app bundle */,
-				002F3A0009D0884600EBEB88 /* SDL.framework in Copy Frameworks into .app bundle */,
+				E8D5A5E11712C13C006698FE /* SDL.framework in Copy Frameworks into .app bundle */,
 				2F7BFF0E0E3386AD003F5DC3 /* bg_effects.h in Copy Frameworks into .app bundle */,
 				2F7BFF0F0E3386AD003F5DC3 /* backdrop.h in Copy Frameworks into .app bundle */,
 				2F7BFF100E3386AD003F5DC3 /* builtin.h in Copy Frameworks into .app bundle */,
@@ -207,7 +207,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		002F39F909D0881F00EBEB88 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = /Library/Frameworks/SDL.framework; sourceTree = "<absolute>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -326,6 +325,7 @@
 		E89D32F714059706004FC507 /* helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = helpers.h; path = ../source/Engine/helpers.h; sourceTree = SOURCE_ROOT; };
 		E8C9413D1466DB6A00B9BD26 /* utf8.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = utf8.cpp; path = ../source/CommonCode/utf8.cpp; sourceTree = SOURCE_ROOT; };
 		E8C9413E1466DB6A00B9BD26 /* utf8.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = utf8.h; path = ../source/CommonCode/utf8.h; sourceTree = SOURCE_ROOT; };
+		E8D5A5DF1712C007006698FE /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = /Library/Frameworks/SDL.framework; sourceTree = "<absolute>"; };
 		E8D761421128A5A900A5F7D7 /* libdumb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libdumb.a; path = ../libs/libdumb.a; sourceTree = SOURCE_ROOT; };
 		E8D761441128A5A900A5F7D7 /* libogg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libogg.a; path = ../libs/libogg.a; sourceTree = SOURCE_ROOT; };
 		E8D761451128A5A900A5F7D7 /* libvorbis.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvorbis.a; path = ../libs/libvorbis.a; sourceTree = SOURCE_ROOT; };
@@ -350,8 +350,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E8D5A5E01712C007006698FE /* SDL.framework in Frameworks */,
 				2F59E738102E230800008746 /* libpng.framework in Frameworks */,
-				002F39FA09D0881F00EBEB88 /* SDL.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				2F83725B0E5042FA00CC8352 /* OpenGL.framework in Frameworks */,
 				E8D761481128A5A900A5F7D7 /* libdumb.a in Frameworks */,
@@ -387,7 +387,6 @@
 			children = (
 				E86EDFF6164FC998008CBEEC /* OpenAL.framework */,
 				2F83725A0E5042FA00CC8352 /* OpenGL.framework */,
-				002F39F909D0881F00EBEB88 /* SDL.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -459,6 +458,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E8D5A5DF1712C007006698FE /* SDL.framework */,
 				2F59E737102E230800008746 /* libpng.framework */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
@@ -783,6 +783,7 @@
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
@@ -828,6 +829,7 @@
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",

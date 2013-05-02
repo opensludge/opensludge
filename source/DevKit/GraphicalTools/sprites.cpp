@@ -226,7 +226,7 @@ bool saveSpriteBank (const char * filename, spriteBank *sprites) {
 bool loadSpriteBank (const char * filename, spriteBank *loadhere) {
 	int i, total, picwidth, picheight, spriteBankVersion = 0, howmany,
 		startIndex;
-	int totalwidth[256], maxheight[256];
+	int totalwidth[65535], maxheight[65535];
 	int numTextures = 0;
 
 	// Open the file	
@@ -342,7 +342,7 @@ bool loadSpriteBank (const char * filename, spriteBank *loadhere) {
 			if ((loadhere->sprites[i].height = picheight) > maxheight[numTextures]) maxheight[numTextures] = picheight;
 		} else {
 			numTextures++;
-			if (numTextures > 255) return false;//fatal ("Can't open sprite bank / font - it's too big.");
+			if (numTextures > 65535) return false;//fatal ("Can't open sprite bank / font - it's too big.");
 			loadhere->sprites[i].tex_x = 0;
 			totalwidth[numTextures] = (loadhere->sprites[i].width = picwidth);
 			maxheight[numTextures] = loadhere->sprites[i].height = picheight;

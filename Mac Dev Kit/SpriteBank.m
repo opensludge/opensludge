@@ -37,13 +37,13 @@ extern NSModalSession session;
 
 - (void)setupButtons
 {
-	if (sprites.total < 256) {
+	if (sprites.total < 65535) {
 		[spriteIndexSlider setMaxValue:(double) sprites.total];
 		[spriteIndexSlider setNumberOfTickMarks:sprites.total+1];
 		[insertButton setEnabled:YES];
 	} else {
-		[spriteIndexSlider setMaxValue:255];
-		[spriteIndexSlider setNumberOfTickMarks:256];
+		[spriteIndexSlider setMaxValue:65535];
+		[spriteIndexSlider setNumberOfTickMarks:65535];
 		[insertButton setEnabled:NO];
 	}
 	if ([spriteView spriteIndex] < sprites.total) {
@@ -463,7 +463,7 @@ extern NSModalSession session;
 {
 	// Validation shouldn't be done here, but I'm cheating.
 	if (i > sprites->total) i = sprites->total;
-	if (i > 255) i = 255;
+	if (i > 65535) i = 65535;
 	else if (i<0) i = 0;
 	spriteIndex = i;
 	
