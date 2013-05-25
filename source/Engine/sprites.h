@@ -52,7 +52,6 @@ struct spriteBank {
 	bool isFont;
 };
 
-void forgetSpriteBank (spriteBank & forgetme);
 bool loadSpriteBank (char * filename, spriteBank & loadhere);
 bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont);
 

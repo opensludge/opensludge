@@ -30,6 +30,7 @@
 #include "moreio.h"
 #include "movie.h"
 #include "savedata.h"
+#include "sprbanks.h"
 #include "freeze.h"
 #include "colours.h"
 #include "language.h"
@@ -104,7 +105,8 @@ int paramNum[] = {-1, 0, 1, 1, -1, -1,	// say, skipSpeech, statusText, pause, on
 	1, 0, 0,            // playMovie, stopMovie, pauseMovie
 	2, 2,               // rotateCharacter, ponder
     2, 2, 1, 1, 1,      // addSoundQ, replaceSoundQ, stopSoundQ, pauseSoundQ, resumeSoundQ
-    2, 2, 1, 1          // setSoundQLoop, setSoundQVolume, getSoundQInfo, skipSoundQ
+    2, 2, 1, 1,         // setSoundQLoop, setSoundQVolume, getSoundQInfo, skipSoundQ
+    1                   // freeSpriteBank
 };
 
 bool failSecurityCheck (char * fn) {
@@ -2343,6 +2345,21 @@ builtIn(isMoving)
 		setVariable (fun -> reg, SVT_INT, 0);
 	}
 	return BR_CONTINUE;
+}
+
+builtIn(freeSpriteBank)
+{
+	UNUSEDALL
+	int fileNumber;
+	if (! getValueType (fileNumber, SVT_FILE, fun -> stack -> thisVar)) return BR_ERROR;
+	trimStack (fun -> stack);
+    
+    int retVal = freeSpriteBank(fileNumber);
+
+    setVariable (fun -> reg, SVT_INT, retVal);
+    
+	return BR_CONTINUE;
+    
 }
 
 builtIn(fetchEvent)

@@ -183,3 +183,5 @@ FUNC (true, setSoundQLoop)
 FUNC (true, setSoundQVolume)
 FUNC (true, getSoundQInfo)
 FUNC (true, skipSoundQ)
+FUNC (true, freeSpriteBank)
+

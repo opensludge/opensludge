@@ -34,41 +34,6 @@ extern float cameraZoom;
 unsigned char currentBurnR = 0, currentBurnG = 0, currentBurnB = 0;
 
 
-void forgetSpriteBank (spriteBank & forgetme) {
-
-	deleteTextures (forgetme.myPalette.numTextures, forgetme.myPalette.tex_names);
-	if (forgetme.isFont) {
-		deleteTextures (forgetme.myPalette.numTextures, forgetme.myPalette.burnTex_names);
-		delete [] forgetme.myPalette.burnTex_names;
-		forgetme.myPalette.burnTex_names = NULL;
-	}
-	
-	delete [] forgetme.myPalette.tex_names;
-	forgetme.myPalette.tex_names = NULL;
-	delete [] forgetme.myPalette.tex_w;
-	forgetme.myPalette.tex_w = NULL;
-	delete [] forgetme.myPalette.tex_h;
-	forgetme.myPalette.tex_h = NULL;
-	
-	if (forgetme.myPalette.pal) {
-		delete  [] forgetme.myPalette.pal;
-		forgetme.myPalette.pal = NULL;
-		delete  [] forgetme.myPalette.r;
-		forgetme.myPalette.r = NULL;
-		delete  [] forgetme.myPalette.g;
-		forgetme.myPalette.g = NULL;
-		delete  [] forgetme.myPalette.b;
-		forgetme.myPalette.b = NULL;
-	}
-
-	delete forgetme.sprites;
-	forgetme.sprites = NULL;
-    
-    
-    // TODO: also remove sprite bank from allLoadedBanks
-    // And add a function call for this function to the scripting language
-}
-
 bool reserveSpritePal (spritePalette & sP, int n) {
 	if (sP.pal) {
 		delete  [] sP.pal;

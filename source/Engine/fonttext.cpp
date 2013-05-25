@@ -10,7 +10,7 @@
 #include "allfiles.h"
 #include "stringy.h"
 
-#include "sprites.h"
+#include "sprbanks.h"
 #include "colours.h"
 #include "fonttext.h"
 #include "newfatal.h"
