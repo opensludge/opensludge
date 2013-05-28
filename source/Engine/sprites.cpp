@@ -4,6 +4,8 @@
 #include <libpng/png.h>
 #endif
 
+#include <string.h>
+
 #include "allfiles.h"
 
 #include "fileset.h"
