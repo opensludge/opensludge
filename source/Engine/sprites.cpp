@@ -5,6 +5,7 @@
 #endif
 
 #include <math.h>
+#include <string.h>
 
 #include "allfiles.h"
 
