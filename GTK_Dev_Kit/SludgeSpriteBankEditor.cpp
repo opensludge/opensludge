@@ -232,15 +232,15 @@ void SludgeSpriteBankEditor::setCoords() {
 
 void SludgeSpriteBankEditor::setupButtons()
 {
-	if (sprites.total < 256) {
+	if (sprites.total < 65536) {
 		gtk_adjustment_set_upper(theSliderAdjustment, sprites.total);
 		char buf[5];
 		sprintf(buf, "%i", sprites.total);
 		gtk_label_set_text(theNumSpritesLabel, buf);
 		gtk_widget_set_sensitive(insertButton, TRUE);
 	} else {
-		gtk_adjustment_set_upper(theSliderAdjustment, 255.);
-		gtk_label_set_text(theNumSpritesLabel, "255");
+		gtk_adjustment_set_upper(theSliderAdjustment, 65535.);
+		gtk_label_set_text(theNumSpritesLabel, "65535");
 		gtk_widget_set_sensitive(insertButton, FALSE);
 	}
 
@@ -333,7 +333,7 @@ void SludgeSpriteBankEditor::setSpriteIndex(int i)
 {
 	// Validation shouldn't be done here, but I'm cheating.
 	if (i > sprites.total) i = sprites.total;
-	if (i > 255) i = 255;
+	if (i > 65535) i = 65535;
 	else if (i<0) i = 0;
 	gtk_adjustment_set_value(theSliderAdjustment, (double)i);
 }
