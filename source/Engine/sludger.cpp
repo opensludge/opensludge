@@ -536,12 +536,12 @@ extern double cameraX, cameraY;
 extern float cameraZoom;
 
 bool checkColourChange (bool reset) {
-	static GLushort oldPixel;
-	static GLushort pixel;
+	static GLuint oldPixel;
+	static GLuint pixel;
 
 	glReadPixels((GLint)(viewportOffsetX+input.mouseX*viewportWidth/((float)winWidth/cameraZoom)),
         (GLint)(viewportOffsetY+(((float)winHeight/cameraZoom) - input.mouseY)*viewportHeight/((float)winHeight/cameraZoom)),
-        1, 1, GL_RGBA, GL_UNSIGNED_SHORT_4_4_4_4, &pixel);
+        1, 1, GL_RGBA, GL_UNSIGNED_BYTE, &pixel);
 
 	if (reset || oldPixel != pixel) {
 		oldPixel = pixel;
