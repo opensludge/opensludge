@@ -556,9 +556,9 @@ void drawBackDrop () {
 
 	const GLfloat vertices[] = { 
 		(GLfloat)-cameraX, (GLfloat)-cameraY, 0., 
-		(GLfloat)sceneWidth-cameraX, (GLfloat)-cameraY, 0., 
-		(GLfloat)-cameraX, (GLfloat)sceneHeight-cameraY, 0.,
-		(GLfloat)sceneWidth-cameraX, (GLfloat)sceneHeight-cameraY, 0.
+		(GLfloat)sceneWidth- (GLfloat)cameraX, (GLfloat)-cameraY, 0., 
+		(GLfloat)-cameraX, (GLfloat)sceneHeight- (GLfloat)cameraY, 0.,
+		(GLfloat)sceneWidth- (GLfloat)cameraX, (GLfloat)sceneHeight- (GLfloat)cameraY, 0.
 	};
 
 	drawQuad(shader.smartScaler, vertices, 1, backdropTexCoords);
