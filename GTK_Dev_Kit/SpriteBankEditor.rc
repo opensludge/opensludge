@@ -8,7 +8,7 @@ BEGIN
   BEGIN
     BLOCK "040904E4"
     BEGIN
-      VALUE "Comments", "For more info on SLUDGE, see http://opensludge.sourceforge.net"
+      VALUE "Comments", "For more info on SLUDGE, see http://opensludge.github.io"
       VALUE "CompanyName", "SLUDGE Developers"
       VALUE "FileDescription", "SLUDGE Sprite Bank Editor"
       VALUE "FileVersion", TEXT_VERSION

@@ -379,7 +379,7 @@ GNU General Public License for more details.\n\
 You should have received a copy of the GNU General Public License\n\
 along with this program.  If not, see <http://www.gnu.org/licenses/>.",
 							"version", TEXT_VERSION,
-							"website", "http://opensludge.sourceforge.net",
+							"website", "http://opensludge.github.io",
 							"website-label", "Website",
 							NULL);
 }

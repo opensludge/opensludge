@@ -14,7 +14,7 @@
 !define PRODUCT_NAME "SLUDGE"
 !define PRODUCT_NAME_SMALL "sludge"
 !define PRODUCT_PUBLISHER "SLUDGE Developers"
-!define PRODUCT_WEB_SITE "http://opensludge.sourceforge.net"
+!define PRODUCT_WEB_SITE "http://opensludge.github.io"
 
 ;!define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\AppMainExe.exe"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
