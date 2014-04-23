@@ -21,8 +21,8 @@ There are generic instructions how to compile SLUDGE in the <strong>INSTALL</str
 
 <p><ul>
 <li><strong>build-essential</strong> (compilers and build tools)</li>
-<li><strong>glee-dev</strong> (in Ubuntu available since 10.10, see <a href="#glee">below</a>)</li>
-<li><strong>libalure-dev</strong> (>= 1.1, in Debian available since Wheezy, in Ubuntu available since 11.10, see <a href="#alure">below</a>)</li>
+<li><strong>glee-dev</strong></li>
+<li><strong>libalure-dev</strong> (>= 1.1)</li>
 <li><strong>libsdl1.2-dev</strong></li>
 <li><strong>libglu1-mesa-dev</strong></li>
 <li><strong>libpng12-dev</strong></li>
@@ -45,15 +45,9 @@ There are generic instructions how to compile SLUDGE in the <strong>INSTALL</str
 
 <p><div class="bash">sudo apt-get install libgtk2.0-dev libgtkglext1-dev </div></p>
 
-<h3 id="glee">GLee</h3>
-<p>GLee is available in the Ubuntu repositories only since Ubuntu 10.10 Maverick Meerkat. For older Ubuntu versions the packages <a href="http://packages.ubuntu.com/maverick/libglee0d1" rel="nofollow"><strong>libglee0d1</strong></a> and <a href="http://packages.ubuntu.com/maverick/glee-dev" rel="nofollow"><strong>glee-dev</strong></a> have to be downloaded for the fitting architecture and installed in this order.</p>
-
-<h3 id="alure">Alure >= 1.1</h3>
-<p>Alure >= 1.1 is available in the Debian repositories starting from Wheezy and in the Ubuntu repositories since Ubuntu 11.10 Oneiric Ozelot. For older Debian/Ubuntu versions the packages <a href="http://packages.debian.org/wheezy/libalure1" rel="nofollow"><strong>libalure1</strong></a> and <a href="http://packages.debian.org/wheezy/libalure-dev" rel="nofollow"><strong>libalure-dev</strong></a> have to be downloaded for the fitting architecture and installed in this order.</p>
-
 <h3>Installing SLUDGE</h3>
 
-<p>Now it's time to download the SLUDGE source archieve from <a href="http://sourceforge.net/projects/opensludge">the SourceForge project page</a> and extract, compile und install the program.</p>
+<p>Now it's time to download the SLUDGE source archieve (<strong>sludge-*-source.tar.gz</strong>) from <a href="https://github.com/opensludge/opensludge/releases">the GitHub releases page</a> and extract, compile und install the program.</p>
 
 <p><div class="bash">cd path/to/sludge-(version) </div></p>
 <p><pre><div class="bash">./configure                     # install only the Engine
@@ -64,11 +58,11 @@ There are generic instructions how to compile SLUDGE in the <strong>INSTALL</str
 
 <h3>Getting the latest development version</h3>
 
-<p>In order to get the latest bugfixes, it can sometimes be necessary to install the latest development version. This requires that the packages <strong>subversion</strong> and <strong>automake</strong> are installed.</p>
+<p>In order to get the latest bugfixes, it can sometimes be necessary to install the latest development version. This requires that the packages <strong>git</strong> and <strong>automake</strong> are installed.</p>
 
-<p>The code can be checked out using:</p>
+<p>The code can be cloned using:</p>
 
-<p><div class="bash">svn co https://opensludge.svn.sourceforge.net/svnroot/opensludge opensludge</div></p>
+<p><div class="bash">git clone https://github.com/opensludge/opensludge.git</div></p>
 
 <p>Before SLUDGE can be compiled as described above, the <strong>configure</strong> script has to be generated using the <strong>autogen.sh</strong> script:</p>
 
