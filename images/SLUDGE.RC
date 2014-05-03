@@ -78,7 +78,7 @@ ICON_1             ICON           "sludge.ico"
             VALUE "Comments", "For more info on SLUDGE, head on over to http://www.adventuredevelopers.com/.\0"
             VALUE "FileDescription", "Er... well, SLUDGE stands for Scripting Language for Unhindered Development of a Gaming Environment. So there. What, you thought this was a help file?\0"
             VALUE "InternalName", "SLUDGE.EXE\0"
-            VALUE "LegalCopyright", "\251 Hungry Software and contributors 2000-2012, licenced under the LGPL v 2.1\0"
+            VALUE "LegalCopyright", COPYRIGHT_TEXT
             VALUE "OriginalFilename", "SLUDGE.EXE\0"
             VALUE "ProductName", "SLUDGE Engine\0"
          }

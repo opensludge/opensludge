@@ -51,7 +51,7 @@
 		<string>10.6.0</string>
 	</dict>
 	<key>NSHumanReadableCopyright</key>
-	<string>© 2000-2012, Hungry Software and contributors</string>
+	<string>© 2000-2014, Hungry Software and contributors</string>
 	<key>NSMainNibFile</key>
 	<string>SDLMain</string>
 	<key>NSPrincipalClass</key>

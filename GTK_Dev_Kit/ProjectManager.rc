@@ -1,8 +1,8 @@
 #include "../source/CommonCode/version.h" 
 ID ICON "../images/ProjIcon/ProjIcon.ico"
 1 VERSIONINFO
-FILEVERSION     MAJOR_VERSION,MINOR_VERSION,0,BUILD_VERSION
-PRODUCTVERSION  MAJOR_VERSION,MINOR_VERSION,0,BUILD_VERSION 
+FILEVERSION     MAJOR_VERSION,MINOR_VERSION,RELEASE_VERSION,BUILD_VERSION
+PRODUCTVERSION  MAJOR_VERSION,MINOR_VERSION,RELEASE_VERSION,BUILD_VERSION 
 BEGIN
   BLOCK "StringFileInfo"
   BEGIN
@@ -13,7 +13,7 @@ BEGIN
       VALUE "FileDescription", "SLUDGE Project Manager"
       VALUE "FileVersion", TEXT_VERSION
       VALUE "InternalName", "sludge-projectmanager"
-      VALUE "LegalCopyright", "(C) 2000 - 2012 Hungry Software and contributors"
+      VALUE "LegalCopyright", COPYRIGHT_TEXT
       VALUE "OriginalFilename", "sludge-projectmanager.exe"
       VALUE "ProductName", "SLUDGE Dev Kit"
       VALUE "ProductVersion", TEXT_VERSION
