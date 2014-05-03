@@ -598,3 +598,17 @@ Engine (Linux):
 
 General (Linux):
 * Fix check for endianness on Unix.
+
+----------------------
+2.2.1 - Bugfix release
+----------------------
+
+Engine:
+* Fix a bug that made it impossible to take the guards ID card in Out Of Order.
+  Due to this bug it was not possible to complete Out Of Order with SLUDGE 2.2.
+  It was not present in SLUDGE < 2.2.
+* Allow opening an URL with launch().
+* Fix building with gcc 4.7.
+
+Development Kit:
+* Allow sprite banks larger than 255 images. 
