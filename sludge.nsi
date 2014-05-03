@@ -10,7 +10,7 @@
 ; gtk installer name for embedding
 !define GTK_INSTALLER_EXE "gtk2-runtime-2.16.6-2010-05-12-ash.exe"
 
-!define PRODUCT_VERSION "2.2"
+!define PRODUCT_VERSION "2.2.1"
 !define PRODUCT_NAME "SLUDGE"
 !define PRODUCT_NAME_SMALL "sludge"
 !define PRODUCT_PUBLISHER "SLUDGE Developers"
