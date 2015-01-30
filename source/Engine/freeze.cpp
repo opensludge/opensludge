@@ -89,7 +89,7 @@ void freezeGraphics() {
 			2.0f/realWinWidth*cameraZoom,                            .0,   .0,  .0,
 			                          .0, 2.0f/realWinHeight*cameraZoom,   .0,  .0,
 			                          .0,                            .0, 1.0f,  .0,
-			                        -1.0,                         -1.0f,   .0, 1.0f
+			 -2.0f*(x/realWinWidth)-1.0f,  -2.0f*(y/realWinHeight)-1.0f,   .0, 1.0f
 
 			};
 			for (int i = 0; i < 16; i++)
