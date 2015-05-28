@@ -970,7 +970,7 @@ builtIn(launch)
 		newTextA[1] == 't' &&
 		newTextA[2] == 't' &&
 		newTextA[3] == 'p' &&
-		newTextA[4] == ':') {
+		(newTextA[4] == ':' || (newTextA[4] == 's' && newTextA[5] == ':'))) {
 
 		// IT'S A WEBSITE!
 		launchMe = copyString(newTextA);
