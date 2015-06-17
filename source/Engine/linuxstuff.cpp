@@ -176,7 +176,7 @@ uint32_t launch(char * filename) {
 		filename[1] == 't' &&
 		filename[2] == 't' &&
 		filename[3] == 'p' &&
-		filename[4] == ':') &&
+		(filename[4] == ':' || (filename[4] == 's' && filename[5] == ':'))) &&
 		!fileExists(filename)) {
 		return 0;
 	}
