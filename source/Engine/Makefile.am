@@ -48,6 +48,7 @@ endif
 
 if COND_PANDORA
   AM_CPPFLAGS += -DPANDORA
+  LDADD += -liconv
 endif
 if COND_RPI
   AM_CPPFLAGS += -DRPI
