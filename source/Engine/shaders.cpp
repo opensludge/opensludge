@@ -73,7 +73,7 @@ printShaderInfoLog (GLuint shader)
         }
 		glGetShaderInfoLog (shader, infologLength, &charsWritten, infoLog);
 		debugOut("Shader InfoLog:\n%s\n\n", infoLog);
-		delete infoLog;
+		delete[] infoLog;
     }
 	printOpenGLError();  // Check for OpenGL errors
 }
@@ -100,7 +100,7 @@ printProgramInfoLog (GLuint program)
         }
 		glGetProgramInfoLog (program, infologLength, &charsWritten, infoLog);
 		debugOut( "Program InfoLog:\n%s\n\n", infoLog);
-		delete infoLog;
+		delete[] infoLog;
     }
 	printOpenGLError ();  // Check for OpenGL errors
 }
