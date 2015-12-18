@@ -45,6 +45,15 @@ fi
 if test "x$enable_odroid" = x; then
   enable_odroid="no"
 fi
+if test "x$enable_pandora" = xyes; then
+  enable_gles2="yes"
+fi
+if test "x$enable_rpi" = xyes; then
+  enable_gles2="yes"
+fi
+if test "x$enable_odroid" = xyes; then
+  enable_gles2="yes"
+fi
 
 # Are we cross compiling for windows?
 case "${host}" in
