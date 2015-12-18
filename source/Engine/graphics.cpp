@@ -147,18 +147,43 @@ void storeTextureDimensions(GLuint name, GLsizei width,  GLsizei height, const c
 	list->width = width;
 	list->height = height;
 }
-
+#ifdef HAVE_GLES2
+void glesCopyTexSubImage2D(GLenum target,  GLint level, GLint xoffset, GLint yoffset, GLint x,  GLint y,  GLsizei width,  GLsizei height)
+{
+	// Work around for broken glCopy(Sub)TexImage2D...
+    void* tmp = malloc(width*height*4);
+    glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, tmp);
+    glTexSubImage2D(target, level, xoffset, yoffset, width, height, GL_RGBA, GL_UNSIGNED_BYTE, tmp);
+    free(tmp);
+}
+void glesCopyTexImage2D(GLenum target,  GLint level,  GLenum internalformat,  GLint x,  GLint y,  GLsizei width,  GLsizei height,  GLint border)
+{
+	// Work around for broken glCopy(Sub)TexImage2D...
+	void* tmp = malloc(width*height*4);
+	glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, tmp);
+	glTexImage2D(target, level, GL_RGBA, width, height, border, GL_RGBA, GL_UNSIGNED_BYTE, tmp);
+	free(tmp);
+}
+#endif
 
 void dcopyTexImage2D(GLenum target,  GLint level,  GLenum internalformat,  GLint x,  GLint y,  GLsizei width,  GLsizei height,  GLint border, GLuint name, const char *file, int line)
 {
 	glBindTexture(GL_TEXTURE_2D, name);
+	#ifdef HAVE_GLES2_
+	glesCopyTexImage2D(target, level, internalformat, x, y, width, height, border);
+	#else
 	glCopyTexImage2D(target, level, internalformat, x, y, width, height, border);
+	#endif
 }
 
 void dcopyTexSubImage2D(GLenum target,  GLint level,  GLint xoffset,  GLint yoffset,  GLint x,  GLint y,  GLsizei width,  GLsizei height, GLuint name, const char *file, int line)
 {
 	glBindTexture(GL_TEXTURE_2D, name);
+	#ifdef HAVE_GLES2_
+	glesCopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height);
+	#else
 	glCopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height);
+	#endif
 }
 
 void dtexImage2D(GLenum target,  GLint level,  GLint internalformat,  GLsizei width,  GLsizei height, 
@@ -303,7 +328,28 @@ int desktopW = 0, desktopH = 0;
 bool runningFullscreen = false;
 
 
-#if defined _WIN32 || defined(HAVE_GLES2)
+#if defined(HAVE_GLES2)
+void saveTexture (GLuint tex, GLubyte * data) {
+	// use an FBO to easily grab the texture...
+	static GLuint fbo = 0;
+	GLuint old_fbo;
+	GLint tw, th;
+	GLint old_vp[4];
+	if (fbo==0) {
+		glGenFramebuffers(1, &fbo);
+	}
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING, (GLint*)&old_fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, tex, 0);
+	getTextureDimensions(tex, &tw, &th);
+	glGetIntegerv(GL_VIEWPORT, old_vp);
+	glViewport(0,0, tw, th);
+	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+	glReadPixels(0, 0, tw, th, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	glViewport(old_vp[0], old_vp[1], old_vp[2], old_vp[3]);
+	glBindFramebuffer(GL_FRAMEBUFFER, old_fbo);
+}
+#elif defined _WIN32
 // Replacement for glGetTexImage, because some ATI drivers are buggy.
 void saveTexture (GLuint tex, GLubyte * data) {
 	setPixelCoords (true);
@@ -369,6 +415,9 @@ void saveTexture (GLuint tex, GLubyte * data) {
 // This is for setting windowed or fullscreen graphics.
 // Used for switching, and for initial window creation.
 void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
+#if defined(PANDORA)
+	fullscreen = true;
+#endif
 
 	GLubyte *snapTexture = NULL;
 
