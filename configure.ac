@@ -20,6 +20,8 @@ AC_ARG_ENABLE([devkit], [AC_HELP_STRING([--enable-devkit], [build the SLUDGE Dev
 AC_ARG_ENABLE([doc], [AC_HELP_STRING([--enable-doc], [install the SLUDGE documentation])])
 AC_ARG_ENABLE([gles2], [AC_HELP_STRING([--enable-gles2], [build engine using OpenGL ES 2.0])])
 AC_ARG_ENABLE([pandora], [AC_HELP_STRING([--enable-pandora], [enable hacks for OpenPandora])])
+AC_ARG_ENABLE([rpi], [AC_HELP_STRING([--enable-rpi], [enable Raspberry-PI support])])
+AC_ARG_ENABLE([odroid], [AC_HELP_STRING([--enable-odroid], [enable ODroid support])])
 
 # Set default targets:
 if test "x$enable_engine" = x; then

@@ -49,6 +49,12 @@ endif
 if COND_PANDORA
   AM_CPPFLAGS += -DPANDORA
 endif
+if COND_RPI
+  AM_CPPFLAGS += -DRPI
+endif
+if COND_ODROID
+  AM_CPPFLAGS += -DODROID
+endif
 
 
 EXTRA_DIST = \
