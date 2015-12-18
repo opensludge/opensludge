@@ -39,6 +39,12 @@ fi
 if test "x$enable_pandora" = x; then
   enable_pandora="no"
 fi
+if test "x$enable_rpi" = x; then
+  enable_rpi="no"
+fi
+if test "x$enable_odroid" = x; then
+  enable_odroid="no"
+fi
 
 # Are we cross compiling for windows?
 case "${host}" in
@@ -130,6 +136,8 @@ AM_CONDITIONAL([COND_DEVKIT], [test "x$enable_devkit" = xyes])
 AM_CONDITIONAL([COND_DOC], [test "x$enable_doc" = xyes])
 AM_CONDITIONAL([COND_GLES2], [test "x$enable_gles2" = xyes])
 AM_CONDITIONAL([COND_PANDORA], [test "x$enable_pandora" = xyes])
+AM_CONDITIONAL([COND_RPI], [test "x$enable_rpi" = xyes])
+AM_CONDITIONAL([COND_ODROID], [test "x$enable_odroid" = xyes])
 
 AC_CONFIG_FILES([Makefile
                  source/Makefile
