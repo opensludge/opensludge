@@ -38,21 +38,23 @@ void main()
 		vec4 temp1 = m2*(s00 + s22) + m1*(s02 + s20);
 
 	//	gl_FragColor = (temp1/(m1+m2)) * 0.5;
-		gl_FragColor = c11*0.333333 + (temp1/(m1+m2)) * 0.333333;
-	} else {
+		c11 = c11*0.333333 + (temp1/(m1+m2)) * 0.333333;
+	} 
+	/*
+	else {
 		gl_FragColor = c11;
-	}
+	}*/
 
-	if (gl_FragColor.a<0.001) discard;
+	//if (gl_FragColor.a<0.001) discard;
 	
 	vec3 col;
 	if (useLightTexture) {
 		vec4 texture1 = texture2D (lightTexture, varCoord1.xy);
-		col = texture1.rgb * gl_FragColor.rgb;
+		col = texture1.rgb * c11.rgb;
 	} else {
-		col = color.rgb * gl_FragColor.rgb;
+		col = color.rgb * c11.rgb;
 	}
 	col += vec3(secondaryColor);
-	gl_FragColor = vec4 (col, color.a * gl_FragColor.a);
+	gl_FragColor = vec4 (col, color.a * c11.a);
 }
 
