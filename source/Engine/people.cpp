@@ -128,7 +128,7 @@ void deleteAnim (personaAnimation * orig) {
 	if (orig)
 	{
 		if (orig -> numFrames) {
-			delete orig -> frames;
+			delete[] orig -> frames;
 		}
 		delete orig;
 		orig = NULL;

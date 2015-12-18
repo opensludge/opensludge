@@ -28,7 +28,7 @@ extern char * outputDir;
 void unlinkVar (variable & thisVar) {
 	switch (thisVar.varType) {
 		case SVT_STRING:
-		delete thisVar.varData.theString;
+		delete[] thisVar.varData.theString;
 		thisVar.varData.theString = NULL;
 		break;
 
@@ -45,7 +45,7 @@ void unlinkVar (variable & thisVar) {
 		thisVar.varData.fastArray -> timesUsed --;
 		if (thisVar.varData.theStack -> timesUsed <= 0) {
 			delete thisVar.varData.fastArray -> fastVariables;
-			delete thisVar.varData.fastArray;
+			delete[] thisVar.varData.fastArray;
 			thisVar.varData.fastArray = NULL;
 		}
 		break;
@@ -174,7 +174,7 @@ bool getSavedGamesStack (stackHandler * sH, char * ext) {
 				d->d_name[strlen (d->d_name) - strlen (ext)] = 0;
 				char * decoded = decodeFilename (d->d_name);
 				makeTextVar (newName, decoded);
-				delete decoded;
+				delete[] decoded;
 				if (! addVarToStack (newName, sH -> first)) return false;
 				if (sH -> last == NULL) sH -> last = sH -> first;
 			}
@@ -187,7 +187,7 @@ bool getSavedGamesStack (stackHandler * sH, char * ext) {
 
 #endif
 
-	delete pattern;
+	delete[] pattern;
 	pattern = NULL;
 	return true;
 }
@@ -205,7 +205,7 @@ bool copyStack (const variable & from, variable & to) {
 	{
 		char * str = getTextFromAnyVar(from);
 		stackDebug((stackfp, "in copyStack, copying %s\n", str));
-		delete str;
+		delete[] str;
 	}
 #endif
 
@@ -223,7 +223,7 @@ bool copyStack (const variable & from, variable & to) {
 		{
 			char * str = getTextFromAnyVar(a->thisVar);
 			stackDebug((stackfp, "\ta->thisVar = %s (%p)\n", str, to.varData.theStack->first));
-			delete str;
+			delete[] str;
 		}
 #endif
 
@@ -234,7 +234,7 @@ bool copyStack (const variable & from, variable & to) {
 	{
 		char * str = getTextFromAnyVar(to);
 		stackDebug((stackfp, "finished copy, got %s\n", str));
-		delete str;
+		delete[] str;
 		stackDebug((stackfp, "first = %p\n", to.varData.theStack->first));
 		stackDebug((stackfp, "last = %p\n", to.varData.theStack->last));
 	}
@@ -258,8 +258,8 @@ void addVariablesInSecond (variable & var1, variable & var2) {
 		unlinkVar (var2);
 		var2.varData.theString = joinStrings (string1, string2);
 		var2.varType = SVT_STRING;
-		delete string1;
-		delete string2;
+		delete[] string1;
+		delete[] string2;
 	}
 }
 
