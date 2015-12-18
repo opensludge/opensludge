@@ -46,6 +46,11 @@ else
   LDADD += @GL_LIBS@ @GLEE_LIBS@
 endif
 
+if COND_PANDORA
+  AM_CPPFLAGS += -DPANDORA
+endif
+
+
 EXTRA_DIST = \
 	libvorbis/COPYING \
 	libwebm/AUTHORS.TXT \

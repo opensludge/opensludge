@@ -19,6 +19,7 @@ AC_ARG_ENABLE([engine], [AC_HELP_STRING([--disable-engine], [don't build the SLU
 AC_ARG_ENABLE([devkit], [AC_HELP_STRING([--enable-devkit], [build the SLUDGE DevKit])])
 AC_ARG_ENABLE([doc], [AC_HELP_STRING([--enable-doc], [install the SLUDGE documentation])])
 AC_ARG_ENABLE([gles2], [AC_HELP_STRING([--enable-gles2], [build engine using OpenGL ES 2.0])])
+AC_ARG_ENABLE([pandora], [AC_HELP_STRING([--enable-pandora], [enable hacks for OpenPandora])])
 
 # Set default targets:
 if test "x$enable_engine" = x; then
@@ -32,6 +33,9 @@ if test "x$enable_doc" = x; then
 fi
 if test "x$enable_gles2" = x; then
   enable_gles2="no"
+fi
+if test "x$enable_pandora" = x; then
+  enable_pandora="no"
 fi
 
 # Are we cross compiling for windows?
@@ -123,6 +127,7 @@ AM_CONDITIONAL([COND_ENGINE], [test "x$enable_engine" = xyes])
 AM_CONDITIONAL([COND_DEVKIT], [test "x$enable_devkit" = xyes])
 AM_CONDITIONAL([COND_DOC], [test "x$enable_doc" = xyes])
 AM_CONDITIONAL([COND_GLES2], [test "x$enable_gles2" = xyes])
+AM_CONDITIONAL([COND_PANDORA], [test "x$enable_pandora" = xyes])
 
 AC_CONFIG_FILES([Makefile
                  source/Makefile
