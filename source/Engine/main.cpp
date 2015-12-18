@@ -347,13 +347,6 @@ int main(int argc, char *argv[]) try
 		exit(1);
 	}
 
-#if defined(HAVE_GLES2)
-	if (EGL_Open()) {
-		msgBox("Startup Error", "Couldn't initialize EGL.");
-		exit(1);
-	}
-#endif
-
     if (gameIcon) {
         if (SDL_Surface * programIcon = SDL_CreateRGBSurfaceFrom(gameIcon, iconW, iconH, 32, iconW*4, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000)) {
             SDL_WM_SetIcon(programIcon, NULL);
