@@ -605,6 +605,11 @@ int playMovie (int fileNumber)
 	int frameCounter = 0;
 
 	movieStartTick = SDL_GetTicks();
+	#ifdef HAVE_GLES2
+	GLuint old_fbo;
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING, (GLint*)&old_fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	#endif
 	
 	while ( movieIsPlaying ) {
 
@@ -937,6 +942,9 @@ movieHasEnded:	movieIsEnding = 1;
 	}
 
 	// Cleanup
+	#ifdef HAVE_GLES2
+	glBindFramebuffer(GL_FRAMEBUFFER, old_fbo);
+	#endif
 	movieIsPlaying = nothing;
 	for (int i =0; i<10; i++) Wait_Frame();
 	huntKillFreeSound(fileNumber);

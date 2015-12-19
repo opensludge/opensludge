@@ -513,7 +513,7 @@ int cacheSound (int f) {
 
 	soundCache[a].stream = alureCreateStreamFromMemory(memImage, length, chunkLength, 0, NULL);
 
-	delete memImage;
+	delete[] memImage;
 
 	if (soundCache[a].stream != NULL) {
 		soundCache[a].fileLoaded = f;

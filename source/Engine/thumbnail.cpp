@@ -73,9 +73,23 @@ bool saveThumbnail (FILE * fp) {
 		thumbnailTextureName = 0;
 		
 		// Save Our ViewPort
+		#ifdef HAVE_GLES2
+		GLushort* image = new GLushort [thumbWidth*thumbHeight];
+		GLuint* tmp = new GLuint [thumbWidth*thumbHeight];
+		if (! checkNew (image)) return false;
+		glReadPixels(viewportOffsetX, viewportOffsetY, thumbWidth, thumbHeight, GL_RGBA, GL_UNSIGNED_BYTE, tmp);
+		for (int y = 0; y < thumbHeight; y ++) {
+			for (int x = 0; x < thumbWidth; x ++) {
+				const GLuint a = tmp[y*thumbWidth+x];
+				image[y*thumbWidth+x] =  ((a&0x00f80000)>>(16+3)) | ((a&0x0000fc00)>>(8+2-5)) | ((a&0x000000f8)<<(11-3));
+			}
+		}
+		delete[] tmp;
+		#else
 		GLushort* image = new GLushort [thumbWidth*thumbHeight];
 		if (! checkNew (image)) return false;
 		glReadPixels(viewportOffsetX, viewportOffsetY, thumbWidth, thumbHeight, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, image);
+		#endif
 
 		glUseProgram(0);
 		setPixelCoords (false);
@@ -85,7 +99,7 @@ bool saveThumbnail (FILE * fp) {
 				put2bytes ((*(image +y*thumbWidth+x)), fp);
 			}
 		}
-		delete image;
+		delete[] image;
 		image = NULL;
 		unfreeze (true);
 	}

@@ -1,7 +1,7 @@
 /**
  *
  *  EGLPORT.H
- *  Copyright (C) 2011 Scott R. Smith
+ *  Copyright (C) 2011-2013 Scott R. Smith
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -26,58 +26,66 @@
 #ifndef EGLPORT_H
 #define EGLPORT_H
 
-#include <string>
-#include <stdlib.h>
 #include <stdint.h>
 #include "EGL/egl.h"
-
-using namespace std;
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-// Defines (in every case choose only one)
-// EGL window system
-#if defined(USE_EGL_RAW) && !defined(USE_EGL_SDL)
-    //#warning Using RAW EGL mode USE_EGL_RAW
-#elif !defined(USE_EGL_RAW) && defined(USE_EGL_SDL)
-    //#warning Using SDL EGL mode USE_EGL_SDL
-#else	// default configuration
-    #define USE_EGL_SDL 1
-    #define USE_GLES1 1
-#endif
-// GLES Version
-//  USE_GLES1
-//  USE_GLES2
-// Platform
-//  PANDORA
-//  WIZ
-//  CAANOO
+/** Defines (in every case choose only one) */
+/**     Common: */
+/**         DEBUG : enable additional error monitoring per EGL function call */
+/**     Native display and window system for use with EGL */
+/**         USE_EGL_SDL : used for access to a SDL X11 window */
+/**     Platform: settings that are specific to that device */
+/**         PANDORA (USE_GLES1 or USE_GLES2) */
+/**         WIZ     (USE_GLES1) */
+/**         CAANOO  (USE_GLES1) */
+/**         RPI     (USE_GLES1 or USE_GLES2) */
+/**     GLES Version */
+/**         USE_GLES1 : EGL for use with OpenGL-ES 1.X contexts */
+/**         USE_GLES2 : EGL for use with OpenGL-ES 2.0 contexts */
 
-// External API
+/** Public API */
+void    EGL_Init                    ( void );
 void    EGL_Close                   ( void );
-int8_t  EGL_Open                    ( void );
-int8_t  EGL_Init                    ( void );
+int8_t  EGL_Open                    ( /*uint16_t width, uint16_t height*/ );
 void    EGL_SwapBuffers             ( void );
 
-// Internal API
-int8_t  ConfigureEGL                ( EGLConfig config );
-int8_t  FindAppropriateEGLConfigs   ( void );
-int8_t  CheckEGLErrors              ( const string& file, uint16_t line );
+extern int8_t	eglColorbits;
+extern int8_t	eglDepthbits;
+extern int8_t	eglStencilbits;
 
-void    Platform_Open               ( void );
-void    Platform_Close              ( void );
-void    Platform_VSync              ( void );
+/** Simple Examples  */
+/**     Raw mode:
+            EGL_Open( window_width, window_height );
+            do while(!quit) {
+                ... run app
+                EGL_SwapBuffers();
+            }
+            EGL_Close();
+*/
+/**     X11/SDL mode:
+            SDL_Init( SDL_INIT_VIDEO );
+            SDL_Surface* screen = SDL_SetVideoMode(640, 480, 16, SDL_SWSURFACE|SDL_FULLSCREEN);
+            EGL_Open( window_width, window_height );
+            do while(!quit) {
+                ... run app
+                EGL_SwapBuffers();
+            }
+            EGL_Close();
+            SDL_Quit();
+*/
 
 #if defined(DEBUG)
-#define GET_EGLERROR(X)                                     \
-    X;                                                      \
-    {                                                       \
+#define GET_EGLERROR(FUNCTION)               \
+    FUNCTION;                                \
+    {                                        \
         CheckEGLErrors(__FILE__, __LINE__);  \
     }
 #else
-#define GET_EGLERROR(X) X;
+#define GET_EGLERROR(FUNCTION) FUNCTION;
 #endif
 
 #define peglQueryString(A,B)                    GET_EGLERROR(eglQueryString(A,B))
@@ -92,9 +100,10 @@ void    Platform_VSync              ( void );
 #define peglInitialize(A,B,C)                   GET_EGLERROR(eglInitialize(A,B,C))
 #define peglMakeCurrent(A,B,C,D)                GET_EGLERROR(eglMakeCurrent(A,B,C,D))
 #define peglChooseConfig(A,B,C,D,E)             GET_EGLERROR(eglChooseConfig(A,B,C,D,E))
+#define peglSwapInterval(A,B)                   GET_EGLERROR(eglSwapInterval(A,B))
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif // EGLPORT_H
+#endif /* EGLPORT_H */

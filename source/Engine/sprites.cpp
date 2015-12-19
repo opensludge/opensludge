@@ -207,7 +207,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 			break;
 		}
 
-		if (totalwidth[numTextures] + picwidth < 2047) {
+		if (((picwidth>511) && (totalwidth[numTextures] + picwidth < 2047)) || ((picwidth<511) && (totalwidth[numTextures] + picwidth < 511))) {
 			loadhere.sprites[i].tex_x = totalwidth[numTextures];
 			totalwidth[numTextures] += (loadhere.sprites[i].width = picwidth) + 1;
 			if ((loadhere.sprites[i].height = picheight)+2 > maxheight[numTextures]) maxheight[numTextures] = picheight+2;
@@ -354,9 +354,9 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 				}
 			}
 		}
-		delete spriteData[i];
+		delete[] spriteData[i];
 	}
-	delete spriteData;
+	delete[] spriteData;
 	spriteData = NULL;
 
 
@@ -381,7 +381,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 		}
 		texImage2D (GL_TEXTURE_2D, 0, GL_RGBA, totalwidth[tex_num], maxheight[tex_num], 0, GL_RGBA, GL_UNSIGNED_BYTE, tmp[tex_num], loadhere.myPalette.tex_names[tex_num]);
 
-		delete tmp[tex_num];
+		delete[] tmp[tex_num];
 		tmp[tex_num] = NULL;
 
 		if (isFont) {
@@ -397,7 +397,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 			}
 			texImage2D (GL_TEXTURE_2D, 0, GL_RGBA, totalwidth[tex_num], maxheight[tex_num], 0, GL_RGBA, GL_UNSIGNED_BYTE, tmp2[tex_num], loadhere.myPalette.burnTex_names[tex_num]);
 
-			delete tmp2[tex_num];
+			delete[] tmp2[tex_num];
 			tmp2[tex_num] = NULL;
 		}
 	}
@@ -799,10 +799,10 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 	} else {
 		curLight[0] = curLight[1] = curLight[2] = 255;
 	}
-
+#ifndef HAVE_GLES2
 	if (! (thisPerson->extra & EXTRA_RECTANGULAR))
 		checkColourChange (true);
-
+#endif
 	setDrawMode (thisPerson);
 
 	glBindTexture (GL_TEXTURE_2D, fontPal.tex_names[single.texNum]);
@@ -855,7 +855,11 @@ bool scaleSprite (sprite & single, const spritePalette & fontPal, onScreenPerson
 	// Are we pointing at the sprite?
 	if (input.mouseX >= x1 && input.mouseX <= x2 && input.mouseY >= y1 && input.mouseY <= y2) {
 		if (thisPerson->extra & EXTRA_RECTANGULAR) return true;
+#ifdef HAVE_GLES2
+		return true;
+#else
 		return checkColourChange (false);
+#endif
 	}
 	return false;
 }

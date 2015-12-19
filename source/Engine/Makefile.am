@@ -46,6 +46,18 @@ else
   LDADD += @GL_LIBS@ @GLEE_LIBS@
 endif
 
+if COND_PANDORA
+  AM_CPPFLAGS += -DPANDORA
+  LDADD += -liconv
+endif
+if COND_RPI
+  AM_CPPFLAGS += -DRPI
+endif
+if COND_ODROID
+  AM_CPPFLAGS += -DODROID
+endif
+
+
 EXTRA_DIST = \
 	libvorbis/COPYING \
 	libwebm/AUTHORS.TXT \

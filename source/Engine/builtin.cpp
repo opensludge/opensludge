@@ -285,11 +285,11 @@ builtIn(saveGame)
 	trimStack (fun -> stack);
 
 	char * aaaaa = encodeFilename (loadNow);
-	delete loadNow;
+	delete[] loadNow;
 	if (failSecurityCheck (aaaaa)) return BR_ERROR;		// Won't fail if encoded, how cool is that? OK, not very.
 
 	loadNow = joinStrings (":", aaaaa);
-	delete aaaaa;
+	delete[] aaaaa;
 
 	setVariable (fun -> reg, SVT_INT, 0);
 	saverFunc = fun;
@@ -322,7 +322,7 @@ builtIn(fileExists)
 	// Return value
 	setVariable (fun -> reg, SVT_INT, (fp != NULL));
 	if (fp) fclose (fp);
-	delete aaaaa;
+	delete[] aaaaa;
 	loadNow = NULL;
 	return BR_CONTINUE;
 }
@@ -557,7 +557,7 @@ builtIn(stringLength)
 	char * newText = getTextFromAnyVar (fun -> stack -> thisVar);
 	trimStack (fun -> stack);
 	setVariable (fun -> reg, SVT_INT, stringLength(newText));
-	delete newText;
+	delete[] newText;
 	return BR_CONTINUE;
 }
 
@@ -903,7 +903,7 @@ builtIn(pasteString)
 	if (x == IN_THE_CENTRE) x = (winWidth - stringWidth (newText)) >> 1;
 	fixFont (pastePalette);
 	pasteStringToBackdrop (newText, x, y, pastePalette);
-	delete newText;
+	delete[] newText;
 	return BR_CONTINUE;
 }
 
@@ -2245,7 +2245,7 @@ builtIn(burnString)
 	if (x == IN_THE_CENTRE) x = (winWidth - stringWidth (newText)) >> 1;
 	fixFont (pastePalette);
 	burnStringToBackdrop (newText, x, y, pastePalette);
-	delete newText;
+	delete[] newText;
 	return BR_CONTINUE;
 }
 
@@ -2530,10 +2530,10 @@ builtIn(showThumbnail)
 	char * file = encodeFilename (aaaaa);
 	//				deb ("Made new name", file);
 	//				deb ("aaaaa is still ", aaaaa);
-	delete aaaaa;
+	delete[] aaaaa;
 	//				deb ("Deleted", "aaaaa");
 	showThumbnail (file, x, y);
-	delete file;
+	delete[] file;
 	return BR_CONTINUE;
 }
 

@@ -1424,7 +1424,6 @@ bool mixHSI (FILE * fp, int x, int y) {
 	}
 	deleteTextures(1, &tmpTex);
 	setPixelCoords (false);
-
 	return true;
 }
 
@@ -1440,6 +1439,20 @@ void saveCorePNG  (FILE * writer, GLuint texture, int w, int h) {
 	glPixelStorei (GL_PACK_ALIGNMENT, 1);
 //	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
 
+	#ifdef HAVE_GLES2
+	GLuint old_fbo, new_fbo;
+	GLint old_vp[4];
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING, (GLint*)&old_fbo);
+	glGetIntegerv(GL_VIEWPORT, old_vp);
+	glGenFramebuffers(1, &new_fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, new_fbo);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
+	glViewport(0, 0, tw, th);
+	glReadPixels(0, 0, tw, th, GL_RGBA, GL_UNSIGNED_BYTE, image);
+	glBindFramebuffer(GL_FRAMEBUFFER, old_fbo);
+	glViewport(old_vp[0], old_vp[1], old_vp[2], old_vp[3]);
+	glDeleteFramebuffers(1, &new_fbo);
+	#else
 	setPixelCoords (true);
 		
 
@@ -1485,8 +1498,8 @@ void saveCorePNG  (FILE * writer, GLuint texture, int w, int h) {
 		
 		xoffset += viewportWidth;
 	}
-	
 	setPixelCoords (false);
+	#endif
 	
 	
 	
