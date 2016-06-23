@@ -41,6 +41,10 @@
 		text-align:center;
 		padding-top:20px;
 	}
+	#searchBar{
+		text-align:center;
+		padding-top:20px;
+	}
 	
 	/****************************************************************************************
 	* 	LAYOUT CSS FOR THE MENU
@@ -216,6 +220,15 @@
 <div id="mainContainer">
 	<div id="topBar">
 		<img src="images/Sludge_128x128x32.png" alt="SLUDGE Logo" />
+	</div>
+	<div id="searchBar">
+        <form class="ddg" name="x" action="https://duckduckgo.com/" target="Frame">
+            <input type="hidden" value="opensludge.github.io/opensludge/doc" name="sites"></input>
+            <input type="hidden" value="1" name="kh"></input>
+            <input type="hidden" value="-1" name="kn"></input>
+            <input type="hidden" value="1" name="kac"></input>
+            <input type="search" placeholder="Search" name="q"></input>
+        </form>
 	</div>
 	<div id="leftColumn">
 		<ul id="SLUDGE_listMenu">
