@@ -128,15 +128,12 @@ bool reserveSpritePal (spritePalette & sP, int n) {
 	return (bool) (sP.pal != NULL) && (sP.r != NULL) && (sP.g != NULL) && (sP.b != NULL);
 }
 
-bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
-	int i, tex_num, total, picwidth, picheight, spriteBankVersion = 0, howmany=0, startIndex=0;
-	int * totalwidth, * maxheight;
+bool readSpriteBytes(byte ** & spriteData, spriteBank & loadhere, const bool isFont, int & total, int & spriteBankVersion, int * & maxheight, int * & totalwidth) {
+	int startIndex = 0;
+	int howmany = 0;
 	int numTextures = 0;
-	byte * data;
-
-	setResourceForFatal (fileNum);
-	if (! openFileFromNum (fileNum)) return fatal ("Can't open sprite bank / font");
-
+	int picwidth = 0;
+	int picheight = 0;
 	loadhere.isFont = isFont;
 
 	total = get2bytes (bigDataFile);
@@ -155,7 +152,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 	loadhere.total = total;
 	loadhere.sprites = new sprite [total];
 	if (! checkNew (loadhere.sprites)) return false;
-	byte ** spriteData = new byte * [total];
+	spriteData = new byte * [total];
 	if (! checkNew (spriteData)) return false;
 
 	totalwidth = new int[total];
@@ -183,7 +180,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 
 	totalwidth[0] = maxheight[0] = 1;
 
-	for (i = 0; i < total; i ++) {
+	for (int i = 0; i < total; i ++) {
 		switch (spriteBankVersion) {
 			case 3:
 			{
@@ -226,7 +223,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 		loadhere.sprites[i].texNum = numTextures;
 
 		if (spriteBankVersion < 3) {
-			data = (byte *) new byte [picwidth * (picheight + 1)];
+			byte * data = (byte *) new byte [picwidth * (picheight + 1)];
 			if (! checkNew (data)) return false;
 			int ooo = picwidth * picheight;
 			for (int tt = 0; tt < picwidth; tt ++) {
@@ -275,24 +272,20 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 	if (spriteBankVersion < 3) {
 		if (! reserveSpritePal (loadhere.myPalette, howmany + startIndex)) return false;
 
-		for (i = 0; i < howmany; i ++) {
+		for (int i = 0; i < howmany; i ++) {
 			loadhere.myPalette.r[i + startIndex] = (byte) fgetc (bigDataFile);
 			loadhere.myPalette.g[i + startIndex] = (byte) fgetc (bigDataFile);
 			loadhere.myPalette.b[i + startIndex] = (byte) fgetc (bigDataFile);
 			loadhere.myPalette.pal[i + startIndex] = makeColour (loadhere.myPalette.r[i + startIndex], loadhere.myPalette.g[i + startIndex], loadhere.myPalette.b[i + startIndex]);
 		}
 	}
-
 	loadhere.myPalette.originalRed = loadhere.myPalette.originalGreen = loadhere.myPalette.originalBlue = 255;
-
 	loadhere.myPalette.numTextures = numTextures;
-	GLubyte * tmp[numTextures];
-	GLubyte * tmp2[numTextures];
-	for (tex_num = 0; tex_num < numTextures; tex_num++) {
-		if (! NPOT_textures) {
-			totalwidth[tex_num] = getNextPOT(totalwidth[tex_num]);
-			maxheight[tex_num] = getNextPOT(maxheight[tex_num]);
-		}
+}
+
+bool initGlArrays(const bool isFont, const int * const maxheight, const int * const totalwidth, const int numTextures, GLubyte ** tmp, GLubyte ** tmp2) {
+
+	for (int tex_num = 0; tex_num < numTextures; tex_num++) {
 		tmp[tex_num] = new GLubyte [(maxheight[tex_num]+1)*totalwidth[tex_num]*4];
 		if (! checkNew (tmp[tex_num])) return false;
 		memset (tmp[tex_num], 0, maxheight[tex_num]*totalwidth[tex_num]*4);
@@ -301,14 +294,14 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 			if (! checkNew (tmp2[tex_num])) return false;
 			memset (tmp2[tex_num], 0, maxheight[tex_num]*totalwidth[tex_num]*4);
 		}
-		loadhere.myPalette.tex_w[tex_num] = totalwidth[tex_num];
-		loadhere.myPalette.tex_h[tex_num] = maxheight[tex_num];
 	}
+}
 
+bool fillGlArrays(const byte ** const spriteData, const spriteBank & loadhere, const bool isFont, const int total, const int spriteBankVersion, int * & totalwidth, GLubyte ** tmp, GLubyte ** tmp2) {
 	int fromhere;
 	unsigned char s;
 
-	for (i = 0; i < total; i ++) {
+	for (int i = 0; i < total; i ++) {
 		fromhere = 0;
 
 		int transColour = -1;
@@ -359,20 +352,18 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 				}
 			}
 		}
-		delete[] spriteData[i];
 	}
-	delete[] spriteData;
-	spriteData = NULL;
+}
 
-
+bool makeGlTextures(const spriteBank & loadhere, const bool isFont, const int * const maxheight, const int * const totalwidth, const GLubyte ** const tmp, const GLubyte ** const tmp2) {
 	glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
 
-	glGenTextures (numTextures, loadhere.myPalette.tex_names);
+	glGenTextures (loadhere.myPalette.numTextures, loadhere.myPalette.tex_names);
 	if (isFont)
-		glGenTextures (numTextures, loadhere.myPalette.burnTex_names);
+		glGenTextures (loadhere.myPalette.numTextures, loadhere.myPalette.burnTex_names);
 
 
-	for (tex_num = 0; tex_num < numTextures; tex_num++) {
+	for (int tex_num = 0; tex_num < loadhere.myPalette.numTextures; tex_num++) {
 
 		glBindTexture (GL_TEXTURE_2D, loadhere.myPalette.tex_names[tex_num]);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -386,9 +377,6 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 		}
 		texImage2D (GL_TEXTURE_2D, 0, GL_RGBA, totalwidth[tex_num], maxheight[tex_num], 0, GL_RGBA, GL_UNSIGNED_BYTE, tmp[tex_num], loadhere.myPalette.tex_names[tex_num]);
 
-		delete[] tmp[tex_num];
-		tmp[tex_num] = NULL;
-
 		if (isFont) {
 			glBindTexture (GL_TEXTURE_2D, loadhere.myPalette.burnTex_names[tex_num]);
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -401,7 +389,50 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			}
 			texImage2D (GL_TEXTURE_2D, 0, GL_RGBA, totalwidth[tex_num], maxheight[tex_num], 0, GL_RGBA, GL_UNSIGNED_BYTE, tmp2[tex_num], loadhere.myPalette.burnTex_names[tex_num]);
+		}
+	}
+}
 
+bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
+	int total, spriteBankVersion = 0;
+	int * totalwidth, * maxheight;
+	byte ** spriteData;
+
+	setResourceForFatal (fileNum);
+	if (! openFileFromNum (fileNum)) return fatal ("Can't open sprite bank / font");
+
+	readSpriteBytes(spriteData, loadhere, isFont, total, spriteBankVersion, maxheight, totalwidth);
+
+	for (int tex_num = 0; tex_num < loadhere.myPalette.numTextures; tex_num++) {
+		if (! NPOT_textures) {
+			totalwidth[tex_num] = getNextPOT(totalwidth[tex_num]);
+			maxheight[tex_num] = getNextPOT(maxheight[tex_num]);
+		}
+		loadhere.myPalette.tex_w[tex_num] = totalwidth[tex_num];
+		loadhere.myPalette.tex_h[tex_num] = maxheight[tex_num];
+	}
+
+	GLubyte * tmp[loadhere.myPalette.numTextures];
+	GLubyte * tmp2[loadhere.myPalette.numTextures];
+
+	initGlArrays(isFont, maxheight, totalwidth, loadhere.myPalette.numTextures, tmp, tmp2);
+
+	fillGlArrays(const_cast<const byte ** const>(spriteData), loadhere, isFont, total, spriteBankVersion, totalwidth, tmp, tmp2);
+
+	for (int i = 0; i < total; i ++) {
+		delete[] spriteData[i];
+	}
+
+	delete[] spriteData;
+	spriteData = NULL;
+
+	makeGlTextures(loadhere, isFont, maxheight, totalwidth,  const_cast<const GLubyte **>(tmp), const_cast<const GLubyte **>(tmp2));
+
+	for (int tex_num = 0; tex_num < loadhere.myPalette.numTextures; tex_num++) {
+		delete[] tmp[tex_num];
+		tmp[tex_num] = NULL;
+
+		if (isFont) {
 			delete[] tmp2[tex_num];
 			tmp2[tex_num] = NULL;
 		}
