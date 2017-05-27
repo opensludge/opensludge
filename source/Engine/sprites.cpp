@@ -67,6 +67,46 @@ void forgetSpriteBank (spriteBank & forgetme) {
     // And add a function call for this function to the scripting language
 }
 
+bool loadPng(byte * target, png_uint_32 & width, png_uint_32 & height) {
+	unsigned char ** stuff;
+
+	png_structp png_ptr = png_create_read_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+	if (!png_ptr) {
+		return fatal ("Can't open sprite bank / font.");
+	}
+
+	png_infop info_ptr = png_create_info_struct(png_ptr);
+	if (!info_ptr) {
+		png_destroy_read_struct(&png_ptr, (png_infopp) NULL, (png_infopp) NULL);
+		return fatal ("Can't open sprite bank / font.");
+	}
+
+	png_infop end_info = png_create_info_struct(png_ptr);
+	if (!end_info) {
+		png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
+		return fatal ("Can't open sprite bank / font.");
+	}
+	png_init_io(png_ptr, bigDataFile);		// Tell libpng which file to read
+	png_set_sig_bytes(png_ptr, 8);			// No sig
+
+	png_read_info(png_ptr, info_ptr);
+
+	int bit_depth, color_type, interlace_type, compression_type, filter_method;
+	png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, &interlace_type, &compression_type, &filter_method);
+
+	int rowbytes = png_get_rowbytes(png_ptr, info_ptr);
+
+	target = new unsigned char [rowbytes*height];
+	if (! checkNew (target)) return false;
+
+	for (unsigned int row = 0; row<height; row++)
+		stuff[row] = target + row*rowbytes;
+
+	png_read_image(png_ptr, (png_byte **) stuff);
+	png_read_end(png_ptr, NULL);
+	png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
+}
+
 bool reserveSpritePal (spritePalette & sP, int n) {
 	if (sP.pal) {
 		delete  [] sP.pal;
@@ -150,44 +190,9 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 				loadhere.sprites[i].xhot = getSigned (bigDataFile);
 				loadhere.sprites[i].yhot = getSigned (bigDataFile);
 
-				png_structp png_ptr = png_create_read_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-				if (!png_ptr) {
-					return fatal ("Can't open sprite bank / font.");
-				}
-
-				png_infop info_ptr = png_create_info_struct(png_ptr);
-				if (!info_ptr) {
-					png_destroy_read_struct(&png_ptr, (png_infopp) NULL, (png_infopp) NULL);
-					return fatal ("Can't open sprite bank / font.");
-				}
-
-				png_infop end_info = png_create_info_struct(png_ptr);
-				if (!end_info) {
-					png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
-					return fatal ("Can't open sprite bank / font.");
-				}
-				png_init_io(png_ptr, bigDataFile);		// Tell libpng which file to read
-				png_set_sig_bytes(png_ptr, 8);			// No sig
-
-				png_read_info(png_ptr, info_ptr);
-
 				png_uint_32 width, height;
-				int bit_depth, color_type, interlace_type, compression_type, filter_method;
-				png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, &interlace_type, &compression_type, &filter_method);
 
-				int rowbytes = png_get_rowbytes(png_ptr, info_ptr);
-
-				unsigned char * row_pointers[height];
-				spriteData[i] = new unsigned char [rowbytes*height];
-				if (! checkNew (spriteData[i])) return false;
-
-				for (unsigned int row = 0; row<height; row++)
-					row_pointers[row] = spriteData[i] + row*rowbytes;
-
-				png_read_image(png_ptr, (png_byte **) row_pointers);
-				png_read_end(png_ptr, NULL);
-				png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
-
+				loadPng(spriteData[i], width, height);
 				picwidth = loadhere.sprites[i].width = width;
 				picheight = loadhere.sprites[i].height = height;
 				break;
