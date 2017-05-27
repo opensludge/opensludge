@@ -281,6 +281,8 @@ bool readSpriteBytes(byte ** & spriteData, spriteBank & loadhere, const bool isF
 	}
 	loadhere.myPalette.originalRed = loadhere.myPalette.originalGreen = loadhere.myPalette.originalBlue = 255;
 	loadhere.myPalette.numTextures = numTextures;
+
+	return true;
 }
 
 bool initGlArrays(const bool isFont, const int * const maxheight, const int * const totalwidth, const int numTextures, GLubyte ** tmp, GLubyte ** tmp2) {
@@ -297,7 +299,7 @@ bool initGlArrays(const bool isFont, const int * const maxheight, const int * co
 	}
 }
 
-bool fillGlArrays(const byte ** const spriteData, const spriteBank & loadhere, const bool isFont, const int total, const int spriteBankVersion, int * & totalwidth, GLubyte ** tmp, GLubyte ** tmp2) {
+void fillGlArrays(const byte ** const spriteData, const spriteBank & loadhere, const bool isFont, const int total, const int spriteBankVersion, int * & totalwidth, GLubyte ** tmp, GLubyte ** tmp2) {
 	int fromhere;
 	unsigned char s;
 
@@ -355,7 +357,7 @@ bool fillGlArrays(const byte ** const spriteData, const spriteBank & loadhere, c
 	}
 }
 
-bool makeGlTextures(const spriteBank & loadhere, const bool isFont, const int * const maxheight, const int * const totalwidth, const GLubyte ** const tmp, const GLubyte ** const tmp2) {
+void makeGlTextures(const spriteBank & loadhere, const bool isFont, const int * const maxheight, const int * const totalwidth, const GLubyte ** const tmp, const GLubyte ** const tmp2) {
 	glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
 
 	glGenTextures (loadhere.myPalette.numTextures, loadhere.myPalette.tex_names);
@@ -401,7 +403,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 	setResourceForFatal (fileNum);
 	if (! openFileFromNum (fileNum)) return fatal ("Can't open sprite bank / font");
 
-	readSpriteBytes(spriteData, loadhere, isFont, total, spriteBankVersion, maxheight, totalwidth);
+	if(!readSpriteBytes(spriteData, loadhere, isFont, total, spriteBankVersion, maxheight, totalwidth)) return false;
 
 	for (int tex_num = 0; tex_num < loadhere.myPalette.numTextures; tex_num++) {
 		if (! NPOT_textures) {
@@ -415,7 +417,7 @@ bool loadSpriteBank (int fileNum, spriteBank & loadhere, bool isFont) {
 	GLubyte * tmp[loadhere.myPalette.numTextures];
 	GLubyte * tmp2[loadhere.myPalette.numTextures];
 
-	initGlArrays(isFont, maxheight, totalwidth, loadhere.myPalette.numTextures, tmp, tmp2);
+	if(!initGlArrays(isFont, maxheight, totalwidth, loadhere.myPalette.numTextures, tmp, tmp2)) return false;
 
 	fillGlArrays(const_cast<const byte ** const>(spriteData), loadhere, isFont, total, spriteBankVersion, totalwidth, tmp, tmp2);
 
