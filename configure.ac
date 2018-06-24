@@ -81,7 +81,7 @@ else
 fi
 
 if test "x$enable_engine" = xyes; then
-  PKG_CHECK_MODULES([ENGINE], [sdl alure >= 1.1 openal vorbis ogg])
+  PKG_CHECK_MODULES([ENGINE], [sdl2 alure >= 1.1 openal vorbis ogg vpx])
   AC_CHECK_LIB([vpx], [vpx_codec_decode], [ENGINE_LIBS+=" -lvpx"], [AC_MSG_ERROR([cannot find vpx library])])
   if test "x$enable_gles2" = xyes; then
     AC_CHECK_LIB([GLESv2], [glEnable], [ENGINE_LIBS+=" -lGLESv2"], [AC_MSG_ERROR([cannot find GLESv2 library])])
@@ -112,7 +112,7 @@ else
 fi
 
 if test "x$enable_engine" = xyes; then
-  AC_CHECK_HEADERS([SDL/SDL.h SDL/SDL_syswm.h], [], [AC_MSG_ERROR([cannot find SDL header files])])
+  AC_CHECK_HEADERS([SDL2/SDL.h SDL2/SDL_syswm.h], [], [AC_MSG_ERROR([cannot find SDL header files])])
   AC_CHECK_HEADERS([AL/alure.h], [], [AC_MSG_ERROR([cannot find alure header files])])
   AC_CHECK_HEADERS([vpx/vpx_decoder.h], [], [AC_MSG_ERROR([cannot find vpx header files])])
   AC_CHECK_HEADERS([vorbis/codec.h], [], [AC_MSG_ERROR([cannot find vorbis header files])])

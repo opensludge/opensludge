@@ -5,7 +5,7 @@
 #endif
 
 #include "allfiles.h"
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -54,6 +54,7 @@
 
 #include "debug.h"
 
+extern SDL_Window *screen;
 
 extern personaAnimation * mouseCursorAnim;
 extern spritePalette pastePalette;
@@ -659,7 +660,7 @@ void sludgeDisplay () {
 
 	glFlush();
 #if !defined(HAVE_GLES2)
-        SDL_GL_SwapBuffers();
+        SDL_GL_SwapWindow(screen);
 #else
      if(fbo)
      {
