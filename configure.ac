@@ -4,7 +4,7 @@
 AC_PREREQ([2.55])
 AC_INIT([SLUDGE], [2.2.1], [tobias.han@gmx.de], [sludge], [http://opensludge.github.io/])
 AC_CONFIG_SRCDIR([source/CommonCode/tga.cpp])
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([subdir-objects])
 AC_CONFIG_HEADERS([config.h])
 
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
@@ -82,11 +82,10 @@ fi
 
 if test "x$enable_engine" = xyes; then
   PKG_CHECK_MODULES([ENGINE], [sdl2 alure >= 1.1 openal vorbis ogg vpx])
-  AC_CHECK_LIB([vpx], [vpx_codec_decode], [ENGINE_LIBS+=" -lvpx"], [AC_MSG_ERROR([cannot find vpx library])])
   if test "x$enable_gles2" = xyes; then
-    AC_CHECK_LIB([GLESv2], [glEnable], [ENGINE_LIBS+=" -lGLESv2"], [AC_MSG_ERROR([cannot find GLESv2 library])])
-    AC_CHECK_LIB([EGL], [eglInitialize], [ENGINE_LIBS+=" -lEGL"], [AC_MSG_ERROR([cannot find EGL library])])
-    AC_CHECK_LIB([X11], [XOpenDisplay], [ENGINE_LIBS+=" -lX11"], [AC_MSG_ERROR([cannot find X11 library])])
+    AC_CHECK_LIB([GLESv2], [glEnable], [ENGINE_LIBS="$ENGINE_LIBS -lGLESv2"], [AC_MSG_ERROR([cannot find GLESv2 library])])
+    AC_CHECK_LIB([EGL], [eglInitialize], [ENGINE_LIBS="$ENGINE_LIBS -lEGL"], [AC_MSG_ERROR([cannot find EGL library])])
+    AC_CHECK_LIB([X11], [XOpenDisplay], [ENGINE_LIBS="$ENGINE_LIBS -lX11"], [AC_MSG_ERROR([cannot find X11 library])])
   else
     PKG_CHECK_MODULES([GL], [gl glu])
   fi
