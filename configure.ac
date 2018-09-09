@@ -71,12 +71,10 @@ fi
 
 # Checks for libraries.
 if test "x$enable_gles2" = xno; then
-  AC_CHECK_LIB([glee], [GLeeInit], [GLEE_LIBS="-lglee"], [AC_CHECK_LIB([GLee], [GLeeInit], [GLEE_LIBS="-lGLee"], [AC_MSG_ERROR([cannot find glee library])])])
-  AC_SUBST([GLEE_LIBS])
+  PKG_CHECK_MODULES([GLEW], [glew])
 else
   if test "x$enable_devkit" = xyes; then
-    AC_CHECK_LIB([glee], [GLeeInit], [GLEE_LIBS="-lglee"], [AC_CHECK_LIB([GLee], [GLeeInit], [GLEE_LIBS="-lGLee"], [AC_MSG_ERROR([cannot find glee library (needed for devkit)])])])
-    AC_SUBST([GLEE_LIBS])
+    PKG_CHECK_MODULES([GLEW], [glew])
   fi
 fi
 
@@ -101,14 +99,6 @@ PKG_CHECK_MODULES([LIBPNG], [libpng])
 # Checks for header files.
 AC_CHECK_HEADERS([limits.h malloc.h stddef.h stdint.h stdlib.h string.h sys/time.h unistd.h], [], [AC_MSG_ERROR([cannot find one or more of these header files: limits.h malloc.h stddef.h stdint.h stdlib.h string.h sys/time.h unistd.h])])
 AC_CHECK_HEADERS([getopt.h], [], [AC_MSG_ERROR([cannot find getopt header files])])
-
-if test "x$enable_gles2" = xno; then
-  AC_CHECK_HEADERS([GLee.h], [], [AC_MSG_ERROR([cannot find glee header files])])
-else
-  if test "x$enable_devkit" = xyes; then
-    AC_CHECK_HEADERS([GLee.h], [], [AC_MSG_ERROR([cannot find glee header files (needed for devkit)])])
-  fi
-fi
 
 if test "x$enable_engine" = xyes; then
   AC_CHECK_HEADERS([SDL/SDL.h SDL/SDL_syswm.h], [], [AC_MSG_ERROR([cannot find SDL header files])])

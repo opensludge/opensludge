@@ -25,7 +25,7 @@
 #include <glib-object.h>
 #include <glib.h>
 
-#include <GLee.h>
+#include <GL/glew.h>
 #define GL_GLEXT_PROTOTYPES
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -226,6 +226,15 @@ void SludgeGLApplication::on_drawingarea1_realize(GtkWidget *theWidget)
 	glViewport (0, 0, theWidget->allocation.width, theWidget->allocation.height);
 
 	/* Your one-time OpenGL initialization code goes here */
+
+	// Initialise GLEW
+	GLenum glewErr = glewInit();
+	if (GLEW_OK != glewErr)
+	{
+		g_critical ("Couldn't initialize GLEW.\n");
+		return;
+	}
+
     x = y = 0;
     w = theWidget->allocation.width;
     h = theWidget->allocation.height;

@@ -25,7 +25,7 @@
 #include <glib-object.h>
 #include <glib.h>
 
-#include <GLee.h>
+#include <GL/glew.h>
 #define GL_GLEXT_PROTOTYPES
 #include <GL/gl.h>
 #include <GL/glu.h>

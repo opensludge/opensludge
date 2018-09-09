@@ -2,7 +2,7 @@
 #define __SPRITES_H__
 
 //#include <OpenGL/gl.h>
-#include "GLee.h"
+#include <GL/glew.h>
 
 #ifdef __cplusplus
 extern "C" {
