@@ -37,7 +37,6 @@
 bool soundOK = false;
 bool cacheLoopySound = false;
 bool SilenceIKillYou = false;
-int modStartOrder;
 
 struct soundThing {
 	alureStream *stream;
@@ -45,7 +44,7 @@ struct soundThing {
 	bool playing;
 	int fileLoaded, vol;	//Used for sounds only.
 	bool looping;			//Used for sounds only.
-	DUH *duh;		        //Used for MODs only.
+	DUH_SIGRENDERER *sr;    //Used for MODs only.
 };
 
 soundThing soundCache[MAX_SAMPLES];
@@ -69,7 +68,7 @@ const int DUMB_unsign = 0;
 const ALenum DUMB_format = AL_FORMAT_STEREO16;	// Match this to DUMB_depth
 						// and DUMB_n_channels.
 
-void * DUMBopen_memory(const ALubyte *data, ALuint length) {
+DUH_SIGRENDERER * DUMBopen_memory(const ALubyte *data, ALuint length, int fromTrack) {
 	DUMBFILE *df;
 	DUH *duh;
 	DUH_SIGRENDERER *sr;
@@ -102,17 +101,9 @@ void * DUMBopen_memory(const ALubyte *data, ALuint length) {
 		}
 	}
 
-	sr = dumb_it_start_at_order(duh, DUMB_n_channels, modStartOrder);
+	sr = dumb_it_start_at_order(duh, DUMB_n_channels, fromTrack);
 
-	return (void *) sr;
-}
-	
-ALboolean DUMBget_format(void *instance, ALenum *format, 
-				ALuint *samplerate, ALuint *blocksize) {
-	*format = DUMB_format;
-	*samplerate = DUMB_freq;
-	*blocksize = 19200;
-	return AL_TRUE;
+	return sr;
 }
 
 ALuint DUMBdecode(void *instance, ALubyte *data, ALuint bytes) {
@@ -130,14 +121,6 @@ ALuint DUMBdecode(void *instance, ALubyte *data, ALuint bytes) {
 	l = DUMB_depth == 16 ? l*2 : l;
 
 	return l;
-}
-
-ALboolean DUMBrewind(void *instance) {
-	return AL_FALSE;
-}
-
-void DUMBclose(void *instance) {
-	duh_end_sigrenderer((DUH_SIGRENDERER *)instance);
 }
 
 /*
@@ -175,13 +158,6 @@ bool initSoundStuff (HWND hwnd) {
 	}
 
 	atexit(&dumb_exit);
-	dumb_it_max_to_mix = 256;
-
-	if (!alureInstallDecodeCallbacks(-1, NULL, &DUMBopen_memory, 
-			&DUMBget_format, &DUMBdecode, &DUMBrewind, &DUMBclose)) {
-		fprintf(stderr, "Failed to install DUMB callbacks: %s\n", 
-							alureGetErrorString());
-	}
 
 	return soundOK = true;
 }
@@ -295,9 +271,9 @@ static void mod_eos_callback(void *cacheIndex, ALuint source)
 		debugOut("Failed to destroy stream: %s\n",
 				alureGetErrorString());
 	}
+	duh_end_sigrenderer((DUH_SIGRENDERER *)modCache[*a].sr);
+	modCache[*a].sr = NULL;
 	modCache[*a].stream = NULL;
-	unload_duh(modCache[*a].duh);
-	modCache[*a].duh = NULL;
 	modCache[*a].playing = false;
 }
 
@@ -462,9 +438,13 @@ bool playMOD (int f, int a, int fromTrack) {
 	memImage = (unsigned char *) loadEntireFileToMemory (bigDataFile, length);
 	if (! memImage) return fatal (ERROR_MUSIC_MEMORY_LOW);
 
-	modStartOrder = fromTrack;
-	modCache[a].stream = alureCreateStreamFromMemory(memImage, length, 19200, 0, NULL);
+	modCache[a].sr = DUMBopen_memory(memImage, length, fromTrack);
 	delete memImage;
+
+	modCache[a].stream = alureCreateStreamFromCallback(
+					 &DUMBdecode,
+					 modCache[a].sr, DUMB_format, DUMB_freq,
+					 19200, 0, NULL);
 
 	if (modCache[a].stream != NULL) {
 		setMusicVolume (a, defVol);
