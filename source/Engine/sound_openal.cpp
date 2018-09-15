@@ -21,6 +21,7 @@
 #include <stdio.h>
 
 #include "AL/alure.h"
+#include <dumb.h>
 
 #include "allfiles.h"
 #include "debug.h"
@@ -36,6 +37,7 @@
 bool soundOK = false;
 bool cacheLoopySound = false;
 bool SilenceIKillYou = false;
+int modStartOrder;
 
 struct soundThing {
 	alureStream *stream;
@@ -43,6 +45,7 @@ struct soundThing {
 	bool playing;
 	int fileLoaded, vol;	//Used for sounds only.
 	bool looping;			//Used for sounds only.
+	DUH *duh;		        //Used for MODs only.
 };
 
 soundThing soundCache[MAX_SAMPLES];
@@ -52,6 +55,90 @@ int intpointers[MAX_SAMPLES];
 int defVol = 128;
 int defSoundVol = 255;
 const float modLoudness = 0.95f;
+
+/*
+ * Functions for Alure to access DUMB:
+ */
+
+						// Values to choose from:
+const float DUMB_volume = 0.95f;		// between 0.0f and 1.0f
+const int DUMB_freq = 44100;
+const int DUMB_n_channels = 2;			// 1 or 2
+const int DUMB_depth = 16;			// 8 or 16
+const int DUMB_unsign = 0;
+const ALenum DUMB_format = AL_FORMAT_STEREO16;	// Match this to DUMB_depth
+						// and DUMB_n_channels.
+
+void * DUMBopen_memory(const ALubyte *data, ALuint length) {
+	DUMBFILE *df;
+	DUH *duh;
+	DUH_SIGRENDERER *sr;
+	int i;
+
+	for (i = 0; i < 4; i++) {
+		df = dumbfile_open_memory((const char *)data, length);
+		switch (i) {
+			case 0:
+				duh = dumb_read_xm_quick(df);
+				break;
+			case 1:
+				duh = dumb_read_it_quick(df);
+				break;
+			case 2:
+				duh = dumb_read_s3m_quick(df);
+				break;
+			case 3:
+				duh = dumb_read_mod_quick(df);
+				break;
+			default:
+				break;
+		}
+		if (duh)
+			break;
+		dumbfile_close(df);
+
+		if (i == 3) {
+			return NULL;
+		}
+	}
+
+	sr = dumb_it_start_at_order(duh, DUMB_n_channels, modStartOrder);
+
+	return (void *) sr;
+}
+	
+ALboolean DUMBget_format(void *instance, ALenum *format, 
+				ALuint *samplerate, ALuint *blocksize) {
+	*format = DUMB_format;
+	*samplerate = DUMB_freq;
+	*blocksize = 19200;
+	return AL_TRUE;
+}
+
+ALuint DUMBdecode(void *instance, ALubyte *data, ALuint bytes) {
+	float delta;
+	int bufsize;
+
+	delta = 65536.0f / DUMB_freq;
+	bufsize = DUMB_depth == 16 ? bytes/2 : bytes;
+	bufsize /= DUMB_n_channels;
+
+	int l = duh_render((DUH_SIGRENDERER *)instance, DUMB_depth, DUMB_unsign,
+				DUMB_volume, delta, bufsize, data);
+	
+	l *= DUMB_n_channels;
+	l = DUMB_depth == 16 ? l*2 : l;
+
+	return l;
+}
+
+ALboolean DUMBrewind(void *instance) {
+	return AL_FALSE;
+}
+
+void DUMBclose(void *instance) {
+	duh_end_sigrenderer((DUH_SIGRENDERER *)instance);
+}
 
 /*
  * Set up, tear down:
@@ -86,6 +173,16 @@ bool initSoundStuff (HWND hwnd) {
 				alureGetErrorString());
 		return 1;
 	}
+
+	atexit(&dumb_exit);
+	dumb_it_max_to_mix = 256;
+
+	if (!alureInstallDecodeCallbacks(-1, NULL, &DUMBopen_memory, 
+			&DUMBget_format, &DUMBdecode, &DUMBrewind, &DUMBclose)) {
+		fprintf(stderr, "Failed to install DUMB callbacks: %s\n", 
+							alureGetErrorString());
+	}
+
 	return soundOK = true;
 }
 
@@ -128,6 +225,8 @@ void killSoundStuff () {
 	SilenceIKillYou = false;
 
 	alureShutdownDevice();
+
+	dumb_exit();
 }
 
 /*
@@ -197,6 +296,8 @@ static void mod_eos_callback(void *cacheIndex, ALuint source)
 				alureGetErrorString());
 	}
 	modCache[*a].stream = NULL;
+	unload_duh(modCache[*a].duh);
+	modCache[*a].duh = NULL;
 	modCache[*a].playing = false;
 }
 
@@ -361,6 +462,7 @@ bool playMOD (int f, int a, int fromTrack) {
 	memImage = (unsigned char *) loadEntireFileToMemory (bigDataFile, length);
 	if (! memImage) return fatal (ERROR_MUSIC_MEMORY_LOW);
 
+	modStartOrder = fromTrack;
 	modCache[a].stream = alureCreateStreamFromMemory(memImage, length, 19200, 0, NULL);
 	delete memImage;
 

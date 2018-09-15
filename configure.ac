@@ -80,6 +80,7 @@ fi
 
 if test "x$enable_engine" = xyes; then
   PKG_CHECK_MODULES([ENGINE], [sdl alure >= 1.1 openal vorbis ogg vpx])
+  AC_CHECK_LIB([dumb], [duh_render], [ENGINE_LIBS="$ENGINE_LIBS -ldumb"], [AC_MSG_ERROR([cannot find DUMB library])])
   if test "x$enable_gles2" = xyes; then
     AC_CHECK_LIB([GLESv2], [glEnable], [ENGINE_LIBS="$ENGINE_LIBS -lGLESv2"], [AC_MSG_ERROR([cannot find GLESv2 library])])
     AC_CHECK_LIB([EGL], [eglInitialize], [ENGINE_LIBS="$ENGINE_LIBS -lEGL"], [AC_MSG_ERROR([cannot find EGL library])])
@@ -106,6 +107,7 @@ if test "x$enable_engine" = xyes; then
   AC_CHECK_HEADERS([vpx/vpx_decoder.h], [], [AC_MSG_ERROR([cannot find vpx header files])])
   AC_CHECK_HEADERS([vorbis/codec.h], [], [AC_MSG_ERROR([cannot find vorbis header files])])
   AC_CHECK_HEADERS([ogg/ogg.h], [], [AC_MSG_ERROR([cannot find ogg header files])])
+  AC_CHECK_HEADERS([dumb.h], [], [AC_MSG_ERROR([cannot find DUMB header files])])
   if test "x$enable_gles2" = xyes; then
     AC_CHECK_HEADERS([GLES2/gl2.h], [], [AC_MSG_ERROR([cannot find gles2 header files])])
     AC_CHECK_HEADERS([EGL/egl.h], [], [AC_MSG_ERROR([cannot find egl header files])])
@@ -147,7 +149,7 @@ AC_OUTPUT
 
 echo "
 SLUDGE configuration complete.
-Note that Alure needs VorbisFile, FLAC and DUMB to provide full sound support for the SLUDGE engine.
+Note that Alure needs VorbisFile and FLAC to provide full sound support for the SLUDGE engine.
 
 Will build..."
 if test x"$WIN32" = xyes; then
