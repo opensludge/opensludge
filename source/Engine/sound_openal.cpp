@@ -217,7 +217,7 @@ void setMusicVolume (int a, int v) {
 	if (! soundOK) return;
 
 	if (modCache[a].playing) {
-		alSourcef (modCache[a].playingOnSource, AL_GAIN, (float) modLoudness * v / 256);
+		alSourcef (modCache[a].playingOnSource, AL_GAIN, (float) modLoudness * v / 255);
 	}
 }
 
@@ -232,7 +232,7 @@ void setSoundVolume (int a, int v) {
 		if (soundCache[ch].playing) {
 			soundCache[ch].vol = v;
 			alSourcef (soundCache[ch].playingOnSource,
-					AL_GAIN, (float) v / 256);
+					AL_GAIN, (float) v / 255);
 		}
 	}
 }
@@ -385,9 +385,9 @@ void playStream (int a, bool isMOD, bool loopy) {
 	}
 
 	if (isMOD) {
-		alSourcef (src, AL_GAIN, (float) modLoudness * defVol / 256);
+		alSourcef (src, AL_GAIN, (float) modLoudness * defVol / 255);
 	} else {
-		alSourcef (src, AL_GAIN, (float) soundCache[a].vol / 256);
+		alSourcef (src, AL_GAIN, (float) soundCache[a].vol / 255);
 	}
 
 	if (loopy) {
@@ -762,7 +762,7 @@ void playSoundList(soundList *s) {
 			return;
 		}
 
-		alSourcef (src, AL_GAIN, (float) soundCache[a].vol / 256);
+		alSourcef (src, AL_GAIN, (float) soundCache[a].vol / 255);
 
 		ok = alurePlaySourceStream(src, (*st).stream,
 									   NUM_BUFS, 0, list_eos_callback, s);
@@ -794,7 +794,7 @@ void playMovieStream (int a) {
 		return;
 	}
 	
-	alSourcef (src, AL_GAIN, (float) soundCache[a].vol / 256);
+	alSourcef (src, AL_GAIN, (float) soundCache[a].vol / 255);
 	
 	ok = alurePlaySourceStream(src, soundCache[a].stream,
 								   10, 0, sound_eos_callback, &intpointers[a]);

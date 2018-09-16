@@ -143,7 +143,7 @@ void setMusicVolume (int a, int v) {
 	int ret;
 	if (soundOK && mod[a])
 	{
-		ret = BASS_ChannelSetAttribute (mod[a], BASS_ATTRIB_VOL, (float) v / 256);
+		ret = BASS_ChannelSetAttribute (mod[a], BASS_ATTRIB_VOL, (float) v / 255);
 		if (! ret) {
 			debugOut("setMusicVolume: Error %d\n", BASS_ErrorGetCode());
 		}
@@ -160,7 +160,7 @@ void setSoundVolume (int a, int v) {
 		if (ch != -1) {
 			if (BASS_ChannelIsActive (soundCache[ch].mostRecentChannel))
 			{
-				BASS_ChannelSetAttribute (soundCache[ch].mostRecentChannel, BASS_ATTRIB_VOL, (float) v / 256);
+				BASS_ChannelSetAttribute (soundCache[ch].mostRecentChannel, BASS_ATTRIB_VOL, (float) v / 255);
 			}
 		}
 	}
