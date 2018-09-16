@@ -87,7 +87,11 @@ DUH_SIGRENDERER * DUMBopen_memory(const ALubyte *data, ALuint length, int fromTr
 				duh = dumb_read_s3m_quick(df);
 				break;
 			case 3:
+#if (DUMB_MAJOR_VERSION) >= 2
+				duh = dumb_read_mod_quick(df, 0);
+#else
 				duh = dumb_read_mod_quick(df);
+#endif
 				break;
 			default:
 				break;
