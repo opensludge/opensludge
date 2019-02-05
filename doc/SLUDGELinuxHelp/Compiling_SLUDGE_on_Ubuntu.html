@@ -21,9 +21,9 @@ There are generic instructions how to compile SLUDGE in the <strong>INSTALL</str
 
 <p><ul>
 <li><strong>build-essential</strong> (compilers and build tools)</li>
-<li><strong>glee-dev</strong></li>
 <li><strong>libalure-dev</strong> (>= 1.1)</li>
 <li><strong>libsdl1.2-dev</strong></li>
+<li><strong>libglew-dev</strong></li>
 <li><strong>libglu1-mesa-dev</strong></li>
 <li><strong>libpng12-dev</strong></li>
 <li><strong>libopenal-dev</strong></li>
@@ -39,7 +39,7 @@ There are generic instructions how to compile SLUDGE in the <strong>INSTALL</str
 
 <p>Package list for copying:</p>
 
-<p><div class="bash">sudo apt-get install build-essential glee-dev libalure-dev libsdl1.2-dev libglu1-mesa-dev libpng12-dev libopenal-dev libvorbis-dev libflac-dev libdumb1-dev libvpx-dev xdg-utils</div></p>
+<p><div class="bash">sudo apt-get install build-essential libalure-dev libsdl1.2-dev libglew-dev libglu1-mesa-dev libpng12-dev libopenal-dev libvorbis-dev libflac-dev libdumb1-dev libvpx-dev xdg-utils</div></p>
 
 <p>The additional dependencies for the Dev Kit:</p>
 
@@ -71,7 +71,7 @@ There are generic instructions how to compile SLUDGE in the <strong>INSTALL</str
 
 <h3>OpenGL ES 2</h3>
 
-SLUDGE 2.2 has experimental support for OpenGL ES 2. This means it should work on mobile devices such as smartphones without much effort. To use OpenGL ES 2 on Debian or Ubuntu, the dependencies <strong>glee-dev</strong> and <strong>libglu1-mesa-dev</strong> are replaced by <strong>libgles2-mesa-dev</strong> and configuring is done by
+SLUDGE 2.2 has experimental support for OpenGL ES 2. This means it should work on mobile devices such as smartphones without much effort. To use OpenGL ES 2 on Debian or Ubuntu, the dependencies <strong>libglew-dev</strong> and <strong>libglu1-mesa-dev</strong> are replaced by <strong>libgles2-mesa-dev</strong> and configuring is done by
 
 <p><pre><div class="bash">./configure --enable-gles2</div></pre></p>
 

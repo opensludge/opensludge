@@ -24,33 +24,27 @@ Linux
 Dependencies (Engine)
 =====================
 
-   Dependencies of the OpenSLUDGE engine are SDL, OpenGL, GLee, libGLU,
-libpng, libvpx and xdg-utils. OpenAL sound support requires OpenAL and
-Alure (>= 1.1) with Vorbis, FLAC and DUMB support enabled.
+   Dependencies of the OpenSLUDGE engine are SDL, OpenGL, GLEW, libGLU,
+libpng, libvpx and xdg-utils. OpenAL sound support requires OpenAL, DUMB and
+Alure (>= 1.1) with Vorbis and FLAC support enabled.
 
    On Debian and Ubuntu the correspoding packages are libsdl1.2-dev,
-mesa-common-dev, glee-dev (only available in Debian Squeeze / Ubuntu 10.10
-or above, but these packages can also be used for older releases of the
-distributions), libglu1-mesa-dev, libpng12-dev, libvpx-dev, xdg-utils,
-libopenal-dev, libalure-dev (version 1.1 required, only available in Debian
-Wheezy / Ubuntu 11.10 or above, the packages can be used for older releases),
-libvorbis-dev, libflac-dev and libdumb1-dev.
+mesa-common-dev, libglew-dev, libglu1-mesa-dev, libpng12-dev, libvpx-dev, xdg-utils,
+libopenal-dev, libalure-dev, libvorbis-dev, libflac-dev and libdumb1-dev.
 
-   To use OpenGL ES 2 as graphics library, the dependencies OpenGL, GLee
+   To use OpenGL ES 2 as graphics library, the dependencies OpenGL, GLEW
 and libGLU are replaced by OpenGL ES 2 and EGL. That means in the above list
-for Debian and Ubuntu mesa-common-dev, glee-dev and libglu1-mesa-dev are
+for Debian and Ubuntu mesa-common-dev, libglew-dev and libglu1-mesa-dev are
 replaced by libgles2-mesa-dev.
 
 Dependencies (Dev Kit)
 ======================
 
    Dependencies of the OpenSLUDGE Dev Kit are GTK+ (>= 2.16), GtkGLExt, 
-GLee and libpng.
+GLEW and libpng.
 
    On Debian and Ubuntu the correspoding packages are libgtk2.0-dev 
-libgtkglext1-dev, glee-dev (only available in Debian Squeeze / Ubuntu 10.10
-or above, but these packages can also be used for older releases of the
-distributions) and libpng12-dev.
+libgtkglext1-dev, libglew-dev and libpng12-dev.
 
 Installing OpenSLUDGE
 =====================

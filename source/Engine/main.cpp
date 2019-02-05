@@ -19,7 +19,7 @@
 #include <sys/time.h>
 
 #if !defined(HAVE_GLES2)
-#include "GLee.h"
+#include <GL/glew.h>
 #else
 #include <GLES2/gl2.h>
 #include "eglport/eglport.h"

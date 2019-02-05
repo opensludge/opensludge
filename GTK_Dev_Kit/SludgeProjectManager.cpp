@@ -57,6 +57,7 @@ SludgeProjectManager::SludgeProjectManager()
 {
 	if (!initSuccess) return;
 
+	numResources = 0;
 	resourceList[0] = NULL;
 	fileList[0] = NULL;
 

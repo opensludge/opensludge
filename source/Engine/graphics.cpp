@@ -579,6 +579,14 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 		exit(1);
 	}
 	EGL_Init();
+#else
+	GLenum glewErr = glewInit();
+	if (GLEW_OK != glewErr)
+	{
+		msgBox("Startup Error: Couldn't initialize GLEW.", (const char*)glewGetErrorString(glewErr));
+		SDL_Quit();
+		exit(1);
+	}
 #endif
 
 	GLint uniform;
@@ -842,48 +850,48 @@ void setupOpenGLStuff() {
 
 #if !defined(HAVE_GLES2)
 	/* Check for graphics capabilities... */
-	if (GLEE_VERSION_2_0) {
+	if (GLEW_VERSION_2_0) {
 		// Yes! Textures can be any size!
 		NPOT_textures = true;
 		debugOut( "OpenGL 2.0! All is good.\n");
 	} else {
-		if (GLEE_VERSION_1_5) {
+		if (GLEW_VERSION_1_5) {
 			debugOut("OpenGL 1.5!\n");
 		}
-		else if (GLEE_VERSION_1_4) {
+		else if (GLEW_VERSION_1_4) {
 			debugOut("OpenGL 1.4!\n");
 		}
-		else if (GLEE_VERSION_1_3) {
+		else if (GLEW_VERSION_1_3) {
 			debugOut( "OpenGL 1.3!\n");
 		}
-		else if (GLEE_VERSION_1_2) {
+		else if (GLEW_VERSION_1_2) {
 			debugOut( "OpenGL 1.2!\n");
 		}
-		if (GLEE_ARB_texture_non_power_of_two) {
+		if (GLEW_ARB_texture_non_power_of_two) {
 			// Yes! Textures can be any size!
 			NPOT_textures = true;
 		} else {
 			// Workaround needed for lesser graphics cards. Let's hope this works...
 			NPOT_textures = false;
-			debugOut( "Warning: Old graphics card! GLEE_ARB_texture_non_power_of_two not supported.\n");
+			debugOut( "Warning: Old graphics card! GLEW_ARB_texture_non_power_of_two not supported.\n");
 		}
 
-		if (GLEE_ARB_shading_language_100) {
+		if (GLEW_ARB_shading_language_100) {
 			debugOut("ARB_shading_language_100 supported.\n");
 		} else {
 			debugOut("Warning: Old graphics card! ARB_shading_language_100 not supported. Try updating your drivers.\n");
 		}
-		if (GLEE_ARB_shader_objects) {
+		if (GLEW_ARB_shader_objects) {
 			debugOut("ARB_shader_objects supported.\n");
 		} else {
 			fatal("Error: Old graphics card! ARB_shader_objects not supported.\n");
 		}
-		if (GLEE_ARB_vertex_shader) {
+		if (GLEW_ARB_vertex_shader) {
 			debugOut("ARB_vertex_shader supported.\n");
 		} else {
 			fatal("Error: Old graphics card! ARB_vertex_shader not supported.\n");
 		}
-		if (GLEE_ARB_fragment_shader) {
+		if (GLEW_ARB_fragment_shader) {
 			debugOut("ARB_fragment_shader supported.\n");
 		} else {
 			fatal("Error: Old graphics card! ARB_fragment_shader not supported.\n");

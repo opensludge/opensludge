@@ -424,30 +424,30 @@ bool NPOT_textures = false;
 
 void NPOT_check() {
 	/* Check for graphics capabilities... */
-	if (GLEE_VERSION_2_0) {
+	if (GLEW_VERSION_2_0) {
 		// Yes! Textures can be any size!
 		NPOT_textures = true;
 		fprintf (stderr, "OpenGL 2.0! All is good.\n");
 	} else {
-		if (GLEE_VERSION_1_5) {
+		if (GLEW_VERSION_1_5) {
 			fprintf (stderr, "OpenGL 1.5!\n");
 		}
-		else if (GLEE_VERSION_1_4) {
+		else if (GLEW_VERSION_1_4) {
 			fprintf (stderr, "OpenGL 1.4!\n");
 		}
-		else if (GLEE_VERSION_1_3) {
+		else if (GLEW_VERSION_1_3) {
 			fprintf (stderr, "OpenGL 1.3!\n");
 		}
-		else if (GLEE_VERSION_1_2) {
+		else if (GLEW_VERSION_1_2) {
 			fprintf (stderr, "OpenGL 1.2!\n");
 		}
-		if (GLEE_ARB_texture_non_power_of_two) {
+		if (GLEW_ARB_texture_non_power_of_two) {
 			// Yes! Textures can be any size!
 			NPOT_textures = true;
 		} else {
 			// Workaround needed for lesser graphics cards. Let's hope this works...
 			NPOT_textures = false;
-			fprintf (stderr, "Warning: Old graphics card! GLEE_ARB_texture_non_power_of_two not supported.\n");
+			fprintf (stderr, "Warning: Old graphics card! GLEW_ARB_texture_non_power_of_two not supported.\n");
 		}
 	}
 }

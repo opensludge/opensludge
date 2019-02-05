@@ -21,6 +21,7 @@
 #include <stdio.h>
 
 #include "AL/alure.h"
+#include <dumb.h>
 
 #include "allfiles.h"
 #include "debug.h"
@@ -43,6 +44,7 @@ struct soundThing {
 	bool playing;
 	int fileLoaded, vol;	//Used for sounds only.
 	bool looping;			//Used for sounds only.
+	DUH_SIGRENDERER *sr;    //Used for MODs only.
 };
 
 soundThing soundCache[MAX_SAMPLES];
@@ -52,6 +54,78 @@ int intpointers[MAX_SAMPLES];
 int defVol = 128;
 int defSoundVol = 255;
 const float modLoudness = 0.95f;
+
+/*
+ * Functions for Alure to access DUMB:
+ */
+
+						// Values to choose from:
+const float DUMB_volume = 0.95f;		// between 0.0f and 1.0f
+const int DUMB_freq = 44100;
+const int DUMB_n_channels = 2;			// 1 or 2
+const int DUMB_depth = 16;			// 8 or 16
+const int DUMB_unsign = 0;
+const ALenum DUMB_format = AL_FORMAT_STEREO16;	// Match this to DUMB_depth
+						// and DUMB_n_channels.
+
+DUH_SIGRENDERER * DUMBopen_memory(const ALubyte *data, ALuint length, int fromTrack) {
+	DUMBFILE *df;
+	DUH *duh;
+	DUH_SIGRENDERER *sr;
+	int i;
+
+	for (i = 0; i < 4; i++) {
+		df = dumbfile_open_memory((const char *)data, length);
+		switch (i) {
+			case 0:
+				duh = dumb_read_xm_quick(df);
+				break;
+			case 1:
+				duh = dumb_read_it_quick(df);
+				break;
+			case 2:
+				duh = dumb_read_s3m_quick(df);
+				break;
+			case 3:
+#if (DUMB_MAJOR_VERSION) >= 2
+				duh = dumb_read_mod_quick(df, 0);
+#else
+				duh = dumb_read_mod_quick(df);
+#endif
+				break;
+			default:
+				break;
+		}
+		if (duh)
+			break;
+		dumbfile_close(df);
+
+		if (i == 3) {
+			return NULL;
+		}
+	}
+
+	sr = dumb_it_start_at_order(duh, DUMB_n_channels, fromTrack);
+
+	return sr;
+}
+
+ALuint DUMBdecode(void *instance, ALubyte *data, ALuint bytes) {
+	float delta;
+	int bufsize;
+
+	delta = 65536.0f / DUMB_freq;
+	bufsize = DUMB_depth == 16 ? bytes/2 : bytes;
+	bufsize /= DUMB_n_channels;
+
+	int l = duh_render((DUH_SIGRENDERER *)instance, DUMB_depth, DUMB_unsign,
+				DUMB_volume, delta, bufsize, data);
+	
+	l *= DUMB_n_channels;
+	l = DUMB_depth == 16 ? l*2 : l;
+
+	return l;
+}
 
 /*
  * Set up, tear down:
@@ -86,6 +160,9 @@ bool initSoundStuff (HWND hwnd) {
 				alureGetErrorString());
 		return 1;
 	}
+
+	atexit(&dumb_exit);
+
 	return soundOK = true;
 }
 
@@ -128,6 +205,8 @@ void killSoundStuff () {
 	SilenceIKillYou = false;
 
 	alureShutdownDevice();
+
+	dumb_exit();
 }
 
 /*
@@ -138,7 +217,7 @@ void setMusicVolume (int a, int v) {
 	if (! soundOK) return;
 
 	if (modCache[a].playing) {
-		alSourcef (modCache[a].playingOnSource, AL_GAIN, (float) modLoudness * v / 256);
+		alSourcef (modCache[a].playingOnSource, AL_GAIN, (float) modLoudness * v / 255);
 	}
 }
 
@@ -153,7 +232,7 @@ void setSoundVolume (int a, int v) {
 		if (soundCache[ch].playing) {
 			soundCache[ch].vol = v;
 			alSourcef (soundCache[ch].playingOnSource,
-					AL_GAIN, (float) v / 256);
+					AL_GAIN, (float) v / 255);
 		}
 	}
 }
@@ -196,6 +275,8 @@ static void mod_eos_callback(void *cacheIndex, ALuint source)
 		debugOut("Failed to destroy stream: %s\n",
 				alureGetErrorString());
 	}
+	duh_end_sigrenderer((DUH_SIGRENDERER *)modCache[*a].sr);
+	modCache[*a].sr = NULL;
 	modCache[*a].stream = NULL;
 	modCache[*a].playing = false;
 }
@@ -304,9 +385,9 @@ void playStream (int a, bool isMOD, bool loopy) {
 	}
 
 	if (isMOD) {
-		alSourcef (src, AL_GAIN, (float) modLoudness * defVol / 256);
+		alSourcef (src, AL_GAIN, (float) modLoudness * defVol / 255);
 	} else {
-		alSourcef (src, AL_GAIN, (float) soundCache[a].vol / 256);
+		alSourcef (src, AL_GAIN, (float) soundCache[a].vol / 255);
 	}
 
 	if (loopy) {
@@ -361,8 +442,13 @@ bool playMOD (int f, int a, int fromTrack) {
 	memImage = (unsigned char *) loadEntireFileToMemory (bigDataFile, length);
 	if (! memImage) return fatal (ERROR_MUSIC_MEMORY_LOW);
 
-	modCache[a].stream = alureCreateStreamFromMemory(memImage, length, 19200, 0, NULL);
+	modCache[a].sr = DUMBopen_memory(memImage, length, fromTrack);
 	delete memImage;
+
+	modCache[a].stream = alureCreateStreamFromCallback(
+					 &DUMBdecode,
+					 modCache[a].sr, DUMB_format, DUMB_freq,
+					 19200, 0, NULL);
 
 	if (modCache[a].stream != NULL) {
 		setMusicVolume (a, defVol);
@@ -676,7 +762,7 @@ void playSoundList(soundList *s) {
 			return;
 		}
 
-		alSourcef (src, AL_GAIN, (float) soundCache[a].vol / 256);
+		alSourcef (src, AL_GAIN, (float) soundCache[a].vol / 255);
 
 		ok = alurePlaySourceStream(src, (*st).stream,
 									   NUM_BUFS, 0, list_eos_callback, s);
@@ -708,7 +794,7 @@ void playMovieStream (int a) {
 		return;
 	}
 	
-	alSourcef (src, AL_GAIN, (float) soundCache[a].vol / 256);
+	alSourcef (src, AL_GAIN, (float) soundCache[a].vol / 255);
 	
 	ok = alurePlaySourceStream(src, soundCache[a].stream,
 								   10, 0, sound_eos_callback, &intpointers[a]);

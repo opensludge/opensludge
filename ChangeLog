@@ -612,3 +612,18 @@ Engine:
 
 Development Kit:
 * Allow sprite banks larger than 255 images. 
+
+----------------------
+2.2.2 - Bugfix release
+----------------------
+
+Engine:
+* Fix MOD playback (fixes intro song of "Out of Order").
+* Replace GLEE by GLEW as OpenGL loading library.
+* Improved support for Pandora, Raspberry Pi and ODroid (by ptitSeb).
+* Fix freeze function when the game window is scaled down.
+* Handle https URLs in launch().
+* Fix configure.ac to work with Automake 1.15
+
+Development Kit:
+* Fix a possible segfault in project manager due to uninitialized variable (Debian bug #880853).
