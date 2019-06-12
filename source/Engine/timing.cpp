@@ -1,4 +1,4 @@
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 
 int desiredfps = 300;				//holds desired frames per second
 Uint32 starttime,endtime;

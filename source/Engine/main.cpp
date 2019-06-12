@@ -25,8 +25,8 @@
 #include "eglport/eglport.h"
 #endif
 
-#include <SDL/SDL.h>
-#include <SDL/SDL_syswm.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_syswm.h>
 
 #include "debug.h"
 #include "platform-dependent.h"
@@ -72,6 +72,8 @@ extern float cameraZoom;
 extern int specialSettings;
 extern inputType input;
 extern variableStack * noStack;
+
+extern SDL_Window *screen;
 
 int dialogValue = 0;
 
@@ -132,10 +134,10 @@ void checkInput() {
 	while ( SDL_PollEvent(&event) ) {
 		switch (event.type) {
 				
-			case SDL_VIDEORESIZE:
-				realWinWidth = event.resize.w;
-				realWinHeight = event.resize.h;
-				setGraphicsWindow(false, true, true);
+			case SDL_WINDOWEVENT_RESIZED:
+				realWinWidth = event.window.data1;
+				realWinHeight = event.window.data2;
+				//setGraphicsWindow(false, true, true);
 				break;
 				
 			case SDL_MOUSEMOTION:
@@ -177,14 +179,14 @@ void checkInput() {
 			case SDL_KEYDOWN:
 				// A Windows key is pressed - let's leave fullscreen.
 				if (runningFullscreen) {
-					if (event.key.keysym.sym == SDLK_LSUPER || event.key.keysym.sym == SDLK_LSUPER) {
+					if (event.key.keysym.sym == SDLK_LGUI) {
 						setGraphicsWindow(! runningFullscreen);
 					}
 				}
 				// Ignore Command keypresses - they're for the OS to handle.
-				if (event.key.keysym.mod & KMOD_META) {
+				if (event.key.keysym.mod & KMOD_GUI) {
 					// Command+F - let's switch to/from full screen
-					if ('f' == event.key.keysym.unicode) {
+					if (SDLK_f == event.key.keysym.sym) {
 						setGraphicsWindow(! runningFullscreen);
 					}
 					break;
@@ -257,7 +259,7 @@ void checkInput() {
 					case SDLK_F12:
 						input.keyPressed = 63247; break;
 					default:
-						input.keyPressed = event.key.keysym.unicode;
+						input.keyPressed = event.key.keysym.sym;
 						break;
 				}
 				break;
@@ -347,19 +349,15 @@ int main(int argc, char *argv[]) try
 		exit(1);
 	}
 
+        setupOpenGLStuff();
+
     if (gameIcon) {
         if (SDL_Surface * programIcon = SDL_CreateRGBSurfaceFrom(gameIcon, iconW, iconH, 32, iconW*4, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000)) {
-            SDL_WM_SetIcon(programIcon, NULL);
+            SDL_SetWindowIcon(screen, programIcon);
             SDL_FreeSurface(programIcon);
         }
         delete gameIcon;
     }
-
-	// Needed to make menu shortcuts work (on Mac), i.e. Command+Q for quit
-	SDL_putenv((char *)"SDL_ENABLEAPPEVENTS=1");
-
-	setupOpenGLStuff();
-
 
 #ifdef _WIN32
 	SDL_SysWMinfo wmInfo;
@@ -380,9 +378,10 @@ int main(int argc, char *argv[]) try
 	initStatusBar ();
 	resetRandW ();
 
+
 	gameName = getNumberedString(1);
 		
-	SDL_WM_SetCaption(gameName, gameName);
+	SDL_SetWindowTitle(screen, gameName);
 
 	if ( (specialSettings & (SPECIAL_MOUSE_1 | SPECIAL_MOUSE_2)) == SPECIAL_MOUSE_1) {
 	//	Hide the standard mouse cursor!
@@ -401,7 +400,6 @@ int main(int argc, char *argv[]) try
 	startNewFunctionNum (0, 0, NULL, noStack);
 	Init_Timer();
 
-	SDL_EnableUNICODE(1);
 
 	weAreDoneSoQuit = 0;
 	while ( !weAreDoneSoQuit ) {

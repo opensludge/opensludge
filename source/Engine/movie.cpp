@@ -7,7 +7,7 @@
  *
  */
 
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 #include <math.h>
 
 #include "specialsettings.h"
@@ -50,6 +50,8 @@ void playMovieStream (int a);
 int initMovieSound(int f, ALenum format, int audioChannels, ALuint samplerate,
 				   ALuint (*callback)(void *userdata, ALubyte *data, ALuint bytes));
 
+
+extern SDL_Window *screen;
 
 movieStates movieIsPlaying = nothing;
 
@@ -932,7 +934,7 @@ movieHasEnded:	movieIsEnding = 1;
 			}
 			glFlush();
 #if !defined(HAVE_GLES2)
-        		SDL_GL_SwapBuffers();
+        		SDL_GL_SwapWindow(screen);
 #else
 			EGL_SwapBuffers();
 #endif

@@ -1,5 +1,5 @@
 #include <stdarg.h>
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 
 #include "debug.h"
 #include "platform-dependent.h"
@@ -26,6 +26,8 @@
 #endif
 #endif
 
+SDL_GLContext glcontext;
+
 unsigned int winWidth, winHeight;
 int viewportHeight, viewportWidth;
 int viewportOffsetX = 0, viewportOffsetY = 0;
@@ -49,6 +51,8 @@ extern GLuint yTextureName;
 extern GLuint uTextureName;
 extern GLuint vTextureName;
 //extern GLubyte * ytex, * utex, * vtex;
+
+SDL_Window *screen = NULL;
 
 shaders shader;
 GLfloat aPMVMatrix[16];
@@ -425,9 +429,10 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 
 	if (! desktopW) {
 		// Get video hardware information
-		const SDL_VideoInfo* videoInfo = SDL_GetVideoInfo();
-		desktopW = videoInfo->current_w;
-		desktopH = videoInfo->current_h;
+		SDL_DisplayMode videoInfo;
+		SDL_GetDesktopDisplayMode(0, &videoInfo);
+		desktopW = videoInfo.w;
+		desktopH = videoInfo.h;
 	} else if (restoreGraphics && fullscreen == runningFullscreen & ! resize) return;
 
 	runningFullscreen = fullscreen;
@@ -471,9 +476,9 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 	if (fullscreen) {
 		specialSettings &= ~SPECIAL_INVISIBLE;
 #if !defined(HAVE_GLES2)
- 		videoflags = SDL_OPENGL | SDL_FULLSCREEN;
+ 		videoflags = SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN_DESKTOP;
 #else
-		videoflags = SDL_SWSURFACE | SDL_FULLSCREEN;
+		videoflags = SDL_WINDOW_SWSURFACE | SDL_WINDOW_FULLSCREEN_DESKTOP;
 #endif
 
         if (gameSettings.fixedPixels) {
@@ -502,9 +507,9 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 
 	} else {
 #if !defined(HAVE_GLES2)
- 		videoflags = SDL_OPENGL/* | SDL_RESIZABLE*/;
+ 		videoflags = SDL_WINDOW_OPENGL/* | SDL_RESIZABLE*/;
 #else
-		videoflags = SDL_SWSURFACE;
+		videoflags = SDL_WINDOW_SWSURFACE;
 #endif
 
 		if (resize) {
@@ -555,11 +560,16 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 
     debugHeader();
 
-	if( SDL_SetVideoMode( realWinWidth, realWinHeight, 32, videoflags ) == 0 ) {
-		msgBox("Startup Error: Couldn't set video mode.", SDL_GetError());
-		SDL_Quit();
-		exit(2);
+	if (!screen) {
+		screen = SDL_CreateWindow("SLUDGE", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, realWinWidth, realWinHeight, videoflags);
+	} else {
+		SDL_SetWindowFullscreen(screen, fullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
+		SDL_SetWindowSize(screen, realWinWidth, realWinHeight);
 	}
+	if (!glcontext) {
+		glcontext = SDL_GL_CreateContext(screen);
+	}
+
 	debugOut( "Video mode %d %d set successfully.\n", realWinWidth, realWinHeight);
 
 #if defined(HAVE_GLES2)

@@ -1,4 +1,4 @@
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 
 #include "platform-dependent.h"
 #include "allfiles.h"
