@@ -60,6 +60,7 @@ SludgeProjectManager::SludgeProjectManager()
 	numResources = 0;
 	resourceList[0] = NULL;
 	fileList[0] = NULL;
+	fileListNum = 0;
 
 	filesListStore = NULL;
 	resourcesListStore = NULL;
