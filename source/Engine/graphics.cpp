@@ -747,7 +747,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 	 */
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
 	setPixelCoords (false);
 
@@ -885,6 +885,11 @@ void setupOpenGLStuff() {
 			debugOut("ARB_fragment_shader supported.\n");
 		} else {
 			fatal("Error: Old graphics card! ARB_fragment_shader not supported.\n");
+		}
+		if (GLEW_EXT_blend_func_separate) {
+			debugOut("EXT_blend_func_separate supported.\n");
+		} else {
+			fatal("Error: Old graphics card! EXT_blend_func_separate not supported.\n");
 		}
 	}
 #else
