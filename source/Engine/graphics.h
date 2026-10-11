@@ -9,12 +9,7 @@
 #ifndef __SLUDGE_GRAPHICS_H__
 #define __SLUDGE_GRAPHICS_H__
 
-#if !defined(HAVE_GLES2)
-#include <GL/glew.h>
-#else
-#include <GLES2/gl2.h>
-#include "eglport/eglport.h"
-#endif
+#include "sludge_gl.h"
 
 struct texture {
 	GLubyte * data;
@@ -60,9 +55,15 @@ void drawQuad(GLint program, const GLfloat* vertices, int numTexCoords, ...);
 void setPMVMatrix(GLint program);
 
 void setPixelCoords (bool pixels);
-void setGraphicsWindow(bool fullscreen, bool restoreGraphics = true, bool resize = false);
+void setGraphicsWindow(bool fullscreen, bool restoreGraphics = true);
 
 void setupOpenGLStuff();
+void updateViewport ();
+void windowToGameCoords (float x, float y, int * gameX, int * gameY);
+void swapGraphicsBuffers ();
+
+struct SDL_Window;
+extern SDL_Window * sludgeWindow;
 
 int getNextPOT(int n);
 
