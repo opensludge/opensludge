@@ -85,7 +85,6 @@ unsigned char brightnessLevel = 255;
 eventHandlers mainHandlers;
 eventHandlers * currentEvents = & mainHandlers;
 
-extern HWND hMainWindow;
 extern screenRegion * overRegion;
 extern speechStruct * speech;
 extern statusStuff * nowStatus;
