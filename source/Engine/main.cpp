@@ -1,9 +1,9 @@
-#if defined __unix__ && !(defined __APPLE__)
-#include "linuxstuff.h"
-#endif
-
-#ifdef _WIN32
+#if defined(_WIN32)
 #include "winstuff.h"
+#elif defined(__unix__) || defined(__APPLE__)
+#include "posixstuff.h"
+#else
+#error "Unsupported platform"
 #endif
 
 #include <stdio.h>
@@ -45,9 +45,9 @@
 #include "helpers.h"
 
 
-#ifdef _WIN32
+#if defined(_WIN32)
 #define PATHSLASH '\\'
-#else
+#elif defined(__unix__) || defined(__APPLE__)
 #define PATHSLASH '/'
 #endif
 
@@ -312,13 +312,8 @@ int main(int argc, char *argv[]) try
 		}
 	}
 
-#if defined __unix__ && !(defined __APPLE__)
+#if defined __unix__ || defined __APPLE__
 	if (! parseCmdlineParameters(argc, argv) ) {
-		printCmdlineUsage();
-		return 0;
-	}
-	if (! fileExists(sludgeFile) ) {
-		fprintf(stderr, "Game file not found.\n");
 		printCmdlineUsage();
 		return 0;
 	}
@@ -327,6 +322,14 @@ int main(int argc, char *argv[]) try
 	// The player pressed cancel in the file selection dialogue,
 	// so we should quit now.
 	if (! sludgeFile) return 0;
+
+	if (! fileExists(sludgeFile) ) {
+		msgBox("Game file not found.", sludgeFile);
+#if defined __unix__ || defined __APPLE__
+		printCmdlineUsage();
+#endif
+		return 0;
+	}
 
 	// OK, so we DO want to start up, then...
 	setGameFilePath (sludgeFile);

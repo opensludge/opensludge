@@ -196,11 +196,12 @@ void changeToUserDir () {
 	_wchdir(szAppData);
 }
 
-uint32_t launch(char * f) {
+bool launch(char * f) {
     WCHAR * w_f = ConvertToUTF16(f);
-    uint32_t r = (uint32_t) ShellExecute (hMainWindow, TEXT("open"), w_f, NULL, TEXT("C:\\"), SW_SHOWNORMAL);
+    // ShellExecute returns a value greater than 32 on success.
+    INT_PTR r = (INT_PTR) ShellExecute (hMainWindow, TEXT("open"), w_f, NULL, TEXT("C:\\"), SW_SHOWNORMAL);
     delete w_f;
-	return r;
+	return r > 32;
 }
 
 bool defaultUserFullScreen() {

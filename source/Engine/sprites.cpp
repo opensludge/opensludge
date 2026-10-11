@@ -1,8 +1,4 @@
-#if defined __unix__ && !(defined __APPLE__)
 #include <png.h>
-#else
-#include <libpng/png.h>
-#endif
 
 #include <string.h>
 

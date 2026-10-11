@@ -1,5 +1,5 @@
-#ifndef __LINUXSTUFF_H__
-#define __LINUXSTUFF_H__
+#ifndef __POSIXSTUFF_H__
+#define __POSIXSTUFF_H__
 
 struct cmdlineSettingsStruct
 {

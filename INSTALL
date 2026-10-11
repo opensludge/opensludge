@@ -1,7 +1,7 @@
 Building the SLUDGE engine
 **************************
 
-   We build the engine with CMake 3.24 or later:
+   We build the engine with CMake 3.24 or later, on Linux and macOS:
 
      cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
      cmake --build build
