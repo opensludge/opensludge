@@ -8,48 +8,28 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "debug.h"
 #include "stringy.h"
 #include "shaders.h"
 #include "graphics.h"
 
-extern char *bundleFolder;
+#include "shaders_embedded.h"
 
-//Function from: http://www.evl.uic.edu/aej/594/code/ogl.cpp
-//Read in a textfile (GLSL program)
-// we need to pass it as a string to the GLSL driver
+// Return the source of one of the shaders, which we build into the
+// executable, as a string allocated with malloc.
 char *shaderFileRead(const char *name)
 {
-	FILE *fp;
-	char *content = NULL;
-	char * fn = joinStrings (bundleFolder, name);
-
-	int count=0;
-
-	if (fn != NULL) {
-
-		fp = fopen(fn,"rt");
-
-		if (fp != NULL) {
-
-			fseek(fp, 0, SEEK_END);
-			count = ftell(fp);
-			rewind(fp);
-
-			if (count > 0) {
-				content = (char *)malloc(sizeof(char) * (count+1));
-				count = fread(content,sizeof(char),count,fp);
-				content[count] = '\0';
-			}
-			fclose(fp);
-
+	for (const embeddedShader * shader = embeddedShaders; shader->name; shader ++) {
+		if (strcmp (shader->name, name) == 0) {
+			size_t length = strlen (shader->source);
+			char * content = (char *) malloc (length + 1);
+			if (content) memcpy (content, shader->source, length + 1);
+			return content;
 		}
 	}
-
-	delete fn;
-
-	return content;
+	return NULL;
 }
 
 static void
