@@ -1,7 +1,8 @@
 Building the SLUDGE engine
 **************************
 
-   We build the engine with CMake 3.24 or later, on Linux and macOS:
+   We build the engine with CMake 3.24 or later, on Linux, macOS and
+Windows:
 
      cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
      cmake --build build
@@ -22,6 +23,7 @@ libsdl3-dev where it exists.
 
    On macOS, build each architecture separately, for example with
 -DCMAKE_OSX_ARCHITECTURES=x86_64, and combine the executables with lipo.
+On Windows, we build with MSYS2 and MinGW.
 
    For the OpenPandora, the Raspberry Pi or an ODROID, build with
 -DSLUDGE_DEVICE=OpenPandora, RaspberryPi or ODROID. We then draw with

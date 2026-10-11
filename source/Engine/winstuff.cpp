@@ -28,7 +28,7 @@
 #include <shellapi.h>
 #include <shlobj.h> // For SHGetFolderPath
 
-#include "..\..\images\resource.h"
+#include "resource.h"
 
 HINSTANCE hInst;  				// Handle of the main instance
 extern HWND hMainWindow;
@@ -86,7 +86,7 @@ extern int * languageTable;
 HBITMAP hLogo = NULL;
 extern unsigned char * gameLogo;
 
-BOOL CALLBACK setupDlgProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK setupDlgProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message) {
     case WM_INITDIALOG:

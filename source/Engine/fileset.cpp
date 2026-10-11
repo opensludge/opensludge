@@ -5,7 +5,11 @@
 #include "stringy.h"
 
 // For unicode conversion
+#if defined(_WIN32)
+#include <windows.h>
+#elif defined(__unix__) || defined(__APPLE__)
 #include <iconv.h>
+#endif
 
 #include "debug.h"
 
@@ -76,8 +80,8 @@ unsigned int openFileFromNum (int num) {
 }
 
 
-// Converts a string from Windows CP-1252 to UTF-8. 
-// This is needed for old games.
+// Converts a string from the Windows-1250 code page to UTF-8. Old versions
+// of SLUDGE stored the text of games in that code page.
 char * convertString(char * s) {
 	static char *buf = NULL;
 	
@@ -86,10 +90,22 @@ char * convertString(char * s) {
 		if (! checkNew (buf)) return NULL;
 	}
 
-	char **tmp1 = (char **) &s;
-	char **tmp2 = (char **) &buf;
 	char * sOrig = s;
 	char * bufOrig = buf;
+
+#if defined(_WIN32)
+	static WCHAR * wideBuf = NULL;
+	if (! wideBuf) {
+		wideBuf = new WCHAR [65536];
+		if (! checkNew (wideBuf)) return NULL;
+	}
+	if (! MultiByteToWideChar (1250, 0, s, -1, wideBuf, 65536) ||
+		! WideCharToMultiByte (CP_UTF8, 0, wideBuf, -1, buf, 65536, NULL, NULL)) {
+		fatal("Conversion to Unicode failed. This can be fixed by recompiling the game in a current version of the SLUDGE Development Kit, but this error should never happen. Congratulations, you've found a bug in the SLUDGE engine! Please let us know about it.");
+	}
+#elif defined(__unix__) || defined(__APPLE__)
+	char **tmp1 = (char **) &s;
+	char **tmp2 = (char **) &buf;
 #if defined __unix__ && !(defined __APPLE__)
 	iconv_t convert = iconv_open ("UTF-8", "ISO8859-2");
 #else
@@ -108,13 +124,8 @@ char * convertString(char * s) {
 
 	size_t len1 = strlen(s)+1;
 	size_t len2 = 65535;
-	size_t iconv_value =
-#ifdef _WIN32
-	iconv (convert,(const char **) tmp1, &len1, tmp2, &len2);
-#else
-	iconv (convert,(char **) tmp1, &len1, tmp2, &len2);
-#endif
-	
+	size_t iconv_value = iconv (convert,(char **) tmp1, &len1, tmp2, &len2);
+
     if (iconv_value == (size_t) -1) {
 		switch (errno) {
 				/* See "man 3 iconv" for an explanation. */
@@ -133,8 +144,8 @@ char * convertString(char * s) {
 		fatal("Conversion to Unicode failed. This can be fixed by recompiling the game in a current version of the SLUDGE Development Kit, but this error should never happen. Congratulations, you've found a bug in the SLUDGE engine! Please let us know about it.");
     }
 	iconv_close (convert);
-	
-	
+#endif
+
 	delete [] sOrig;
 	return copyString(buf = bufOrig);
 }
