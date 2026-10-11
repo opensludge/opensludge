@@ -6,10 +6,9 @@ Building the SLUDGE engine
      cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
      cmake --build build
 
-   The engine uses SDL 3, OpenGL, OpenAL, Alure (1.1 or later), libogg,
-libvorbis, libpng, DUMB and libvpx. On Debian and Ubuntu, the packages are
-libsdl3-dev where it exists, libgl-dev, libopenal-dev, libalure-dev,
-libvorbis-dev, libpng-dev, libdumb1-dev and libvpx-dev.
+   The engine uses SDL 3, OpenGL, libogg, libvorbis, libpng, DUMB and
+libvpx. On Debian and Ubuntu, the packages are libsdl3-dev where it
+exists, libgl-dev, libvorbis-dev, libpng-dev, libdumb1-dev and libvpx-dev.
 
    With -DSLUDGE_GLES2=ON, we draw with OpenGL ES 2.0 instead of OpenGL.
 

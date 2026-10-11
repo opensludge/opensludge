@@ -12,7 +12,7 @@ set_property(CACHE SLUDGE_DEVICE PROPERTY STRINGS "" OpenPandora RaspberryPi ODR
 
 find_package(SDL3 REQUIRED CONFIG)
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(ENGINE REQUIRED IMPORTED_TARGET alure>=1.1 openal vorbis ogg vpx libpng)
+pkg_check_modules(ENGINE REQUIRED IMPORTED_TARGET vorbisfile vorbis ogg vpx libpng)
 find_path(DUMB_INCLUDE_DIR dumb.h REQUIRED)
 find_library(DUMB_LIBRARY dumb REQUIRED)
 
@@ -45,7 +45,7 @@ set(ENGINE_SOURCES
 	region.cpp savedata.cpp shaders.cpp sludge_gl.cpp sludger.cpp sprbanks.cpp
 	sprites.cpp statusba.cpp stringy.cpp talk.cpp
 	thumbnail.cpp timing.cpp transition.cpp variable.cpp
-	zbuffer.cpp sound_openal.cpp
+	zbuffer.cpp sound_sdl.cpp
 	libwebm/mkvparser.cpp libwebm/mkvreader.cpp
 )
 list(TRANSFORM ENGINE_SOURCES PREPEND ${ENGINE_DIR}/)

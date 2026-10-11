@@ -1,9 +1,4 @@
 #include "variable.h"
-#ifdef _WIN32
-#include <windows.h>
-#else
-#define HWND void *
-#endif
 
 
 // Sound list stuff
@@ -20,7 +15,7 @@ void playSoundList(soundList *s);
 
 
 // GENERAL...
-bool initSoundStuff (HWND);
+bool initSoundStuff ();
 void killSoundStuff ();
 
 // MUSIC...
@@ -45,4 +40,11 @@ void debugSounds ();
 void loadSounds (FILE * fp);
 void saveSounds (FILE * fp);
 
-unsigned int getSoundSource(int index);
+// Handle the sounds that have finished playing. Call this once per frame.
+void updateSounds ();
+
+// Movie soundtracks
+int initMovieSound(int f, int audioChannels, int samplerate,
+				   unsigned int (*callback)(void *userdata, unsigned char *data, unsigned int bytes));
+void playMovieStream (int a);
+void pauseMovieSound (int a, bool pause);

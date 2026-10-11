@@ -33,7 +33,6 @@
 #include "ogg/ogg.h"
 #include "libvorbis/vorbis_os.h"
 
-#include "AL/alure.h"
 
 
 extern int specialSettings;
@@ -44,11 +43,6 @@ extern int weAreDoneSoQuit;
 
 // Sludger.cpp
 bool handleInput ();
-
-// sound_openal.cpp
-void playMovieStream (int a);
-int initMovieSound(int f, ALenum format, int audioChannels, ALuint samplerate,
-				   ALuint (*callback)(void *userdata, ALubyte *data, ALuint bytes));
 
 
 movieStates movieIsPlaying = nothing;
@@ -291,12 +285,12 @@ long long audioChannels;
 bool fakeAudio = false;
 
 // send audio to audio device...
-ALuint feedAudio (void *userdata, ALubyte *data, ALuint length) {
+unsigned int feedAudio (void *userdata, unsigned char *data, unsigned int length) {
 	static char * buffer = NULL;
 	static unsigned int bufOffset = 0;
 	static unsigned int bufSize = 0;
 
-	ALuint got = 0;
+	unsigned int got = 0;
 	int bufLen;
 
 	if (! buffer) {
@@ -330,8 +324,8 @@ ALuint feedAudio (void *userdata, ALubyte *data, ALuint length) {
 	got += bufLen;
 
 	if (bufSize <= bufOffset) {
-		buffer = NULL;
 		delete [] buffer;
+		buffer = NULL;
 	}
 //	fprintf (stderr, "Sending %d bytes of audio.\n", got);
 	
@@ -497,8 +491,7 @@ int playMovie (int fileNumber)
 			if( r )
 				fprintf(stderr,"vorbis_block_init failed, error: %d", r);
 
-			ALenum audioFormat = alureGetSampleFormat(audioChannels, 16, 0);
-			movieAudioIndex = initMovieSound(fileNumber, audioFormat, audioChannels, (ALuint) audioSampleRate, feedAudio);
+			movieAudioIndex = initMovieSound(fileNumber, (int) audioChannels, (int) audioSampleRate, feedAudio);
 			fprintf (stderr, "Movie sound inited.\n");
 			audio_queue_init(&audioQ);
 			audioNsPerByte = (1000000000 / audioSampleRate) / (audioChannels * 2);
@@ -991,18 +984,12 @@ int stopMovie ()
 int pauseMovie()
 {	
 	if (movieIsPlaying == playing) {
-		ALuint source = getSoundSource(movieAudioIndex);
-		if (source) {
-			alurePauseSource(source);
-		}
+		pauseMovieSound(movieAudioIndex, true);
 		movieIsPlaying = paused;
 		fprintf (stderr, "** Pausing **\n");
 	} else if (movieIsPlaying == paused) {
-		ALuint source = getSoundSource(movieAudioIndex);
-		if (source) {
-			alureResumeSource(source);
-		}
-		fprintf (stderr, "** Restarted movie ** sound: %d source: %d\n", movieSoundPlaying, source);
+		pauseMovieSound(movieAudioIndex, false);
+		fprintf (stderr, "** Restarted movie ** sound: %d\n", movieSoundPlaying);
 		movieIsPlaying = playing;
 	}
 	return movieIsPlaying;
