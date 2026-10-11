@@ -307,7 +307,22 @@ int main(int argc, char *argv[]) try
 	const char * basePath = SDL_GetBasePath();
 	bundleFolder = copyString(basePath ? basePath : "");
 
-	if (argc > 1) {
+#if defined(__unix__) || defined(__APPLE__)
+	if (! parseCmdlineParameters(argc, argv) ) {
+		printCmdlineUsage();
+		return 0;
+	}
+	// After getopt_long, the options are before the other arguments, and
+	// optind is the index of the first other argument, which is the game
+	// file.
+	bool haveGameFileArgument = optind < argc;
+#elif defined(_WIN32)
+	bool haveGameFileArgument = argc > 1;
+#else
+#error "No command line parsing on this platform"
+#endif
+
+	if (haveGameFileArgument) {
 		sludgeFile = argv[argc - 1];
 	} else {
 		sludgeFile = joinStrings (bundleFolder, "gamedata.slg");
@@ -319,13 +334,6 @@ int main(int argc, char *argv[]) try
 			}
 		}
 	}
-
-#if defined __unix__ || defined __APPLE__
-	if (! parseCmdlineParameters(argc, argv) ) {
-		printCmdlineUsage();
-		return 0;
-	}
-#endif
 
 	// The player pressed cancel in the file selection dialogue,
 	// so we should quit now.
