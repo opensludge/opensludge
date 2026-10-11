@@ -55,6 +55,8 @@ extern int iconW, iconH;
 
 bool initSludge (char *);
 void sludgeDisplay ();
+// Show in the window the frame that we drew.
+void showFrame ();
 int startNewFunctionNum (unsigned int, unsigned int, loadedFunction *, variableStack * &, bool = true);
 bool handleInput ();
 void restartFunction (loadedFunction * fun);
