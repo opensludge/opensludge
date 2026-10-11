@@ -60,14 +60,22 @@ set(SHADERS
 )
 list(TRANSFORM SHADERS PREPEND ${ENGINE_DIR}/)
 
-add_executable(sludge-engine ${ENGINE_SOURCES})
+# We build the shaders into the executable.
+set(GENERATED_DIR ${CMAKE_CURRENT_BINARY_DIR}/generated)
+add_custom_command(
+	OUTPUT ${GENERATED_DIR}/shaders_embedded.h
+	COMMAND ${CMAKE_COMMAND} -DOUTPUT=${GENERATED_DIR}/shaders_embedded.h "-DSHADERS=${SHADERS}"
+		-P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/EmbedShaders.cmake
+	DEPENDS ${SHADERS} ${CMAKE_CURRENT_SOURCE_DIR}/cmake/EmbedShaders.cmake
+	COMMENT "Embedding shaders"
+	VERBATIM)
 
-target_include_directories(sludge-engine PRIVATE ${COMMON_DIR} ${ENGINE_DIR}/libwebm ${DUMB_INCLUDE_DIR})
+add_executable(sludge-engine ${ENGINE_SOURCES} ${GENERATED_DIR}/shaders_embedded.h)
+
+target_include_directories(sludge-engine PRIVATE ${GENERATED_DIR} ${COMMON_DIR} ${ENGINE_DIR}/libwebm ${DUMB_INCLUDE_DIR})
 target_link_libraries(sludge-engine PRIVATE SDL3::SDL3 PkgConfig::ENGINE ${DUMB_LIBRARY})
 
 include(GNUInstallDirs)
-# We load the shaders from this folder at run time.
-target_compile_definitions(sludge-engine PRIVATE DATADIR="${CMAKE_INSTALL_FULL_DATADIR}/sludge/")
 
 if(SLUDGE_GLES2)
 	target_compile_definitions(sludge-engine PRIVATE HAVE_GLES2 ${DEVICE_DEFINITIONS})
@@ -78,4 +86,3 @@ else()
 endif()
 
 install(TARGETS sludge-engine RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-install(FILES ${SHADERS} DESTINATION ${CMAKE_INSTALL_DATADIR}/sludge)

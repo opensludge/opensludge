@@ -17,9 +17,6 @@ exists, libgl-dev, libvorbis-dev, libpng-dev, libdumb1-dev and libvpx-dev.
 OpenGL ES 2.0, and on the OpenPandora, we always show the game in full
 screen.
 
-   Install the engine with `cmake --install build'. We load the shaders
-from the data folder of the installation.
-
    Run the engine with the game data file as its argument, for example
 `sludge-engine gamedata.slg'. Run `sludge-engine --help' for the options.
 

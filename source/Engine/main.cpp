@@ -293,20 +293,11 @@ int main(int argc, char *argv[]) try
 	time_t t;
 	srand((unsigned) time(&t));
 
-	// bundleFolder is used to look for the game file
-	// and later to find the shader programs
-#ifdef __APPLE__
-	// bundleFolder is set in applicationDidFinishLaunching.
-#elif defined __unix__
-	bundleFolder = copyString(DATADIR);	// DATADIR is defined in the Makefile.
-#else
-	bundleFolder = copyString(argv[0]);
-	int lastSlash = -1;
-	for (int i = 0; bundleFolder[i]; i ++) {
-		if (bundleFolder[i] == PATHSLASH) lastSlash = i;
-	}
-	bundleFolder[lastSlash+1] = NULL;
-#endif
+	// When no game file is given, we look for one in bundleFolder. This is
+	// the folder containing the executable, or the Resources folder of a
+	// macOS application bundle.
+	const char * basePath = SDL_GetBasePath();
+	bundleFolder = copyString(basePath ? basePath : "");
 
 	if (argc > 1) {
 		sludgeFile = argv[argc - 1];
