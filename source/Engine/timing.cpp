@@ -18,7 +18,7 @@ void Init_Special_Timer(int t)
 	starttime = (Uint32) SDL_GetTicks();
 }
 
-void Wait_Frame (void)
+void Wait_Frame (void (* whileWaiting) (Uint32 millisecondsLeft))
 {
 	static Uint32 addNextTime = 0;
 	Uint32 timetaken;
@@ -29,6 +29,7 @@ void Wait_Frame (void)
 		endtime = (Uint32) SDL_GetTicks();
 		timetaken = addNextTime + endtime - starttime;
 		if (timetaken >= desired_frame_time) break;
+		if (whileWaiting) whileWaiting (desired_frame_time - timetaken);
 		SDL_Delay(1);
 	}
 
