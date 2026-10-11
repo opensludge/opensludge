@@ -207,7 +207,7 @@ bool setFloor (int fileNum) {
 		delete distanceMatrix [i];
 	}
 
-	delete distanceMatrix;
+	delete [] distanceMatrix;
 	distanceMatrix = NULL;
 
 	setResourceForFatal (-1);

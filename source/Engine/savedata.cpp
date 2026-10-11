@@ -151,7 +151,7 @@ bool fileToStack (char * filename, stackHandler * sH) {
 				{
 					char * g = readStringEncoded (fp);
 					makeTextVar (stringVar, g);
-					delete g;
+					delete [] g;
 				}
 				break;
 
