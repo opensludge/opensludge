@@ -45,6 +45,7 @@
 #include "helpers.h"
 #include "gamepad.h"
 #include "pointer.h"
+#include "keys.h"
 
 
 #if defined(_WIN32)
@@ -129,32 +130,22 @@ static int specialKeyCode (SDL_Keycode key) {
 	switch (key) {
 		case SDLK_BACKSPACE:
 		case SDLK_DELETE:	// Ok, mapping these to the same key is weird, I admit. But good?
-			return 127;
-		case SDLK_TAB:		return 9;
+			return KEY_BACKSPACE;
+		case SDLK_TAB:		return KEY_TAB;
 		case SDLK_RETURN:
-		case SDLK_KP_ENTER:	return 13;
-		case SDLK_ESCAPE:	return 27;
-		case SDLK_PAGEUP:	return 63276;
-		case SDLK_PAGEDOWN:	return 63277;
-		case SDLK_END:		return 63275;
-		case SDLK_HOME:		return 63273;
-		case SDLK_LEFT:		return 63234;
-		case SDLK_UP:		return 63232;
-		case SDLK_RIGHT:	return 63235;
-		case SDLK_DOWN:		return 63233;
-		case SDLK_F1:		return 63236;
-		case SDLK_F2:		return 63237;
-		case SDLK_F3:		return 63238;
-		case SDLK_F4:		return 63239;
-		case SDLK_F5:		return 63240;
-		case SDLK_F6:		return 63241;
-		case SDLK_F7:		return 63242;
-		case SDLK_F8:		return 63243;
-		case SDLK_F9:		return 63244;
-		case SDLK_F10:		return 63245;
-		case SDLK_F11:		return 63246;
-		case SDLK_F12:		return 63247;
-		default:			return 0;
+		case SDLK_KP_ENTER:	return KEY_ENTER;
+		case SDLK_ESCAPE:	return KEY_ESCAPE;
+		case SDLK_PAGEUP:	return KEY_PAGE_UP;
+		case SDLK_PAGEDOWN:	return KEY_PAGE_DOWN;
+		case SDLK_END:		return KEY_END;
+		case SDLK_HOME:		return KEY_HOME;
+		case SDLK_LEFT:		return KEY_LEFT;
+		case SDLK_UP:		return KEY_UP;
+		case SDLK_RIGHT:	return KEY_RIGHT;
+		case SDLK_DOWN:		return KEY_DOWN;
+		default:
+			if (key >= SDLK_F1 && key <= SDLK_F12) return KEY_F1 + (key - SDLK_F1);
+			return 0;
 	}
 }
 

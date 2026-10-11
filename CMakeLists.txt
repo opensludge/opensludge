@@ -38,7 +38,7 @@ set(COMMON_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source/CommonCode)
 
 set(ENGINE_SOURCES
 	backdrop.cpp bg_effects.cpp builtin.cpp cursors.cpp debug.cpp
-	fileset.cpp floor.cpp fonttext.cpp freeze.cpp gamepad.cpp graphics.cpp helpers.cpp
+	fileset.cpp floor.cpp fonttext.cpp freeze.cpp gamepad.cpp graphics.cpp helpers.cpp keys.cpp
 	language.cpp line.cpp loadsave.cpp main.cpp pointer.cpp
 	memwatch.cpp moreio.cpp newfatal.cpp objtypes.cpp people.cpp
 	region.cpp savedata.cpp shaders.cpp sludge_gl.cpp sludger.cpp sprbanks.cpp
