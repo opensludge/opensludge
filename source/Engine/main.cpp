@@ -43,6 +43,7 @@
 #include "sludger.h"
 #include "graphics.h"
 #include "helpers.h"
+#include "gamepad.h"
 
 
 #if defined(_WIN32)
@@ -261,6 +262,13 @@ void checkInput() {
 				break;
 			}
 
+			case SDL_EVENT_GAMEPAD_ADDED:
+			case SDL_EVENT_GAMEPAD_REMOVED:
+			case SDL_EVENT_GAMEPAD_BUTTON_DOWN:
+			case SDL_EVENT_GAMEPAD_BUTTON_UP:
+				handleGamepadEvent (event);
+				break;
+
 			case SDL_EVENT_QUIT:
 				if (reallyWantToQuit) {
 					// The game file has requested that we quit
@@ -342,6 +350,7 @@ int main(int argc, char *argv[]) try
 	}
 
 	setupOpenGLStuff();
+	initGamepads();
 
 	if (gameIcon) {
 		if (SDL_Surface * programIcon = SDL_CreateSurfaceFrom(iconW, iconH, SDL_PIXELFORMAT_RGBA32, gameIcon, iconW*4)) {
@@ -391,6 +400,7 @@ int main(int argc, char *argv[]) try
 	while ( !weAreDoneSoQuit ) {
 
 		checkInput();
+		updateGamepadPointer();
 		walkAllPeople ();
 		handleInput ();
 		sludgeDisplay ();
