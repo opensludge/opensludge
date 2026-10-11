@@ -12,7 +12,7 @@
 #include <math.h>
 #include <unistd.h>
 
-#include <iostream>
+#include <exception>
 #include <stdexcept>
 
 #include <time.h>
@@ -433,12 +433,12 @@ int main(int argc, char *argv[]) try
 
 catch (std::exception & ex) //NOTE by reference, not value
 {
-    std::cerr << "std::exception caught: " << ex.what() << std::endl;
+    fprintf (stderr, "std::exception caught: %s\n", ex.what ());
     return -1;
 }
 catch (...)
 {
-    std::cerr << "Unknown exception was never caught" << std::endl;
+    fprintf (stderr, "Unknown exception was never caught\n");
     return -2;
 }
 
