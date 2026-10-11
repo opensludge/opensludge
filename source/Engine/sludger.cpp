@@ -1,8 +1,4 @@
-#if defined __unix__ && !(defined __APPLE__)
 #include <png.h>
-#else
-#include <libpng/png.h>
-#endif
 
 #include "allfiles.h"
 #include <SDL3/SDL.h>
@@ -492,12 +488,12 @@ bool initSludge (char * filename) {
 	// Get user settings
 	readIniFile (filename);
 
-	// There's no startup window on Linux and respecting this
-	// option from the ini file would disable commandline options.
-#if defined __unix__ && !(defined __APPLE__)
+	// On Linux and macOS, we use the command line options in showSetupWindow
+	// instead of showing a window, so we ignore the noStartWindow option.
+#if defined(__unix__) || defined(__APPLE__)
 		if (! showSetupWindow()) return 0;
 		saveIniFile (filename);
-#else
+#elif defined(_WIN32)
 	if (! gameSettings.noStartWindow) {
 		if (! showSetupWindow()) return 0;
 		saveIniFile (filename);
@@ -1352,7 +1348,7 @@ bool handleInput () {
 		} else {
 			l = 1;
 
-			setVariable (* launchResult, SVT_INT, launch(launchMe) > 31);
+			setVariable (* launchResult, SVT_INT, launch(launchMe));
 			launchMe = NULL;
 			launchResult = NULL;
 		}

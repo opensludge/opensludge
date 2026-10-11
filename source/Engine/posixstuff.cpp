@@ -1,18 +1,21 @@
-#if defined __unix__ && !(defined __APPLE__)
 #include <iostream>
 #include <fstream>
 #include <unistd.h>
 #include <stdlib.h>
 #include <sys/stat.h>
-#include <sys/wait.h>
 #include <getopt.h>
+#include <string.h>
 
-#include "linuxstuff.h"
+#include <SDL3/SDL.h>
+
+#include "posixstuff.h"
 #include "platform-dependent.h"
 #include "allfiles.h"
 #include "language.h" // for settings
 #include "debug.h"
 #include "helpers.h"
+#include "stringy.h"
+#include "graphics.h"
 
 extern settingsStruct gameSettings;
 cmdlineSettingsStruct cmdlineSettings;
@@ -20,7 +23,7 @@ cmdlineSettingsStruct cmdlineSettings;
 extern char **languageName;
 
 /*
- * Functions declared in linuxstuff.h:
+ * Functions declared in posixstuff.h:
  */
 
 void printCmdlineUsage() {
@@ -115,8 +118,33 @@ bool parseCmdlineParameters(int argc, char *argv[]) {
  * Functions declared in platform-dependent.h:
  */
 
+// We ask the player to choose a game file when none was given, for example
+// when someone opens the engine from the Finder or a desktop menu.
+static void SDLCALL fileChosen (void * userdata, const char * const * files, int filter) {
+	char ** result = (char **) userdata;
+	*result = (files && files[0]) ? copyString (files[0]) : copyString ("");
+}
+
 char * grabFileName () {
-	return NULL;
+	if (! SDL_InitSubSystem (SDL_INIT_VIDEO)) return NULL;
+
+	static const SDL_DialogFileFilter filters[] = {
+		{ "SLUDGE games", "slg;dat" },
+		{ "All files", "*" },
+	};
+	char * result = NULL;
+	SDL_ShowOpenFileDialog (fileChosen, &result, NULL, filters, 2, NULL, false);
+	while (! result) {
+		SDL_Event event;
+		SDL_WaitEventTimeout (&event, 100);
+	}
+	SDL_QuitSubSystem (SDL_INIT_VIDEO);
+
+	if (! result[0]) {
+		delete [] result;
+		return NULL;
+	}
+	return result;
 }
 
 int showSetupWindow() {
@@ -148,13 +176,37 @@ int showSetupWindow() {
 
 void msgBox (const char * head, const char * msg) {
 	fprintf(stderr, "%s\n%s\n", head, msg);
+	SDL_ShowSimpleMessageBox (SDL_MESSAGEBOX_ERROR, head, msg, sludgeWindow);
 }
 
 int msgBoxQuestion (const char * head, const char * msg) {
-	return 1;
+	const SDL_MessageBoxButtonData buttons[] = {
+		{ SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "Yes" },
+		{ SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 0, "No" },
+	};
+	SDL_MessageBoxData data;
+	SDL_zero (data);
+	data.flags = SDL_MESSAGEBOX_INFORMATION;
+	data.window = sludgeWindow;
+	data.title = head;
+	data.message = msg;
+	data.numbuttons = 2;
+	data.buttons = buttons;
+	int answer;
+	// Without a message box, for example with no display, we answer yes.
+	if (! SDL_ShowMessageBox (&data, &answer)) return 1;
+	return answer == 1;
 }
 
 void changeToUserDir () {
+#if defined(__APPLE__)
+	// ~/Library/Application Support/SLUDGE
+	char * dir = SDL_GetPrefPath ("", "SLUDGE");
+	if (! dir || chdir (dir)) {
+		debugOut("Error: Failed changing to directory %s\n", dir ? dir : SDL_GetError ());
+	}
+	SDL_free (dir);
+#elif defined(__unix__)
 	if (chdir (getenv ("HOME"))) {
 		debugOut("Error: Failed changing to directory %s\n", getenv ("HOME"));
 	}
@@ -162,48 +214,33 @@ void changeToUserDir () {
 	if (chdir (".sludge-engine")) {
 		debugOut("Error: Failed changing to directory %s\n", ".sludge-engine");
 	}
+#else
+#error "No folder for settings and saved games on this platform"
+#endif
 }
 
-uint32_t launch(char * filename) {
+// Open a web page, or open a file with the program the user has chosen for
+// files of its type.
+bool launch(char * filename) {
 	debugOut("Trying to launch: %s\n", filename);
 
-	if (!fileExists("/usr/bin/xdg-open")) {
-		debugOut("Launching failed due to missing /usr/bin/xdg-open.\n");
-		return 0;
+	bool isURL = strncmp (filename, "http:", 5) == 0 || strncmp (filename, "https:", 6) == 0;
+	char * url;
+	if (isURL) {
+		url = copyString (filename);
+	} else {
+		char * path = realpath (filename, NULL);
+		if (! path) return false;
+		url = joinStrings ("file://", path);
+		free (path);
 	}
 
-	if (  !(filename[0] == 'h' &&
-		filename[1] == 't' &&
-		filename[2] == 't' &&
-		filename[3] == 'p' &&
-		(filename[4] == ':' || (filename[4] == 's' && filename[5] == ':'))) &&
-		!fileExists(filename)) {
-		return 0;
-	}
-
-	int status;
-
-	pid_t pid = fork();
-	if (pid < 0) {
-		return 0;
-	}
-	else if (pid == 0) {
-		execl("/usr/bin/xdg-open", "xdg-open", filename, (char *)0);
-		exit(EXIT_FAILURE);
-	}
-	else {
-		waitpid(pid, &status, 0);
-	}
-
-	if (status == EXIT_SUCCESS) {
-		return 69;
-	}
-	else {
-		return 0;
-	}
+	bool ok = SDL_OpenURL (url);
+	if (! ok) debugOut("Launching failed: %s\n", SDL_GetError ());
+	delete [] url;
+	return ok;
 }
 
 bool defaultUserFullScreen() {
 	return false;
 }
-#endif
