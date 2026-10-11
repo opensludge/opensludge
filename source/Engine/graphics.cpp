@@ -6,6 +6,7 @@
 #include "platform-dependent.h"
 #include "specialsettings.h"
 #include "graphics.h"
+#include "dxgipresent.h"
 #include "language.h"
 #include "newfatal.h"
 #include "sprbanks.h"
@@ -579,6 +580,9 @@ void updateViewport () {
 	SDL_GetWindowSizeInPixels (sludgeWindow, &realWinWidth, &realWinHeight);
 	if (realWinWidth < 1) realWinWidth = 1;
 	if (realWinHeight < 1) realWinHeight = 1;
+#if defined(_WIN32) && ! defined(HAVE_GLES2)
+	resizeDXGIPresentation (realWinWidth, realWinHeight);
+#endif
 
 	if (gameSettings.fixedPixels) {
 		int scale = realWinWidth / (int) winWidth;
@@ -667,25 +671,42 @@ static void createGraphicsWindow (bool fullscreen) {
 		}
 	}
 
-	SDL_WindowFlags flags = SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY;
+	// We show the window when it is ready.
+	SDL_WindowFlags flags = SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY | SDL_WINDOW_HIDDEN;
 	if (fullscreen) flags |= SDL_WINDOW_FULLSCREEN;
+	const char * title = gameName ? gameName : "SLUDGE";
 
-	sludgeWindow = SDL_CreateWindow (gameName ? gameName : "SLUDGE", w, h, flags);
+#if defined(_WIN32) && ! defined(HAVE_GLES2)
+	// On Windows, we show the frames through DXGI where we can, in a
+	// window without OpenGL (see dxgipresent.cpp).
+	sludgeWindow = SDL_CreateWindow (title, w, h, flags);
+	if (sludgeWindow) {
+		glContext = startDXGIPresentation (sludgeWindow);
+		if (! glContext) {
+			SDL_DestroyWindow (sludgeWindow);
+			sludgeWindow = NULL;
+		}
+	}
+#endif
+
 	if (! sludgeWindow) {
-		msgBox ("Startup Error: Couldn't create the game window.", SDL_GetError ());
-		SDL_Quit ();
-		exit (2);
+		sludgeWindow = SDL_CreateWindow (title, w, h, flags | SDL_WINDOW_OPENGL);
+		if (! sludgeWindow) {
+			msgBox ("Startup Error: Couldn't create the game window.", SDL_GetError ());
+			SDL_Quit ();
+			exit (2);
+		}
+		glContext = SDL_GL_CreateContext (sludgeWindow);
+		if (! glContext) {
+			msgBox ("Startup Error: Couldn't create an OpenGL context.", SDL_GetError ());
+			SDL_Quit ();
+			exit (2);
+		}
+		SDL_GL_MakeCurrent (sludgeWindow, glContext);
+		SDL_GL_SetSwapInterval (1);
 	}
 	SDL_SetWindowMinimumSize (sludgeWindow, 160, 120);
-
-	glContext = SDL_GL_CreateContext (sludgeWindow);
-	if (! glContext) {
-		msgBox ("Startup Error: Couldn't create an OpenGL context.", SDL_GetError ());
-		SDL_Quit ();
-		exit (2);
-	}
-	SDL_GL_MakeCurrent (sludgeWindow, glContext);
-	SDL_GL_SetSwapInterval (1);
+	SDL_ShowWindow (sludgeWindow);
 
 	const char * missing = loadGLFunctions ();
 	if (missing) {
@@ -789,6 +810,12 @@ static void waitForFramebufferVSync () {
 void swapGraphicsBuffers () {
 #if defined(SLUDGE_FRAMEBUFFER_VSYNC)
 	waitForFramebufferVSync ();
+#endif
+#if defined(_WIN32) && ! defined(HAVE_GLES2)
+	if (presentingWithDXGI ()) {
+		presentWithDXGI ();
+		return;
+	}
 #endif
 	SDL_GL_SwapWindow (sludgeWindow);
 }
