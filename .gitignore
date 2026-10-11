@@ -1,0 +1,29 @@
+# Autotools-generated files
+Makefile
+Makefile.in
+/NEWS
+/aclocal.m4
+/autom4te.cache/
+/compile
+/config.guess
+/config.h
+/config.h.in
+/config.h.in~
+/config.log
+/config.status
+/config.sub
+/configure
+/configure~
+/depcomp
+/install-sh
+/missing
+/stamp-h1
+.deps/
+.dirstamp
+
+# Build outputs
+*.o
+/source/Engine/sludge-engine
+
+# CMake build folders
+/build*/
