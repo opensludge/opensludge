@@ -2,14 +2,11 @@
  * Playing with a game controller.
  *
  * Players play SLUDGE games with the mouse, so we use a controller to move
- * the mouse pointer and to click:
- *
- *   left stick or d-pad     move the pointer
- *   A (bottom button)       left click
- *   B (right button)        right click
- *   left and right shoulder move the pointer to the previous or next thing
- *                           that the player can click on
- *   Start                   the Escape key
+ * the mouse pointer, to click and to press keys. The player moves the
+ * pointer with the left stick and the d-pad. For the other buttons and the
+ * triggers, we look up the action in the controller mapping
+ * (controllermap.cpp) and do it, for example a left click, the Escape key,
+ * or moving the pointer to the previous or next thing to click on.
  */
 
 #include <math.h>
@@ -18,6 +15,7 @@
 #include <SDL3/SDL.h>
 
 #include "allfiles.h"
+#include "controllermap.h"
 #include "debug.h"
 #include "gamepad.h"
 #include "graphics.h"
@@ -153,6 +151,36 @@ static void moveToNextHotspot (bool forward) {
 	delete [] spots;
 }
 
+static const Sint16 TRIGGER_DOWN = 16384;
+static const Sint16 TRIGGER_UP = 8192;
+static bool triggerDown[2] = { false, false };
+
+// Do the action of a controller button when the player presses it (down)
+// or lets it go.
+static void doAction (controllerAction action, bool down) {
+	switch (action.type) {
+		case ACTION_LEFT_CLICK:
+			if (down) input.leftClick = true;
+			else input.leftRelease = true;
+			break;
+		case ACTION_RIGHT_CLICK:
+			if (down) input.rightClick = true;
+			else input.rightRelease = true;
+			break;
+		case ACTION_PREVIOUS_HOTSPOT:
+			if (down) moveToNextHotspot (false);
+			break;
+		case ACTION_NEXT_HOTSPOT:
+			if (down) moveToNextHotspot (true);
+			break;
+		case ACTION_KEY:
+			if (down) input.keyPressed = action.key;
+			break;
+		case ACTION_NOTHING:
+			break;
+	}
+}
+
 void initGamepads () {
 	if (! SDL_InitSubSystem (SDL_INIT_GAMEPAD)) {
 		debugOut ("Failed to initialise game controllers: %s\n", SDL_GetError ());
@@ -173,27 +201,27 @@ void handleGamepadEvent (const SDL_Event & event) {
 
 		case SDL_EVENT_GAMEPAD_BUTTON_DOWN:
 		case SDL_EVENT_GAMEPAD_BUTTON_UP: {
-			bool down = event.type == SDL_EVENT_GAMEPAD_BUTTON_DOWN;
-			switch (event.gbutton.button) {
-				case SDL_GAMEPAD_BUTTON_SOUTH:
-					if (down) input.leftClick = true;
-					else input.leftRelease = true;
-					break;
-				case SDL_GAMEPAD_BUTTON_EAST:
-					if (down) input.rightClick = true;
-					else input.rightRelease = true;
-					break;
-				case SDL_GAMEPAD_BUTTON_START:
-					if (down) input.keyPressed = 27;
-					break;
-				case SDL_GAMEPAD_BUTTON_LEFT_SHOULDER:
-					if (down) moveToNextHotspot (false);
-					break;
-				case SDL_GAMEPAD_BUTTON_RIGHT_SHOULDER:
-					if (down) moveToNextHotspot (true);
-					break;
-				default:
-					break;
+			controllerInput mapped = inputForButton ((SDL_GamepadButton) event.gbutton.button);
+			if (mapped != NUM_CONTROLLER_INPUTS) {
+				doAction (actionForInput (mapped), event.type == SDL_EVENT_GAMEPAD_BUTTON_DOWN);
+			}
+			break;
+		}
+
+		case SDL_EVENT_GAMEPAD_AXIS_MOTION: {
+			controllerInput mapped = inputForAxis ((SDL_GamepadAxis) event.gaxis.axis);
+			if (mapped == NUM_CONTROLLER_INPUTS) break;
+			// We treat a trigger as a button that is down when the player
+			// pulls it more than halfway. It is up again when the player
+			// lets it go back to less than a quarter, so that we do not press
+			// the button again and again when the trigger is near halfway.
+			bool & down = triggerDown[mapped == INPUT_LEFT_TRIGGER ? 0 : 1];
+			if (! down && event.gaxis.value > TRIGGER_DOWN) {
+				down = true;
+				doAction (actionForInput (mapped), true);
+			} else if (down && event.gaxis.value < TRIGGER_UP) {
+				down = false;
+				doAction (actionForInput (mapped), false);
 			}
 			break;
 		}

@@ -43,6 +43,7 @@
 #include "graphics.h"
 #include "pointer.h"
 #include "keys.h"
+#include "controllermap.h"
 
 #include "debug.h"
 
@@ -75,6 +76,7 @@ int gameVersion;
 int specialSettings;
 FILETIME fileTime;
 extern int desiredfps;
+extern char * gamePath;
 bool captureAllKeys = false;
 
 unsigned char brightnessLevel = 255;
@@ -488,6 +490,9 @@ bool initSludge (char * filename) {
 	
 	// Get user settings
 	readIniFile (filename);
+	char * settingsFolder = getcwd (NULL, 0);
+	loadControllerMapping (gamePath, settingsFolder ? settingsFolder : ".");
+	free (settingsFolder);
 
 	// On Linux and macOS, we use the command line options in showSetupWindow
 	// instead of showing a window, so we ignore the noStartWindow option.

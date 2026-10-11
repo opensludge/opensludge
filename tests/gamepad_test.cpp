@@ -10,6 +10,7 @@
 #include <SDL3/SDL.h>
 
 #include "allfiles.h"
+#include "controllermap.h"
 #include "gamepad.h"
 #include "objtypes.h"
 #include "people.h"
@@ -46,6 +47,18 @@ static void check (bool condition, const char * description) {
 
 static SDL_Joystick * controller;
 
+static void writeFile (const char * filename, const char * text) {
+	FILE * fp = fopen (filename, "w");
+	fputs (text, fp);
+	fclose (fp);
+}
+
+static bool fileExists (const char * filename) {
+	FILE * fp = fopen (filename, "r");
+	if (fp) fclose (fp);
+	return fp != NULL;
+}
+
 static void handleEvents () {
 	SDL_UpdateJoysticks ();
 	SDL_Event event;
@@ -56,6 +69,15 @@ static void pressButton (SDL_GamepadButton button) {
 	SDL_SetJoystickVirtualButton (controller, button, true);
 	handleEvents ();
 	SDL_SetJoystickVirtualButton (controller, button, false);
+	handleEvents ();
+}
+
+// SDL maps the axis values of a virtual joystick, from -32768 to 32767, to
+// trigger values from 0 to 32767.
+static void pullTrigger (SDL_GamepadAxis trigger) {
+	SDL_SetJoystickVirtualAxis (controller, trigger, 32767);
+	handleEvents ();
+	SDL_SetJoystickVirtualAxis (controller, trigger, -32768);
 	handleEvents ();
 }
 
@@ -88,6 +110,16 @@ int main (int argc, char * argv[]) {
 	}
 	initGamepads ();
 
+	// A game folder and a player folder without controller.ini files, so we
+	// start with the default mapping of the engine.
+	const char * gameFolder = "gamepad_test_game";
+	const char * playerFolder = "gamepad_test_player";
+	SDL_CreateDirectory (gameFolder);
+	SDL_CreateDirectory (playerFolder);
+	remove ("gamepad_test_game/controller.ini");
+	remove ("gamepad_test_player/controller.ini");
+	loadControllerMapping (gameFolder, playerFolder);
+
 	SDL_VirtualJoystickDesc desc;
 	SDL_INIT_INTERFACE (&desc);
 	desc.type = SDL_JOYSTICK_TYPE_GAMEPAD;
@@ -112,6 +144,64 @@ int main (int argc, char * argv[]) {
 	resetInput ();
 	pressButton (SDL_GAMEPAD_BUTTON_START);
 	check (input.keyPressed == 27, "Start is the Escape key");
+
+	resetInput ();
+	pressButton (SDL_GAMEPAD_BUTTON_WEST);
+	check (input.keyPressed == ' ', "X is the Space key");
+
+	// A game with its own mapping.
+	writeFile ("gamepad_test_game/controller.ini",
+		"# Out Of Order\n"
+		"y = key s\n"
+		"righttrigger = key +\n"
+		"lefttrigger = KEY -\n"
+		"rightstick = key f5\n"
+		"nonsense = left click\n");
+	loadControllerMapping (gameFolder, playerFolder);
+
+	resetInput ();
+	pressButton (SDL_GAMEPAD_BUTTON_NORTH);
+	check (input.keyPressed == 's', "a game can map a button to a key");
+
+	resetInput ();
+	pullTrigger (SDL_GAMEPAD_AXIS_RIGHT_TRIGGER);
+	check (input.keyPressed == '+', "a game can map a trigger to a key");
+
+	resetInput ();
+	pullTrigger (SDL_GAMEPAD_AXIS_LEFT_TRIGGER);
+	check (input.keyPressed == '-', "we ignore the case of the word key");
+
+	resetInput ();
+	pressButton (SDL_GAMEPAD_BUTTON_RIGHT_STICK);
+	check (input.keyPressed == 63240, "a button can be a function key");
+
+	resetInput ();
+	pressButton (SDL_GAMEPAD_BUTTON_SOUTH);
+	check (input.leftClick, "the buttons that the game does not map keep the defaults of the engine");
+
+	// The player's mapping, on top of the game's.
+	writeFile ("gamepad_test_player/controller.ini", "y = right click\n");
+	loadControllerMapping (gameFolder, playerFolder);
+	resetInput ();
+	pressButton (SDL_GAMEPAD_BUTTON_NORTH);
+	check (input.rightClick && ! input.keyPressed, "the player's mapping replaces the game's");
+	resetInput ();
+	pullTrigger (SDL_GAMEPAD_AXIS_RIGHT_TRIGGER);
+	check (input.keyPressed == '+', "the inputs that the player does not map keep the game's mapping");
+
+	// Saving the player's changes.
+	controllerAction quickSave = { ACTION_KEY, 's' };
+	setActionForInput (INPUT_NORTH, defaultActionForInput (INPUT_NORTH));
+	setActionForInput (INPUT_LEFT_STICK, quickSave);
+	saveControllerMapping ();
+	loadControllerMapping (gameFolder, playerFolder);
+	check (actionForInput (INPUT_LEFT_STICK) == quickSave && actionForInput (INPUT_NORTH) == quickSave,
+		"we read back the mapping that we save");
+	setActionForInput (INPUT_LEFT_STICK, defaultActionForInput (INPUT_LEFT_STICK));
+	saveControllerMapping ();
+	check (! fileExists ("gamepad_test_player/controller.ini"), "we remove the player's file when the mapping is the default");
+	remove ("gamepad_test_game/controller.ini");
+	loadControllerMapping (gameFolder, playerFolder);
 
 	resetInput ();
 	holdStick (32767, 0, 300);
