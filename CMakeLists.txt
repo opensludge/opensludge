@@ -57,7 +57,7 @@ list(APPEND ENGINE_SOURCES ${COMMON_DIR}/utf8.cpp)
 if(WIN32)
 	# The resource script contains the setup dialog, the cursors and the icons.
 	enable_language(RC)
-	list(APPEND ENGINE_SOURCES ${ENGINE_DIR}/winstuff.cpp ${CMAKE_CURRENT_SOURCE_DIR}/images/SLUDGE.RC)
+	list(APPEND ENGINE_SOURCES ${ENGINE_DIR}/winstuff.cpp ${ENGINE_DIR}/dxgipresent.cpp ${CMAKE_CURRENT_SOURCE_DIR}/images/SLUDGE.RC)
 else()
 	list(APPEND ENGINE_SOURCES ${ENGINE_DIR}/posixstuff.cpp)
 endif()
