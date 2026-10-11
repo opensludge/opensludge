@@ -207,7 +207,16 @@ if(SLUDGE_MOVIES)
 			set(vpx_env "LDFLAGS=${vpx_flags}")
 		endif()
 		if(MINGW)
-			list(APPEND vpx_options --target=x86_64-win64-gcc)
+			# SLUDGE movies are small, so we decode them on one thread, and
+			# we build libvpx without a POSIX threads library on Windows.
+			list(APPEND vpx_options --disable-multithread)
+			if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+				list(APPEND vpx_options --target=x86_64-win64-gcc)
+			elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)
+				list(APPEND vpx_options --target=x86-win32-gcc)
+			else()
+				message(FATAL_ERROR "No libvpx target for MinGW with ${CMAKE_SIZEOF_VOID_P}-byte pointers")
+			endif()
 			if(CMAKE_CROSSCOMPILING)
 				# e.g. x86_64-w64-mingw32-gcc-posix -> x86_64-w64-mingw32-
 				get_filename_component(vpx_cc ${CMAKE_C_COMPILER} NAME)
