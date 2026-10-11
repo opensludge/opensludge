@@ -57,7 +57,9 @@ extern bool runningFullscreen;
 #define MAX_PATH        1024          // maximum size of a path name
 #endif
 
+#if defined(_WIN32)
 HWND hMainWindow = NULL;
+#endif
 
 
 int realWinWidth = 640, realWinHeight = 480;
@@ -382,7 +384,7 @@ int main(int argc, char *argv[]) try
 	}
 
 	if (! (specialSettings & SPECIAL_SILENT)) {
-		initSoundStuff (hMainWindow);
+		initSoundStuff ();
 	}
 
 	startNewFunctionNum (0, 0, NULL, noStack);

@@ -1,5 +1,7 @@
 #include <SDL3/SDL.h>
 
+#include "sound.h"
+
 int desiredfps = 300;				//holds desired frames per second
 Uint32 starttime,endtime;
 Uint32 desired_frame_time;
@@ -20,6 +22,8 @@ void Wait_Frame (void)
 {
 	static Uint32 addNextTime = 0;
 	Uint32 timetaken;
+
+	updateSounds ();
 	
 	for (;;) {
 		endtime = (Uint32) SDL_GetTicks();
