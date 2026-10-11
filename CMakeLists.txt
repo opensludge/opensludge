@@ -9,12 +9,10 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 option(SLUDGE_GLES2 "Render with OpenGL ES 2.0 instead of desktop OpenGL" OFF)
 set(SLUDGE_DEVICE "" CACHE STRING "Build for a device: OpenPandora, RaspberryPi or ODROID")
 set_property(CACHE SLUDGE_DEVICE PROPERTY STRINGS "" OpenPandora RaspberryPi ODROID)
+option(SLUDGE_MOVIES "Support playing WebM movies (needs libvpx)" ON)
+option(SLUDGE_BUNDLED_DEPS "Build all dependencies from source and link them statically" OFF)
 
-find_package(SDL3 REQUIRED CONFIG)
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(ENGINE REQUIRED IMPORTED_TARGET vorbisfile vorbis ogg vpx libpng)
-find_path(DUMB_INCLUDE_DIR dumb.h REQUIRED)
-find_library(DUMB_LIBRARY dumb REQUIRED)
+include(cmake/Dependencies.cmake)
 
 # On every device, we draw with OpenGL ES 2.0. On the OpenPandora, we always
 # show the game in full screen, and we wait for the vertical sync of the
@@ -40,16 +38,21 @@ set(COMMON_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source/CommonCode)
 set(ENGINE_SOURCES
 	backdrop.cpp bg_effects.cpp builtin.cpp cursors.cpp debug.cpp
 	fileset.cpp floor.cpp fonttext.cpp freeze.cpp graphics.cpp helpers.cpp
-	language.cpp line.cpp loadsave.cpp main.cpp posixstuff.cpp
-	memwatch.cpp moreio.cpp movie.cpp newfatal.cpp objtypes.cpp people.cpp
+	language.cpp line.cpp loadsave.cpp main.cpp
+	memwatch.cpp moreio.cpp newfatal.cpp objtypes.cpp people.cpp
 	region.cpp savedata.cpp shaders.cpp sludge_gl.cpp sludger.cpp sprbanks.cpp
 	sprites.cpp statusba.cpp stringy.cpp talk.cpp
 	thumbnail.cpp timing.cpp transition.cpp variable.cpp
 	zbuffer.cpp sound_sdl.cpp
-	libwebm/mkvparser.cpp libwebm/mkvreader.cpp
 )
+if(SLUDGE_MOVIES)
+	list(APPEND ENGINE_SOURCES movie.cpp libwebm/mkvparser.cpp libwebm/mkvreader.cpp)
+else()
+	list(APPEND ENGINE_SOURCES movie_none.cpp)
+endif()
 list(TRANSFORM ENGINE_SOURCES PREPEND ${ENGINE_DIR}/)
 list(APPEND ENGINE_SOURCES ${COMMON_DIR}/utf8.cpp)
+list(APPEND ENGINE_SOURCES ${ENGINE_DIR}/posixstuff.cpp)
 
 set(SHADERS
 	fixScaleSprite.frag fixScaleSprite.vert
@@ -72,8 +75,9 @@ add_custom_command(
 
 add_executable(sludge-engine ${ENGINE_SOURCES} ${GENERATED_DIR}/shaders_embedded.h)
 
-target_include_directories(sludge-engine PRIVATE ${GENERATED_DIR} ${COMMON_DIR} ${ENGINE_DIR}/libwebm ${DUMB_INCLUDE_DIR})
-target_link_libraries(sludge-engine PRIVATE SDL3::SDL3 PkgConfig::ENGINE ${DUMB_LIBRARY})
+target_include_directories(sludge-engine PRIVATE ${GENERATED_DIR} ${COMMON_DIR} ${ENGINE_DIR}/libwebm)
+target_link_libraries(sludge-engine PRIVATE
+	sludge::sdl3 sludge::vorbis sludge::png sludge::dumb)
 
 include(GNUInstallDirs)
 
@@ -83,6 +87,13 @@ if(SLUDGE_GLES2)
 else()
 	find_package(OpenGL REQUIRED)
 	target_link_libraries(sludge-engine PRIVATE OpenGL::GL)
+endif()
+
+if(SLUDGE_MOVIES)
+	target_link_libraries(sludge-engine PRIVATE sludge::vpx)
+	if(TARGET libvpx)
+		add_dependencies(sludge-engine libvpx)
+	endif()
 endif()
 
 # On Linux, iconv is part of the C library. On macOS, it is a separate
