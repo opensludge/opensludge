@@ -6,18 +6,17 @@ Building the SLUDGE engine
      cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
      cmake --build build
 
-   The engine uses SDL 1.2, OpenGL, GLEW, GLU, OpenAL, Alure (1.1 or
-later), libogg, libvorbis, libpng, DUMB and libvpx. On Debian and Ubuntu,
-the packages are libsdl1.2-dev, libgl-dev, libglew-dev, libglu1-mesa-dev,
-libopenal-dev, libalure-dev, libvorbis-dev, libpng-dev, libdumb1-dev and
-libvpx-dev.
+   The engine uses SDL 3, OpenGL, OpenAL, Alure (1.1 or later), libogg,
+libvorbis, libpng, DUMB and libvpx. On Debian and Ubuntu, the packages are
+libsdl3-dev where it exists, libgl-dev, libopenal-dev, libalure-dev,
+libvorbis-dev, libpng-dev, libdumb1-dev and libvpx-dev.
 
-   With -DSLUDGE_GLES2=ON, we draw with OpenGL ES 2.0 and EGL instead of
-OpenGL, GLEW and GLU.
+   With -DSLUDGE_GLES2=ON, we draw with OpenGL ES 2.0 instead of OpenGL.
 
    For the OpenPandora, the Raspberry Pi or an ODROID, build with
 -DSLUDGE_DEVICE=OpenPandora, RaspberryPi or ODROID. We then draw with
-OpenGL ES 2.0, and build the eglport code for that device.
+OpenGL ES 2.0, and on the OpenPandora, we always show the game in full
+screen.
 
    Install the engine with `cmake --install build'. We load the shaders
 from the data folder of the installation.

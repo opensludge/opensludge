@@ -1,4 +1,4 @@
-#include <SDL/SDL.h>
+#include <SDL3/SDL.h>
 
 #include "platform-dependent.h"
 #include "allfiles.h"
@@ -65,9 +65,6 @@ int inFatal (const char * str) {
 	if (fatalMessage == NULL) fatalMessage = copyString ("Out of memory");
 
 	killSoundStuff ();
-#if defined(HAVE_GLES2)
-	EGL_Close();
-#endif
 	SDL_Quit();
 		
 	atexit (displayFatal);

@@ -1,5 +1,6 @@
 #include <stdarg.h>
-#include <SDL/SDL.h>
+#include <stdlib.h>
+#include <SDL3/SDL.h>
 
 #include "debug.h"
 #include "platform-dependent.h"
@@ -16,13 +17,12 @@
 
 #include "language.h" // for settings
 
-#if !defined(HAVE_GLES2)
-#ifdef _WIN32
-#include <GL\glu.h> // handy for gluErrorString
-#elif defined __APPLE__
-#include <OpenGL/glu.h>
-#else
-#include <GL/glu.h>
+#if defined(SLUDGE_FRAMEBUFFER_VSYNC)
+#include <fcntl.h>
+#include <sys/ioctl.h>
+#include <linux/fb.h>
+#ifndef FBIO_WAITFORVSYNC
+#define FBIO_WAITFORVSYNC _IOW('F', 0x20, __u32)
 #endif
 #endif
 
@@ -39,16 +39,6 @@ extern int specialSettings;
 void setMovieViewport();
 
 extern GLuint backdropTextureName;
-extern GLuint snapshotTextureName;
-extern unsigned int sceneWidth, sceneHeight;
-extern zBufferData zBuffer;
-extern int lightMapNumber;
-
-
-extern GLuint yTextureName;
-extern GLuint uTextureName;
-extern GLuint vTextureName;
-//extern GLubyte * ytex, * utex, * vtex;
 
 shaders shader;
 GLfloat aPMVMatrix[16];
@@ -324,8 +314,8 @@ void setPixelCoords (bool pixels) {
 	}
 }
 
-int desktopW = 0, desktopH = 0;
 bool runningFullscreen = false;
+extern char * gameName;
 
 
 #if defined(HAVE_GLES2)
@@ -412,173 +402,10 @@ void saveTexture (GLuint tex, GLubyte * data) {
 }
 #endif
 
-// This is for setting windowed or fullscreen graphics.
-// Used for switching, and for initial window creation.
-void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
-#if defined(PANDORA)
-	fullscreen = true;
-#endif
+SDL_Window * sludgeWindow = NULL;
+static SDL_GLContext glContext = NULL;
 
-	GLubyte *snapTexture = NULL;
-
-	Uint32 videoflags = 0;
-
-	if (! desktopW) {
-		// Get video hardware information
-		const SDL_VideoInfo* videoInfo = SDL_GetVideoInfo();
-		desktopW = videoInfo->current_w;
-		desktopH = videoInfo->current_h;
-	} else if (restoreGraphics && fullscreen == runningFullscreen & ! resize) return;
-
-	runningFullscreen = fullscreen;
-
-	if (restoreGraphics) {
-		/*
-		 * Save the textures
-		 */
-		if (backdropTextureName) {
-			if (backdropTexture) delete backdropTexture;
-			int picWidth = sceneWidth;
-			int picHeight = sceneHeight;
-			if (! NPOT_textures) {
-				picWidth = getNextPOT(picWidth);
-				picHeight = getNextPOT(picHeight);
-			}
-			backdropTexture = new GLubyte [picHeight*picWidth*4];
-			if (! checkNew (backdropTexture)) return;			
-
-			saveTexture (backdropTextureName, backdropTexture);
-		}
-		if (snapshotTextureName) {
-			int picWidth = winWidth;
-			int picHeight = winHeight;
-			if (! NPOT_textures) {
-				picWidth = getNextPOT(picWidth);
-				picHeight = getNextPOT(picHeight);
-			}
-			snapTexture = new GLubyte [picHeight*picWidth*4];
-			if (! checkNew (snapTexture)) return;
-
-			saveTexture (snapshotTextureName, snapTexture);
-		}
-	}
-
-	/*
-	 * Set the graphics mode
-	 */
-	float winAspect = (float) winWidth / winHeight;
-
-	if (fullscreen) {
-		specialSettings &= ~SPECIAL_INVISIBLE;
-#if !defined(HAVE_GLES2)
- 		videoflags = SDL_OPENGL | SDL_FULLSCREEN;
-#else
-		videoflags = SDL_SWSURFACE | SDL_FULLSCREEN;
-#endif
-
-        if (gameSettings.fixedPixels) {
-            viewportWidth = realWinWidth = winWidth;
-            viewportHeight = realWinHeight = winHeight;
-            viewportOffsetY = 0;
-            viewportOffsetX = 0;
-        } else {
-            realWinWidth = desktopW;
-            realWinHeight = desktopH;
-
-            float realAspect = (float) realWinWidth / realWinHeight;
-
-            if (realAspect > winAspect) {
-                viewportHeight = realWinHeight;
-                viewportWidth = (int) (realWinHeight * winAspect);
-                viewportOffsetY = 0;
-                viewportOffsetX = (realWinWidth-viewportWidth)/2;
-            } else {
-                viewportWidth = realWinWidth;
-                viewportHeight = (int)((float) realWinWidth / winAspect);
-                viewportOffsetY = (realWinHeight-viewportHeight)/2;
-                viewportOffsetX = 0;
-            }
-        }
-
-	} else {
-#if !defined(HAVE_GLES2)
- 		videoflags = SDL_OPENGL/* | SDL_RESIZABLE*/;
-#else
-		videoflags = SDL_SWSURFACE;
-#endif
-
-		if (resize) {
-            float realAspect = (float) desktopW / desktopH;
-
-			if (realAspect > winAspect) {
-				realWinWidth = (int) (realWinHeight * winAspect);
-			} else {
-				realWinHeight = (int) (realWinWidth / winAspect);
-			}
-
-			realAspect = (float) realWinWidth / realWinHeight;
-
-            if (realAspect > winAspect) {
-                viewportHeight = realWinHeight;
-                viewportWidth = (int) (realWinHeight * winAspect);
-                viewportOffsetY = 0;
-                viewportOffsetX = (realWinWidth-viewportWidth)/2;
-            } else {
-                viewportWidth = realWinWidth;
-                viewportHeight = (int)((float) realWinWidth / winAspect);
-                viewportOffsetY = (realWinHeight-viewportHeight)/2;
-                viewportOffsetX = 0;
-            }
-		} else {
-
-			if (gameSettings.fixedPixels) {
-				viewportWidth = realWinWidth = winWidth;
-				viewportHeight = realWinHeight = winHeight;
-				viewportOffsetY = 0;
-				viewportOffsetX = 0;
-			} else {
-				realWinHeight = desktopH*3/4;
-				realWinWidth = (int) (realWinHeight * winAspect);
-
-				if (realWinWidth > desktopW) {
-					realWinWidth = desktopW;
-					realWinHeight = (int) ((float) realWinWidth / winAspect);
-				}
-
-				viewportHeight = realWinHeight;
-				viewportWidth = realWinWidth;
-				viewportOffsetY = 0;
-				viewportOffsetX = 0;
-			}
-		}
-	}
-
-    debugHeader();
-
-	if( SDL_SetVideoMode( realWinWidth, realWinHeight, 32, videoflags ) == 0 ) {
-		msgBox("Startup Error: Couldn't set video mode.", SDL_GetError());
-		SDL_Quit();
-		exit(2);
-	}
-	debugOut( "Video mode %d %d set successfully.\n", realWinWidth, realWinHeight);
-
-#if defined(HAVE_GLES2)
-	if (EGL_Open()) {
-		msgBox("Startup Error", "Couldn't initialize EGL.");
-		SDL_Quit();
-		exit(1);
-	}
-	EGL_Init();
-#else
-	GLenum glewErr = glewInit();
-	if (GLEW_OK != glewErr)
-	{
-		msgBox("Startup Error: Couldn't initialize GLEW.", (const char*)glewGetErrorString(glewErr));
-		SDL_Quit();
-		exit(1);
-	}
-#endif
-
+static void buildShaderPrograms () {
 	GLint uniform;
 	const char *Vertex;
 	const char *Fragment;
@@ -625,10 +452,6 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 				if (uniform >= 0) glUniform1i(uniform, 0);
 				uniform = glGetUniformLocation(shader.smartScaler, "antialias");
 				if (uniform >= 0) glUniform1i(uniform, 0);
-				uniform = glGetUniformLocation(shader.smartScaler, "scale");
-				float scale = (float)realWinWidth/(float)winWidth*0.25;
-				if (scale > 1.0) scale = 1.0;
-				if (uniform >= 0) glUniform1f(uniform, scale);
 			}
         }
 
@@ -739,8 +562,128 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 	}
 
 	glUseProgram(0);
+}
+
+// Set the area of the window in which we draw the game. We keep the aspect
+// ratio of the game and leave black bars in the rest of the window. With
+// fixed pixels, we scale the game by a whole number only. All sizes are in
+// framebuffer pixels, which on a high-DPI display are more than the window
+// size in points.
+void updateViewport () {
+	if (! sludgeWindow) return;
+
+	SDL_GetWindowSizeInPixels (sludgeWindow, &realWinWidth, &realWinHeight);
+	if (realWinWidth < 1) realWinWidth = 1;
+	if (realWinHeight < 1) realWinHeight = 1;
+
+	if (gameSettings.fixedPixels) {
+		int scale = realWinWidth / (int) winWidth;
+		if (realWinHeight / (int) winHeight < scale) scale = realWinHeight / (int) winHeight;
+		if (scale < 1) scale = 1;
+		viewportWidth = winWidth * scale;
+		viewportHeight = winHeight * scale;
+	} else {
+		float winAspect = (float) winWidth / winHeight;
+		float realAspect = (float) realWinWidth / realWinHeight;
+		if (realAspect > winAspect) {
+			viewportHeight = realWinHeight;
+			viewportWidth = (int) (realWinHeight * winAspect);
+		} else {
+			viewportWidth = realWinWidth;
+			viewportHeight = (int) ((float) realWinWidth / winAspect);
+		}
+	}
+	viewportOffsetX = (realWinWidth - viewportWidth) / 2;
+	viewportOffsetY = (realWinHeight - viewportHeight) / 2;
 
 	glViewport (viewportOffsetX, viewportOffsetY, viewportWidth, viewportHeight);
+
+	if (shader.smartScaler) {
+		glUseProgram (shader.smartScaler);
+		GLint uniform = glGetUniformLocation (shader.smartScaler, "scale");
+		float scale = (float) viewportWidth / (float) winWidth * 0.25;
+		if (scale > 1.0) scale = 1.0;
+		if (uniform >= 0) glUniform1f (uniform, scale);
+		glUseProgram (0);
+	}
+
+	setPixelCoords (false);
+
+	if (movieIsPlaying)
+		setMovieViewport ();
+
+	debugOut ("Window is %dx%d pixels, game drawn at %d,%d size %dx%d\n", realWinWidth, realWinHeight, viewportOffsetX, viewportOffsetY, viewportWidth, viewportHeight);
+}
+
+// Convert a position in window coordinates, as in mouse events, to game
+// coordinates.
+void windowToGameCoords (float x, float y, int * gameX, int * gameY) {
+	float density = sludgeWindow ? SDL_GetWindowPixelDensity (sludgeWindow) : 1.0f;
+	if (density <= 0) density = 1.0f;
+
+	// In OpenGL, the viewport offset is from the bottom of the window. Mouse
+	// positions are from the top.
+	float px = x * density - viewportOffsetX;
+	float py = y * density - (realWinHeight - viewportOffsetY - viewportHeight);
+
+	*gameX = (int) (px * ((float) winWidth / cameraZoom) / viewportWidth);
+	*gameY = (int) (py * ((float) winHeight / cameraZoom) / viewportHeight);
+}
+
+static void createGraphicsWindow (bool fullscreen) {
+	SDL_Rect usable;
+	if (! SDL_GetDisplayUsableBounds (SDL_GetPrimaryDisplay (), &usable)) {
+		usable.w = 1024;
+		usable.h = 768;
+	}
+
+	int w, h;
+	if (gameSettings.fixedPixels) {
+		w = winWidth;
+		h = winHeight;
+	} else {
+		// Fill three quarters of the screen height by default.
+		float winAspect = (float) winWidth / winHeight;
+		h = usable.h * 3 / 4;
+		w = (int) (h * winAspect);
+		if (w > usable.w) {
+			w = usable.w;
+			h = (int) ((float) w / winAspect);
+		}
+	}
+
+	SDL_WindowFlags flags = SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY;
+	if (fullscreen) flags |= SDL_WINDOW_FULLSCREEN;
+
+	sludgeWindow = SDL_CreateWindow (gameName ? gameName : "SLUDGE", w, h, flags);
+	if (! sludgeWindow) {
+		msgBox ("Startup Error: Couldn't create the game window.", SDL_GetError ());
+		SDL_Quit ();
+		exit (2);
+	}
+	SDL_SetWindowMinimumSize (sludgeWindow, 160, 120);
+
+	glContext = SDL_GL_CreateContext (sludgeWindow);
+	if (! glContext) {
+		msgBox ("Startup Error: Couldn't create an OpenGL context.", SDL_GetError ());
+		SDL_Quit ();
+		exit (2);
+	}
+	SDL_GL_MakeCurrent (sludgeWindow, glContext);
+	SDL_GL_SetSwapInterval (1);
+
+	const char * missing = loadGLFunctions ();
+	if (missing) {
+		msgBox ("Startup Error: Your graphics driver doesn't support OpenGL 2.0.", missing);
+		SDL_Quit ();
+		exit (1);
+	}
+
+	debugOut ("OpenGL vendor: %s\n", glGetString (GL_VENDOR));
+	debugOut ("OpenGL renderer: %s\n", glGetString (GL_RENDERER));
+	debugOut ("OpenGL version: %s\n", glGetString (GL_VERSION));
+
+	buildShaderPrograms ();
 
 	/*
 	 * Set up OpenGL for 2D rendering.
@@ -748,86 +691,37 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics, bool resize) {
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
 	glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-
-	setPixelCoords (false);
-
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+}
 
-	if (restoreGraphics) {
-		/*
-		 * Restore the textures
-		 */
-		if (backdropTextureName) {
-			if (!glIsTexture(backdropTextureName)) {
-				glGenTextures (1, &backdropTextureName);
-			}
-			glBindTexture (GL_TEXTURE_2D, backdropTextureName);
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+// Switch between windowed and fullscreen, and create the window the first
+// time. We keep the same OpenGL context when switching, so the textures stay
+// loaded.
+void setGraphicsWindow(bool fullscreen, bool restoreGraphics) {
+#if defined(SLUDGE_ALWAYS_FULLSCREEN)
+	fullscreen = true;
+#endif
+	if (fullscreen) specialSettings &= ~SPECIAL_INVISIBLE;
 
-			if (gameSettings.antiAlias < 0) {
-				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			} else {
-				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-				glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			}
-
-			// Restore the backdrop
-			texImage2D (GL_TEXTURE_2D, 0, GL_RGBA, sceneWidth, sceneHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, backdropTexture, backdropTextureName);
-
-		}
-		if (snapshotTextureName) {
-			if (!glIsTexture(snapshotTextureName)) {
-				glGenTextures (1, &snapshotTextureName);
-			}
-			glBindTexture (GL_TEXTURE_2D, snapshotTextureName);
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
-			// Restore the backdrop
-			texImage2D (GL_TEXTURE_2D, 0, GL_RGBA, winWidth, winHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, snapTexture, snapshotTextureName);
-			delete snapTexture;
-		}
-		if (yTextureName) {
-			if (!glIsTexture(yTextureName)) {
-				glGenTextures (1, &yTextureName);
-				glGenTextures (1, &uTextureName);
-				glGenTextures (1, &vTextureName);
-			}
-		}
-
-		reloadSpriteTextures ();
-		reloadParallaxTextures ();
-		zBuffer.texName = 0;
-		if (zBuffer.numPanels) {
-			setZBuffer (zBuffer.originalNum);
-		}
-		lightMap.name = 0;
-		if (lightMapNumber) {
-			loadLightMap(lightMapNumber);
-		}
-
-		sludgeDisplay ();
+	if (! sludgeWindow) {
+		debugHeader();
+		createGraphicsWindow (fullscreen);
+	} else if (fullscreen != runningFullscreen) {
+		SDL_SetWindowFullscreen (sludgeWindow, fullscreen);
+		SDL_SyncWindow (sludgeWindow);
 	}
+	runningFullscreen = fullscreen;
 
-	if (movieIsPlaying)
-		setMovieViewport();
+	updateViewport ();
 
+	if (restoreGraphics) sludgeDisplay ();
 }
 
 void setupOpenGLStuff() {
 
 	/*
-	 * Time to setup our requested window attributes for our OpenGL window.
-	 * We want *at least* 8 bits of red, green and blue. We also want at least a 16-bit
-	 * depth buffer.
-	 *
-	 * The last thing we do is request a double buffered window. '1' turns on double
-	 * buffering, '0' turns it off.
+	 * We want *at least* 8 bits of red, green, blue and alpha, a 16-bit
+	 * depth buffer and a double buffered window.
 	 */
 	SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 8);
 	SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 8);
@@ -835,62 +729,27 @@ void setupOpenGLStuff() {
 	SDL_GL_SetAttribute( SDL_GL_ALPHA_SIZE, 8);
 	SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 );
 	SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
+#if defined(HAVE_GLES2)
+	SDL_GL_SetAttribute( SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
+	SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+	SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 0);
+#else
+	// The shaders are in GLSL 1.10, which is only available in a
+	// compatibility context. On macOS, that is an OpenGL 2.1 context.
+	SDL_GL_SetAttribute( SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
+#endif
 
 	setGraphicsWindow(gameSettings.userFullScreen, false);
 
 #if !defined(HAVE_GLES2)
 	/* Check for graphics capabilities... */
-	if (GLEW_VERSION_2_0) {
+	if (getGLVersion () >= 20) {
 		// Yes! Textures can be any size!
 		NPOT_textures = true;
 		debugOut( "OpenGL 2.0! All is good.\n");
 	} else {
-		if (GLEW_VERSION_1_5) {
-			debugOut("OpenGL 1.5!\n");
-		}
-		else if (GLEW_VERSION_1_4) {
-			debugOut("OpenGL 1.4!\n");
-		}
-		else if (GLEW_VERSION_1_3) {
-			debugOut( "OpenGL 1.3!\n");
-		}
-		else if (GLEW_VERSION_1_2) {
-			debugOut( "OpenGL 1.2!\n");
-		}
-		if (GLEW_ARB_texture_non_power_of_two) {
-			// Yes! Textures can be any size!
-			NPOT_textures = true;
-		} else {
-			// Workaround needed for lesser graphics cards. Let's hope this works...
-			NPOT_textures = false;
-			debugOut( "Warning: Old graphics card! GLEW_ARB_texture_non_power_of_two not supported.\n");
-		}
-
-		if (GLEW_ARB_shading_language_100) {
-			debugOut("ARB_shading_language_100 supported.\n");
-		} else {
-			debugOut("Warning: Old graphics card! ARB_shading_language_100 not supported. Try updating your drivers.\n");
-		}
-		if (GLEW_ARB_shader_objects) {
-			debugOut("ARB_shader_objects supported.\n");
-		} else {
-			fatal("Error: Old graphics card! ARB_shader_objects not supported.\n");
-		}
-		if (GLEW_ARB_vertex_shader) {
-			debugOut("ARB_vertex_shader supported.\n");
-		} else {
-			fatal("Error: Old graphics card! ARB_vertex_shader not supported.\n");
-		}
-		if (GLEW_ARB_fragment_shader) {
-			debugOut("ARB_fragment_shader supported.\n");
-		} else {
-			fatal("Error: Old graphics card! ARB_fragment_shader not supported.\n");
-		}
-		if (GLEW_EXT_blend_func_separate) {
-			debugOut("EXT_blend_func_separate supported.\n");
-		} else {
-			fatal("Error: Old graphics card! EXT_blend_func_separate not supported.\n");
-		}
+		NPOT_textures = false;
+		debugOut( "Warning: OpenGL version older than 2.0. Expect trouble.\n");
 	}
 #else
 	NPOT_textures = false;
@@ -899,8 +758,24 @@ void setupOpenGLStuff() {
 	int n;
 	glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, (GLint *) &n);
 	debugOut("Max texture image units: %d\n", n);
+}
 
+#if defined(SLUDGE_FRAMEBUFFER_VSYNC)
+// Wait for the next vertical sync of the framebuffer. Without /dev/fb0, we
+// do not wait.
+static void waitForFramebufferVSync () {
+	static int framebuffer = open ("/dev/fb0", O_RDONLY);
+	if (framebuffer < 0) return;
+	int arg = 0;
+	ioctl (framebuffer, FBIO_WAITFORVSYNC, &arg);
+}
+#endif
 
+void swapGraphicsBuffers () {
+#if defined(SLUDGE_FRAMEBUFFER_VSYNC)
+	waitForFramebufferVSync ();
+#endif
+	SDL_GL_SwapWindow (sludgeWindow);
 }
 
 
@@ -926,11 +801,7 @@ int printOglError (const char *file, int         line)
 	glErr = glGetError ();
 	while (glErr != GL_NO_ERROR)
     {
-#if !defined(HAVE_GLES2)
-		debugOut("glError in file %s @ line %d: %s\n", file, line, gluErrorString (glErr));
-#else
-		debugOut("glError in file %s @ line %d: error code %i\n", file, line, glErr);
-#endif
+		debugOut("glError in file %s @ line %d: error code 0x%x\n", file, line, glErr);
 		retCode = 1;
 		glErr = glGetError ();
     }
