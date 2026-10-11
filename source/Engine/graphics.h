@@ -60,6 +60,7 @@ void setGraphicsWindow(bool fullscreen, bool restoreGraphics = true);
 void setupOpenGLStuff();
 void updateViewport ();
 void windowToGameCoords (float x, float y, int * gameX, int * gameY);
+void gameToWindowCoords (float gameX, float gameY, float * x, float * y);
 void swapGraphicsBuffers ();
 
 struct SDL_Window;

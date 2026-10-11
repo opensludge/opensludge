@@ -11,6 +11,7 @@ set(SLUDGE_DEVICE "" CACHE STRING "Build for a device: OpenPandora, RaspberryPi 
 set_property(CACHE SLUDGE_DEVICE PROPERTY STRINGS "" OpenPandora RaspberryPi ODROID)
 option(SLUDGE_MOVIES "Support playing WebM movies (needs libvpx)" ON)
 option(SLUDGE_BUNDLED_DEPS "Build all dependencies from source and link them statically" OFF)
+option(SLUDGE_TESTS "Build the tests" ON)
 
 include(cmake/Dependencies.cmake)
 
@@ -37,7 +38,7 @@ set(COMMON_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source/CommonCode)
 
 set(ENGINE_SOURCES
 	backdrop.cpp bg_effects.cpp builtin.cpp cursors.cpp debug.cpp
-	fileset.cpp floor.cpp fonttext.cpp freeze.cpp graphics.cpp helpers.cpp
+	fileset.cpp floor.cpp fonttext.cpp freeze.cpp gamepad.cpp graphics.cpp helpers.cpp
 	language.cpp line.cpp loadsave.cpp main.cpp
 	memwatch.cpp moreio.cpp newfatal.cpp objtypes.cpp people.cpp
 	region.cpp savedata.cpp shaders.cpp sludge_gl.cpp sludger.cpp sprbanks.cpp
@@ -126,3 +127,11 @@ if(NOT WIN32 AND NOT HAVE_ICONV_IN_LIBC)
 endif()
 
 install(TARGETS sludge-engine RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+if(SLUDGE_TESTS)
+	enable_testing()
+	add_executable(gamepad_test tests/gamepad_test.cpp ${ENGINE_DIR}/gamepad.cpp)
+	target_include_directories(gamepad_test PRIVATE ${ENGINE_DIR} ${COMMON_DIR})
+	target_link_libraries(gamepad_test PRIVATE sludge::sdl3)
+	add_test(NAME gamepad COMMAND gamepad_test)
+endif()

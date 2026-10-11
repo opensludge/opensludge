@@ -630,6 +630,17 @@ void windowToGameCoords (float x, float y, int * gameX, int * gameY) {
 	*gameY = (int) (py * ((float) winHeight / cameraZoom) / viewportHeight);
 }
 
+// Convert a position in game coordinates to window coordinates.
+void gameToWindowCoords (float gameX, float gameY, float * x, float * y) {
+	float density = sludgeWindow ? SDL_GetWindowPixelDensity (sludgeWindow) : 1.0f;
+	if (density <= 0) density = 1.0f;
+
+	float px = gameX * viewportWidth / ((float) winWidth / cameraZoom) + viewportOffsetX;
+	float py = gameY * viewportHeight / ((float) winHeight / cameraZoom) + (realWinHeight - viewportOffsetY - viewportHeight);
+	*x = px / density;
+	*y = py / density;
+}
+
 static void createGraphicsWindow (bool fullscreen) {
 	SDL_Rect usable;
 	if (! SDL_GetDisplayUsableBounds (SDL_GetPrimaryDisplay (), &usable)) {
