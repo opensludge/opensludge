@@ -23,6 +23,8 @@ libsdl3-dev where it exists.
 
    On macOS, build each architecture separately, for example with
 -DCMAKE_OSX_ARCHITECTURES=x86_64, and combine the executables with lipo.
+With packaging/macos/make-app.sh, we make an application bundle around
+the engine.
 On Windows, we build with MSYS2 and MinGW.
 
    For the OpenPandora, the Raspberry Pi or an ODROID, build with
