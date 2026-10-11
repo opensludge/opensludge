@@ -1,4 +1,4 @@
-#include <SDL/SDL.h>
+#include <SDL3/SDL.h>
 
 int desiredfps = 300;				//holds desired frames per second
 Uint32 starttime,endtime;
@@ -7,13 +7,13 @@ Uint32 desired_frame_time;
 void Init_Timer(void)
 {
 	desired_frame_time = 1000/desiredfps;
-	starttime = SDL_GetTicks();
+	starttime = (Uint32) SDL_GetTicks();
 }
 
 void Init_Special_Timer(int t)
 {
 	desired_frame_time = 1000/t;
-	starttime = SDL_GetTicks();
+	starttime = (Uint32) SDL_GetTicks();
 }
 
 void Wait_Frame (void)
@@ -22,7 +22,7 @@ void Wait_Frame (void)
 	Uint32 timetaken;
 	
 	for (;;) {
-		endtime = SDL_GetTicks();
+		endtime = (Uint32) SDL_GetTicks();
 		timetaken = addNextTime + endtime - starttime;
 		if (timetaken >= desired_frame_time) break;
 		SDL_Delay(1);

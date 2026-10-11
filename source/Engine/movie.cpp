@@ -7,7 +7,7 @@
  *
  */
 
-#include <SDL/SDL.h>
+#include <SDL3/SDL.h>
 #include <math.h>
 
 #include "specialsettings.h"
@@ -67,8 +67,8 @@ typedef struct audioBuffers {
 typedef struct audioQueue {
 	audioBuffers *first, *last;
 	int size;
-	SDL_mutex *mutex;
-	SDL_cond *cond;
+	SDL_Mutex *mutex;
+	SDL_Condition *cond;
 } audioQueue;
 
 audioQueue audioQ;
@@ -97,8 +97,8 @@ typedef struct videoBuffers {
 typedef struct videoQueue {
 	videoBuffers *first, *last;
 	int size;
-	SDL_mutex *mutex;
-	SDL_cond *cond;
+	SDL_Mutex *mutex;
+	SDL_Condition *cond;
 } videoQueue;
 
 videoQueue videoQ;
@@ -107,7 +107,7 @@ videoQueue videoQ;
 void audio_queue_init(audioQueue *q) {
 	memset(q, 0, sizeof(audioQueue));
 	q->mutex = SDL_CreateMutex();
-	q->cond = SDL_CreateCond();
+	q->cond = SDL_CreateCondition();
 }
 int audio_queue_put(audioQueue *q, char *buffer, unsigned int size, long long time_ms) {
 
@@ -127,7 +127,7 @@ int audio_queue_put(audioQueue *q, char *buffer, unsigned int size, long long ti
 		q->last->next = audioBuf;
 	q->last = audioBuf;
 	q->size ++;
-	SDL_CondSignal(q->cond);
+	SDL_SignalCondition(q->cond);
 
 	SDL_UnlockMutex(q->mutex);
 	return 0;
@@ -142,7 +142,7 @@ inline static int audio_queue_get(audioQueue *q, char **buffer)
 	audioBuf = q->first;
 	if (audioBuf) {
 		// Synch video timer to audio
-		Uint32 tick = SDL_GetTicks()+100;
+		Uint32 tick = (Uint32) SDL_GetTicks()+100;
 		if (abs((long int)((tick - movieStartTick)-(audioBuf->time_ms))) > 300) {
 			movieStartTick = tick - audioBuf->time_ms;
 		}
@@ -164,7 +164,7 @@ inline static int audio_queue_get(audioQueue *q, char **buffer)
 void video_queue_init(videoQueue *q) {
 	memset(q, 0, sizeof(videoQueue));
 	q->mutex = SDL_CreateMutex();
-	q->cond = SDL_CreateCond();
+	q->cond = SDL_CreateCondition();
 }
 int video_queue_put(videoQueue *q, GLubyte * ytex, 
 					GLubyte * utex, 
@@ -191,7 +191,7 @@ int video_queue_put(videoQueue *q, GLubyte * ytex,
 		q->last->next = videoBuf;
 	q->last = videoBuf;
 	q->size ++;
-	SDL_CondSignal(q->cond);
+	SDL_SignalCondition(q->cond);
 	
 	SDL_UnlockMutex(q->mutex);
 	return 0;
@@ -311,7 +311,7 @@ ALuint feedAudio (void *userdata, ALubyte *data, ALuint length) {
 				fprintf (stderr, "Faking audio...\n");
 				fakeAudio = true;
 			}
-//				SDL_CondSignal(audioQ.cond);
+//				SDL_SignalCondition(audioQ.cond);
 			return got;
 		}
 	}
@@ -604,7 +604,7 @@ int playMovie (int fileNumber)
 
 	int frameCounter = 0;
 
-	movieStartTick = SDL_GetTicks();
+	movieStartTick = (Uint32) SDL_GetTicks();
 	#ifdef HAVE_GLES2
 	GLuint old_fbo;
 	glGetIntegerv(GL_FRAMEBUFFER_BINDING, (GLint*)&old_fbo);
@@ -827,7 +827,7 @@ movieHasEnded:	movieIsEnding = 1;
 			videoBuffers *vB;
 			// Do we have decoded video waiting?
 			if (vB = videoQ.first) {
-				Uint32 tick = SDL_GetTicks() - movieStartTick;
+				Uint32 tick = (Uint32) SDL_GetTicks() - movieStartTick;
 				
 				// Is it time to display the frame yet?
 				if ((tick+1) < vB->time_ms) {
@@ -931,11 +931,7 @@ movieHasEnded:	movieIsEnding = 1;
 				Wait_Frame();
 			}
 			glFlush();
-#if !defined(HAVE_GLES2)
-        		SDL_GL_SwapBuffers();
-#else
-			EGL_SwapBuffers();
-#endif
+			swapGraphicsBuffers();
 
 		}
 		videoUpdated = false;

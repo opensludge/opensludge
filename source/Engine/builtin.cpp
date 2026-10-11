@@ -1,6 +1,6 @@
 #include "debug.h"
 #include "allfiles.h"
-#include <SDL/SDL.h>
+#include <SDL3/SDL.h>
 
 #include <stdlib.h>
 #include <string.h>
@@ -1042,7 +1042,8 @@ builtIn(quitGame)
 {
 	UNUSEDALL
 	reallyWantToQuit = true;
-	quit_event.type=SDL_QUIT;
+	SDL_zero(quit_event);
+	quit_event.type=SDL_EVENT_QUIT;
 	SDL_PushEvent(&quit_event);
 	return BR_CONTINUE;
 }

@@ -1,11 +1,7 @@
 #ifndef SPRITE_H
 #define SPRITE_H
 
-#if !defined(HAVE_GLES2)
-#include <GL/glew.h>
-#else
-#include <GLES2/gl2.h>
-#endif
+#include "sludge_gl.h"
 
 struct onScreenPerson;
 

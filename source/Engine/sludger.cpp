@@ -5,18 +5,13 @@
 #endif
 
 #include "allfiles.h"
-#include <SDL/SDL.h>
+#include <SDL3/SDL.h>
 
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <iconv.h>
 
-#if !defined(HAVE_GLES2)
-#include <GL/glew.h>
-#else
-#include <GLES2/gl2.h>
-#include "eglport/eglport.h"
-#endif
+#include "sludge_gl.h"
 
 #include <unistd.h>
 #include <stdlib.h>
@@ -498,7 +493,7 @@ bool initSludge (char * filename) {
 	// Get user settings
 	readIniFile (filename);
 
-	// There's no startup window on Linux and respecting this 
+	// There's no startup window on Linux and respecting this
 	// option from the ini file would disable commandline options.
 #if defined __unix__ && !(defined __APPLE__)
 		if (! showSetupWindow()) return 0;
@@ -659,7 +654,7 @@ void sludgeDisplay () {
 
 	glFlush();
 #if !defined(HAVE_GLES2)
-        SDL_GL_SwapBuffers();
+	swapGraphicsBuffers();
 #else
      if(fbo)
      {
@@ -687,7 +682,7 @@ void sludgeDisplay () {
         glUseProgram(old_prog);
         glViewport (viewportOffsetX, viewportOffsetY, viewportWidth, viewportHeight);
      }
-	EGL_SwapBuffers();
+	swapGraphicsBuffers();
      if(fbo)
      {
      	// Rebind FBO now
@@ -1342,7 +1337,7 @@ bool handleInput () {
 	static int l = 0;
 	static Uint32 theTime;
 
-	theTime = SDL_GetTicks() / 1000;
+	theTime = (Uint32) (SDL_GetTicks() / 1000);
 	if (lastSeconds != theTime) {
 		lastSeconds = theTime;
 		lastFramesPerSecond = thisFramesPerSecond;
