@@ -1,63 +1,56 @@
+Building the SLUDGE engine
+**************************
+
+   We build the engine with CMake 3.24 or later:
+
+     cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+     cmake --build build
+
+   The engine uses SDL 1.2, OpenGL, GLEW, GLU, OpenAL, Alure (1.1 or
+later), libogg, libvorbis, libpng, DUMB and libvpx. On Debian and Ubuntu,
+the packages are libsdl1.2-dev, libgl-dev, libglew-dev, libglu1-mesa-dev,
+libopenal-dev, libalure-dev, libvorbis-dev, libpng-dev, libdumb1-dev and
+libvpx-dev.
+
+   With -DSLUDGE_GLES2=ON, we draw with OpenGL ES 2.0 and EGL instead of
+OpenGL, GLEW and GLU.
+
+   For the OpenPandora, the Raspberry Pi or an ODROID, build with
+-DSLUDGE_DEVICE=OpenPandora, RaspberryPi or ODROID. We then draw with
+OpenGL ES 2.0, and build the eglport code for that device.
+
+   Install the engine with `cmake --install build'. We load the shaders
+from the data folder of the installation.
+
+   Run the engine with the game data file as its argument, for example
+`sludge-engine gamedata.slg'. Run `sludge-engine --help' for the options.
+
+Building the SLUDGE Development Kit
+***********************************
+
 Windows and Mac OS X
-********************
+====================
 
-   If you use Windows or Mac OS X, you should use the prebuilt releases
-available on the project page.
-
-Compiling
-=========
-
-   If you want to compile SLUDGE yourself on these platforms, you can
-use the Code::Blocks project files in the "Windows Engine" folder or Xcode
-project files in the "Mac Engine" and "Mac Dev Kit" directories. Note that
-in this case you have to satisfy the dependencies mentioned in the next
-section. The Windows Dev Kit has so far only been cross-compiled from
-Debian and Ubuntu using MinGW. There is a good tutorial on how to do that
-at http://live.gnome.org/GTK+/Win32/Apps. It should also be possible to
-compile the Windows Dev Kit on Windows using MinGW. For running the Windows
-Dev Kit, the GTK+ runtime package 2.16 (exactly 2.16!) from
-http://gtk-win.sourceforge.net is required.
+   The Windows Dev Kit has so far only been cross-compiled from Debian and
+Ubuntu using MinGW. There is a good tutorial on how to do that at
+http://live.gnome.org/GTK+/Win32/Apps. For running the Windows Dev Kit,
+the GTK+ runtime package 2.16 (exactly 2.16!) from
+http://gtk-win.sourceforge.net is required. The Mac Dev Kit has Xcode
+project files in the "Mac Dev Kit" directory.
 
 Linux
-*****
+=====
 
-Dependencies (Engine)
-=====================
-
-   Dependencies of the OpenSLUDGE engine are SDL, OpenGL, GLEW, libGLU,
-libpng, libvpx and xdg-utils. OpenAL sound support requires OpenAL, DUMB and
-Alure (>= 1.1) with Vorbis and FLAC support enabled.
-
-   On Debian and Ubuntu the correspoding packages are libsdl1.2-dev,
-mesa-common-dev, libglew-dev, libglu1-mesa-dev, libpng12-dev, libvpx-dev, xdg-utils,
-libopenal-dev, libalure-dev, libvorbis-dev, libflac-dev and libdumb1-dev.
-
-   To use OpenGL ES 2 as graphics library, the dependencies OpenGL, GLEW
-and libGLU are replaced by OpenGL ES 2 and EGL. That means in the above list
-for Debian and Ubuntu mesa-common-dev, libglew-dev and libglu1-mesa-dev are
-replaced by libgles2-mesa-dev.
-
-Dependencies (Dev Kit)
-======================
-
-   Dependencies of the OpenSLUDGE Dev Kit are GTK+ (>= 2.16), GtkGLExt, 
+   Dependencies of the OpenSLUDGE Dev Kit are GTK+ (>= 2.16), GtkGLExt,
 GLEW and libpng.
 
-   On Debian and Ubuntu the correspoding packages are libgtk2.0-dev 
-libgtkglext1-dev, libglew-dev and libpng12-dev.
+   On Debian and Ubuntu the corresponding packages are libgtk2.0-dev
+libgtkglext1-dev, libglew-dev and libpng-dev.
 
-Installing OpenSLUDGE
-=====================
-
-   Briefly, the shell commands `./configure; make; make install' should
-configure, build, and install this package. By default only the Engine
-is build. You can use the configure options --disable-engine,
---enable-devkit and/or --enable-doc to (de)select components. For example
-`./configure --disable-engine --enable-devkit' will only install the Dev
-Kit, but neither the engine nor the documentation.
-
-   The configure option --enable-gles2 causes the engine to use OpenGL ES 2
-as graphics library.
+   Briefly, the shell commands `./autogen.sh; ./configure; make; make
+install' should configure, build, and install the Dev Kit. You can use
+the configure options --disable-devkit and/or --enable-doc to (de)select
+components.
 
    The following more-detailed instructions are generic and
 
