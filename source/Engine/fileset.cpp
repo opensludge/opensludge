@@ -106,11 +106,7 @@ char * convertString(char * s) {
 #elif defined(__unix__) || defined(__APPLE__)
 	char **tmp1 = (char **) &s;
 	char **tmp2 = (char **) &buf;
-#if defined __unix__ && !(defined __APPLE__)
-	iconv_t convert = iconv_open ("UTF-8", "ISO8859-2");
-#else
 	iconv_t convert = iconv_open ("UTF-8", "CP1250");
-#endif
 
 	if (convert == (iconv_t)-1) {
 			switch (errno) {
