@@ -27,3 +27,4 @@ Makefile.in
 
 # CMake build folders
 /build*/
+__pycache__/
