@@ -37,7 +37,7 @@ set(ENGINE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source/Engine)
 set(COMMON_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source/CommonCode)
 
 set(ENGINE_SOURCES
-	backdrop.cpp bg_effects.cpp builtin.cpp cursors.cpp debug.cpp
+	backdrop.cpp bg_effects.cpp builtin.cpp controllermap.cpp cursors.cpp debug.cpp
 	fileset.cpp floor.cpp fonttext.cpp freeze.cpp gamepad.cpp graphics.cpp helpers.cpp keys.cpp
 	language.cpp line.cpp loadsave.cpp main.cpp pointer.cpp
 	memwatch.cpp moreio.cpp newfatal.cpp objtypes.cpp people.cpp
@@ -130,7 +130,8 @@ install(TARGETS sludge-engine RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 if(SLUDGE_TESTS)
 	enable_testing()
-	add_executable(gamepad_test tests/gamepad_test.cpp ${ENGINE_DIR}/gamepad.cpp)
+	add_executable(gamepad_test tests/gamepad_test.cpp ${ENGINE_DIR}/gamepad.cpp
+		${ENGINE_DIR}/controllermap.cpp ${ENGINE_DIR}/keys.cpp)
 	target_include_directories(gamepad_test PRIVATE ${ENGINE_DIR} ${COMMON_DIR})
 	target_link_libraries(gamepad_test PRIVATE sludge::sdl3)
 	add_test(NAME gamepad COMMAND gamepad_test)
