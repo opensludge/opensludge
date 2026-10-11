@@ -41,6 +41,7 @@
 #include "language.h"
 #include "specialsettings.h"
 #include "graphics.h"
+#include "pointer.h"
 
 #include "debug.h"
 
@@ -538,17 +539,22 @@ bool checkColourChange (bool reset) {
 	}
 	return false;
 }
-void sludgeDisplay () {
 #if defined(HAVE_GLES2)
 #ifndef GL_DEPTH24_STENCIL8
 #define GL_DEPTH24_STENCIL8 0x88F0
 #endif
+// With OpenGL ES, we draw into this frame buffer object, and copy it to the
+// window in showFrame.
+static GLuint fbo = 0;
+static GLuint fbo_tex = 0;
+static GLuint fbo_rbo = 0;
+static float fbo_tex_w, fbo_tex_h;
+static GLuint fbo_shad, fbo_vert, fbo_frag;
+#endif
+
+void sludgeDisplay () {
+#if defined(HAVE_GLES2)
 	// create an FBO
-	static GLuint fbo = 0;
-	static GLuint fbo_tex = 0;
-	static GLuint fbo_rbo = 0;
-	static float fbo_tex_w, fbo_tex_h;
-	static GLuint fbo_shad, fbo_vert, fbo_frag;
 	if(fbo==0) {
 		// create FBO
 		int width = 1;
@@ -642,10 +648,19 @@ void sludgeDisplay () {
 	glDisable(GL_DEPTH_TEST);
 	viewSpeech ();					// ...and anything being said
 	drawStatusBar ();
+	if (brightnessLevel == 255) {
+		saveFrameWithoutCursor ();
+	} else {
+		forgetFrameWithoutCursor ();
+	}
 	displayCursor ();
 
 	if (brightnessLevel < 255) fixBrightness ();	// This is for transitionLevel special effects
 
+	showFrame ();
+}
+
+void showFrame () {
 	glFlush();
 #if !defined(HAVE_GLES2)
 	swapGraphicsBuffers();

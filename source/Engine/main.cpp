@@ -44,6 +44,7 @@
 #include "graphics.h"
 #include "helpers.h"
 #include "gamepad.h"
+#include "pointer.h"
 
 
 #if defined(_WIN32)
@@ -412,7 +413,7 @@ int main(int argc, char *argv[]) try
 		walkAllPeople ();
 		handleInput ();
 		sludgeDisplay ();
-		Wait_Frame();
+		Wait_Frame (movePointerBetweenFrames);
 
 	}
 
