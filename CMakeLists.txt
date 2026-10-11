@@ -40,7 +40,7 @@ set(COMMON_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source/CommonCode)
 set(ENGINE_SOURCES
 	backdrop.cpp bg_effects.cpp builtin.cpp cursors.cpp debug.cpp
 	fileset.cpp floor.cpp fonttext.cpp freeze.cpp graphics.cpp helpers.cpp
-	language.cpp line.cpp linuxstuff.cpp loadsave.cpp main.cpp
+	language.cpp line.cpp loadsave.cpp main.cpp posixstuff.cpp
 	memwatch.cpp moreio.cpp movie.cpp newfatal.cpp objtypes.cpp people.cpp
 	region.cpp savedata.cpp shaders.cpp sludge_gl.cpp sludger.cpp sprbanks.cpp
 	sprites.cpp statusba.cpp stringy.cpp talk.cpp
@@ -83,6 +83,15 @@ if(SLUDGE_GLES2)
 else()
 	find_package(OpenGL REQUIRED)
 	target_link_libraries(sludge-engine PRIVATE OpenGL::GL)
+endif()
+
+# On Linux, iconv is part of the C library. On macOS, it is a separate
+# library.
+include(CheckFunctionExists)
+check_function_exists(iconv_open HAVE_ICONV_IN_LIBC)
+if(NOT HAVE_ICONV_IN_LIBC)
+	find_package(Iconv REQUIRED)
+	target_link_libraries(sludge-engine PRIVATE Iconv::Iconv)
 endif()
 
 install(TARGETS sludge-engine RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})

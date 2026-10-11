@@ -10,6 +10,7 @@ void msgBox (const char * head, const char * msg);
 int msgBoxQuestion (const char * head, const char * msg);
 
 void changeToUserDir ();
-uint32_t launch(char * filename);
+// Returns true if the file or web page was opened.
+bool launch(char * filename);
 
 bool defaultUserFullScreen();
