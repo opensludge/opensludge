@@ -52,7 +52,14 @@ else()
 endif()
 list(TRANSFORM ENGINE_SOURCES PREPEND ${ENGINE_DIR}/)
 list(APPEND ENGINE_SOURCES ${COMMON_DIR}/utf8.cpp)
-list(APPEND ENGINE_SOURCES ${ENGINE_DIR}/posixstuff.cpp)
+
+if(WIN32)
+	# The resource script contains the setup dialog, the cursors and the icons.
+	enable_language(RC)
+	list(APPEND ENGINE_SOURCES ${ENGINE_DIR}/winstuff.cpp ${CMAKE_CURRENT_SOURCE_DIR}/images/SLUDGE.RC)
+else()
+	list(APPEND ENGINE_SOURCES ${ENGINE_DIR}/posixstuff.cpp)
+endif()
 
 set(SHADERS
 	fixScaleSprite.frag fixScaleSprite.vert
@@ -96,11 +103,24 @@ if(SLUDGE_MOVIES)
 	endif()
 endif()
 
+if(WIN32)
+	set_target_properties(sludge-engine PROPERTIES WIN32_EXECUTABLE TRUE)
+	target_include_directories(sludge-engine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/images)
+	target_compile_definitions(sludge-engine PRIVATE UNICODE _UNICODE)
+	target_link_libraries(sludge-engine PRIVATE comdlg32 shell32 ole32)
+	if(MINGW)
+		# SDL provides wWinMain in Unicode builds, which requires -municode.
+		# We link the C and C++ runtime libraries statically, so that the
+		# engine runs without the MinGW DLLs.
+		target_link_options(sludge-engine PRIVATE -municode -static -static-libgcc -static-libstdc++)
+	endif()
+endif()
+
 # On Linux, iconv is part of the C library. On macOS, it is a separate
-# library.
+# library. On Windows, we convert text with the Windows API instead.
 include(CheckFunctionExists)
 check_function_exists(iconv_open HAVE_ICONV_IN_LIBC)
-if(NOT HAVE_ICONV_IN_LIBC)
+if(NOT WIN32 AND NOT HAVE_ICONV_IN_LIBC)
 	find_package(Iconv REQUIRED)
 	target_link_libraries(sludge-engine PRIVATE Iconv::Iconv)
 endif()

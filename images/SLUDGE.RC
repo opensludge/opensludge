@@ -6,7 +6,7 @@
 #include <commctrl.h>
 #include <richedit.h>
 #include "resource.h"
-#include "..\source\CommonCode\version.h"
+#include "../source/CommonCode/version.h"
 
 
 
@@ -41,23 +41,23 @@ FONT 10, "Arial"
 //
 // Cursor resources
 //
-2196               CURSOR         "cross.cur"
+2196               CURSOR         "CROSS.CUR"
 
 
-2197               CURSOR         "BigArrow.cur"
+2197               CURSOR         "BIGARROW.cur"
 
 
-INVISIBLE          CURSOR         "invis.cur"
+INVISIBLE          CURSOR         "INVIS.CUR"
 
 
 
 //
 // Icon resources
 //
-999                ICON           "gameIcon\\gameIcon.ico"
+999                ICON           "gameIcon/gameIcon.ico"
 
 
-ICON_1             ICON           "sludge.ico"
+ICON_1             ICON           "Sludge.ico"
 
 
 

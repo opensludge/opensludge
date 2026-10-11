@@ -22,6 +22,7 @@ set(SLUDGE_SDL_TAG release-3.4.18)
 set(SLUDGE_OGG_TAG v1.3.6)
 set(SLUDGE_VORBIS_TAG v1.3.7)
 set(SLUDGE_PNG_TAG v1.6.59)
+set(SLUDGE_ZLIB_TAG v1.3.2)
 set(SLUDGE_DUMB_TAG 2.0.3)
 set(SLUDGE_VPX_TAG v1.17.0)
 
@@ -100,7 +101,29 @@ if(TARGET PNG::PNG)
 	sludge_target(png PNG::PNG)
 else()
 	message(STATUS "Building libpng from source")
-	find_package(ZLIB REQUIRED)
+	# zlib is part of macOS and of every Linux system, so we link to the
+	# system zlib there. On Windows, we build it from source when we bundle
+	# the libraries, because Windows has no zlib.
+	if(NOT (SLUDGE_BUNDLED_DEPS AND WIN32))
+		find_package(ZLIB QUIET)
+	endif()
+	if(NOT ZLIB_FOUND)
+		message(STATUS "Building zlib from source")
+		set(ZLIB_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+		set(ZLIB_BUILD_TESTING OFF CACHE BOOL "" FORCE)
+		set(ZLIB_BUILD_SHARED OFF CACHE BOOL "" FORCE)
+		set(ZLIB_BUILD_STATIC ON CACHE BOOL "" FORCE)
+		set(ZLIB_INSTALL OFF CACHE BOOL "" FORCE)
+		set(SKIP_INSTALL_ALL ON)
+		sludge_fetch(ZLIB https://github.com/madler/zlib.git ${SLUDGE_ZLIB_TAG} OVERRIDE_FIND_PACKAGE)
+		target_include_directories(zlibstatic INTERFACE ${zlib_SOURCE_DIR} ${zlib_BINARY_DIR})
+		if(NOT TARGET ZLIB::ZLIB)
+			add_library(ZLIB::ZLIB ALIAS zlibstatic)
+		endif()
+		set(ZLIB_LIBRARIES zlibstatic)
+		set(ZLIB_INCLUDE_DIRS ${zlib_SOURCE_DIR} ${zlib_BINARY_DIR})
+		set(ZLIB_INCLUDE_DIR ${zlib_SOURCE_DIR})
+	endif()
 	set(PNG_SHARED OFF CACHE BOOL "" FORCE)
 	set(PNG_STATIC ON CACHE BOOL "" FORCE)
 	set(PNG_TESTS OFF CACHE BOOL "" FORCE)
@@ -133,6 +156,9 @@ else()
 	sludge_fetch(dumb https://github.com/kode54/dumb.git ${SLUDGE_DUMB_TAG})
 	sludge_target(dumb dumb)
 	target_include_directories(sludge_dumb INTERFACE ${dumb_SOURCE_DIR}/include)
+	# DUMB 2 requires a 64-bit off_t. With MinGW, off_t is only 64 bits
+	# wide with this definition.
+	target_compile_definitions(sludge_dumb INTERFACE _FILE_OFFSET_BITS=64)
 endif()
 
 #
@@ -180,11 +206,29 @@ if(SLUDGE_MOVIES)
 			list(APPEND vpx_options "--extra-cflags=${vpx_flags}" "--extra-cxxflags=${vpx_flags}")
 			set(vpx_env "LDFLAGS=${vpx_flags}")
 		endif()
+		if(MINGW)
+			list(APPEND vpx_options --target=x86_64-win64-gcc)
+			if(CMAKE_CROSSCOMPILING)
+				# e.g. x86_64-w64-mingw32-gcc-posix -> x86_64-w64-mingw32-
+				get_filename_component(vpx_cc ${CMAKE_C_COMPILER} NAME)
+				string(REGEX REPLACE "gcc.*$" "" vpx_cross ${vpx_cc})
+				list(APPEND vpx_env "CROSS=${vpx_cross}")
+			endif()
+		endif()
 		# We assemble the x86 SIMD code of libvpx with nasm.
 		find_program(NASM_EXECUTABLE nasm)
 		if(NASM_EXECUTABLE)
 			list(APPEND vpx_options --as=nasm)
 		endif()
+
+		# The configure script is a shell script. On Windows, we run it with
+		# the MSYS2 shell, because cmd.exe cannot run it.
+		set(vpx_shell)
+		if(CMAKE_HOST_WIN32)
+			find_program(SH_EXECUTABLE sh REQUIRED)
+			set(vpx_shell ${SH_EXECUTABLE})
+		endif()
+		find_program(MAKE_EXECUTABLE NAMES gmake make REQUIRED)
 
 		set(vpx_prefix ${CMAKE_CURRENT_BINARY_DIR}/libvpx)
 		ExternalProject_Add(libvpx
@@ -193,9 +237,9 @@ if(SLUDGE_MOVIES)
 			GIT_SHALLOW TRUE
 			PREFIX ${vpx_prefix}
 			CONFIGURE_COMMAND ${CMAKE_COMMAND} -E env ${vpx_env} CC=${CMAKE_C_COMPILER} CXX=${CMAKE_CXX_COMPILER}
-				<SOURCE_DIR>/configure --prefix=<INSTALL_DIR> ${vpx_options}
-			BUILD_COMMAND make -j8
-			INSTALL_COMMAND make install
+				${vpx_shell} <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> ${vpx_options}
+			BUILD_COMMAND ${MAKE_EXECUTABLE} -j8
+			INSTALL_COMMAND ${MAKE_EXECUTABLE} install
 			BUILD_BYPRODUCTS ${vpx_prefix}/lib/libvpx.a)
 		file(MAKE_DIRECTORY ${vpx_prefix}/include)
 		add_library(vpx_static STATIC IMPORTED)
