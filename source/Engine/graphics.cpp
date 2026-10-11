@@ -261,6 +261,24 @@ void setPMVMatrix(GLint program) {
 	glUniformMatrix4fv( glGetUniformLocation(program, "myPMVMatrix"), 1, GL_FALSE, aPMVMatrix);
 }
 
+void setGameMatrix (float scale) {
+	GLfloat w = (GLfloat) winWidth / (cameraZoom * scale);
+	GLfloat h = (GLfloat) winHeight / (cameraZoom * scale);
+
+	const GLfloat bPMVMatrix[] =
+	{
+	2.0f/w,      .0,   .0,  .0,
+	    .0, -2.0f/h,   .0,  .0,
+	    .0,      .0, 1.0f,  .0,
+	  -1.0,    1.0f,   .0, 1.0f
+
+	};
+	for (int i = 0; i < 16; i++)
+	{
+		aPMVMatrix[i] = bPMVMatrix[i];
+	}
+}
+
 // This is for swapping settings between rendering to texture or to the screen
 void setPixelCoords (bool pixels) {
 	static int current = -1;
@@ -296,21 +314,7 @@ void setPixelCoords (bool pixels) {
 			glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		}
 
-		GLfloat w = (GLfloat) winWidth / cameraZoom;
-		GLfloat h = (GLfloat) winHeight / cameraZoom;
-
-		const GLfloat bPMVMatrix[] =
-		{
-		2.0f/w,      .0,   .0,  .0,
-		    .0, -2.0f/h,   .0,  .0,
-		    .0,      .0, 1.0f,  .0,
-		  -1.0,    1.0f,   .0, 1.0f
-
-		};
-		for (int i = 0; i < 16; i++)
-		{
-			aPMVMatrix[i] = bPMVMatrix[i];
-		}
+		setGameMatrix (1);
 	}
 }
 

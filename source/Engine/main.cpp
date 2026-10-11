@@ -46,6 +46,7 @@
 #include "gamepad.h"
 #include "pointer.h"
 #include "keys.h"
+#include "controllersettings.h"
 
 
 #if defined(_WIN32)
@@ -228,6 +229,10 @@ void checkInput() {
 						gameSettings.antiAlias = ! gameSettings.antiAlias;
 						break;
 					}
+					if (key == SDLK_C) {
+						openControllerSettings ();
+						break;
+					}
 					// Allow Alt+F4 to quit
 					if (key == SDLK_F4) {
 						SDL_Event quitEvent;
@@ -259,7 +264,7 @@ void checkInput() {
 			case SDL_EVENT_GAMEPAD_BUTTON_DOWN:
 			case SDL_EVENT_GAMEPAD_BUTTON_UP:
 			case SDL_EVENT_GAMEPAD_AXIS_MOTION:
-				handleGamepadEvent (event);
+				if (! handleControllerSettingsEvent (event)) handleGamepadEvent (event);
 				break;
 
 			case SDL_EVENT_QUIT:
@@ -352,6 +357,7 @@ int main(int argc, char *argv[]) try
 
 	setupOpenGLStuff();
 	initGamepads();
+	setGamepadUseHandler (noteControllerUse);
 
 	if (gameIcon) {
 		if (SDL_Surface * programIcon = SDL_CreateSurfaceFrom(iconW, iconH, SDL_PIXELFORMAT_RGBA32, gameIcon, iconW*4)) {
@@ -401,6 +407,10 @@ int main(int argc, char *argv[]) try
 	while ( !weAreDoneSoQuit ) {
 
 		checkInput();
+		if (controllerSettingsAreOpen ()) {
+			updateControllerSettings ();
+			continue;
+		}
 		updateGamepadPointer();
 		walkAllPeople ();
 		handleInput ();

@@ -1,3 +1,5 @@
+#include <stdint.h>
+
 bool loadFont (int filenum, const char * charOrder, int);
 void pasteString (char * theText, int, int, spritePalette &);
 void fixFont (spritePalette & spal);
@@ -8,3 +10,5 @@ void pasteStringToBackdrop (char * theText, int xOff, int y, spritePalette & the
 void burnStringToBackdrop (char * theText, int xOff, int y, spritePalette & thePal);
 
 bool isInFont (char * theText);
+// Return whether the current font of the game has a character.
+bool fontHasCharacter (uint32_t c);

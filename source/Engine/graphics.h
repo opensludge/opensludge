@@ -55,6 +55,10 @@ void drawQuad(GLint program, const GLfloat* vertices, int numTexCoords, ...);
 void setPMVMatrix(GLint program);
 
 void setPixelCoords (bool pixels);
+// Set the projection for drawing in game coordinates, with every sprite and
+// letter at scale times its size. setPixelCoords (false) sets it with
+// scale 1.
+void setGameMatrix (float scale);
 void setGraphicsWindow(bool fullscreen, bool restoreGraphics = true);
 
 void setupOpenGLStuff();
