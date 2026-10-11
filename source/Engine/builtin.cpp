@@ -547,7 +547,7 @@ builtIn(substring)
 	newString[endoffset - startoffset] = 0;
 	
 	makeTextVar (fun -> reg, newString);
-	delete newString;
+	delete [] newString;
 	return BR_CONTINUE;
 }
 

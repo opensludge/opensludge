@@ -176,7 +176,7 @@ bool restoreSnapshot (FILE * fp) {
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	texImage2D (GL_TEXTURE_2D, 0, GL_RGBA, picWidth, picHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, snapshotTexture, snapshotTextureName);
 
-	delete snapshotTexture;
+	delete [] snapshotTexture;
 	snapshotTexture = NULL;
 
 	return true;
