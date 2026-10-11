@@ -41,6 +41,12 @@ bool isInFont (char * theText) {
 	return u8_strchr(fontOrderString, c, &i);
 }
 
+bool fontHasCharacter (uint32_t c) {
+	if (! fontTableSize) return false;
+	int i = 0;
+	return u8_strchr (fontOrderString, c, &i) != NULL;
+}
+
 int stringLength (char * theText) {
 	return u8_strlen (theText);
 }

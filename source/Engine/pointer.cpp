@@ -40,11 +40,6 @@ static Uint64 shownAt = 0;
 static float lastMouseX = -1, lastMouseY = -1;
 
 void saveFrameWithoutCursor () {
-	if (! hasCursorSprite ()) {
-		haveFrame = false;
-		return;
-	}
-
 	if (! frameTexture) glGenTextures (1, &frameTexture);
 	glBindTexture (GL_TEXTURE_2D, frameTexture);
 
@@ -73,6 +68,40 @@ void forgetFrameWithoutCursor () {
 	haveFrame = false;
 }
 
+bool drawFrameWithoutCursor () {
+	glClear (GL_COLOR_BUFFER_BIT);
+	if (! haveFrame) return false;
+
+	glDisable (GL_DEPTH_TEST);
+	glDisable (GL_BLEND);
+	setPixelCoords (false);
+
+	GLfloat w = (GLfloat) winWidth / cameraZoom;
+	GLfloat h = (GLfloat) winHeight / cameraZoom;
+	const GLfloat vertices[] = {
+		0, 0, 0,
+		w, 0, 0,
+		0, h, 0,
+		w, h, 0
+	};
+	// The rows that we copied into the texture start at the bottom of the
+	// window, so we draw the texture upside down.
+	GLfloat tw = (GLfloat) frameWidth / frameTextureWidth;
+	GLfloat th = (GLfloat) frameHeight / frameTextureHeight;
+	const GLfloat texCoords[] = {
+		0, th,
+		tw, th,
+		0, 0,
+		tw, 0
+	};
+	glUseProgram (shader.texture);
+	setPMVMatrix (shader.texture);
+	glBindTexture (GL_TEXTURE_2D, frameTexture);
+	drawQuad (shader.texture, vertices, 1, texCoords);
+	glUseProgram (0);
+	return true;
+}
+
 // Return the time between two refreshes of the display, in nanoseconds.
 static Uint64 refreshInterval () {
 	const SDL_DisplayMode * mode = SDL_GetCurrentDisplayMode (SDL_GetDisplayForWindow (sludgeWindow));
@@ -88,7 +117,7 @@ void movePointerBetweenFrames (Uint32 millisecondsLeft) {
 	SDL_PumpEvents ();
 	updateGamepadPointer ();
 
-	if (! haveFrame) return;
+	if (! haveFrame || ! hasCursorSprite ()) return;
 	// After a change to the window size, we wait for the next game frame.
 	if (frameWidth != viewportWidth || frameHeight != viewportHeight) return;
 	if (SDL_GetMouseFocus () == sludgeWindow) {
@@ -110,35 +139,7 @@ void movePointerBetweenFrames (Uint32 millisecondsLeft) {
 	if (now - shownAt < interval) return;
 	if ((Uint64) millisecondsLeft * SDL_NS_PER_MS < interval) return;
 
-	glClear (GL_COLOR_BUFFER_BIT);
-	glDisable (GL_DEPTH_TEST);
-	glDisable (GL_BLEND);
-	setPixelCoords (false);
-
-	GLfloat w = (GLfloat) winWidth / cameraZoom;
-	GLfloat h = (GLfloat) winHeight / cameraZoom;
-	const GLfloat vertices[] = {
-		0, 0, 0,
-		w, 0, 0,
-		0, h, 0,
-		w, h, 0
-	};
-	// The rows that we copied into the texture start at the bottom of the
-	// window, so we draw the texture upside down.
-	GLfloat tw = (GLfloat) viewportWidth / frameTextureWidth;
-	GLfloat th = (GLfloat) viewportHeight / frameTextureHeight;
-	const GLfloat texCoords[] = {
-		0, th,
-		tw, th,
-		0, 0,
-		tw, 0
-	};
-	glUseProgram (shader.texture);
-	setPMVMatrix (shader.texture);
-	glBindTexture (GL_TEXTURE_2D, frameTexture);
-	drawQuad (shader.texture, vertices, 1, texCoords);
-	glUseProgram (0);
-
+	drawFrameWithoutCursor ();
 	drawCursor (input.mouseX, input.mouseY);
 	showFrame ();
 

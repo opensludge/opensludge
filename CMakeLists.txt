@@ -37,7 +37,7 @@ set(ENGINE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source/Engine)
 set(COMMON_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source/CommonCode)
 
 set(ENGINE_SOURCES
-	backdrop.cpp bg_effects.cpp builtin.cpp controllermap.cpp cursors.cpp debug.cpp
+	backdrop.cpp bg_effects.cpp builtin.cpp controllermap.cpp controllersettings.cpp cursors.cpp debug.cpp
 	fileset.cpp floor.cpp fonttext.cpp freeze.cpp gamepad.cpp graphics.cpp helpers.cpp keys.cpp
 	language.cpp line.cpp loadsave.cpp main.cpp pointer.cpp
 	memwatch.cpp moreio.cpp newfatal.cpp objtypes.cpp people.cpp
