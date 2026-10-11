@@ -44,6 +44,7 @@
 #include "pointer.h"
 #include "keys.h"
 #include "controllermap.h"
+#include "controllersettings.h"
 
 #include "debug.h"
 
@@ -654,6 +655,7 @@ void sludgeDisplay () {
 	glDisable(GL_DEPTH_TEST);
 	viewSpeech ();					// ...and anything being said
 	drawStatusBar ();
+	drawControllerSettingsHint ();
 	if (brightnessLevel == 255) {
 		saveFrameWithoutCursor ();
 	} else {

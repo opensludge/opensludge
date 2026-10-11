@@ -155,6 +155,16 @@ static const Sint16 TRIGGER_DOWN = 16384;
 static const Sint16 TRIGGER_UP = 8192;
 static bool triggerDown[2] = { false, false };
 
+static void (* useHandler) (bool unmappedInput) = NULL;
+
+void setGamepadUseHandler (void (* handler) (bool unmappedInput)) {
+	useHandler = handler;
+}
+
+static void reportUse (bool unmappedInput) {
+	if (useHandler) useHandler (unmappedInput);
+}
+
 // Do the action of a controller button when the player presses it (down)
 // or lets it go.
 static void doAction (controllerAction action, bool down) {
@@ -201,9 +211,14 @@ void handleGamepadEvent (const SDL_Event & event) {
 
 		case SDL_EVENT_GAMEPAD_BUTTON_DOWN:
 		case SDL_EVENT_GAMEPAD_BUTTON_UP: {
+			bool down = event.type == SDL_EVENT_GAMEPAD_BUTTON_DOWN;
 			controllerInput mapped = inputForButton ((SDL_GamepadButton) event.gbutton.button);
 			if (mapped != NUM_CONTROLLER_INPUTS) {
-				doAction (actionForInput (mapped), event.type == SDL_EVENT_GAMEPAD_BUTTON_DOWN);
+				controllerAction action = actionForInput (mapped);
+				if (down) reportUse (action.type == ACTION_NOTHING);
+				doAction (action, down);
+			} else if (down && event.gbutton.button != SDL_GAMEPAD_BUTTON_GUIDE) {
+				reportUse (false);
 			}
 			break;
 		}
@@ -218,6 +233,7 @@ void handleGamepadEvent (const SDL_Event & event) {
 			bool & down = triggerDown[mapped == INPUT_LEFT_TRIGGER ? 0 : 1];
 			if (! down && event.gaxis.value > TRIGGER_DOWN) {
 				down = true;
+				reportUse (actionForInput (mapped).type == ACTION_NOTHING);
 				doAction (actionForInput (mapped), true);
 			} else if (down && event.gaxis.value < TRIGGER_UP) {
 				down = false;
@@ -276,6 +292,7 @@ void updateGamepadPointer () {
 		return;
 	}
 	moving = true;
+	reportUse (false);
 
 	// Start from the mouse position, because the player may have moved the
 	// mouse since the last update.

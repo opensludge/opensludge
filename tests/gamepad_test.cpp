@@ -47,6 +47,15 @@ static void check (bool condition, const char * description) {
 
 static SDL_Joystick * controller;
 
+// What the gamepad code reported through setGamepadUseHandler.
+static int usesReported = 0;
+static bool lastUseUnmapped = false;
+
+static void recordUse (bool unmappedInput) {
+	usesReported ++;
+	lastUseUnmapped = unmappedInput;
+}
+
 static void writeFile (const char * filename, const char * text) {
 	FILE * fp = fopen (filename, "w");
 	fputs (text, fp);
@@ -148,6 +157,16 @@ int main (int argc, char * argv[]) {
 	resetInput ();
 	pressButton (SDL_GAMEPAD_BUTTON_WEST);
 	check (input.keyPressed == ' ', "X is the Space key");
+
+	setGamepadUseHandler (recordUse);
+	usesReported = 0;
+	pressButton (SDL_GAMEPAD_BUTTON_SOUTH);
+	check (usesReported == 1 && ! lastUseUnmapped, "we report the use of a mapped button");
+	pressButton (SDL_GAMEPAD_BUTTON_RIGHT_STICK);
+	check (usesReported == 2 && lastUseUnmapped, "we report a button that is mapped to nothing");
+	pressButton (SDL_GAMEPAD_BUTTON_TOUCHPAD);
+	check (usesReported == 3 && ! lastUseUnmapped, "a button that the player cannot map does not count as unmapped");
+	setGamepadUseHandler (NULL);
 
 	// A game with its own mapping.
 	writeFile ("gamepad_test_game/controller.ini",
