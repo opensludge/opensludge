@@ -42,6 +42,7 @@
 #include "specialsettings.h"
 #include "graphics.h"
 #include "pointer.h"
+#include "keys.h"
 
 #include "debug.h"
 
@@ -1406,63 +1407,15 @@ bool handleInput () {
 	}
 	if (input.keyPressed && currentEvents -> spaceFunction) {
 		char * tempString = NULL;
-		switch (input.keyPressed) {
-			case 127:	
-				tempString = copyString ("BACKSPACE");	break;
-			case 9:		tempString = copyString ("TAB");		break;
-			case 13:	tempString = copyString ("ENTER");		break;
-			case 27:	tempString = copyString ("ESCAPE");		break;
-			/*
-			case 1112:	tempString = copyString ("ALT+F1");		break;
-			case 1113:	tempString = copyString ("ALT+F2");		break;
-			case 1114:	tempString = copyString ("ALT+F3");		break;
-			case 1115:	tempString = copyString ("ALT+F4");		break;
-			case 1116:	tempString = copyString ("ALT+F5");		break;
-			case 1117:	tempString = copyString ("ALT+F6");		break;
-			case 1118:	tempString = copyString ("ALT+F7");		break;
-			case 1119:	tempString = copyString ("ALT+F8");		break;
-			case 1120:	tempString = copyString ("ALT+F9");		break;
-			case 1121:	tempString = copyString ("ALT+F10");	break;
-			case 1122:	tempString = copyString ("ALT+F11");	break;
-			case 1123:	tempString = copyString ("ALT+F12");	break;
-
-			case 2019:	tempString = copyString ("PAUSE");		break;
-			*/
-			case 63276:	tempString = copyString ("PAGE UP");	break;
-			case 63277:	tempString = copyString ("PAGE DOWN");	break;
-			case 63275:	tempString = copyString ("END");		break;
-			case 63273:	tempString = copyString ("HOME");		break;
-			case 63234:	tempString = copyString ("LEFT");		break;
-			case 63232:	tempString = copyString ("UP");			break;
-			case 63235:	tempString = copyString ("RIGHT");		break;
-			case 63233:	tempString = copyString ("DOWN");		break;
-				/*
-			case 2045:	tempString = copyString ("INSERT");		break;
-			case 2046:	tempString = copyString ("DELETE");		break;
-				*/
-			case 63236:	tempString = copyString ("F1");			break;
-			case 63237:	tempString = copyString ("F2");			break;
-			case 63238:	tempString = copyString ("F3");			break;
-			case 63239:	tempString = copyString ("F4");			break;
-			case 63240:	tempString = copyString ("F5");			break;
-			case 63241:	tempString = copyString ("F6");			break;
-			case 63242:	tempString = copyString ("F7");			break;
-			case 63243:	tempString = copyString ("F8");			break;
-			case 63244:	tempString = copyString ("F9");			break;
-			case 63245:	tempString = copyString ("F10");		break;
-			case 63246:	tempString = copyString ("F11");		break;
-			case 63247:	tempString = copyString ("F12");		break;
-
-			default:
-			if (input.keyPressed >= 256) {
-				//if (captureAllKeys) {
-					tempString = copyString ("ABCDEF");
-					sprintf (tempString, "%i", input.keyPressed);
-				//}
-			} else {
-				tempString = copyString (" ");
-				tempString[0] = input.keyPressed;
-			}
+		const char * keyName = nameOfSpecialKey (input.keyPressed);
+		if (keyName) {
+			tempString = copyString (keyName);
+		} else if (input.keyPressed >= 256) {
+			tempString = copyString ("ABCDEF");
+			sprintf (tempString, "%i", input.keyPressed);
+		} else {
+			tempString = copyString (" ");
+			tempString[0] = input.keyPressed;
 		}
 
 		if (tempString) {
