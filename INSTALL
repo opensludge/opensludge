@@ -45,6 +45,30 @@ Debian and Ubuntu).
 `build/sludge-engine gamedata.slg'. Run `build/sludge-engine --help' for
 the options.
 
+Making the release packages
+***************************
+
+   In .github/workflows/build.yml, we build and test the engine on Linux,
+macOS and Windows. For a tag that starts with v, we publish a release
+with two kinds of packages for macOS and Windows: OpenSLUDGE, the engine
+alone, and Out Of Order, the engine with the game Out Of Order. We make
+the packages with the scripts in the packaging folder.
+
+     get-out-of-order.sh        Download the data file of Out Of Order from
+                                the Ubuntu archive and check its hash.
+     windows/make-zips.sh       Make the zips of OpenSLUDGE and of Out Of
+                                Order for Windows.
+     macos/make-app.sh          Make a macOS application bundle, with or
+                                without a game.
+     macos/sign-app.sh          Sign a macOS application bundle.
+
+   Out Of Order is freeware, and anyone may give it away together with its
+readme and licence. We change nothing in the game, and only add a
+controller mapping for it, packaging/out-of-order/controller.ini. To
+publish only OpenSLUDGE, leave out the Out Of Order zips and apps in the
+workflow. In the tests of the workflow, we play the opening of Out Of
+Order, so keep get-out-of-order.sh for those.
+
 Building the SLUDGE Development Kit
 ***********************************
 
