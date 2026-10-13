@@ -21,17 +21,14 @@ There are generic instructions how to compile SLUDGE in the <strong>INSTALL</str
 
 <p><ul>
 <li><strong>build-essential</strong> (compilers and build tools)</li>
-<li><strong>libalure-dev</strong> (>= 1.1)</li>
-<li><strong>libsdl1.2-dev</strong></li>
-<li><strong>libglew-dev</strong></li>
-<li><strong>libglu1-mesa-dev</strong></li>
-<li><strong>libpng12-dev</strong></li>
-<li><strong>libopenal-dev</strong></li>
+<li><strong>cmake</strong> (3.24 or later)</li>
+<li><strong>libsdl3-dev</strong>, where your distribution has it</li>
+<li><strong>libpng-dev</strong></li>
 <li><strong>libvorbis-dev</strong></li>
-<li><strong>libflac-dev</strong></li>
 <li><strong>libdumb1-dev</strong></li>
 <li><strong>libvpx-dev</strong></li>
 <li><strong>xdg-utils</strong></li>
+<li><strong>libglew-dev</strong> (only needed for the Dev Kit)</li>
 <li><strong>libgtk2.0-dev</strong> (only needed for the Dev Kit)</li>
 <li><strong>libgtkglext1-dev</strong> (only needed for the Dev Kit)</li>
 </ul>
@@ -39,41 +36,41 @@ There are generic instructions how to compile SLUDGE in the <strong>INSTALL</str
 
 <p>Package list for copying:</p>
 
-<p><div class="bash">sudo apt-get install build-essential libalure-dev libsdl1.2-dev libglew-dev libglu1-mesa-dev libpng12-dev libopenal-dev libvorbis-dev libflac-dev libdumb1-dev libvpx-dev xdg-utils</div></p>
+<p><div class="bash">sudo apt-get install build-essential cmake libsdl3-dev libpng-dev libvorbis-dev libdumb1-dev libvpx-dev xdg-utils</div></p>
 
 <p>The additional dependencies for the Dev Kit:</p>
 
-<p><div class="bash">sudo apt-get install libgtk2.0-dev libgtkglext1-dev </div></p>
+<p><div class="bash">sudo apt-get install libglew-dev libgtk2.0-dev libgtkglext1-dev </div></p>
+
+<p>Some distributions, such as Ubuntu 24.04, have no <strong>libsdl3-dev</strong>. Then leave it out, and CMake downloads SDL 3 and builds it from source. For that, the development packages for your display system and your sound system are required, as listed in the file <strong>docs/README-linux.md</strong> of SDL.</p>
 
 <h3>Installing SLUDGE</h3>
 
-<p>Now it's time to download the SLUDGE source archieve (<strong>sludge-*-source.tar.gz</strong>) from <a href="https://github.com/opensludge/opensludge/releases">the GitHub releases page</a> and extract, compile und install the program.</p>
-
-<p><div class="bash">cd path/to/sludge-(version) </div></p>
-<p><pre><div class="bash">./configure                     # install only the Engine
-                                # or
-./configure --enable-devkit     # install Engine and Dev Kit</div></pre></p>
-<p><div class="bash">make</div></p>
-<p><div class="bash">sudo make install</div></p>
-
-<h3>Getting the latest development version</h3>
-
-<p>In order to get the latest bugfixes, it can sometimes be necessary to install the latest development version. This requires that the packages <strong>git</strong> and <strong>automake</strong> are installed.</p>
-
-<p>The code can be cloned using:</p>
+<p>Now it's time to download the SLUDGE source code from <a href="https://github.com/opensludge/opensludge/releases">the GitHub releases page</a>, or to clone it with git:</p>
 
 <p><div class="bash">git clone https://github.com/opensludge/opensludge.git</div></p>
 
-<p>Before SLUDGE can be compiled as described above, the <strong>configure</strong> script has to be generated using the <strong>autogen.sh</strong> script:</p>
+<p>We build the Engine with CMake:</p>
 
 <p><div class="bash">cd opensludge</div></p>
+<p><div class="bash">cmake -S . -B build -DCMAKE_BUILD_TYPE=Release</div></p>
+<p><div class="bash">cmake --build build</div></p>
+<p><div class="bash">sudo cmake --install build</div></p>
+
+<p>We build the Dev Kit with the configure script, which you generate with the <strong>autogen.sh</strong> script. For that, the packages <strong>autoconf</strong> and <strong>automake</strong> are required.</p>
+
 <p><div class="bash">./autogen.sh</div></p>
+<p><div class="bash">./configure</div></p>
+<p><div class="bash">make</div></p>
+<p><div class="bash">sudo make install</div></p>
 
 <h3>OpenGL ES 2</h3>
 
-SLUDGE 2.2 has experimental support for OpenGL ES 2. This means it should work on mobile devices such as smartphones without much effort. To use OpenGL ES 2 on Debian or Ubuntu, the dependencies <strong>libglew-dev</strong> and <strong>libglu1-mesa-dev</strong> are replaced by <strong>libgles2-mesa-dev</strong> and configuring is done by
+<p>SLUDGE has experimental support for OpenGL ES 2. To use OpenGL ES 2 on Debian or Ubuntu, install <strong>libgles-dev</strong>, and configure the Engine with</p>
 
-<p><pre><div class="bash">./configure --enable-gles2</div></pre></p>
+<p><pre><div class="bash">cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DSLUDGE_GLES2=ON</div></pre></p>
+
+<p>For the OpenPandora, the Raspberry Pi or an ODROID, use <strong>-DSLUDGE_DEVICE=OpenPandora</strong>, <strong>RaspberryPi</strong> or <strong>ODROID</strong> instead. With these, we also draw with OpenGL ES 2.</p>
 
 <h3>See also:</h3>
 
