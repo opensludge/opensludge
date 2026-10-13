@@ -40,7 +40,8 @@ void printCmdlineUsage() {
 	fprintf(stdout, "Options are saved, so you don't need to specify them every time.\n");
 	fprintf(stdout, "If you entered a wrong language number, use -l0 to reset the language to the default setting.\n");
 	fprintf(stdout, "You can always toggle between fullscreen and windowed mode with \"Alt+Enter\"\n");
-	fprintf(stdout, "or antialiasing on and off with \"Alt+A\".\n");
+	fprintf(stdout, "or antialiasing on and off with \"Alt+A\". With \"Alt+C\", you open\n");
+	fprintf(stdout, "the controller settings.\n");
 }
 
 void printLanguageTable() {
