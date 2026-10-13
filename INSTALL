@@ -20,17 +20,26 @@ libsdl3-dev where it exists.
                                 its own.
      -DSLUDGE_MOVIES=OFF        Leave out movie support and libvpx.
      -DSLUDGE_GLES2=ON          Draw with OpenGL ES 2.0 instead of OpenGL.
+     -DSLUDGE_DEVICE=<device>   Build for the OpenPandora, the Raspberry Pi
+                                or an ODROID, with OpenPandora, RaspberryPi
+                                or ODROID. We then draw with OpenGL ES 2.0,
+                                and on the OpenPandora, we always show the
+                                game in full screen.
+     -DSLUDGE_TESTS=OFF         Leave out the tests. We build them by
+                                default, and you run them with
+                                `ctest --test-dir build'.
 
    On macOS, build each architecture separately, for example with
 -DCMAKE_OSX_ARCHITECTURES=x86_64, and combine the executables with lipo.
 With packaging/macos/make-app.sh, we make an application bundle around
 the engine.
-On Windows, we build with MSYS2 and MinGW.
 
-   For the OpenPandora, the Raspberry Pi or an ODROID, build with
--DSLUDGE_DEVICE=OpenPandora, RaspberryPi or ODROID. We then draw with
-OpenGL ES 2.0, and on the OpenPandora, we always show the game in full
-screen.
+   On Windows, we build with MSYS2 and MinGW. For 32-bit Windows, from
+Windows XP on, we cross-compile on Linux with
+-DCMAKE_TOOLCHAIN_FILE=cmake/toolchains/mingw-i686.cmake and
+-DSLUDGE_BUNDLED_DEPS=ON. For that, the MinGW-w64 compilers of the win32
+thread model and nasm are required (g++-mingw-w64-i686-win32 and nasm on
+Debian and Ubuntu).
 
    Run the engine with the game data file as its argument, for example
 `build/sludge-engine gamedata.slg'. Run `build/sludge-engine --help' for
@@ -61,7 +70,8 @@ libgtkglext1-dev, libglew-dev and libpng-dev.
    Briefly, the shell commands `./autogen.sh; ./configure; make; make
 install' should configure, build, and install the Dev Kit. You can use
 the configure options --disable-devkit and/or --enable-doc to (de)select
-components.
+components. For the documentation only, run `./configure --disable-devkit
+--enable-doc'.
 
    The following more-detailed instructions are generic and
 
