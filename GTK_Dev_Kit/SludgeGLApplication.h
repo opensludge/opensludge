@@ -25,15 +25,11 @@ class SludgeGLApplication : public SludgeApplication {
 private:
 	int mouseLoc2x, mouseLoc2y;
 	gboolean haveStatusbar;
-	GdkPixmap *pixmap;
-	GdkGLPixmap *glpixmap;
-	GdkGLContext *context;
-	GdkGLDrawable *glDrawable;
-	GdkGLContext *glContext;
+	gboolean glInitialized;
 	GtkToolButton *zoom100Button, *zoomFitButton;
 	GtkWidget *statusbarWidget;
 	GtkLabel *cursorxLabel, *cursoryLabel, *picwLabel, *pichLabel, *zmulLabel;
-	GMutex * theRender_mutex;
+	GMutex theRender_mutex;
 
 protected:
 	int x, y, w, h;
@@ -63,14 +59,15 @@ protected:
 	void hideStatusbar();
 	void reshape();
 	void setCoords();
+	void initGL();
+	void refreshGL();
 
 public:
 	SludgeGLApplication(const char * gladeFileName, const char * iconName, const char * configFile);
 	~SludgeGLApplication();
 	// Callbacks:
 	void on_drawingarea1_realize(GtkWidget *theWidget);
-	gboolean on_drawingarea1_configure_event(GtkWidget *theWidget, GdkEventConfigure *theEvent);
-	gboolean on_drawingarea1_expose_event(GtkWidget *theWidget, GdkEventExpose *theEvent);
+	gboolean on_drawingarea1_render(GtkWidget *theWidget, GdkGLContext *context);
 	gboolean render_timer_event(gpointer theUser_data);
 	gboolean on_drawingarea1_scroll_event(GtkWidget *theWidget, GdkEventScroll *theEvent);
 	gboolean on_drawingarea1_button_press_event(GtkWidget *theWidget, GdkEventButton *theEvent);

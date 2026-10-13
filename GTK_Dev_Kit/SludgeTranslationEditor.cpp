@@ -19,7 +19,6 @@
  */
 
 #include <gtk/gtk.h>
-#include <gtk/gtkgl.h>
 #include <gdk/gdk.h>
 #include <gdk/gdkkeysyms.h>
 #include <glib-object.h>
@@ -443,7 +442,7 @@ void SludgeTranslationEditor::on_sort_clicked(GtkTreeViewColumn *theTreeViewColu
 
 	// Resize, because sort indicator may change width of column:
 	GtkWidget *treeView = gtk_tree_view_column_get_tree_view(theTreeViewColumn);
-	gtk_container_resize_children(GTK_CONTAINER(treeView));
+	gtk_widget_queue_resize(treeView);
 }
 
 void SludgeTranslationEditor::on_load_strings_clicked()
@@ -454,8 +453,8 @@ void SludgeTranslationEditor::on_load_strings_clicked()
 	dialog = gtk_file_chooser_dialog_new("Select a SLUDGE Project",
 				      NULL,
 				      GTK_FILE_CHOOSER_ACTION_OPEN,
-				      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				      GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+				      "_Cancel", GTK_RESPONSE_CANCEL,
+				      "_Open", GTK_RESPONSE_ACCEPT,
 				      NULL);
 
 	filter = gtk_file_filter_new();

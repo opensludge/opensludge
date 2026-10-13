@@ -19,7 +19,6 @@
  */
 
 #include <gtk/gtk.h>
-#include <gtk/gtkgl.h>
 #include <gdk/gdk.h>
 #include <gdk/gdkkeysyms.h>
 #include <glib-object.h>
@@ -138,7 +137,7 @@ void SludgeSpriteBankEditor::postOpen()
 	on_hscale_value_changed();
 	setupButtons();
 	setupPalButtons();
-	prepareOpenGL();
+	refreshGL();
 	on_zoom_fit_clicked();
 	render_timer_event(theDrawingarea);
 }
@@ -368,8 +367,8 @@ int SludgeSpriteBankEditor::loadSprites(int toIndex, gboolean addNew)
 	dialog = gtk_file_chooser_dialog_new("Load file as sprite",
 				      NULL,
 				      GTK_FILE_CHOOSER_ACTION_OPEN,
-				      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				      GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+				      "_Cancel", GTK_RESPONSE_CANCEL,
+				      "_Open", GTK_RESPONSE_ACCEPT,
 				      NULL);
 
 	setFileChooserFilters(GTK_FILE_CHOOSER (dialog), TRUE, TRUE);
@@ -582,8 +581,8 @@ void SludgeSpriteBankEditor::on_export_sprite_clicked()
 	dialog = gtk_file_chooser_dialog_new("Export sprite",
 				      NULL,
 				      GTK_FILE_CHOOSER_ACTION_SAVE,
-				      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				      GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
+				      "_Cancel", GTK_RESPONSE_CANCEL,
+				      "_Save", GTK_RESPONSE_ACCEPT,
 				      NULL);
 	gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER (dialog), TRUE);
 
@@ -644,8 +643,8 @@ void SludgeSpriteBankEditor::on_fontify()
 	dialog = gtk_file_chooser_dialog_new("Load image as font",
 				      NULL,
 				      GTK_FILE_CHOOSER_ACTION_OPEN,
-				      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				      GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+				      "_Cancel", GTK_RESPONSE_CANCEL,
+				      "_Open", GTK_RESPONSE_ACCEPT,
 				      NULL);
 
 	setFileChooserFilters(GTK_FILE_CHOOSER (dialog), TRUE, TRUE);
