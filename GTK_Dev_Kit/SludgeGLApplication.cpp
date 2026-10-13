@@ -19,7 +19,6 @@
  */
 
 #include <gtk/gtk.h>
-#include <gtk/gtkgl.h>
 #include <gdk/gdk.h>
 #include <gdk/gdkkeysyms.h>
 #include <glib-object.h>
@@ -43,11 +42,7 @@ SludgeGLApplication::SludgeGLApplication(const char * gladeFileName, const char 
 {
 	if (!initSuccess) return;
 
-	pixmap = NULL;
-	glpixmap = NULL;
-	context = NULL;
-	glDrawable = NULL;
-	glContext = NULL;
+	glInitialized = FALSE;
 
 	statusbarWidget = GTK_WIDGET (gtk_builder_get_object (theXml, "statusbar"));
 	cursorxLabel = GTK_LABEL (gtk_builder_get_object (theXml, "cursorx_label"));
@@ -61,42 +56,25 @@ SludgeGLApplication::SludgeGLApplication(const char * gladeFileName, const char 
 	awaitButton1Release = FALSE;
 	awaitButton2Release = FALSE;
 
-	GdkGLConfig *glConfig;
-
-	/*
-	 * Configure a OpenGL-capable context.
-	 */
-	// Try to make it double-buffered.
-	glConfig = gdk_gl_config_new_by_mode (static_cast<GdkGLConfigMode>
-		(GDK_GL_MODE_RGB | GDK_GL_MODE_DEPTH | GDK_GL_MODE_ALPHA | GDK_GL_MODE_DOUBLE));
-	if (glConfig == NULL)
-	{
-		g_print ("Cannot configure a double-buffered context.\n");
-		g_print ("Will try a single-buffered context.\n");
-
-		// If we can't configure a double-buffered context, try for single-buffered.
-		glConfig = gdk_gl_config_new_by_mode (static_cast<GdkGLConfigMode>
-		(GDK_GL_MODE_RGB | GDK_GL_MODE_DEPTH | GDK_GL_MODE_ALPHA));
-		if (glConfig == NULL)
-		{
-			g_critical ("Aargh!  Cannot configure any type of OpenGL-capable context. Exiting.\n");
-			initSuccess = FALSE;
-			return;
-		}
-	}
+	x = y = w = h = 0;
 
 	theDrawingarea = GTK_WIDGET (gtk_builder_get_object (theXml, "drawingarea1"));
 
-	// Add OpenGL-capability to the drawing area.
-	if (!gtk_widget_set_gl_capability (theDrawingarea, glConfig, NULL, TRUE, GDK_GL_RGBA_TYPE))
+	if (theDrawingarea == NULL)
 	{
-		g_critical ("Cannot set OpenGL-capability to widget. Exiting.\n");
+		g_critical ("Failed to get the drawing area from the builder.\n");
 		initSuccess = FALSE;
 		return;
 	}
 
+	// Configure the OpenGL drawing area. GtkGLArea creates and manages the
+	// context, and swaps the buffers after every render.
+	gtk_gl_area_set_has_depth_buffer (GTK_GL_AREA (theDrawingarea), TRUE);
+	gtk_gl_area_set_has_alpha (GTK_GL_AREA (theDrawingarea), TRUE);
+	gtk_gl_area_set_auto_render (GTK_GL_AREA (theDrawingarea), TRUE);
+
 	// Initialise the render mutex.
-	theRender_mutex = g_mutex_new();
+	g_mutex_init (&theRender_mutex);
 
 	haveStatusbar = FALSE;
 	zmul = 1.;
@@ -104,7 +82,7 @@ SludgeGLApplication::SludgeGLApplication(const char * gladeFileName, const char 
 
 SludgeGLApplication::~SludgeGLApplication()
 {
-	g_mutex_free(theRender_mutex);
+	g_mutex_clear (&theRender_mutex);
 }
 
 void SludgeGLApplication::setZ(float newZ)
@@ -171,25 +149,69 @@ void SludgeGLApplication::refreshStatusbarZmul()
 
 void SludgeGLApplication::hideStatusbar()
 {
-	gtk_widget_hide_all(statusbarWidget);
-	gtk_widget_show(statusbarWidget);
+	gtk_widget_hide(statusbarWidget);
 }
 
 void SludgeGLApplication::reshape()
 {
+	int newW = gtk_widget_get_allocated_width (theDrawingarea);
+	int newH = gtk_widget_get_allocated_height (theDrawingarea);
 	if (! w) x = 0;
-	else x -= (theDrawingarea->allocation.width-w)/2;
+	else x -= (newW-w)/2;
 	if (! h) y = 0;
-	else y += (theDrawingarea->allocation.height-h)/2;
-	h = theDrawingarea->allocation.height;
-	w = theDrawingarea->allocation.width;
+	else y += (newH-h)/2;
+	h = newH;
+	w = newW;
+
+	if (!glInitialized) return;
+
 	glViewport (0, 0, w, h);	
 	
 	setCoords();
 }
 
+/*
+ * Make sure the OpenGL context exists and is current, initialise GLEW and let
+ * the application set up its OpenGL state. Nothing happens until the widget is
+ * realized and its context is available; instead the work is deferred to the
+ * first "render" signal.
+ */
+void SludgeGLApplication::initGL()
+{
+	if (glInitialized) return;
+	if (theDrawingarea == NULL) return;
+	if (gtk_gl_area_get_context (GTK_GL_AREA (theDrawingarea)) == NULL) return;
+
+	gtk_gl_area_make_current (GTK_GL_AREA (theDrawingarea));
+	if (gtk_gl_area_get_error (GTK_GL_AREA (theDrawingarea)) != NULL) return;
+
+	GLenum glewErr = glewInit();
+	if (GLEW_OK != glewErr)
+	{
+		g_critical ("Couldn't initialize GLEW.\n");
+		return;
+	}
+
+	prepareOpenGL();
+	glInitialized = TRUE;
+}
+
+/*
+ * Ask for the OpenGL state to be set up again, for instance after a new image
+ * was loaded. If the context is ready this happens immediately, otherwise it is
+ * deferred to the next render.
+ */
+void SludgeGLApplication::refreshGL()
+{
+	glInitialized = FALSE;
+	initGL();
+	if (theDrawingarea != NULL) gtk_widget_queue_draw (theDrawingarea);
+}
+
 void SludgeGLApplication::setCoords()
 {
+	if (!glInitialized) return;
+
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(x*zmul, (x+w)*zmul, (-y+h)*zmul, -y*zmul, 1.0, -1.0);	
@@ -200,10 +222,7 @@ void SludgeGLApplication::setCoords()
 
 void SludgeGLApplication::on_drawingarea1_realize(GtkWidget *theWidget)
 {
-	GdkGLContext *glContext;
-	GdkGLDrawable *glDrawable;
-
-	if (theWidget->window == NULL)
+	if (gtk_widget_get_window (theWidget) == NULL)
 	{
 		return;
 	}
@@ -211,152 +230,40 @@ void SludgeGLApplication::on_drawingarea1_realize(GtkWidget *theWidget)
 	gtk_widget_add_events(theWidget, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK
 					 | GDK_LEAVE_NOTIFY_MASK | GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_SCROLL_MASK);  
 
-	glContext = gtk_widget_get_gl_context (theWidget);
-	glDrawable = gtk_widget_get_gl_drawable (theWidget);
-
-	// Signal to gdk the start OpenGL operations.
-	if (!gdk_gl_drawable_gl_begin (glDrawable, glContext))
-	{
-		return;
-	}
-
-	glViewport (0, 0, theWidget->allocation.width, theWidget->allocation.height);
-
-	/* Your one-time OpenGL initialization code goes here */
-
-	// Initialise GLEW
-	GLenum glewErr = glewInit();
-	if (GLEW_OK != glewErr)
-	{
-		g_critical ("Couldn't initialize GLEW.\n");
-		return;
-	}
-
-    x = y = 0;
-    w = theWidget->allocation.width;
-    h = theWidget->allocation.height;
-	prepareOpenGL();
-
-	// Signal to gdk we're done with OpenGL operations.
-	gdk_gl_drawable_gl_end (glDrawable);
-
-	gdk_window_invalidate_rect (gtk_widget_get_parent_window (theWidget), &theWidget->allocation, TRUE);
+	// Set up OpenGL now if the context is already available.
+	initGL();
 }
 
 /*
- * The "configure_event" signal handler for drawingarea1. When the area is reconfigured (such as a resize)
- * this gets called - so we change the OpenGL viewport accordingly,
+ * The "render" signal handler for drawingarea1. All OpenGL re-drawing is done here.
+ * GtkGLArea makes the OpenGL context current and swaps the buffers for us.
  */
-gboolean SludgeGLApplication::on_drawingarea1_configure_event (GtkWidget *theWidget, GdkEventConfigure *theEvent)
+gboolean SludgeGLApplication::on_drawingarea1_render(GtkWidget *theWidget, GdkGLContext *context)
 {
-GdkGLContext *glContext;
-GdkGLDrawable *glDrawable;
-
-
-	// Don't continue if we get fed a dud window type.
-	if (theWidget->window == NULL)
-	{
-		return FALSE;
-	}
-
-	/*
-	 * Wait until the rendering process is complete before issuing a context change,
-	 * then lock it - to prevent possible driver issues on long rendering processes.
-	 * You can add a timeout here or g_mutex_trylock according to taste.
-	 */
-	g_mutex_lock(theRender_mutex);
-
-	glContext = gtk_widget_get_gl_context (theWidget);
-	glDrawable = gtk_widget_get_gl_drawable (theWidget);
-
-	// Signal to gdk the start OpenGL operations.
-	if (!gdk_gl_drawable_gl_begin (glDrawable, glContext))
-	{
-		g_mutex_unlock(theRender_mutex);
-		return FALSE;
-	}
-
-/*	glViewport (0, 0, theWidget->allocation.width, theWidget->allocation.height);
-	glMatrixMode (GL_PROJECTION);
-	glLoadIdentity ();
-	glFrustum (-1.0, 1.0, -1.0, 1.0, 1.5, 20.0);
-	glMatrixMode (GL_MODELVIEW);
-*/
-    reshape();
-
-	glFlush ();
-
-	// Signal to gdk we're done with OpenGL operations.
-	gdk_gl_drawable_gl_end (glDrawable);
-
-	// Unlock the rendering mutex before sending an immediate redraw request.
-	g_mutex_unlock(theRender_mutex);
-	gdk_window_invalidate_rect (gtk_widget_get_parent_window (theWidget), &theWidget->allocation, TRUE);
-	gdk_window_process_updates (gtk_widget_get_parent_window (theWidget), TRUE);
-//	gdk_window_invalidate_rect (theWidget->window, &theWidget->allocation, FALSE);
-//	gdk_window_process_updates (theWidget->window, FALSE);
-
-	return FALSE;
-}
-
-/*
- * The "expose_event" signal handler for drawingarea1. All OpenGL re-drawing should be done here.
- * This is called every time the expose/draw event is signalled.
- *
- */
-gboolean SludgeGLApplication::on_drawingarea1_expose_event(GtkWidget *theWidget, GdkEventExpose *theEvent)
-{
-	GdkGLContext *glContext;
-	GdkGLDrawable *glDrawable;
-
-	// Don't continue if we get fed a dud window type.
-	if (theWidget->window == NULL)
-	{
-		return FALSE;
-	}
+	// First frame: initialise GLEW and the application's OpenGL state.
+	initGL();
 
 	/*
 	 * Lock rendering mutex if it's not busy - otherwise exit.
 	 * This prevents the renderer being spammed by drawing requests if the rendering takes longer than the feed/timer process.
 	 */
-	if (!g_mutex_trylock(theRender_mutex))
-		return FALSE;
+	if (!g_mutex_trylock(&theRender_mutex))
+		return TRUE;
 
-	glContext = gtk_widget_get_gl_context (theWidget);
-	glDrawable = gtk_widget_get_gl_drawable (theWidget);
-
-	// Signal to gdk the start OpenGL operations.
-	if (!gdk_gl_drawable_gl_begin (glDrawable, glContext))
+	if (glInitialized)
 	{
-		g_mutex_unlock(theRender_mutex);
-		return FALSE;
+		reshape();
+		drawRect();
 	}
 
-	drawRect();
-
-	/*
-	 * Swap rendering buffers out (an auto glFlush is issued after) if we previously managed to initialise
-	 * it as a double-buffered context, otherwise issue a standard glFlush call to signal we've finished
-	 * OpenGL rendering.
-	 */
-	if (gdk_gl_drawable_is_double_buffered (glDrawable))
-		gdk_gl_drawable_swap_buffers (glDrawable);
-	else
-		glFlush ();
-
-	// Signal to gdk we're done with OpenGL operations.
-	gdk_gl_drawable_gl_end (glDrawable);
-
 	// Release the rendering mutex.
-	g_mutex_unlock(theRender_mutex);
+	g_mutex_unlock(&theRender_mutex);
 
-	return FALSE;
+	return TRUE;
 }
 
 /*
- * The timer-based process that operates on some variables then invalidates drawingarea1's region to trigger
- * an expose_event, thus invoking function "on_drawingarea1_expose_event" through the window manager.
- *
+ * The timer-based process tells GtkGLArea to redraw, which results in another "render" signal.
  */
 gboolean SludgeGLApplication::render_timer_event(gpointer theUser_data)
 {
@@ -366,19 +273,11 @@ gboolean SludgeGLApplication::render_timer_event(gpointer theUser_data)
 	 * Only send a redraw request if the render process is not busy.  This prevents long rendering processes
 	 * from piling up.
 	 */
-	if (g_mutex_trylock(theRender_mutex))
+	if (g_mutex_trylock(&theRender_mutex))
 	{
 		// Unlock the mutex before we issue the redraw.
-		g_mutex_unlock(theRender_mutex);
-		// Invalidate drawingarea1's region to signal the window handler there needs to be an update in that area,
-		gdk_window_invalidate_rect (gtk_widget_get_parent_window (theWidget), &theWidget->allocation, TRUE);
-//		gdk_window_invalidate_rect (theWidget->window, &theWidget->allocation, FALSE);
-		/*
-		 * Force an immediate update - we can omit this and leave the window manager to call the redraw when the
-		 * main loop is idle.  However, we get smoother, more consistent updates this way.
-		 */
-		gdk_window_process_updates (gtk_widget_get_parent_window (theWidget), TRUE);
-//		gdk_window_process_updates (theWidget->window, FALSE);
+		g_mutex_unlock(&theRender_mutex);
+		gtk_widget_queue_draw (theWidget);
 	}
 
 	return TRUE;

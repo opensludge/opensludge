@@ -19,7 +19,6 @@
  */
 
 #include <gtk/gtk.h>
-#include <gtk/gtkgl.h>
 #include <gdk/gdk.h>
 #include <gdk/gdkkeysyms.h>
 #include <glib-object.h>
@@ -86,14 +85,9 @@ G_MODULE_EXPORT void on_drawingarea1_realize(GtkWidget *theWidget, gpointer theU
 	spriteBankEditor->on_drawingarea1_realize(theWidget);
 }
 
-G_MODULE_EXPORT gboolean on_drawingarea1_configure_event(GtkWidget *theWidget, GdkEventConfigure *theEvent, gpointer theUser_data)
+G_MODULE_EXPORT gboolean on_drawingarea1_render(GtkWidget *theWidget, GdkGLContext *context, gpointer theUser_data)
 {
-	return spriteBankEditor->on_drawingarea1_configure_event(theWidget, theEvent);
-}
-
-G_MODULE_EXPORT gboolean on_drawingarea1_expose_event(GtkWidget *theWidget, GdkEventExpose *theEvent, gpointer theUser_data)
-{
-	return spriteBankEditor->on_drawingarea1_expose_event(theWidget, theEvent);
+	return spriteBankEditor->on_drawingarea1_render(theWidget, context);
 }
 
 G_MODULE_EXPORT gboolean render_timer_event(gpointer theUser_data)
@@ -283,15 +277,10 @@ main(int argc, char *argv[])
 	// make sure the necessary resource files are found:
 	winChangeToProgramDir(argv[0]);
 
-	if (!g_thread_supported()){ g_thread_init(NULL); }
-	gdk_threads_init();
-	gdk_threads_enter();
-
 	/*
-	 * Init GTK+ and GtkGLExt.
+	 * Init GTK+.
 	 */
 	gtk_init(&argc, &argv);
-	gtk_gl_init(&argc, &argv);
 
 	spriteBankEditor = new SludgeSpriteBankEditor();
 
@@ -317,8 +306,6 @@ main(int argc, char *argv[])
 		gtk_main();
 
 	delete spriteBankEditor;
-
-	gdk_threads_leave();
 
 	return 0;
 }
