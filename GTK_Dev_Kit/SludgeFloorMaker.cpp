@@ -19,7 +19,6 @@
  */
 
 #include <gtk/gtk.h>
-#include <gtk/gtkgl.h>
 #include <gdk/gdk.h>
 #include <gdk/gdkkeysyms.h>
 #include <glib-object.h>
@@ -75,7 +74,7 @@ gboolean SludgeFloorMaker::init(gboolean calledFromConstructor)
 	backdrop.myPalette.b=NULL;
 
 	if (!calledFromConstructor) {
-		prepareOpenGL();
+		refreshGL();
 	}
 
 	if (!reserveSpritePal(&backdrop.myPalette, 0)) {
@@ -365,18 +364,19 @@ void SludgeFloorMaker::on_filechooserbutton_file_set(GtkFileChooser *theChooser)
 
 void SludgeFloorMaker::on_colorbutton_realize(GtkColorButton *theButton)
 {	
-	GdkColor theColor;
-	theColor.red = theColor.blue = theColor.green = 65535;
-	gtk_color_button_set_color(theButton, &theColor);
+	GdkRGBA theColor;
+	theColor.red = theColor.green = theColor.blue = 1.0;
+	theColor.alpha = 1.0;
+	gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(theButton), &theColor);
 }
 
 void SludgeFloorMaker::on_colorbutton_color_set(GtkColorButton *theButton)
 {	
-	GdkColor theColor;
-	gtk_color_button_get_color(theButton, &theColor);
-	r = theColor.red / 65535.;
-	g = theColor.green / 65535.;
-	b = theColor.blue / 65535.;
+	GdkRGBA theColor;
+	gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(theButton), &theColor);
+	r = theColor.red;
+	g = theColor.green;
+	b = theColor.blue;
 }
 
 void SludgeFloorMaker::on_mode_changed(int buttonClicked)
