@@ -49,7 +49,7 @@ Making the release packages
 ***************************
 
    In .github/workflows/build.yml, we build and test the engine on Linux,
-macOS and Windows. For a tag that starts with v, we publish a release
+macOS and Windows. For a version tag, such as 2.3.0, we publish a release
 with two kinds of packages for macOS and Windows: OpenSLUDGE, the engine
 alone, and Out Of Order, the engine with the game Out Of Order. We make
 the packages with the scripts in the packaging folder.
