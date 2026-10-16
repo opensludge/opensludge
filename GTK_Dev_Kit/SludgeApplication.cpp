@@ -93,9 +93,6 @@ SludgeApplication::SludgeApplication(const char * gladeFileName, const char * ic
 		return;
 	}
 
-	// Set unassigned widgets to get handled automatically by the window manager.
-	gtk_container_set_reallocate_redraws (GTK_CONTAINER (theWindow), TRUE);
-
 	char folderFile[300];
 	sprintf(folderFile, "%s/sludge-devkit/%s", g_get_user_config_dir(), configfile);
 	FILE * fp = fopen (folderFile, "r");
@@ -148,8 +145,8 @@ void SludgeApplication::saveToFile()
 	dialog = gtk_file_chooser_dialog_new ("Save File",
 				      NULL,
 				      GTK_FILE_CHOOSER_ACTION_SAVE,
-				      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				      GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
+				      "_Cancel", GTK_RESPONSE_CANCEL,
+				      "_Save", GTK_RESPONSE_ACCEPT,
 				      NULL);
 	gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (dialog), TRUE);
 
@@ -241,7 +238,7 @@ void SludgeApplication::setFilename(char* filename)
 
 void SludgeApplication::setFolderFromFilename(char* filename)
 {
-	int i, lastSlash, j;
+	int i, lastSlash = 0, j;
 	for (i = 0; filename[i] != 0; i++) {
 		if (filename[i] == '/')
 			lastSlash = i;
@@ -310,8 +307,8 @@ void SludgeApplication::on_open()
 	dialog = gtk_file_chooser_dialog_new ("Open File",
 				      NULL,
 				      GTK_FILE_CHOOSER_ACTION_OPEN,
-				      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				      GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+				      "_Cancel", GTK_RESPONSE_CANCEL,
+				      "_Open", GTK_RESPONSE_ACCEPT,
 				      NULL);
 
 	filter = gtk_file_filter_new();

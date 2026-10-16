@@ -194,10 +194,6 @@ main(int argc, char *argv[])
 	// make sure the necessary resource files are found:
 	winChangeToProgramDir(argv[0]);
 
-	if (!g_thread_supported ()){ g_thread_init (NULL); }
-	gdk_threads_init ();
-	gdk_threads_enter ();
-
 	/*
 	 * Init GTK+.
 	 */
@@ -224,8 +220,6 @@ main(int argc, char *argv[])
 		gtk_main ();
 
 	delete translationEditor;
-
-	gdk_threads_leave ();
 
 	return 0;
 }

@@ -19,7 +19,6 @@
  */
 
 #include <gtk/gtk.h>
-#include <gtk/gtkgl.h>
 #include <gdk/gdk.h>
 #include <gdk/gdkkeysyms.h>
 #include <glib-object.h>
@@ -186,8 +185,8 @@ void SludgeProjectManager::postNew()
 	dialog = gtk_file_chooser_dialog_new("New SLUDGE Project",
 				      NULL,
 				      GTK_FILE_CHOOSER_ACTION_SAVE,
-				      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				      GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
+				      "_Cancel", GTK_RESPONSE_CANCEL,
+				      "_Save", GTK_RESPONSE_ACCEPT,
 				      NULL);
 	gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER (dialog), TRUE);
 
@@ -740,8 +739,8 @@ void SludgeProjectManager::on_add_file_clicked()
 	dialog = gtk_file_chooser_dialog_new("Add file to SLUDGE project",
 				      NULL,
 				      GTK_FILE_CHOOSER_ACTION_OPEN,
-				      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				      GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+				      "_Cancel", GTK_RESPONSE_CANCEL,
+				      "_Open", GTK_RESPONSE_ACCEPT,
 				      NULL);
 
 	filter = gtk_file_filter_new();
@@ -844,17 +843,7 @@ void SludgeProjectManager::on_compile()
 
 	compilerInfoQueue = g_async_queue_new();
 
-	GError *error = NULL;
-
-	gdk_threads_leave ();
-	g_thread_create(compile_hook, NULL, FALSE, &error);
-	gdk_threads_enter ();
-
-	if (error != NULL) {
-		errorBox("Could not create a new thread for compiling!", error->message);
-		g_error_free(error);
-		return;
-	}
+	g_thread_new("compile", (GThreadFunc) compile_hook, NULL);
 }
 
 void SludgeProjectManager::on_comp_okbutton_clicked(GtkButton *theButton)

@@ -19,7 +19,6 @@
  */
 
 #include <gtk/gtk.h>
-#include <gtk/gtkgl.h>
 #include <gdk/gdk.h>
 #include <gdk/gdkkeysyms.h>
 #include <glib-object.h>
@@ -127,7 +126,7 @@ void SludgeZBufferMaker::postOpen()
 	on_zoom_fit_clicked();
 
 	reshape();
-	loadZTextures(&backdrop);
+	refreshGL();
 	render_timer_event(theDrawingarea);
 
 	setupButtons();
@@ -140,8 +139,8 @@ void SludgeZBufferMaker::postNew()
 	dialog = gtk_file_chooser_dialog_new("Load file to zBuffer",
 				      NULL,
 				      GTK_FILE_CHOOSER_ACTION_OPEN,
-				      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				      GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+				      "_Cancel", GTK_RESPONSE_CANCEL,
+				      "_Open", GTK_RESPONSE_ACCEPT,
 				      NULL);
 
 	setFileChooserFilters(GTK_FILE_CHOOSER (dialog), FALSE, TRUE);

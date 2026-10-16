@@ -20,6 +20,57 @@ libsdl3-dev where it exists.
                                 its own.
      -DSLUDGE_MOVIES=OFF        Leave out movie support and libvpx.
      -DSLUDGE_GLES2=ON          Draw with OpenGL ES 2.0 instead of OpenGL.
+
+   On macOS, build each architecture separately, for example with
+-DCMAKE_OSX_ARCHITECTURES=x86_64, and combine the executables with lipo.
+With packaging/macos/make-app.sh, we make an application bundle around
+the engine.
+On Windows, we build with MSYS2 and MinGW.
+
+   For the OpenPandora, the Raspberry Pi or an ODROID, build with
+-DSLUDGE_DEVICE=OpenPandora, RaspberryPi or ODROID. We then draw with
+OpenGL ES 2.0, and on the OpenPandora, we always show the game in full
+screen.
+
+   Run the engine with the game data file as its argument, for example
+`build/sludge-engine gamedata.slg'. Run `build/sludge-engine --help' for
+the options.
+
+Building the SLUDGE Development Kit
+***********************************
+
+Windows and Mac OS X
+
+   The Windows Dev Kit has so far only been cross-compiled from Debian and
+Ubuntu using MinGW. There is a good tutorial on how to do that at
+http://live.gnome.org/GTK+/Win32/Apps. For running the Windows Dev Kit,
+the GTK+ runtime package 2.16 (exactly 2.16!) from
+http://gtk-win.sourceforge.net is required. The Mac Dev Kit has Xcode
+project files in the "Mac Dev Kit" directory.
+
+Linux
+=====
+
+   Dependencies of the OpenSLUDGE Dev Kit are GTK+ (>= 2.16), GtkGLExt,
+GLEW and libpng.
+
+
+     cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+     cmake --build build
+
+   The engine uses SDL 3, libogg, libvorbis, libpng, DUMB and, for movies,
+libvpx. By default, CMake uses the versions installed on the system and
+builds from source those that it does not find. On Debian and Ubuntu, the
+packages are libvorbis-dev, libpng-dev, libdumb1-dev and libvpx-dev, and
+libsdl3-dev where it exists.
+
+   You can change the build with these options.
+
+     -DSLUDGE_BUNDLED_DEPS=ON   Build every library from source and link it
+                                statically, for an executable that runs on
+                                its own.
+     -DSLUDGE_MOVIES=OFF        Leave out movie support and libvpx.
+     -DSLUDGE_GLES2=ON          Draw with OpenGL ES 2.0 instead of OpenGL.
      -DSLUDGE_DEVICE=<device>   Build for the OpenPandora, the Raspberry Pi
                                 or an ODROID, with OpenPandora, RaspberryPi
                                 or ODROID. We then draw with OpenGL ES 2.0,
@@ -73,7 +124,6 @@ Building the SLUDGE Development Kit
 ***********************************
 
 Windows and Mac OS X
-====================
 
    The Windows Dev Kit has so far only been cross-compiled from Debian and
 Ubuntu using MinGW. There is a good tutorial on how to do that at

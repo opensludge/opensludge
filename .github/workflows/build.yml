@@ -53,6 +53,53 @@ jobs:
             exit 1
           fi
 
+  devkit:
+    name: DevKit (GTK 3)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential autoconf automake pkg-config \
+            libgtk-3-dev libglew-dev libpng-dev \
+            xvfb xauth libgl1-mesa-dri
+
+      - name: Build
+        run: |
+          ./autogen.sh
+          ./configure --prefix="$PWD/dist"
+          make -j"$(nproc)"
+          make install
+
+      - name: Smoke-test the tools
+        run: |
+          export LIBGL_ALWAYS_SOFTWARE=1
+          # The compiler is headless and must start without a display.
+          dist/bin/sludge-compiler --help
+          # The editors are GUI applications: each one has to stay alive under a
+          # virtual display. After 5 seconds it must still be running, which
+          # means that it started without a fatal error.
+          for app in sludge-floormaker sludge-zbuffermaker sludge-spritebankeditor \
+                     sludge-translationeditor sludge-projectmanager; do
+            log="$app.log"
+            set +e
+            timeout 5 xvfb-run -a -s "-screen 0 1280x1024x24" dist/bin/$app > "$log" 2>&1
+            status=$?
+            set -e
+            cat "$log"
+            if [ $status -ne 124 ]; then
+              echo "$app exited early with status $status"
+              exit 1
+            fi
+            if grep -E "CRITICAL|ERROR|Segmentation fault" "$log"; then
+              echo "$app reported an error"
+              exit 1
+            fi
+          done
+
   windows:
     name: Windows
     runs-on: windows-2022

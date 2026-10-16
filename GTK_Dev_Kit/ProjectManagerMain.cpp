@@ -180,6 +180,7 @@ G_MODULE_EXPORT void on_translationeditor_activate(GtkMenuItem *theItem, gpointe
 G_MODULE_EXPORT void *compile_hook(gpointer nothing)
 {
 	projectManager->compile();
+	return NULL;
 }
 
 G_MODULE_EXPORT gboolean update_compile_window_hook(gpointer nothing)
@@ -264,10 +265,6 @@ main(int argc, char *argv[])
 	// make sure the necessary resource files are found:
 	winChangeToProgramDir(argv[0]);
 
-	if (!g_thread_supported ()){ g_thread_init (NULL); }
-	gdk_threads_init ();
-	gdk_threads_enter ();
-
 	/*
 	 * Init GTK+.
 	 */
@@ -294,8 +291,6 @@ main(int argc, char *argv[])
 		gtk_main ();
 
 	delete projectManager;
-
-	gdk_threads_leave ();
 
 	return 0;
 }
