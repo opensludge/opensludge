@@ -40,7 +40,90 @@ Building the SLUDGE Development Kit
 ***********************************
 
 Windows and Mac OS X
-====================
+
+   The Windows Dev Kit has so far only been cross-compiled from Debian and
+Ubuntu using MinGW. There is a good tutorial on how to do that at
+http://live.gnome.org/GTK+/Win32/Apps. For running the Windows Dev Kit,
+the GTK+ runtime package 2.16 (exactly 2.16!) from
+http://gtk-win.sourceforge.net is required. The Mac Dev Kit has Xcode
+project files in the "Mac Dev Kit" directory.
+
+Linux
+=====
+
+   Dependencies of the OpenSLUDGE Dev Kit are GTK+ (>= 2.16), GtkGLExt,
+GLEW and libpng.
+
+
+     cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+     cmake --build build
+
+   The engine uses SDL 3, libogg, libvorbis, libpng, DUMB and, for movies,
+libvpx. By default, CMake uses the versions installed on the system and
+builds from source those that it does not find. On Debian and Ubuntu, the
+packages are libvorbis-dev, libpng-dev, libdumb1-dev and libvpx-dev, and
+libsdl3-dev where it exists.
+
+   You can change the build with these options.
+
+     -DSLUDGE_BUNDLED_DEPS=ON   Build every library from source and link it
+                                statically, for an executable that runs on
+                                its own.
+     -DSLUDGE_MOVIES=OFF        Leave out movie support and libvpx.
+     -DSLUDGE_GLES2=ON          Draw with OpenGL ES 2.0 instead of OpenGL.
+     -DSLUDGE_DEVICE=<device>   Build for the OpenPandora, the Raspberry Pi
+                                or an ODROID, with OpenPandora, RaspberryPi
+                                or ODROID. We then draw with OpenGL ES 2.0,
+                                and on the OpenPandora, we always show the
+                                game in full screen.
+     -DSLUDGE_TESTS=OFF         Leave out the tests. We build them by
+                                default, and you run them with
+                                `ctest --test-dir build'.
+
+   On macOS, build each architecture separately, for example with
+-DCMAKE_OSX_ARCHITECTURES=x86_64, and combine the executables with lipo.
+With packaging/macos/make-app.sh, we make an application bundle around
+the engine.
+
+   On Windows, we build with MSYS2 and MinGW. For 32-bit Windows, from
+Windows XP on, we cross-compile on Linux with
+-DCMAKE_TOOLCHAIN_FILE=cmake/toolchains/mingw-i686.cmake and
+-DSLUDGE_BUNDLED_DEPS=ON. For that, the MinGW-w64 compilers of the win32
+thread model and nasm are required (g++-mingw-w64-i686-win32 and nasm on
+Debian and Ubuntu).
+
+   Run the engine with the game data file as its argument, for example
+`build/sludge-engine gamedata.slg'. Run `build/sludge-engine --help' for
+the options.
+
+Making the release packages
+***************************
+
+   In .github/workflows/build.yml, we build and test the engine on Linux,
+macOS and Windows. For a version tag, such as 2.3.0, we publish a release
+with two kinds of packages for macOS and Windows: OpenSLUDGE, the engine
+alone, and Out Of Order, the engine with the game Out Of Order. We make
+the packages with the scripts in the packaging folder.
+
+     get-out-of-order.sh        Download the data file of Out Of Order from
+                                the Ubuntu archive and check its hash.
+     windows/make-zips.sh       Make the zips of OpenSLUDGE and of Out Of
+                                Order for Windows.
+     macos/make-app.sh          Make a macOS application bundle, with or
+                                without a game.
+     macos/sign-app.sh          Sign a macOS application bundle.
+
+   Out Of Order is freeware, and anyone may give it away together with its
+readme and licence. We change nothing in the game, and only add a
+controller mapping for it, packaging/out-of-order/controller.ini. To
+publish only OpenSLUDGE, leave out the Out Of Order zips and apps in the
+workflow. In the tests of the workflow, we play the opening of Out Of
+Order, so keep get-out-of-order.sh for those.
+
+Building the SLUDGE Development Kit
+***********************************
+
+Windows and Mac OS X
 
    The Windows Dev Kit has so far only been cross-compiled from Debian and
 Ubuntu using MinGW. There is a good tutorial on how to do that at
@@ -61,7 +144,8 @@ libgtkglext1-dev, libglew-dev and libpng-dev.
    Briefly, the shell commands `./autogen.sh; ./configure; make; make
 install' should configure, build, and install the Dev Kit. You can use
 the configure options --disable-devkit and/or --enable-doc to (de)select
-components.
+components. For the documentation only, run `./configure --disable-devkit
+--enable-doc'.
 
    The following more-detailed instructions are generic and
 

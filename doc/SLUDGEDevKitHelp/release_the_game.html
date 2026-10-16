@@ -28,14 +28,23 @@ a sample NSIS script for SLUDGE games</a> on the SLUDGE site.</p>
 <h3>On Mac OS X</h3>
 
 <p>On Mac OS X, programs are typically contained in .app bundles. To make a bundle
-with your game, first rename your .slg file to Gamedata.slg, then open the engine
+with your game, first rename your .slg file to gamedata.slg, then open the engine
 bundle (secondary-click on the engine file in Finder, and select "Show Package Contents")
 and place the game file in Contents/Resources. Now the game will load automatically
 when you run the engine. Just zip it up (secondary click in finder - "Compress...")
 and send it to your players!</p>
 
 <p>If you want to replace the icon shown in Finder, you can replace the file 
-"Sludge.icns" with your own icon.</p>
+"AppIcon.icns" with your own icon.</p>
+
+<p>Changing the bundle breaks its code signature, and macOS does not open a
+downloaded app with a broken signature. So after your changes, and before you zip the bundle, sign
+it again, for example with an ad-hoc signature:</p>
+
+<p><div class="bash">codesign --force --deep --sign - OpenSLUDGE.app</div></p>
+
+<p>The first time your players open an app with an ad-hoc signature, they have to
+allow it in System Settings, under Privacy &amp; Security.</p>
 
 <h3>On Linux</h3>
 

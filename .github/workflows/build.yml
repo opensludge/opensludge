@@ -3,7 +3,7 @@ name: Build
 on:
   push:
     branches: ['**']
-    tags: ['v*']
+    tags: ['[0-9]*']
   pull_request:
   workflow_dispatch:
 
@@ -385,7 +385,7 @@ jobs:
 
   release:
     name: Publish the release
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: startsWith(github.ref, 'refs/tags/')
     needs: [linux, windows, windows-x86, macos-package]
     runs-on: ubuntu-24.04
     permissions:
@@ -417,4 +417,4 @@ jobs:
           if [[ "$tag" == *-* ]]; then prerelease=--prerelease; fi
           ls -la dist
           gh release create "$tag" dist/*.zip --repo "$GITHUB_REPOSITORY" \
-            --title "OpenSLUDGE ${tag#v}" --notes-file packaging/RELEASE_NOTES.md $prerelease
+            --title "OpenSLUDGE $tag" --notes-file packaging/RELEASE_NOTES.md $prerelease
