@@ -260,8 +260,11 @@ gboolean SludgeGLApplication::on_drawingarea1_render(GtkWidget *theWidget, GdkGL
 		if (zoomFitPending) on_zoom_fit_clicked ();
 
 		// We set the viewport and the projection only here, where the
-		// context of the view is current.
-		glViewport (0, 0, w, h);
+		// context of the view is current. w and h are in logical pixels. On
+		// a display with a scale factor of 2, the frame buffer of the view is
+		// twice as wide and twice as high.
+		int scale = gtk_widget_get_scale_factor (theDrawingarea);
+		glViewport (0, 0, w * scale, h * scale);
 		setCoords();
 		drawRect();
 	}
