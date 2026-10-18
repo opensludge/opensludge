@@ -843,7 +843,7 @@ void SludgeProjectManager::on_compile()
 
 	compilerInfoQueue = g_async_queue_new();
 
-	g_thread_new("compile", (GThreadFunc) compile_hook, NULL);
+	g_thread_unref (g_thread_new ("compile", (GThreadFunc) compile_hook, NULL));
 }
 
 void SludgeProjectManager::on_comp_okbutton_clicked(GtkButton *theButton)
