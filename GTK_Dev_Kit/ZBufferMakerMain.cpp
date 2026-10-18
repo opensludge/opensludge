@@ -24,8 +24,6 @@
 #include <glib-object.h>
 #include <glib.h>
 
-#include <epoxy/gl.h>
-
 #include <errno.h>
 #include <sys/types.h>
 
