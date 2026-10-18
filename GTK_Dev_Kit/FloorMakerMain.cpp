@@ -24,8 +24,7 @@
 #include <glib-object.h>
 #include <glib.h>
 
-#define GL_GLEXT_PROTOTYPES
-#include <GL/glew.h>
+#include <epoxy/gl.h>
 
 #include <errno.h>
 #include <sys/types.h>
