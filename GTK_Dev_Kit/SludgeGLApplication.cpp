@@ -68,9 +68,12 @@ SludgeGLApplication::SludgeGLApplication(const char * gladeFileName, const char 
 	}
 
 	// Configure the OpenGL drawing area. GtkGLArea creates and manages the
-	// context, and swaps the buffers after every render.
-	gtk_gl_area_set_has_depth_buffer (GTK_GL_AREA (theDrawingarea), TRUE);
-	gtk_gl_area_set_has_alpha (GTK_GL_AREA (theDrawingarea), TRUE);
+	// context, and swaps the buffers after every render. GtkGLArea turns on
+	// the depth test when the area has a depth buffer, and we never clear
+	// one, so we draw without it. Without an alpha channel, the clear colour
+	// of each view is opaque.
+	gtk_gl_area_set_has_depth_buffer (GTK_GL_AREA (theDrawingarea), FALSE);
+	gtk_gl_area_set_has_alpha (GTK_GL_AREA (theDrawingarea), FALSE);
 	gtk_gl_area_set_auto_render (GTK_GL_AREA (theDrawingarea), TRUE);
 
 	// Initialise the render mutex.
