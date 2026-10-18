@@ -178,6 +178,12 @@ void SludgeGLApplication::initGL()
 	if (glInitialized) return;
 	if (!makeViewCurrent ()) return;
 
+	if (!startDrawing2D ())
+	{
+		g_critical ("Couldn't set up the OpenGL drawing.\n");
+		return;
+	}
+
 	prepareOpenGL();
 	glInitialized = TRUE;
 }

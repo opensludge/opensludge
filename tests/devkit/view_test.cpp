@@ -10,10 +10,9 @@
  * For a picture that differs, we write it and a picture of the differences
  * into the current folder.
  *
- * Usage: view_test [--update] [--compatibility]
+ * Usage: view_test [--update]
  *
- * With --update, we write the pictures as the new reference images. With
- * --compatibility, we draw in a compatibility profile context.
+ * With --update, we write the pictures as the new reference images.
  */
 
 #include <stdio.h>
@@ -57,8 +56,8 @@ static bool update = false;
 static int failures = 0;
 
 // Create an OpenGL context without a window, with Mesa's surfaceless EGL
-// platform, and make it current.
-static bool createContext (bool compatibility) {
+// platform, make it current, and set up our drawing in it.
+static bool createContext () {
 	EGLDisplay display = eglGetPlatformDisplayEXT (EGL_PLATFORM_SURFACELESS_MESA, EGL_DEFAULT_DISPLAY, NULL);
 	if (display == EGL_NO_DISPLAY || ! eglInitialize (display, NULL, NULL)) {
 		fprintf (stderr, "We can't open the surfaceless EGL display.\n");
@@ -71,8 +70,7 @@ static bool createContext (bool compatibility) {
 	const EGLint attributes[] = {
 		EGL_CONTEXT_MAJOR_VERSION, 3,
 		EGL_CONTEXT_MINOR_VERSION, 2,
-		EGL_CONTEXT_OPENGL_PROFILE_MASK,
-		compatibility ? EGL_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT : EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT,
+		EGL_CONTEXT_OPENGL_PROFILE_MASK, EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT,
 		EGL_NONE
 	};
 	EGLContext context = eglCreateContext (display, EGL_NO_CONFIG_KHR, EGL_NO_CONTEXT, attributes);
@@ -81,7 +79,7 @@ static bool createContext (bool compatibility) {
 		return false;
 	}
 	printf ("OpenGL %s\n", glGetString (GL_VERSION));
-	return true;
+	return startDrawing2D ();
 }
 
 // A frame buffer of the size of a view, in which we draw instead of in a
@@ -268,16 +266,14 @@ static void testZBufferMaker () {
 
 int main (int argc, char ** argv) {
 	testFolder = VIEW_TEST_FOLDER;
-	bool compatibility = false;
 	for (int i = 1; i < argc; i ++) {
 		if (! strcmp (argv[i], "--update")) update = true;
-		else if (! strcmp (argv[i], "--compatibility")) compatibility = true;
 		else {
-			fprintf (stderr, "Usage: view_test [--update] [--compatibility]\n");
+			fprintf (stderr, "Usage: view_test [--update]\n");
 			return 2;
 		}
 	}
-	if (! createContext (compatibility)) return 1;
+	if (! createContext ()) return 1;
 
 	testFloorMaker ();
 	testSpriteBankEditor ();
