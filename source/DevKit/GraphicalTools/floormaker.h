@@ -37,6 +37,23 @@ void splitLine (int x1, int y1, int x2, int y2, struct polyList *firstPoly);
 
 void drawFloor (struct polyList * pL, float r, float g, float b);
 
+struct spriteBank;
+
+// In the floor maker view, we draw the backdrop, the floor in the colour
+// r, g, b, a square on the vertex at (litX, litY) when lit is set, and the
+// line from (selx1, sely1) to (selx2, sely2) when selecting is set.
+struct floorMakerView {
+	struct spriteBank * backdrop;
+	struct polyList * floor;
+	float r, g, b;
+	bool lit;
+	int litX, litY;
+	bool selecting;
+	int selx1, sely1, selx2, sely2;
+};
+
+void drawFloorMakerView (const struct floorMakerView * view);
+
 bool snapToClosest (int *x, int *y, struct polyList * firstPoly);
 
 #ifdef __cplusplus

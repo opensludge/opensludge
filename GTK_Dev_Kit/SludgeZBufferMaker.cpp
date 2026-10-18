@@ -226,45 +226,7 @@ void SludgeZBufferMaker::prepareOpenGL()
 
 void SludgeZBufferMaker::drawRect()
 {
-    glClearColor(0, 0, 0, 0);
-    glClear(GL_COLOR_BUFFER_BIT);
-	
-	int i;
-	int b = buffer();
-	
-	
-	if (backdrop.total>1)
-		for (i=1; i< backdrop.total; i++) {
-			if (i == b) {
-				glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-			} else 
-				glColor4f(0.2f, 0.0f, 0.5f, 1.0f);
-			
-			pasteSprite(&backdrop.sprites[i], &backdrop.myPalette, false);
-		}
-	
-	glDisable(GL_TEXTURE_2D);
-	
-		
-    glColor3f(1.0f, 0.35f, 0.35f);
-    glBegin(GL_LINE_LOOP);
-    {
-        glVertex3f(  0.0,  0.0, 0.0);
-        glVertex3f(  backdrop.sprites[0].width,  0.0, 0.0);
-        glVertex3f(  backdrop.sprites[0].width, -backdrop.sprites[0].height, 0.0);
-        glVertex3f(  0.0, -backdrop.sprites[0].height, 0.0);
-    }
-    glEnd();
-
-	if (b>0) {
-		glColor4f(0.0f, 1.0f, 0.0f, 0.7f);
-		glBegin(GL_LINES);
-		{
-			glVertex3f(  0.0,  backdrop.sprites[b].special, 0.0);
-			glVertex3f(  backdrop.sprites[0].width,  backdrop.sprites[b].special, 0.0);
-		}
-		glEnd();
-	}
+	drawZBufferView (&backdrop, buffer());
 }
 
 

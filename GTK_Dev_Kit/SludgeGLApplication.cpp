@@ -34,6 +34,7 @@
 #endif
 
 #include "SludgeGLApplication.h"
+#include "draw2d.h"
 
 
 SludgeGLApplication::SludgeGLApplication(const char * gladeFileName, const char * iconName, const char * configFile)
@@ -207,10 +208,7 @@ void SludgeGLApplication::setCoords()
 {
 	if (!glInitialized) return;
 
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(x*zmul, (x+w)*zmul, (-y+h)*zmul, -y*zmul, 1.0, -1.0);	
-	glMatrixMode(GL_MODELVIEW);	
+	setViewArea (x, y, w, h, zmul);
 }
 
 // Callbacks:

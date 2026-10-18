@@ -264,46 +264,12 @@ void SludgeFloorMaker::prepareOpenGL()
 
 void SludgeFloorMaker::drawRect()
 {
-    glClearColor(0, 0, 0, 0);
-    glClear(GL_COLOR_BUFFER_BIT);
-	
-	glColor3f(1.0f, 1.00f, 1.00f);
-	pasteSprite(&backdrop.sprites[0], &backdrop.myPalette, FALSE);
-
-	glDisable(GL_TEXTURE_2D);
-    glColor3f(1.0f, 0.35f, 0.35f);
-    glBegin(GL_LINES);
-    {
-        glVertex3f(  0.0,  0.0, 0.0);
-        glVertex3f(  1000.0,  0.0, 0.0);
-        glVertex3f(  0.0, 0.0, 0.0);
-        glVertex3f(  0.0, 1000.0, 0.0);
-    }
-    glEnd();
-
-	if (lit) {
-		glColor3f(1.0f, 0.00f, 1.00f);
-		glBegin(GL_QUADS);
-		{
-			glVertex3i(  litX-8,  litY-8, 0);
-			glVertex3i(  litX+8,  litY-8, 0);
-			glVertex3i(  litX+8,  litY+8, 0);
-			glVertex3i(  litX-8,  litY+8, 0);
-		}
-		glEnd();
-	}
-	
-	drawFloor(getFloor(), r, g, b);
-	
-	if (selection == 1) {
-		glColor3f(1.0f, 0.00f, 1.00f);
-		glBegin(GL_LINES);
-		{
-			glVertex3i(selx1, sely1, 0);
-			glVertex3i(selx2, sely2, 0);
-		}
-		glEnd();
-	}
+	struct floorMakerView view = {
+		&backdrop, getFloor(), r, g, b,
+		lit != 0, litX, litY,
+		selection == 1, selx1, sely1, selx2, sely2
+	};
+	drawFloorMakerView (&view);
 }
 
 struct polyList * SludgeFloorMaker::getFloor() {

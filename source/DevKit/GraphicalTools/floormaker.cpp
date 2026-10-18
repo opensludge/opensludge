@@ -13,6 +13,7 @@
 #include <epoxy/gl.h>
 
 #include "floormaker.h"
+#include "sprites.h"
 #include "interface.h"
 
 bool polyIsComplete (struct polyList *firstPoly) {
@@ -696,3 +697,45 @@ bool saveFloorToFile (char * filename, struct polyList **firstPoly) {
 	return true;
 }
 
+void drawFloorMakerView (const struct floorMakerView * view) {
+    glClearColor(0, 0, 0, 0);
+    glClear(GL_COLOR_BUFFER_BIT);
+	
+	glColor3f(1.0f, 1.00f, 1.00f);
+	pasteSprite(&view->backdrop->sprites[0], &view->backdrop->myPalette, false);
+
+	glDisable(GL_TEXTURE_2D);
+    glColor3f(1.0f, 0.35f, 0.35f);
+    glBegin(GL_LINES);
+    {
+        glVertex3f(  0.0,  0.0, 0.0);
+        glVertex3f(  1000.0,  0.0, 0.0);
+        glVertex3f(  0.0, 0.0, 0.0);
+        glVertex3f(  0.0, 1000.0, 0.0);
+    }
+    glEnd();
+
+	if (view->lit) {
+		glColor3f(1.0f, 0.00f, 1.00f);
+		glBegin(GL_QUADS);
+		{
+			glVertex3i(  view->litX-8,  view->litY-8, 0);
+			glVertex3i(  view->litX+8,  view->litY-8, 0);
+			glVertex3i(  view->litX+8,  view->litY+8, 0);
+			glVertex3i(  view->litX-8,  view->litY+8, 0);
+		}
+		glEnd();
+	}
+	
+	drawFloor(view->floor, view->r, view->g, view->b);
+	
+	if (view->selecting) {
+		glColor3f(1.0f, 0.00f, 1.00f);
+		glBegin(GL_LINES);
+		{
+			glVertex3i(view->selx1, view->sely1, 0);
+			glVertex3i(view->selx2, view->sely2, 0);
+		}
+		glEnd();
+	}
+}

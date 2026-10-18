@@ -1218,3 +1218,23 @@ void pasteSprite (sprite * single, const spritePalette *fontPal, bool showBox) {
 	glEnd();
 }
 
+void drawSpriteBankView (struct spriteBank * sprites, int index, bool showBox) {
+	glClearColor(0, 0, 0, 0);
+	glClear(GL_COLOR_BUFFER_BIT);
+	
+	glDisable(GL_TEXTURE_2D);
+	glColor3f(1.0f, 0.35f, 0.35f);
+	glBegin(GL_LINES);
+    {
+		glVertex3f(  -1000.0,  0.0, 0.0);
+		glVertex3f(  1000.0,  0.0, 0.0);
+		glVertex3f(  0.0, -1000.0, 0.0);
+		glVertex3f(  0.0, 1000.0, 0.0);
+    }
+    glEnd();
+	
+    glColor3f(1.0f, 1.0f, 1.0f);
+	
+	if (index < sprites->total)
+		pasteSprite(&sprites->sprites[index], &sprites->myPalette, showBox);
+}
