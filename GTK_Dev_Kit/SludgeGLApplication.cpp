@@ -24,8 +24,7 @@
 #include <glib-object.h>
 #include <glib.h>
 
-#define GL_GLEXT_PROTOTYPES
-#include <GL/glew.h>
+#include <epoxy/gl.h>
 
 #include <errno.h>
 #include <sys/types.h>
@@ -174,8 +173,8 @@ void SludgeGLApplication::reshape()
 }
 
 /*
- * Make sure the OpenGL context exists and is current, initialise GLEW and let
- * the application set up its OpenGL state. Nothing happens until the widget is
+ * Make sure the OpenGL context exists and is current, and let the
+ * application set up its OpenGL state. Nothing happens until the widget is
  * realized and its context is available; instead the work is deferred to the
  * first "render" signal.
  */
@@ -187,13 +186,6 @@ void SludgeGLApplication::initGL()
 
 	gtk_gl_area_make_current (GTK_GL_AREA (theDrawingarea));
 	if (gtk_gl_area_get_error (GTK_GL_AREA (theDrawingarea)) != NULL) return;
-
-	GLenum glewErr = glewInit();
-	if (GLEW_OK != glewErr)
-	{
-		g_critical ("Couldn't initialize GLEW.\n");
-		return;
-	}
 
 	prepareOpenGL();
 	glInitialized = TRUE;
@@ -243,7 +235,7 @@ void SludgeGLApplication::on_drawingarea1_realize(GtkWidget *theWidget)
  */
 gboolean SludgeGLApplication::on_drawingarea1_render(GtkWidget *theWidget, GdkGLContext *context)
 {
-	// First frame: initialise GLEW and the application's OpenGL state.
+	// First frame: set up the application's OpenGL state.
 	initGL();
 
 	/*
