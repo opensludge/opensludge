@@ -5,6 +5,7 @@
 #include "interface.h"
 #include "moreio.h"
 #include "sprites.h"
+#include "draw2d.h"
 #include "zbuffer.h"
 
 
@@ -184,7 +185,16 @@ void loadZTextures (spriteBank *loadhere){
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexImage2D (GL_TEXTURE_2D, 0, GL_ALPHA8, loadhere->sprites[i].width, -loadhere->sprites[i].height, 0, GL_ALPHA, GL_UNSIGNED_BYTE, loadhere->sprites[i].data);
+		// A white texture, which is transparent outside the z-buffer, so that
+		// we draw the z-buffer in the colour that we set.
+		int size = loadhere->sprites[i].width * -loadhere->sprites[i].height;
+		unsigned char * rgba = new unsigned char [size * 4];
+		for (int p = 0; p < size; p ++) {
+			rgba[p * 4] = rgba[p * 4 + 1] = rgba[p * 4 + 2] = 255;
+			rgba[p * 4 + 3] = loadhere->sprites[i].data[p];
+		}
+		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, loadhere->sprites[i].width, -loadhere->sprites[i].height, 0, GL_RGBA, GL_UNSIGNED_BYTE, rgba);
+		delete [] rgba;
 	}	
 }	
 
@@ -243,33 +253,28 @@ void drawZBufferView (struct spriteBank * backdrop, int selectedBuffer) {
 	if (backdrop->total>1)
 		for (i=1; i< backdrop->total; i++) {
 			if (i == b) {
-				glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+				setDrawingColour(1.0f, 1.0f, 1.0f, 1.0f);
 			} else 
-				glColor4f(0.2f, 0.0f, 0.5f, 1.0f);
+				setDrawingColour(0.2f, 0.0f, 0.5f, 1.0f);
 			
 			pasteSprite(&backdrop->sprites[i], &backdrop->myPalette, false);
 		}
 	
-	glDisable(GL_TEXTURE_2D);
-	
-		
-    glColor3f(1.0f, 0.35f, 0.35f);
-    glBegin(GL_LINE_LOOP);
-    {
-        glVertex3f(  0.0,  0.0, 0.0);
-        glVertex3f(  backdrop->sprites[0].width,  0.0, 0.0);
-        glVertex3f(  backdrop->sprites[0].width, -backdrop->sprites[0].height, 0.0);
-        glVertex3f(  0.0, -backdrop->sprites[0].height, 0.0);
-    }
-    glEnd();
+    setDrawingColour(1.0f, 0.35f, 0.35f, 1.0f);
+	const float outline[] = {
+		0.0, 0.0,
+		(float) backdrop->sprites[0].width, 0.0,
+		(float) backdrop->sprites[0].width, (float) -backdrop->sprites[0].height,
+		0.0, (float) -backdrop->sprites[0].height
+	};
+	drawLineLoop(outline, 4);
 
 	if (b>0) {
-		glColor4f(0.0f, 1.0f, 0.0f, 0.7f);
-		glBegin(GL_LINES);
-		{
-			glVertex3f(  0.0,  backdrop->sprites[b].special, 0.0);
-			glVertex3f(  backdrop->sprites[0].width,  backdrop->sprites[b].special, 0.0);
-		}
-		glEnd();
+		setDrawingColour(0.0f, 1.0f, 0.0f, 0.7f);
+		const float cutoff[] = {
+			0.0, (float) backdrop->sprites[b].special,
+			(float) backdrop->sprites[0].width, (float) backdrop->sprites[b].special
+		};
+		drawLines(cutoff, 2);
 	}
 }

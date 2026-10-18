@@ -4,6 +4,7 @@
 
 #include "tga.h"
 #include "helpers.h"
+#include "draw2d.h"
 #include "sprites.h"
 #include "moreio.h"
 #include "interface.h"
@@ -1191,49 +1192,32 @@ void pasteSprite (sprite * single, const spritePalette *fontPal, bool showBox) {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	if (showBox) {
-		glColor4f(0.35f, 1.0f, 0.35f, 0.5f);
-		//    glBegin(GL_LINE_LOOP);
-		glBegin(GL_QUADS);			
-		{
-			glVertex3f(x1, -y1+1, 0.0);
-			glVertex3f(x1+single->width, -y1+1, 0.0);
-			glVertex3f(x1+single->width, -y1-single->height-1, 0.0);
-			glVertex3f(x1, -y1-single->height-1, 0.0);
-		}
-		glEnd();
-		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		setDrawingColour(0.35f, 1.0f, 0.35f, 0.5f);
+		const float box[] = {
+			(float) x1, (float) -y1+1,
+			(float) x1+single->width, (float) -y1+1,
+			(float) x1+single->width, (float) -y1-single->height-1,
+			(float) x1, (float) -y1-single->height-1
+		};
+		drawPolygon(box, 4);
+		setDrawingColour(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 	
-	glEnable (GL_TEXTURE_2D);
-	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); 
-	
 	// Draw the sprite
-	glBindTexture (GL_TEXTURE_2D, fontPal->tex_names[single->texNum]);
-				
-	glBegin(GL_QUADS);			
-	glTexCoord2f(tx1, ty1);	glVertex3f(x1, -y1, 0.0);
-	glTexCoord2f(tx2, ty1);	glVertex3f(x1+single->width, -y1, 0.0);
-	glTexCoord2f(tx2, ty2);	glVertex3f(x1+single->width, -y1-single->height, 0.0);
-	glTexCoord2f(tx1, ty2);	glVertex3f(x1, -y1-single->height, 0.0);
-	glEnd();
+	drawTexture(fontPal->tex_names[single->texNum],
+		x1, -y1, x1+single->width, -y1-single->height,
+		tx1, ty1, tx2, ty2);
 }
 
 void drawSpriteBankView (struct spriteBank * sprites, int index, bool showBox) {
 	glClearColor(0, 0, 0, 0);
 	glClear(GL_COLOR_BUFFER_BIT);
 	
-	glDisable(GL_TEXTURE_2D);
-	glColor3f(1.0f, 0.35f, 0.35f);
-	glBegin(GL_LINES);
-    {
-		glVertex3f(  -1000.0,  0.0, 0.0);
-		glVertex3f(  1000.0,  0.0, 0.0);
-		glVertex3f(  0.0, -1000.0, 0.0);
-		glVertex3f(  0.0, 1000.0, 0.0);
-    }
-    glEnd();
+	setDrawingColour(1.0f, 0.35f, 0.35f, 1.0f);
+	const float axes[] = { -1000.0, 0.0, 1000.0, 0.0, 0.0, -1000.0, 0.0, 1000.0 };
+	drawLines(axes, 4);
 	
-    glColor3f(1.0f, 1.0f, 1.0f);
+    setDrawingColour(1.0f, 1.0f, 1.0f, 1.0f);
 	
 	if (index < sprites->total)
 		pasteSprite(&sprites->sprites[index], &sprites->myPalette, showBox);

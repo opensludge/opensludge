@@ -9,9 +9,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-//#include <OpenGL/gl.h>
-#include <epoxy/gl.h>
+#include <vector>
 
+#include "draw2d.h"
 #include "floormaker.h"
 #include "sprites.h"
 #include "interface.h"
@@ -513,43 +513,26 @@ void drawFloor (struct polyList * floor, float r, float g, float b) {
 	if (! floor) return;
 	
 	while (pL) {
-		vL = pL -> firstVertex;
-		if (polyIsConvex(pL)) {
-			glColor4f(r, g, b, 0.25);	
-			glBegin(GL_POLYGON);
-			while (vL) {
-				if (vL -> next) {
-					glVertex3f(vL -> x, vL -> y, 0.0);
-					glVertex3f(vL -> next -> x, vL -> next -> y, 0.0);
-				}
-				vL = vL -> next;
-			}
-			glEnd();
-		} else {
-			glColor4f(1.0, 0.0, 0.0, 0.25);	
-			glBegin(GL_POLYGON);
-			while (vL) {
-				if (vL -> next) {
-					glVertex3f(vL -> x, vL -> y, 0.0);
-					glVertex3f(vL -> next -> x, vL -> next -> y, 0.0);
-				}
-				vL = vL -> next;
-			}
-			glEnd();
+		std::vector<float> points;
+		for (vL = pL -> firstVertex; vL; vL = vL -> next) {
+			points.push_back (vL -> x);
+			points.push_back (vL -> y);
 		}
+		if (polyIsConvex(pL)) {
+			setDrawingColour(r, g, b, 0.25);
+		} else {
+			setDrawingColour(1.0, 0.0, 0.0, 0.25);
+		}
+		drawPolygon(points.data(), points.size() / 2);
 			
-		glColor4f(r, g, b, 1.0);	
+		setDrawingColour(r, g, b, 1.0);
 		vL = pL -> firstVertex;
 		while (vL) {
 			
 			// Draw the line from here to the next point
 			if (vL -> next) {
-				glBegin(GL_LINES);
-				{
-					glVertex3f(vL -> x, vL -> y, 0.0);
-					glVertex3f(vL -> next -> x, vL -> next -> y, 0.0);
-				}
-				glEnd();
+				const float line[] = { (float) vL -> x, (float) vL -> y, (float) vL -> next -> x, (float) vL -> next -> y };
+				drawLines(line, 2);
 			}
 			// Do we want to draw crosses at the corners?
 			 
@@ -574,14 +557,11 @@ void drawFloor (struct polyList * floor, float r, float g, float b) {
 					}
 					 
 					// Draw it
-					glBegin(GL_LINES);
-					{
-						glVertex3f(vL -> x - 5, vL -> y - 5, 0.0);
-						glVertex3f(vL -> x + 5, vL -> y + 5, 0.0);
-						glVertex3f(vL -> x + 5, vL -> y - 5, 0.0);
-						glVertex3f(vL -> x - 5, vL -> y + 5, 0.0);
-					}
-					glEnd();
+					const float cross[] = {
+						(float) vL -> x - 5, (float) vL -> y - 5, (float) vL -> x + 5, (float) vL -> y + 5,
+						(float) vL -> x + 5, (float) vL -> y - 5, (float) vL -> x - 5, (float) vL -> y + 5
+					};
+					drawLines(cross, 4);
 				}
 			}
 			vL = vL -> next;
@@ -590,28 +570,16 @@ void drawFloor (struct polyList * floor, float r, float g, float b) {
 	}
 	vL = floor -> firstVertex;
 	if (! polyIsComplete (floor) && vL) {
-		int xx = vL -> x;
-		int yy = vL -> y;
-		glBegin(GL_QUADS);
-		{
-			glVertex3f(xx-5, yy-5, 0.0);
-			glVertex3f(xx+5, yy-5, 0.0);
-			glVertex3f(xx+5, yy+5, 0.0);
-			glVertex3f(xx-5, yy+5, 0.0);
-		}
-		glEnd();
+		float xx = vL -> x;
+		float yy = vL -> y;
+		const float square[] = { xx-5, yy-5, xx+5, yy-5, xx+5, yy+5, xx-5, yy+5 };
+		drawPolygon(square, 4);
 		
 		while (vL -> next) vL = vL -> next;
 		xx = vL -> x;
 		yy = vL -> y;
-		glBegin(GL_QUADS);
-		{
-			glVertex3f(xx-7, yy, 0.0);
-			glVertex3f(xx, yy-7, 0.0);
-			glVertex3f(xx+7, yy, 0.0);
-			glVertex3f(xx, yy+7, 0.0);
-		}
-		glEnd();
+		const float diamond[] = { xx-7, yy, xx, yy-7, xx+7, yy, xx, yy+7 };
+		drawPolygon(diamond, 4);
 	}
 	while (drawnVertices) {
 		struct vertexList * k = drawnVertices;
@@ -701,41 +669,27 @@ void drawFloorMakerView (const struct floorMakerView * view) {
     glClearColor(0, 0, 0, 0);
     glClear(GL_COLOR_BUFFER_BIT);
 	
-	glColor3f(1.0f, 1.00f, 1.00f);
+	setDrawingColour(1.0f, 1.00f, 1.00f, 1.0f);
 	pasteSprite(&view->backdrop->sprites[0], &view->backdrop->myPalette, false);
 
-	glDisable(GL_TEXTURE_2D);
-    glColor3f(1.0f, 0.35f, 0.35f);
-    glBegin(GL_LINES);
-    {
-        glVertex3f(  0.0,  0.0, 0.0);
-        glVertex3f(  1000.0,  0.0, 0.0);
-        glVertex3f(  0.0, 0.0, 0.0);
-        glVertex3f(  0.0, 1000.0, 0.0);
-    }
-    glEnd();
+    setDrawingColour(1.0f, 0.35f, 0.35f, 1.0f);
+	const float axes[] = { 0.0, 0.0, 1000.0, 0.0, 0.0, 0.0, 0.0, 1000.0 };
+	drawLines(axes, 4);
 
 	if (view->lit) {
-		glColor3f(1.0f, 0.00f, 1.00f);
-		glBegin(GL_QUADS);
-		{
-			glVertex3i(  view->litX-8,  view->litY-8, 0);
-			glVertex3i(  view->litX+8,  view->litY-8, 0);
-			glVertex3i(  view->litX+8,  view->litY+8, 0);
-			glVertex3i(  view->litX-8,  view->litY+8, 0);
-		}
-		glEnd();
+		setDrawingColour(1.0f, 0.00f, 1.00f, 1.0f);
+		const float square[] = {
+			(float) view->litX-8, (float) view->litY-8, (float) view->litX+8, (float) view->litY-8,
+			(float) view->litX+8, (float) view->litY+8, (float) view->litX-8, (float) view->litY+8
+		};
+		drawPolygon(square, 4);
 	}
 	
 	drawFloor(view->floor, view->r, view->g, view->b);
 	
 	if (view->selecting) {
-		glColor3f(1.0f, 0.00f, 1.00f);
-		glBegin(GL_LINES);
-		{
-			glVertex3i(view->selx1, view->sely1, 0);
-			glVertex3i(view->selx2, view->sely2, 0);
-		}
-		glEnd();
+		setDrawingColour(1.0f, 0.00f, 1.00f, 1.0f);
+		const float line[] = { (float) view->selx1, (float) view->sely1, (float) view->selx2, (float) view->sely2 };
+		drawLines(line, 2);
 	}
 }
