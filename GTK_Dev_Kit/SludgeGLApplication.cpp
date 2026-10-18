@@ -43,6 +43,8 @@ SludgeGLApplication::SludgeGLApplication(const char * gladeFileName, const char 
 	if (!initSuccess) return;
 
 	glInitialized = FALSE;
+	viewSized = FALSE;
+	zoomFitPending = FALSE;
 
 	statusbarWidget = GTK_WIDGET (gtk_builder_get_object (theXml, "statusbar"));
 	cursorxLabel = GTK_LABEL (gtk_builder_get_object (theXml, "cursorx_label"));
@@ -253,7 +255,9 @@ gboolean SludgeGLApplication::on_drawingarea1_render(GtkWidget *theWidget, GdkGL
 
 	if (glInitialized)
 	{
+		viewSized = TRUE;
 		reshape();
+		if (zoomFitPending) on_zoom_fit_clicked ();
 
 		// We set the viewport and the projection only here, where the
 		// context of the view is current.
@@ -415,7 +419,19 @@ void SludgeGLApplication::on_zoom_100_clicked ()
 	reshape();
 }
 
+// Fit the picture into the view. GTK gives the view its size just before we
+// first draw it. Before that, we remember the fit and do it when we draw.
 void SludgeGLApplication::on_zoom_fit_clicked ()
+{
+	if (!viewSized) {
+		zoomFitPending = TRUE;
+		return;
+	}
+	zoomFitPending = FALSE;
+	fitZoom ();
+}
+
+void SludgeGLApplication::fitZoom ()
 {
 	float zmulx, zmuly;
 	zmulx = (float) picWidth / w;

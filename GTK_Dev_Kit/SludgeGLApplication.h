@@ -26,6 +26,7 @@ private:
 	int mouseLoc2x, mouseLoc2y;
 	gboolean haveStatusbar;
 	gboolean glInitialized;
+	gboolean viewSized, zoomFitPending;
 	GtkToolButton *zoom100Button, *zoomFitButton;
 	GtkWidget *statusbarWidget;
 	GtkLabel *cursorxLabel, *cursoryLabel, *picwLabel, *pichLabel, *zmulLabel;
@@ -62,6 +63,7 @@ protected:
 	gboolean makeViewCurrent();
 	void initGL();
 	void refreshGL();
+	virtual void fitZoom();
 
 public:
 	SludgeGLApplication(const char * gladeFileName, const char * iconName, const char * configFile);
