@@ -37,6 +37,7 @@
 #include "Common.h"
 
 #include "SludgeSpriteBankEditor.h"
+#include "draw2d.h"
 
 SludgeSpriteBankEditor::SludgeSpriteBankEditor()
  : SludgeGLApplication(joinTwoStrings(DATADIR, "SpriteBankEditor.glade"), "spriteIcon", "spritebankeditor")
@@ -196,32 +197,12 @@ void SludgeSpriteBankEditor::prepareOpenGL()
 void SludgeSpriteBankEditor::drawRect()
 {
 	setCoords();
-	glClearColor(0, 0, 0, 0);
-	glClear(GL_COLOR_BUFFER_BIT);
-	
-	glDisable(GL_TEXTURE_2D);
-	glColor3f(1.0f, 0.35f, 0.35f);
-	glBegin(GL_LINES);
-    {
-		glVertex3f(  -1000.0,  0.0, 0.0);
-		glVertex3f(  1000.0,  0.0, 0.0);
-		glVertex3f(  0.0, -1000.0, 0.0);
-		glVertex3f(  0.0, 1000.0, 0.0);
-    }
-    glEnd();
-	
-    glColor3f(1.0f, 1.0f, 1.0f);
-	
-	if (spriteIndex() < sprites.total)
-		pasteSprite(&sprites.sprites[spriteIndex()], &sprites.myPalette, showBox);
+	drawSpriteBankView (&sprites, spriteIndex(), showBox);
 }
 
 
 void SludgeSpriteBankEditor::setCoords() {
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(x*zmul, (x+w)*zmul, (y-h)*zmul, y*zmul, 1.0, -1.0);	
-	glMatrixMode(GL_MODELVIEW);	
+	setSpriteViewArea (x, y, w, h, zmul);
 }
 
 

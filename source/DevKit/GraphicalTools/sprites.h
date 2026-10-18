@@ -70,6 +70,10 @@ bool trimSprite (int);
 
 void pasteSprite (struct sprite * single, const struct spritePalette * fontPal, bool showBox);
 
+// Draw the sprite with the given index, with its box when showBox is set,
+// and the axes through its hotspot.
+void drawSpriteBankView (struct spriteBank * sprites, int index, bool showBox);
+
 #ifdef __cplusplus
 }
 #endif

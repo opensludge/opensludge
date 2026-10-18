@@ -5,6 +5,7 @@ bin_PROGRAMS = sludge-floormaker sludge-zbuffermaker sludge-spritebankeditor slu
 sludge_floormaker_SOURCES = \
 	FloorMakerMain.cpp SludgeFloorMaker.cpp SludgeFloorMaker.h \
 	SludgeGLApplication.cpp SludgeGLApplication.h \
+	../source/DevKit/GraphicalTools/draw2d.cpp ../source/DevKit/GraphicalTools/draw2d.h \
 	SludgeApplication.cpp SludgeApplication.h \
 	Common.cpp Common.h ../source/DevKit/Common/interface.h \
 	../source/DevKit/GraphicalTools/floormaker.cpp ../source/DevKit/GraphicalTools/floormaker.h \
@@ -18,6 +19,7 @@ sludge_floormaker_SOURCES = \
 sludge_zbuffermaker_SOURCES = \
 	ZBufferMakerMain.cpp SludgeZBufferMaker.cpp SludgeZBufferMaker.h \
 	SludgeGLApplication.cpp SludgeGLApplication.h \
+	../source/DevKit/GraphicalTools/draw2d.cpp ../source/DevKit/GraphicalTools/draw2d.h \
 	SludgeApplication.cpp SludgeApplication.h \
 	Common.cpp Common.h ../source/DevKit/Common/interface.h \
 	../source/DevKit/GraphicalTools/zbuffer.cpp ../source/DevKit/GraphicalTools/zbuffer.h \
@@ -31,6 +33,7 @@ sludge_zbuffermaker_SOURCES = \
 sludge_spritebankeditor_SOURCES = \
 	SpriteBankEditorMain.cpp SludgeSpriteBankEditor.cpp SludgeSpriteBankEditor.h \
 	SludgeGLApplication.cpp SludgeGLApplication.h \
+	../source/DevKit/GraphicalTools/draw2d.cpp ../source/DevKit/GraphicalTools/draw2d.h \
 	SludgeApplication.cpp SludgeApplication.h \
 	Common.cpp Common.h ../source/DevKit/Common/interface.h \
 	../source/DevKit/GraphicalTools/sprites.cpp ../source/DevKit/GraphicalTools/sprites.h \
