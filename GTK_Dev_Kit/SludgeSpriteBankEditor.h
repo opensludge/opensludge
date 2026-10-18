@@ -94,5 +94,5 @@ public:
 	void on_fontify();
 
 	void on_zoom_100_clicked();
-	void on_zoom_fit_clicked();
+	virtual void fitZoom();
 };

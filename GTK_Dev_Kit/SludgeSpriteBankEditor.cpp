@@ -682,7 +682,7 @@ void SludgeSpriteBankEditor::on_zoom_100_clicked()
 	reshape();
 }
 
-void SludgeSpriteBankEditor::on_zoom_fit_clicked()
+void SludgeSpriteBankEditor::fitZoom()
 {
 	float zmulx, zmuly;
 	zmulx = (float) picWidth / w * 2.;
