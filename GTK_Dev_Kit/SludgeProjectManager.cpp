@@ -173,34 +173,23 @@ void SludgeProjectManager::postOpen()
 
 void SludgeProjectManager::postNew()
 {
-	GtkWidget *dialog;
+	GtkFileChooser *dialog;
 	GtkFileFilter *filter;
 	gboolean success = FALSE;
 
-	dialog = gtk_file_chooser_dialog_new("New SLUDGE Project",
-				      NULL,
-				      GTK_FILE_CHOOSER_ACTION_SAVE,
-				      "_Cancel", GTK_RESPONSE_CANCEL,
-				      "_Save", GTK_RESPONSE_ACCEPT,
-				      NULL);
-	gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER (dialog), TRUE);
+	dialog = newFileChooser("New SLUDGE Project", GTK_FILE_CHOOSER_ACTION_SAVE);
 
 	filter = gtk_file_filter_new();
 	gtk_file_filter_set_name(filter, getFilterName());
 	gtk_file_filter_add_pattern(filter, getFilterPattern());
-	gtk_file_chooser_set_filter(GTK_FILE_CHOOSER (dialog), filter);
+	gtk_file_chooser_set_filter(dialog, filter);
 
-	gtk_file_chooser_set_current_name(GTK_FILE_CHOOSER (dialog), getUntitledFilename());
+	gtk_file_chooser_set_current_name(dialog, getUntitledFilename());
 
-	if (currentFolder[0] != 0)
-	{
-		gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER (dialog), currentFolder);
-	}
-
-	if (gtk_dialog_run(GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+	if (runFileChooser(dialog))
 	{
 		char *filename;
-		filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER (dialog));
+		filename = gtk_file_chooser_get_filename(dialog);
 		flipBackslashes(&filename);
 
 		doNewProject(filename, fileList, &fileListNum);
@@ -215,7 +204,7 @@ void SludgeProjectManager::postNew()
 		g_free(filename);
 		success = TRUE;
 	}
-	gtk_widget_destroy(dialog);
+	g_object_unref(dialog);
 
 	if (success)
 		on_project_settings();
@@ -728,52 +717,42 @@ void SludgeProjectManager::on_treeview_row_activated(GtkTreeView *theTreeView, G
 
 void SludgeProjectManager::on_add_file_clicked()
 {
-	GtkWidget *dialog;
+	GtkFileChooser *dialog;
 	GtkFileFilter *filter, *slufilter, *sldfilter, *trafilter;
 
-	dialog = gtk_file_chooser_dialog_new("Add file to SLUDGE project",
-				      NULL,
-				      GTK_FILE_CHOOSER_ACTION_OPEN,
-				      "_Cancel", GTK_RESPONSE_CANCEL,
-				      "_Open", GTK_RESPONSE_ACCEPT,
-				      NULL);
+	dialog = newFileChooser("Add file to SLUDGE project", GTK_FILE_CHOOSER_ACTION_OPEN);
 
 	filter = gtk_file_filter_new();
 	gtk_file_filter_set_name(filter, "SLU/SLD/TRA files");
 	gtk_file_filter_add_pattern(filter, "*.[sS][lL][uU]");
 	gtk_file_filter_add_pattern(filter, "*.[sS][lL][dD]");
 	gtk_file_filter_add_pattern(filter, "*.[tT][rR][aA]");
-	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER (dialog), filter);
+	gtk_file_chooser_add_filter(dialog, filter);
 
 	slufilter = gtk_file_filter_new();
 	gtk_file_filter_set_name(slufilter, "SLUDGE scripts (*.slu)");
 	gtk_file_filter_add_pattern(slufilter, "*.[sS][lL][uU]");
-	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER (dialog), slufilter);
+	gtk_file_chooser_add_filter(dialog, slufilter);
 
 	sldfilter = gtk_file_filter_new();
 	gtk_file_filter_set_name(sldfilter, "SLUDGE constant definition files (*.sld)");
 	gtk_file_filter_add_pattern(sldfilter, "*.[sS][lL][dD]");
-	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER (dialog), sldfilter);
+	gtk_file_chooser_add_filter(dialog, sldfilter);
 
 	trafilter = gtk_file_filter_new();
 	gtk_file_filter_set_name(trafilter, "SLUDGE translation files (*.tra)");
 	gtk_file_filter_add_pattern(trafilter, "*.[tT][rR][aA]");
-	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER (dialog), trafilter);
+	gtk_file_chooser_add_filter(dialog, trafilter);
 
-	gtk_file_chooser_set_filter(GTK_FILE_CHOOSER (dialog), filter);
+	gtk_file_chooser_set_filter(dialog, filter);
 
-	gtk_file_chooser_set_select_multiple(GTK_FILE_CHOOSER (dialog), TRUE);
+	gtk_file_chooser_set_select_multiple(dialog, TRUE);
 
-	if (currentFolder[0] != 0)
-	{
-		gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER (dialog), currentFolder);
-	}
-
-	if (gtk_dialog_run(GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+	if (runFileChooser(dialog))
 	{
 		GSList *filenames;
 		char *filename;
-		filenames = gtk_file_chooser_get_filenames(GTK_FILE_CHOOSER (dialog));
+		filenames = gtk_file_chooser_get_filenames(dialog);
 
 		for (int j = 0; j < g_slist_length(filenames); j++) {
 			filename = (char *) g_slist_nth(filenames, j)->data;
@@ -787,7 +766,7 @@ void SludgeProjectManager::on_add_file_clicked()
 		}
 		g_slist_free(filenames);
 	}
-	gtk_widget_destroy(dialog);
+	g_object_unref(dialog);
 
 	listChanged(FILE_TREEVIEW);
 }

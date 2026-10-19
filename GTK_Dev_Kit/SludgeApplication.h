@@ -53,6 +53,8 @@ protected:
 	void setFilename(char* filename);
 	void setFolderFromFilename(char* filename);
 	void setFileChanged();
+	GtkFileChooser * newFileChooser(const char *title, GtkFileChooserAction action);
+	gboolean runFileChooser(GtkFileChooser *chooser);
 
 public:
 	SludgeApplication(const char * gladeFileName, const char * iconName, const char * configFile);

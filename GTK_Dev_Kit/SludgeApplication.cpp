@@ -137,37 +137,54 @@ SludgeApplication::~SludgeApplication()
 	}
 }
 
+/*
+ * Create a file chooser that starts in currentFolder. We pass no button labels,
+ * so GTK uses its own Open, Save and Cancel labels, translated into the
+ * language of the user. Labels of our own would always be in English, because
+ * the Dev Kit has no translations.
+ */
+GtkFileChooser * SludgeApplication::newFileChooser(const char *title, GtkFileChooserAction action)
+{
+	GtkFileChooser *chooser = GTK_FILE_CHOOSER (gtk_file_chooser_native_new (title, NULL, action, NULL, NULL));
+
+	if (action == GTK_FILE_CHOOSER_ACTION_SAVE)
+	{
+		gtk_file_chooser_set_do_overwrite_confirmation (chooser, TRUE);
+	}
+	if (currentFolder[0] != 0)
+	{
+		gtk_file_chooser_set_current_folder (chooser, currentFolder);
+	}
+	return chooser;
+}
+
+// Show the file chooser, and return TRUE when someone chose a file.
+gboolean SludgeApplication::runFileChooser(GtkFileChooser *chooser)
+{
+	return gtk_native_dialog_run (GTK_NATIVE_DIALOG (chooser)) == GTK_RESPONSE_ACCEPT;
+}
+
 void SludgeApplication::saveToFile()
 {
-	GtkWidget *dialog;
+	GtkFileChooser *dialog;
 	GtkFileFilter *filter;
 
-	dialog = gtk_file_chooser_dialog_new ("Save File",
-				      NULL,
-				      GTK_FILE_CHOOSER_ACTION_SAVE,
-				      "_Cancel", GTK_RESPONSE_CANCEL,
-				      "_Save", GTK_RESPONSE_ACCEPT,
-				      NULL);
-	gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (dialog), TRUE);
+	dialog = newFileChooser ("Save File", GTK_FILE_CHOOSER_ACTION_SAVE);
 
 	filter = gtk_file_filter_new();
 	gtk_file_filter_set_name(filter, getFilterName());
 	gtk_file_filter_add_pattern(filter, getFilterPattern());
-	gtk_file_chooser_set_filter (GTK_FILE_CHOOSER (dialog), filter);
+	gtk_file_chooser_set_filter (dialog, filter);
 
 	if (currentShortname[0] != 0)
 	{
-		gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (dialog), currentShortname);
-	}
-	if (currentFolder[0] != 0)
-	{
-		gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), currentFolder);
+		gtk_file_chooser_set_current_name (dialog, currentShortname);
 	}
 
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+	if (runFileChooser (dialog))
 	{
 		char *filename;
-		filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
+		filename = gtk_file_chooser_get_filename (dialog);
 		flipBackslashes(&filename);
 
 		if (!saveFile (filename))
@@ -182,7 +199,7 @@ void SludgeApplication::saveToFile()
 
 		g_free (filename);
 	}
-	gtk_widget_destroy (dialog);
+	g_object_unref (dialog);
 }
 
 gboolean SludgeApplication::reallyClose()
@@ -301,35 +318,25 @@ void SludgeApplication::on_new()
 void SludgeApplication::on_open()
 {
 	if (!reallyClose()) return;
-	GtkWidget *dialog;
+	GtkFileChooser *dialog;
 	GtkFileFilter *filter;
 
-	dialog = gtk_file_chooser_dialog_new ("Open File",
-				      NULL,
-				      GTK_FILE_CHOOSER_ACTION_OPEN,
-				      "_Cancel", GTK_RESPONSE_CANCEL,
-				      "_Open", GTK_RESPONSE_ACCEPT,
-				      NULL);
+	dialog = newFileChooser ("Open File", GTK_FILE_CHOOSER_ACTION_OPEN);
 
 	filter = gtk_file_filter_new();
 	gtk_file_filter_set_name(filter, getFilterName());
 	gtk_file_filter_add_pattern(filter, getFilterPattern());
-	gtk_file_chooser_set_filter (GTK_FILE_CHOOSER (dialog), filter);
+	gtk_file_chooser_set_filter (dialog, filter);
 
-	if (currentFolder[0] != 0)
-	{
-		gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), currentFolder);
-	}
-
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+	if (runFileChooser (dialog))
 	{
 		char *filename;
-		filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
+		filename = gtk_file_chooser_get_filename (dialog);
 		flipBackslashes(&filename);
 		open(filename);
 		g_free (filename);
 	}
-	gtk_widget_destroy (dialog);
+	g_object_unref (dialog);
 }
 
 void SludgeApplication::on_save()

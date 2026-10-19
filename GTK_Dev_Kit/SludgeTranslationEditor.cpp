@@ -442,34 +442,24 @@ void SludgeTranslationEditor::on_sort_clicked(GtkTreeViewColumn *theTreeViewColu
 
 void SludgeTranslationEditor::on_load_strings_clicked()
 {
-	GtkWidget *dialog;
+	GtkFileChooser *dialog;
 	GtkFileFilter *filter;
 
-	dialog = gtk_file_chooser_dialog_new("Select a SLUDGE Project",
-				      NULL,
-				      GTK_FILE_CHOOSER_ACTION_OPEN,
-				      "_Cancel", GTK_RESPONSE_CANCEL,
-				      "_Open", GTK_RESPONSE_ACCEPT,
-				      NULL);
+	dialog = newFileChooser("Select a SLUDGE Project", GTK_FILE_CHOOSER_ACTION_OPEN);
 
 	filter = gtk_file_filter_new();
 	gtk_file_filter_set_name(filter, "SLUDGE Project Files (*.slp)");
 	gtk_file_filter_add_pattern(filter, "*.[sS][lL][pP]");
-	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER (dialog), filter);
+	gtk_file_chooser_add_filter(dialog, filter);
 
-	gtk_file_chooser_set_filter(GTK_FILE_CHOOSER (dialog), filter);
+	gtk_file_chooser_set_filter(dialog, filter);
 
-	gtk_file_chooser_set_select_multiple(GTK_FILE_CHOOSER (dialog), FALSE);
+	gtk_file_chooser_set_select_multiple(dialog, FALSE);
 
-	if (currentFolder[0] != 0)
-	{
-		gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER (dialog), currentFolder);
-	}
-
-	if (gtk_dialog_run(GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+	if (runFileChooser(dialog))
 	{
 		char *filename;
-		filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER (dialog));
+		filename = gtk_file_chooser_get_filename(dialog);
 		flipBackslashes(&filename);
 
 		if (updateFromProject (filename, &firstTransLine)) {
@@ -479,7 +469,7 @@ void SludgeTranslationEditor::on_load_strings_clicked()
 
 		g_free(filename);
 	}
-	gtk_widget_destroy(dialog);
+	g_object_unref(dialog);
 }
 
 gboolean SludgeTranslationEditor::searchEqualFunc(GtkTreeModel *model, const gchar *key, GtkTreeIter *iter)
