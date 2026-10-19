@@ -259,10 +259,16 @@ gboolean SludgeGLApplication::on_drawingarea1_render(GtkWidget *theWidget, GdkGL
 		reshape();
 		if (zoomFitPending) on_zoom_fit_clicked ();
 
-		// We set the viewport and the projection only here, where the
-		// context of the view is current. w and h are in logical pixels. On
-		// a display with a scale factor of 2, the frame buffer of the view is
-		// twice as wide and twice as high.
+		// We set the viewport and the projection here, in the render handler,
+		// and not in reshape or in the zoom and scroll handlers. GTK draws the
+		// rest of the window with an OpenGL context of its own, and makes the
+		// context of this view current only while it runs the render handler.
+		// If we set them in another handler, we would change the context that
+		// GTK draws the window with, and GTK would draw its buttons and labels
+		// wrongly.
+		// w and h are in logical pixels, but on a display with a scale factor
+		// of 2, the view has twice as many pixels in each direction, so we
+		// multiply the viewport by the scale factor.
 		int scale = gtk_widget_get_scale_factor (theDrawingarea);
 		glViewport (0, 0, w * scale, h * scale);
 		setCoords();
@@ -422,8 +428,11 @@ void SludgeGLApplication::on_zoom_100_clicked ()
 	reshape();
 }
 
-// Fit the picture into the view. GTK gives the view its size just before we
-// first draw it. Before that, we remember the fit and do it when we draw.
+// Fit the picture into the view. GTK gives the view its size only just
+// before we first draw it, so if we fitted the picture before that, for
+// example right after opening a file, we would fit it into a size of 0. In
+// that case, we set zoomFitPending instead, and fit the picture in the render
+// handler once the view has its size.
 void SludgeGLApplication::on_zoom_fit_clicked ()
 {
 	if (!viewSized) {
