@@ -125,7 +125,14 @@ void SludgeZBufferMaker::postOpen()
 	on_zoom_fit_clicked();
 
 	reshape();
-	refreshGL();
+	// We load only the textures, and not the whole OpenGL state with
+	// refreshGL, because prepareOpenGL would also set the zoom back to 100 %
+	// after we fitted it. Before the first drawing, the view is not set up
+	// yet, and prepareOpenGL loads the textures then.
+	if (glInitialized && makeViewCurrent())
+	{
+		loadZTextures(&backdrop);
+	}
 	render_timer_event(theDrawingarea);
 
 	setupButtons();
