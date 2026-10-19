@@ -220,7 +220,6 @@ void SludgeZBufferMaker::prepareOpenGL()
 
 	z = 0.0;
 	zmul = (1.0+z/20);
-	setCoords();	
 }
 
 

@@ -62,7 +62,7 @@ private:
 	virtual void prepareOpenGL();
 	virtual void drawRect();
 
-	void setCoords();
+	virtual void setCoords();
 
 	void setupButtons();
 	void setupPalButtons();
