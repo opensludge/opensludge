@@ -341,29 +341,19 @@ int SludgeSpriteBankEditor::loadSprites(int toIndex, gboolean addNew)
 {
 	gboolean success;
 	int spritesLoaded = 0;
-	GtkWidget *dialog;
+	GtkFileChooser *dialog;
 
-	dialog = gtk_file_chooser_dialog_new("Load file as sprite",
-				      NULL,
-				      GTK_FILE_CHOOSER_ACTION_OPEN,
-				      "_Cancel", GTK_RESPONSE_CANCEL,
-				      "_Open", GTK_RESPONSE_ACCEPT,
-				      NULL);
+	dialog = newFileChooser("Load file as sprite", GTK_FILE_CHOOSER_ACTION_OPEN);
 
-	setFileChooserFilters(GTK_FILE_CHOOSER (dialog), TRUE, TRUE);
+	setFileChooserFilters(dialog, TRUE, TRUE);
 
-	gtk_file_chooser_set_select_multiple(GTK_FILE_CHOOSER (dialog), TRUE);
+	gtk_file_chooser_set_select_multiple(dialog, TRUE);
 
-	if (currentFolder[0] != 0)
-	{
-		gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER (dialog), currentFolder);
-	}
-
-	if (gtk_dialog_run(GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+	if (runFileChooser(dialog))
 	{
 		GSList *filenames;
 		char *filename;
-		filenames = gtk_file_chooser_get_filenames(GTK_FILE_CHOOSER (dialog));
+		filenames = gtk_file_chooser_get_filenames(dialog);
 		makeViewCurrent();
 
 		for (int j = 0; j < g_slist_length(filenames); j++) {
@@ -408,7 +398,7 @@ int SludgeSpriteBankEditor::loadSprites(int toIndex, gboolean addNew)
 		g_free(filename);
 		g_slist_free(filenames);
 	}
-	gtk_widget_destroy(dialog);
+	g_object_unref(dialog);
 
 	return spritesLoaded;
 }
@@ -557,29 +547,18 @@ void SludgeSpriteBankEditor::on_delete_sprite_clicked()
 
 void SludgeSpriteBankEditor::on_export_sprite_clicked()
 {
-	GtkWidget *dialog;
+	GtkFileChooser *dialog;
 
-	dialog = gtk_file_chooser_dialog_new("Export sprite",
-				      NULL,
-				      GTK_FILE_CHOOSER_ACTION_SAVE,
-				      "_Cancel", GTK_RESPONSE_CANCEL,
-				      "_Save", GTK_RESPONSE_ACCEPT,
-				      NULL);
-	gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER (dialog), TRUE);
+	dialog = newFileChooser("Export sprite", GTK_FILE_CHOOSER_ACTION_SAVE);
 
-	setFileChooserFilters(GTK_FILE_CHOOSER (dialog), TRUE, FALSE);
+	setFileChooserFilters(dialog, TRUE, FALSE);
 
-	gtk_file_chooser_set_current_name(GTK_FILE_CHOOSER (dialog), "Untitled Sprite.png");
+	gtk_file_chooser_set_current_name(dialog, "Untitled Sprite.png");
 
-	if (currentFolder[0] != 0)
-	{
-		gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER (dialog), currentFolder);
-	}
-
-	if (gtk_dialog_run(GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+	if (runFileChooser(dialog))
 	{
 		char *filename;
-		filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER (dialog));
+		filename = gtk_file_chooser_get_filename(dialog);
 		flipBackslashes(&filename);
 
 		exportToPNG(filename, &sprites, spriteIndex());
@@ -588,7 +567,7 @@ void SludgeSpriteBankEditor::on_export_sprite_clicked()
 
 		g_free(filename);
 	}
-	gtk_widget_destroy(dialog);
+	g_object_unref(dialog);
 }
 
 void SludgeSpriteBankEditor::on_hscale_value_changed()
@@ -607,7 +586,7 @@ void SludgeSpriteBankEditor::on_hscale_value_changed()
 void SludgeSpriteBankEditor::on_fontify()
 {
 	gboolean success = FALSE;
-	GtkWidget *dialog;
+	GtkFileChooser *dialog;
 	int spaceCharWidth;
 
 	gtk_spin_button_set_value(fontifySpinButton, 10.);
@@ -621,26 +600,16 @@ void SludgeSpriteBankEditor::on_fontify()
 
 	if (!success) return;
 
-	dialog = gtk_file_chooser_dialog_new("Load image as font",
-				      NULL,
-				      GTK_FILE_CHOOSER_ACTION_OPEN,
-				      "_Cancel", GTK_RESPONSE_CANCEL,
-				      "_Open", GTK_RESPONSE_ACCEPT,
-				      NULL);
+	dialog = newFileChooser("Load image as font", GTK_FILE_CHOOSER_ACTION_OPEN);
 
-	setFileChooserFilters(GTK_FILE_CHOOSER (dialog), TRUE, TRUE);
+	setFileChooserFilters(dialog, TRUE, TRUE);
 
-	if (currentFolder[0] != 0)
-	{
-		gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER (dialog), currentFolder);
-	}
-
-	if (gtk_dialog_run(GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+	if (runFileChooser(dialog))
 	{
 		char *filename;
 		success = FALSE;
 
-		filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER (dialog));
+		filename = gtk_file_chooser_get_filename(dialog);
 		if (filename == NULL) return;
 
 		flipBackslashes(&filename);
@@ -671,7 +640,7 @@ void SludgeSpriteBankEditor::on_fontify()
 
 		g_free(filename);
 	}
-	gtk_widget_destroy(dialog);
+	g_object_unref(dialog);
 }
 
 void SludgeSpriteBankEditor::on_zoom_100_clicked()

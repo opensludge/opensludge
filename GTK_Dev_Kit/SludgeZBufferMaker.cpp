@@ -133,26 +133,16 @@ void SludgeZBufferMaker::postOpen()
 
 void SludgeZBufferMaker::postNew()
 {
-	GtkWidget *dialog;
+	GtkFileChooser *dialog;
 
-	dialog = gtk_file_chooser_dialog_new("Load file to zBuffer",
-				      NULL,
-				      GTK_FILE_CHOOSER_ACTION_OPEN,
-				      "_Cancel", GTK_RESPONSE_CANCEL,
-				      "_Open", GTK_RESPONSE_ACCEPT,
-				      NULL);
+	dialog = newFileChooser("Load file to zBuffer", GTK_FILE_CHOOSER_ACTION_OPEN);
 
-	setFileChooserFilters(GTK_FILE_CHOOSER (dialog), FALSE, TRUE);
+	setFileChooserFilters(dialog, FALSE, TRUE);
 
-	if (currentFolder[0] != 0)
-	{
-		gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER (dialog), currentFolder);
-	}
-
-	if (gtk_dialog_run(GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+	if (runFileChooser(dialog))
 	{
 		char *filename;
-		filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER (dialog));
+		filename = gtk_file_chooser_get_filename(dialog);
 		flipBackslashes(&filename);
 
 		if (!loadZBufferFromTGA(filename, &backdrop))
@@ -178,7 +168,7 @@ void SludgeZBufferMaker::postNew()
 
 		g_free(filename);
 	}
-	gtk_widget_destroy(dialog);
+	g_object_unref(dialog);
 
 	setupButtons();
 }
