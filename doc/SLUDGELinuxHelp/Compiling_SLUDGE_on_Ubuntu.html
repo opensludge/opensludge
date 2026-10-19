@@ -28,9 +28,8 @@ There are generic instructions how to compile SLUDGE in the <strong>INSTALL</str
 <li><strong>libdumb1-dev</strong></li>
 <li><strong>libvpx-dev</strong></li>
 <li><strong>xdg-utils</strong></li>
-<li><strong>libglew-dev</strong> (only needed for the Dev Kit)</li>
-<li><strong>libgtk2.0-dev</strong> (only needed for the Dev Kit)</li>
-<li><strong>libgtkglext1-dev</strong> (only needed for the Dev Kit)</li>
+<li><strong>libgtk-3-dev</strong> (only needed for the Dev Kit)</li>
+<li><strong>libepoxy-dev</strong> (only needed for the Dev Kit)</li>
 </ul>
 </p>
 
@@ -40,7 +39,7 @@ There are generic instructions how to compile SLUDGE in the <strong>INSTALL</str
 
 <p>The additional dependencies for the Dev Kit:</p>
 
-<p><div class="bash">sudo apt-get install libglew-dev libgtk2.0-dev libgtkglext1-dev </div></p>
+<p><div class="bash">sudo apt-get install libgtk-3-dev libepoxy-dev</div></p>
 
 <p>Some distributions, such as Ubuntu 24.04, have no <strong>libsdl3-dev</strong>. Then leave it out, and CMake downloads SDL 3 and builds it from source. For that, the development packages for your display system and your sound system are required, as listed in the file <strong>docs/README-linux.md</strong> of SDL.</p>
 

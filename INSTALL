@@ -75,27 +75,32 @@ Building the SLUDGE Development Kit
 Windows and Mac OS X
 ====================
 
-   The Windows Dev Kit has so far only been cross-compiled from Debian and
-Ubuntu using MinGW. There is a good tutorial on how to do that at
-http://live.gnome.org/GTK+/Win32/Apps. For running the Windows Dev Kit,
-the GTK+ runtime package 2.16 (exactly 2.16!) from
-http://gtk-win.sourceforge.net is required. The Mac Dev Kit has Xcode
-project files in the "Mac Dev Kit" directory.
+   So far, we build the Dev Kit with GTK 3 only on Linux. The Windows
+installer script, sludge.nsi, is for the earlier Dev Kit with GTK+ 2.16
+and GtkGLExt, and the Xcode project in the "Mac Dev Kit" directory is
+for Mac OS X 10.4, so we cannot build the current Dev Kit with either of
+them.
 
 Linux
 =====
 
-   Dependencies of the OpenSLUDGE Dev Kit are GTK+ (>= 2.16), GtkGLExt,
-GLEW and libpng.
+   Dependencies of the OpenSLUDGE Dev Kit are GTK 3 (>= 3.16), libepoxy
+and libpng. We draw the views of the floor maker, the z-buffer maker and
+the sprite bank editor with OpenGL 3.2.
 
-   On Debian and Ubuntu the corresponding packages are libgtk2.0-dev
-libgtkglext1-dev, libglew-dev and libpng-dev.
+   On Debian and Ubuntu the corresponding packages are libgtk-3-dev,
+libepoxy-dev and libpng-dev.
 
    Briefly, the shell commands `./autogen.sh; ./configure; make; make
 install' should configure, build, and install the Dev Kit. You can use
 the configure options --disable-devkit and/or --enable-doc to (de)select
 components. For the documentation only, run `./configure --disable-devkit
 --enable-doc'.
+
+   With `make check', we draw the views of the floor maker, the z-buffer
+maker and the sprite bank editor offscreen and compare them with the
+reference images in tests/devkit/references. For that, Mesa's EGL
+(libegl-mesa0 on Debian and Ubuntu) is required.
 
    The following more-detailed instructions are generic and
 
