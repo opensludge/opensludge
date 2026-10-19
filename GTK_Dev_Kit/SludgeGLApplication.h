@@ -25,7 +25,6 @@ class SludgeGLApplication : public SludgeApplication {
 private:
 	int mouseLoc2x, mouseLoc2y;
 	gboolean haveStatusbar;
-	gboolean glInitialized;
 	gboolean viewSized, zoomFitPending;
 	GtkToolButton *zoom100Button, *zoomFitButton;
 	GtkWidget *statusbarWidget;
@@ -33,6 +32,7 @@ private:
 	GMutex theRender_mutex;
 
 protected:
+	gboolean glInitialized;
 	int x, y, w, h;
 	float z, zmul;
 	int picWidth, picHeight;
