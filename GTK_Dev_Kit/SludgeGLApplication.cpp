@@ -165,12 +165,6 @@ void SludgeGLApplication::reshape()
 	else y += (newH-h)/2;
 	h = newH;
 	w = newW;
-
-	if (!glInitialized) return;
-
-	glViewport (0, 0, w, h);	
-	
-	setCoords();
 }
 
 /*
@@ -182,11 +176,7 @@ void SludgeGLApplication::reshape()
 void SludgeGLApplication::initGL()
 {
 	if (glInitialized) return;
-	if (theDrawingarea == NULL) return;
-	if (gtk_gl_area_get_context (GTK_GL_AREA (theDrawingarea)) == NULL) return;
-
-	gtk_gl_area_make_current (GTK_GL_AREA (theDrawingarea));
-	if (gtk_gl_area_get_error (GTK_GL_AREA (theDrawingarea)) != NULL) return;
+	if (!makeViewCurrent ()) return;
 
 	prepareOpenGL();
 	glInitialized = TRUE;
@@ -204,10 +194,22 @@ void SludgeGLApplication::refreshGL()
 	if (theDrawingarea != NULL) gtk_widget_queue_draw (theDrawingarea);
 }
 
+/*
+ * Make the OpenGL context of the view current. GTK draws the window with its
+ * own OpenGL context, so outside the "render" handler, we call this before we
+ * create textures.
+ */
+gboolean SludgeGLApplication::makeViewCurrent()
+{
+	if (theDrawingarea == NULL) return FALSE;
+	if (gtk_gl_area_get_context (GTK_GL_AREA (theDrawingarea)) == NULL) return FALSE;
+
+	gtk_gl_area_make_current (GTK_GL_AREA (theDrawingarea));
+	return gtk_gl_area_get_error (GTK_GL_AREA (theDrawingarea)) == NULL;
+}
+
 void SludgeGLApplication::setCoords()
 {
-	if (!glInitialized) return;
-
 	setViewArea (x, y, w, h, zmul);
 }
 
@@ -246,6 +248,11 @@ gboolean SludgeGLApplication::on_drawingarea1_render(GtkWidget *theWidget, GdkGL
 	if (glInitialized)
 	{
 		reshape();
+
+		// We set the viewport and the projection only here, where the
+		// context of the view is current.
+		glViewport (0, 0, w, h);
+		setCoords();
 		drawRect();
 	}
 
@@ -298,7 +305,6 @@ gboolean SludgeGLApplication::on_drawingarea1_scroll_event(GtkWidget *theWidget,
 	x = -(local_pointx)+x1/zmul;
 	y = (local_pointy)+y1/zmul;
 
-	setCoords();
 	render_timer_event(theDrawingarea);
 
 	return FALSE;
@@ -361,7 +367,6 @@ gboolean SludgeGLApplication::on_drawingarea1_motion_notify_event
 			x = x1 + (mouseLoc2x - local_pointx);
 			y = y1 + (local_pointy - mouseLoc2y);
 
-			setCoords();
 			mouseLoc2x = theEvent->x;
 			mouseLoc2y = theEvent->y;
 		}

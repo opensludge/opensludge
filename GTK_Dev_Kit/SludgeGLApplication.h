@@ -58,7 +58,8 @@ protected:
 	void refreshStatusbarZmul();
 	void hideStatusbar();
 	void reshape();
-	void setCoords();
+	virtual void setCoords();
+	gboolean makeViewCurrent();
 	void initGL();
 	void refreshGL();
 

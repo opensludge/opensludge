@@ -259,7 +259,6 @@ void SludgeFloorMaker::prepareOpenGL()
 	z = 0.0;
 	r = g = b = 1.0;
 	zmul = (1.0+z/20);
-	setCoords();	
 }
 
 void SludgeFloorMaker::drawRect()
@@ -302,6 +301,7 @@ void SludgeFloorMaker::on_filechooserbutton_file_set(GtkFileChooser *theChooser)
 	if (filename == NULL) return;
 
 	flipBackslashes(&filename);
+	makeViewCurrent();
 
 	if (strlen(filename) > 4) {
 		char * extension = filename + strlen(filename) - 4;

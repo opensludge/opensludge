@@ -196,7 +196,6 @@ void SludgeSpriteBankEditor::prepareOpenGL()
 
 void SludgeSpriteBankEditor::drawRect()
 {
-	setCoords();
 	drawSpriteBankView (&sprites, spriteIndex(), showBox);
 }
 
@@ -365,6 +364,7 @@ int SludgeSpriteBankEditor::loadSprites(int toIndex, gboolean addNew)
 		GSList *filenames;
 		char *filename;
 		filenames = gtk_file_chooser_get_filenames(GTK_FILE_CHOOSER (dialog));
+		makeViewCurrent();
 
 		for (int j = 0; j < g_slist_length(filenames); j++) {
 
@@ -495,6 +495,7 @@ void SludgeSpriteBankEditor::on_mode_pal_clicked(int mode)
 				ignoreModePalButtons = FALSE;
 				return;
 			}
+			makeViewCurrent();
 			if (!convertSpriteBank8to32(&sprites))
 			{
 				ignoreModePalButtons = TRUE;
@@ -643,6 +644,7 @@ void SludgeSpriteBankEditor::on_fontify()
 		if (filename == NULL) return;
 
 		flipBackslashes(&filename);
+		makeViewCurrent();
 
 		addSprite(0, &sprites);
 
