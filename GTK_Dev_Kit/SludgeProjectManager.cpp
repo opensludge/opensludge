@@ -335,7 +335,7 @@ void SludgeProjectManager::readIniFile() {
 	sprintf(modPlayer, "%s", "");
 #else
 	sprintf(editor, "%s", "gedit");
-	sprintf(imageViewer, "%s", "eog");
+	sprintf(imageViewer, "%s", "loupe");
 	sprintf(audioPlayer, "%s", "totem");
 	sprintf(modPlayer, "%s", "totem");
 #endif
