@@ -49,19 +49,14 @@ There are generic instructions how to compile SLUDGE in the <strong>INSTALL</str
 
 <p><div class="bash">git clone https://github.com/opensludge/opensludge.git</div></p>
 
-<p>We build the Engine with CMake:</p>
+<p>We build the Engine and the Dev Kit with CMake:</p>
 
 <p><div class="bash">cd opensludge</div></p>
 <p><div class="bash">cmake -S . -B build -DCMAKE_BUILD_TYPE=Release</div></p>
 <p><div class="bash">cmake --build build</div></p>
 <p><div class="bash">sudo cmake --install build</div></p>
 
-<p>We build the Dev Kit with the configure script, which you generate with the <strong>autogen.sh</strong> script. For that, the packages <strong>autoconf</strong> and <strong>automake</strong> are required.</p>
-
-<p><div class="bash">./autogen.sh</div></p>
-<p><div class="bash">./configure</div></p>
-<p><div class="bash">make</div></p>
-<p><div class="bash">sudo make install</div></p>
+<p>To build only the Engine, add <strong>-DSLUDGE_DEVKIT=OFF</strong> to the first cmake command, and to build only the Dev Kit, add <strong>-DSLUDGE_ENGINE=OFF</strong>. With <strong>-DSLUDGE_DOC=ON</strong>, we also install this documentation and the example projects.</p>
 
 <h3>OpenGL ES 2</h3>
 

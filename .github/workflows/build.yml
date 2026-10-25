@@ -29,7 +29,7 @@ jobs:
 
       - name: Build
         run: |
-          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DSLUDGE_DEVKIT=OFF
           cmake --build build
 
       - name: Test
@@ -63,19 +63,19 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
-            build-essential autoconf automake pkg-config \
+            cmake ninja-build pkg-config \
             libgtk-3-dev libepoxy-dev libpng-dev \
             xvfb xauth libgl1-mesa-dri libegl1 libegl-mesa0
 
       - name: Build
         run: |
-          ./autogen.sh
-          ./configure --prefix="$PWD/dist"
-          make -j"$(nproc)"
-          make install
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release \
+            -DSLUDGE_ENGINE=OFF -DSLUDGE_DOC=ON -DCMAKE_INSTALL_PREFIX="$PWD/dist"
+          cmake --build build
+          cmake --install build
 
       - name: Test the drawing of the editor views
-        run: LIBGL_ALWAYS_SOFTWARE=1 make -C GTK_Dev_Kit check
+        run: LIBGL_ALWAYS_SOFTWARE=1 ctest --test-dir build --output-on-failure
 
       - name: Keep the pictures of the failed view tests
         if: failure()
@@ -83,9 +83,9 @@ jobs:
         with:
           name: devkit-view-test
           path: |
-            GTK_Dev_Kit/*-actual.png
-            GTK_Dev_Kit/*-difference.png
-            GTK_Dev_Kit/*.log
+            build/GTK_Dev_Kit/*-actual.png
+            build/GTK_Dev_Kit/*-difference.png
+            build/Testing/Temporary/LastTest.log
 
       - name: Smoke-test the tools
         run: |

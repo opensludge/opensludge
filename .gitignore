@@ -1,35 +1,5 @@
-# Autotools-generated files
-Makefile
-Makefile.in
-/NEWS
-/aclocal.m4
-/autom4te.cache/
-/compile
-/config.guess
-/config.h
-/config.h.in
-/config.h.in~
-/config.log
-/config.status
-/config.sub
-/configure
-/configure~
-/depcomp
-/install-sh
-/missing
-/stamp-h1
-/test-driver
-.deps/
-.dirstamp
-
 # Build outputs
 *.o
-/source/Engine/sludge-engine
-/GTK_Dev_Kit/view_test
-/GTK_Dev_Kit/*.log
-/GTK_Dev_Kit/*.trs
-/GTK_Dev_Kit/*-actual.png
-/GTK_Dev_Kit/*-difference.png
 
 # CMake build folders
 /build*/
