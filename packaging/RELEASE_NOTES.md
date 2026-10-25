@@ -14,20 +14,20 @@ If you are not sure which Mac download to take, take the universal one.
 
 Unzip the download and open the app. If macOS does not open it, Control-click the app and choose Open, or click "Open Anyway" in System Settings, under Privacy & Security. If Windows SmartScreen says that it protected your PC, click "More info" and then "Run anyway".
 
-## Changes in the engine
+## What's new
 
-- The engine now uses SDL 3 instead of SDL 1.2, and plays sound through SDL instead of OpenAL and Alure.
-- There are native builds for Apple Silicon and Intel Macs, and on a Retina display, the engine draws the game at the full resolution.
-- There is also a build for 32-bit Windows, which should run on Windows XP and later. We have not tested it on Windows XP itself.
-- You can resize the window, and the engine keeps the aspect ratio of the game in a window and in full screen.
-- You can type with any keyboard layout.
-- The engine now also draws the mouse pointer between game frames, so the pointer moves smoothly even in games with a low frame rate.
-- On Windows, the colours of the game are now correct on an HDR display in full screen too, and Windows can apply Auto HDR to the game.
-- You can play with a game controller. You move the pointer with the left stick or the d-pad, A and B are the left and right mouse buttons, and with the shoulder buttons, you move the pointer to the things you can click on.
-- In the controller settings, you choose an action for each button, including keys such as Space. You open the settings with Alt+C (Option+C on a Mac), or on your controller with Share or Create (PlayStation), View (Xbox), Minus (Nintendo Switch), or Back or Select (other controllers). When you start using a controller, the engine shows how to open them.
+This release brings back the SLUDGE Dev Kit, ported to GTK 3, and builds everything with CMake. The engine is the same as in 2.3.0, so for the changes in the engine, see the [release notes of 2.3.0](https://github.com/opensludge/opensludge/releases/tag/2.3.0).
 
-## Fixes
+## The Dev Kit
 
-- On Linux, the engine now converts the text of old games from Windows-1250 instead of ISO 8859-2, so letters such as Š and Ž are correct.
-- The engine no longer crashes when you cancel the file chooser.
-- The engine no longer leaks the audio buffers of movies.
+- The Dev Kit, with the project manager, the floor maker, the z-buffer maker, the sprite bank editor and the translation editor, now uses GTK 3 instead of GTK 2 and GtkGLExt, so you can build it again on current Linux distributions. It requires GTK 3.20 or later, libepoxy and libpng.
+- The floor maker, the z-buffer maker and the sprite bank editor now draw their views with OpenGL 3.2, and on a HiDPI display, at the full resolution.
+- The buttons of the file dialogs are now in your language.
+- The project manager now opens images with Loupe by default, instead of Eye of GNOME. You can choose another program in the preferences.
+- So far, the Dev Kit is only for Linux, and there is no download of it: build it from the source tarball, as described in INSTALL.
+
+## Building SLUDGE
+
+- CMake now builds the engine, the Dev Kit and the documentation, instead of CMake for the engine and Autotools for the rest. With the options SLUDGE_ENGINE, SLUDGE_DEVKIT and SLUDGE_DOC, you choose what to build. On Linux, CMake builds the Dev Kit by default.
+- Each release now comes with a source tarball, `sludge-<version>.tar.gz`.
+- With SLUDGE_DOC, we now install all the pictures of the documentation. Some were missing before, for example the background of the headings.
