@@ -1,0 +1,11 @@
+# Files that we leave out of the source tarball (packaging/make-tarball.sh):
+# those of the repository and of GitHub, and the old Dev Kits and the
+# packaging for Windows and macOS.
+.gitattributes export-ignore
+.gitignore export-ignore
+.github export-ignore
+Windows export-ignore
+Mac[[:space:]]Dev[[:space:]]Kit export-ignore
+sludge.nsi export-ignore
+packaging/macos export-ignore
+packaging/windows export-ignore

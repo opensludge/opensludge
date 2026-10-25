@@ -113,6 +113,45 @@ jobs:
             fi
           done
 
+  source:
+    name: Source tarball
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          # The engine and the Dev Kit, as in the jobs above.
+          sudo apt-get install -y --no-install-recommends \
+            cmake ninja-build pkg-config \
+            libvorbis-dev libogg-dev libpng-dev libdumb1-dev libvpx-dev \
+            libgl-dev libegl-dev libx11-dev libxext-dev libxrandr-dev libxcursor-dev \
+            libxi-dev libxfixes-dev libxss-dev libxtst-dev libwayland-dev \
+            libxkbcommon-dev wayland-protocols libpulse-dev libasound2-dev \
+            libgtk-3-dev libepoxy-dev libgl1-mesa-dri libegl1 libegl-mesa0
+
+      - name: Make the tarball
+        run: packaging/make-tarball.sh "$(packaging/version.sh)" dist
+
+      # We build, test and install everything from the tarball, so that we
+      # notice when a file is missing from it.
+      - name: Build from the tarball
+        run: |
+          mkdir check
+          tar -xzf dist/sludge-*.tar.gz -C check
+          cmake -S check/sludge-* -B check/build -G Ninja -DCMAKE_BUILD_TYPE=Release \
+            -DSLUDGE_DOC=ON -DCMAKE_INSTALL_PREFIX="$PWD/check/install"
+          cmake --build check/build
+          LIBGL_ALWAYS_SOFTWARE=1 ctest --test-dir check/build --output-on-failure
+          cmake --install check/build
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: source-tarball
+          path: dist/*.tar.gz
+          if-no-files-found: error
+
   windows:
     name: Windows
     runs-on: windows-2022
@@ -399,7 +438,7 @@ jobs:
   release:
     name: Publish the release
     if: startsWith(github.ref, 'refs/tags/')
-    needs: [linux, windows, windows-x86, macos-package]
+    needs: [linux, devkit, source, windows, windows-x86, macos-package]
     runs-on: ubuntu-24.04
     permissions:
       contents: write
@@ -421,6 +460,11 @@ jobs:
           name: windows-x86-zips
           path: dist
 
+      - uses: actions/download-artifact@v4
+        with:
+          name: source-tarball
+          path: dist
+
       - name: Publish
         env:
           GH_TOKEN: ${{ github.token }}
@@ -429,5 +473,5 @@ jobs:
           prerelease=
           if [[ "$tag" == *-* ]]; then prerelease=--prerelease; fi
           ls -la dist
-          gh release create "$tag" dist/*.zip --repo "$GITHUB_REPOSITORY" \
+          gh release create "$tag" dist/*.zip dist/*.tar.gz --repo "$GITHUB_REPOSITORY" \
             --title "OpenSLUDGE $tag" --notes-file packaging/RELEASE_NOTES.md $prerelease

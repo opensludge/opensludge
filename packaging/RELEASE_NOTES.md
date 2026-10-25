@@ -8,6 +8,7 @@ For macOS and Windows, there are two kinds of downloads. **OpenSLUDGE** contains
 | `OutOfOrder-…-windows-x64.zip` | 64-bit Windows |
 | `OutOfOrder-…-windows-x86.zip` | 32-bit and 64-bit Windows, from Windows XP on, with OpenGL 2.0 graphics |
 | `OpenSLUDGE-…-*.zip` | The same platforms, with the engine alone |
+| `sludge-….tar.gz` | The source code of the engine, the Dev Kit and the documentation, to build on Linux (see INSTALL) |
 
 If you are not sure which Mac download to take, take the universal one.
 

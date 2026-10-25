@@ -57,8 +57,9 @@ Making the release packages
    In .github/workflows/build.yml, we build and test the engine on Linux,
 macOS and Windows. For a version tag, such as 2.3.0, we publish a release
 with two kinds of packages for macOS and Windows: OpenSLUDGE, the engine
-alone, and Out Of Order, the engine with the game Out Of Order. We make
-the packages with the scripts in the packaging folder.
+alone, and Out Of Order, the engine with the game Out Of Order, and with
+the source tarball, sludge-<version>.tar.gz. We make the packages with the
+scripts in the packaging folder.
 
      get-out-of-order.sh        Download the data file of Out Of Order from
                                 the Ubuntu archive and check its hash.
@@ -67,6 +68,9 @@ the packages with the scripts in the packaging folder.
      macos/make-app.sh          Make a macOS application bundle, with or
                                 without a game.
      macos/sign-app.sh          Sign a macOS application bundle.
+     make-tarball.sh            Make the source tarball with git archive,
+                                without the files marked export-ignore in
+                                .gitattributes.
 
    Out Of Order is freeware, and anyone may give it away together with its
 readme and licence. We change nothing in the game, and only add a
